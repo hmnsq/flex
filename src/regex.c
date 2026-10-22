@@ -23,7 +23,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#अन्तर्भाव "flexdef.h"
 
 
 regex_t regex_linedir; /**< matches line directives */
@@ -32,11 +32,11 @@ regex_t regex_linedir; /**< matches line directives */
 /** Initialize the regular expressions.
  * @return true upon success.
  */
-bool flex_init_regex(const char *traceline_re)
+bool flex_init_regex(ध्रुव वर्ण *traceline_re)
 {
-	if (traceline_re != NULL)
+	सचे (traceline_re != रिक्त)
 		flex_regcomp(&regex_linedir, traceline_re, REG_EXTENDED);
-	return true;
+	पटिनिवत्त true;
 }
 
 /** Compiles a regular expression or dies trying.
@@ -44,19 +44,19 @@ bool flex_init_regex(const char *traceline_re)
  * @param regex Same as for regcomp().
  * @param cflags Same as for regcomp().
  */
-void flex_regcomp(regex_t *preg, const char *regex, int cflags)
+शून्य flex_regcomp(regex_t *preg, ध्रुव वर्ण *regex, पूर्णाङ्क cflags)
 {
-	int err;
+	पूर्णाङ्क err;
 
-	memset (preg, 0, sizeof (regex_t));
+	memset (preg, 0, परिमाण (regex_t));
 
-	if ((err = regcomp (preg, regex, cflags)) != 0) {
-		const size_t errbuf_sz = 200;
-		char *errbuf;
-		int n;
+	सचे ((err = regcomp (preg, regex, cflags)) != 0) {
+		ध्रुव size_t errbuf_sz = 200;
+		वर्ण *errbuf;
+		पूर्णाङ्क n;
 
-		errbuf = malloc(errbuf_sz * sizeof(char));
-		if (!errbuf)
+		errbuf = malloc(errbuf_sz * परिमाण(वर्ण));
+		सचे (!errbuf)
 			flexfatal(_("Unable to allocate buffer to report regcomp"));
 		n = snprintf(errbuf, errbuf_sz, "regcomp for \"%s\" failed: ", regex);
 		regerror(err, preg, errbuf+n, errbuf_sz-(size_t)n);
@@ -70,20 +70,20 @@ void flex_regcomp(regex_t *preg, const char *regex, int cflags)
  * @param src The source string that was passed to regexec().
  * @return The allocated string.
  */
-char   *regmatch_dup (regmatch_t * m, const char *src)
+वर्ण   *regmatch_dup (regmatch_t * m, ध्रुव वर्ण *src)
 {
-	char   *str;
+	वर्ण   *str;
 	size_t  len;
 
-	if (m == NULL || m->rm_so < 0 || m->rm_eo < m->rm_so)
-		return NULL;
+	सचे (m == रिक्त || m->rm_so < 0 || m->rm_eo < m->rm_so)
+		पटिनिवत्त रिक्त;
 	len = (size_t) (m->rm_eo - m->rm_so);
-	str = malloc((len + 1) * sizeof(char));
-	if (!str)
+	str = malloc((len + 1) * परिमाण(वर्ण));
+	सचे (!str)
 		flexfatal(_("Unable to allocate a copy of the match"));
 	strncpy (str, src + m->rm_so, len);
 	str[len] = 0;
-	return str;
+	पटिनिवत्त str;
 }
 
 /** Copy the match.
@@ -92,29 +92,29 @@ char   *regmatch_dup (regmatch_t * m, const char *src)
  * @param src The source string that was passed to regexec().
  * @return dest
  */
-char   *regmatch_cpy (regmatch_t * m, char *dest, const char *src)
+वर्ण   *regmatch_cpy (regmatch_t * m, वर्ण *dest, ध्रुव वर्ण *src)
 {
-	if (m == NULL || m->rm_so < 0) {
-		if (dest)
+	सचे (m == रिक्त || m->rm_so < 0) {
+		सचे (dest)
 			dest[0] = '\0';
-		return dest;
+		पटिनिवत्त dest;
 	}
 
 	snprintf (dest, (size_t) regmatch_len(m), "%s", src + m->rm_so);
-	return dest;
+	पटिनिवत्त dest;
 }
 
 /** Get the length in characters of the match.
  * @param m A match as returned by regexec().
  * @return The length of the match.
  */
-int regmatch_len (regmatch_t * m)
+पूर्णाङ्क regmatch_len (regmatch_t * m)
 {
-	if (m == NULL || m->rm_so < 0) {
-		return 0;
+	सचे (m == रिक्त || m->rm_so < 0) {
+		पटिनिवत्त 0;
 	}
 
-	return m->rm_eo - m->rm_so;
+	पटिनिवत्त m->rm_eo - m->rm_so;
 }
 
 
@@ -126,29 +126,29 @@ int regmatch_len (regmatch_t * m)
  * @param base   Same as the third argument to strtol().
  * @return The converted integer or error (Return value is the same as for strtol()).
  */
-int regmatch_strtol (regmatch_t * m, const char *src, char **endptr,
-		     int base)
+पूर्णाङ्क regmatch_strtol (regmatch_t * m, ध्रुव वर्ण *src, वर्ण **endptr,
+		     पूर्णाङ्क base)
 {
-	int     n = 0;
+	पूर्णाङ्क     n = 0;
 
 #define bufsz 20
-	char    buf[bufsz];
-	char   *s;
+	वर्ण    buf[bufsz];
+	वर्ण   *s;
 
-	if (m == NULL || m->rm_so < 0)
-		return 0;
+	सचे (m == रिक्त || m->rm_so < 0)
+		पटिनिवत्त 0;
 
-	if (regmatch_len (m) < bufsz)
+	सचे (regmatch_len (m) < bufsz)
 		s = regmatch_cpy (m, buf, src);
-	else
+	अञ्ञथा
 		s = regmatch_dup (m, src);
 
-	n = (int) strtol (s, endptr, base);
+	n = (पूर्णाङ्क) strtol (s, endptr, base);
 
-	if (s != buf)
-		free (s);
+	सचे (s != buf)
+		मुक्त (s);
 
-	return n;
+	पटिनिवत्त n;
 }
 
 /** Check for empty or non-existent match.
@@ -158,7 +158,7 @@ int regmatch_strtol (regmatch_t * m, const char *src, char **endptr,
  */
 bool regmatch_empty (regmatch_t * m)
 {
-	return (m == NULL || m->rm_so < 0 || m->rm_so == m->rm_eo);
+	पटिनिवत्त (m == रिक्त || m->rm_so < 0 || m->rm_so == m->rm_eo);
 }
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */

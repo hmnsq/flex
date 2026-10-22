@@ -5,55 +5,55 @@
 
 /* Prefer C99 integer types if available. */
 
-# if defined(__cplusplus) && __cplusplus >= 201103L
-#include <cstdint>
+# सचे defined(__cplusplus) && __cplusplus >= 201103L
+#अन्तर्भाव <cstdint>
 #  define YYFLEX_USE_STDINT
 # endif
-# if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+# सचे defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
 /* Include <inttypes.h> and not <stdint.h> because Solaris 2.6 has the former
  * and not the latter.
  */
-#include <inttypes.h>
+#अन्तर्भाव <inttypes.h>
 #  define YYFLEX_USE_STDINT
-# else
-#  if defined(_MSC_VER) && _MSC_VER >= 1600
+# अञ्ञथा
+#  सचे defined(_MSC_VER) && _MSC_VER >= 1600
 /* Visual C++ 2010 does not define __STDC_VERSION__ and has <stdint.h> but not
  * <inttypes.h>.
  */
-#include <stdint.h>
+#अन्तर्भाव <stdint.h>
 #   define YYFLEX_USE_STDINT
 #  endif
 # endif
 # ifdef YYFLEX_USE_STDINT
-typedef int8_t flex_int8_t;
-typedef uint8_t flex_uint8_t;
-typedef int16_t flex_int16_t;
-typedef uint16_t flex_uint16_t;
-typedef int32_t flex_int32_t;
-typedef uint32_t flex_uint32_t;
-# else
-typedef unsigned char flex_uint8_t;
-typedef short int flex_int16_t;
-typedef unsigned short int flex_uint16_t;
+प्रकारनिर्देश int8_t flex_int8_t;
+प्रकारनिर्देश uint8_t flex_uint8_t;
+प्रकारनिर्देश int16_t flex_int16_t;
+प्रकारनिर्देश uint16_t flex_uint16_t;
+प्रकारनिर्देश int32_t flex_int32_t;
+प्रकारनिर्देश uint32_t flex_uint32_t;
+# अञ्ञथा
+प्रकारनिर्देश unsigned वर्ण flex_uint8_t;
+प्रकारनिर्देश short पूर्णाङ्क flex_int16_t;
+प्रकारनिर्देश unsigned short पूर्णाङ्क flex_uint16_t;
 #  ifdef __STDC__
-typedef signed char flex_int8_t;
+प्रकारनिर्देश signed वर्ण flex_int8_t;
 /* ISO C only requires at least 16 bits for int. */
 #   ifdef __cplusplus
-#include <climits>
-#   else
-#include <limits.h>
+#अन्तर्भाव <climits>
+#   अञ्ञथा
+#अन्तर्भाव <limits.h>
 #   endif
-#   if UINT_MAX >= 4294967295
+#   सचे UINT_MAX >= 4294967295
 #    define YYFLEX_INT32_DEFINED
-typedef int flex_int32_t;
-typedef unsigned int flex_uint32_t;
+प्रकारनिर्देश पूर्णाङ्क flex_int32_t;
+प्रकारनिर्देश unsigned पूर्णाङ्क flex_uint32_t;
 #   endif
-#  else
-typedef char flex_int8_t;
+#  अञ्ञथा
+प्रकारनिर्देश वर्ण flex_int8_t;
 #  endif
 #  ifndef YYFLEX_INT32_DEFINED
-typedef long int flex_int32_t;
-typedef unsigned long int flex_uint32_t;
+प्रकारनिर्देश long पूर्णाङ्क flex_int32_t;
+प्रकारनिर्देश unsigned long पूर्णाङ्क flex_uint32_t;
 #  endif
 # endif
 #endif /* YYFLEX_INTTYPES_DEFINED */
