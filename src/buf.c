@@ -33,7 +33,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#अन्तर्भाव "flexdef.h"
 
 /* Take note: The buffer object is sometimes used as a String buffer (one
  * continuous string), and sometimes used as a list of strings, usually line by
@@ -48,57 +48,57 @@
  */
 
 /* global buffers. */
-struct Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
-struct Buf top_buf;             /**< contains %top code. String buffer. */
+संरचना Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
+संरचना Buf शीर्ष_buf;             /**< contains %top code. String buffer. */
 
 /* Append a "%s" formatted string to a string buffer */
-struct Buf *buf_prints (struct Buf *buf, const char *fmt, const char *s)
+संरचना Buf *buf_prints (संरचना Buf *buf, ध्रुव वर्ण *fmt, ध्रुव वर्ण *s)
 {
-	char   *t;
-	size_t tsz;
+	वर्ण   *t;
+	माप_प्रकार tsz;
 
-	tsz = strlen(fmt) + strlen(s) + 1;
-	t = malloc(tsz);
-	if (!t)
+	tsz = म_माप(fmt) + म_माप(s) + 1;
+	t = दो_स्मृति(tsz);
+	यदि (!t)
 	    flexfatal (_("Allocation of buffer to print string failed"));
 	snprintf (t, tsz, fmt, s);
 	buf = buf_strappend (buf, t);
-	free(t);
-	return buf;
+	मुक्त(t);
+	प्रत्यागम buf;
 }
 
 /* Appends n characters in str to buf. */
-struct Buf *buf_strnappend (struct Buf *buf, const char *str, int n)
+संरचना Buf *buf_strnappend (संरचना Buf *buf, ध्रुव वर्ण *str, पूर्णाङ्क n)
 {
 	buf_append (buf, str, n + 1);
 
 	/* "undo" the '\0' character that buf_append() already copied. */
 	buf->nelts--;
 
-	return buf;
+	प्रत्यागम buf;
 }
 
 /* Appends characters in str to buf. */
-struct Buf *buf_strappend (struct Buf *buf, const char *str)
+संरचना Buf *buf_strappend (संरचना Buf *buf, ध्रुव वर्ण *str)
 {
-	return buf_strnappend (buf, str, (int) strlen (str));
+	प्रत्यागम buf_strnappend (buf, str, (पूर्णाङ्क) म_माप (str));
 }
 
 /* create buf with 0 elements, each of size elem_size. */
-void buf_init (struct Buf *buf, size_t elem_size)
+शून्य buf_init (संरचना Buf *buf, माप_प्रकार elem_size)
 {
-	buf->elts = NULL;
+	buf->elts = रिक्त;
 	buf->nelts = 0;
 	buf->elt_size = elem_size;
 	buf->nmax = 0;
 }
 
 /* frees memory */
-void buf_destroy (struct Buf *buf)
+शून्य buf_destroy (संरचना Buf *buf)
 {
-	if (buf) {
-		free(buf->elts);
-		buf->elts = NULL;
+	यदि (buf) {
+		मुक्त(buf->elts);
+		buf->elts = रिक्त;
 	}
 }
 
@@ -109,43 +109,43 @@ void buf_destroy (struct Buf *buf)
  * We grow by mod(512) boundaries.
  */
 
-struct Buf *buf_append (struct Buf *buf, const void *ptr, int n_elem)
+संरचना Buf *buf_append (संरचना Buf *buf, ध्रुव शून्य *ptr, पूर्णाङ्क n_elem)
 {
-	int     n_alloc = 0;
+	पूर्णाङ्क     n_alloc = 0;
 
-	if (!ptr || n_elem == 0)
-		return buf;
+	यदि (!ptr || n_elem == 0)
+		प्रत्यागम buf;
 
 	/* May need to alloc more. */
-	if (n_elem + buf->nelts > buf->nmax) {
+	यदि (n_elem + buf->nelts > buf->nmax) {
 
 		/* exact count needed... */
 		n_alloc = n_elem + buf->nelts;
 
 		/* ...plus some extra */
-		if ((((size_t) n_alloc * buf->elt_size) % 512) != 0
+		यदि ((((माप_प्रकार) n_alloc * buf->elt_size) % 512) != 0
 		    && buf->elt_size < 512)
-			n_alloc += (int)
+			n_alloc += (पूर्णाङ्क)
 				((512 -
-				 (((size_t) n_alloc * buf->elt_size) % 512)) /
+				 (((माप_प्रकार) n_alloc * buf->elt_size) % 512)) /
 				buf->elt_size);
 
-		if (!buf->elts)
+		यदि (!buf->elts)
 			buf->elts =
-				allocate_array ((int) n_alloc, buf->elt_size);
-		else
+				allocate_array ((पूर्णाङ्क) n_alloc, buf->elt_size);
+		अन्यथा
 			buf->elts =
-				reallocate_array (buf->elts, (int) n_alloc,
+				reallocate_array (buf->elts, (पूर्णाङ्क) n_alloc,
 						  buf->elt_size);
 
 		buf->nmax = n_alloc;
 	}
 
-	memcpy ((char *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
-		(size_t) n_elem * buf->elt_size);
+	स_नकल ((वर्ण *) buf->elts + (माप_प्रकार) buf->nelts * buf->elt_size, ptr,
+		(माप_प्रकार) n_elem * buf->elt_size);
 	buf->nelts += n_elem;
 
-	return buf;
+	प्रत्यागम buf;
 }
 
 /* vim:set tabstop=8 softtabstop=4 shiftwidth=4: */
