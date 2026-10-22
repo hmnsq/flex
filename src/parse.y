@@ -64,45 +64,45 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
-#include "tables.h"
+#ضمن "flexdef.h"
+#ضمن "tables.h"
 
-int pat, scnum, eps, headcnt, trailcnt, lastchar, i, rulelen;
-static int currccl;
+صحيح pat, scnum, eps, headcnt, trailcnt, lastchar, i, rulelen;
+ساكن صحيح currccl;
 bool trlcontxt;
-static bool sc_is_exclusive, cclsorted, varlength, variable_trail_rule;
+ساكن bool sc_is_exclusive, cclsorted, varlength, variable_trail_rule;
 
-int *scon_stk;
-int scon_stk_ptr;
+صحيح *scon_stk;
+صحيح scon_stk_ptr;
 
-static int madeany = false;  /* whether we've made the '.' character class */
-static int ccldot, cclany;
-int previous_continued_action;	/* whether the previous rule's action was '|' */
+ساكن صحيح madeany = false;  /* whether we've made the '.' character class */
+ساكن صحيح ccldot, cclany;
+صحيح previous_continued_action;	/* whether the previous rule's action was '|' */
 
 #define format_warn3(fmt, a1, a2) \
-	do{ \
-        char fw3_msg[MAXLINE];\
+	ܥܒܕ{ \
+        حرف fw3_msg[MAXLINE];\
         snprintf( fw3_msg, MAXLINE,(fmt), (a1), (a2) );\
         lwarn( fw3_msg );\
-	}while(0)
+	}ܟܡܐ(0)
 
 /* Expand a POSIX character class expression. */
 #define CCL_EXPR(func) \
-	do{ \
-	int c; \
-	for ( c = 0; c < ctrl.csize; ++c ) \
-		if ( isascii(c) && func(c) ) \
+	ܥܒܕ{ \
+	صحيح c; \
+	لكل ( c = 0; c < ctrl.csize; ++c ) \
+		ܐܢ ( isascii(c) && func(c) ) \
 			ccladd( currccl, c ); \
-	}while(0)
+	}ܟܡܐ(0)
 
 /* negated class */
 #define CCL_NEG_EXPR(func) \
-	do{ \
-	int c; \
-	for ( c = 0; c < ctrl.csize; ++c ) \
-		if ( !func(c) ) \
+	ܥܒܕ{ \
+	صحيح c; \
+	لكل ( c = 0; c < ctrl.csize; ++c ) \
+		ܐܢ ( !func(c) ) \
 			ccladd( currccl, c ); \
-	}while(0)
+	}ܟܡܐ(0)
 
 /* While POSIX defines isblank(), it's not ANSI C. */
 #define IS_BLANK(c) ((c) == ' ' || (c) == '\t')
@@ -113,14 +113,14 @@ int previous_continued_action;	/* whether the previous rule's action was '|' */
  * wrap their definitions of YYSTYPE with "#ifndef YYSTYPE"'s, so the
  * following should ensure that the default token type is "int".
  */
-#define YYSTYPE int
+#define YYSTYPE صحيح
 
 %}
 
 %%
 goal		:  initlex sect1 sect1end sect2 initforrule
 			{ /* add default rule */
-			int def_rule;
+			صحيح def_rule;
 
 			pat = cclinit();
 			cclnegate( pat );
@@ -134,15 +134,15 @@ goal		:  initlex sect1 sect1end sect2 initforrule
 
 			finish_rule( def_rule, false, 0, 0, 0);
 
-			for ( i = 1; i <= lastsc; ++i )
+			لكل ( i = 1; i <= lastsc; ++i )
 				scset[i] = mkbranch( scset[i], def_rule );
 
 			add_action("]]");
 
-			if ( ctrl.spprdflt )
+			ܐܢ ( ctrl.spprdflt )
 				add_action(
 				"M4_HOOK_FATAL_ERROR(\"flex scanner jammed\")");
-			else {
+			ܐܚܪܢܐ {
 			    add_action("M4_HOOK_ECHO");
 			}
 
@@ -206,7 +206,7 @@ option		:  TOK_OUTFILE '=' NAME
 			{ extra_type = xstrdup(nmstr); }
 		|  TOK_PREFIX '=' NAME
 			{ ctrl.prefix = xstrdup(nmstr);
-                          if (strchr(ctrl.prefix, '[') || strchr(ctrl.prefix, ']'))
+                          ܐܢ (strchr(ctrl.prefix, '[') || strchr(ctrl.prefix, ']'))
                               flexerror(_("Prefix must not contain [ or ]")); }
 		|  TOK_YYCLASS '=' NAME
 			{ ctrl.yyclass = xstrdup(nmstr); }
@@ -258,31 +258,31 @@ flexrule	:  '^' rule
 			finish_rule( pat, variable_trail_rule,
 				headcnt, trailcnt , previous_continued_action);
 
-			if ( scon_stk_ptr > 0 )
+			ܐܢ ( scon_stk_ptr > 0 )
 				{
-				for ( i = 1; i <= scon_stk_ptr; ++i )
+				لكل ( i = 1; i <= scon_stk_ptr; ++i )
 					scbol[scon_stk[i]] =
 						mkbranch( scbol[scon_stk[i]],
 								pat );
 				}
 
-			else
+			ܐܚܪܢܐ
 				{
 				/* Add to all non-exclusive start conditions,
 				 * including the default (0) start condition.
 				 */
 
-				for ( i = 1; i <= lastsc; ++i )
-					if ( ! scxclu[i] )
+				لكل ( i = 1; i <= lastsc; ++i )
+					ܐܢ ( ! scxclu[i] )
 						scbol[i] = mkbranch( scbol[i],
 									pat );
 				}
 
-			if ( ! bol_needed )
+			ܐܢ ( ! bol_needed )
 				{
 				bol_needed = true;
 
-				if ( env.performance_hint > 1 )
+				ܐܢ ( env.performance_hint > 1 )
 					pinpoint_message(
 			"'^' operator results in sub-optimal performance" );
 				}
@@ -294,18 +294,18 @@ flexrule	:  '^' rule
 			finish_rule( pat, variable_trail_rule,
 				headcnt, trailcnt , previous_continued_action);
 
-			if ( scon_stk_ptr > 0 )
+			ܐܢ ( scon_stk_ptr > 0 )
 				{
-				for ( i = 1; i <= scon_stk_ptr; ++i )
+				لكل ( i = 1; i <= scon_stk_ptr; ++i )
 					scset[scon_stk[i]] =
 						mkbranch( scset[scon_stk[i]],
 								pat );
 				}
 
-			else
+			ܐܚܪܢܐ
 				{
-				for ( i = 1; i <= lastsc; ++i )
-					if ( ! scxclu[i] )
+				لكل ( i = 1; i <= lastsc; ++i )
+					ܐܢ ( ! scxclu[i] )
 						scset[i] =
 							mkbranch( scset[i],
 								pat );
@@ -314,23 +314,23 @@ flexrule	:  '^' rule
 
 		|  EOF_OP
 			{
-			if ( scon_stk_ptr > 0 )
+			ܐܢ ( scon_stk_ptr > 0 )
 				build_eof_action();
 	
-			else
+			ܐܚܪܢܐ
 				{
 				/* This EOF applies to all start conditions
 				 * which don't already have EOF actions.
 				 */
-				for ( i = 1; i <= lastsc; ++i )
-					if ( ! sceof[i] )
+				لكل ( i = 1; i <= lastsc; ++i )
+					ܐܢ ( ! sceof[i] )
 						scon_stk[++scon_stk_ptr] = i;
 
-				if ( scon_stk_ptr == 0 )
+				ܐܢ ( scon_stk_ptr == 0 )
 					lwarn(
 			"all start conditions already have <<EOF>> rules" );
 
-				else
+				ܐܚܪܢܐ
 					build_eof_action();
 				}
 			}
@@ -350,15 +350,15 @@ scon		:  '<' scon_stk_ptr namelist2 '>'
 			{
 			$$ = scon_stk_ptr;
 
-			for ( i = 1; i <= lastsc; ++i )
+			لكل ( i = 1; i <= lastsc; ++i )
 				{
-				int j;
+				صحيح j;
 
-				for ( j = 1; j <= scon_stk_ptr; ++j )
-					if ( scon_stk[j] == i )
-						break;
+				لكل ( j = 1; j <= scon_stk_ptr; ++j )
+					ܐܢ ( scon_stk[j] == i )
+						اكسر;
 
-				if ( j > scon_stk_ptr )
+				ܐܢ ( j > scon_stk_ptr )
 					scon_stk[++scon_stk_ptr] = i;
 				}
 			}
@@ -377,22 +377,22 @@ namelist2	:  namelist2 ',' sconname
 
 sconname	:  NAME
 			{
-			if ( (scnum = sclookup( nmstr )) == 0 )
+			ܐܢ ( (scnum = sclookup( nmstr )) == 0 )
 				format_pinpoint_message(
 					"undeclared start condition %s",
 					nmstr );
-			else
+			ܐܚܪܢܐ
 				{
-				for ( i = 1; i <= scon_stk_ptr; ++i )
-					if ( scon_stk[i] == scnum )
+				لكل ( i = 1; i <= scon_stk_ptr; ++i )
+					ܐܢ ( scon_stk[i] == scnum )
 						{
 						format_warn(
 							"<%s> specified twice",
 							scname[scnum] );
-						break;
+						اكسر;
 						}
 
-				if ( i > scon_stk_ptr )
+				ܐܢ ( i > scon_stk_ptr )
 					scon_stk[++scon_stk_ptr] = scnum;
 				}
 			}
@@ -400,7 +400,7 @@ sconname	:  NAME
 
 rule		:  re2 re
 			{
-			if ( transchar[lastst[$2]] != SYM_EPSILON )
+			ܐܢ ( transchar[lastst[$2]] != SYM_EPSILON )
 				/* Provide final transition \now/ so it
 				 * will be marked as a trailing context
 				 * state.
@@ -411,7 +411,7 @@ rule		:  re2 re
 			mark_beginning_as_normal( $2 );
 			current_state_type = STATE_NORMAL;
 
-			if ( previous_continued_action )
+			ܐܢ ( previous_continued_action )
 				{
 				/* We need to treat this as variable trailing
 				 * context so that the backup does not happen
@@ -421,7 +421,7 @@ rule		:  re2 re
 				 * one's action will *also* do the backup,
 				 * erroneously.
 				 */
-				if ( ! varlength || headcnt != 0 )
+				ܐܢ ( ! varlength || headcnt != 0 )
 					lwarn(
 		"trailing context made variable due to preceding '|' action" );
 
@@ -431,7 +431,7 @@ rule		:  re2 re
 
 				}
 
-			if ( ctrl.lex_compat || (varlength && headcnt == 0) )
+			ܐܢ ( ctrl.lex_compat || (varlength && headcnt == 0) )
 				{ /* variable trailing context rule */
 				/* Mark the first part of the rule as the
 				 * accepting "head" part of a trailing
@@ -448,7 +448,7 @@ rule		:  re2 re
 				variable_trail_rule = true;
 				}
 			
-			else
+			ܐܚܪܢܐ
 				trailcnt = rulelen;
 
 			$$ = link_machines( $1, $2 );
@@ -466,13 +466,13 @@ rule		:  re2 re
 
 			current_state_type = STATE_TRAILING_CONTEXT;
 
-			if ( trlcontxt )
+			ܐܢ ( trlcontxt )
 				{
 				synerr( _("trailing context used twice") );
 				$$ = mkstate( SYM_EPSILON );
 				}
 
-			else if ( previous_continued_action )
+			ܐܚܪܢܐ ܐܢ ( previous_continued_action )
 				{
 				/* See the comment in the rule for "re2 re"
 				 * above.
@@ -483,7 +483,7 @@ rule		:  re2 re
 				varlength = true;
 				}
 
-			if ( ctrl.lex_compat || varlength )
+			ܐܢ ( ctrl.lex_compat || varlength )
 				{
 				/* Again, see the comment in the rule for
 				 * "re2 re" above.
@@ -504,14 +504,14 @@ rule		:  re2 re
 			{
 			$$ = $1;
 
-			if ( trlcontxt )
+			ܐܢ ( trlcontxt )
 				{
-				if ( ctrl.lex_compat || (varlength && headcnt == 0) )
+				ܐܢ ( ctrl.lex_compat || (varlength && headcnt == 0) )
 					/* Both head and trail are
 					 * variable-length.
 					 */
 					variable_trail_rule = true;
-				else
+				ܐܚܪܢܐ
 					trailcnt = rulelen;
 				}
 			}
@@ -536,17 +536,17 @@ re2		:  re '/'
 			 * series is parsed.
 			 */
 
-			if ( trlcontxt )
+			ܐܢ ( trlcontxt )
 				synerr( _("trailing context used twice") );
-			else
+			ܐܚܪܢܐ
 				trlcontxt = true;
 
-			if ( varlength )
+			ܐܢ ( varlength )
 				/* We hope the trailing context is
 				 * fixed-length.
 				 */
 				varlength = false;
-			else
+			ܐܚܪܢܐ
 				headcnt = rulelen;
 
 			rulelen = 0;
@@ -571,26 +571,26 @@ series		:  series singleton
 			{
 			varlength = true;
 
-			if ( $3 > $5 || $3 < 0 )
+			ܐܢ ( $3 > $5 || $3 < 0 )
 				{
 				synerr( _("bad iteration values") );
 				$$ = $1;
 				}
-			else
+			ܐܚܪܢܐ
 				{
-				if ( $3 == 0 )
+				ܐܢ ( $3 == 0 )
 					{
-					if ( $5 <= 0 )
+					ܐܢ ( $5 <= 0 )
 						{
 						synerr(
 						_("bad iteration values") );
 						$$ = $1;
 						}
-					else
+					ܐܚܪܢܐ
 						$$ = mkopt(
 							mkrep( $1, 1, $5 ) );
 					}
-				else
+				ܐܚܪܢܐ
 					$$ = mkrep( $1, $3, $5 );
 				}
 			}
@@ -599,13 +599,13 @@ series		:  series singleton
 			{
 			varlength = true;
 
-			if ( $3 <= 0 )
+			ܐܢ ( $3 <= 0 )
 				{
 				synerr( _("iteration value must be positive") );
 				$$ = $1;
 				}
 
-			else
+			ܐܚܪܢܐ
 				$$ = mkrep( $1, $3, INFINITE_REPEAT );
 			}
 
@@ -617,14 +617,14 @@ series		:  series singleton
 			 */
 			varlength = true;
 
-			if ( $3 <= 0 )
+			ܐܢ ( $3 <= 0 )
 				{
 				  synerr( _("iteration value must be positive")
 					  );
 				$$ = $1;
 				}
 
-			else
+			ܐܚܪܢܐ
 				$$ = link_machines( $1,
 						copysingl( $1, $3 - 1 ) );
 			}
@@ -654,26 +654,26 @@ singleton	:  singleton '*'
 			{
 			varlength = true;
 
-			if ( $3 > $5 || $3 < 0 )
+			ܐܢ ( $3 > $5 || $3 < 0 )
 				{
 				synerr( _("bad iteration values") );
 				$$ = $1;
 				}
-			else
+			ܐܚܪܢܐ
 				{
-				if ( $3 == 0 )
+				ܐܢ ( $3 == 0 )
 					{
-					if ( $5 <= 0 )
+					ܐܢ ( $5 <= 0 )
 						{
 						synerr(
 						_("bad iteration values") );
 						$$ = $1;
 						}
-					else
+					ܐܚܪܢܐ
 						$$ = mkopt(
 							mkrep( $1, 1, $5 ) );
 					}
-				else
+				ܐܚܪܢܐ
 					$$ = mkrep( $1, $3, $5 );
 				}
 			}
@@ -682,13 +682,13 @@ singleton	:  singleton '*'
 			{
 			varlength = true;
 
-			if ( $3 <= 0 )
+			ܐܢ ( $3 <= 0 )
 				{
 				synerr( _("iteration value must be positive") );
 				$$ = $1;
 				}
 
-			else
+			ܐܚܪܢܐ
 				$$ = mkrep( $1, $3, INFINITE_REPEAT );
 			}
 
@@ -700,27 +700,27 @@ singleton	:  singleton '*'
 			 */
 			varlength = true;
 
-			if ( $3 <= 0 )
+			ܐܢ ( $3 <= 0 )
 				{
 				synerr( _("iteration value must be positive") );
 				$$ = $1;
 				}
 
-			else
+			ܐܚܪܢܐ
 				$$ = link_machines( $1,
 						copysingl( $1, $3 - 1 ) );
 			}
 
 		|  '.'
 			{
-			if ( ! madeany )
+			ܐܢ ( ! madeany )
 				{
 				/* Create the '.' character class. */
                     ccldot = cclinit();
                     ccladd( ccldot, '\n' );
                     cclnegate( ccldot );
 
-                    if ( ctrl.useecs )
+                    ܐܢ ( ctrl.useecs )
                         mkeccl( ccltbl + cclmap[ccldot],
                             ccllen[ccldot], nextecm,
                             ecgroup, ctrl.csize, ctrl.csize );
@@ -729,7 +729,7 @@ singleton	:  singleton '*'
                     cclany = cclinit();
                     cclnegate( cclany );
 
-                    if ( ctrl.useecs )
+                    ܐܢ ( ctrl.useecs )
                         mkeccl( ccltbl + cclmap[cclany],
                             ccllen[cclany], nextecm,
                             ecgroup, ctrl.csize, ctrl.csize );
@@ -739,9 +739,9 @@ singleton	:  singleton '*'
 
 			++rulelen;
 
-            if (sf_dot_all())
+            ܐܢ (sf_dot_all())
                 $$ = mkstate( -cclany );
-            else
+            ܐܚܪܢܐ
                 $$ = mkstate( -ccldot );
 			}
 
@@ -749,15 +749,15 @@ singleton	:  singleton '*'
 			{
 				/* Sort characters for fast searching.
 				 */
-				qsort( ccltbl + cclmap[$1], (size_t) ccllen[$1], sizeof (*ccltbl), cclcmp );
+				qsort( ccltbl + cclmap[$1], (size_t) ccllen[$1], حجم (*ccltbl), cclcmp );
 
-			if ( ctrl.useecs )
+			ܐܢ ( ctrl.useecs )
 				mkeccl( ccltbl + cclmap[$1], ccllen[$1],
 					nextecm, ecgroup, ctrl.csize, ctrl.csize);
 
 			++rulelen;
 
-			if (ccl_has_nl[$1])
+			ܐܢ (ccl_has_nl[$1])
 				rule_has_nl[num_rules] = true;
 
 			$$ = mkstate( -$1 );
@@ -767,7 +767,7 @@ singleton	:  singleton '*'
 			{
 			++rulelen;
 
-			if (ccl_has_nl[$1])
+			ܐܢ (ccl_has_nl[$1])
 				rule_has_nl[num_rules] = true;
 
 			$$ = mkstate( -$1 );
@@ -783,13 +783,13 @@ singleton	:  singleton '*'
 			{
 			++rulelen;
 
-			if ($1 == nlch)
+			ܐܢ ($1 == nlch)
 				rule_has_nl[num_rules] = true;
 
-            if (sf_case_ins() && has_case($1))
+            ܐܢ (sf_case_ins() && has_case($1))
                 /* create an alternation, as in (a|A) */
                 $$ = mkor (mkstate($1), mkstate(reverse_case($1)));
-            else
+            ܐܚܪܢܐ
                 $$ = mkstate( $1 );
 			}
 		;
@@ -813,7 +813,7 @@ braceccl:
 ccl		:  ccl CHAR '-' CHAR
 			{
 
-			if (sf_case_ins())
+			ܐܢ (sf_case_ins())
 			  {
 
 			    /* If one end of the range has case and the other
@@ -821,7 +821,7 @@ ccl		:  ccl CHAR '-' CHAR
 			     * sure what range the user is trying to express.
 			     * Examples: [@-z] or [S-t]
 			     */
-			    if (has_case ($2) != has_case ($4)
+			    ܐܢ (has_case ($2) != has_case ($4)
 				     || (has_case ($2) && (b_islower ($2) != b_islower ($4)))
 				     || (has_case ($2) && (b_isupper ($2) != b_isupper ($4))))
 			      format_warn3 (
@@ -833,18 +833,18 @@ ccl		:  ccl CHAR '-' CHAR
 			     * include lowercase characters in the range?
 			     * Example: [@-_] spans [a-z] but not [A-Z]
 			     */
-			    else if (!has_case ($2) && !has_case ($4) && !range_covers_case ($2, $4))
+			    ܐܚܪܢܐ ܐܢ (!has_case ($2) && !has_case ($4) && !range_covers_case ($2, $4))
 			      format_warn3 (
 			      _("the character range [%c-%c] is ambiguous in a case-insensitive scanner"),
 					    $2, $4);
 			  }
 
-			if ( $2 > $4 )
+			ܐܢ ( $2 > $4 )
 				synerr( _("negative range in character class") );
 
-			else
+			ܐܚܪܢܐ
 				{
-				for ( i = $2; i <= $4; ++i )
+				لكل ( i = $2; i <= $4; ++i )
 					ccladd( $1, i );
 
 				/* Keep track if this ccl is staying in
@@ -854,11 +854,11 @@ ccl		:  ccl CHAR '-' CHAR
 				lastchar = $4;
 
                 /* Do it again for upper/lowercase */
-                if (sf_case_ins() && has_case($2) && has_case($4)){
+                ܐܢ (sf_case_ins() && has_case($2) && has_case($4)){
                     $2 = reverse_case ($2);
                     $4 = reverse_case ($4);
                     
-                    for ( i = $2; i <= $4; ++i )
+                    لكل ( i = $2; i <= $4; ++i )
                         ccladd( $1, i );
 
                     cclsorted = cclsorted && ($2 > lastchar);
@@ -877,7 +877,7 @@ ccl		:  ccl CHAR '-' CHAR
 			lastchar = $2;
 
             /* Do it again for upper/lowercase */
-            if (sf_case_ins() && has_case($2)){
+            ܐܢ (sf_case_ins() && has_case($2)){
                 $2 = reverse_case ($2);
                 ccladd ($1, $2);
 
@@ -912,7 +912,7 @@ ccl_expr:
 		|  CCE_GRAPH	{ CCL_EXPR(isgraph); }
 		|  CCE_LOWER	{ 
                           CCL_EXPR(islower);
-                          if (sf_case_ins())
+                          ܐܢ (sf_case_ins())
                               CCL_EXPR(isupper);
                         }
 		|  CCE_PRINT	{ CCL_EXPR(isprint); }
@@ -921,7 +921,7 @@ ccl_expr:
 		|  CCE_XDIGIT	{ CCL_EXPR(isxdigit); }
 		|  CCE_UPPER	{
                     CCL_EXPR(isupper);
-                    if (sf_case_ins())
+                    ܐܢ (sf_case_ins())
                         CCL_EXPR(islower);
 				}
 
@@ -936,29 +936,29 @@ ccl_expr:
 		|  CCE_NEG_SPACE	{ CCL_NEG_EXPR(isspace); }
 		|  CCE_NEG_XDIGIT	{ CCL_NEG_EXPR(isxdigit); }
 		|  CCE_NEG_LOWER	{ 
-				if ( sf_case_ins() )
+				ܐܢ ( sf_case_ins() )
 					lwarn(_("[:^lower:] is ambiguous in case insensitive scanner"));
-				else
+				ܐܚܪܢܐ
 					CCL_NEG_EXPR(islower);
 				}
 		|  CCE_NEG_UPPER	{
-				if ( sf_case_ins() )
+				ܐܢ ( sf_case_ins() )
 					lwarn(_("[:^upper:] ambiguous in case insensitive scanner"));
-				else
+				ܐܚܪܢܐ
 					CCL_NEG_EXPR(isupper);
 				}
 		;
 		
 string		:  string CHAR
 			{
-			if ( $2 == nlch )
+			ܐܢ ( $2 == nlch )
 				rule_has_nl[num_rules] = true;
 
 			++rulelen;
 
-            if (sf_case_ins() && has_case($2))
+            ܐܢ (sf_case_ins() && has_case($2))
                 $$ = mkor (mkstate($2), mkstate(reverse_case($2)));
-            else
+            ܐܚܪܢܐ
                 $$ = mkstate ($2);
 
 			$$ = link_machines( $1, $$);
@@ -975,32 +975,32 @@ string		:  string CHAR
  *                    conditions
  */
 
-void build_eof_action(void)
+فراغ build_eof_action(فراغ)
 	{
-	int i;
-	char action_text[MAXLINE];
+	صحيح i;
+	حرف action_text[MAXLINE];
 
-	for ( i = 1; i <= scon_stk_ptr; ++i )
+	لكل ( i = 1; i <= scon_stk_ptr; ++i )
 		{
-		if ( sceof[scon_stk[i]] )
+		ܐܢ ( sceof[scon_stk[i]] )
 			format_pinpoint_message(
 				"multiple <<EOF>> rules for start condition %s",
 				scname[scon_stk[i]] );
 
-		else
+		ܐܚܪܢܐ
 			{
 			sceof[scon_stk[i]] = true;
 
-			if (previous_continued_action /* && previous action was regular */)
+			ܐܢ (previous_continued_action /* && previous action was regular */)
 				add_action("YY_RULE_SETUP\n");
 
-			snprintf( action_text, sizeof(action_text), "M4_HOOK_EOF_STATE_CASE_ARM(%s)\n",
+			snprintf( action_text, حجم(action_text), "M4_HOOK_EOF_STATE_CASE_ARM(%s)\n",
 				scname[scon_stk[i]] );
 			add_action( action_text );
 			}
 		}
 
-	line_directive_out(NULL, infilename, linenum);
+	line_directive_out(عدم, infilename, linenum);
         add_action("[[");
 
 	/* This isn't a normal rule after all - don't count it as
@@ -1015,18 +1015,18 @@ void build_eof_action(void)
 
 /* format_synerr - write out formatted syntax error */
 
-void format_synerr( const char *msg, const char arg[] )
+فراغ format_synerr( ثابت حرف *msg, ثابت حرف arg[] )
 	{
-	char errmsg[MAXLINE];
+	حرف errmsg[MAXLINE];
 
-	(void) snprintf( errmsg, sizeof(errmsg), msg, arg );
+	(فراغ) snprintf( errmsg, حجم(errmsg), msg, arg );
 	synerr( errmsg );
 	}
 
 
 /* synerr - report a syntax error */
 
-void synerr( const char *str )
+فراغ synerr( ثابت حرف *str )
 	{
 	syntaxerror = true;
 	pinpoint_message( str );
@@ -1035,18 +1035,18 @@ void synerr( const char *str )
 
 /* format_warn - write out formatted warning */
 
-void format_warn( const char *msg, const char arg[] )
+فراغ format_warn( ثابت حرف *msg, ثابت حرف arg[] )
 	{
-	char warn_msg[MAXLINE];
+	حرف warn_msg[MAXLINE];
 
-	snprintf( warn_msg, sizeof(warn_msg), msg, arg );
+	snprintf( warn_msg, حجم(warn_msg), msg, arg );
 	lwarn( warn_msg );
 	}
 
 
 /* lwarn - report a warning, unless -w was given */
 
-void lwarn( const char *str )
+فراغ lwarn( ثابت حرف *str )
 	{
 	line_warning( str, linenum );
 	}
@@ -1055,18 +1055,18 @@ void lwarn( const char *str )
  *			     pinpointing its location
  */
 
-void format_pinpoint_message( const char *msg, const char arg[] )
+فراغ format_pinpoint_message( ثابت حرف *msg, ثابت حرف arg[] )
 	{
-	char errmsg[MAXLINE*2];
+	حرف errmsg[MAXLINE*2];
 
-	snprintf( errmsg, sizeof(errmsg), msg, arg );
+	snprintf( errmsg, حجم(errmsg), msg, arg );
 	pinpoint_message( errmsg );
 	}
 
 
 /* pinpoint_message - write out a message, pinpointing its location */
 
-void pinpoint_message( const char *str )
+فراغ pinpoint_message( ثابت حرف *str )
 	{
 	line_pinpoint( str, linenum );
 	}
@@ -1074,13 +1074,13 @@ void pinpoint_message( const char *str )
 
 /* line_warning - report a warning at a given line, unless -w was given */
 
-void line_warning( const char *str, int line )
+فراغ line_warning( ثابت حرف *str, صحيح line )
 	{
-	char warning[MAXLINE*2];
+	حرف warning[MAXLINE*2];
 
-	if ( ! env.nowarn )
+	ܐܢ ( ! env.nowarn )
 		{
-		snprintf( warning, sizeof(warning), "warning, %s", str );
+		snprintf( warning, حجم(warning), "warning, %s", str );
 		line_pinpoint( warning, line );
 		}
 	}
@@ -1088,7 +1088,7 @@ void line_warning( const char *str, int line )
 
 /* line_pinpoint - write out a message, pinpointing it at the given line */
 
-void line_pinpoint( const char *str, int line )
+فراغ line_pinpoint( ثابت حرف *str, صحيح line )
 	{
 	fprintf( stderr, "%s:%d: %s\n", infilename, line, str );
 	}
@@ -1098,7 +1098,7 @@ void line_pinpoint( const char *str, int line )
  *	     currently, messages are ignore
  */
 
-void yyerror( const char *msg )
+فراغ yyerror( ثابت حرف *msg )
 	{
-		(void)msg;
+		(فراغ)msg;
 	}

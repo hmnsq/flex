@@ -34,20 +34,20 @@
 #ifndef SCANOPT_H
 #define SCANOPT_H
 
-#include "flexdef.h"
+#ضمن "flexdef.h"
 
 
 #ifndef NO_SCANOPT_USAGE
 /* Used by scanopt_usage for pretty-printing. */
 #ifdef HAVE_NCURSES_H
-#include <ncurses.h>
+#ضمن <ncurses.h>
 #endif
 #endif
 
 #ifdef __cplusplus
-extern  "C" {
+خارجي  "C" {
 #endif
-/* Error codes. */ enum scanopt_err_t {
+/* Error codes. */ تعداد scanopt_err_t {
 		SCANOPT_ERR_OPT_UNRECOGNIZED = -1,	/* Unrecognized option. */
 		SCANOPT_ERR_OPT_AMBIGUOUS = -2,	/* It matched more than one option name. */
 		SCANOPT_ERR_ARG_NOT_FOUND = -3,	/* The required arg was not found. */
@@ -56,22 +56,22 @@ extern  "C" {
 
 
 /* flags passed to scanopt_init */
-	enum scanopt_flag_t {
+	تعداد scanopt_flag_t {
 		SCANOPT_NO_ERR_MSG = 0x01	/* Suppress printing to stderr. */
 	};
 
 /* Specification for a single option. */
-	struct optspec_t {
-		const char *opt_fmt;	/* e.g., "--foo=FILE", "-f FILE", "-n [NUM]" */
-		int     r_val;	/* Value to be returned by scanopt_ex(). */
-		const char *desc;	/* Brief description of this option, or NULL. */
+	بنية optspec_t {
+		ثابت حرف *opt_fmt;	/* e.g., "--foo=FILE", "-f FILE", "-n [NUM]" */
+		صحيح     r_val;	/* Value to be returned by scanopt_ex(). */
+		ثابت حرف *desc;	/* Brief description of this option, or NULL. */
 	};
-	typedef struct optspec_t optspec_t;
+	تعريفنوع بنية optspec_t optspec_t;
 
 
 /* Used internally by scanopt() to maintain state. */
 /* Never modify these value directly. */
-	typedef void *scanopt_t;
+	تعريفنوع فراغ *scanopt_t;
 
 
 /* Initializes scanner and checks option list for errors.
@@ -82,12 +82,12 @@ extern  "C" {
  *   flags   - Control behavior.
  * Return:  A malloc'd pointer .
  */
-	scanopt_t *scanopt_init (const optspec_t * options, int argc,
-				 char **argv, int flags);
+	scanopt_t *scanopt_init (ثابت optspec_t * options, صحيح argc,
+				 حرف **argv, صحيح flags);
 
 /* Frees memory used by scanner.
  * Always returns 0. */
-	int scanopt_destroy (scanopt_t * scanner);
+	صحيح scanopt_destroy (scanopt_t * scanner);
 
 #ifndef NO_SCANOPT_USAGE
 /* Prints a usage message based on contents of optlist.
@@ -97,7 +97,7 @@ extern  "C" {
  *   usage    - Text to be prepended to option list. May be NULL.
  * Return:  Always returns 0 (zero).
  */
-	int scanopt_usage (scanopt_t * scanner, FILE * fp, const char *usage);
+	صحيح scanopt_usage (scanopt_t * scanner, FILE * fp, ثابت حرف *usage);
 #endif
 
 /* Scans command-line options in argv[].
@@ -114,7 +114,7 @@ extern  "C" {
  *          < 0 on error (return value is an error code).
  *
  */
-	int scanopt (scanopt_t * scanner, char **optarg, int *optindex);
+	صحيح scanopt (scanopt_t * scanner, حرف **optarg, صحيح *optindex);
 
 #ifdef __cplusplus
 }

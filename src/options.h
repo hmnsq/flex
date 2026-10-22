@@ -33,11 +33,11 @@
 
 #ifndef OPTIONS_H
 #define OPTIONS_H
-#include "scanopt.h"
+#ضمن "scanopt.h"
 
-extern optspec_t flexopts[];
+خارجي optspec_t flexopts[];
 
-enum flexopt_flag_t {
+تعداد flexopt_flag_t {
 	/* Use positive integers only, since they are return codes for scanopt.
 	 * Order is not important. */
 	OPT_7BIT = 1,
