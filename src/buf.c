@@ -33,7 +33,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#ضمن "flexdef.h"
 
 /* Take note: The buffer object is sometimes used as a String buffer (one
  * continuous string), and sometimes used as a list of strings, usually line by
@@ -48,57 +48,57 @@
  */
 
 /* global buffers. */
-struct Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
-struct Buf top_buf;             /**< contains %top code. String buffer. */
+بنية Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
+بنية Buf قمة_buf;             /**< contains %top code. String buffer. */
 
 /* Append a "%s" formatted string to a string buffer */
-struct Buf *buf_prints (struct Buf *buf, const char *fmt, const char *s)
+بنية Buf *buf_prints (بنية Buf *buf, ثابت حرف *fmt, ثابت حرف *s)
 {
-	char   *t;
+	حرف   *t;
 	size_t tsz;
 
 	tsz = strlen(fmt) + strlen(s) + 1;
 	t = malloc(tsz);
-	if (!t)
+	إذا (!t)
 	    flexfatal (_("Allocation of buffer to print string failed"));
 	snprintf (t, tsz, fmt, s);
 	buf = buf_strappend (buf, t);
-	free(t);
-	return buf;
+	حرر(t);
+	إرجاع buf;
 }
 
 /* Appends n characters in str to buf. */
-struct Buf *buf_strnappend (struct Buf *buf, const char *str, int n)
+بنية Buf *buf_strnappend (بنية Buf *buf, ثابت حرف *str, صحيح n)
 {
 	buf_append (buf, str, n + 1);
 
 	/* "undo" the '\0' character that buf_append() already copied. */
 	buf->nelts--;
 
-	return buf;
+	إرجاع buf;
 }
 
 /* Appends characters in str to buf. */
-struct Buf *buf_strappend (struct Buf *buf, const char *str)
+بنية Buf *buf_strappend (بنية Buf *buf, ثابت حرف *str)
 {
-	return buf_strnappend (buf, str, (int) strlen (str));
+	إرجاع buf_strnappend (buf, str, (صحيح) strlen (str));
 }
 
 /* create buf with 0 elements, each of size elem_size. */
-void buf_init (struct Buf *buf, size_t elem_size)
+فراغ buf_init (بنية Buf *buf, size_t elem_size)
 {
-	buf->elts = NULL;
+	buf->elts = عدم;
 	buf->nelts = 0;
 	buf->elt_size = elem_size;
 	buf->nmax = 0;
 }
 
 /* frees memory */
-void buf_destroy (struct Buf *buf)
+فراغ buf_destroy (بنية Buf *buf)
 {
-	if (buf) {
-		free(buf->elts);
-		buf->elts = NULL;
+	إذا (buf) {
+		حرر(buf->elts);
+		buf->elts = عدم;
 	}
 }
 
@@ -109,43 +109,43 @@ void buf_destroy (struct Buf *buf)
  * We grow by mod(512) boundaries.
  */
 
-struct Buf *buf_append (struct Buf *buf, const void *ptr, int n_elem)
+بنية Buf *buf_append (بنية Buf *buf, ثابت فراغ *ptr, صحيح n_elem)
 {
-	int     n_alloc = 0;
+	صحيح     n_alloc = 0;
 
-	if (!ptr || n_elem == 0)
-		return buf;
+	إذا (!ptr || n_elem == 0)
+		إرجاع buf;
 
 	/* May need to alloc more. */
-	if (n_elem + buf->nelts > buf->nmax) {
+	إذا (n_elem + buf->nelts > buf->nmax) {
 
 		/* exact count needed... */
 		n_alloc = n_elem + buf->nelts;
 
 		/* ...plus some extra */
-		if ((((size_t) n_alloc * buf->elt_size) % 512) != 0
+		إذا ((((size_t) n_alloc * buf->elt_size) % 512) != 0
 		    && buf->elt_size < 512)
-			n_alloc += (int)
+			n_alloc += (صحيح)
 				((512 -
 				 (((size_t) n_alloc * buf->elt_size) % 512)) /
 				buf->elt_size);
 
-		if (!buf->elts)
+		إذا (!buf->elts)
 			buf->elts =
-				allocate_array ((int) n_alloc, buf->elt_size);
-		else
+				allocate_array ((صحيح) n_alloc, buf->elt_size);
+		وإلا
 			buf->elts =
-				reallocate_array (buf->elts, (int) n_alloc,
+				reallocate_array (buf->elts, (صحيح) n_alloc,
 						  buf->elt_size);
 
 		buf->nmax = n_alloc;
 	}
 
-	memcpy ((char *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
+	memcpy ((حرف *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
 		(size_t) n_elem * buf->elt_size);
 	buf->nelts += n_elem;
 
-	return buf;
+	إرجاع buf;
 }
 
 /* vim:set tabstop=8 softtabstop=4 shiftwidth=4: */

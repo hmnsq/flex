@@ -5,55 +5,55 @@
 
 /* Prefer C99 integer types if available. */
 
-# if defined(__cplusplus) && __cplusplus >= 201103L
-#include <cstdint>
+# إذا defined(__cplusplus) && __cplusplus >= 201103L
+#ضمن <cstdint>
 #  define YYFLEX_USE_STDINT
 # endif
-# if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+# إذا defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
 /* Include <inttypes.h> and not <stdint.h> because Solaris 2.6 has the former
  * and not the latter.
  */
-#include <inttypes.h>
+#ضمن <inttypes.h>
 #  define YYFLEX_USE_STDINT
-# else
-#  if defined(_MSC_VER) && _MSC_VER >= 1600
+# وإلا
+#  إذا defined(_MSC_VER) && _MSC_VER >= 1600
 /* Visual C++ 2010 does not define __STDC_VERSION__ and has <stdint.h> but not
  * <inttypes.h>.
  */
-#include <stdint.h>
+#ضمن <stdint.h>
 #   define YYFLEX_USE_STDINT
 #  endif
 # endif
 # ifdef YYFLEX_USE_STDINT
-typedef int8_t flex_int8_t;
-typedef uint8_t flex_uint8_t;
-typedef int16_t flex_int16_t;
-typedef uint16_t flex_uint16_t;
-typedef int32_t flex_int32_t;
-typedef uint32_t flex_uint32_t;
-# else
-typedef unsigned char flex_uint8_t;
-typedef short int flex_int16_t;
-typedef unsigned short int flex_uint16_t;
+تعريفنوع int8_t flex_int8_t;
+تعريفنوع uint8_t flex_uint8_t;
+تعريفنوع int16_t flex_int16_t;
+تعريفنوع uint16_t flex_uint16_t;
+تعريفنوع int32_t flex_int32_t;
+تعريفنوع uint32_t flex_uint32_t;
+# وإلا
+تعريفنوع unsigned حرف flex_uint8_t;
+تعريفنوع short صحيح flex_int16_t;
+تعريفنوع unsigned short صحيح flex_uint16_t;
 #  ifdef __STDC__
-typedef signed char flex_int8_t;
+تعريفنوع signed حرف flex_int8_t;
 /* ISO C only requires at least 16 bits for int. */
 #   ifdef __cplusplus
-#include <climits>
-#   else
-#include <limits.h>
+#ضمن <climits>
+#   وإلا
+#ضمن <limits.h>
 #   endif
-#   if UINT_MAX >= 4294967295
+#   إذا UINT_MAX >= 4294967295
 #    define YYFLEX_INT32_DEFINED
-typedef int flex_int32_t;
-typedef unsigned int flex_uint32_t;
+تعريفنوع صحيح flex_int32_t;
+تعريفنوع unsigned صحيح flex_uint32_t;
 #   endif
-#  else
-typedef char flex_int8_t;
+#  وإلا
+تعريفنوع حرف flex_int8_t;
 #  endif
 #  ifndef YYFLEX_INT32_DEFINED
-typedef long int flex_int32_t;
-typedef unsigned long int flex_uint32_t;
+تعريفنوع long صحيح flex_int32_t;
+تعريفنوع unsigned long صحيح flex_uint32_t;
 #  endif
 # endif
 #endif /* YYFLEX_INTTYPES_DEFINED */
