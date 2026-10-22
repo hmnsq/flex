@@ -1,1 +1,1 @@
-#define FLEX_VERSION VERSION
+#تعریف_کرو FLEX_نسخہ نسخہ

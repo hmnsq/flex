@@ -33,13 +33,13 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#ضمن "flexdef.h"
 
 
 /* declare functions that have forward references */
 
-int	dupmachine(int);
-void	mkxtion(int, int);
+صحيح	dupmachine(صحيح);
+فراغ	mkxtion(صحيح, صحيح);
 
 
 /* add_accept - add an accepting state to a machine
@@ -47,7 +47,7 @@ void	mkxtion(int, int);
  * accepting_number becomes mach's accepting number.
  */
 
-void    add_accept (int mach, int accepting_number)
+فراغ    جوڑو_accept (صحيح mach, صحيح accepting_نمبر)
 {
 	/* Hang the accepting number off an epsilon state.  if it is associated
 	 * with a state that has a non-epsilon out-transition, then the state
@@ -55,14 +55,14 @@ void    add_accept (int mach, int accepting_number)
 	 * too soon.
 	 */
 
-	if (transchar[finalst[mach]] == SYM_EPSILON)
-		accptnum[finalst[mach]] = accepting_number;
+	إذا (transchar[finalst[mach]] == SYM_EPSILON)
+		accptnum[finalst[mach]] = accepting_نمبر;
 
-	else {
-		int     astate = mkstate (SYM_EPSILON);
+	وإلا {
+		صحيح     astate = mkstate (SYM_EPSILON);
 
-		accptnum[astate] = accepting_number;
-		(void) link_machines (mach, astate);
+		accptnum[astate] = accepting_نمبر;
+		(فراغ) link_machines (mach, astate);
 	}
 }
 
@@ -78,24 +78,24 @@ void    add_accept (int mach, int accepting_number)
  *     num    - the number of copies of singl to be present in newsng
  */
 
-int     copysingl (int singl, int num)
+صحيح     copysingl (صحيح singl, صحيح عدد)
 {
-	int     copy, i;
+	صحيح     copy, i;
 
 	copy = mkstate (SYM_EPSILON);
 
-	for (i = 1; i <= num; ++i)
+	لكل (i = 1; i <= عدد; ++i)
 		copy = link_machines (copy, dupmachine (singl));
 
-	return copy;
+	أرجع copy;
 }
 
 
 /* dumpnfa - debugging routine to write out an nfa */
 
-void    dumpnfa (int state1)
+فراغ    dumpnfa (صحيح state1)
 {
-	int     sym, tsp1, tsp2, anum, ns;
+	صحيح     sym, tsp1, tsp2, anum, ns;
 
 	fprintf (stderr,
 		 _
@@ -109,7 +109,7 @@ void    dumpnfa (int state1)
 	 */
 
 	/* for ( ns = firstst[state1]; ns <= lastst[state1]; ++ns ) */
-	for (ns = 1; ns <= lastnfa; ++ns) {
+	لكل (ns = 1; ns <= lastnfa; ++ns) {
 		fprintf (stderr, _("state # %4d\t"), ns);
 
 		sym = transchar[ns];
@@ -119,7 +119,7 @@ void    dumpnfa (int state1)
 
 		fprintf (stderr, "%3d:  %4d, %4d", sym, tsp1, tsp2);
 
-		if (anum != NIL)
+		إذا (anum != NIL)
 			fprintf (stderr, "  [%d]", anum);
 
 		fprintf (stderr, "\n");
@@ -146,19 +146,19 @@ void    dumpnfa (int state1)
  * states accessible by the arrays firstst and lastst
  */
 
-int     dupmachine (int mach)
+صحيح     dupmachine (صحيح mach)
 {
-	int     i, init, state_offset;
-	int     state = 0;
-	int     last = lastst[mach];
+	صحيح     i, init, state_وتھ;
+	صحيح     state = 0;
+	صحيح     آخری = lastst[mach];
 
-	for (i = firstst[mach]; i <= last; ++i) {
+	لكل (i = firstst[mach]; i <= آخری; ++i) {
 		state = mkstate (transchar[i]);
 
-		if (trans1[i] != NO_TRANSITION) {
+		إذا (trans1[i] != NO_TRANSITION) {
 			mkxtion (finalst[state], trans1[i] + state - i);
 
-			if (transchar[i] == SYM_EPSILON &&
+			إذا (transchar[i] == SYM_EPSILON &&
 			    trans2[i] != NO_TRANSITION)
 					mkxtion (finalst[state],
 						 trans2[i] + state - i);
@@ -167,17 +167,17 @@ int     dupmachine (int mach)
 		accptnum[state] = accptnum[i];
 	}
 
-	if (state == 0)
+	إذا (state == 0)
 		flexfatal (_("empty machine in dupmachine()"));
 
-	state_offset = state - i + 1;
+	state_وتھ = state - i + 1;
 
-	init = mach + state_offset;
-	firstst[init] = firstst[mach] + state_offset;
-	finalst[init] = finalst[mach] + state_offset;
-	lastst[init] = lastst[mach] + state_offset;
+	init = mach + state_وتھ;
+	firstst[init] = firstst[mach] + state_وتھ;
+	finalst[init] = finalst[mach] + state_وتھ;
+	lastst[init] = lastst[mach] + state_وتھ;
 
-	return init;
+	أرجع init;
 }
 
 
@@ -193,85 +193,85 @@ int     dupmachine (int mach)
  * context has variable length.
  */
 
-void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailcnt,
-		     int pcont_act)
+فراغ    انت_قاعدہ (صحيح mach, bool variable_trail_قاعدہ, صحيح headcnt, صحيح trailcnt,
+		     صحيح pcont_act)
 {
-	char    action_text[MAXLINE];
+	حرف    action_متن[MAXLINE];
 
-	add_accept (mach, num_rules);
+	جوڑو_accept (mach, عدد_قاعدے);
 
 	/* We did this in new_rule(), but it often gets the wrong
 	 * number because we do it before we start parsing the current rule.
 	 */
-	rule_linenum[num_rules] = linenum;
+	قاعدہ_linenum[عدد_قاعدے] = linenum;
 
 	/* If this is a continued action, then the line-number has already
 	 * been updated, giving us the wrong number.
 	 */
-	if (continued_action)
-		--rule_linenum[num_rules];
+	إذا (continued_action)
+		--قاعدہ_linenum[عدد_قاعدے];
 
 
 	/* If the previous rule was continued action, then we inherit the
 	 * previous newline flag, possibly overriding the current one.
 	 */
-	if (pcont_act && rule_has_nl[num_rules - 1])
-		rule_has_nl[num_rules] = true;
+	إذا (pcont_act && قاعدہ_has_nl[عدد_قاعدے - 1])
+		قاعدہ_has_nl[عدد_قاعدے] = true;
 
-	snprintf (action_text, sizeof(action_text), "M4_HOOK_NORMAL_STATE_CASE_ARM(%d)\n", num_rules);
-	add_action (action_text);
-	if (rule_has_nl[num_rules]) {
-		snprintf (action_text, sizeof(action_text), "M4_HOOK_COMMENT_OPEN rule %d can match eol M4_HOOK_COMMENT_CLOSE\n",
-			 num_rules);
-		add_action (action_text);
+	snprintf (action_متن, حجم(action_متن), "M4_HOOK_NORMAL_STATE_CASE_ARM(%d)\n", عدد_قاعدے);
+	جوڑو_action (action_متن);
+	إذا (قاعدہ_has_nl[عدد_قاعدے]) {
+		snprintf (action_متن, حجم(action_متن), "M4_HOOK_COMMENT_OPEN rule %d can match eol M4_HOOK_COMMENT_CLOSE\n",
+			 عدد_قاعدے);
+		جوڑو_action (action_متن);
 	}
 
 
-	if (variable_trail_rule) {
-		rule_type[num_rules] = RULE_VARIABLE;
+	إذا (variable_trail_قاعدہ) {
+		قاعدہ_type[عدد_قاعدے] = قاعدہ_VARIABLE;
 
-		if (env.performance_hint > 0)
+		إذا (env.performance_hint > 0)
 			fprintf (stderr,
 				 _
 				 ("Variable trailing context rule at line %d\n"),
-				 rule_linenum[num_rules]);
+				 قاعدہ_linenum[عدد_قاعدے]);
 
-		variable_trailing_context_rules = true;
+		variable_trailing_context_قاعدے = true;
 	}
 
-	else {
-		rule_type[num_rules] = RULE_NORMAL;
+	وإلا {
+		قاعدہ_type[عدد_قاعدے] = قاعدہ_عام;
 
-		if (headcnt > 0 || trailcnt > 0) {
+		إذا (headcnt > 0 || trailcnt > 0) {
 			/* Do trailing context magic to not match the trailing
 			 * characters.
 			 */
-			add_action ("M4_HOOK_RELEASE_YYTEXT\n");
+			جوڑو_action ("M4_HOOK_RELEASE_YYTEXT\n");
 
-			if (headcnt > 0) {
-				if (rule_has_nl[num_rules]) {
-					snprintf (action_text, sizeof(action_text),
+			إذا (headcnt > 0) {
+				إذا (قاعدہ_has_nl[عدد_قاعدے]) {
+					snprintf (action_متن, حجم(action_متن),
 						"M4_HOOK_LINE_FORWARD(%d)\n", headcnt);
-					add_action (action_text);
+					جوڑو_action (action_متن);
 				}
-				snprintf (action_text, sizeof(action_text), "M4_HOOK_CHAR_FORWARD(%d)\n",
+				snprintf (action_متن, حجم(action_متن), "M4_HOOK_CHAR_FORWARD(%d)\n",
 					 headcnt);
-				add_action (action_text);
+				جوڑو_action (action_متن);
 			}
 
-			else {
-				if (rule_has_nl[num_rules]) {
-					snprintf (action_text, sizeof(action_text),
+			وإلا {
+				إذا (قاعدہ_has_nl[عدد_قاعدے]) {
+					snprintf (action_متن, حجم(action_متن),
 						 "M4_HOOK_LINE_REWIND(%d)\n", trailcnt);
-					add_action (action_text);
+					جوڑو_action (action_متن);
 				}
 
-				snprintf (action_text, sizeof(action_text), "M4_HOOK_CHAR_REWIND(%d)\n",
+				snprintf (action_متن, حجم(action_متن), "M4_HOOK_CHAR_REWIND(%d)\n",
 					 trailcnt);
-				add_action (action_text);
+				جوڑو_action (action_متن);
 			}
 
-			add_action
+			جوڑو_action
 				("M4_HOOK_TAKE_YYTEXT\n");
 		}
 	}
@@ -281,11 +281,11 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 	 * to do any user action.  But don't do it for continued actions,
 	 * as that'll result in multiple rule-setup calls.
 	 */
-	if (!continued_action)
-		add_action ("M4_HOOK_SET_RULE_SETUP\n");
+	إذا (!continued_action)
+		جوڑو_action ("M4_HOOK_SET_RULE_SETUP\n");
 
-	line_directive_out(NULL, infilename, linenum);
-        add_action("[[");
+	سطر_directive_باہرلا(عدم, infilename, linenum);
+        جوڑو_action("[[");
 }
 
 
@@ -305,21 +305,21 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
  *  FIRST is set to new by the operation.  last is unmolested.
  */
 
-int     link_machines (int first, int last)
+صحيح     link_machines (صحيح پہلا, صحيح آخری)
 {
-	if (first == NIL)
-		return last;
+	إذا (پہلا == NIL)
+		أرجع آخری;
 
-	else if (last == NIL)
-		return first;
+	وإلا إذا (آخری == NIL)
+		أرجع پہلا;
 
-	else {
-		mkxtion (finalst[first], last);
-		finalst[first] = finalst[last];
-		lastst[first] = MAX (lastst[first], lastst[last]);
-		firstst[first] = MIN (firstst[first], firstst[last]);
+	وإلا {
+		mkxtion (finalst[پہلا], آخری);
+		finalst[پہلا] = finalst[آخری];
+		lastst[پہلا] = MAX (lastst[پہلا], lastst[آخری]);
+		firstst[پہلا] = MIN (firstst[پہلا], firstst[آخری]);
 
-		return first;
+		أرجع پہلا;
 	}
 }
 
@@ -331,29 +331,29 @@ int     link_machines (int first, int last)
  * The "beginning" states are the epsilon closure of the first state
  */
 
-void    mark_beginning_as_normal (int mach)
+فراغ    mark_beginning_as_عام (صحيح mach)
 {
-	switch (state_type[mach]) {
-	case STATE_NORMAL:
+	بدل (state_type[mach]) {
+	حالة STATE_عام:
 		/* Oh, we've already visited here. */
-		return;
+		أرجع;
 
-	case STATE_TRAILING_CONTEXT:
-		state_type[mach] = STATE_NORMAL;
+	حالة STATE_TRAILING_CONTEXT:
+		state_type[mach] = STATE_عام;
 
-		if (transchar[mach] == SYM_EPSILON) {
-			if (trans1[mach] != NO_TRANSITION)
-				mark_beginning_as_normal (trans1[mach]);
+		إذا (transchar[mach] == SYM_EPSILON) {
+			إذا (trans1[mach] != NO_TRANSITION)
+				mark_beginning_as_عام (trans1[mach]);
 
-			if (trans2[mach] != NO_TRANSITION)
-				mark_beginning_as_normal (trans2[mach]);
+			إذا (trans2[mach] != NO_TRANSITION)
+				mark_beginning_as_عام (trans2[mach]);
 		}
-		break;
+		اكسر;
 
-	default:
+	افتراضي:
 		flexerror (_
 			   ("bad state type in mark_beginning_as_normal()"));
-		break;
+		اكسر;
 	}
 }
 
@@ -372,22 +372,22 @@ void    mark_beginning_as_normal (int mach)
  * more mkbranch's.  Compare with mkor()
  */
 
-int     mkbranch (int first, int second)
+صحيح     mkbranch (صحيح پہلا, صحيح دوجا)
 {
-	int     eps;
+	صحيح     eps;
 
-	if (first == NO_TRANSITION)
-		return second;
+	إذا (پہلا == NO_TRANSITION)
+		أرجع دوجا;
 
-	else if (second == NO_TRANSITION)
-		return first;
+	وإلا إذا (دوجا == NO_TRANSITION)
+		أرجع پہلا;
 
 	eps = mkstate (SYM_EPSILON);
 
-	mkxtion (eps, first);
-	mkxtion (eps, second);
+	mkxtion (eps, پہلا);
+	mkxtion (eps, دوجا);
 
-	return eps;
+	أرجع eps;
 }
 
 
@@ -399,9 +399,9 @@ int     mkbranch (int first, int second)
  * new - a new state which matches the closure of "state"
  */
 
-int     mkclos (int state)
+صحيح     mkclos (صحيح state)
 {
-	return mkopt (mkposcl (state));
+	أرجع mkopt (mkposcl (state));
 }
 
 
@@ -419,11 +419,11 @@ int     mkclos (int state)
  *     2. mach is destroyed by the call
  */
 
-int     mkopt (int mach)
+صحيح     mkopt (صحيح mach)
 {
-	int     eps;
+	صحيح     eps;
 
-	if (!SUPER_FREE_EPSILON (finalst[mach])) {
+	إذا (!SUPER_FREE_EPSILON (finalst[mach])) {
 		eps = mkstate (SYM_EPSILON);
 		mach = link_machines (mach, eps);
 	}
@@ -437,7 +437,7 @@ int     mkopt (int mach)
 
 	mkxtion (mach, finalst[mach]);
 
-	return mach;
+	أرجع mach;
 }
 
 
@@ -455,52 +455,52 @@ int     mkopt (int mach)
  * the number of epsilon states needed
  */
 
-int     mkor (int first, int second)
+صحيح     mkor (صحيح پہلا, صحيح دوجا)
 {
-	int     eps, orend;
+	صحيح     eps, orend;
 
-	if (first == NIL)
-		return second;
+	إذا (پہلا == NIL)
+		أرجع دوجا;
 
-	else if (second == NIL)
-		return first;
+	وإلا إذا (دوجا == NIL)
+		أرجع پہلا;
 
-	else {
+	وإلا {
 		/* See comment in mkopt() about why we can't use the first
 		 * state of "first" or "second" if they satisfy "FREE_EPSILON".
 		 */
 		eps = mkstate (SYM_EPSILON);
 
-		first = link_machines (eps, first);
+		پہلا = link_machines (eps, پہلا);
 
-		mkxtion (first, second);
+		mkxtion (پہلا, دوجا);
 
-		if (SUPER_FREE_EPSILON (finalst[first]) &&
-		    accptnum[finalst[first]] == NIL) {
-			orend = finalst[first];
-			mkxtion (finalst[second], orend);
+		إذا (SUPER_FREE_EPSILON (finalst[پہلا]) &&
+		    accptnum[finalst[پہلا]] == NIL) {
+			orend = finalst[پہلا];
+			mkxtion (finalst[دوجا], orend);
 		}
 
-		else if (SUPER_FREE_EPSILON (finalst[second]) &&
-			 accptnum[finalst[second]] == NIL) {
-			orend = finalst[second];
-			mkxtion (finalst[first], orend);
+		وإلا إذا (SUPER_FREE_EPSILON (finalst[دوجا]) &&
+			 accptnum[finalst[دوجا]] == NIL) {
+			orend = finalst[دوجا];
+			mkxtion (finalst[پہلا], orend);
 		}
 
-		else {
+		وإلا {
 			eps = mkstate (SYM_EPSILON);
 
-			first = link_machines (first, eps);
-			orend = finalst[first];
+			پہلا = link_machines (پہلا, eps);
+			orend = finalst[پہلا];
 
-			mkxtion (finalst[second], orend);
+			mkxtion (finalst[دوجا], orend);
 		}
 	}
 
-	firstst[first] = MIN(firstst[first], firstst[second]);
+	firstst[پہلا] = MIN(firstst[پہلا], firstst[دوجا]);
 
-	finalst[first] = orend;
-	return first;
+	finalst[پہلا] = orend;
+	أرجع پہلا;
 }
 
 
@@ -512,19 +512,19 @@ int     mkor (int first, int second)
  *    new - a machine matching the positive closure of "state"
  */
 
-int     mkposcl (int state)
+صحيح     mkposcl (صحيح state)
 {
-	int     eps;
+	صحيح     eps;
 
-	if (SUPER_FREE_EPSILON (finalst[state])) {
+	إذا (SUPER_FREE_EPSILON (finalst[state])) {
 		mkxtion (finalst[state], state);
-		return state;
+		أرجع state;
 	}
 
-	else {
+	وإلا {
 		eps = mkstate (SYM_EPSILON);
 		mkxtion (eps, state);
-		return link_machines (state, eps);
+		أرجع link_machines (state, eps);
 	}
 }
 
@@ -541,33 +541,33 @@ int     mkposcl (int state)
  *   if "ub" is INFINITE_REPEAT then "new" matches "lb" or more occurrences of "mach"
  */
 
-int     mkrep (int mach, int lb, int ub)
+صحيح     mkrep (صحيح mach, صحيح lb, صحيح ub)
 {
-	int     base_mach, tail, copy, i;
+	صحيح     ادھار_mach, پوچھ, copy, i;
 
-	base_mach = copysingl (mach, lb - 1);
+	ادھار_mach = copysingl (mach, lb - 1);
 
-	if (ub == INFINITE_REPEAT) {
+	إذا (ub == INFINITE_REPEAT) {
 		copy = dupmachine (mach);
 		mach = link_machines (mach,
-				      link_machines (base_mach,
+				      link_machines (ادھار_mach,
 						     mkclos (copy)));
 	}
 
-	else {
-		tail = mkstate (SYM_EPSILON);
+	وإلا {
+		پوچھ = mkstate (SYM_EPSILON);
 
-		for (i = lb; i < ub; ++i) {
+		لكل (i = lb; i < ub; ++i) {
 			copy = dupmachine (mach);
-			tail = mkopt (link_machines (copy, tail));
+			پوچھ = mkopt (link_machines (copy, پوچھ));
 		}
 
 		mach =
 			link_machines (mach,
-				       link_machines (base_mach, tail));
+				       link_machines (ادھار_mach, پوچھ));
 	}
 
-	return mach;
+	أرجع mach;
 }
 
 
@@ -587,15 +587,15 @@ int     mkrep (int mach, int lb, int ub)
  * that it admittedly is)
  */
 
-int     mkstate (int sym)
+صحيح     mkstate (صحيح sym)
 {
-	if (++lastnfa >= current_mns) {
-		if ((current_mns += MNS_INCREMENT) >= maximum_mns)
+	إذا (++lastnfa >= current_mns) {
+		إذا ((current_mns += MNS_INCREMENT) >= ودھ_توں_ودھ_mns)
 			lerr(_
 				("input rules are too complicated (>= %d NFA states)"),
 current_mns);
 
-		++num_reallocs;
+		++عدد_reallocs;
 
 		firstst = reallocate_integer_array (firstst, current_mns);
 		lastst = reallocate_integer_array (lastst, current_mns);
@@ -606,8 +606,8 @@ current_mns);
 		trans2 = reallocate_integer_array (trans2, current_mns);
 		accptnum =
 			reallocate_integer_array (accptnum, current_mns);
-		assoc_rule =
-			reallocate_integer_array (assoc_rule, current_mns);
+		assoc_قاعدہ =
+			reallocate_integer_array (assoc_قاعدہ, current_mns);
 		state_type =
 			reallocate_integer_array (state_type, current_mns);
 	}
@@ -619,7 +619,7 @@ current_mns);
 	trans1[lastnfa] = NO_TRANSITION;
 	trans2[lastnfa] = NO_TRANSITION;
 	accptnum[lastnfa] = NIL;
-	assoc_rule[lastnfa] = num_rules;
+	assoc_قاعدہ[lastnfa] = عدد_قاعدے;
 	state_type[lastnfa] = current_state_type;
 
 	/* Fix up equivalence classes base on this transition.  Note that any
@@ -631,25 +631,25 @@ current_mns);
 	 * elsewhere in the input).
 	 */
 
-	if (sym < 0) {
+	إذا (sym < 0) {
 		/* We don't have to update the equivalence classes since
 		 * that was already done when the ccl was created for the
 		 * first time.
 		 */
 	}
 
-	else if (sym == SYM_EPSILON)
+	وإلا إذا (sym == SYM_EPSILON)
 		++numeps;
 
-	else {
+	وإلا {
 		check_char (sym);
 
-		if (ctrl.useecs)
+		إذا (ctrl.useecs)
 			/* Map NUL's to csize. */
 			mkechar (sym ? sym : ctrl.csize, nextecm, ecgroup);
 	}
 
-	return lastnfa;
+	أرجع lastnfa;
 }
 
 
@@ -663,16 +663,16 @@ current_mns);
  *     stateto   - the state to which the transition is to be made
  */
 
-void    mkxtion (int statefrom, int stateto)
+فراغ    mkxtion (صحيح statefrom, صحيح stateto)
 {
-	if (trans1[statefrom] == NO_TRANSITION)
+	إذا (trans1[statefrom] == NO_TRANSITION)
 		trans1[statefrom] = stateto;
 
-	else if ((transchar[statefrom] != SYM_EPSILON) ||
+	وإلا إذا ((transchar[statefrom] != SYM_EPSILON) ||
 		 (trans2[statefrom] != NO_TRANSITION))
 		flexfatal (_("found too many transitions in mkxtion()"));
 
-	else {			/* second out-transition for an epsilon state */
+	وإلا {			/* second out-transition for an epsilon state */
 		++eps2;
 		trans2[statefrom] = stateto;
 	}
@@ -680,25 +680,25 @@ void    mkxtion (int statefrom, int stateto)
 
 /* new_rule - initialize for a new rule */
 
-void    new_rule (void)
+فراغ    new_قاعدہ (فراغ)
 {
-	if (++num_rules >= current_max_rules) {
-		++num_reallocs;
-		current_max_rules += MAX_RULES_INCREMENT;
-		rule_type = reallocate_integer_array (rule_type,
-						      current_max_rules);
-		rule_linenum = reallocate_integer_array (rule_linenum,
-							 current_max_rules);
-		rule_useful = reallocate_array(rule_useful,
-					current_max_rules, sizeof(char));
-		rule_has_nl = reallocate_array(rule_has_nl,
-					current_max_rules, sizeof(char));
+	إذا (++عدد_قاعدے >= current_max_قاعدے) {
+		++عدد_reallocs;
+		current_max_قاعدے += MAX_قاعدے_INCREMENT;
+		قاعدہ_type = reallocate_integer_array (قاعدہ_type,
+						      current_max_قاعدے);
+		قاعدہ_linenum = reallocate_integer_array (قاعدہ_linenum,
+							 current_max_قاعدے);
+		قاعدہ_useful = reallocate_array(قاعدہ_useful,
+					current_max_قاعدے, حجم(حرف));
+		قاعدہ_has_nl = reallocate_array(قاعدہ_has_nl,
+					current_max_قاعدے, حجم(حرف));
 	}
 
-	if (num_rules > MAX_RULE)
-		lerr (_("too many rules (> %d)!"), MAX_RULE);
+	إذا (عدد_قاعدے > MAX_قاعدہ)
+		lerr (_("too many rules (> %d)!"), MAX_قاعدہ);
 
-	rule_linenum[num_rules] = linenum;
-	rule_useful[num_rules] = false;
-	rule_has_nl[num_rules] = false;
+	قاعدہ_linenum[عدد_قاعدے] = linenum;
+	قاعدہ_useful[عدد_قاعدے] = false;
+	قاعدہ_has_nl[عدد_قاعدے] = false;
 }

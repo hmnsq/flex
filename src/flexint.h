@@ -1,54 +1,54 @@
 /* flex integer type definitions */
 
-#ifndef FLEXINT_H
-#define FLEXINT_H
+#جے_بنا_تعریف FLEXINT_H
+#تعریف_کرو FLEXINT_H
 
 /* C++ systems might need __STDC_LIMIT_MACROS defined before including
  * <stdint.h>, if you want the limit (max/min) macros for int types.
  */
-#ifndef __STDC_LIMIT_MACROS
-#define __STDC_LIMIT_MACROS 1
-#endif
+#جے_بنا_تعریف __STDC_LIMIT_MACROS
+#تعریف_کرو __STDC_LIMIT_MACROS 1
+#جے_انت
 
 /* "flexint_shared.h" will be included also in skeleton. It will include
  * <inttypes.h> (if available) and define flex's integral types.
  */
-#include "flexint_shared.h"
+#ضمن "flexint_shared.h"
 
 /* Limits of integral types. */
-#ifndef INT8_MIN
-#define INT8_MIN               (-128)
-#endif
-#ifndef INT16_MIN
-#define INT16_MIN              (-32767-1)
-#endif
-#ifndef INT32_MIN
-#define INT32_MIN              (-2147483647-1)
-#endif
-#ifndef INT8_MAX
-#define INT8_MAX               (127)
-#endif
-#ifndef INT16_MAX
-#define INT16_MAX              (32767)
-#endif
-#ifndef INT32_MAX
-#define INT32_MAX              (2147483647)
-#endif
-#ifndef UINT8_MAX
-#define UINT8_MAX              (255U)
-#endif
-#ifndef UINT16_MAX
-#define UINT16_MAX             (65535U)
-#endif
-#ifndef UINT32_MAX
-#define UINT32_MAX             (4294967295U)
-#endif
+#جے_بنا_تعریف INT8_MIN
+#تعریف_کرو INT8_MIN               (-128)
+#جے_انت
+#جے_بنا_تعریف INT16_MIN
+#تعریف_کرو INT16_MIN              (-32767-1)
+#جے_انت
+#جے_بنا_تعریف INT32_MIN
+#تعریف_کرو INT32_MIN              (-2147483647-1)
+#جے_انت
+#جے_بنا_تعریف INT8_MAX
+#تعریف_کرو INT8_MAX               (127)
+#جے_انت
+#جے_بنا_تعریف INT16_MAX
+#تعریف_کرو INT16_MAX              (32767)
+#جے_انت
+#جے_بنا_تعریف INT32_MAX
+#تعریف_کرو INT32_MAX              (2147483647)
+#جے_انت
+#جے_بنا_تعریف UINT8_MAX
+#تعریف_کرو UINT8_MAX              (255U)
+#جے_انت
+#جے_بنا_تعریف UINT16_MAX
+#تعریف_کرو UINT16_MAX             (65535U)
+#جے_انت
+#جے_بنا_تعریف UINT32_MAX
+#تعریف_کرو UINT32_MAX             (4294967295U)
+#جے_انت
 
-#ifndef INT_MAX
-#define INT_MAX                ((int)(~0U)>>1)
-#endif
-#ifndef SIZE_MAX
-#define SIZE_MAX               (~(size_t)0)
-#endif
+#جے_بنا_تعریف ودھ_توں_ودھ_عدد
+#تعریف_کرو ودھ_توں_ودھ_عدد                ((صحيح)(~0U)>>1)
+#جے_انت
+#جے_بنا_تعریف ناپ_MAX
+#تعریف_کرو ناپ_MAX               (~(size_t)0)
+#جے_انت
 
-#endif /* ! FLEXINT_H */
+#جے_انت /* ! FLEXINT_H */
