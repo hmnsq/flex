@@ -39,177 +39,177 @@
 
 
 /* yylex - scan for a regular expression token */
-extern char *yytext;
+extern var_na *yytext;
 extern FILE *yyout;
 bool no_section3_escape = false;
-int     yylex (void)
+ຈຳນວນເຕັມ     yylex (void)
 {
-	int     toktype;
-	static int beglin = false;
+	ຈຳນວນເຕັມ     toktype;
+	static ຈຳນວນເຕັມ beglin = false;
 
-	if (eofseen) {
+	ຖ້າ (eofseen) {
 		toktype = EOF;
-        } else {
+        } ບໍ່ດັ່ງນັ້ນ {
 		toktype = flexscan ();
         }
-	if (toktype == EOF || toktype == 0) {
+	ຖ້າ (toktype == EOF || toktype == 0) {
 		eofseen = true;
 
-		if (sectnum == 1) {
+		ຖ້າ (sectnum == 1) {
 			synerr (_("premature EOF"));
 			sectnum = 2;
 			toktype = SECTEND;
 		}
 
-		else
+		ບໍ່ດັ່ງນັ້ນ
 			toktype = 0;
 	}
 
-	if (env.trace) {
-		if (beglin) {
+	ຖ້າ (env.trace) {
+		ຖ້າ (beglin) {
 			fprintf (stderr, "%d\t", num_rules + 1);
 			beglin = 0;
 		}
 
 		switch (toktype) {
-		case '<':
-		case '>':
-		case '^':
-		case '$':
-		case '"':
-		case '[':
-		case ']':
-		case '{':
-		case '}':
-		case '|':
-		case '(':
-		case ')':
-		case '-':
-		case '/':
-		case '\\':
-		case '?':
-		case '.':
-		case '*':
-		case '+':
-		case ',':
+		pak_sa '<':
+		pak_sa '>':
+		pak_sa '^':
+		pak_sa '$':
+		pak_sa '"':
+		pak_sa '[':
+		pak_sa ']':
+		pak_sa '{':
+		pak_sa '}':
+		pak_sa '|':
+		pak_sa '(':
+		pak_sa ')':
+		pak_sa '-':
+		pak_sa '/':
+		pak_sa '\\':
+		pak_sa '?':
+		pak_sa '.':
+		pak_sa '*':
+		pak_sa '+':
+		pak_sa ',':
 			(void) putc (toktype, stderr);
-			break;
+			bha_nga;
 
-		case '\n':
+		pak_sa '\n':
 			(void) putc ('\n', stderr);
 
-			if (sectnum == 2)
+			ຖ້າ (sectnum == 2)
 				beglin = 1;
 
-			break;
+			bha_nga;
 
-		case SCDECL:
+		pak_sa SCDECL:
 			fputs ("%s", stderr);
-			break;
+			bha_nga;
 
-		case XSCDECL:
+		pak_sa XSCDECL:
 			fputs ("%x", stderr);
-			break;
+			bha_nga;
 
-		case SECTEND:
+		pak_sa SECTEND:
 			fputs ("%%\n", stderr);
 
 			/* We set beglin to be true so we'll start
 			 * writing out numbers as we echo rules.
 			 * flexscan() has already assigned sectnum.
 			 */
-			if (sectnum == 2)
+			ຖ້າ (sectnum == 2)
 				beglin = 1;
 
-			break;
+			bha_nga;
 
-		case NAME:
+		pak_sa NAME:
 			fprintf (stderr, "'%s'", nmstr);
-			break;
+			bha_nga;
 
-		case CHAR:
+		pak_sa CHAR:
 			switch (yylval) {
-			case '<':
-			case '>':
-			case '^':
-			case '$':
-			case '"':
-			case '[':
-			case ']':
-			case '{':
-			case '}':
-			case '|':
-			case '(':
-			case ')':
-			case '-':
-			case '/':
-			case '\\':
-			case '?':
-			case '.':
-			case '*':
-			case '+':
-			case ',':
+			pak_sa '<':
+			pak_sa '>':
+			pak_sa '^':
+			pak_sa '$':
+			pak_sa '"':
+			pak_sa '[':
+			pak_sa ']':
+			pak_sa '{':
+			pak_sa '}':
+			pak_sa '|':
+			pak_sa '(':
+			pak_sa ')':
+			pak_sa '-':
+			pak_sa '/':
+			pak_sa '\\':
+			pak_sa '?':
+			pak_sa '.':
+			pak_sa '*':
+			pak_sa '+':
+			pak_sa ',':
 				fprintf (stderr, "\\%c", yylval);
-				break;
+				bha_nga;
 
 			default:
-				if (!isascii (yylval) || !isprint (yylval)) {
-					if(env.trace_hex)
-						fprintf (stderr, "\\x%02x", (unsigned int) yylval);
-					else
-						fprintf (stderr, "\\%.3o", (unsigned int) yylval);
-				} else
+				ຖ້າ (!isascii (yylval) || !isprint (yylval)) {
+					ຖ້າ(env.trace_hex)
+						fprintf (stderr, "\\x%02x", (unsigned ຈຳນວນເຕັມ) yylval);
+					ບໍ່ດັ່ງນັ້ນ
+						fprintf (stderr, "\\%.3o", (unsigned ຈຳນວນເຕັມ) yylval);
+				} ບໍ່ດັ່ງນັ້ນ
 					(void) putc (yylval, stderr);
-				break;
+				bha_nga;
 			}
 
-			break;
+			bha_nga;
 
-		case NUMBER:
+		pak_sa NUMBER:
 			fprintf (stderr, "%d", yylval);
-			break;
+			bha_nga;
 
-		case PREVCCL:
+		pak_sa PREVCCL:
 			fprintf (stderr, "[%d]", yylval);
-			break;
+			bha_nga;
 
-		case EOF_OP:
+		pak_sa EOF_OP:
 			fprintf (stderr, "<<EOF>>");
-			break;
+			bha_nga;
 
-		case TOK_OPTION:
+		pak_sa TOK_OPTION:
 			fprintf (stderr, "%s ", yytext);
-			break;
+			bha_nga;
 
-		case TOK_OUTFILE:
-		case TOK_PREFIX:
-		case CCE_ALNUM:
-		case CCE_ALPHA:
-		case CCE_BLANK:
-		case CCE_CNTRL:
-		case CCE_DIGIT:
-		case CCE_GRAPH:
-		case CCE_LOWER:
-		case CCE_PRINT:
-		case CCE_PUNCT:
-		case CCE_SPACE:
-		case CCE_UPPER:
-		case CCE_XDIGIT:
+		pak_sa TOK_OUTFILE:
+		pak_sa TOK_PREFIX:
+		pak_sa CCE_ALNUM:
+		pak_sa CCE_ALPHA:
+		pak_sa CCE_BLANK:
+		pak_sa CCE_CNTRL:
+		pak_sa CCE_DIGIT:
+		pak_sa CCE_GRAPH:
+		pak_sa CCE_LOWER:
+		pak_sa CCE_PRINT:
+		pak_sa CCE_PUNCT:
+		pak_sa CCE_SPACE:
+		pak_sa CCE_UPPER:
+		pak_sa CCE_XDIGIT:
 			fprintf (stderr, "%s", yytext);
-			break;
+			bha_nga;
 
-		case 0:
+		pak_sa 0:
 			fprintf (stderr, _("End Marker\n"));
-			break;
+			bha_nga;
 
 		default:
 			fprintf (stderr,
 				 _
 				 ("*Something Weird* - tok: %d val: %d\n"),
 				 toktype, yylval);
-			break;
+			bha_nga;
 		}
 	}
 
-	return toktype;
+	ສົ່ງຄືນ toktype;
 }

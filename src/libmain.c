@@ -25,14 +25,14 @@
 
 #include <stdlib.h>
 
-extern int yylex (void);
+extern ຈຳນວນເຕັມ yylex (void);
 
-int     main (int argc, char *argv[])
+ຈຳນວນເຕັມ     main (ຈຳນວນເຕັມ argc, var_na *argv[])
 {
 	(void)argc;
 	(void)argv;
 
-	while (yylex () != 0) ;
+	ໃນຂະນະທີ່ (yylex () != 0) ;
 
 	exit(0);
 }

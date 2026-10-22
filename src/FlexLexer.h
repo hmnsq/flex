@@ -52,38 +52,38 @@
 
 extern "C++" {
 
-struct yy_buffer_state;
-typedef int yy_state_type;
+sa_nracanaa yy_buffer_state;
+typedef ຈຳນວນເຕັມ yy_state_type;
 
 class FlexLexer
 {
 public:
   virtual ~FlexLexer()        { }
 
-  const char* YYText() const  { return yytext; }
-  int YYLeng()        const   { return yyleng; }
+  const var_na* YYText() const  { ສົ່ງຄືນ yytext; }
+  ຈຳນວນເຕັມ YYLeng()        const   { ສົ່ງຄືນ yyleng; }
 
   virtual void
   yy_switch_to_buffer( yy_buffer_state* new_buffer ) = 0;
-  virtual yy_buffer_state* yy_create_buffer( std::istream* s, int size ) = 0;
-  virtual yy_buffer_state* yy_create_buffer( std::istream& s, int size ) = 0;
+  virtual yy_buffer_state* yy_create_buffer( std::istream* s, ຈຳນວນເຕັມ size ) = 0;
+  virtual yy_buffer_state* yy_create_buffer( std::istream& s, ຈຳນວນເຕັມ size ) = 0;
   virtual void yy_delete_buffer( yy_buffer_state* b ) = 0;
   virtual void yyrestart( std::istream* s ) = 0;
   virtual void yyrestart( std::istream& s ) = 0;
 
-  virtual int yylex() = 0;
+  virtual ຈຳນວນເຕັມ yylex() = 0;
 
   // Call yylex with new input/output sources.
-  int yylex( std::istream& new_in, std::ostream& new_out )
+  ຈຳນວນເຕັມ yylex( std::istream& new_in, std::ostream& new_out )
   {
     switch_streams( new_in, new_out );
-    return yylex();
+    ສົ່ງຄືນ yylex();
   }
 
-  int yylex( std::istream* new_in, std::ostream* new_out = 0)
+  ຈຳນວນເຕັມ yylex( std::istream* new_in, std::ostream* new_out = 0)
   {
     switch_streams( new_in, new_out );
-    return yylex();
+    ສົ່ງຄືນ yylex();
   }
 
   // Switch to new input/output streams.  A nil stream pointer
@@ -93,22 +93,22 @@ public:
   virtual void switch_streams( std::istream& new_in,
                                std::ostream& new_out ) = 0;
 
-  int lineno() const          { return yylineno; }
+  ຈຳນວນເຕັມ lineno() const          { ສົ່ງຄືນ yylineno; }
 
-  int debug() const           { return yyflexdebug; }
-  void set_debug( int flag )  { yyflexdebug = flag; }
+  ຈຳນວນເຕັມ debug() const           { ສົ່ງຄືນ yyflexdebug; }
+  void set_debug( ຈຳນວນເຕັມ flag )  { yyflexdebug = flag; }
 
-protected:
-  char* yytext;
-  int yyleng;
-  int yylineno;       // only maintained if you use %option yylineno
-  int yyflexdebug;    // only has effect with -d or "%option debug"
+rak_sita:
+  var_na* yytext;
+  ຈຳນວນເຕັມ yyleng;
+  ຈຳນວນເຕັມ yylineno;       // only maintained if you use %option yylineno
+  ຈຳນວນເຕັມ yyflexdebug;    // only has effect with -d or "%option debug"
 };
 
 }
 #endif // FLEXLEXER_H
 
-#if defined(yyFlexLexer) || ! defined(yyFlexLexerOnce)
+#ຖ້າ defined(yyFlexLexer) || ! defined(yyFlexLexerOnce)
 // Either this is the first time through (yyFlexLexerOnce not defined),
 // or this is a repeated include to define a different flavor of
 // yyFlexLexer, as discussed in the flex manual.
@@ -130,8 +130,8 @@ public:
   virtual ~yyFlexLexer();
 
   void yy_switch_to_buffer( yy_buffer_state* new_buffer );
-  yy_buffer_state* yy_create_buffer( std::istream* s, int size );
-  yy_buffer_state* yy_create_buffer( std::istream& s, int size );
+  yy_buffer_state* yy_create_buffer( std::istream* s, ຈຳນວນເຕັມ size );
+  yy_buffer_state* yy_create_buffer( std::istream& s, ຈຳນວນເຕັມ size );
   void yy_delete_buffer( yy_buffer_state* b );
   void yyrestart( std::istream* s );
   void yyrestart( std::istream& s );
@@ -139,54 +139,54 @@ public:
   void yypush_buffer_state( yy_buffer_state* new_buffer );
   void yypop_buffer_state();
 
-  virtual int yyread(char *buf, size_t);
-  virtual int yylex();
+  virtual ຈຳນວນເຕັມ yyread(var_na *buf, size_t);
+  virtual ຈຳນວນເຕັມ yylex();
   virtual void switch_streams( std::istream& new_in, std::ostream& new_out );
   virtual void switch_streams( std::istream* new_in = 0, std::ostream* new_out = 0 );
-  virtual int yywrap();
+  virtual ຈຳນວນເຕັມ yywrap();
 
-protected:
-  virtual int LexerInput( char* buf, int max_size );
-  virtual void LexerOutput( const char* buf, int size );
-  virtual void LexerError( const char* msg );
+rak_sita:
+  virtual ຈຳນວນເຕັມ LexerInput( var_na* buf, ຈຳນວນເຕັມ max_size );
+  virtual void LexerOutput( const var_na* buf, ຈຳນວນເຕັມ size );
+  virtual void LexerError( const var_na* msg );
 			
-  void yyunput_r( int c, char* buf_ptr );
-  int yyinput();
+  void yyunput_r( ຈຳນວນເຕັມ c, var_na* buf_ptr );
+  ຈຳນວນເຕັມ yyinput();
 
   void yy_load_buffer_state();
   void yy_init_buffer( yy_buffer_state* b, std::istream& s );
   void yy_flush_buffer( yy_buffer_state* b );
 
-  int yy_start_stack_ptr;
-  int yy_start_stack_depth;
-  int* yy_start_stack;
+  ຈຳນວນເຕັມ yy_start_stack_ptr;
+  ຈຳນວນເຕັມ yy_start_stack_depth;
+  ຈຳນວນເຕັມ* yy_start_stack;
 
-  void yy_push_state( int new_state );
+  void yy_push_state( ຈຳນວນເຕັມ new_state );
   void yy_pop_state();
-  int yy_top_state();
+  ຈຳນວນເຕັມ yy_top_state();
 
   yy_state_type yy_get_previous_state();
   yy_state_type yy_try_NUL_trans( yy_state_type current_state );
-  int yy_get_next_buffer();
+  ຈຳນວນເຕັມ yy_get_next_buffer();
 
   std::istream yyin;  // input source for default LexerInput
   std::ostream yyout; // output sink for default LexerOutput
 
   // yy_hold_char holds the character lost when yytext is formed.
-  char yy_hold_char;
+  var_na yy_hold_char;
 
   // Number of characters read into yy_ch_buf.
-  int yy_n_chars;
+  ຈຳນວນເຕັມ yy_n_chars;
 
   // Points to current character in buffer.
-  char* yy_c_buf_p;
+  var_na* yy_c_buf_p;
 
-  int yy_init;                // whether we need to initialize
-  int yy_start;               // start state number
+  ຈຳນວນເຕັມ yy_init;                // whether we need to initialize
+  ຈຳນວນເຕັມ yy_start;               // start state number
 
   // Flag which is used to allow yywrap()'s to do buffer switches
   // instead of setting up a fresh yyin.  A bit of a hack ...
-  int yy_did_buffer_switch_on_eof;
+  ຈຳນວນເຕັມ yy_did_buffer_switch_on_eof;
 
 
   size_t yy_buffer_stack_top; /**< index of top of stack. */
@@ -198,23 +198,23 @@ protected:
   // on use of certain flex features (like REJECT or yymore()).
 
   yy_state_type yy_last_accepting_state;
-  char* yy_last_accepting_cpos;
+  var_na* yy_last_accepting_cpos;
 
   yy_state_type* yy_state_buf;
   yy_state_type* yy_state_ptr;
   size_t yy_state_buf_max;
 
-  char* yy_full_match;
-  int* yy_full_state;
-  int yy_full_lp;
+  var_na* yy_full_match;
+  ຈຳນວນເຕັມ* yy_full_state;
+  ຈຳນວນເຕັມ yy_full_lp;
 
-  int yy_lp;
-  int yy_looking_for_trail_begin;
+  ຈຳນວນເຕັມ yy_lp;
+  ຈຳນວນເຕັມ yy_looking_for_trail_begin;
 
-  int yy_more_flag;
-  int yy_more_len;
-  int yy_more_offset;
-  int yy_prev_more_offset;
+  ຈຳນວນເຕັມ yy_more_flag;
+  ຈຳນວນເຕັມ yy_more_len;
+  ຈຳນວນເຕັມ yy_more_offset;
+  ຈຳນວນເຕັມ yy_prev_more_offset;
 };
 
 }

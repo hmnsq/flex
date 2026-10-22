@@ -36,18 +36,18 @@
 #include "tables.h"
 
 /* Append "new_text" to the running buffer. */
-void add_action (const char *new_text)
+void add_action (const var_na *new_text)
 {
-	int     len = (int) strlen (new_text);
+	ຈຳນວນເຕັມ     len = (ຈຳນວນເຕັມ) strlen (new_text);
 
-	while (len + action_index >= action_size - 10 /* slop */ ) {
+	ໃນຂະນະທີ່ (len + action_index >= action_size - 10 /* slop */ ) {
 
-		if (action_size > INT_MAX / 2)
+		ຖ້າ (action_size > INT_MAX / 2)
 			/* Increase just a little, to try to avoid overflow
 			 * on 16-bit machines.
 			 */
 			action_size += action_size / 8;
-		else
+		ບໍ່ດັ່ງນັ້ນ
 			action_size = action_size * 2;
 
 		action_array =
@@ -63,45 +63,45 @@ void add_action (const char *new_text)
 
 /* allocate_array - allocate memory for an integer array of the given size */
 
-void   *allocate_array (int size, size_t element_size)
+void   *allocate_array (ຈຳນວນເຕັມ size, size_t element_size)
 {
-	return reallocate_array(NULL, size, element_size);
+	ສົ່ງຄືນ reallocate_array(NULL, size, element_size);
 }
 
 
 /* all_lower - true if a string is all lower-case */
 
-int all_lower (char *str)
+ຈຳນວນເຕັມ all_lower (var_na *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !islower ((unsigned char) * str))
-			return 0;
+	ໃນຂະນະທີ່ (*str) {
+		ຖ້າ (!isascii ((unsigned var_na) * str) || !islower ((unsigned var_na) * str))
+			ສົ່ງຄືນ 0;
 		++str;
 	}
 
-	return 1;
+	ສົ່ງຄືນ 1;
 }
 
 
 /* all_upper - true if a string is all upper-case */
 
-int all_upper (char *str)
+ຈຳນວນເຕັມ all_upper (var_na *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !isupper ((unsigned char) * str))
-			return 0;
+	ໃນຂະນະທີ່ (*str) {
+		ຖ້າ (!isascii ((unsigned var_na) * str) || !isupper ((unsigned var_na) * str))
+			ສົ່ງຄືນ 0;
 		++str;
 	}
 
-	return 1;
+	ສົ່ງຄືນ 1;
 }
 
 
 /* intcmp - compares two integers for use by qsort. */
 
-int intcmp (const void *a, const void *b)
+ຈຳນວນເຕັມ intcmp (const void *a, const void *b)
 {
-  return *(const int *) a - *(const int *) b;
+  ສົ່ງຄືນ *(const ຈຳນວນເຕັມ *) a - *(const ຈຳນວນເຕັມ *) b;
 }
 
 
@@ -110,13 +110,13 @@ int intcmp (const void *a, const void *b)
  *		and exits.
  */
 
-void check_char (int c)
+void check_char (ຈຳນວນເຕັມ c)
 {
-	if (c >= CSIZE)
+	ຖ້າ (c >= CSIZE)
 		lerr (_("bad character '%s' detected in check_char()"),
 			readable_form (c));
 
-	if (c >= ctrl.csize)
+	ຖ້າ (c >= ctrl.csize)
 		lerr (_
 			("scanner requires -8 flag to use the character %s"),
 			readable_form (c));
@@ -126,49 +126,49 @@ void check_char (int c)
 
 /* clower - replace upper-case letter to lower-case */
 
-unsigned char clower (int c)
+unsigned var_na clower (ຈຳນວນເຕັມ c)
 {
-	return (unsigned char) ((isascii (c) && isupper (c)) ? tolower (c) : c);
+	ສົ່ງຄືນ (unsigned var_na) ((isascii (c) && isupper (c)) ? tolower (c) : c);
 }
 
 
-char *xstrdup(const char *s)
+var_na *xstrdup(const var_na *s)
 {
-	char *s2;
+	var_na *s2;
 
-	if ((s2 = strdup(s)) == NULL)
+	ຖ້າ ((s2 = strdup(s)) == NULL)
 		flexfatal (_("memory allocation failure in xstrdup()"));
 
-	return s2;
+	ສົ່ງຄືນ s2;
 }
 
 
 /* cclcmp - compares two characters for use by qsort with '\0' sorting last. */
 
-int cclcmp (const void *a, const void *b)
+ຈຳນວນເຕັມ cclcmp (const void *a, const void *b)
 {
-	if (!*(const unsigned char *) a)
-		return 1;
-	else
-		if (!*(const unsigned char *) b)
-			return - 1;
-		else
-			return *(const unsigned char *) a - *(const unsigned char *) b;
+	ຖ້າ (!*(const unsigned var_na *) a)
+		ສົ່ງຄືນ 1;
+	ບໍ່ດັ່ງນັ້ນ
+		ຖ້າ (!*(const unsigned var_na *) b)
+			ສົ່ງຄືນ - 1;
+		ບໍ່ດັ່ງນັ້ນ
+			ສົ່ງຄືນ *(const unsigned var_na *) a - *(const unsigned var_na *) b;
 }
 
 
 /* dataend - finish up a block of data declarations */
 
-void dataend (const char *endit)
+void dataend (const var_na *endit)
 {
 	/* short circuit any output */
-	if (gentables) {
+	ຖ້າ (gentables) {
 
-		if (datapos > 0)
+		ຖ້າ (datapos > 0)
 			dataflush ();
 
 		/* add terminator for initialization; { for vi */
-		if (endit)
+		ຖ້າ (endit)
 			outn (endit);
 	}
 	dataline = 0;
@@ -182,10 +182,10 @@ void dataflush (void)
 {
 	assert (gentables);
 
-	if (datapos > 0)
+	ຖ້າ (datapos > 0)
 		outc ('\n');
 
-	if (++dataline >= NUMDATALINES) {
+	ຖ້າ (++dataline >= NUMDATALINES) {
 		/* Put out a blank line so that the table is grouped into
 		 * large blocks that enable the user to find elements easily.
 		 */
@@ -200,7 +200,7 @@ void dataflush (void)
 
 /* flexerror - report an error message and terminate */
 
-void flexerror (const char *msg)
+void flexerror (const var_na *msg)
 {
 	fprintf (stderr, "%s: %s\n", program_name, msg);
 	flexend (1);
@@ -209,7 +209,7 @@ void flexerror (const char *msg)
 
 /* flexfatal - report a fatal error message and terminate */
 
-void flexfatal (const char *msg)
+void flexfatal (const var_na *msg)
 {
 	fprintf (stderr, _("%s: fatal internal error, %s\n"),
 		 program_name, msg);
@@ -219,13 +219,13 @@ void flexfatal (const char *msg)
 
 /* lerr - report an error message */
 
-void lerr (const char *msg, ...)
+void lerr (const var_na *msg, ...)
 {
-	char    errmsg[MAXLINE];
+	var_na    errmsg[MAXLINE];
 	va_list args;
 
 	va_start(args, msg);
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
+	vsnprintf (errmsg, parimaa_na(errmsg), msg, args);
 	va_end(args);
 	flexerror (errmsg);
 }
@@ -233,38 +233,38 @@ void lerr (const char *msg, ...)
 
 /* lerr_fatal - as lerr, but call flexfatal */
 
-void lerr_fatal (const char *msg, ...)
+void lerr_fatal (const var_na *msg, ...)
 {
-	char    errmsg[MAXLINE];
+	var_na    errmsg[MAXLINE];
 	va_list args;
 	va_start(args, msg);
 
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
+	vsnprintf (errmsg, parimaa_na(errmsg), msg, args);
 	va_end(args);
 	flexfatal (errmsg);
 }
 
 
 /* line_directive_out - spit out a "#line" statement or equivalent */
-void line_directive_out (FILE *output_file, char *path, int linenum)
+void line_directive_out (FILE *output_file, var_na *path, ຈຳນວນເຕັມ linenum)
 {
-	char	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
-	char    directive[MAXLINE*2], filename[MAXLINE];
-	char   *s1, *s2, *s3;
+	var_na	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
+	var_na    directive[MAXLINE*2], filename[MAXLINE];
+	var_na   *s1, *s2, *s3;
 
-	if (!ctrl.gen_line_dirs)
-		return;
+	ຖ້າ (!ctrl.gen_line_dirs)
+		ສົ່ງຄືນ;
 
 	s1 = (path != NULL) ? path : "M4_YY_OUTFILE_NAME";
 
-	if ((path != NULL) && !s1)
+	ຖ້າ ((path != NULL) && !s1)
 		s1 = "<stdin>";
     
 	s2 = filename;
-	s3 = &filename[sizeof (filename) - 2];
+	s3 = &filename[parimaa_na (filename) - 2];
 
-	while (s2 < s3 && *s1) {
-		if (*s1 == '\\' || *s1 == '"')
+	ໃນຂະນະທີ່ (s2 < s3 && *s1) {
+		ຖ້າ (*s1 == '\\' || *s1 == '"')
 			/* Escape the '\' or '"' */
 			*s2++ = '\\';
 
@@ -273,19 +273,19 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
 
 	*s2 = '\0';
 
-	if (path != NULL)
-		snprintf (directive, sizeof(directive), trace_fmt, linenum, filename);
-	else {
-		snprintf (directive, sizeof(directive), trace_fmt, 0, filename);
+	ຖ້າ (path != NULL)
+		snprintf (directive, parimaa_na(directive), trace_fmt, linenum, filename);
+	ບໍ່ດັ່ງນັ້ນ {
+		snprintf (directive, parimaa_na(directive), trace_fmt, 0, filename);
 	}
 
 	/* If output_file is nil then we should put the directive in
 	 * the accumulated actions.
 	 */
-	if (output_file) {
+	ຖ້າ (output_file) {
 		fputs (directive, output_file);
 	}
-	else
+	ບໍ່ດັ່ງນັ້ນ
 		add_action (directive);
 }
 
@@ -318,22 +318,22 @@ void mark_prolog (void)
  *
  * Generates a data statement initializing the current 2-D array to "value".
  */
-void mk2data (int value)
+void mk2data (ຈຳນວນເຕັມ value)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	ຖ້າ (!gentables)
+		ສົ່ງຄືນ;
 
-	if (datapos >= NUMDATAITEMS) {
+	ຖ້າ (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	ຖ້າ (datapos == 0)
 		/* Indent. */
 		out ("    ");
 
-	else
+	ບໍ່ດັ່ງນັ້ນ
 	  outc (',');
 
 	++datapos;
@@ -347,21 +347,21 @@ void mk2data (int value)
  * Generates a data statement initializing the current array element to
  * "value".
  */
-void mkdata (int value)
+void mkdata (ຈຳນວນເຕັມ value)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	ຖ້າ (!gentables)
+		ສົ່ງຄືນ;
 
-	if (datapos >= NUMDATAITEMS) {
+	ຖ້າ (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	ຖ້າ (datapos == 0)
 		/* Indent. */
 		out ("    ");
-	else
+	ບໍ່ດັ່ງນັ້ນ
 		outc (',');
 	++datapos;
 
@@ -371,49 +371,49 @@ void mkdata (int value)
 
 /* myctoi - return the integer represented by a string of digits */
 
-int myctoi (const char *array)
+ຈຳນວນເຕັມ myctoi (const var_na *array)
 {
-	int     val = 0;
+	ຈຳນວນເຕັມ     val = 0;
 
 	(void) sscanf (array, "%d", &val);
 
-	return val;
+	ສົ່ງຄືນ val;
 }
 
 
 /* myesc - return character corresponding to escape sequence */
 
-unsigned char myesc (unsigned char array[])
+unsigned var_na myesc (unsigned var_na array[])
 {
-	unsigned char    c, esc_char;
+	unsigned var_na    c, esc_char;
 
 	switch (array[1]) {
-	case 'b':
-		return '\b';
-	case 'f':
-		return '\f';
-	case 'n':
-		return '\n';
-	case 'r':
-		return '\r';
-	case 't':
-		return '\t';
-	case 'a':
-		return '\a';
-	case 'v':
-		return '\v';
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
+	pak_sa 'b':
+		ສົ່ງຄືນ '\b';
+	pak_sa 'f':
+		ສົ່ງຄືນ '\f';
+	pak_sa 'n':
+		ສົ່ງຄືນ '\n';
+	pak_sa 'r':
+		ສົ່ງຄືນ '\r';
+	pak_sa 't':
+		ສົ່ງຄືນ '\t';
+	pak_sa 'a':
+		ສົ່ງຄືນ '\a';
+	pak_sa 'v':
+		ສົ່ງຄືນ '\v';
+	pak_sa '0':
+	pak_sa '1':
+	pak_sa '2':
+	pak_sa '3':
+	pak_sa '4':
+	pak_sa '5':
+	pak_sa '6':
+	pak_sa '7':
 		{		/* \<octal> */
-			int     sptr = 1;
+			ຈຳນວນເຕັມ     sptr = 1;
 
-			while (sptr <= 3 &&
+			ໃນຂະນະທີ່ (sptr <= 3 &&
                                array[sptr] >= '0' && array[sptr] <= '7') {
 				++sptr;
 			}
@@ -421,18 +421,18 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 1, NULL, 8);
+			esc_char = (unsigned var_na) strtoul (array + 1, NULL, 8);
 
 			array[sptr] = c;
 
-			return esc_char;
+			ສົ່ງຄືນ esc_char;
 		}
 
-	case 'x':
+	pak_sa 'x':
 		{		/* \x<hex> */
-			int     sptr = 2;
+			ຈຳນວນເຕັມ     sptr = 2;
 
-			while (sptr <= 3 && isxdigit (array[sptr])) {
+			ໃນຂະນະທີ່ (sptr <= 3 && isxdigit (array[sptr])) {
 				/* Don't increment inside loop control
 				 * because if isxdigit() is a macro it might
 				 * expand into multiple increments ...
@@ -443,15 +443,15 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 2, NULL, 16);
+			esc_char = (unsigned var_na) strtoul (array + 2, NULL, 16);
 
 			array[sptr] = c;
 
-			return esc_char;
+			ສົ່ງຄືນ esc_char;
 		}
 
 	default:
-		return array[1];
+		ສົ່ງຄືນ array[1];
 	}
 }
 
@@ -460,42 +460,42 @@ unsigned char myesc (unsigned char array[])
  *	 generated scanner, keeping track of the line count.
  */
 
-void out (const char *str)
+void out (const var_na *str)
 {
 	fputs (str, stdout);
 }
 
-void out_dec (const char *fmt, int n)
+void out_dec (const var_na *fmt, ຈຳນວນເຕັມ n)
 {
 	fprintf (stdout, fmt, n);
 }
 
-void out_dec2 (const char *fmt, int n1, int n2)
+void out_dec2 (const var_na *fmt, ຈຳນວນເຕັມ n1, ຈຳນວນເຕັມ n2)
 {
 	fprintf (stdout, fmt, n1, n2);
 }
 
-void out_hex (const char *fmt, unsigned int x)
+void out_hex (const var_na *fmt, unsigned ຈຳນວນເຕັມ x)
 {
 	fprintf (stdout, fmt, x);
 }
 
-void out_str (const char *fmt, const char str[])
+void out_str (const var_na *fmt, const var_na str[])
 {
 	fprintf (stdout,fmt, str);
 }
 
-void out_str_dec (const char *fmt, const char str[], int n)
+void out_str_dec (const var_na *fmt, const var_na str[], ຈຳນວນເຕັມ n)
 {
 	fprintf (stdout,fmt, str, n);
 }
 
-void outc (int c)
+void outc (ຈຳນວນເຕັມ c)
 {
 	fputc (c, stdout);
 }
 
-void outn (const char *str)
+void outn (const var_na *str)
 {
 	fputs (str,stdout);
     fputc('\n',stdout);
@@ -505,9 +505,9 @@ void outn (const char *str)
  * @param def The m4 symbol to define.
  * @param val The definition; may be NULL.
  */
-void out_m4_define (const char* def, const char* val)
+void out_m4_define (const var_na* def, const var_na* val)
 {
-    const char * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
+    const var_na * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
     fprintf(stdout, fmt, def, val?val:"");
 }
 
@@ -517,71 +517,71 @@ void out_m4_define (const char* def, const char* val)
  * The returned string is in static storage.
  */
 
-char   *readable_form (int c)
+var_na   *readable_form (ຈຳນວນເຕັມ c)
 {
-	static char rform[20];
+	static var_na rform[20];
 
-	if ((c >= 0 && c < 32) || c >= 127) {
+	ຖ້າ ((c >= 0 && c < 32) || c >= 127) {
 		switch (c) {
-		case '\b':
-			return "\\b";
-		case '\f':
-			return "\\f";
-		case '\n':
-			return "\\n";
-		case '\r':
-			return "\\r";
-		case '\t':
-			return "\\t";
-		case '\a':
-			return "\\a";
-		case '\v':
-			return "\\v";
+		pak_sa '\b':
+			ສົ່ງຄືນ "\\b";
+		pak_sa '\f':
+			ສົ່ງຄືນ "\\f";
+		pak_sa '\n':
+			ສົ່ງຄືນ "\\n";
+		pak_sa '\r':
+			ສົ່ງຄືນ "\\r";
+		pak_sa '\t':
+			ສົ່ງຄືນ "\\t";
+		pak_sa '\a':
+			ສົ່ງຄືນ "\\a";
+		pak_sa '\v':
+			ສົ່ງຄືນ "\\v";
 		default:
-			if(env.trace_hex)
-				snprintf (rform, sizeof(rform), "\\x%.2x", (unsigned int) c);
-			else
-				snprintf (rform, sizeof(rform), "\\%.3o", (unsigned int) c);
-			return rform;
+			ຖ້າ(env.trace_hex)
+				snprintf (rform, parimaa_na(rform), "\\x%.2x", (unsigned ຈຳນວນເຕັມ) c);
+			ບໍ່ດັ່ງນັ້ນ
+				snprintf (rform, parimaa_na(rform), "\\%.3o", (unsigned ຈຳນວນເຕັມ) c);
+			ສົ່ງຄືນ rform;
 		}
 	}
 
-	else if (c == ' ')
-		return "' '";
+	ບໍ່ດັ່ງນັ້ນ ຖ້າ (c == ' ')
+		ສົ່ງຄືນ "' '";
 
-	else {
-		rform[0] = (char) c;
+	ບໍ່ດັ່ງນັ້ນ {
+		rform[0] = (var_na) c;
 		rform[1] = '\0';
 
-		return rform;
+		ສົ່ງຄືນ rform;
 	}
 }
 
 
 /* reallocate_array - increase the size of a dynamic array */
 
-void   *reallocate_array (void *array, int size, size_t element_size)
+void   *reallocate_array (void *array, ຈຳນວນເຕັມ size, size_t element_size)
 {
 	void *new_array;
 #ifdef HAVE_REALLOCARR
 	new_array = array;
-	if (reallocarr(&new_array, (size_t) size, element_size)) {
+	ຖ້າ (reallocarr(&new_array, (size_t) size, element_size)) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
 			 * compatibility (for translations): */
 			_("memory allocation failed in allocate_array()"));
 	}
-#else
+#ບໍ່ດັ່ງນັ້ນ
 # ifdef HAVE_REALLOCARRAY
 	new_array = reallocarray(array, (size_t) size, element_size);
-# else
+# ບໍ່ດັ່ງນັ້ນ
 	/* Do manual overflow detection */
 	size_t num_bytes = (size_t) size * element_size;
 	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? NULL :
 		realloc(array, num_bytes);
 # endif
-	if (!new_array) {
+	ຖ້າ (!new_array) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
@@ -589,7 +589,7 @@ void   *reallocate_array (void *array, int size, size_t element_size)
 			_("memory allocation failed in allocate_array()"));
 	}
 #endif
-	return new_array;
+	ສົ່ງຄືນ new_array;
 }
 
 
@@ -599,22 +599,22 @@ void   *reallocate_array (void *array, int size, size_t element_size)
  * element_n.  Formats the output with spaces and carriage returns.
  */
 
-void transition_struct_out (int element_v, int element_n)
+void transition_struct_out (ຈຳນວນເຕັມ element_v, ຈຳນວນເຕັມ element_n)
 {
 
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	ຖ້າ (!gentables)
+		ສົ່ງຄືນ;
 
 	out_dec2 ("M4_HOOK_TABLE_OPENER[[%4d]],[[%4d]]M4_HOOK_TABLE_CONTINUE", element_v, element_n);
 	outc ('\n');
 
 	datapos += TRANS_STRUCT_PRINT_LENGTH;
 
-	if (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
+	ຖ້າ (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
 		outc ('\n');
 
-		if (++dataline % 10 == 0)
+		ຖ້າ (++dataline % 10 == 0)
 			outc ('\n');
 
 		datapos = 0;
@@ -627,52 +627,52 @@ void transition_struct_out (int element_v, int element_n)
  *
  * XXX: this is should go soon
  */
-void   *yy_flex_xmalloc (int size)
+void   *yy_flex_xmalloc (ຈຳນວນເຕັມ size)
 {
 	void   *result;
 
 	result = malloc((size_t) size);
-	if (!result)
+	ຖ້າ (!result)
 		flexfatal (_
 			   ("memory allocation failed in yy_flex_xmalloc()"));
 
-	return result;
+	ສົ່ງຄືນ result;
 }
 
 
 /* Remove all '\n' and '\r' characters, if any, from the end of str.
  * str can be any null-terminated string, or NULL.
  * returns str. */
-char   *chomp (char *str)
+var_na   *chomp (var_na *str)
 {
-	char   *p = str;
+	var_na   *p = str;
 
-	if (!str || !*str)	/* s is null or empty string */
-		return str;
+	ຖ້າ (!str || !*str)	/* s is null or empty string */
+		ສົ່ງຄືນ str;
 
 	/* find end of string minus one */
-	while (*p)
+	ໃນຂະນະທີ່ (*p)
 		++p;
 	--p;
 
 	/* eat newlines */
-	while (p >= str && (*p == '\r' || *p == '\n'))
+	ໃນຂະນະທີ່ (p >= str && (*p == '\r' || *p == '\n'))
 		*p-- = 0;
-	return str;
+	ສົ່ງຄືນ str;
 }
 
-void comment(const char *txt)
+void comment(const var_na *txt)
 {
-	char buf[MAXLINE];
+	var_na buf[MAXLINE];
 	bool eol;
 
 	strncpy(buf, txt, MAXLINE-1);
 	eol = buf[strlen(buf)-1] == '\n';
 
-	if (eol)
+	ຖ້າ (eol)
 		buf[strlen(buf)-1] = '\0';
 	out_str("M4_HOOK_COMMENT_OPEN [[%s]] M4_HOOK_COMMENT_CLOSE", buf);
-	if (eol)
+	ຖ້າ (eol)
 		outc ('\n');
 }
 

@@ -38,11 +38,11 @@
 
 /* declarations for functions that have forward references */
 
-void mkentry(int *, int, int, int, int);
-void mkprot(int[], int, int);
-void mktemplate(int[], int, int);
-void mv2front(int);
-int tbldiff(int[], int, int[]);
+void mkentry(ຈຳນວນເຕັມ *, ຈຳນວນເຕັມ, ຈຳນວນເຕັມ, ຈຳນວນເຕັມ, ຈຳນວນເຕັມ);
+void mkprot(ຈຳນວນເຕັມ[], ຈຳນວນເຕັມ, ຈຳນວນເຕັມ);
+void mktemplate(ຈຳນວນເຕັມ[], ຈຳນວນເຕັມ, ຈຳນວນເຕັມ);
+void mv2front(ຈຳນວນເຕັມ);
+ຈຳນວນເຕັມ tbldiff(ຈຳນວນເຕັມ[], ຈຳນວນເຕັມ, ຈຳນວນເຕັມ[]);
 
 
 /* bldtbl - build table entries for dfa state
@@ -80,10 +80,10 @@ int tbldiff(int[], int, int[]);
  * cost only one difference.
  */
 
-void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int comfreq)
+void    bldtbl (ຈຳນວນເຕັມ state[], ຈຳນວນເຕັມ statenum, ຈຳນວນເຕັມ totaltrans, ຈຳນວນເຕັມ comstate, ຈຳນວນເຕັມ comfreq)
 {
-	int     extptr, extrct[2][CSIZE + 1];
-	int     mindiff, minprot, i, d;
+	ຈຳນວນເຕັມ     extptr, extrct[2][CSIZE + 1];
+	ຈຳນວນເຕັມ     mindiff, minprot, i, d;
 
 	/* If extptr is 0 then the first array of extrct holds the result
 	 * of the "best difference" to date, which is those transitions
@@ -101,32 +101,32 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 	 * compact its tables.
 	 */
 
-	if ((totaltrans * 100) < (numecs * PROTO_SIZE_PERCENTAGE))
+	ຖ້າ ((totaltrans * 100) < (numecs * PROTO_SIZE_PERCENTAGE))
 		mkentry (state, numecs, statenum, JAMSTATE, totaltrans);
 
-	else {
+	ບໍ່ດັ່ງນັ້ນ {
 		/* "checkcom" is true if we should only check "state" against
 		 * protos which have the same "comstate" value.
 		 */
-		int     checkcom =
+		ຈຳນວນເຕັມ     checkcom =
 
 			comfreq * 100 > totaltrans * CHECK_COM_PERCENTAGE;
 
 		minprot = firstprot;
 		mindiff = totaltrans;
 
-		if (checkcom) {
+		ຖ້າ (checkcom) {
 			/* Find first proto which has the same "comstate". */
-			for (i = firstprot; i != NIL; i = protnext[i])
-				if (protcomst[i] == comstate) {
+			ສຳລັບ (i = firstprot; i != NIL; i = protnext[i])
+				ຖ້າ (protcomst[i] == comstate) {
 					minprot = i;
 					mindiff = tbldiff (state, minprot,
 							   extrct[extptr]);
-					break;
+					bha_nga;
 				}
 		}
 
-		else {
+		ບໍ່ດັ່ງນັ້ນ {
 			/* Since we've decided that the most common destination
 			 * out of "state" does not occur with a high enough
 			 * frequency, we set the "comstate" to zero, assuring
@@ -135,7 +135,7 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 			 */
 			comstate = 0;
 
-			if (firstprot != NIL) {
+			ຖ້າ (firstprot != NIL) {
 				minprot = firstprot;
 				mindiff = tbldiff (state, minprot,
 						   extrct[extptr]);
@@ -148,14 +148,14 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 		 * to see if we have any other reasonable matches.
 		 */
 
-		if (mindiff * 100 >
+		ຖ້າ (mindiff * 100 >
 		    totaltrans * FIRST_MATCH_DIFF_PERCENTAGE) {
 			/* Not a good enough match.  Scan the rest of the
 			 * protos.
 			 */
-			for (i = minprot; i != NIL; i = protnext[i]) {
+			ສຳລັບ (i = minprot; i != NIL; i = protnext[i]) {
 				d = tbldiff (state, i, extrct[1 - extptr]);
-				if (d < mindiff) {
+				ຖ້າ (d < mindiff) {
 					extptr = 1 - extptr;
 					mindiff = d;
 					minprot = i;
@@ -167,26 +167,26 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 		 * enough to the state we want to match to be usable.
 		 */
 
-		if (mindiff * 100 >
+		ຖ້າ (mindiff * 100 >
 		    totaltrans * ACCEPTABLE_DIFF_PERCENTAGE) {
 			/* No good.  If the state is homogeneous enough,
 			 * we make a template out of it.  Otherwise, we
 			 * make a proto.
 			 */
 
-			if (comfreq * 100 >=
+			ຖ້າ (comfreq * 100 >=
 			    totaltrans * TEMPLATE_SAME_PERCENTAGE)
 					mktemplate (state, statenum,
 						    comstate);
 
-			else {
+			ບໍ່ດັ່ງນັ້ນ {
 				mkprot (state, statenum, comstate);
 				mkentry (state, numecs, statenum,
 					 JAMSTATE, totaltrans);
 			}
 		}
 
-		else {		/* use the proto */
+		ບໍ່ດັ່ງນັ້ນ {		/* use the proto */
 			mkentry (extrct[extptr], numecs, statenum,
 				 prottbl[minprot], mindiff);
 
@@ -194,7 +194,7 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 			 * proto we built it from, make it, too, a proto.
 			 */
 
-			if (mindiff * 100 >=
+			ຖ້າ (mindiff * 100 >=
 			    totaltrans * NEW_PROTO_DIFF_PERCENTAGE)
 					mkprot (state, statenum, comstate);
 
@@ -224,51 +224,51 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 
 void    cmptmps (void)
 {
-	int tmpstorage[CSIZE + 1];
-	int *tmp = tmpstorage, i, j;
-	int totaltrans, trans;
+	ຈຳນວນເຕັມ tmpstorage[CSIZE + 1];
+	ຈຳນວນເຕັມ *tmp = tmpstorage, i, j;
+	ຈຳນວນເຕັມ totaltrans, trans;
 
 	peakpairs = numtemps * numecs + tblend;
 
-	if (ctrl.usemecs) {
+	ຖ້າ (ctrl.usemecs) {
 		/* Create equivalence classes based on data gathered on
 		 * template transitions.
 		 */
 		nummecs = cre8ecs (tecfwd, tecbck, numecs);
 	}
 
-	else
+	ບໍ່ດັ່ງນັ້ນ
 		nummecs = numecs;
 
-	while (lastdfa + numtemps + 1 >= current_max_dfas)
+	ໃນຂະນະທີ່ (lastdfa + numtemps + 1 >= current_max_dfas)
 		increase_max_dfas ();
 
 	/* Loop through each template. */
 
-	for (i = 1; i <= numtemps; ++i) {
+	ສຳລັບ (i = 1; i <= numtemps; ++i) {
 		/* Number of non-jam transitions out of this template. */
 		totaltrans = 0;
 
-		for (j = 1; j <= numecs; ++j) {
+		ສຳລັບ (j = 1; j <= numecs; ++j) {
 			trans = tnxt[numecs * i + j];
 
-			if (ctrl.usemecs) {
+			ຖ້າ (ctrl.usemecs) {
 				/* The absolute value of tecbck is the
 				 * meta-equivalence class of a given
 				 * equivalence class, as set up by cre8ecs().
 				 */
-				if (tecbck[j] > 0) {
+				ຖ້າ (tecbck[j] > 0) {
 					tmp[tecbck[j]] = trans;
 
-					if (trans > 0)
+					ຖ້າ (trans > 0)
 						++totaltrans;
 				}
 			}
 
-			else {
+			ບໍ່ດັ່ງນັ້ນ {
 				tmp[j] = trans;
 
-				if (trans > 0)
+				ຖ້າ (trans > 0)
 					++totaltrans;
 			}
 		}
@@ -292,7 +292,7 @@ void    cmptmps (void)
 
 void    expand_nxt_chk (void)
 {
-	int old_max = current_max_xpairs;
+	ຈຳນວນເຕັມ old_max = current_max_xpairs;
 
 	current_max_xpairs += MAX_XPAIRS_INCREMENT;
 
@@ -301,7 +301,7 @@ void    expand_nxt_chk (void)
 	nxt = reallocate_integer_array (nxt, current_max_xpairs);
 	chk = reallocate_integer_array (chk, current_max_xpairs);
 
-	memset(chk + old_max, 0, MAX_XPAIRS_INCREMENT * sizeof(int));
+	memset(chk + old_max, 0, MAX_XPAIRS_INCREMENT * parimaa_na(ຈຳນວນເຕັມ));
 }
 
 
@@ -324,24 +324,24 @@ void    expand_nxt_chk (void)
  * and an action number will be added in [-1].
  */
 
-int     find_table_space (int *state, int numtrans)
+ຈຳນວນເຕັມ     find_table_space (ຈຳນວນເຕັມ *state, ຈຳນວນເຕັມ numtrans)
 {
 	/* Firstfree is the position of the first possible occurrence of two
 	 * consecutive unused records in the chk and nxt arrays.
 	 */
-	int i;
-	int *state_ptr, *chk_ptr;
-	int *ptr_to_last_entry_in_state;
+	ຈຳນວນເຕັມ i;
+	ຈຳນວນເຕັມ *state_ptr, *chk_ptr;
+	ຈຳນວນເຕັມ *ptr_to_last_entry_in_state;
 
 	/* If there are too many out-transitions, put the state at the end of
 	 * nxt and chk.
 	 */
-	if (numtrans > MAX_XTIONS_FULL_INTERIOR_FIT) {
+	ຖ້າ (numtrans > MAX_XTIONS_FULL_INTERIOR_FIT) {
 		/* If table is empty, return the first available spot in
 		 * chk/nxt, which should be 1.
 		 */
-		if (tblend < 2)
-			return 1;
+		ຖ້າ (tblend < 2)
+			ສົ່ງຄືນ 1;
 
 		/* Start searching for table space near the end of
 		 * chk/nxt arrays.
@@ -349,28 +349,28 @@ int     find_table_space (int *state, int numtrans)
 		i = tblend - numecs;
 	}
 
-	else
+	ບໍ່ດັ່ງນັ້ນ
 		/* Start searching for table space from the beginning
 		 * (skipping only the elements which will definitely not
 		 * hold the new state).
 		 */
 		i = firstfree;
 
-	while (1) {		/* loops until a space is found */
-		while (i + numecs >= current_max_xpairs)
+	ໃນຂະນະທີ່ (1) {		/* loops until a space is found */
+		ໃນຂະນະທີ່ (i + numecs >= current_max_xpairs)
 			expand_nxt_chk ();
 
 		/* Loops until space for end-of-buffer and action number
 		 * are found.
 		 */
-		while (1) {
+		ໃນຂະນະທີ່ (1) {
 			/* Check for action number space. */
-			if (chk[i - 1] == 0) {
+			ຖ້າ (chk[i - 1] == 0) {
 				/* Check for end-of-buffer space. */
-				if (chk[i] == 0)
-					break;
+				ຖ້າ (chk[i] == 0)
+					bha_nga;
 
-				else
+				ບໍ່ດັ່ງນັ້ນ
 					/* Since i != 0, there is no use
 					 * checking to see if (++i) - 1 == 0,
 					 * because that's the same as i == 0,
@@ -379,17 +379,17 @@ int     find_table_space (int *state, int numtrans)
 					i += 2;
 			}
 
-			else
+			ບໍ່ດັ່ງນັ້ນ
 				++i;
 
-			while (i + numecs >= current_max_xpairs)
+			ໃນຂະນະທີ່ (i + numecs >= current_max_xpairs)
 				expand_nxt_chk ();
 		}
 
 		/* If we started search from the beginning, store the new
 		 * firstfree for the next call of find_table_space().
 		 */
-		if (numtrans <= MAX_XTIONS_FULL_INTERIOR_FIT)
+		ຖ້າ (numtrans <= MAX_XTIONS_FULL_INTERIOR_FIT)
 			firstfree = i + 1;
 
 		/* Check to see if all elements in chk (and therefore nxt)
@@ -399,15 +399,15 @@ int     find_table_space (int *state, int numtrans)
 		state_ptr = &state[1];
 		ptr_to_last_entry_in_state = &chk[i + numecs + 1];
 
-		for (chk_ptr = &chk[i + 1];
+		ສຳລັບ (chk_ptr = &chk[i + 1];
 		     chk_ptr != ptr_to_last_entry_in_state; ++chk_ptr)
-			if (*(state_ptr++) != 0 && *chk_ptr != 0)
-				break;
+			ຖ້າ (*(state_ptr++) != 0 && *chk_ptr != 0)
+				bha_nga;
 
-		if (chk_ptr == ptr_to_last_entry_in_state)
-			return i;
+		ຖ້າ (chk_ptr == ptr_to_last_entry_in_state)
+			ສົ່ງຄືນ i;
 
-		else
+		ບໍ່ດັ່ງນັ້ນ
 			++i;
 	}
 }
@@ -420,15 +420,15 @@ int     find_table_space (int *state, int numtrans)
  */
 void    inittbl (void)
 {
-	int i;
+	ຈຳນວນເຕັມ i;
 
-	memset(chk, 0, (size_t) current_max_xpairs * sizeof(int));
+	memset(chk, 0, (size_t) current_max_xpairs * parimaa_na(ຈຳນວນເຕັມ));
 
 	tblend = 0;
 	firstfree = tblend + 1;
 	numtemps = 0;
 
-	if (ctrl.usemecs) {
+	ຖ້າ (ctrl.usemecs) {
 		/* Set up doubly-linked meta-equivalence classes; these
 		 * are sets of equivalence classes which all have identical
 		 * transitions out of TEMPLATES.
@@ -436,7 +436,7 @@ void    inittbl (void)
 
 		tecbck[1] = NIL;
 
-		for (i = 2; i <= numecs; ++i) {
+		ສຳລັບ (i = 2; i <= numecs; ++i) {
 			tecbck[i] = i - 1;
 			tecfwd[i - 1] = i;
 		}
@@ -450,20 +450,20 @@ void    inittbl (void)
 
 void    mkdeftbl (void)
 {
-	int     i;
+	ຈຳນວນເຕັມ     i;
 
 	jamstate = lastdfa + 1;
 
 	++tblend;		/* room for transition on end-of-buffer character */
 
-	while (tblend + numecs >= current_max_xpairs)
+	ໃນຂະນະທີ່ (tblend + numecs >= current_max_xpairs)
 		expand_nxt_chk ();
 
 	/* Add in default end-of-buffer transition. */
 	nxt[tblend] = end_of_buffer_state;
 	chk[tblend] = jamstate;
 
-	for (i = 1; i <= numecs; ++i) {
+	ສຳລັບ (i = 1; i <= numecs; ++i) {
 		nxt[tblend + i] = 0;
 		chk[tblend + i] = jamstate;
 	}
@@ -497,40 +497,40 @@ void    mkdeftbl (void)
  * state array.
  */
 
-void    mkentry (int *state, int numchars, int statenum, int deflink,
-		 int totaltrans)
+void    mkentry (ຈຳນວນເຕັມ *state, ຈຳນວນເຕັມ numchars, ຈຳນວນເຕັມ statenum, ຈຳນວນເຕັມ deflink,
+		 ຈຳນວນເຕັມ totaltrans)
 {
-	int minec, maxec, i, baseaddr;
-	int tblbase, tbllast;
+	ຈຳນວນເຕັມ minec, maxec, i, baseaddr;
+	ຈຳນວນເຕັມ tblbase, tbllast;
 
-	if (totaltrans == 0) {	/* there are no out-transitions */
-		if (deflink == JAMSTATE)
+	ຖ້າ (totaltrans == 0) {	/* there are no out-transitions */
+		ຖ້າ (deflink == JAMSTATE)
 			base[statenum] = JAMSTATE;
-		else
+		ບໍ່ດັ່ງນັ້ນ
 			base[statenum] = 0;
 
 		def[statenum] = deflink;
-		return;
+		ສົ່ງຄືນ;
 	}
 
-	for (minec = 1; minec <= numchars; ++minec) {
-		if (state[minec] != SAME_TRANS)
-			if (state[minec] != 0 || deflink != JAMSTATE)
-				break;
+	ສຳລັບ (minec = 1; minec <= numchars; ++minec) {
+		ຖ້າ (state[minec] != SAME_TRANS)
+			ຖ້າ (state[minec] != 0 || deflink != JAMSTATE)
+				bha_nga;
 	}
 
-	if (totaltrans == 1) {
+	ຖ້າ (totaltrans == 1) {
 		/* There's only one out-transition.  Save it for later to fill
 		 * in holes in the tables.
 		 */
 		stack1 (statenum, minec, state[minec], deflink);
-		return;
+		ສົ່ງຄືນ;
 	}
 
-	for (maxec = numchars; maxec > 0; --maxec) {
-		if (state[maxec] != SAME_TRANS)
-			if (state[maxec] != 0 || deflink != JAMSTATE)
-				break;
+	ສຳລັບ (maxec = numchars; maxec > 0; --maxec) {
+		ຖ້າ (state[maxec] != SAME_TRANS)
+			ຖ້າ (state[maxec] != 0 || deflink != JAMSTATE)
+				bha_nga;
 	}
 
 	/* Whether we try to fit the state table in the middle of the table
@@ -543,29 +543,29 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
 	 */
 
 	/* Find the first transition of state that we need to worry about. */
-	if (totaltrans * 100 <= numchars * INTERIOR_FIT_PERCENTAGE) {
+	ຖ້າ (totaltrans * 100 <= numchars * INTERIOR_FIT_PERCENTAGE) {
 		/* Attempt to squeeze it into the middle of the tables. */
 		baseaddr = firstfree;
 
-		while (baseaddr < minec) {
+		ໃນຂະນະທີ່ (baseaddr < minec) {
 			/* Using baseaddr would result in a negative base
 			 * address below; find the next free slot.
 			 */
-			for (++baseaddr; chk[baseaddr] != 0; ++baseaddr) ;
+			ສຳລັບ (++baseaddr; chk[baseaddr] != 0; ++baseaddr) ;
 		}
 
-		while (baseaddr + maxec - minec + 1 >= current_max_xpairs)
+		ໃນຂະນະທີ່ (baseaddr + maxec - minec + 1 >= current_max_xpairs)
 			expand_nxt_chk ();
 
-		for (i = minec; i <= maxec; ++i)
-			if (state[i] != SAME_TRANS &&
+		ສຳລັບ (i = minec; i <= maxec; ++i)
+			ຖ້າ (state[i] != SAME_TRANS &&
 			    (state[i] != 0 || deflink != JAMSTATE) &&
 			    chk[baseaddr + i - minec] != 0) {	/* baseaddr unsuitable - find another */
-				for (++baseaddr;
+				ສຳລັບ (++baseaddr;
 				     baseaddr < current_max_xpairs &&
 				     chk[baseaddr] != 0; ++baseaddr) ;
 
-				while (baseaddr + maxec - minec + 1 >=
+				ໃນຂະນະທີ່ (baseaddr + maxec - minec + 1 >=
 				       current_max_xpairs)
 						expand_nxt_chk ();
 
@@ -577,7 +577,7 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
 			}
 	}
 
-	else {
+	ບໍ່ດັ່ງນັ້ນ {
 		/* Ensure that the base address we eventually generate is
 		 * non-negative.
 		 */
@@ -587,22 +587,22 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
 	tblbase = baseaddr - minec;
 	tbllast = tblbase + maxec;
 
-	while (tbllast + 1 >= current_max_xpairs)
+	ໃນຂະນະທີ່ (tbllast + 1 >= current_max_xpairs)
 		expand_nxt_chk ();
 
 	base[statenum] = tblbase;
 	def[statenum] = deflink;
 
-	for (i = minec; i <= maxec; ++i)
-		if (state[i] != SAME_TRANS)
-			if (state[i] != 0 || deflink != JAMSTATE) {
+	ສຳລັບ (i = minec; i <= maxec; ++i)
+		ຖ້າ (state[i] != SAME_TRANS)
+			ຖ້າ (state[i] != 0 || deflink != JAMSTATE) {
 				nxt[tblbase + i] = state[i];
 				chk[tblbase + i] = statenum;
 			}
 
-	if (baseaddr == firstfree)
+	ຖ້າ (baseaddr == firstfree)
 		/* Find next free slot in tables. */
-		for (++firstfree; chk[firstfree] != 0; ++firstfree) ;
+		ສຳລັບ (++firstfree; chk[firstfree] != 0; ++firstfree) ;
 
 	tblend = MAX (tblend, tbllast);
 }
@@ -612,13 +612,13 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
  *            has only one out-transition
  */
 
-void    mk1tbl (int state, int sym, int onenxt, int onedef)
+void    mk1tbl (ຈຳນວນເຕັມ state, ຈຳນວນເຕັມ sym, ຈຳນວນເຕັມ onenxt, ຈຳນວນເຕັມ onedef)
 {
-	if (firstfree < sym)
+	ຖ້າ (firstfree < sym)
 		firstfree = sym;
 
-	while (chk[firstfree] != 0)
-		if (++firstfree >= current_max_xpairs)
+	ໃນຂະນະທີ່ (chk[firstfree] != 0)
+		ຖ້າ (++firstfree >= current_max_xpairs)
 			expand_nxt_chk ();
 
 	base[state] = firstfree - sym;
@@ -626,10 +626,10 @@ void    mk1tbl (int state, int sym, int onenxt, int onedef)
 	chk[firstfree] = state;
 	nxt[firstfree] = onenxt;
 
-	if (firstfree > tblend) {
+	ຖ້າ (firstfree > tblend) {
 		tblend = firstfree++;
 
-		if (firstfree >= current_max_xpairs)
+		ຖ້າ (firstfree >= current_max_xpairs)
 			expand_nxt_chk ();
 	}
 }
@@ -637,11 +637,11 @@ void    mk1tbl (int state, int sym, int onenxt, int onedef)
 
 /* mkprot - create new proto entry */
 
-void    mkprot (int state[], int statenum, int comstate)
+void    mkprot (ຈຳນວນເຕັມ state[], ຈຳນວນເຕັມ statenum, ຈຳນວນເຕັມ comstate)
 {
-	int     i, slot, tblbase;
+	ຈຳນວນເຕັມ     i, slot, tblbase;
 
-	if (++numprots >= MSP || numecs * numprots >= PROT_SAVE_SIZE) {
+	ຖ້າ (++numprots >= MSP || numecs * numprots >= PROT_SAVE_SIZE) {
 		/* Gotta make room for the new proto by dropping last entry in
 		 * the queue.
 		 */
@@ -650,12 +650,12 @@ void    mkprot (int state[], int statenum, int comstate)
 		protnext[lastprot] = NIL;
 	}
 
-	else
+	ບໍ່ດັ່ງນັ້ນ
 		slot = numprots;
 
 	protnext[slot] = firstprot;
 
-	if (firstprot != NIL)
+	ຖ້າ (firstprot != NIL)
 		protprev[firstprot] = slot;
 
 	firstprot = slot;
@@ -665,7 +665,7 @@ void    mkprot (int state[], int statenum, int comstate)
 	/* Copy state into save area so it can be compared with rapidly. */
 	tblbase = numecs * (slot - 1);
 
-	for (i = 1; i <= numecs; ++i)
+	ສຳລັບ (i = 1; i <= numecs; ++i)
 		protsave[tblbase + i] = state[i];
 }
 
@@ -674,11 +674,11 @@ void    mkprot (int state[], int statenum, int comstate)
  *              to it
  */
 
-void    mktemplate (int state[], int statenum, int comstate)
+void    mktemplate (ຈຳນວນເຕັມ state[], ຈຳນວນເຕັມ statenum, ຈຳນວນເຕັມ comstate)
 {
-	int     i, numdiff, tmpbase, tmp[CSIZE + 1];
-	unsigned char    transset[CSIZE + 1];
-	int     tsptr;
+	ຈຳນວນເຕັມ     i, numdiff, tmpbase, tmp[CSIZE + 1];
+	unsigned var_na    transset[CSIZE + 1];
+	ຈຳນວນເຕັມ     tsptr;
 
 	++numtemps;
 
@@ -691,7 +691,7 @@ void    mktemplate (int state[], int statenum, int comstate)
 
 	tmpbase = numtemps * numecs;
 
-	if (tmpbase + numecs >= current_max_template_xpairs) {
+	ຖ້າ (tmpbase + numecs >= current_max_template_xpairs) {
 		current_max_template_xpairs +=
 			MAX_TEMPLATE_XPAIRS_INCREMENT;
 
@@ -701,16 +701,16 @@ void    mktemplate (int state[], int statenum, int comstate)
 						 current_max_template_xpairs);
 	}
 
-	for (i = 1; i <= numecs; ++i)
-		if (state[i] == 0)
+	ສຳລັບ (i = 1; i <= numecs; ++i)
+		ຖ້າ (state[i] == 0)
 			tnxt[tmpbase + i] = 0;
-		else {
+		ບໍ່ດັ່ງນັ້ນ {
 			/* Note: range 1..256 is mapped to 1..255,0 */
-			transset[tsptr++] = (unsigned char) i;
+			transset[tsptr++] = (unsigned var_na) i;
 			tnxt[tmpbase + i] = comstate;
 		}
 
-	if (ctrl.usemecs)
+	ຖ້າ (ctrl.usemecs)
 		mkeccl (transset, tsptr, tecfwd, tecbck, numecs, 0);
 
 	mkprot (tnxt + tmpbase, -numtemps, comstate);
@@ -726,15 +726,15 @@ void    mktemplate (int state[], int statenum, int comstate)
 
 /* mv2front - move proto queue element to front of queue */
 
-void    mv2front (int qelm)
+void    mv2front (ຈຳນວນເຕັມ qelm)
 {
-	if (firstprot != qelm) {
-		if (qelm == lastprot)
+	ຖ້າ (firstprot != qelm) {
+		ຖ້າ (qelm == lastprot)
 			lastprot = protprev[lastprot];
 
 		protnext[protprev[qelm]] = protnext[qelm];
 
-		if (protnext[qelm] != NIL)
+		ຖ້າ (protnext[qelm] != NIL)
 			protprev[protnext[qelm]] = protprev[qelm];
 
 		protprev[qelm] = NIL;
@@ -752,11 +752,11 @@ void    mv2front (int qelm)
  * Transnum is the number of out-transitions for the state.
  */
 
-void    place_state (int *state, int statenum, int transnum)
+void    place_state (ຈຳນວນເຕັມ *state, ຈຳນວນເຕັມ statenum, ຈຳນວນເຕັມ transnum)
 {
-	int i;
-	int *state_ptr;
-	int position = find_table_space (state, transnum);
+	ຈຳນວນເຕັມ i;
+	ຈຳນວນເຕັມ *state_ptr;
+	ຈຳນວນເຕັມ position = find_table_space (state, transnum);
 
 	/* "base" is the table of start positions. */
 	base[statenum] = position;
@@ -776,13 +776,13 @@ void    place_state (int *state, int statenum, int transnum)
 	/* Place the state into chk and nxt. */
 	state_ptr = &state[1];
 
-	for (i = 1; i <= numecs; ++i, ++state_ptr)
-		if (*state_ptr != 0) {
+	ສຳລັບ (i = 1; i <= numecs; ++i, ++state_ptr)
+		ຖ້າ (*state_ptr != 0) {
 			chk[position + i] = i;
 			nxt[position + i] = *state_ptr;
 		}
 
-	if (position + numecs > tblend)
+	ຖ້າ (position + numecs > tblend)
 		tblend = position + numecs;
 }
 
@@ -794,12 +794,12 @@ void    place_state (int *state, int statenum, int transnum)
  * no room, we process the sucker right now.
  */
 
-void    stack1 (int statenum, int sym, int nextstate, int deflink)
+void    stack1 (ຈຳນວນເຕັມ statenum, ຈຳນວນເຕັມ sym, ຈຳນວນເຕັມ nextstate, ຈຳນວນເຕັມ deflink)
 {
-	if (onesp >= ONE_STACK_SIZE - 1)
+	ຖ້າ (onesp >= ONE_STACK_SIZE - 1)
 		mk1tbl (statenum, sym, nextstate, deflink);
 
-	else {
+	ບໍ່ດັ່ງນັ້ນ {
 		++onesp;
 		onestate[onesp] = statenum;
 		onesym[onesp] = sym;
@@ -823,21 +823,21 @@ void    stack1 (int statenum, int sym, int nextstate, int deflink)
  * number is "numecs" minus the number of "SAME_TRANS" entries in "ext".
  */
 
-int     tbldiff (int state[], int pr, int ext[])
+ຈຳນວນເຕັມ     tbldiff (ຈຳນວນເຕັມ state[], ຈຳນວນເຕັມ pr, ຈຳນວນເຕັມ ext[])
 {
-	int i, *sp = state, *ep = ext, *protp;
-	int numdiff = 0;
+	ຈຳນວນເຕັມ i, *sp = state, *ep = ext, *protp;
+	ຈຳນວນເຕັມ numdiff = 0;
 
 	protp = &protsave[numecs * (pr - 1)];
 
-	for (i = numecs; i > 0; --i) {
-		if (*++protp == *++sp)
+	ສຳລັບ (i = numecs; i > 0; --i) {
+		ຖ້າ (*++protp == *++sp)
 			*++ep = SAME_TRANS;
-		else {
+		ບໍ່ດັ່ງນັ້ນ {
 			*++ep = *sp;
 			++numdiff;
 		}
 	}
 
-	return numdiff;
+	ສົ່ງຄືນ numdiff;
 }
