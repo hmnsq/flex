@@ -33,7 +33,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#অন্তর্ভাব "flexdef.h"
 
 /* Take note: The buffer object is sometimes used as a String buffer (one
  * continuous string), and sometimes used as a list of strings, usually line by
@@ -48,57 +48,57 @@
  */
 
 /* global buffers. */
-struct Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
-struct Buf top_buf;             /**< contains %top code. String buffer. */
+সংরচনা Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
+সংরচনা Buf শীর্ষ_buf;             /**< contains %top code. String buffer. */
 
 /* Append a "%s" formatted string to a string buffer */
-struct Buf *buf_prints (struct Buf *buf, const char *fmt, const char *s)
+সংরচনা Buf *buf_prints (সংরচনা Buf *buf, ধ্রুব বর্ণ *fmt, ধ্রুব বর্ণ *s)
 {
-	char   *t;
+	বর্ণ   *t;
 	size_t tsz;
 
 	tsz = strlen(fmt) + strlen(s) + 1;
 	t = malloc(tsz);
-	if (!t)
+	যদি (!t)
 	    flexfatal (_("Allocation of buffer to print string failed"));
 	snprintf (t, tsz, fmt, s);
 	buf = buf_strappend (buf, t);
-	free(t);
-	return buf;
+	মুক্ত(t);
+	প্রত্যাগম buf;
 }
 
 /* Appends n characters in str to buf. */
-struct Buf *buf_strnappend (struct Buf *buf, const char *str, int n)
+সংরচনা Buf *buf_strnappend (সংরচনা Buf *buf, ধ্রুব বর্ণ *str, পূর্ণাঙ্ক n)
 {
 	buf_append (buf, str, n + 1);
 
 	/* "undo" the '\0' character that buf_append() already copied. */
 	buf->nelts--;
 
-	return buf;
+	প্রত্যাগম buf;
 }
 
 /* Appends characters in str to buf. */
-struct Buf *buf_strappend (struct Buf *buf, const char *str)
+সংরচনা Buf *buf_strappend (সংরচনা Buf *buf, ধ্রুব বর্ণ *str)
 {
-	return buf_strnappend (buf, str, (int) strlen (str));
+	প্রত্যাগম buf_strnappend (buf, str, (পূর্ণাঙ্ক) strlen (str));
 }
 
 /* create buf with 0 elements, each of size elem_size. */
-void buf_init (struct Buf *buf, size_t elem_size)
+শূন্য buf_init (সংরচনা Buf *buf, size_t elem_size)
 {
-	buf->elts = NULL;
+	buf->elts = রিক্ত;
 	buf->nelts = 0;
 	buf->elt_size = elem_size;
 	buf->nmax = 0;
 }
 
 /* frees memory */
-void buf_destroy (struct Buf *buf)
+শূন্য buf_destroy (সংরচনা Buf *buf)
 {
-	if (buf) {
-		free(buf->elts);
-		buf->elts = NULL;
+	যদি (buf) {
+		মুক্ত(buf->elts);
+		buf->elts = রিক্ত;
 	}
 }
 
@@ -109,43 +109,43 @@ void buf_destroy (struct Buf *buf)
  * We grow by mod(512) boundaries.
  */
 
-struct Buf *buf_append (struct Buf *buf, const void *ptr, int n_elem)
+সংরচনা Buf *buf_append (সংরচনা Buf *buf, ধ্রুব শূন্য *ptr, পূর্ণাঙ্ক n_elem)
 {
-	int     n_alloc = 0;
+	পূর্ণাঙ্ক     n_alloc = 0;
 
-	if (!ptr || n_elem == 0)
-		return buf;
+	যদি (!ptr || n_elem == 0)
+		প্রত্যাগম buf;
 
 	/* May need to alloc more. */
-	if (n_elem + buf->nelts > buf->nmax) {
+	যদি (n_elem + buf->nelts > buf->nmax) {
 
 		/* exact count needed... */
 		n_alloc = n_elem + buf->nelts;
 
 		/* ...plus some extra */
-		if ((((size_t) n_alloc * buf->elt_size) % 512) != 0
+		যদি ((((size_t) n_alloc * buf->elt_size) % 512) != 0
 		    && buf->elt_size < 512)
-			n_alloc += (int)
+			n_alloc += (পূর্ণাঙ্ক)
 				((512 -
 				 (((size_t) n_alloc * buf->elt_size) % 512)) /
 				buf->elt_size);
 
-		if (!buf->elts)
+		যদি (!buf->elts)
 			buf->elts =
-				allocate_array ((int) n_alloc, buf->elt_size);
-		else
+				allocate_array ((পূর্ণাঙ্ক) n_alloc, buf->elt_size);
+		অন্যথা
 			buf->elts =
-				reallocate_array (buf->elts, (int) n_alloc,
+				reallocate_array (buf->elts, (পূর্ণাঙ্ক) n_alloc,
 						  buf->elt_size);
 
 		buf->nmax = n_alloc;
 	}
 
-	memcpy ((char *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
+	memcpy ((বর্ণ *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
 		(size_t) n_elem * buf->elt_size);
 	buf->nelts += n_elem;
 
-	return buf;
+	প্রত্যাগম buf;
 }
 
 /* vim:set tabstop=8 softtabstop=4 shiftwidth=4: */

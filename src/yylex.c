@@ -33,183 +33,183 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include <ctype.h>
-#include "flexdef.h"
-#include "parse.h"
+#অন্তর্ভাব <ctype.h>
+#অন্তর্ভাব "flexdef.h"
+#অন্তর্ভাব "parse.h"
 
 
 /* yylex - scan for a regular expression token */
-extern char *yytext;
-extern FILE *yyout;
+বাহ্য বর্ণ *yytext;
+বাহ্য FILE *yyout;
 bool no_section3_escape = false;
-int     yylex (void)
+পূর্ণাঙ্ক     yylex (শূন্য)
 {
-	int     toktype;
-	static int beglin = false;
+	পূর্ণাঙ্ক     toktype;
+	স্থির পূর্ণাঙ্ক beglin = false;
 
-	if (eofseen) {
+	যদি (eofseen) {
 		toktype = EOF;
-        } else {
+        } অন্যথা {
 		toktype = flexscan ();
         }
-	if (toktype == EOF || toktype == 0) {
+	যদি (toktype == EOF || toktype == 0) {
 		eofseen = true;
 
-		if (sectnum == 1) {
+		যদি (sectnum == 1) {
 			synerr (_("premature EOF"));
 			sectnum = 2;
 			toktype = SECTEND;
 		}
 
-		else
+		অন্যথা
 			toktype = 0;
 	}
 
-	if (env.trace) {
-		if (beglin) {
-			fprintf (stderr, "%d\t", num_rules + 1);
+	যদি (env.trace) {
+		যদি (beglin) {
+			fprintf (stderr, "%d\t", অঙ্ক_rules + 1);
 			beglin = 0;
 		}
 
-		switch (toktype) {
-		case '<':
-		case '>':
-		case '^':
-		case '$':
-		case '"':
-		case '[':
-		case ']':
-		case '{':
-		case '}':
-		case '|':
-		case '(':
-		case ')':
-		case '-':
-		case '/':
-		case '\\':
-		case '?':
-		case '.':
-		case '*':
-		case '+':
-		case ',':
-			(void) putc (toktype, stderr);
-			break;
+		বিকল্প (toktype) {
+		পক্ষ '<':
+		পক্ষ '>':
+		পক্ষ '^':
+		পক্ষ '$':
+		পক্ষ '"':
+		পক্ষ '[':
+		পক্ষ ']':
+		পক্ষ '{':
+		পক্ষ '}':
+		পক্ষ '|':
+		পক্ষ '(':
+		পক্ষ ')':
+		পক্ষ '-':
+		পক্ষ '/':
+		পক্ষ '\\':
+		পক্ষ '?':
+		পক্ষ '.':
+		পক্ষ '*':
+		পক্ষ '+':
+		পক্ষ ',':
+			(শূন্য) putc (toktype, stderr);
+			ভঙ্গ;
 
-		case '\n':
-			(void) putc ('\n', stderr);
+		পক্ষ '\n':
+			(শূন্য) putc ('\n', stderr);
 
-			if (sectnum == 2)
+			যদি (sectnum == 2)
 				beglin = 1;
 
-			break;
+			ভঙ্গ;
 
-		case SCDECL:
+		পক্ষ SCDECL:
 			fputs ("%s", stderr);
-			break;
+			ভঙ্গ;
 
-		case XSCDECL:
+		পক্ষ XSCDECL:
 			fputs ("%x", stderr);
-			break;
+			ভঙ্গ;
 
-		case SECTEND:
+		পক্ষ SECTEND:
 			fputs ("%%\n", stderr);
 
 			/* We set beglin to be true so we'll start
 			 * writing out numbers as we echo rules.
 			 * flexscan() has already assigned sectnum.
 			 */
-			if (sectnum == 2)
+			যদি (sectnum == 2)
 				beglin = 1;
 
-			break;
+			ভঙ্গ;
 
-		case NAME:
+		পক্ষ NAME:
 			fprintf (stderr, "'%s'", nmstr);
-			break;
+			ভঙ্গ;
 
-		case CHAR:
-			switch (yylval) {
-			case '<':
-			case '>':
-			case '^':
-			case '$':
-			case '"':
-			case '[':
-			case ']':
-			case '{':
-			case '}':
-			case '|':
-			case '(':
-			case ')':
-			case '-':
-			case '/':
-			case '\\':
-			case '?':
-			case '.':
-			case '*':
-			case '+':
-			case ',':
+		পক্ষ CHAR:
+			বিকল্প (yylval) {
+			পক্ষ '<':
+			পক্ষ '>':
+			পক্ষ '^':
+			পক্ষ '$':
+			পক্ষ '"':
+			পক্ষ '[':
+			পক্ষ ']':
+			পক্ষ '{':
+			পক্ষ '}':
+			পক্ষ '|':
+			পক্ষ '(':
+			পক্ষ ')':
+			পক্ষ '-':
+			পক্ষ '/':
+			পক্ষ '\\':
+			পক্ষ '?':
+			পক্ষ '.':
+			পক্ষ '*':
+			পক্ষ '+':
+			পক্ষ ',':
 				fprintf (stderr, "\\%c", yylval);
-				break;
+				ভঙ্গ;
 
-			default:
-				if (!isascii (yylval) || !isprint (yylval)) {
-					if(env.trace_hex)
-						fprintf (stderr, "\\x%02x", (unsigned int) yylval);
-					else
-						fprintf (stderr, "\\%.3o", (unsigned int) yylval);
-				} else
-					(void) putc (yylval, stderr);
-				break;
+			স্বভাব:
+				যদি (!isascii (yylval) || !isprint (yylval)) {
+					যদি(env.trace_hex)
+						fprintf (stderr, "\\x%02x", (unsigned পূর্ণাঙ্ক) yylval);
+					অন্যথা
+						fprintf (stderr, "\\%.3o", (unsigned পূর্ণাঙ্ক) yylval);
+				} অন্যথা
+					(শূন্য) putc (yylval, stderr);
+				ভঙ্গ;
 			}
 
-			break;
+			ভঙ্গ;
 
-		case NUMBER:
+		পক্ষ সংখ্যা:
 			fprintf (stderr, "%d", yylval);
-			break;
+			ভঙ্গ;
 
-		case PREVCCL:
+		পক্ষ PREVCCL:
 			fprintf (stderr, "[%d]", yylval);
-			break;
+			ভঙ্গ;
 
-		case EOF_OP:
+		পক্ষ EOF_OP:
 			fprintf (stderr, "<<EOF>>");
-			break;
+			ভঙ্গ;
 
-		case TOK_OPTION:
+		পক্ষ TOK_OPTION:
 			fprintf (stderr, "%s ", yytext);
-			break;
+			ভঙ্গ;
 
-		case TOK_OUTFILE:
-		case TOK_PREFIX:
-		case CCE_ALNUM:
-		case CCE_ALPHA:
-		case CCE_BLANK:
-		case CCE_CNTRL:
-		case CCE_DIGIT:
-		case CCE_GRAPH:
-		case CCE_LOWER:
-		case CCE_PRINT:
-		case CCE_PUNCT:
-		case CCE_SPACE:
-		case CCE_UPPER:
-		case CCE_XDIGIT:
+		পক্ষ TOK_OUTFILE:
+		পক্ষ TOK_PREFIX:
+		পক্ষ CCE_ALNUM:
+		পক্ষ CCE_ALPHA:
+		পক্ষ CCE_BLANK:
+		পক্ষ CCE_CNTRL:
+		পক্ষ CCE_DIGIT:
+		পক্ষ CCE_GRAPH:
+		পক্ষ CCE_LOWER:
+		পক্ষ CCE_PRINT:
+		পক্ষ CCE_PUNCT:
+		পক্ষ CCE_SPACE:
+		পক্ষ CCE_UPPER:
+		পক্ষ CCE_XDIGIT:
 			fprintf (stderr, "%s", yytext);
-			break;
+			ভঙ্গ;
 
-		case 0:
+		পক্ষ 0:
 			fprintf (stderr, _("End Marker\n"));
-			break;
+			ভঙ্গ;
 
-		default:
+		স্বভাব:
 			fprintf (stderr,
 				 _
 				 ("*Something Weird* - tok: %d val: %d\n"),
 				 toktype, yylval);
-			break;
+			ভঙ্গ;
 		}
 	}
 
-	return toktype;
+	প্রত্যাগম toktype;
 }
