@@ -32,22 +32,22 @@
 /*  IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED */
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
-#include "flexdef.h"
-#include "tables.h"
+#ಅನ್ತರ್ಭಾವ "flexdef.h"
+#ಅನ್ತರ್ಭಾವ "tables.h"
 
 /* Append "new_text" to the running buffer. */
-void add_action (const char *new_text)
+ಶೂನ್ಯ add_action (ಧ್ರುವ ವರ್ಣ *new_text)
 {
-	int     len = (int) strlen (new_text);
+	ಪೂರ್ಣಾಙ್ಕ     len = (ಪೂರ್ಣಾಙ್ಕ) strlen (new_text);
 
-	while (len + action_index >= action_size - 10 /* slop */ ) {
+	ಯಾವತ್ (len + action_index >= action_size - 10 /* slop */ ) {
 
-		if (action_size > INT_MAX / 2)
+		ಯದಿ (action_size > INT_MAX / 2)
 			/* Increase just a little, to try to avoid overflow
 			 * on 16-bit machines.
 			 */
 			action_size += action_size / 8;
-		else
+		ಅನ್ಯಥಾ
 			action_size = action_size * 2;
 
 		action_array =
@@ -63,45 +63,45 @@ void add_action (const char *new_text)
 
 /* allocate_array - allocate memory for an integer array of the given size */
 
-void   *allocate_array (int size, size_t element_size)
+ಶೂನ್ಯ   *allocate_array (ಪೂರ್ಣಾಙ್ಕ size, size_t element_size)
 {
-	return reallocate_array(NULL, size, element_size);
+	ಪ್ರತ್ಯಾಗಮ reallocate_array(ರಿಕ್ತ, size, element_size);
 }
 
 
 /* all_lower - true if a string is all lower-case */
 
-int all_lower (char *str)
+ಪೂರ್ಣಾಙ್ಕ all_lower (ವರ್ಣ *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !islower ((unsigned char) * str))
-			return 0;
+	ಯಾವತ್ (*str) {
+		ಯದಿ (!isascii ((unsigned ವರ್ಣ) * str) || !islower ((unsigned ವರ್ಣ) * str))
+			ಪ್ರತ್ಯಾಗಮ 0;
 		++str;
 	}
 
-	return 1;
+	ಪ್ರತ್ಯಾಗಮ 1;
 }
 
 
 /* all_upper - true if a string is all upper-case */
 
-int all_upper (char *str)
+ಪೂರ್ಣಾಙ್ಕ all_upper (ವರ್ಣ *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !isupper ((unsigned char) * str))
-			return 0;
+	ಯಾವತ್ (*str) {
+		ಯದಿ (!isascii ((unsigned ವರ್ಣ) * str) || !isupper ((unsigned ವರ್ಣ) * str))
+			ಪ್ರತ್ಯಾಗಮ 0;
 		++str;
 	}
 
-	return 1;
+	ಪ್ರತ್ಯಾಗಮ 1;
 }
 
 
 /* intcmp - compares two integers for use by qsort. */
 
-int intcmp (const void *a, const void *b)
+ಪೂರ್ಣಾಙ್ಕ intcmp (ಧ್ರುವ ಶೂನ್ಯ *a, ಧ್ರುವ ಶೂನ್ಯ *b)
 {
-  return *(const int *) a - *(const int *) b;
+  ಪ್ರತ್ಯಾಗಮ *(ಧ್ರುವ ಪೂರ್ಣಾಙ್ಕ *) a - *(ಧ್ರುವ ಪೂರ್ಣಾಙ್ಕ *) b;
 }
 
 
@@ -110,13 +110,13 @@ int intcmp (const void *a, const void *b)
  *		and exits.
  */
 
-void check_char (int c)
+ಶೂನ್ಯ check_char (ಪೂರ್ಣಾಙ್ಕ c)
 {
-	if (c >= CSIZE)
+	ಯದಿ (c >= CSIZE)
 		lerr (_("bad character '%s' detected in check_char()"),
 			readable_form (c));
 
-	if (c >= ctrl.csize)
+	ಯದಿ (c >= ctrl.csize)
 		lerr (_
 			("scanner requires -8 flag to use the character %s"),
 			readable_form (c));
@@ -126,49 +126,49 @@ void check_char (int c)
 
 /* clower - replace upper-case letter to lower-case */
 
-unsigned char clower (int c)
+unsigned ವರ್ಣ clower (ಪೂರ್ಣಾಙ್ಕ c)
 {
-	return (unsigned char) ((isascii (c) && isupper (c)) ? tolower (c) : c);
+	ಪ್ರತ್ಯಾಗಮ (unsigned ವರ್ಣ) ((isascii (c) && isupper (c)) ? tolower (c) : c);
 }
 
 
-char *xstrdup(const char *s)
+ವರ್ಣ *xstrdup(ಧ್ರುವ ವರ್ಣ *s)
 {
-	char *s2;
+	ವರ್ಣ *s2;
 
-	if ((s2 = strdup(s)) == NULL)
+	ಯದಿ ((s2 = strdup(s)) == ರಿಕ್ತ)
 		flexfatal (_("memory allocation failure in xstrdup()"));
 
-	return s2;
+	ಪ್ರತ್ಯಾಗಮ s2;
 }
 
 
 /* cclcmp - compares two characters for use by qsort with '\0' sorting last. */
 
-int cclcmp (const void *a, const void *b)
+ಪೂರ್ಣಾಙ್ಕ cclcmp (ಧ್ರುವ ಶೂನ್ಯ *a, ಧ್ರುವ ಶೂನ್ಯ *b)
 {
-	if (!*(const unsigned char *) a)
-		return 1;
-	else
-		if (!*(const unsigned char *) b)
-			return - 1;
-		else
-			return *(const unsigned char *) a - *(const unsigned char *) b;
+	ಯದಿ (!*(ಧ್ರುವ unsigned ವರ್ಣ *) a)
+		ಪ್ರತ್ಯಾಗಮ 1;
+	ಅನ್ಯಥಾ
+		ಯದಿ (!*(ಧ್ರುವ unsigned ವರ್ಣ *) b)
+			ಪ್ರತ್ಯಾಗಮ - 1;
+		ಅನ್ಯಥಾ
+			ಪ್ರತ್ಯಾಗಮ *(ಧ್ರುವ unsigned ವರ್ಣ *) a - *(ಧ್ರುವ unsigned ವರ್ಣ *) b;
 }
 
 
 /* dataend - finish up a block of data declarations */
 
-void dataend (const char *endit)
+ಶೂನ್ಯ dataend (ಧ್ರುವ ವರ್ಣ *endit)
 {
 	/* short circuit any output */
-	if (gentables) {
+	ಯದಿ (gentables) {
 
-		if (datapos > 0)
+		ಯದಿ (datapos > 0)
 			dataflush ();
 
 		/* add terminator for initialization; { for vi */
-		if (endit)
+		ಯದಿ (endit)
 			outn (endit);
 	}
 	dataline = 0;
@@ -178,14 +178,14 @@ void dataend (const char *endit)
 
 /* dataflush - flush generated data statements */
 
-void dataflush (void)
+ಶೂನ್ಯ dataflush (ಶೂನ್ಯ)
 {
-	assert (gentables);
+	ಪ್ರತಿಜ್ಞಾ (gentables);
 
-	if (datapos > 0)
+	ಯದಿ (datapos > 0)
 		outc ('\n');
 
-	if (++dataline >= NUMDATALINES) {
+	ಯದಿ (++dataline >= NUMDATALINES) {
 		/* Put out a blank line so that the table is grouped into
 		 * large blocks that enable the user to find elements easily.
 		 */
@@ -200,32 +200,32 @@ void dataflush (void)
 
 /* flexerror - report an error message and terminate */
 
-void flexerror (const char *msg)
+ಶೂನ್ಯ flexerror (ಧ್ರುವ ವರ್ಣ *ಸಂದೇಶ)
 {
-	fprintf (stderr, "%s: %s\n", program_name, msg);
+	fprintf (stderr, "%s: %s\n", program_name, ಸಂದೇಶ);
 	flexend (1);
 }
 
 
 /* flexfatal - report a fatal error message and terminate */
 
-void flexfatal (const char *msg)
+ಶೂನ್ಯ flexfatal (ಧ್ರುವ ವರ್ಣ *ಸಂದೇಶ)
 {
 	fprintf (stderr, _("%s: fatal internal error, %s\n"),
-		 program_name, msg);
+		 program_name, ಸಂದೇಶ);
 	FLEX_EXIT (1);
 }
 
 
 /* lerr - report an error message */
 
-void lerr (const char *msg, ...)
+ಶೂನ್ಯ lerr (ಧ್ರುವ ವರ್ಣ *ಸಂದೇಶ, ...)
 {
-	char    errmsg[MAXLINE];
+	ವರ್ಣ    errmsg[MAXLINE];
 	va_list args;
 
-	va_start(args, msg);
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
+	va_start(args, ಸಂದೇಶ);
+	vsnprintf (errmsg, ಪರಿಮಾಣ(errmsg), ಸಂದೇಶ, args);
 	va_end(args);
 	flexerror (errmsg);
 }
@@ -233,38 +233,38 @@ void lerr (const char *msg, ...)
 
 /* lerr_fatal - as lerr, but call flexfatal */
 
-void lerr_fatal (const char *msg, ...)
+ಶೂನ್ಯ lerr_fatal (ಧ್ರುವ ವರ್ಣ *ಸಂದೇಶ, ...)
 {
-	char    errmsg[MAXLINE];
+	ವರ್ಣ    errmsg[MAXLINE];
 	va_list args;
-	va_start(args, msg);
+	va_start(args, ಸಂದೇಶ);
 
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
+	vsnprintf (errmsg, ಪರಿಮಾಣ(errmsg), ಸಂದೇಶ, args);
 	va_end(args);
 	flexfatal (errmsg);
 }
 
 
 /* line_directive_out - spit out a "#line" statement or equivalent */
-void line_directive_out (FILE *output_file, char *path, int linenum)
+ಶೂನ್ಯ ಸಾಲು_directive_out (FILE *output_file, ವರ್ಣ *path, ಪೂರ್ಣಾಙ್ಕ linenum)
 {
-	char	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
-	char    directive[MAXLINE*2], filename[MAXLINE];
-	char   *s1, *s2, *s3;
+	ವರ್ಣ	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
+	ವರ್ಣ    directive[MAXLINE*2], filename[MAXLINE];
+	ವರ್ಣ   *s1, *s2, *s3;
 
-	if (!ctrl.gen_line_dirs)
-		return;
+	ಯದಿ (!ctrl.gen_ಸಾಲು_dirs)
+		ಪ್ರತ್ಯಾಗಮ;
 
-	s1 = (path != NULL) ? path : "M4_YY_OUTFILE_NAME";
+	s1 = (path != ರಿಕ್ತ) ? path : "M4_YY_OUTFILE_NAME";
 
-	if ((path != NULL) && !s1)
+	ಯದಿ ((path != ರಿಕ್ತ) && !s1)
 		s1 = "<stdin>";
     
 	s2 = filename;
-	s3 = &filename[sizeof (filename) - 2];
+	s3 = &filename[ಪರಿಮಾಣ (filename) - 2];
 
-	while (s2 < s3 && *s1) {
-		if (*s1 == '\\' || *s1 == '"')
+	ಯಾವತ್ (s2 < s3 && *s1) {
+		ಯದಿ (*s1 == '\\' || *s1 == '"')
 			/* Escape the '\' or '"' */
 			*s2++ = '\\';
 
@@ -273,19 +273,19 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
 
 	*s2 = '\0';
 
-	if (path != NULL)
-		snprintf (directive, sizeof(directive), trace_fmt, linenum, filename);
-	else {
-		snprintf (directive, sizeof(directive), trace_fmt, 0, filename);
+	ಯದಿ (path != ರಿಕ್ತ)
+		snprintf (directive, ಪರಿಮಾಣ(directive), trace_fmt, linenum, filename);
+	ಅನ್ಯಥಾ {
+		snprintf (directive, ಪರಿಮಾಣ(directive), trace_fmt, 0, filename);
 	}
 
 	/* If output_file is nil then we should put the directive in
 	 * the accumulated actions.
 	 */
-	if (output_file) {
+	ಯದಿ (output_file) {
 		fputs (directive, output_file);
 	}
-	else
+	ಅನ್ಯಥಾ
 		add_action (directive);
 }
 
@@ -294,7 +294,7 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
  *               representing where the user's section 1 definitions end
  *		 and the prolog begins
  */
-void mark_defs1 (void)
+ಶೂನ್ಯ mark_defs1 (ಶೂನ್ಯ)
 {
 	defs1_offset = 0;
 	action_array[action_index++] = '\0';
@@ -306,7 +306,7 @@ void mark_defs1 (void)
 /* mark_prolog - mark the current position in the action array as
  *               representing the end of the action prolog
  */
-void mark_prolog (void)
+ಶೂನ್ಯ mark_prolog (ಶೂನ್ಯ)
 {
 	action_array[action_index++] = '\0';
 	action_offset = action_index;
@@ -318,27 +318,27 @@ void mark_prolog (void)
  *
  * Generates a data statement initializing the current 2-D array to "value".
  */
-void mk2data (int value)
+ಶೂನ್ಯ mk2data (ಪೂರ್ಣಾಙ್ಕ ಮೌಲ್ಯ)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	ಯದಿ (!gentables)
+		ಪ್ರತ್ಯಾಗಮ;
 
-	if (datapos >= NUMDATAITEMS) {
+	ಯದಿ (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	ಯದಿ (datapos == 0)
 		/* Indent. */
 		out ("    ");
 
-	else
+	ಅನ್ಯಥಾ
 	  outc (',');
 
 	++datapos;
 
-	out_dec ("%5d", value);
+	out_dec ("%5d", ಮೌಲ್ಯ);
 }
 
 
@@ -347,73 +347,73 @@ void mk2data (int value)
  * Generates a data statement initializing the current array element to
  * "value".
  */
-void mkdata (int value)
+ಶೂನ್ಯ mkdata (ಪೂರ್ಣಾಙ್ಕ ಮೌಲ್ಯ)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	ಯದಿ (!gentables)
+		ಪ್ರತ್ಯಾಗಮ;
 
-	if (datapos >= NUMDATAITEMS) {
+	ಯದಿ (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	ಯದಿ (datapos == 0)
 		/* Indent. */
 		out ("    ");
-	else
+	ಅನ್ಯಥಾ
 		outc (',');
 	++datapos;
 
-	out_dec ("%5d", value);
+	out_dec ("%5d", ಮೌಲ್ಯ);
 }
 
 
 /* myctoi - return the integer represented by a string of digits */
 
-int myctoi (const char *array)
+ಪೂರ್ಣಾಙ್ಕ myctoi (ಧ್ರುವ ವರ್ಣ *array)
 {
-	int     val = 0;
+	ಪೂರ್ಣಾಙ್ಕ     val = 0;
 
-	(void) sscanf (array, "%d", &val);
+	(ಶೂನ್ಯ) sscanf (array, "%d", &val);
 
-	return val;
+	ಪ್ರತ್ಯಾಗಮ val;
 }
 
 
 /* myesc - return character corresponding to escape sequence */
 
-unsigned char myesc (unsigned char array[])
+unsigned ವರ್ಣ myesc (unsigned ವರ್ಣ array[])
 {
-	unsigned char    c, esc_char;
+	unsigned ವರ್ಣ    c, esc_char;
 
-	switch (array[1]) {
-	case 'b':
-		return '\b';
-	case 'f':
-		return '\f';
-	case 'n':
-		return '\n';
-	case 'r':
-		return '\r';
-	case 't':
-		return '\t';
-	case 'a':
-		return '\a';
-	case 'v':
-		return '\v';
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
+	ವಿಕಲ್ಪ (array[1]) {
+	ಪಕ್ಷ 'b':
+		ಪ್ರತ್ಯಾಗಮ '\b';
+	ಪಕ್ಷ 'f':
+		ಪ್ರತ್ಯಾಗಮ '\f';
+	ಪಕ್ಷ 'n':
+		ಪ್ರತ್ಯಾಗಮ '\n';
+	ಪಕ್ಷ 'r':
+		ಪ್ರತ್ಯಾಗಮ '\r';
+	ಪಕ್ಷ 't':
+		ಪ್ರತ್ಯಾಗಮ '\t';
+	ಪಕ್ಷ 'a':
+		ಪ್ರತ್ಯಾಗಮ '\a';
+	ಪಕ್ಷ 'v':
+		ಪ್ರತ್ಯಾಗಮ '\v';
+	ಪಕ್ಷ '0':
+	ಪಕ್ಷ '1':
+	ಪಕ್ಷ '2':
+	ಪಕ್ಷ '3':
+	ಪಕ್ಷ '4':
+	ಪಕ್ಷ '5':
+	ಪಕ್ಷ '6':
+	ಪಕ್ಷ '7':
 		{		/* \<octal> */
-			int     sptr = 1;
+			ಪೂರ್ಣಾಙ್ಕ     sptr = 1;
 
-			while (sptr <= 3 &&
+			ಯಾವತ್ (sptr <= 3 &&
                                array[sptr] >= '0' && array[sptr] <= '7') {
 				++sptr;
 			}
@@ -421,18 +421,18 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 1, NULL, 8);
+			esc_char = (unsigned ವರ್ಣ) strtoul (array + 1, ರಿಕ್ತ, 8);
 
 			array[sptr] = c;
 
-			return esc_char;
+			ಪ್ರತ್ಯಾಗಮ esc_char;
 		}
 
-	case 'x':
+	ಪಕ್ಷ 'x':
 		{		/* \x<hex> */
-			int     sptr = 2;
+			ಪೂರ್ಣಾಙ್ಕ     sptr = 2;
 
-			while (sptr <= 3 && isxdigit (array[sptr])) {
+			ಯಾವತ್ (sptr <= 3 && isxdigit (array[sptr])) {
 				/* Don't increment inside loop control
 				 * because if isxdigit() is a macro it might
 				 * expand into multiple increments ...
@@ -443,15 +443,15 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 2, NULL, 16);
+			esc_char = (unsigned ವರ್ಣ) strtoul (array + 2, ರಿಕ್ತ, 16);
 
 			array[sptr] = c;
 
-			return esc_char;
+			ಪ್ರತ್ಯಾಗಮ esc_char;
 		}
 
-	default:
-		return array[1];
+	ಸ್ವಭಾವ:
+		ಪ್ರತ್ಯಾಗಮ array[1];
 	}
 }
 
@@ -460,42 +460,42 @@ unsigned char myesc (unsigned char array[])
  *	 generated scanner, keeping track of the line count.
  */
 
-void out (const char *str)
+ಶೂನ್ಯ out (ಧ್ರುವ ವರ್ಣ *str)
 {
 	fputs (str, stdout);
 }
 
-void out_dec (const char *fmt, int n)
+ಶೂನ್ಯ out_dec (ಧ್ರುವ ವರ್ಣ *fmt, ಪೂರ್ಣಾಙ್ಕ n)
 {
 	fprintf (stdout, fmt, n);
 }
 
-void out_dec2 (const char *fmt, int n1, int n2)
+ಶೂನ್ಯ out_dec2 (ಧ್ರುವ ವರ್ಣ *fmt, ಪೂರ್ಣಾಙ್ಕ n1, ಪೂರ್ಣಾಙ್ಕ n2)
 {
 	fprintf (stdout, fmt, n1, n2);
 }
 
-void out_hex (const char *fmt, unsigned int x)
+ಶೂನ್ಯ out_hex (ಧ್ರುವ ವರ್ಣ *fmt, unsigned ಪೂರ್ಣಾಙ್ಕ x)
 {
 	fprintf (stdout, fmt, x);
 }
 
-void out_str (const char *fmt, const char str[])
+ಶೂನ್ಯ out_str (ಧ್ರುವ ವರ್ಣ *fmt, ಧ್ರುವ ವರ್ಣ str[])
 {
 	fprintf (stdout,fmt, str);
 }
 
-void out_str_dec (const char *fmt, const char str[], int n)
+ಶೂನ್ಯ out_str_dec (ಧ್ರುವ ವರ್ಣ *fmt, ಧ್ರುವ ವರ್ಣ str[], ಪೂರ್ಣಾಙ್ಕ n)
 {
 	fprintf (stdout,fmt, str, n);
 }
 
-void outc (int c)
+ಶೂನ್ಯ outc (ಪೂರ್ಣಾಙ್ಕ c)
 {
 	fputc (c, stdout);
 }
 
-void outn (const char *str)
+ಶೂನ್ಯ outn (ಧ್ರುವ ವರ್ಣ *str)
 {
 	fputs (str,stdout);
     fputc('\n',stdout);
@@ -505,9 +505,9 @@ void outn (const char *str)
  * @param def The m4 symbol to define.
  * @param val The definition; may be NULL.
  */
-void out_m4_define (const char* def, const char* val)
+ಶೂನ್ಯ out_m4_define (ಧ್ರುವ ವರ್ಣ* def, ಧ್ರುವ ವರ್ಣ* val)
 {
-    const char * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
+    ಧ್ರುವ ವರ್ಣ * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
     fprintf(stdout, fmt, def, val?val:"");
 }
 
@@ -517,71 +517,71 @@ void out_m4_define (const char* def, const char* val)
  * The returned string is in static storage.
  */
 
-char   *readable_form (int c)
+ವರ್ಣ   *readable_form (ಪೂರ್ಣಾಙ್ಕ c)
 {
-	static char rform[20];
+	ಸ್ಥಿರ ವರ್ಣ rform[20];
 
-	if ((c >= 0 && c < 32) || c >= 127) {
-		switch (c) {
-		case '\b':
-			return "\\b";
-		case '\f':
-			return "\\f";
-		case '\n':
-			return "\\n";
-		case '\r':
-			return "\\r";
-		case '\t':
-			return "\\t";
-		case '\a':
-			return "\\a";
-		case '\v':
-			return "\\v";
-		default:
-			if(env.trace_hex)
-				snprintf (rform, sizeof(rform), "\\x%.2x", (unsigned int) c);
-			else
-				snprintf (rform, sizeof(rform), "\\%.3o", (unsigned int) c);
-			return rform;
+	ಯದಿ ((c >= 0 && c < 32) || c >= 127) {
+		ವಿಕಲ್ಪ (c) {
+		ಪಕ್ಷ '\b':
+			ಪ್ರತ್ಯಾಗಮ "\\b";
+		ಪಕ್ಷ '\f':
+			ಪ್ರತ್ಯಾಗಮ "\\f";
+		ಪಕ್ಷ '\n':
+			ಪ್ರತ್ಯಾಗಮ "\\n";
+		ಪಕ್ಷ '\r':
+			ಪ್ರತ್ಯಾಗಮ "\\r";
+		ಪಕ್ಷ '\t':
+			ಪ್ರತ್ಯಾಗಮ "\\t";
+		ಪಕ್ಷ '\a':
+			ಪ್ರತ್ಯಾಗಮ "\\a";
+		ಪಕ್ಷ '\v':
+			ಪ್ರತ್ಯಾಗಮ "\\v";
+		ಸ್ವಭಾವ:
+			ಯದಿ(env.trace_hex)
+				snprintf (rform, ಪರಿಮಾಣ(rform), "\\x%.2x", (unsigned ಪೂರ್ಣಾಙ್ಕ) c);
+			ಅನ್ಯಥಾ
+				snprintf (rform, ಪರಿಮಾಣ(rform), "\\%.3o", (unsigned ಪೂರ್ಣಾಙ್ಕ) c);
+			ಪ್ರತ್ಯಾಗಮ rform;
 		}
 	}
 
-	else if (c == ' ')
-		return "' '";
+	ಅನ್ಯಥಾ ಯದಿ (c == ' ')
+		ಪ್ರತ್ಯಾಗಮ "' '";
 
-	else {
-		rform[0] = (char) c;
+	ಅನ್ಯಥಾ {
+		rform[0] = (ವರ್ಣ) c;
 		rform[1] = '\0';
 
-		return rform;
+		ಪ್ರತ್ಯಾಗಮ rform;
 	}
 }
 
 
 /* reallocate_array - increase the size of a dynamic array */
 
-void   *reallocate_array (void *array, int size, size_t element_size)
+ಶೂನ್ಯ   *reallocate_array (ಶೂನ್ಯ *array, ಪೂರ್ಣಾಙ್ಕ size, size_t element_size)
 {
-	void *new_array;
+	ಶೂನ್ಯ *new_array;
 #ifdef HAVE_REALLOCARR
 	new_array = array;
-	if (reallocarr(&new_array, (size_t) size, element_size)) {
+	ಯದಿ (reallocarr(&new_array, (size_t) size, element_size)) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
 			 * compatibility (for translations): */
 			_("memory allocation failed in allocate_array()"));
 	}
-#else
+#ಅನ್ಯಥಾ
 # ifdef HAVE_REALLOCARRAY
 	new_array = reallocarray(array, (size_t) size, element_size);
-# else
+# ಅನ್ಯಥಾ
 	/* Do manual overflow detection */
-	size_t num_bytes = (size_t) size * element_size;
-	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? NULL :
-		realloc(array, num_bytes);
+	size_t ಅಂಕೆ_bytes = (size_t) size * element_size;
+	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? ರಿಕ್ತ :
+		realloc(array, ಅಂಕೆ_bytes);
 # endif
-	if (!new_array) {
+	ಯದಿ (!new_array) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
@@ -589,7 +589,7 @@ void   *reallocate_array (void *array, int size, size_t element_size)
 			_("memory allocation failed in allocate_array()"));
 	}
 #endif
-	return new_array;
+	ಪ್ರತ್ಯಾಗಮ new_array;
 }
 
 
@@ -599,22 +599,22 @@ void   *reallocate_array (void *array, int size, size_t element_size)
  * element_n.  Formats the output with spaces and carriage returns.
  */
 
-void transition_struct_out (int element_v, int element_n)
+ಶೂನ್ಯ transition_struct_out (ಪೂರ್ಣಾಙ್ಕ element_v, ಪೂರ್ಣಾಙ್ಕ element_n)
 {
 
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	ಯದಿ (!gentables)
+		ಪ್ರತ್ಯಾಗಮ;
 
 	out_dec2 ("M4_HOOK_TABLE_OPENER[[%4d]],[[%4d]]M4_HOOK_TABLE_CONTINUE", element_v, element_n);
 	outc ('\n');
 
 	datapos += TRANS_STRUCT_PRINT_LENGTH;
 
-	if (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
+	ಯದಿ (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
 		outc ('\n');
 
-		if (++dataline % 10 == 0)
+		ಯದಿ (++dataline % 10 == 0)
 			outc ('\n');
 
 		datapos = 0;
@@ -627,52 +627,52 @@ void transition_struct_out (int element_v, int element_n)
  *
  * XXX: this is should go soon
  */
-void   *yy_flex_xmalloc (int size)
+ಶೂನ್ಯ   *yy_flex_xmalloc (ಪೂರ್ಣಾಙ್ಕ size)
 {
-	void   *result;
+	ಶೂನ್ಯ   *result;
 
 	result = malloc((size_t) size);
-	if (!result)
+	ಯದಿ (!result)
 		flexfatal (_
 			   ("memory allocation failed in yy_flex_xmalloc()"));
 
-	return result;
+	ಪ್ರತ್ಯಾಗಮ result;
 }
 
 
 /* Remove all '\n' and '\r' characters, if any, from the end of str.
  * str can be any null-terminated string, or NULL.
  * returns str. */
-char   *chomp (char *str)
+ವರ್ಣ   *chomp (ವರ್ಣ *str)
 {
-	char   *p = str;
+	ವರ್ಣ   *p = str;
 
-	if (!str || !*str)	/* s is null or empty string */
-		return str;
+	ಯದಿ (!str || !*str)	/* s is null or empty string */
+		ಪ್ರತ್ಯಾಗಮ str;
 
 	/* find end of string minus one */
-	while (*p)
+	ಯಾವತ್ (*p)
 		++p;
 	--p;
 
 	/* eat newlines */
-	while (p >= str && (*p == '\r' || *p == '\n'))
+	ಯಾವತ್ (p >= str && (*p == '\r' || *p == '\n'))
 		*p-- = 0;
-	return str;
+	ಪ್ರತ್ಯಾಗಮ str;
 }
 
-void comment(const char *txt)
+ಶೂನ್ಯ comment(ಧ್ರುವ ವರ್ಣ *txt)
 {
-	char buf[MAXLINE];
+	ವರ್ಣ buf[MAXLINE];
 	bool eol;
 
 	strncpy(buf, txt, MAXLINE-1);
 	eol = buf[strlen(buf)-1] == '\n';
 
-	if (eol)
+	ಯದಿ (eol)
 		buf[strlen(buf)-1] = '\0';
 	out_str("M4_HOOK_COMMENT_OPEN [[%s]] M4_HOOK_COMMENT_CLOSE", buf);
-	if (eol)
+	ಯದಿ (eol)
 		outc ('\n');
 }
 

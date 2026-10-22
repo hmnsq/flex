@@ -35,17 +35,17 @@
  */
 
 
-#include "flexdef.h"
-#include "tables.h"
+#ಅನ್ತರ್ಭಾವ "flexdef.h"
+#ಅನ್ತರ್ಭಾವ "tables.h"
 
 /** Convert size_t to t_flag.
  *  @param n in {1,2,4}
  *  @return YYTD_DATA*. 
  */
 #define BYTES2TFLAG(n)\
-    (((n) == sizeof(flex_int8_t))\
+    (((n) == ಪರಿಮಾಣ(flex_int8_t))\
         ? YYTD_DATA8\
-        :(((n)== sizeof(flex_int16_t))\
+        :(((n)== ಪರಿಮಾಣ(flex_int16_t))\
             ? YYTD_DATA16\
             : YYTD_DATA32))
 
@@ -54,11 +54,11 @@
  */
 #define TFLAGS_CLRDATA(flg) ((flg) & ~(YYTD_DATA8 | YYTD_DATA16 | YYTD_DATA32))
 
-int     yytbl_write32 (struct yytbl_writer *wr, flex_uint32_t v);
-int     yytbl_write16 (struct yytbl_writer *wr, flex_uint16_t v);
-int     yytbl_write8 (struct yytbl_writer *wr, flex_uint8_t v);
-int     yytbl_writen (struct yytbl_writer *wr, void *v, int len);
-static flex_int32_t yytbl_data_geti (const struct yytbl_data *tbl, int i);
+ಪೂರ್ಣಾಙ್ಕ     yytbl_write32 (ಸಂರಚನಾ yytbl_writer *wr, flex_uint32_t v);
+ಪೂರ್ಣಾಙ್ಕ     yytbl_write16 (ಸಂರಚನಾ yytbl_writer *wr, flex_uint16_t v);
+ಪೂರ್ಣಾಙ್ಕ     yytbl_write8 (ಸಂರಚನಾ yytbl_writer *wr, flex_uint8_t v);
+ಪೂರ್ಣಾಙ್ಕ     yytbl_writen (ಸಂರಚನಾ yytbl_writer *wr, ಶೂನ್ಯ *v, ಪೂರ್ಣಾಙ್ಕ len);
+ಸ್ಥಿರ flex_int32_t yytbl_data_geti (ಧ್ರುವ ಸಂರಚನಾ yytbl_data *tbl, ಪೂರ್ಣಾಙ್ಕ i);
 /* XXX Not used
 static flex_int32_t yytbl_data_getijk (const struct yytbl_data *tbl, int i,
 				  int j, int k);
@@ -70,11 +70,11 @@ static flex_int32_t yytbl_data_getijk (const struct yytbl_data *tbl, int i,
  *  @param out the output file
  *  @return 0 on success
  */
-int yytbl_writer_init (struct yytbl_writer *wr, FILE * out)
+ಪೂರ್ಣಾಙ್ಕ yytbl_writer_init (ಸಂರಚನಾ yytbl_writer *wr, FILE * out)
 {
 	wr->out = out;
 	wr->total_written = 0;
-	return 0;
+	ಪ್ರತ್ಯಾಗಮ 0;
 }
 
 /** Initialize a table header.
@@ -82,10 +82,10 @@ int yytbl_writer_init (struct yytbl_writer *wr, FILE * out)
  *  @param version_str the  version string
  *  @param name the name of this table set
  */
-int yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
-		    const char *name)
+ಪೂರ್ಣಾಙ್ಕ yytbl_hdr_init (ಸಂರಚನಾ yytbl_hdr *th, ಧ್ರುವ ವರ್ಣ *version_str,
+		    ಧ್ರುವ ವರ್ಣ *name)
 {
-	memset (th, 0, sizeof (struct yytbl_hdr));
+	memset (th, 0, ಪರಿಮಾಣ (ಸಂರಚನಾ yytbl_hdr));
 
 	th->th_magic = YYTBL_MAGIC;
 	th->th_hsize = (flex_uint32_t) (14 + strlen (version_str) + 1 + strlen (name) + 1);
@@ -94,7 +94,7 @@ int yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
 	th->th_flags = 0;
 	th->th_version = xstrdup(version_str);
 	th->th_name = xstrdup(name);
-	return 0;
+	ಪ್ರತ್ಯಾಗಮ 0;
 }
 
 /** Allocate and initialize a table data structure.
@@ -102,39 +102,39 @@ int yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
  *  @param id  the table identifier
  *  @return 0 on success
  */
-int yytbl_data_init (struct yytbl_data *td, enum yytbl_id id)
+ಪೂರ್ಣಾಙ್ಕ yytbl_data_init (ಸಂರಚನಾ yytbl_data *td, ಗಣನಾ yytbl_id id)
 {
 
-	memset (td, 0, sizeof (struct yytbl_data));
+	memset (td, 0, ಪರಿಮಾಣ (ಸಂರಚನಾ yytbl_data));
 	td->td_id = id;
 	td->td_flags = YYTD_DATA32;
-	return 0;
+	ಪ್ರತ್ಯಾಗಮ 0;
 }
 
 /** Clean up table and data array.
  *  @param td will be destroyed
  *  @return 0 on success
  */
-int yytbl_data_destroy (struct yytbl_data *td)
+ಪೂರ್ಣಾಙ್ಕ yytbl_data_destroy (ಸಂರಚನಾ yytbl_data *td)
 {
-	free(td->td_data);
+	ಮುಕ್ತ(td->td_data);
 	td->td_data = 0;
-	free (td);
-	return 0;
+	ಮುಕ್ತ (td);
+	ಪ್ರತ್ಯಾಗಮ 0;
 }
 
 /** Write enough padding to bring the file pointer to a 64-bit boundary. */
-static int yytbl_write_pad64 (struct yytbl_writer *wr)
+ಸ್ಥಿರ ಪೂರ್ಣಾಙ್ಕ yytbl_write_pad64 (ಸಂರಚನಾ yytbl_writer *wr)
 {
-	int bwritten = 0;
+	ಪೂರ್ಣಾಙ್ಕ bwritten = 0;
 
-	while (wr->total_written % (8 * sizeof(flex_uint8_t)) > 0) {
-		if (yytbl_write8 (wr, 0) < 0)
-			return -1;
-		else
+	ಯಾವತ್ (wr->total_written % (8 * ಪರಿಮಾಣ(flex_uint8_t)) > 0) {
+		ಯದಿ (yytbl_write8 (wr, 0) < 0)
+			ಪ್ರತ್ಯಾಗಮ -1;
+		ಅನ್ಯಥಾ
 			bwritten++;
 	}
-	return bwritten;
+	ಪ್ರತ್ಯಾಗಮ bwritten;
 }
 
 /** write the header.
@@ -142,44 +142,44 @@ static int yytbl_write_pad64 (struct yytbl_writer *wr)
  *  @param th table header to be written
  *  @return -1 on error, or bytes written on success.
  */
-int yytbl_hdr_fwrite (struct yytbl_writer *wr, const struct yytbl_hdr *th)
+ಪೂರ್ಣಾಙ್ಕ yytbl_hdr_fwrite (ಸಂರಚನಾ yytbl_writer *wr, ಧ್ರುವ ಸಂರಚನಾ yytbl_hdr *th)
 {
-	int  sz, rv;
-	int     bwritten = 0;
+	ಪೂರ್ಣಾಙ್ಕ  sz, rv;
+	ಪೂರ್ಣಾಙ್ಕ     bwritten = 0;
 
-	if (yytbl_write32 (wr, th->th_magic) < 0
+	ಯದಿ (yytbl_write32 (wr, th->th_magic) < 0
 	    || yytbl_write32 (wr, th->th_hsize) < 0)
 		flex_die (_("th_magic|th_hsize write32 failed"));
 	bwritten += 8;
 
-	if (fgetpos (wr->out, &(wr->th_ssize_pos)) != 0)
+	ಯದಿ (fgetpos (wr->out, &(wr->th_ssize_pos)) != 0)
 		flex_die (_("fgetpos failed"));
 
-	if (yytbl_write32 (wr, th->th_ssize) < 0
+	ಯದಿ (yytbl_write32 (wr, th->th_ssize) < 0
 	    || yytbl_write16 (wr, th->th_flags) < 0)
 		flex_die (_("th_ssize|th_flags write failed"));
 	bwritten += 6;
 
-	sz = (int) strlen (th->th_version) + 1;
-	if ((rv = yytbl_writen (wr, th->th_version, sz)) != sz)
+	sz = (ಪೂರ್ಣಾಙ್ಕ) strlen (th->th_version) + 1;
+	ಯದಿ ((rv = yytbl_writen (wr, th->th_version, sz)) != sz)
 		flex_die (_("th_version written failed"));
 	bwritten += rv;
 
-	sz = (int) strlen (th->th_name) + 1;
-	if ((rv = yytbl_writen (wr, th->th_name, sz)) != sz)
+	sz = (ಪೂರ್ಣಾಙ್ಕ) strlen (th->th_name) + 1;
+	ಯದಿ ((rv = yytbl_writen (wr, th->th_name, sz)) != sz)
 		flex_die (_("th_name written failed"));
 	bwritten += rv;
 
 	/* add padding */
-	if ((rv = yytbl_write_pad64 (wr)) < 0)
+	ಯದಿ ((rv = yytbl_write_pad64 (wr)) < 0)
 		flex_die (_("pad64 failed"));
 	bwritten += rv;
 
 	/* Sanity check */
-	if (bwritten != (int) th->th_hsize)
+	ಯದಿ (bwritten != (ಪೂರ್ಣಾಙ್ಕ) th->th_hsize)
 		flex_die (_("pad64 failed"));
 
-	return bwritten;
+	ಪ್ರತ್ಯಾಗಮ bwritten;
 }
 
 
@@ -188,76 +188,76 @@ int yytbl_hdr_fwrite (struct yytbl_writer *wr, const struct yytbl_hdr *th)
  *  @param td table data to be written
  *  @return -1 on error, or bytes written on success.
  */
-int yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td)
+ಪೂರ್ಣಾಙ್ಕ yytbl_data_fwrite (ಸಂರಚನಾ yytbl_writer *wr, ಸಂರಚನಾ yytbl_data *td)
 {
-	int  rv;
+	ಪೂರ್ಣಾಙ್ಕ  rv;
 	flex_int32_t bwritten = 0;
 	flex_int32_t i, total_len;
 	fpos_t  pos;
 
-	if ((rv = yytbl_write16 (wr, td->td_id)) < 0)
-		return -1;
+	ಯದಿ ((rv = yytbl_write16 (wr, td->td_id)) < 0)
+		ಪ್ರತ್ಯಾಗಮ -1;
 	bwritten += rv;
 
-	if ((rv = yytbl_write16 (wr, td->td_flags)) < 0)
-		return -1;
+	ಯದಿ ((rv = yytbl_write16 (wr, td->td_flags)) < 0)
+		ಪ್ರತ್ಯಾಗಮ -1;
 	bwritten += rv;
 
-	if ((rv = yytbl_write32 (wr, td->td_hilen)) < 0)
-		return -1;
+	ಯದಿ ((rv = yytbl_write32 (wr, td->td_hilen)) < 0)
+		ಪ್ರತ್ಯಾಗಮ -1;
 	bwritten += rv;
 
-	if ((rv = yytbl_write32 (wr, td->td_lolen)) < 0)
-		return -1;
+	ಯದಿ ((rv = yytbl_write32 (wr, td->td_lolen)) < 0)
+		ಪ್ರತ್ಯಾಗಮ -1;
 	bwritten += rv;
 
 	total_len = yytbl_calc_total_len (td);
-	for (i = 0; i < total_len; i++) {
-		switch (YYTDFLAGS2BYTES (td->td_flags)) {
-		case sizeof (flex_int8_t):
+	ಪ್ರತಿ (i = 0; i < total_len; i++) {
+		ವಿಕಲ್ಪ (YYTDFLAGS2BYTES (td->td_flags)) {
+		ಪಕ್ಷ ಪರಿಮಾಣ (flex_int8_t):
 			rv = yytbl_write8 (wr, (flex_uint8_t) yytbl_data_geti (td, i));
-			break;
-		case sizeof (flex_int16_t):
+			ಭಙ್ಗ;
+		ಪಕ್ಷ ಪರಿಮಾಣ (flex_int16_t):
 			rv = yytbl_write16 (wr, (flex_uint16_t) yytbl_data_geti (td, i));
-			break;
-		case sizeof (flex_int32_t):
+			ಭಙ್ಗ;
+		ಪಕ್ಷ ಪರಿಮಾಣ (flex_int32_t):
 			rv = yytbl_write32 (wr, (flex_uint32_t) yytbl_data_geti (td, i));
-			break;
-		default:
+			ಭಙ್ಗ;
+		ಸ್ವಭಾವ:
 			flex_die (_("invalid td_flags detected"));
 		}
-		if (rv < 0) {
+		ಯದಿ (rv < 0) {
 			flex_die (_("error while writing tables"));
-			return -1;
+			ಪ್ರತ್ಯಾಗಮ -1;
 		}
 		bwritten += rv;
 	}
 
 	/* Sanity check */
-	if (bwritten != (12 + total_len * (int) YYTDFLAGS2BYTES (td->td_flags))) {
+	ಯದಿ (bwritten != (12 + total_len * (ಪೂರ್ಣಾಙ್ಕ) YYTDFLAGS2BYTES (td->td_flags))) {
 		flex_die (_("insanity detected"));
-		return -1;
+		ಪ್ರತ್ಯಾಗಮ -1;
 	}
 
 	/* add padding */
-	if ((rv = yytbl_write_pad64 (wr)) < 0) {
+	ಯದಿ ((rv = yytbl_write_pad64 (wr)) < 0) {
 		flex_die (_("pad64 failed"));
-		return -1;
+		ಪ್ರತ್ಯಾಗಮ -1;
 	}
 	bwritten += rv;
 
 	/* Now go back and update the th_hsize member */
-	if (fgetpos (wr->out, &pos) != 0
+	ಯದಿ (fgetpos (wr->out, &pos) != 0
 	    || fsetpos (wr->out, &(wr->th_ssize_pos)) != 0
 	    || yytbl_write32 (wr, (flex_uint32_t) wr->total_written) < 0
 	    || fsetpos (wr->out, &pos)) {
 		flex_die (_("get|set|fwrite32 failed"));
-		return -1;
+		ಪ್ರತ್ಯಾಗಮ -1;
 	}
-	else
+	ಅನ್ಯಥಾ
 		/* Don't count the int we just wrote. */
-		wr->total_written -= (int) sizeof (flex_int32_t);
-	return bwritten;
+		wr->total_written -= (ಪೂರ್ಣಾಙ್ಕ) ಪರಿಮಾಣ (flex_int32_t);
+	ಪ್ರತ್ಯಾಗಮ bwritten;
 }
 
 /** Write n bytes.
@@ -266,15 +266,15 @@ int yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td)
  *  @param  len  number of bytes
  *  @return  -1 on error. number of bytes written on success.
  */
-int yytbl_writen (struct yytbl_writer *wr, void *v, int len)
+ಪೂರ್ಣಾಙ್ಕ yytbl_writen (ಸಂರಚನಾ yytbl_writer *wr, ಶೂನ್ಯ *v, ಪೂರ್ಣಾಙ್ಕ len)
 {
-	int  rv;
+	ಪೂರ್ಣಾಙ್ಕ  rv;
 
-	rv = (int) fwrite (v, 1, (size_t) len, wr->out);
-	if (rv != len)
-		return -1;
+	rv = (ಪೂರ್ಣಾಙ್ಕ) fwrite (v, 1, (size_t) len, wr->out);
+	ಯದಿ (rv != len)
+		ಪ್ರತ್ಯಾಗಮ -1;
 	wr->total_written += len;
-	return len;
+	ಪ್ರತ್ಯಾಗಮ len;
 }
 
 /** Write four bytes in network byte order
@@ -282,18 +282,18 @@ int yytbl_writen (struct yytbl_writer *wr, void *v, int len)
  *  @param  v    a dword in host byte order
  *  @return  -1 on error. number of bytes written on success.
  */
-int yytbl_write32 (struct yytbl_writer *wr, flex_uint32_t v)
+ಪೂರ್ಣಾಙ್ಕ yytbl_write32 (ಸಂರಚನಾ yytbl_writer *wr, flex_uint32_t v)
 {
 	flex_uint32_t vnet;
-	int  bytes, rv;
+	ಪೂರ್ಣಾಙ್ಕ  bytes, rv;
 
 	vnet = htonl (v);
-	bytes = (int) sizeof (flex_uint32_t);
-	rv = (int) fwrite (&vnet, (size_t) bytes, 1, wr->out);
-	if (rv != 1)
-		return -1;
+	bytes = (ಪೂರ್ಣಾಙ್ಕ) ಪರಿಮಾಣ (flex_uint32_t);
+	rv = (ಪೂರ್ಣಾಙ್ಕ) fwrite (&vnet, (size_t) bytes, 1, wr->out);
+	ಯದಿ (rv != 1)
+		ಪ್ರತ್ಯಾಗಮ -1;
 	wr->total_written += bytes;
-	return bytes;
+	ಪ್ರತ್ಯಾಗಮ bytes;
 }
 
 /** Write two bytes in network byte order.
@@ -301,18 +301,18 @@ int yytbl_write32 (struct yytbl_writer *wr, flex_uint32_t v)
  *  @param  v    a word in host byte order
  *  @return  -1 on error. number of bytes written on success.
  */
-int yytbl_write16 (struct yytbl_writer *wr, flex_uint16_t v)
+ಪೂರ್ಣಾಙ್ಕ yytbl_write16 (ಸಂರಚನಾ yytbl_writer *wr, flex_uint16_t v)
 {
 	flex_uint16_t vnet;
-	int  bytes, rv;
+	ಪೂರ್ಣಾಙ್ಕ  bytes, rv;
 
 	vnet = htons (v);
-	bytes = (int) sizeof (flex_uint16_t);
-	rv = (int) fwrite (&vnet, (size_t) bytes, 1, wr->out);
-	if (rv != 1)
-		return -1;
+	bytes = (ಪೂರ್ಣಾಙ್ಕ) ಪರಿಮಾಣ (flex_uint16_t);
+	rv = (ಪೂರ್ಣಾಙ್ಕ) fwrite (&vnet, (size_t) bytes, 1, wr->out);
+	ಯದಿ (rv != 1)
+		ಪ್ರತ್ಯಾಗಮ -1;
 	wr->total_written += bytes;
-	return bytes;
+	ಪ್ರತ್ಯಾಗಮ bytes;
 }
 
 /** Write a byte.
@@ -320,21 +320,21 @@ int yytbl_write16 (struct yytbl_writer *wr, flex_uint16_t v)
  *  @param  v    the value to be written
  *  @return  -1 on error. number of bytes written on success.
  */
-int yytbl_write8 (struct yytbl_writer *wr, flex_uint8_t v)
+ಪೂರ್ಣಾಙ್ಕ yytbl_write8 (ಸಂರಚನಾ yytbl_writer *wr, flex_uint8_t v)
 {
-	int  bytes, rv;
+	ಪೂರ್ಣಾಙ್ಕ  bytes, rv;
 
-	bytes = (int) sizeof (flex_uint8_t);
-	rv = (int) fwrite (&v, (size_t) bytes, 1, wr->out);
-	if (rv != 1)
-		return -1;
+	bytes = (ಪೂರ್ಣಾಙ್ಕ) ಪರಿಮಾಣ (flex_uint8_t);
+	rv = (ಪೂರ್ಣಾಙ್ಕ) fwrite (&v, (size_t) bytes, 1, wr->out);
+	ಯದಿ (rv != 1)
+		ಪ್ರತ್ಯಾಗಮ -1;
 	wr->total_written += bytes;
-	return bytes;
+	ಪ್ರತ್ಯಾಗಮ bytes;
 }
 
 
 /* XXX Not Used */
-#if 0
+#ಯದಿ 0
 /** Extract data element [i][j] from array data tables. 
  * @param tbl data table
  * @param i index into higher dimension array. i should be zero for one-dimensional arrays.
@@ -342,32 +342,32 @@ int yytbl_write8 (struct yytbl_writer *wr, flex_uint8_t v)
  * @param k index into struct, must be 0 or 1. Only valid for YYTD_ID_TRANSITION table
  * @return data[i][j + k]
  */
-static flex_int32_t yytbl_data_getijk (const struct yytbl_data *tbl, int i,
-				  int j, int k)
+ಸ್ಥಿರ flex_int32_t yytbl_data_getijk (ಧ್ರುವ ಸಂರಚನಾ yytbl_data *tbl, ಪೂರ್ಣಾಙ್ಕ i,
+				  ಪೂರ್ಣಾಙ್ಕ j, ಪೂರ್ಣಾಙ್ಕ k)
 {
 	flex_int32_t lo;
 
 	k %= 2;
 	lo = tbl->td_lolen;
 
-	switch (YYTDFLAGS2BYTES (tbl->td_flags)) {
-	case sizeof (flex_int8_t):
-		return ((flex_int8_t *) (tbl->td_data))[(i * lo + j) * (k + 1) +
+	ವಿಕಲ್ಪ (YYTDFLAGS2BYTES (tbl->td_flags)) {
+	ಪಕ್ಷ ಪರಿಮಾಣ (flex_int8_t):
+		ಪ್ರತ್ಯಾಗಮ ((flex_int8_t *) (tbl->td_data))[(i * lo + j) * (k + 1) +
 						   k];
-	case sizeof (flex_int16_t):
-		return ((flex_int16_t *) (tbl->td_data))[(i * lo + j) * (k +
+	ಪಕ್ಷ ಪರಿಮಾಣ (flex_int16_t):
+		ಪ್ರತ್ಯಾಗಮ ((flex_int16_t *) (tbl->td_data))[(i * lo + j) * (k +
 								    1) +
 						    k];
-	case sizeof (flex_int32_t):
-		return ((flex_int32_t *) (tbl->td_data))[(i * lo + j) * (k +
+	ಪಕ್ಷ ಪರಿಮಾಣ (flex_int32_t):
+		ಪ್ರತ್ಯಾಗಮ ((flex_int32_t *) (tbl->td_data))[(i * lo + j) * (k +
 								    1) +
 						    k];
-	default:
+	ಸ್ವಭಾವ:
 		flex_die (_("invalid td_flags detected"));
-		break;
+		ಭಙ್ಗ;
 	}
 
-	return 0;
+	ಪ್ರತ್ಯಾಗಮ 0;
 }
 #endif /* Not used */
 
@@ -378,21 +378,21 @@ static flex_int32_t yytbl_data_getijk (const struct yytbl_data *tbl, int i,
  * @param i index into array.
  * @return data[i]
  */
-static flex_int32_t yytbl_data_geti (const struct yytbl_data *tbl, int i)
+ಸ್ಥಿರ flex_int32_t yytbl_data_geti (ಧ್ರುವ ಸಂರಚನಾ yytbl_data *tbl, ಪೂರ್ಣಾಙ್ಕ i)
 {
 
-	switch (YYTDFLAGS2BYTES (tbl->td_flags)) {
-	case sizeof (flex_int8_t):
-		return ((flex_int8_t *) (tbl->td_data))[i];
-	case sizeof (flex_int16_t):
-		return ((flex_int16_t *) (tbl->td_data))[i];
-	case sizeof (flex_int32_t):
-		return ((flex_int32_t *) (tbl->td_data))[i];
-	default:
+	ವಿಕಲ್ಪ (YYTDFLAGS2BYTES (tbl->td_flags)) {
+	ಪಕ್ಷ ಪರಿಮಾಣ (flex_int8_t):
+		ಪ್ರತ್ಯಾಗಮ ((flex_int8_t *) (tbl->td_data))[i];
+	ಪಕ್ಷ ಪರಿಮಾಣ (flex_int16_t):
+		ಪ್ರತ್ಯಾಗಮ ((flex_int16_t *) (tbl->td_data))[i];
+	ಪಕ್ಷ ಪರಿಮಾಣ (flex_int32_t):
+		ಪ್ರತ್ಯಾಗಮ ((flex_int32_t *) (tbl->td_data))[i];
+	ಸ್ವಭಾವ:
 		flex_die (_("invalid td_flags detected"));
-		break;
+		ಭಙ್ಗ;
 	}
-	return 0;
+	ಪ್ರತ್ಯಾಗಮ 0;
 }
 
 /** Set data element [i] in array data tables treated as a single flat array of integers.
@@ -402,23 +402,23 @@ static flex_int32_t yytbl_data_geti (const struct yytbl_data *tbl, int i)
  * @param i index into array.
  * @param newval new value for data[i]
  */
-static void yytbl_data_seti (const struct yytbl_data *tbl, int i,
+ಸ್ಥಿರ ಶೂನ್ಯ yytbl_data_seti (ಧ್ರುವ ಸಂರಚನಾ yytbl_data *tbl, ಪೂರ್ಣಾಙ್ಕ i,
 			     flex_int32_t newval)
 {
 
-	switch (YYTDFLAGS2BYTES (tbl->td_flags)) {
-	case sizeof (flex_int8_t):
+	ವಿಕಲ್ಪ (YYTDFLAGS2BYTES (tbl->td_flags)) {
+	ಪಕ್ಷ ಪರಿಮಾಣ (flex_int8_t):
 		((flex_int8_t *) (tbl->td_data))[i] = (flex_int8_t) newval;
-		break;
-	case sizeof (flex_int16_t):
+		ಭಙ್ಗ;
+	ಪಕ್ಷ ಪರಿಮಾಣ (flex_int16_t):
 		((flex_int16_t *) (tbl->td_data))[i] = (flex_int16_t) newval;
-		break;
-	case sizeof (flex_int32_t):
+		ಭಙ್ಗ;
+	ಪಕ್ಷ ಪರಿಮಾಣ (flex_int32_t):
 		((flex_int32_t *) (tbl->td_data))[i] = (flex_int32_t) newval;
-		break;
-	default:
+		ಭಙ್ಗ;
+	ಸ್ವಭಾವ:
 		flex_die (_("invalid td_flags detected"));
-		break;
+		ಭಙ್ಗ;
 	}
 }
 
@@ -427,28 +427,28 @@ static void yytbl_data_seti (const struct yytbl_data *tbl, int i,
  *  @param tbl  the data table
  *  @return sizeof(n) where n in {flex_int8_t, flex_int16_t, flex_int32_t}
  */
-static size_t min_int_size (struct yytbl_data *tbl)
+ಸ್ಥಿರ size_t min_int_size (ಸಂರಚನಾ yytbl_data *tbl)
 {
 	flex_int32_t i, total_len;
 	flex_int32_t max = 0;
 
 	total_len = yytbl_calc_total_len (tbl);
 
-	for (i = 0; i < total_len; i++) {
+	ಪ್ರತಿ (i = 0; i < total_len; i++) {
 		flex_int32_t n;
 
 		n = abs (yytbl_data_geti (tbl, i));
 
-		if (max < n)
+		ಯದಿ (max < n)
 			max = n;
 	}
 
-	if (max <= INT8_MAX)
-		return sizeof (flex_int8_t);
-	else if (max <= INT16_MAX)
-		return sizeof (flex_int16_t);
-	else
-		return sizeof (flex_int32_t);
+	ಯದಿ (max <= INT8_MAX)
+		ಪ್ರತ್ಯಾಗಮ ಪರಿಮಾಣ (flex_int8_t);
+	ಅನ್ಯಥಾ ಯದಿ (max <= INT16_MAX)
+		ಪ್ರತ್ಯಾಗಮ ಪರಿಮಾಣ (flex_int16_t);
+	ಅನ್ಯಥಾ
+		ಪ್ರತ್ಯಾಗಮ ಪರಿಮಾಣ (flex_int32_t);
 }
 
 /** Transform data to smallest possible of (int32, int16, int8).
@@ -460,11 +460,11 @@ static size_t min_int_size (struct yytbl_data *tbl)
  *
  * @param tbl the table to be compressed
  */
-void yytbl_data_compress (struct yytbl_data *tbl)
+ಶೂನ್ಯ yytbl_data_compress (ಸಂರಚನಾ yytbl_data *tbl)
 {
 	flex_int32_t i, total_len;
 	size_t newsz;
-	struct yytbl_data newtbl;
+	ಸಂರಚನಾ yytbl_data newtbl;
 
 	yytbl_data_init (&newtbl, tbl->td_id);
 	newtbl.td_hilen = tbl->td_hilen;
@@ -474,13 +474,13 @@ void yytbl_data_compress (struct yytbl_data *tbl)
 	newsz = min_int_size (tbl);
 
 
-	if (newsz == YYTDFLAGS2BYTES (tbl->td_flags))
+	ಯದಿ (newsz == YYTDFLAGS2BYTES (tbl->td_flags))
 		/* No change in this table needed. */
-		return;
+		ಪ್ರತ್ಯಾಗಮ;
 
-	if (newsz > YYTDFLAGS2BYTES (tbl->td_flags)) {
+	ಯದಿ (newsz > YYTDFLAGS2BYTES (tbl->td_flags)) {
 		flex_die (_("detected negative compression"));
-		return;
+		ಪ್ರತ್ಯಾಗಮ;
 	}
 
 	total_len = yytbl_calc_total_len (tbl);
@@ -488,7 +488,7 @@ void yytbl_data_compress (struct yytbl_data *tbl)
 	newtbl.td_flags = (flex_uint16_t)
 		(TFLAGS_CLRDATA (newtbl.td_flags) | BYTES2TFLAG (newsz));
 
-	for (i = 0; i < total_len; i++) {
+	ಪ್ರತಿ (i = 0; i < total_len; i++) {
 		flex_int32_t g;
 
 		g = yytbl_data_geti (tbl, i);
@@ -497,7 +497,7 @@ void yytbl_data_compress (struct yytbl_data *tbl)
 
 
 	/* Now copy over the old table */
-	free (tbl->td_data);
+	ಮುಕ್ತ (tbl->td_data);
 	*tbl = newtbl;
 }
 

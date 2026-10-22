@@ -25,25 +25,25 @@
 /* Get declarations of GNU message catalog functions.  */
 # include <libintl.h>
 
-#else
+#ಅನ್ಯಥಾ
 
 /* Disabled NLS.
    The casts to 'const char *' serve the purpose of producing warnings
    for invalid uses of the value returned from these functions.
    On pre-ANSI systems without 'const', the config.h file is supposed to
    contain "#define const".  */
-# define gettext(Msgid) ((const char *) (Msgid))
-# define dgettext(Domainname, Msgid) ((const char *) (Msgid))
-# define dcgettext(Domainname, Msgid, Category) ((const char *) (Msgid))
+# define gettext(Msgid) ((ಧ್ರುವ ವರ್ಣ *) (Msgid))
+# define dgettext(Domainname, Msgid) ((ಧ್ರುವ ವರ್ಣ *) (Msgid))
+# define dcgettext(Domainname, Msgid, Category) ((ಧ್ರುವ ವರ್ಣ *) (Msgid))
 # define ngettext(Msgid1, Msgid2, N) \
-    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
+    ((N) == 1 ? (ಧ್ರುವ ವರ್ಣ *) (Msgid1) : (ಧ್ರುವ ವರ್ಣ *) (Msgid2))
 # define dngettext(Domainname, Msgid1, Msgid2, N) \
-    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
+    ((N) == 1 ? (ಧ್ರುವ ವರ್ಣ *) (Msgid1) : (ಧ್ರುವ ವರ್ಣ *) (Msgid2))
 # define dcngettext(Domainname, Msgid1, Msgid2, N, Category) \
-    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
-# define textdomain(Domainname) ((const char *) (Domainname))
-# define bindtextdomain(Domainname, Dirname) ((const char *) (Dirname))
-# define bind_textdomain_codeset(Domainname, Codeset) ((const char *) (Codeset))
+    ((N) == 1 ? (ಧ್ರುವ ವರ್ಣ *) (Msgid1) : (ಧ್ರುವ ವರ್ಣ *) (Msgid2))
+# define textdomain(Domainname) ((ಧ್ರುವ ವರ್ಣ *) (Domainname))
+# define bindtextdomain(Domainname, Dirname) ((ಧ್ರುವ ವರ್ಣ *) (Dirname))
+# define bind_textdomain_codeset(Domainname, Codeset) ((ಧ್ರುವ ವರ್ಣ *) (Codeset))
 
 #endif
 

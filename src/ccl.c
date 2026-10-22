@@ -33,30 +33,30 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#ಅನ್ತರ್ಭಾವ "flexdef.h"
 
 /* return true if the chr is in the ccl. Takes negation into account. */
-static bool
-ccl_contains (const int cclp, const int ch)
+ಸ್ಥಿರ bool
+ccl_contains (ಧ್ರುವ ಪೂರ್ಣಾಙ್ಕ cclp, ಧ್ರುವ ಪೂರ್ಣಾಙ್ಕ ch)
 {
-	int     ind, len, i;
+	ಪೂರ್ಣಾಙ್ಕ     ind, len, i;
 
 	len = ccllen[cclp];
 	ind = cclmap[cclp];
 
-	for (i = 0; i < len; ++i)
-		if (ccltbl[ind + i] == ch)
-			return !cclng[cclp];
+	ಪ್ರತಿ (i = 0; i < len; ++i)
+		ಯದಿ (ccltbl[ind + i] == ch)
+			ಪ್ರತ್ಯಾಗಮ !cclng[cclp];
 
-    return cclng[cclp];
+    ಪ್ರತ್ಯಾಗಮ cclng[cclp];
 }
 
 
 /* ccladd - add a single character to a ccl */
 
-void ccladd (int cclp, int ch)
+ಶೂನ್ಯ ccladd (ಪೂರ್ಣಾಙ್ಕ cclp, ಪೂರ್ಣಾಙ್ಕ ch)
 {
-	int     ind, len, newpos, i;
+	ಪೂರ್ಣಾಙ್ಕ     ind, len, newpos, i;
 
 	check_char (ch);
 
@@ -65,12 +65,12 @@ void ccladd (int cclp, int ch)
 
 	/* check to see if the character is already in the ccl */
 
-	for (i = 0; i < len; ++i)
-		if (ccltbl[ind + i] == ch)
-			return;
+	ಪ್ರತಿ (i = 0; i < len; ++i)
+		ಯದಿ (ccltbl[ind + i] == ch)
+			ಪ್ರತ್ಯಾಗಮ;
 
 	/* mark newlines */
-	if (ch == nlch)
+	ಯದಿ (ch == nlch)
 		ccl_has_nl[cclp] = true;
 
 	newpos = ind + len;
@@ -78,42 +78,42 @@ void ccladd (int cclp, int ch)
 	/* For a non-last cclp, expanding the set will overflow and overwrite a
 	 * char in the next cclp.
 	 * FIXME: Need another allocation scheme for ccl's. */
-	if (cclp != lastccl) {
+	ಯದಿ (cclp != lastccl) {
 		flexfatal(_("internal error: trying to add a char to a non-last ccl.\n"));
 	}
 
-	if (newpos >= current_max_ccl_tbl_size) {
+	ಯದಿ (newpos >= current_max_ccl_tbl_size) {
 		current_max_ccl_tbl_size += MAX_CCL_TBL_SIZE_INCREMENT;
 
-		++num_reallocs;
+		++ಅಂಕೆ_reallocs;
 
 		ccltbl = reallocate_Character_array (ccltbl,
 						     current_max_ccl_tbl_size);
 	}
 
 	ccllen[cclp] = len + 1;
-	ccltbl[newpos] = (unsigned char) ch;
+	ccltbl[newpos] = (unsigned ವರ್ಣ) ch;
 }
 
 /* dump_cclp - same thing as list_character_set, but for cclps.  */
 
-static void    dump_cclp (FILE* file, int cclp)
+ಸ್ಥಿರ ಶೂನ್ಯ    dump_cclp (FILE* file, ಪೂರ್ಣಾಙ್ಕ cclp)
 {
-	int i;
+	ಪೂರ್ಣಾಙ್ಕ i;
 
 	putc ('[', file);
 
-	for (i = 0; i < ctrl.csize; ++i) {
-		if (ccl_contains(cclp, i)){
-			int start_char = i;
+	ಪ್ರತಿ (i = 0; i < ctrl.csize; ++i) {
+		ಯದಿ (ccl_contains(cclp, i)){
+			ಪೂರ್ಣಾಙ್ಕ start_char = i;
 
 			putc (' ', file);
 
 			fputs (readable_form (i), file);
 
-			while (++i < ctrl.csize && ccl_contains(cclp,i)) ;
+			ಯಾವತ್ (++i < ctrl.csize && ccl_contains(cclp,i)) ;
 
-			if (i - 1 > start_char)
+			ಯದಿ (i - 1 > start_char)
 				/* this was a run */
 				fprintf (file, "-%s",
 					 readable_form (i - 1));
@@ -128,10 +128,10 @@ static void    dump_cclp (FILE* file, int cclp)
 
 
 /* ccl_set_diff - create a new ccl as the set difference of the two given ccls. */
-int
-ccl_set_diff (int a, int b)
+ಪೂರ್ಣಾಙ್ಕ
+ccl_set_diff (ಪೂರ್ಣಾಙ್ಕ a, ಪೂರ್ಣಾಙ್ಕ b)
 {
-    int  d, ch;
+    ಪೂರ್ಣಾಙ್ಕ  d, ch;
 
     /* create new class  */
     d = cclinit();
@@ -140,12 +140,12 @@ ccl_set_diff (int a, int b)
      * adding each char in a that is not in b.
      * (This could be O(n^2), but n is small and bounded.)
      */
-	for ( ch = 0; ch < ctrl.csize; ++ch )
-        if (ccl_contains (a, ch) && !ccl_contains(b, ch))
+	ಪ್ರತಿ ( ch = 0; ch < ctrl.csize; ++ch )
+        ಯದಿ (ccl_contains (a, ch) && !ccl_contains(b, ch))
             ccladd (d, ch);
 
     /* debug */
-    if (0){
+    ಯದಿ (0){
         fprintf(stderr, "ccl_set_diff (");
             fprintf(stderr, "\n    ");
             dump_cclp (stderr, a);
@@ -155,28 +155,28 @@ ccl_set_diff (int a, int b)
             dump_cclp (stderr, d);
         fprintf(stderr, "\n)\n");
     }
-    return d;
+    ಪ್ರತ್ಯಾಗಮ d;
 }
 
 /* ccl_set_union - create a new ccl as the set union of the two given ccls. */
-int
-ccl_set_union (int a, int b)
+ಪೂರ್ಣಾಙ್ಕ
+ccl_set_union (ಪೂರ್ಣಾಙ್ಕ a, ಪೂರ್ಣಾಙ್ಕ b)
 {
-    int  d, i;
+    ಪೂರ್ಣಾಙ್ಕ  d, i;
 
     /* create new class  */
     d = cclinit();
 
     /* Add all of a */
-    for (i = 0; i < ccllen[a]; ++i)
+    ಪ್ರತಿ (i = 0; i < ccllen[a]; ++i)
 		ccladd (d, ccltbl[cclmap[a] + i]);
 
     /* Add all of b */
-    for (i = 0; i < ccllen[b]; ++i)
+    ಪ್ರತಿ (i = 0; i < ccllen[b]; ++i)
 		ccladd (d, ccltbl[cclmap[b] + i]);
 
     /* debug */
-    if (0){
+    ಯದಿ (0){
         fprintf(stderr, "ccl_set_union (%d + %d = %d", a, b, d);
             fprintf(stderr, "\n    ");
             dump_cclp (stderr, a);
@@ -186,32 +186,32 @@ ccl_set_union (int a, int b)
             dump_cclp (stderr, d);
         fprintf(stderr, "\n)\n");
     }
-    return d;
+    ಪ್ರತ್ಯಾಗಮ d;
 }
 
 
 /* cclinit - return an empty ccl */
 
-int     cclinit (void)
+ಪೂರ್ಣಾಙ್ಕ     cclinit (ಶೂನ್ಯ)
 {
-	if (++lastccl >= current_maxccls) {
+	ಯದಿ (++lastccl >= current_maxccls) {
 		current_maxccls += MAX_CCLS_INCREMENT;
 
-		++num_reallocs;
+		++ಅಂಕೆ_reallocs;
 
 		cclmap =
 			reallocate_integer_array (cclmap, current_maxccls);
 		ccllen =
 			reallocate_integer_array (ccllen, current_maxccls);
 		cclng = reallocate_integer_array (cclng, current_maxccls);
-		ccl_has_nl = reallocate_array(ccl_has_nl, current_maxccls, sizeof(char));
+		ccl_has_nl = reallocate_array(ccl_has_nl, current_maxccls, ಪರಿಮಾಣ(ವರ್ಣ));
 	}
 
-	if (lastccl == 1)
+	ಯದಿ (lastccl == 1)
 		/* we're making the first ccl */
 		cclmap[lastccl] = 0;
 
-	else
+	ಅನ್ಯಥಾ
 		/* The new pointer is just past the end of the last ccl.
 		 * Since the cclmap points to the \first/ character of a
 		 * ccl, adding the length of the ccl to the cclmap pointer
@@ -224,13 +224,13 @@ int     cclinit (void)
 	cclng[lastccl] = 0;	/* ccl's start out life un-negated */
 	ccl_has_nl[lastccl] = false;
 
-	return lastccl;
+	ಪ್ರತ್ಯಾಗಮ lastccl;
 }
 
 
 /* cclnegate - negate the given ccl */
 
-void    cclnegate (int cclp)
+ಶೂನ್ಯ    cclnegate (ಪೂರ್ಣಾಙ್ಕ cclp)
 {
 	cclng[cclp] = 1;
 	ccl_has_nl[cclp] = !ccl_has_nl[cclp];
@@ -244,23 +244,23 @@ void    cclnegate (int cclp)
  * has a non-zero value in the cset array.
  */
 
-void    list_character_set (FILE *file, int cset[])
+ಶೂನ್ಯ    list_character_set (FILE *file, ಪೂರ್ಣಾಙ್ಕ cset[])
 {
-	int i;
+	ಪೂರ್ಣಾಙ್ಕ i;
 
 	putc ('[', file);
 
-	for (i = 0; i < ctrl.csize; ++i) {
-		if (cset[i]) {
-			int start_char = i;
+	ಪ್ರತಿ (i = 0; i < ctrl.csize; ++i) {
+		ಯದಿ (cset[i]) {
+			ಪೂರ್ಣಾಙ್ಕ start_char = i;
 
 			putc (' ', file);
 
 			fputs (readable_form (i), file);
 
-			while (++i < ctrl.csize && cset[i]) ;
+			ಯಾವತ್ (++i < ctrl.csize && cset[i]) ;
 
-			if (i - 1 > start_char)
+			ಯದಿ (i - 1 > start_char)
 				/* this was a run */
 				fprintf (file, "-%s",
 					 readable_form (i - 1));
@@ -283,30 +283,30 @@ void    list_character_set (FILE *file, int cset[])
  * @param c2 the upper end of the range
  * @return true if [c1-c2] is not ambiguous for a caseless scanner.
  */
-bool range_covers_case (int c1, int c2)
+bool range_covers_case (ಪೂರ್ಣಾಙ್ಕ c1, ಪೂರ್ಣಾಙ್ಕ c2)
 {
-	int     i, o;
+	ಪೂರ್ಣಾಙ್ಕ     i, o;
 
-	for (i = c1; i <= c2; i++) {
-		if (has_case (i)) {
+	ಪ್ರತಿ (i = c1; i <= c2; i++) {
+		ಯದಿ (has_case (i)) {
 			o = reverse_case (i);
-			if (o < c1 || c2 < o)
-				return false;
+			ಯದಿ (o < c1 || c2 < o)
+				ಪ್ರತ್ಯಾಗಮ false;
 		}
 	}
-	return true;
+	ಪ್ರತ್ಯಾಗಮ true;
 }
 
 /** Reverse the case of a character, if possible.
  * @return c if case-reversal does not apply.
  */
-int reverse_case (int c)
+ಪೂರ್ಣಾಙ್ಕ reverse_case (ಪೂರ್ಣಾಙ್ಕ c)
 {
-	return isupper (c) ? tolower (c) : (islower (c) ? toupper (c) : c);
+	ಪ್ರತ್ಯಾಗಮ isupper (c) ? tolower (c) : (islower (c) ? toupper (c) : c);
 }
 
 /** Return true if c is uppercase or lowercase. */
-bool has_case (int c)
+bool has_case (ಪೂರ್ಣಾಙ್ಕ c)
 {
-	return (isupper (c) || islower (c)) ? true : false;
+	ಪ್ರತ್ಯಾಗಮ (isupper (c) || islower (c)) ? true : false;
 }

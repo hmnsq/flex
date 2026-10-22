@@ -33,16 +33,16 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#ಅನ್ತರ್ಭಾವ "flexdef.h"
 
 
 /* declarations for functions that have forward references */
 
-void mkentry(int *, int, int, int, int);
-void mkprot(int[], int, int);
-void mktemplate(int[], int, int);
-void mv2front(int);
-int tbldiff(int[], int, int[]);
+ಶೂನ್ಯ mkentry(ಪೂರ್ಣಾಙ್ಕ *, ಪೂರ್ಣಾಙ್ಕ, ಪೂರ್ಣಾಙ್ಕ, ಪೂರ್ಣಾಙ್ಕ, ಪೂರ್ಣಾಙ್ಕ);
+ಶೂನ್ಯ mkprot(ಪೂರ್ಣಾಙ್ಕ[], ಪೂರ್ಣಾಙ್ಕ, ಪೂರ್ಣಾಙ್ಕ);
+ಶೂನ್ಯ mktemplate(ಪೂರ್ಣಾಙ್ಕ[], ಪೂರ್ಣಾಙ್ಕ, ಪೂರ್ಣಾಙ್ಕ);
+ಶೂನ್ಯ mv2front(ಪೂರ್ಣಾಙ್ಕ);
+ಪೂರ್ಣಾಙ್ಕ tbldiff(ಪೂರ್ಣಾಙ್ಕ[], ಪೂರ್ಣಾಙ್ಕ, ಪೂರ್ಣಾಙ್ಕ[]);
 
 
 /* bldtbl - build table entries for dfa state
@@ -80,10 +80,10 @@ int tbldiff(int[], int, int[]);
  * cost only one difference.
  */
 
-void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int comfreq)
+ಶೂನ್ಯ    bldtbl (ಪೂರ್ಣಾಙ್ಕ state[], ಪೂರ್ಣಾಙ್ಕ statenum, ಪೂರ್ಣಾಙ್ಕ totaltrans, ಪೂರ್ಣಾಙ್ಕ comstate, ಪೂರ್ಣಾಙ್ಕ comfreq)
 {
-	int     extptr, extrct[2][CSIZE + 1];
-	int     mindiff, minprot, i, d;
+	ಪೂರ್ಣಾಙ್ಕ     extptr, extrct[2][CSIZE + 1];
+	ಪೂರ್ಣಾಙ್ಕ     mindiff, minprot, i, d;
 
 	/* If extptr is 0 then the first array of extrct holds the result
 	 * of the "best difference" to date, which is those transitions
@@ -101,32 +101,32 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 	 * compact its tables.
 	 */
 
-	if ((totaltrans * 100) < (numecs * PROTO_SIZE_PERCENTAGE))
+	ಯದಿ ((totaltrans * 100) < (numecs * PROTO_SIZE_PERCENTAGE))
 		mkentry (state, numecs, statenum, JAMSTATE, totaltrans);
 
-	else {
+	ಅನ್ಯಥಾ {
 		/* "checkcom" is true if we should only check "state" against
 		 * protos which have the same "comstate" value.
 		 */
-		int     checkcom =
+		ಪೂರ್ಣಾಙ್ಕ     checkcom =
 
 			comfreq * 100 > totaltrans * CHECK_COM_PERCENTAGE;
 
 		minprot = firstprot;
 		mindiff = totaltrans;
 
-		if (checkcom) {
+		ಯದಿ (checkcom) {
 			/* Find first proto which has the same "comstate". */
-			for (i = firstprot; i != NIL; i = protnext[i])
-				if (protcomst[i] == comstate) {
+			ಪ್ರತಿ (i = firstprot; i != NIL; i = protnext[i])
+				ಯದಿ (protcomst[i] == comstate) {
 					minprot = i;
 					mindiff = tbldiff (state, minprot,
 							   extrct[extptr]);
-					break;
+					ಭಙ್ಗ;
 				}
 		}
 
-		else {
+		ಅನ್ಯಥಾ {
 			/* Since we've decided that the most common destination
 			 * out of "state" does not occur with a high enough
 			 * frequency, we set the "comstate" to zero, assuring
@@ -135,7 +135,7 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 			 */
 			comstate = 0;
 
-			if (firstprot != NIL) {
+			ಯದಿ (firstprot != NIL) {
 				minprot = firstprot;
 				mindiff = tbldiff (state, minprot,
 						   extrct[extptr]);
@@ -148,14 +148,14 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 		 * to see if we have any other reasonable matches.
 		 */
 
-		if (mindiff * 100 >
+		ಯದಿ (mindiff * 100 >
 		    totaltrans * FIRST_MATCH_DIFF_PERCENTAGE) {
 			/* Not a good enough match.  Scan the rest of the
 			 * protos.
 			 */
-			for (i = minprot; i != NIL; i = protnext[i]) {
+			ಪ್ರತಿ (i = minprot; i != NIL; i = protnext[i]) {
 				d = tbldiff (state, i, extrct[1 - extptr]);
-				if (d < mindiff) {
+				ಯದಿ (d < mindiff) {
 					extptr = 1 - extptr;
 					mindiff = d;
 					minprot = i;
@@ -167,26 +167,26 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 		 * enough to the state we want to match to be usable.
 		 */
 
-		if (mindiff * 100 >
+		ಯದಿ (mindiff * 100 >
 		    totaltrans * ACCEPTABLE_DIFF_PERCENTAGE) {
 			/* No good.  If the state is homogeneous enough,
 			 * we make a template out of it.  Otherwise, we
 			 * make a proto.
 			 */
 
-			if (comfreq * 100 >=
+			ಯದಿ (comfreq * 100 >=
 			    totaltrans * TEMPLATE_SAME_PERCENTAGE)
 					mktemplate (state, statenum,
 						    comstate);
 
-			else {
+			ಅನ್ಯಥಾ {
 				mkprot (state, statenum, comstate);
 				mkentry (state, numecs, statenum,
 					 JAMSTATE, totaltrans);
 			}
 		}
 
-		else {		/* use the proto */
+		ಅನ್ಯಥಾ {		/* use the proto */
 			mkentry (extrct[extptr], numecs, statenum,
 				 prottbl[minprot], mindiff);
 
@@ -194,7 +194,7 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 			 * proto we built it from, make it, too, a proto.
 			 */
 
-			if (mindiff * 100 >=
+			ಯದಿ (mindiff * 100 >=
 			    totaltrans * NEW_PROTO_DIFF_PERCENTAGE)
 					mkprot (state, statenum, comstate);
 
@@ -222,53 +222,53 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
  * classes.
  */
 
-void    cmptmps (void)
+ಶೂನ್ಯ    cmptmps (ಶೂನ್ಯ)
 {
-	int tmpstorage[CSIZE + 1];
-	int *tmp = tmpstorage, i, j;
-	int totaltrans, trans;
+	ಪೂರ್ಣಾಙ್ಕ tmpstorage[CSIZE + 1];
+	ಪೂರ್ಣಾಙ್ಕ *tmp = tmpstorage, i, j;
+	ಪೂರ್ಣಾಙ್ಕ totaltrans, trans;
 
 	peakpairs = numtemps * numecs + tblend;
 
-	if (ctrl.usemecs) {
+	ಯದಿ (ctrl.usemecs) {
 		/* Create equivalence classes based on data gathered on
 		 * template transitions.
 		 */
 		nummecs = cre8ecs (tecfwd, tecbck, numecs);
 	}
 
-	else
+	ಅನ್ಯಥಾ
 		nummecs = numecs;
 
-	while (lastdfa + numtemps + 1 >= current_max_dfas)
+	ಯಾವತ್ (lastdfa + numtemps + 1 >= current_max_dfas)
 		increase_max_dfas ();
 
 	/* Loop through each template. */
 
-	for (i = 1; i <= numtemps; ++i) {
+	ಪ್ರತಿ (i = 1; i <= numtemps; ++i) {
 		/* Number of non-jam transitions out of this template. */
 		totaltrans = 0;
 
-		for (j = 1; j <= numecs; ++j) {
+		ಪ್ರತಿ (j = 1; j <= numecs; ++j) {
 			trans = tnxt[numecs * i + j];
 
-			if (ctrl.usemecs) {
+			ಯದಿ (ctrl.usemecs) {
 				/* The absolute value of tecbck is the
 				 * meta-equivalence class of a given
 				 * equivalence class, as set up by cre8ecs().
 				 */
-				if (tecbck[j] > 0) {
+				ಯದಿ (tecbck[j] > 0) {
 					tmp[tecbck[j]] = trans;
 
-					if (trans > 0)
+					ಯದಿ (trans > 0)
 						++totaltrans;
 				}
 			}
 
-			else {
+			ಅನ್ಯಥಾ {
 				tmp[j] = trans;
 
-				if (trans > 0)
+				ಯದಿ (trans > 0)
 					++totaltrans;
 			}
 		}
@@ -290,18 +290,18 @@ void    cmptmps (void)
 
 /* expand_nxt_chk - expand the next check arrays */
 
-void    expand_nxt_chk (void)
+ಶೂನ್ಯ    expand_nxt_chk (ಶೂನ್ಯ)
 {
-	int old_max = current_max_xpairs;
+	ಪೂರ್ಣಾಙ್ಕ old_max = current_max_xpairs;
 
 	current_max_xpairs += MAX_XPAIRS_INCREMENT;
 
-	++num_reallocs;
+	++ಅಂಕೆ_reallocs;
 
 	nxt = reallocate_integer_array (nxt, current_max_xpairs);
 	chk = reallocate_integer_array (chk, current_max_xpairs);
 
-	memset(chk + old_max, 0, MAX_XPAIRS_INCREMENT * sizeof(int));
+	memset(chk + old_max, 0, MAX_XPAIRS_INCREMENT * ಪರಿಮಾಣ(ಪೂರ್ಣಾಙ್ಕ));
 }
 
 
@@ -324,24 +324,24 @@ void    expand_nxt_chk (void)
  * and an action number will be added in [-1].
  */
 
-int     find_table_space (int *state, int numtrans)
+ಪೂರ್ಣಾಙ್ಕ     find_table_space (ಪೂರ್ಣಾಙ್ಕ *state, ಪೂರ್ಣಾಙ್ಕ numtrans)
 {
 	/* Firstfree is the position of the first possible occurrence of two
 	 * consecutive unused records in the chk and nxt arrays.
 	 */
-	int i;
-	int *state_ptr, *chk_ptr;
-	int *ptr_to_last_entry_in_state;
+	ಪೂರ್ಣಾಙ್ಕ i;
+	ಪೂರ್ಣಾಙ್ಕ *state_ptr, *chk_ptr;
+	ಪೂರ್ಣಾಙ್ಕ *ptr_to_last_entry_in_state;
 
 	/* If there are too many out-transitions, put the state at the end of
 	 * nxt and chk.
 	 */
-	if (numtrans > MAX_XTIONS_FULL_INTERIOR_FIT) {
+	ಯದಿ (numtrans > MAX_XTIONS_FULL_INTERIOR_FIT) {
 		/* If table is empty, return the first available spot in
 		 * chk/nxt, which should be 1.
 		 */
-		if (tblend < 2)
-			return 1;
+		ಯದಿ (tblend < 2)
+			ಪ್ರತ್ಯಾಗಮ 1;
 
 		/* Start searching for table space near the end of
 		 * chk/nxt arrays.
@@ -349,28 +349,28 @@ int     find_table_space (int *state, int numtrans)
 		i = tblend - numecs;
 	}
 
-	else
+	ಅನ್ಯಥಾ
 		/* Start searching for table space from the beginning
 		 * (skipping only the elements which will definitely not
 		 * hold the new state).
 		 */
 		i = firstfree;
 
-	while (1) {		/* loops until a space is found */
-		while (i + numecs >= current_max_xpairs)
+	ಯಾವತ್ (1) {		/* loops until a space is found */
+		ಯಾವತ್ (i + numecs >= current_max_xpairs)
 			expand_nxt_chk ();
 
 		/* Loops until space for end-of-buffer and action number
 		 * are found.
 		 */
-		while (1) {
+		ಯಾವತ್ (1) {
 			/* Check for action number space. */
-			if (chk[i - 1] == 0) {
+			ಯದಿ (chk[i - 1] == 0) {
 				/* Check for end-of-buffer space. */
-				if (chk[i] == 0)
-					break;
+				ಯದಿ (chk[i] == 0)
+					ಭಙ್ಗ;
 
-				else
+				ಅನ್ಯಥಾ
 					/* Since i != 0, there is no use
 					 * checking to see if (++i) - 1 == 0,
 					 * because that's the same as i == 0,
@@ -379,17 +379,17 @@ int     find_table_space (int *state, int numtrans)
 					i += 2;
 			}
 
-			else
+			ಅನ್ಯಥಾ
 				++i;
 
-			while (i + numecs >= current_max_xpairs)
+			ಯಾವತ್ (i + numecs >= current_max_xpairs)
 				expand_nxt_chk ();
 		}
 
 		/* If we started search from the beginning, store the new
 		 * firstfree for the next call of find_table_space().
 		 */
-		if (numtrans <= MAX_XTIONS_FULL_INTERIOR_FIT)
+		ಯದಿ (numtrans <= MAX_XTIONS_FULL_INTERIOR_FIT)
 			firstfree = i + 1;
 
 		/* Check to see if all elements in chk (and therefore nxt)
@@ -399,15 +399,15 @@ int     find_table_space (int *state, int numtrans)
 		state_ptr = &state[1];
 		ptr_to_last_entry_in_state = &chk[i + numecs + 1];
 
-		for (chk_ptr = &chk[i + 1];
+		ಪ್ರತಿ (chk_ptr = &chk[i + 1];
 		     chk_ptr != ptr_to_last_entry_in_state; ++chk_ptr)
-			if (*(state_ptr++) != 0 && *chk_ptr != 0)
-				break;
+			ಯದಿ (*(state_ptr++) != 0 && *chk_ptr != 0)
+				ಭಙ್ಗ;
 
-		if (chk_ptr == ptr_to_last_entry_in_state)
-			return i;
+		ಯದಿ (chk_ptr == ptr_to_last_entry_in_state)
+			ಪ್ರತ್ಯಾಗಮ i;
 
-		else
+		ಅನ್ಯಥಾ
 			++i;
 	}
 }
@@ -418,17 +418,17 @@ int     find_table_space (int *state, int numtrans)
  * Initializes "firstfree" to be one beyond the end of the table.  Initializes
  * all "chk" entries to be zero.
  */
-void    inittbl (void)
+ಶೂನ್ಯ    inittbl (ಶೂನ್ಯ)
 {
-	int i;
+	ಪೂರ್ಣಾಙ್ಕ i;
 
-	memset(chk, 0, (size_t) current_max_xpairs * sizeof(int));
+	memset(chk, 0, (size_t) current_max_xpairs * ಪರಿಮಾಣ(ಪೂರ್ಣಾಙ್ಕ));
 
 	tblend = 0;
 	firstfree = tblend + 1;
 	numtemps = 0;
 
-	if (ctrl.usemecs) {
+	ಯದಿ (ctrl.usemecs) {
 		/* Set up doubly-linked meta-equivalence classes; these
 		 * are sets of equivalence classes which all have identical
 		 * transitions out of TEMPLATES.
@@ -436,7 +436,7 @@ void    inittbl (void)
 
 		tecbck[1] = NIL;
 
-		for (i = 2; i <= numecs; ++i) {
+		ಪ್ರತಿ (i = 2; i <= numecs; ++i) {
 			tecbck[i] = i - 1;
 			tecfwd[i - 1] = i;
 		}
@@ -448,22 +448,22 @@ void    inittbl (void)
 
 /* mkdeftbl - make the default, "jam" table entries */
 
-void    mkdeftbl (void)
+ಶೂನ್ಯ    mkdeftbl (ಶೂನ್ಯ)
 {
-	int     i;
+	ಪೂರ್ಣಾಙ್ಕ     i;
 
 	jamstate = lastdfa + 1;
 
 	++tblend;		/* room for transition on end-of-buffer character */
 
-	while (tblend + numecs >= current_max_xpairs)
+	ಯಾವತ್ (tblend + numecs >= current_max_xpairs)
 		expand_nxt_chk ();
 
 	/* Add in default end-of-buffer transition. */
 	nxt[tblend] = end_of_buffer_state;
 	chk[tblend] = jamstate;
 
-	for (i = 1; i <= numecs; ++i) {
+	ಪ್ರತಿ (i = 1; i <= numecs; ++i) {
 		nxt[tblend + i] = 0;
 		chk[tblend + i] = jamstate;
 	}
@@ -497,40 +497,40 @@ void    mkdeftbl (void)
  * state array.
  */
 
-void    mkentry (int *state, int numchars, int statenum, int deflink,
-		 int totaltrans)
+ಶೂನ್ಯ    mkentry (ಪೂರ್ಣಾಙ್ಕ *state, ಪೂರ್ಣಾಙ್ಕ numchars, ಪೂರ್ಣಾಙ್ಕ statenum, ಪೂರ್ಣಾಙ್ಕ deflink,
+		 ಪೂರ್ಣಾಙ್ಕ totaltrans)
 {
-	int minec, maxec, i, baseaddr;
-	int tblbase, tbllast;
+	ಪೂರ್ಣಾಙ್ಕ minec, maxec, i, baseaddr;
+	ಪೂರ್ಣಾಙ್ಕ tblbase, tbllast;
 
-	if (totaltrans == 0) {	/* there are no out-transitions */
-		if (deflink == JAMSTATE)
+	ಯದಿ (totaltrans == 0) {	/* there are no out-transitions */
+		ಯದಿ (deflink == JAMSTATE)
 			base[statenum] = JAMSTATE;
-		else
+		ಅನ್ಯಥಾ
 			base[statenum] = 0;
 
 		def[statenum] = deflink;
-		return;
+		ಪ್ರತ್ಯಾಗಮ;
 	}
 
-	for (minec = 1; minec <= numchars; ++minec) {
-		if (state[minec] != SAME_TRANS)
-			if (state[minec] != 0 || deflink != JAMSTATE)
-				break;
+	ಪ್ರತಿ (minec = 1; minec <= numchars; ++minec) {
+		ಯದಿ (state[minec] != SAME_TRANS)
+			ಯದಿ (state[minec] != 0 || deflink != JAMSTATE)
+				ಭಙ್ಗ;
 	}
 
-	if (totaltrans == 1) {
+	ಯದಿ (totaltrans == 1) {
 		/* There's only one out-transition.  Save it for later to fill
 		 * in holes in the tables.
 		 */
 		stack1 (statenum, minec, state[minec], deflink);
-		return;
+		ಪ್ರತ್ಯಾಗಮ;
 	}
 
-	for (maxec = numchars; maxec > 0; --maxec) {
-		if (state[maxec] != SAME_TRANS)
-			if (state[maxec] != 0 || deflink != JAMSTATE)
-				break;
+	ಪ್ರತಿ (maxec = numchars; maxec > 0; --maxec) {
+		ಯದಿ (state[maxec] != SAME_TRANS)
+			ಯದಿ (state[maxec] != 0 || deflink != JAMSTATE)
+				ಭಙ್ಗ;
 	}
 
 	/* Whether we try to fit the state table in the middle of the table
@@ -543,29 +543,29 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
 	 */
 
 	/* Find the first transition of state that we need to worry about. */
-	if (totaltrans * 100 <= numchars * INTERIOR_FIT_PERCENTAGE) {
+	ಯದಿ (totaltrans * 100 <= numchars * INTERIOR_FIT_PERCENTAGE) {
 		/* Attempt to squeeze it into the middle of the tables. */
 		baseaddr = firstfree;
 
-		while (baseaddr < minec) {
+		ಯಾವತ್ (baseaddr < minec) {
 			/* Using baseaddr would result in a negative base
 			 * address below; find the next free slot.
 			 */
-			for (++baseaddr; chk[baseaddr] != 0; ++baseaddr) ;
+			ಪ್ರತಿ (++baseaddr; chk[baseaddr] != 0; ++baseaddr) ;
 		}
 
-		while (baseaddr + maxec - minec + 1 >= current_max_xpairs)
+		ಯಾವತ್ (baseaddr + maxec - minec + 1 >= current_max_xpairs)
 			expand_nxt_chk ();
 
-		for (i = minec; i <= maxec; ++i)
-			if (state[i] != SAME_TRANS &&
+		ಪ್ರತಿ (i = minec; i <= maxec; ++i)
+			ಯದಿ (state[i] != SAME_TRANS &&
 			    (state[i] != 0 || deflink != JAMSTATE) &&
 			    chk[baseaddr + i - minec] != 0) {	/* baseaddr unsuitable - find another */
-				for (++baseaddr;
+				ಪ್ರತಿ (++baseaddr;
 				     baseaddr < current_max_xpairs &&
 				     chk[baseaddr] != 0; ++baseaddr) ;
 
-				while (baseaddr + maxec - minec + 1 >=
+				ಯಾವತ್ (baseaddr + maxec - minec + 1 >=
 				       current_max_xpairs)
 						expand_nxt_chk ();
 
@@ -577,7 +577,7 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
 			}
 	}
 
-	else {
+	ಅನ್ಯಥಾ {
 		/* Ensure that the base address we eventually generate is
 		 * non-negative.
 		 */
@@ -587,22 +587,22 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
 	tblbase = baseaddr - minec;
 	tbllast = tblbase + maxec;
 
-	while (tbllast + 1 >= current_max_xpairs)
+	ಯಾವತ್ (tbllast + 1 >= current_max_xpairs)
 		expand_nxt_chk ();
 
 	base[statenum] = tblbase;
 	def[statenum] = deflink;
 
-	for (i = minec; i <= maxec; ++i)
-		if (state[i] != SAME_TRANS)
-			if (state[i] != 0 || deflink != JAMSTATE) {
+	ಪ್ರತಿ (i = minec; i <= maxec; ++i)
+		ಯದಿ (state[i] != SAME_TRANS)
+			ಯದಿ (state[i] != 0 || deflink != JAMSTATE) {
 				nxt[tblbase + i] = state[i];
 				chk[tblbase + i] = statenum;
 			}
 
-	if (baseaddr == firstfree)
+	ಯದಿ (baseaddr == firstfree)
 		/* Find next free slot in tables. */
-		for (++firstfree; chk[firstfree] != 0; ++firstfree) ;
+		ಪ್ರತಿ (++firstfree; chk[firstfree] != 0; ++firstfree) ;
 
 	tblend = MAX (tblend, tbllast);
 }
@@ -612,13 +612,13 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
  *            has only one out-transition
  */
 
-void    mk1tbl (int state, int sym, int onenxt, int onedef)
+ಶೂನ್ಯ    mk1tbl (ಪೂರ್ಣಾಙ್ಕ state, ಪೂರ್ಣಾಙ್ಕ sym, ಪೂರ್ಣಾಙ್ಕ onenxt, ಪೂರ್ಣಾಙ್ಕ onedef)
 {
-	if (firstfree < sym)
+	ಯದಿ (firstfree < sym)
 		firstfree = sym;
 
-	while (chk[firstfree] != 0)
-		if (++firstfree >= current_max_xpairs)
+	ಯಾವತ್ (chk[firstfree] != 0)
+		ಯದಿ (++firstfree >= current_max_xpairs)
 			expand_nxt_chk ();
 
 	base[state] = firstfree - sym;
@@ -626,10 +626,10 @@ void    mk1tbl (int state, int sym, int onenxt, int onedef)
 	chk[firstfree] = state;
 	nxt[firstfree] = onenxt;
 
-	if (firstfree > tblend) {
+	ಯದಿ (firstfree > tblend) {
 		tblend = firstfree++;
 
-		if (firstfree >= current_max_xpairs)
+		ಯದಿ (firstfree >= current_max_xpairs)
 			expand_nxt_chk ();
 	}
 }
@@ -637,11 +637,11 @@ void    mk1tbl (int state, int sym, int onenxt, int onedef)
 
 /* mkprot - create new proto entry */
 
-void    mkprot (int state[], int statenum, int comstate)
+ಶೂನ್ಯ    mkprot (ಪೂರ್ಣಾಙ್ಕ state[], ಪೂರ್ಣಾಙ್ಕ statenum, ಪೂರ್ಣಾಙ್ಕ comstate)
 {
-	int     i, slot, tblbase;
+	ಪೂರ್ಣಾಙ್ಕ     i, slot, tblbase;
 
-	if (++numprots >= MSP || numecs * numprots >= PROT_SAVE_SIZE) {
+	ಯದಿ (++numprots >= MSP || numecs * numprots >= PROT_SAVE_SIZE) {
 		/* Gotta make room for the new proto by dropping last entry in
 		 * the queue.
 		 */
@@ -650,12 +650,12 @@ void    mkprot (int state[], int statenum, int comstate)
 		protnext[lastprot] = NIL;
 	}
 
-	else
+	ಅನ್ಯಥಾ
 		slot = numprots;
 
 	protnext[slot] = firstprot;
 
-	if (firstprot != NIL)
+	ಯದಿ (firstprot != NIL)
 		protprev[firstprot] = slot;
 
 	firstprot = slot;
@@ -665,7 +665,7 @@ void    mkprot (int state[], int statenum, int comstate)
 	/* Copy state into save area so it can be compared with rapidly. */
 	tblbase = numecs * (slot - 1);
 
-	for (i = 1; i <= numecs; ++i)
+	ಪ್ರತಿ (i = 1; i <= numecs; ++i)
 		protsave[tblbase + i] = state[i];
 }
 
@@ -674,11 +674,11 @@ void    mkprot (int state[], int statenum, int comstate)
  *              to it
  */
 
-void    mktemplate (int state[], int statenum, int comstate)
+ಶೂನ್ಯ    mktemplate (ಪೂರ್ಣಾಙ್ಕ state[], ಪೂರ್ಣಾಙ್ಕ statenum, ಪೂರ್ಣಾಙ್ಕ comstate)
 {
-	int     i, numdiff, tmpbase, tmp[CSIZE + 1];
-	unsigned char    transset[CSIZE + 1];
-	int     tsptr;
+	ಪೂರ್ಣಾಙ್ಕ     i, numdiff, tmpbase, tmp[CSIZE + 1];
+	unsigned ವರ್ಣ    transset[CSIZE + 1];
+	ಪೂರ್ಣಾಙ್ಕ     tsptr;
 
 	++numtemps;
 
@@ -691,26 +691,26 @@ void    mktemplate (int state[], int statenum, int comstate)
 
 	tmpbase = numtemps * numecs;
 
-	if (tmpbase + numecs >= current_max_template_xpairs) {
+	ಯದಿ (tmpbase + numecs >= current_max_template_xpairs) {
 		current_max_template_xpairs +=
 			MAX_TEMPLATE_XPAIRS_INCREMENT;
 
-		++num_reallocs;
+		++ಅಂಕೆ_reallocs;
 
 		tnxt = reallocate_integer_array (tnxt,
 						 current_max_template_xpairs);
 	}
 
-	for (i = 1; i <= numecs; ++i)
-		if (state[i] == 0)
+	ಪ್ರತಿ (i = 1; i <= numecs; ++i)
+		ಯದಿ (state[i] == 0)
 			tnxt[tmpbase + i] = 0;
-		else {
+		ಅನ್ಯಥಾ {
 			/* Note: range 1..256 is mapped to 1..255,0 */
-			transset[tsptr++] = (unsigned char) i;
+			transset[tsptr++] = (unsigned ವರ್ಣ) i;
 			tnxt[tmpbase + i] = comstate;
 		}
 
-	if (ctrl.usemecs)
+	ಯದಿ (ctrl.usemecs)
 		mkeccl (transset, tsptr, tecfwd, tecbck, numecs, 0);
 
 	mkprot (tnxt + tmpbase, -numtemps, comstate);
@@ -726,15 +726,15 @@ void    mktemplate (int state[], int statenum, int comstate)
 
 /* mv2front - move proto queue element to front of queue */
 
-void    mv2front (int qelm)
+ಶೂನ್ಯ    mv2front (ಪೂರ್ಣಾಙ್ಕ qelm)
 {
-	if (firstprot != qelm) {
-		if (qelm == lastprot)
+	ಯದಿ (firstprot != qelm) {
+		ಯದಿ (qelm == lastprot)
 			lastprot = protprev[lastprot];
 
 		protnext[protprev[qelm]] = protnext[qelm];
 
-		if (protnext[qelm] != NIL)
+		ಯದಿ (protnext[qelm] != NIL)
 			protprev[protnext[qelm]] = protprev[qelm];
 
 		protprev[qelm] = NIL;
@@ -752,11 +752,11 @@ void    mv2front (int qelm)
  * Transnum is the number of out-transitions for the state.
  */
 
-void    place_state (int *state, int statenum, int transnum)
+ಶೂನ್ಯ    place_state (ಪೂರ್ಣಾಙ್ಕ *state, ಪೂರ್ಣಾಙ್ಕ statenum, ಪೂರ್ಣಾಙ್ಕ transnum)
 {
-	int i;
-	int *state_ptr;
-	int position = find_table_space (state, transnum);
+	ಪೂರ್ಣಾಙ್ಕ i;
+	ಪೂರ್ಣಾಙ್ಕ *state_ptr;
+	ಪೂರ್ಣಾಙ್ಕ position = find_table_space (state, transnum);
 
 	/* "base" is the table of start positions. */
 	base[statenum] = position;
@@ -776,13 +776,13 @@ void    place_state (int *state, int statenum, int transnum)
 	/* Place the state into chk and nxt. */
 	state_ptr = &state[1];
 
-	for (i = 1; i <= numecs; ++i, ++state_ptr)
-		if (*state_ptr != 0) {
+	ಪ್ರತಿ (i = 1; i <= numecs; ++i, ++state_ptr)
+		ಯದಿ (*state_ptr != 0) {
 			chk[position + i] = i;
 			nxt[position + i] = *state_ptr;
 		}
 
-	if (position + numecs > tblend)
+	ಯದಿ (position + numecs > tblend)
 		tblend = position + numecs;
 }
 
@@ -794,12 +794,12 @@ void    place_state (int *state, int statenum, int transnum)
  * no room, we process the sucker right now.
  */
 
-void    stack1 (int statenum, int sym, int nextstate, int deflink)
+ಶೂನ್ಯ    stack1 (ಪೂರ್ಣಾಙ್ಕ statenum, ಪೂರ್ಣಾಙ್ಕ sym, ಪೂರ್ಣಾಙ್ಕ nextstate, ಪೂರ್ಣಾಙ್ಕ deflink)
 {
-	if (onesp >= ONE_STACK_SIZE - 1)
+	ಯದಿ (onesp >= ONE_ರಾಶಿ_SIZE - 1)
 		mk1tbl (statenum, sym, nextstate, deflink);
 
-	else {
+	ಅನ್ಯಥಾ {
 		++onesp;
 		onestate[onesp] = statenum;
 		onesym[onesp] = sym;
@@ -823,21 +823,21 @@ void    stack1 (int statenum, int sym, int nextstate, int deflink)
  * number is "numecs" minus the number of "SAME_TRANS" entries in "ext".
  */
 
-int     tbldiff (int state[], int pr, int ext[])
+ಪೂರ್ಣಾಙ್ಕ     tbldiff (ಪೂರ್ಣಾಙ್ಕ state[], ಪೂರ್ಣಾಙ್ಕ pr, ಪೂರ್ಣಾಙ್ಕ ext[])
 {
-	int i, *sp = state, *ep = ext, *protp;
-	int numdiff = 0;
+	ಪೂರ್ಣಾಙ್ಕ i, *sp = state, *ep = ext, *protp;
+	ಪೂರ್ಣಾಙ್ಕ numdiff = 0;
 
 	protp = &protsave[numecs * (pr - 1)];
 
-	for (i = numecs; i > 0; --i) {
-		if (*++protp == *++sp)
+	ಪ್ರತಿ (i = numecs; i > 0; --i) {
+		ಯದಿ (*++protp == *++sp)
 			*++ep = SAME_TRANS;
-		else {
+		ಅನ್ಯಥಾ {
 			*++ep = *sp;
 			++numdiff;
 		}
 	}
 
-	return numdiff;
+	ಪ್ರತ್ಯಾಗಮ numdiff;
 }

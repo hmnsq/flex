@@ -48,173 +48,173 @@
 // Never included before - need to define base class.
 #define __FLEX_LEXER_H
 
-#include <iostream>
+#ಅನ್ತರ್ಭಾವ <iostream>
 
-extern "C++" {
+ಬಾಹ್ಯ "C++" {
 
-struct yy_buffer_state;
-typedef int yy_state_type;
+ಸಂರಚನಾ yy_buffer_state;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಪೂರ್ಣಾಙ್ಕ yy_state_type;
 
 class FlexLexer
 {
-public:
-  virtual ~FlexLexer()        { }
+ಸಾರ್ವಜನಿಕ:
+  ಆಭಾಸ ~FlexLexer()        { }
 
-  const char* YYText() const  { return yytext; }
-  int YYLeng()        const   { return yyleng; }
+  ಧ್ರುವ ವರ್ಣ* YYText() ಧ್ರುವ  { ಪ್ರತ್ಯಾಗಮ yytext; }
+  ಪೂರ್ಣಾಙ್ಕ YYLeng()        ಧ್ರುವ   { ಪ್ರತ್ಯಾಗಮ yyleng; }
 
-  virtual void
+  ಆಭಾಸ ಶೂನ್ಯ
   yy_switch_to_buffer( yy_buffer_state* new_buffer ) = 0;
-  virtual yy_buffer_state* yy_create_buffer( std::istream* s, int size ) = 0;
-  virtual yy_buffer_state* yy_create_buffer( std::istream& s, int size ) = 0;
-  virtual void yy_delete_buffer( yy_buffer_state* b ) = 0;
-  virtual void yyrestart( std::istream* s ) = 0;
-  virtual void yyrestart( std::istream& s ) = 0;
+  ಆಭಾಸ yy_buffer_state* yy_create_buffer( std::istream* s, ಪೂರ್ಣಾಙ್ಕ size ) = 0;
+  ಆಭಾಸ yy_buffer_state* yy_create_buffer( std::istream& s, ಪೂರ್ಣಾಙ್ಕ size ) = 0;
+  ಆಭಾಸ ಶೂನ್ಯ yy_delete_buffer( yy_buffer_state* b ) = 0;
+  ಆಭಾಸ ಶೂನ್ಯ yyrestart( std::istream* s ) = 0;
+  ಆಭಾಸ ಶೂನ್ಯ yyrestart( std::istream& s ) = 0;
 
-  virtual int yylex() = 0;
+  ಆಭಾಸ ಪೂರ್ಣಾಙ್ಕ yylex() = 0;
 
   // Call yylex with new input/output sources.
-  int yylex( std::istream& new_in, std::ostream& new_out )
+  ಪೂರ್ಣಾಙ್ಕ yylex( std::istream& new_in, std::ostream& new_out )
   {
     switch_streams( new_in, new_out );
-    return yylex();
+    ಪ್ರತ್ಯಾಗಮ yylex();
   }
 
-  int yylex( std::istream* new_in, std::ostream* new_out = 0)
+  ಪೂರ್ಣಾಙ್ಕ yylex( std::istream* new_in, std::ostream* new_out = 0)
   {
     switch_streams( new_in, new_out );
-    return yylex();
+    ಪ್ರತ್ಯಾಗಮ yylex();
   }
 
   // Switch to new input/output streams.  A nil stream pointer
   // indicates "keep the current one".
-  virtual void switch_streams( std::istream* new_in,
+  ಆಭಾಸ ಶೂನ್ಯ switch_streams( std::istream* new_in,
                                std::ostream* new_out ) = 0;
-  virtual void switch_streams( std::istream& new_in,
+  ಆಭಾಸ ಶೂನ್ಯ switch_streams( std::istream& new_in,
                                std::ostream& new_out ) = 0;
 
-  int lineno() const          { return yylineno; }
+  ಪೂರ್ಣಾಙ್ಕ lineno() ಧ್ರುವ          { ಪ್ರತ್ಯಾಗಮ yylineno; }
 
-  int debug() const           { return yyflexdebug; }
-  void set_debug( int flag )  { yyflexdebug = flag; }
+  ಪೂರ್ಣಾಙ್ಕ debug() ಧ್ರುವ           { ಪ್ರತ್ಯಾಗಮ yyflexdebug; }
+  ಶೂನ್ಯ set_debug( ಪೂರ್ಣಾಙ್ಕ flag )  { yyflexdebug = flag; }
 
-protected:
-  char* yytext;
-  int yyleng;
-  int yylineno;       // only maintained if you use %option yylineno
-  int yyflexdebug;    // only has effect with -d or "%option debug"
+ರಕ್ಷಿತ:
+  ವರ್ಣ* yytext;
+  ಪೂರ್ಣಾಙ್ಕ yyleng;
+  ಪೂರ್ಣಾಙ್ಕ yylineno;       // only maintained if you use %option yylineno
+  ಪೂರ್ಣಾಙ್ಕ yyflexdebug;    // only has effect with -d or "%option debug"
 };
 
 }
 #endif // FLEXLEXER_H
 
-#if defined(yyFlexLexer) || ! defined(yyFlexLexerOnce)
+#ಯದಿ defined(yyFlexLexer) || ! defined(yyFlexLexerOnce)
 // Either this is the first time through (yyFlexLexerOnce not defined),
 // or this is a repeated include to define a different flavor of
 // yyFlexLexer, as discussed in the flex manual.
 # define yyFlexLexerOnce
 
-extern "C++" {
+ಬಾಹ್ಯ "C++" {
 
-class yyFlexLexer : public FlexLexer {
-public:
+class yyFlexLexer : ಸಾರ್ವಜನಿಕ FlexLexer {
+ಸಾರ್ವಜನಿಕ:
   // arg_yyin and arg_yyout default to the cin and cout, but we
   // only make that assignment when initializing in yylex().
   yyFlexLexer( std::istream& arg_yyin, std::ostream& arg_yyout );
   yyFlexLexer( std::istream* arg_yyin = 0, std::ostream* arg_yyout = 0 );
-private:
-  void ctor_common();
+ಗುಪ್ತ:
+  ಶೂನ್ಯ ctor_common();
 
-public:
+ಸಾರ್ವಜನಿಕ:
 
-  virtual ~yyFlexLexer();
+  ಆಭಾಸ ~yyFlexLexer();
 
-  void yy_switch_to_buffer( yy_buffer_state* new_buffer );
-  yy_buffer_state* yy_create_buffer( std::istream* s, int size );
-  yy_buffer_state* yy_create_buffer( std::istream& s, int size );
-  void yy_delete_buffer( yy_buffer_state* b );
-  void yyrestart( std::istream* s );
-  void yyrestart( std::istream& s );
+  ಶೂನ್ಯ yy_switch_to_buffer( yy_buffer_state* new_buffer );
+  yy_buffer_state* yy_create_buffer( std::istream* s, ಪೂರ್ಣಾಙ್ಕ size );
+  yy_buffer_state* yy_create_buffer( std::istream& s, ಪೂರ್ಣಾಙ್ಕ size );
+  ಶೂನ್ಯ yy_delete_buffer( yy_buffer_state* b );
+  ಶೂನ್ಯ yyrestart( std::istream* s );
+  ಶೂನ್ಯ yyrestart( std::istream& s );
 
-  void yypush_buffer_state( yy_buffer_state* new_buffer );
-  void yypop_buffer_state();
+  ಶೂನ್ಯ yypush_buffer_state( yy_buffer_state* new_buffer );
+  ಶೂನ್ಯ yypop_buffer_state();
 
-  virtual int yyread(char *buf, size_t);
-  virtual int yylex();
-  virtual void switch_streams( std::istream& new_in, std::ostream& new_out );
-  virtual void switch_streams( std::istream* new_in = 0, std::ostream* new_out = 0 );
-  virtual int yywrap();
+  ಆಭಾಸ ಪೂರ್ಣಾಙ್ಕ yyread(ವರ್ಣ *buf, size_t);
+  ಆಭಾಸ ಪೂರ್ಣಾಙ್ಕ yylex();
+  ಆಭಾಸ ಶೂನ್ಯ switch_streams( std::istream& new_in, std::ostream& new_out );
+  ಆಭಾಸ ಶೂನ್ಯ switch_streams( std::istream* new_in = 0, std::ostream* new_out = 0 );
+  ಆಭಾಸ ಪೂರ್ಣಾಙ್ಕ yywrap();
 
-protected:
-  virtual int LexerInput( char* buf, int max_size );
-  virtual void LexerOutput( const char* buf, int size );
-  virtual void LexerError( const char* msg );
+ರಕ್ಷಿತ:
+  ಆಭಾಸ ಪೂರ್ಣಾಙ್ಕ Lexer_ಒಳಹರಿವು( ವರ್ಣ* buf, ಪೂರ್ಣಾಙ್ಕ max_size );
+  ಆಭಾಸ ಶೂನ್ಯ LexerOutput( ಧ್ರುವ ವರ್ಣ* buf, ಪೂರ್ಣಾಙ್ಕ size );
+  ಆಭಾಸ ಶೂನ್ಯ LexerError( ಧ್ರುವ ವರ್ಣ* ಸಂದೇಶ );
 			
-  void yyunput_r( int c, char* buf_ptr );
-  int yyinput();
+  ಶೂನ್ಯ yyunput_r( ಪೂರ್ಣಾಙ್ಕ c, ವರ್ಣ* buf_ptr );
+  ಪೂರ್ಣಾಙ್ಕ yyinput();
 
-  void yy_load_buffer_state();
-  void yy_init_buffer( yy_buffer_state* b, std::istream& s );
-  void yy_flush_buffer( yy_buffer_state* b );
+  ಶೂನ್ಯ yy_load_buffer_state();
+  ಶೂನ್ಯ yy_init_buffer( yy_buffer_state* b, std::istream& s );
+  ಶೂನ್ಯ yy_flush_buffer( yy_buffer_state* b );
 
-  int yy_start_stack_ptr;
-  int yy_start_stack_depth;
-  int* yy_start_stack;
+  ಪೂರ್ಣಾಙ್ಕ yy_start_ರಾಶಿ_ptr;
+  ಪೂರ್ಣಾಙ್ಕ yy_start_ರಾಶಿ_depth;
+  ಪೂರ್ಣಾಙ್ಕ* yy_start_ರಾಶಿ;
 
-  void yy_push_state( int new_state );
-  void yy_pop_state();
-  int yy_top_state();
+  ಶೂನ್ಯ yy_ತಳ್ಳು_state( ಪೂರ್ಣಾಙ್ಕ new_state );
+  ಶೂನ್ಯ yy_ತೆಗೆ_state();
+  ಪೂರ್ಣಾಙ್ಕ yy_ತುದಿ_state();
 
   yy_state_type yy_get_previous_state();
   yy_state_type yy_try_NUL_trans( yy_state_type current_state );
-  int yy_get_next_buffer();
+  ಪೂರ್ಣಾಙ್ಕ yy_get_next_buffer();
 
   std::istream yyin;  // input source for default LexerInput
   std::ostream yyout; // output sink for default LexerOutput
 
   // yy_hold_char holds the character lost when yytext is formed.
-  char yy_hold_char;
+  ವರ್ಣ yy_hold_char;
 
   // Number of characters read into yy_ch_buf.
-  int yy_n_chars;
+  ಪೂರ್ಣಾಙ್ಕ yy_n_chars;
 
   // Points to current character in buffer.
-  char* yy_c_buf_p;
+  ವರ್ಣ* yy_c_buf_p;
 
-  int yy_init;                // whether we need to initialize
-  int yy_start;               // start state number
+  ಪೂರ್ಣಾಙ್ಕ yy_init;                // whether we need to initialize
+  ಪೂರ್ಣಾಙ್ಕ yy_start;               // start state number
 
   // Flag which is used to allow yywrap()'s to do buffer switches
   // instead of setting up a fresh yyin.  A bit of a hack ...
-  int yy_did_buffer_switch_on_eof;
+  ಪೂರ್ಣಾಙ್ಕ yy_did_buffer_switch_on_eof;
 
 
-  size_t yy_buffer_stack_top; /**< index of top of stack. */
-  size_t yy_buffer_stack_max; /**< capacity of stack. */
-  yy_buffer_state ** yy_buffer_stack; /**< Stack as an array. */
-  void yyensure_buffer_stack(void);
+  size_t yy_buffer_ರಾಶಿ_ತುದಿ; /**< index of top of stack. */
+  size_t yy_buffer_ರಾಶಿ_max; /**< capacity of stack. */
+  yy_buffer_state ** yy_buffer_ರಾಶಿ; /**< Stack as an array. */
+  ಶೂನ್ಯ yyensure_buffer_ರಾಶಿ(ಶೂನ್ಯ);
 
   // The following are not always needed, but may be depending
   // on use of certain flex features (like REJECT or yymore()).
 
   yy_state_type yy_last_accepting_state;
-  char* yy_last_accepting_cpos;
+  ವರ್ಣ* yy_last_accepting_cpos;
 
   yy_state_type* yy_state_buf;
   yy_state_type* yy_state_ptr;
   size_t yy_state_buf_max;
 
-  char* yy_full_match;
-  int* yy_full_state;
-  int yy_full_lp;
+  ವರ್ಣ* yy_full_match;
+  ಪೂರ್ಣಾಙ್ಕ* yy_full_state;
+  ಪೂರ್ಣಾಙ್ಕ yy_full_lp;
 
-  int yy_lp;
-  int yy_looking_for_trail_begin;
+  ಪೂರ್ಣಾಙ್ಕ yy_lp;
+  ಪೂರ್ಣಾಙ್ಕ yy_looking_for_trail_begin;
 
-  int yy_more_flag;
-  int yy_more_len;
-  int yy_more_offset;
-  int yy_prev_more_offset;
+  ಪೂರ್ಣಾಙ್ಕ yy_more_flag;
+  ಪೂರ್ಣಾಙ್ಕ yy_more_len;
+  ಪೂರ್ಣಾಙ್ಕ yy_more_offset;
+  ಪೂರ್ಣಾಙ್ಕ yy_prev_more_offset;
 };
 
 }

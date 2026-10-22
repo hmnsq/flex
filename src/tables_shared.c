@@ -41,11 +41,11 @@ dnl
  * flex code (hence the name "_shared"). 
  */
 #ifndef yyskel_static
-#define yyskel_static static
+#define yyskel_static ಸ್ಥಿರ
 #endif
-#else
-#include "flexdef.h"
-#include "tables.h"
+#ಅನ್ಯಥಾ
+#ಅನ್ತರ್ಭಾವ "flexdef.h"
+#ಅನ್ತರ್ಭಾವ "tables.h"
 #ifndef yyskel_static
 #define yyskel_static
 #endif
@@ -57,16 +57,16 @@ dnl
  *  @param tbl the table
  *  @return the number of integers in the table
  */
-yyskel_static flex_int32_t yytbl_calc_total_len (const struct yytbl_data *tbl)
+yyskel_static flex_int32_t yytbl_calc_total_len (ಧ್ರುವ ಸಂರಚನಾ yytbl_data *tbl)
 {
 	flex_uint32_t n;
 
 	/* total number of ints */
 	n = tbl->td_lolen;
-	if (tbl->td_hilen > 0)
+	ಯದಿ (tbl->td_hilen > 0)
 		n *= tbl->td_hilen;
 
-	if (tbl->td_id == YYTD_ID_TRANSITION)
+	ಯದಿ (tbl->td_id == YYTD_ID_TRANSITION)
 		n *= 2;
-	return (flex_int32_t) n;
+	ಪ್ರತ್ಯಾಗಮ (flex_int32_t) n;
 }

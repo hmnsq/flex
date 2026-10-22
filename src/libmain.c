@@ -23,16 +23,16 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include <stdlib.h>
+#ಅನ್ತರ್ಭಾವ <stdlib.h>
 
-extern int yylex (void);
+ಬಾಹ್ಯ ಪೂರ್ಣಾಙ್ಕ yylex (ಶೂನ್ಯ);
 
-int     main (int argc, char *argv[])
+ಪೂರ್ಣಾಙ್ಕ     main (ಪೂರ್ಣಾಙ್ಕ argc, ವರ್ಣ *argv[])
 {
-	(void)argc;
-	(void)argv;
+	(ಶೂನ್ಯ)argc;
+	(ಶೂನ್ಯ)argv;
 
-	while (yylex () != 0) ;
+	ಯಾವತ್ (yylex () != 0) ;
 
 	exit(0);
 }

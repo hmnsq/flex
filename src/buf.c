@@ -33,7 +33,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#ಅನ್ತರ್ಭಾವ "flexdef.h"
 
 /* Take note: The buffer object is sometimes used as a String buffer (one
  * continuous string), and sometimes used as a list of strings, usually line by
@@ -48,57 +48,57 @@
  */
 
 /* global buffers. */
-struct Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
-struct Buf top_buf;             /**< contains %top code. String buffer. */
+ಸಂರಚನಾ Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
+ಸಂರಚನಾ Buf ತುದಿ_buf;             /**< contains %top code. String buffer. */
 
 /* Append a "%s" formatted string to a string buffer */
-struct Buf *buf_prints (struct Buf *buf, const char *fmt, const char *s)
+ಸಂರಚನಾ Buf *buf_prints (ಸಂರಚನಾ Buf *buf, ಧ್ರುವ ವರ್ಣ *fmt, ಧ್ರುವ ವರ್ಣ *s)
 {
-	char   *t;
+	ವರ್ಣ   *t;
 	size_t tsz;
 
 	tsz = strlen(fmt) + strlen(s) + 1;
 	t = malloc(tsz);
-	if (!t)
+	ಯದಿ (!t)
 	    flexfatal (_("Allocation of buffer to print string failed"));
 	snprintf (t, tsz, fmt, s);
 	buf = buf_strappend (buf, t);
-	free(t);
-	return buf;
+	ಮುಕ್ತ(t);
+	ಪ್ರತ್ಯಾಗಮ buf;
 }
 
 /* Appends n characters in str to buf. */
-struct Buf *buf_strnappend (struct Buf *buf, const char *str, int n)
+ಸಂರಚನಾ Buf *buf_strnappend (ಸಂರಚನಾ Buf *buf, ಧ್ರುವ ವರ್ಣ *str, ಪೂರ್ಣಾಙ್ಕ n)
 {
 	buf_append (buf, str, n + 1);
 
 	/* "undo" the '\0' character that buf_append() already copied. */
 	buf->nelts--;
 
-	return buf;
+	ಪ್ರತ್ಯಾಗಮ buf;
 }
 
 /* Appends characters in str to buf. */
-struct Buf *buf_strappend (struct Buf *buf, const char *str)
+ಸಂರಚನಾ Buf *buf_strappend (ಸಂರಚನಾ Buf *buf, ಧ್ರುವ ವರ್ಣ *str)
 {
-	return buf_strnappend (buf, str, (int) strlen (str));
+	ಪ್ರತ್ಯಾಗಮ buf_strnappend (buf, str, (ಪೂರ್ಣಾಙ್ಕ) strlen (str));
 }
 
 /* create buf with 0 elements, each of size elem_size. */
-void buf_init (struct Buf *buf, size_t elem_size)
+ಶೂನ್ಯ buf_init (ಸಂರಚನಾ Buf *buf, size_t elem_size)
 {
-	buf->elts = NULL;
+	buf->elts = ರಿಕ್ತ;
 	buf->nelts = 0;
 	buf->elt_size = elem_size;
 	buf->nmax = 0;
 }
 
 /* frees memory */
-void buf_destroy (struct Buf *buf)
+ಶೂನ್ಯ buf_destroy (ಸಂರಚನಾ Buf *buf)
 {
-	if (buf) {
-		free(buf->elts);
-		buf->elts = NULL;
+	ಯದಿ (buf) {
+		ಮುಕ್ತ(buf->elts);
+		buf->elts = ರಿಕ್ತ;
 	}
 }
 
@@ -109,43 +109,43 @@ void buf_destroy (struct Buf *buf)
  * We grow by mod(512) boundaries.
  */
 
-struct Buf *buf_append (struct Buf *buf, const void *ptr, int n_elem)
+ಸಂರಚನಾ Buf *buf_append (ಸಂರಚನಾ Buf *buf, ಧ್ರುವ ಶೂನ್ಯ *ptr, ಪೂರ್ಣಾಙ್ಕ n_elem)
 {
-	int     n_alloc = 0;
+	ಪೂರ್ಣಾಙ್ಕ     n_alloc = 0;
 
-	if (!ptr || n_elem == 0)
-		return buf;
+	ಯದಿ (!ptr || n_elem == 0)
+		ಪ್ರತ್ಯಾಗಮ buf;
 
 	/* May need to alloc more. */
-	if (n_elem + buf->nelts > buf->nmax) {
+	ಯದಿ (n_elem + buf->nelts > buf->nmax) {
 
 		/* exact count needed... */
 		n_alloc = n_elem + buf->nelts;
 
 		/* ...plus some extra */
-		if ((((size_t) n_alloc * buf->elt_size) % 512) != 0
+		ಯದಿ ((((size_t) n_alloc * buf->elt_size) % 512) != 0
 		    && buf->elt_size < 512)
-			n_alloc += (int)
+			n_alloc += (ಪೂರ್ಣಾಙ್ಕ)
 				((512 -
 				 (((size_t) n_alloc * buf->elt_size) % 512)) /
 				buf->elt_size);
 
-		if (!buf->elts)
+		ಯದಿ (!buf->elts)
 			buf->elts =
-				allocate_array ((int) n_alloc, buf->elt_size);
-		else
+				allocate_array ((ಪೂರ್ಣಾಙ್ಕ) n_alloc, buf->elt_size);
+		ಅನ್ಯಥಾ
 			buf->elts =
-				reallocate_array (buf->elts, (int) n_alloc,
+				reallocate_array (buf->elts, (ಪೂರ್ಣಾಙ್ಕ) n_alloc,
 						  buf->elt_size);
 
 		buf->nmax = n_alloc;
 	}
 
-	memcpy ((char *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
+	memcpy ((ವರ್ಣ *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
 		(size_t) n_elem * buf->elt_size);
 	buf->nelts += n_elem;
 
-	return buf;
+	ಪ್ರತ್ಯಾಗಮ buf;
 }
 
 /* vim:set tabstop=8 softtabstop=4 shiftwidth=4: */
