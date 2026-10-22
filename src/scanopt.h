@@ -63,7 +63,7 @@ extern  "C" {
 /* Specification for a single option. */
 	struct optspec_t {
 		const char *opt_fmt;	/* e.g., "--foo=FILE", "-f FILE", "-n [NUM]" */
-		int     r_val;	/* Value to be returned by scanopt_ex(). */
+		ціле     r_val;	/* Value to be returned by scanopt_ex(). */
 		const char *desc;	/* Brief description of this option, or NULL. */
 	};
 	typedef struct optspec_t optspec_t;
@@ -82,12 +82,12 @@ extern  "C" {
  *   flags   - Control behavior.
  * Return:  A malloc'd pointer .
  */
-	scanopt_t *scanopt_init (const optspec_t * options, int argc,
-				 char **argv, int flags);
+	scanopt_t *scanopt_init (const optspec_t * options, ціле argc,
+				 char **argv, ціле flags);
 
 /* Frees memory used by scanner.
  * Always returns 0. */
-	int scanopt_destroy (scanopt_t * scanner);
+	ціле scanopt_destroy (scanopt_t * scanner);
 
 #ifndef NO_SCANOPT_USAGE
 /* Prints a usage message based on contents of optlist.
@@ -97,7 +97,7 @@ extern  "C" {
  *   usage    - Text to be prepended to option list. May be NULL.
  * Return:  Always returns 0 (zero).
  */
-	int scanopt_usage (scanopt_t * scanner, FILE * fp, const char *usage);
+	ціле scanopt_usage (scanopt_t * scanner, FILE * fp, const char *usage);
 #endif
 
 /* Scans command-line options in argv[].
@@ -114,7 +114,7 @@ extern  "C" {
  *          < 0 on error (return value is an error code).
  *
  */
-	int scanopt (scanopt_t * scanner, char **optarg, int *optindex);
+	ціле scanopt (scanopt_t * scanner, char **optarg, ціле *optindex);
 
 #ifdef __cplusplus
 }

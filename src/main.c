@@ -44,63 +44,63 @@ static char flex_version[] = FLEX_VERSION;
 
 /* declare functions that have forward references */
 
-void flexinit(int, char **);
+void flexinit(ціле, char **);
 void readin(void);
 void set_up_initial_allocations(void);
 
 /* these globals are all defined and commented in flexdef.h */
 bool    syntaxerror, eofseen;
-int     yymore_used, reject, real_reject, continued_action, in_rule;
-int     datapos, dataline, linenum;
+ціле     yymore_used, reject, real_reject, continued_action, in_rule;
+ціле     datapos, dataline, linenum;
 FILE   *skelfile = NULL;
-int     skel_ind = 0;
+ціле     skel_ind = 0;
 char   *action_array;
-int     action_size, defs1_offset, prolog_offset, action_offset,
+ціле     action_size, defs1_offset, prolog_offset, action_offset,
 	action_index;
 char   *infilename = NULL;
 char   *extra_type = NULL;
-int     onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
-int     onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
-int     maximum_mns, current_mns, current_max_rules;
-int     num_rules, num_eof_rules, default_rule, lastnfa;
-int    *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
-int    *accptnum, *assoc_rule, *state_type;
-int    *rule_type, *rule_linenum;
-int     current_state_type;
+ціле     onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
+ціле     onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
+ціле     maximum_mns, current_mns, current_max_rules;
+ціле     num_rules, num_eof_rules, default_rule, lastnfa;
+ціле    *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
+ціле    *accptnum, *assoc_rule, *state_type;
+ціле    *rule_type, *rule_linenum;
+ціле     current_state_type;
 bool    variable_trailing_context_rules;
-int     numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
-int     protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
-int     numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs,
+ціле     numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
+ціле     protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
+ціле     numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs,
 	tecfwd[CSIZE + 1];
-int     tecbck[CSIZE + 1];
-int     lastsc, *scset, *scbol;
+ціле     tecbck[CSIZE + 1];
+ціле     lastsc, *scset, *scbol;
 /* scxclu[] and sceof[] are boolean arrays, but allocated as char
  * arrays for size. */
 char   *scxclu, *sceof;
-int     current_max_scs;
+ціле     current_max_scs;
 const char **scname;
-int     current_max_dfa_size, current_max_xpairs;
-int     current_max_template_xpairs, current_max_dfas;
-int     lastdfa, *nxt, *chk, *tnxt;
-int    *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss, *dfasiz;
+ціле     current_max_dfa_size, current_max_xpairs;
+ціле     current_max_template_xpairs, current_max_dfas;
+ціле     lastdfa, *nxt, *chk, *tnxt;
+ціле    *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss, *dfasiz;
 union dfaacc_union *dfaacc;
-int    *accsiz, *dhash, numas;
-int     numsnpairs, jambase, jamstate;
-int     lastccl, *cclmap, *ccllen, *cclng, cclreuse;
-int     current_maxccls, current_max_ccl_tbl_size;
+ціле    *accsiz, *dhash, numas;
+ціле     numsnpairs, jambase, jamstate;
+ціле     lastccl, *cclmap, *ccllen, *cclng, cclreuse;
+ціле     current_maxccls, current_max_ccl_tbl_size;
 unsigned char   *ccltbl;
 char    nmstr[MAXLINE];
-int     sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
-int     tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
-int     num_backing_up, bol_needed;
-int     end_of_buffer_state;
+ціле     sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
+ціле     tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
+ціле     num_backing_up, bol_needed;
+ціле     end_of_buffer_state;
 char  **input_files;
-int     num_input_files;
+ціле     num_input_files;
 jmp_buf flex_main_jmp_buf;
 /* rule_useful[], rule_has_nl[] and ccl_has_nl[] are boolean arrays,
  * but allocated as char arrays for size. */
 char   *rule_useful, *rule_has_nl, *ccl_has_nl;
-int     nlch = '\n';
+ціле     nlch = '\n';
 
 bool    tablesext, tablesverify, gentables;
 char   *tablesfilename=0,*tablesname=0;
@@ -123,20 +123,20 @@ static const char tablesfile_template[] = "lex.%s.tables";
 extern FILE* yyout;
 
 static char outfile_path[MAXLINE];
-static int outfile_created = 0;
-static int _stdout_closed = 0; /* flag to prevent double-fclose() on stdout. */
+static ціле outfile_created = 0;
+static ціле _stdout_closed = 0; /* flag to prevent double-fclose() on stdout. */
 const char *escaped_qstart = "]]M4_YY_NOOP[M4_YY_NOOP[M4_YY_NOOP[[";
 const char *escaped_qend   = "]]M4_YY_NOOP]M4_YY_NOOP]M4_YY_NOOP[[";
 
 /* For debugging. The max number of filters to apply to skeleton. */
-static int preproc_level = 1000;
+static ціле preproc_level = 1000;
 
-int flex_main (int argc, char *argv[]);
+ціле flex_main (ціле argc, char *argv[]);
 
-int flex_main (int argc, char *argv[])
+ціле flex_main (ціле argc, char *argv[])
 {
-	int     i, exit_status, child_status;
-	int	did_eof_rule = false;
+	ціле     i, exit_status, child_status;
+	ціле	did_eof_rule = false;
 
 	/* Set a longjmp target. Yes, I know it's a hack, but it gets worse: The
 	 * return value of setjmp, if non-zero, is the desired exit code PLUS ONE.
@@ -146,22 +146,22 @@ int flex_main (int argc, char *argv[])
 	 * exit(n);
 	 */
 	exit_status = setjmp (flex_main_jmp_buf);
-	if (exit_status){
-		if (stdout && !_stdout_closed && !ferror(stdout)){
+	якщо (exit_status){
+		якщо (stdout && !_stdout_closed && !ferror(stdout)){
 			fflush(stdout);
 			fclose(stdout);
 		}
-		while (wait(&child_status) > 0){
-			if (!WIFEXITED (child_status)
+		поки (wait(&child_status) > 0){
+			якщо (!WIFEXITED (child_status)
 			    || WEXITSTATUS (child_status) != 0){
 				/* report an error of a child
 				 */
-				if( exit_status <= 1 )
+				якщо( exit_status <= 1 )
 					exit_status = 2;
 
 			}
 		}
-		return exit_status - 1;
+		повернути exit_status - 1;
 	}
 
 	flexinit (argc, argv);
@@ -170,12 +170,12 @@ int flex_main (int argc, char *argv[])
 	skelout (true);		/* %% [1.0] DFA */
 	footprint += ntod ();
 
-	for (i = 1; i <= num_rules; ++i)
-		if (!rule_useful[i] && i != default_rule)
+	для (i = 1; i <= num_rules; ++i)
+		якщо (!rule_useful[i] && i != default_rule)
 			line_warning (_("rule cannot be matched"),
 				      rule_linenum[i]);
 
-	if (ctrl.spprdflt && !reject && rule_useful[default_rule])
+	якщо (ctrl.spprdflt && !reject && rule_useful[default_rule])
 		line_warning (_
 			      ("-s option given but default rule can be matched"),
 			      rule_linenum[default_rule]);
@@ -184,17 +184,17 @@ int flex_main (int argc, char *argv[])
 
 	// mode switches for yy_trans_info specification
 	// nultrans
-	if (nultrans)
+	якщо (nultrans)
 		visible_define ( "M4_MODE_NULTRANS");
-	else {
+	інакше {
 		visible_define ( "M4_MODE_NO_NULTRANS");
-		if (ctrl.fulltbl)
+		якщо (ctrl.fulltbl)
 		    visible_define ( "M4_MODE_NULTRANS_FULLTBL");
-		else
+		інакше
 		    visible_define ( "M4_MODE_NO_NULTRANS_FULLTBL");
-		if (ctrl.fullspd)
+		якщо (ctrl.fullspd)
 		    visible_define ( "M4_MODE_NULTRANS_FULLSPD");
-		else
+		інакше
 		    visible_define ( "M4_MODE_NO_NULTRANS_FULLSPD");
 	}
 	
@@ -239,8 +239,8 @@ int flex_main (int argc, char *argv[])
 	line_directive_out (stdout, NULL, linenum);
 
 	/* generate cases for any missing EOF rules */
-	for (i = 1; i <= lastsc; ++i)
-		if (!sceof[i]) {
+	для (i = 1; i <= lastsc; ++i)
+		якщо (!sceof[i]) {
 			out_str ("M4_HOOK_EOF_STATE_CASE_ARM(%s)", scname[i]);
 			outc('\n');
 			out ("M4_HOOK_EOF_STATE_CASE_FALLTHROUGH");
@@ -248,7 +248,7 @@ int flex_main (int argc, char *argv[])
 			did_eof_rule = true;
 		}
 
-	if (did_eof_rule) {
+	якщо (did_eof_rule) {
 		out ("M4_HOOK_EOF_STATE_CASE_TERMINATE");
 	}
 
@@ -258,12 +258,12 @@ int flex_main (int argc, char *argv[])
 
 	line_directive_out (stdout, infilename, linenum);
 
-	if (sectnum == 3) {
+	якщо (sectnum == 3) {
 		OUT_BEGIN_CODE ();
-                if (!ctrl.no_section3_escape)
+                якщо (!ctrl.no_section3_escape)
                    fputs("[[", stdout);
 		(void) flexscan ();	/* copy remainder of input to output */
-                if (!ctrl.no_section3_escape)
+                якщо (!ctrl.no_section3_escape)
                    fputs("]]", stdout);
 		OUT_END_CODE ();
 	}
@@ -273,14 +273,14 @@ int flex_main (int argc, char *argv[])
 	 */
 	flexend (0);
 
-	return 0;		/* keep compilers/lint happy */
+	повернути 0;		/* keep compilers/lint happy */
 }
 
 /* Wrapper around flex_main, so flex_main can be built as a library. */
-int main (int argc, char *argv[])
+ціле main (ціле argc, char *argv[])
 {
-#if defined(ENABLE_NLS) && ENABLE_NLS
-#if HAVE_LOCALE_H
+#якщо defined(ENABLE_NLS) && ENABLE_NLS
+#якщо HAVE_LOCALE_H
 	setlocale (LC_MESSAGES, "");
         setlocale (LC_CTYPE, "");
 	textdomain (PACKAGE);
@@ -288,7 +288,7 @@ int main (int argc, char *argv[])
 #endif
 #endif
 
-	return flex_main (argc, argv);
+	повернути flex_main (argc, argv);
 }
 
 /* Set up the output filter chain. */
@@ -298,14 +298,14 @@ void initialize_output_filters(void)
 	const char * m4 = NULL;
 
 	output_chain = filter_create_int(NULL, filter_tee_header, env.headerfilename);
-	if ( !(m4 = getenv("M4"))) {
+	якщо ( !(m4 = getenv("M4"))) {
 		m4 = M4;
 	}
 	filter_create_ext(output_chain, m4, "-P", (char *) 0);
 	filter_create_int(output_chain, filter_fix_linedirs, NULL);
 
 	/* For debugging, only run the requested number of filters. */
-	if (preproc_level > 0) {
+	якщо (preproc_level > 0) {
 		filter_truncate(output_chain, preproc_level);
 		filter_apply_chain(output_chain);
 	}
@@ -316,16 +316,16 @@ void initialize_output_filters(void)
 
 void check_options (void)
 {
-	int     i;
+	ціле     i;
 
-	if (ctrl.lex_compat) {
-		if (ctrl.C_plus_plus)
+	якщо (ctrl.lex_compat) {
+		якщо (ctrl.C_plus_plus)
 			flexerror (_("Can't use -+ with -l option"));
 
-		if (ctrl.fulltbl || ctrl.fullspd)
+		якщо (ctrl.fulltbl || ctrl.fullspd)
 			flexerror (_("Can't use -f or -F with -l option"));
 
-		if (ctrl.reentrant || ctrl.bison_bridge_lval)
+		якщо (ctrl.reentrant || ctrl.bison_bridge_lval)
 			flexerror (_
 				   ("Can't use --ctrl.reentrant or --bison-bridge with -l option"));
 
@@ -335,68 +335,68 @@ void check_options (void)
 	}
 
 
-#if 0
+#якщо 0
 	/* This makes no sense whatsoever. I'm removing it. */
-	if (ctrl.do_yylineno)
+	якщо (ctrl.do_yylineno)
 		/* This should really be "maintain_backup_tables = true" */
 		ctrl.reject_really_used = true;
 #endif
 
-	if (ctrl.csize == trit_unspecified) {
-		if ((ctrl.fulltbl || ctrl.fullspd) && !ctrl.useecs)
+	якщо (ctrl.csize == trit_unspecified) {
+		якщо ((ctrl.fulltbl || ctrl.fullspd) && !ctrl.useecs)
 			ctrl.csize = DEFAULT_CSIZE;
-		else
+		інакше
 			ctrl.csize = CSIZE;
 	}
 
-	if (ctrl.interactive == trit_unspecified) {
-		if (ctrl.fulltbl || ctrl.fullspd)
+	якщо (ctrl.interactive == trit_unspecified) {
+		якщо (ctrl.fulltbl || ctrl.fullspd)
 			ctrl.interactive = trit_false;
-		else
+		інакше
 			ctrl.interactive = trit_true;
 	}
 
-	if (ctrl.fulltbl || ctrl.fullspd) {
-		if (ctrl.usemecs)
+	якщо (ctrl.fulltbl || ctrl.fullspd) {
+		якщо (ctrl.usemecs)
 			flexerror (_
 				   ("-Cf/-CF and -Cm don't make sense together"));
 
-		if (ctrl.interactive != trit_false)
+		якщо (ctrl.interactive != trit_false)
 			flexerror (_("-Cf/-CF and -I are incompatible"));
 
-		if (ctrl.lex_compat)
+		якщо (ctrl.lex_compat)
 			flexerror (_
 				   ("-Cf/-CF are incompatible with lex-compatibility mode"));
 
 
-		if (ctrl.fulltbl && ctrl.fullspd)
+		якщо (ctrl.fulltbl && ctrl.fullspd)
 			flexerror (_
 				   ("-Cf and -CF are mutually exclusive"));
 	}
 
-	if (ctrl.C_plus_plus && ctrl.fullspd)
+	якщо (ctrl.C_plus_plus && ctrl.fullspd)
 		flexerror (_("Can't use -+ with -CF option"));
 
-	if (ctrl.C_plus_plus && ctrl.yytext_is_array) {
+	якщо (ctrl.C_plus_plus && ctrl.yytext_is_array) {
 		lwarn (_("%array incompatible with -+ option"));
 		ctrl.yytext_is_array = false;
 	}
 
-	if (ctrl.C_plus_plus && (ctrl.reentrant))
+	якщо (ctrl.C_plus_plus && (ctrl.reentrant))
 		flexerror (_("Options -+ and --reentrant are mutually exclusive."));
 
-	if (ctrl.C_plus_plus && ctrl.bison_bridge_lval)
+	якщо (ctrl.C_plus_plus && ctrl.bison_bridge_lval)
 		flexerror (_("bison bridge not supported for the C++ scanner."));
 
 
-	if (ctrl.useecs) {		/* Set up doubly-linked equivalence classes. */
+	якщо (ctrl.useecs) {		/* Set up doubly-linked equivalence classes. */
 
 		/* We loop all the way up to ctrl.csize, since ecgroup[ctrl.csize] is
 		 * the position used for NUL characters.
 		 */
 		ecgroup[1] = NIL;
 
-		for (i = 2; i <= ctrl.csize; ++i) {
+		для (i = 2; i <= ctrl.csize; ++i) {
 			ecgroup[i] = i - 1;
 			nextecm[i - 1] = i;
 		}
@@ -404,18 +404,18 @@ void check_options (void)
 		nextecm[ctrl.csize] = NIL;
 	}
 
-	else {
+	інакше {
 		/* Put everything in its own equivalence class. */
-		for (i = 1; i <= ctrl.csize; ++i) {
+		для (i = 1; i <= ctrl.csize; ++i) {
 			ecgroup[i] = i;
 			nextecm[i] = BAD_SUBSCRIPT;	/* to catch errors */
 		}
 	}
 
-	if (!env.use_stdout) {
+	якщо (!env.use_stdout) {
 		FILE   *prev_stdout;
 
-		if (!env.did_outfilename) {
+		якщо (!env.did_outfilename) {
 			snprintf (outfile_path, sizeof(outfile_path), outfile_template,
 				  ctrl.prefix, suffix());
 
@@ -424,7 +424,7 @@ void check_options (void)
 
 		prev_stdout = freopen (env.outfilename, "w+", stdout);
 
-		if (prev_stdout == NULL)
+		якщо (prev_stdout == NULL)
 			lerr (_("could not create %s"), env.outfilename);
 
 		outfile_created = 1;
@@ -437,142 +437,142 @@ void check_options (void)
  *    This routine does not return.
  */
 
-void flexend (int exit_status)
+void flexend (ціле exit_status)
 {
-	static int called_before = -1;	/* prevent infinite recursion. */
-	int     tblsiz;
+	static ціле called_before = -1;	/* prevent infinite recursion. */
+	ціле     tblsiz;
 
-	if (++called_before)
+	якщо (++called_before)
 		FLEX_EXIT (exit_status);
 
-	if (ctrl.yyclass != NULL && !ctrl.C_plus_plus)
+	якщо (ctrl.yyclass != NULL && !ctrl.C_plus_plus)
 		flexerror (_("%option yyclass only meaningful for C++ scanners"));
 
-	if (skelfile != NULL) {
-		if (ferror (skelfile))
+	якщо (skelfile != NULL) {
+		якщо (ferror (skelfile))
 			lerr (_("input error reading skeleton file %s"),
 				env.skelname);
 
-		else if (fclose (skelfile))
+		інакше якщо (fclose (skelfile))
 			lerr (_("error closing skeleton file %s"),
 				env.skelname);
 	}
 
-	if (exit_status != 0 && outfile_created) {
-		if (ferror (stdout))
+	якщо (exit_status != 0 && outfile_created) {
+		якщо (ferror (stdout))
 			lerr (_("error writing output file %s"),
 				env.outfilename);
 
-		else if ((_stdout_closed = 1) && fclose (stdout))
+		інакше якщо ((_stdout_closed = 1) && fclose (stdout))
 			lerr (_("error closing output file %s"),
 				env.outfilename);
 
-		else if (unlink (env.outfilename))
+		інакше якщо (unlink (env.outfilename))
 			lerr (_("error deleting output file %s"),
 				env.outfilename);
 	}
 
 
-	if (env.backing_up_report && ctrl.backing_up_file) {
-		if (num_backing_up == 0)
+	якщо (env.backing_up_report && ctrl.backing_up_file) {
+		якщо (num_backing_up == 0)
 			fprintf (ctrl.backing_up_file, _("No backing up.\n"));
-		else if (ctrl.fullspd || ctrl.fulltbl)
+		інакше якщо (ctrl.fullspd || ctrl.fulltbl)
 			fprintf (ctrl.backing_up_file,
 				 _
 				 ("%d backing up (non-accepting) states.\n"),
 				 num_backing_up);
-		else
+		інакше
 			fprintf (ctrl.backing_up_file,
 				 _("Compressed tables always back up.\n"));
 
-		if (ferror (ctrl.backing_up_file))
+		якщо (ferror (ctrl.backing_up_file))
 			lerr (_("error writing backup file %s"),
 				backing_name);
 
-		else if (fclose (ctrl.backing_up_file))
+		інакше якщо (fclose (ctrl.backing_up_file))
 			lerr (_("error closing backup file %s"),
 				backing_name);
 	}
 
-	if (env.printstats) {
+	якщо (env.printstats) {
 		fprintf (stderr, _("%s version %s usage statistics:\n"),
 			 program_name, flex_version);
 
 		fprintf (stderr, _("  scanner options: -"));
 
-		if (ctrl.C_plus_plus)
+		якщо (ctrl.C_plus_plus)
 			putc ('+', stderr);
-		if (env.backing_up_report)
+		якщо (env.backing_up_report)
 			putc ('b', stderr);
-		if (ctrl.ddebug)
+		якщо (ctrl.ddebug)
 			putc ('d', stderr);
-		if (sf_case_ins())
+		якщо (sf_case_ins())
 			putc ('i', stderr);
-		if (ctrl.lex_compat)
+		якщо (ctrl.lex_compat)
 			putc ('l', stderr);
-		if (ctrl.posix_compat)
+		якщо (ctrl.posix_compat)
 			putc ('X', stderr);
-		if (env.performance_hint > 0)
+		якщо (env.performance_hint > 0)
 			putc ('p', stderr);
-		if (env.performance_hint > 1)
+		якщо (env.performance_hint > 1)
 			putc ('p', stderr);
-		if (ctrl.spprdflt)
+		якщо (ctrl.spprdflt)
 			putc ('s', stderr);
-		if (ctrl.reentrant)
+		якщо (ctrl.reentrant)
 			fputs ("--reentrant", stderr);
-        if (ctrl.bison_bridge_lval)
+        якщо (ctrl.bison_bridge_lval)
             fputs ("--bison-bridge", stderr);
-        if (ctrl.bison_bridge_lloc)
+        якщо (ctrl.bison_bridge_lloc)
             fputs ("--bison-locations", stderr);
-		if (env.use_stdout)
+		якщо (env.use_stdout)
 			putc ('t', stderr);
-		if (env.printstats)
+		якщо (env.printstats)
 			putc ('v', stderr);	/* always true! */
-		if (env.nowarn)
+		якщо (env.nowarn)
 			putc ('w', stderr);
-		if (ctrl.interactive == trit_false)
+		якщо (ctrl.interactive == trit_false)
 			putc ('B', stderr);
-		if (ctrl.interactive == trit_true)
+		якщо (ctrl.interactive == trit_true)
 			putc ('I', stderr);
-		if (!ctrl.gen_line_dirs)
+		якщо (!ctrl.gen_line_dirs)
 			putc ('L', stderr);
-		if (env.trace)
+		якщо (env.trace)
 			putc ('T', stderr);
 
-		if (ctrl.csize == trit_unspecified)
+		якщо (ctrl.csize == trit_unspecified)
 			/* We encountered an error fairly early on, so ctrl.csize
 			 * never got specified.  Define it now, to prevent
 			 * bogus table sizes being written out below.
 			 */
 			ctrl.csize = 256;
 
-		if (ctrl.csize == 128)
+		якщо (ctrl.csize == 128)
 			putc ('7', stderr);
-		else
+		інакше
 			putc ('8', stderr);
 
 		fprintf (stderr, " -C");
 
-		if (ctrl.long_align)
+		якщо (ctrl.long_align)
 			putc ('a', stderr);
-		if (ctrl.fulltbl)
+		якщо (ctrl.fulltbl)
 			putc ('f', stderr);
-		if (ctrl.fullspd)
+		якщо (ctrl.fullspd)
 			putc ('F', stderr);
-		if (ctrl.useecs)
+		якщо (ctrl.useecs)
 			putc ('e', stderr);
-		if (ctrl.usemecs)
+		якщо (ctrl.usemecs)
 			putc ('m', stderr);
-		if (ctrl.use_read)
+		якщо (ctrl.use_read)
 			putc ('r', stderr);
 
-		if (env.did_outfilename)
+		якщо (env.did_outfilename)
 			fprintf (stderr, " -o%s", env.outfilename);
 
-		if (env.skelname != NULL)
+		якщо (env.skelname != NULL)
 			fprintf (stderr, " -S%s", env.skelname);
 
-		if (strcmp (ctrl.prefix, "yy"))
+		якщо (strcmp (ctrl.prefix, "yy"))
 			fprintf (stderr, " -P%s", ctrl.prefix);
 
 		putc ('\n', stderr);
@@ -585,19 +585,19 @@ void flexend (int exit_status)
 			 num_rules + num_eof_rules -
 			 1 /* - 1 for def. rule */ );
 
-		if (num_backing_up == 0)
+		якщо (num_backing_up == 0)
 			fprintf (stderr, _("  No backing up\n"));
-		else if (ctrl.fullspd || ctrl.fulltbl)
+		інакше якщо (ctrl.fullspd || ctrl.fulltbl)
 			fprintf (stderr,
 				 _
 				 ("  %d backing-up (non-accepting) states\n"),
 				 num_backing_up);
-		else
+		інакше
 			fprintf (stderr,
 				 _
 				 ("  Compressed tables always back-up\n"));
 
-		if (bol_needed)
+		якщо (bol_needed)
 			fprintf (stderr,
 				 _("  Beginning-of-line patterns used\n"));
 
@@ -608,9 +608,9 @@ void flexend (int exit_status)
 			 ("  %d epsilon states, %d double epsilon states\n"),
 			 numeps, eps2);
 
-		if (lastccl == 0)
+		якщо (lastccl == 0)
 			fprintf (stderr, _("  no character classes\n"));
-		else
+		інакше
 			fprintf (stderr,
 				 _
 				 ("  %d/%d character classes needed %d/%d words of storage, %d reused\n"),
@@ -624,13 +624,13 @@ void flexend (int exit_status)
 			 _("  %d/%d unique/duplicate transitions\n"),
 			 numuniq, numdup);
 
-		if (ctrl.fulltbl) {
+		якщо (ctrl.fulltbl) {
 			tblsiz = lastdfa * numecs;
 			fprintf (stderr, _("  %d table entries\n"),
 				 tblsiz);
 		}
 
-		else {
+		інакше {
 			tblsiz = 2 * (lastdfa + numtemps) + 2 * tblend;
 
 			fprintf (stderr,
@@ -655,7 +655,7 @@ void flexend (int exit_status)
 				 numtemps, tmpuses);
 		}
 
-		if (ctrl.useecs) {
+		якщо (ctrl.useecs) {
 			tblsiz = tblsiz + ctrl.csize;
 			fprintf (stderr,
 				 _
@@ -663,7 +663,7 @@ void flexend (int exit_status)
 				 numecs, ctrl.csize);
 		}
 
-		if (ctrl.usemecs) {
+		якщо (ctrl.usemecs) {
 			tblsiz = tblsiz + numecs;
 			fprintf (stderr,
 				 _
@@ -687,9 +687,9 @@ void flexend (int exit_status)
 
 /* flexinit - initialize flex */
 
-void flexinit (int argc, char **argv)
+void flexinit (ціле argc, char **argv)
 {
-	int     i, sawcmpflag, rv, optind;
+	ціле     i, sawcmpflag, rv, optind;
 	char   *arg;
 	scanopt_t sopt;
 
@@ -729,22 +729,22 @@ void flexinit (int argc, char **argv)
 	/* Enable C++ if program name ends with '+'. */
 	program_name = argv[0];
 
-	if (program_name != NULL &&
+	якщо (program_name != NULL &&
 	    program_name[strlen (program_name) - 1] == '+')
 		ctrl.C_plus_plus = true;
 
 	/* read flags */
 	sopt = scanopt_init (flexopts, argc, argv, 0);
-	if (!sopt) {
+	якщо (!sopt) {
 		/* This will only happen when flexopts array is altered. */
 		fprintf (stderr,
 			 _("Internal error. flexopts are malformed.\n"));
 		FLEX_EXIT (1);
 	}
 
-	while ((rv = scanopt (sopt, &arg, &optind)) != 0) {
+	поки ((rv = scanopt (sopt, &arg, &optind)) != 0) {
 
-		if (rv < 0) {
+		якщо (rv < 0) {
 			/* Scanopt has already printed an option-specific error message. */
 			fprintf (stderr,
 				 _
@@ -775,14 +775,14 @@ void flexinit (int argc, char **argv)
 			break;
 
 		    case OPT_COMPRESSION:
-			if (!sawcmpflag) {
+			якщо (!sawcmpflag) {
 				ctrl.useecs = false;
 				ctrl.usemecs = false;
 				ctrl.fulltbl = false;
 				sawcmpflag = true;
 			}
 
-			for (i = 0; arg && arg[i] != '\0'; i++)
+			для (i = 0; arg && arg[i] != '\0'; i++)
 				switch (arg[i]) {
 				    case 'a':
 					ctrl.long_align = true;
@@ -855,7 +855,7 @@ void flexinit (int argc, char **argv)
 			break;
 
 		    case OPT_PREPROC_LEVEL:
-			preproc_level = (int) strtol(arg,NULL,0);
+			preproc_level = (ціле) strtol(arg,NULL,0);
 			break;
 
 		    case OPT_MAIN:
@@ -1011,10 +1011,10 @@ void flexinit (int argc, char **argv)
 			    char   *def;
 			    char buf2[4096];
 
-			    for (def = arg;
+			    для (def = arg;
 				 *def != '\0' && *def != '='; ++def)
 				    continue;
-			    if (*def == '\0')
+			    якщо (*def == '\0')
 				    def = "1";
 
 			    snprintf(buf2, sizeof(buf2), "M4_HOOK_CONST_DEFINE_UNKNOWN(%s, %s)", arg, def);
@@ -1198,12 +1198,12 @@ void readin (void)
 
 	line_directive_out(NULL, infilename, linenum);
 
-	if (yyparse ()) {
+	якщо (yyparse ()) {
 		pinpoint_message (_("fatal parse error"));
 		flexend (1);
 	}
 
-	if (syntaxerror)
+	якщо (syntaxerror)
 		flexend (1);
 
 	/* On --emit, -e, or change backends This is where backend
@@ -1218,27 +1218,27 @@ void readin (void)
 
 	yyout = stdout;
 
-	if (tablesext)
+	якщо (tablesext)
 		gentables = false;
 
-	if (tablesverify)
+	якщо (tablesverify)
 		/* force generation of C tables. */
 		gentables = true;
 
 
-	if (tablesext) {
+	якщо (tablesext) {
 		FILE   *tablesout;
 		struct yytbl_hdr hdr;
 		char   *pname = 0;
 		size_t  nbytes = 0;
 
-		if (!tablesfilename) {
+		якщо (!tablesfilename) {
 			nbytes = strlen (ctrl.prefix) + strlen (tablesfile_template) + 2;
 			tablesfilename = pname = calloc(nbytes, 1);
 			snprintf (pname, nbytes, tablesfile_template, ctrl.prefix);
 		}
 
-		if ((tablesout = fopen (tablesfilename, "w")) == NULL)
+		якщо ((tablesout = fopen (tablesfilename, "w")) == NULL)
 			lerr (_("could not create %s"), tablesfilename);
 		free(pname);
 		tablesfilename = 0;
@@ -1250,17 +1250,17 @@ void readin (void)
 		snprintf (tablesname, nbytes, "%stables", ctrl.prefix);
 		yytbl_hdr_init (&hdr, flex_version, tablesname);
 
-		if (yytbl_hdr_fwrite (&tableswr, &hdr) <= 0)
+		якщо (yytbl_hdr_fwrite (&tableswr, &hdr) <= 0)
 			flexerror (_("could not write tables header"));
 	}
 
-	if (env.skelname && (skelfile = fopen (env.skelname, "r")) == NULL)
+	якщо (env.skelname && (skelfile = fopen (env.skelname, "r")) == NULL)
 		lerr (_("can't open skeleton file %s"), env.skelname);
 
-	if (strchr(ctrl.prefix, '[') || strchr(ctrl.prefix, ']'))
+	якщо (strchr(ctrl.prefix, '[') || strchr(ctrl.prefix, ']'))
 		flexerror(_("Prefix cannot include '[' or ']'"));
 
-	if (env.did_outfilename)
+	якщо (env.did_outfilename)
 		line_directive_out (stdout, NULL, linenum);
 
 	/* This is where we begin writing to the file. */
@@ -1270,24 +1270,24 @@ void readin (void)
 	comment("A lexical scanner generated by flex\n");
 
 	/* Dump the %top code. */
-	if( top_buf.elts)
+	якщо( top_buf.elts)
 		outn((char*) top_buf.elts);
 
 	/* Place a bogus line directive, it will be fixed in the filter. */
 	line_directive_out(NULL, NULL, 0);
 
 	/* User may want to set the scanner prototype */
-	if (ctrl.yydecl != NULL) {
+	якщо (ctrl.yydecl != NULL) {
 		out_str ("M4_HOOK_SET_YY_DECL(%s)\n", ctrl.yydecl);
 	}
 
-	if (ctrl.userinit != NULL) {
+	якщо (ctrl.userinit != NULL) {
 		out_str ("M4_HOOK_SET_USERINIT(%s)\n", ctrl.userinit);
 	}
-	if (ctrl.preaction != NULL) {
+	якщо (ctrl.preaction != NULL) {
 		out_str ("M4_HOOK_SET_PREACTION(%s)\n", ctrl.preaction);
 	}
-	if (ctrl.postaction != NULL) {
+	якщо (ctrl.postaction != NULL) {
 		out_str ("M4_HOOK_SET_POSTACTION(%s)\n", ctrl.postaction);
 	}
 
@@ -1298,7 +1298,7 @@ void readin (void)
 	out_dec ("m4_define([[YYLMAX]], [[%d]])\n", ctrl.yylmax);
 
 	/* Dump the user defined preproc directives. */
-	if (userdef_buf.elts)
+	якщо (userdef_buf.elts)
 		outn ((char *) (userdef_buf.elts));
 
 	/* If the user explicitly requested posix compatibility by specifying the
@@ -1310,7 +1310,7 @@ void readin (void)
 	 * Note: The posix option was added to flex to provide the posix behavior
 	 * of the repeat operator in regular expressions, e.g., `ab{3}'
 	 */
-	if (ctrl.posix_compat) {
+	якщо (ctrl.posix_compat) {
 		/* TODO: This is where we try to make flex behave according to
 		 * POSIX, *and* check for conflicting ctrl. How far should we go
 		 * with this? Should we disable all the neat-o flex features?
@@ -1318,33 +1318,33 @@ void readin (void)
 		/* Update: Estes says no, since other flex features don't violate posix. */
 	}
 
-	if (getenv ("POSIXLY_CORRECT")) {
+	якщо (getenv ("POSIXLY_CORRECT")) {
 		ctrl.posix_compat = true;
 	}
 
-	if (env.backing_up_report) {
+	якщо (env.backing_up_report) {
 		ctrl.backing_up_file = fopen (backing_name, "w");
-		if (ctrl.backing_up_file == NULL)
+		якщо (ctrl.backing_up_file == NULL)
 			lerr (_
 				("could not create backing-up info file %s"),
 				backing_name);
 	}
 
-	else
+	інакше
 		ctrl.backing_up_file = NULL;
 
-	if (ctrl.yymore_really_used == true)
+	якщо (ctrl.yymore_really_used == true)
 		yymore_used = true;
-	else if (ctrl.yymore_really_used == false)
+	інакше якщо (ctrl.yymore_really_used == false)
 		yymore_used = false;
 
-	if (ctrl.reject_really_used == true)
+	якщо (ctrl.reject_really_used == true)
 		reject = true;
-	else if (ctrl.reject_really_used == false)
+	інакше якщо (ctrl.reject_really_used == false)
 		reject = false;
 
-	if (env.performance_hint > 0) {
-		if (ctrl.lex_compat) {
+	якщо (env.performance_hint > 0) {
+		якщо (ctrl.lex_compat) {
 			fprintf (stderr,
 				 _
 				 ("-l AT&T lex compatibility option entails a large performance penalty\n"));
@@ -1353,63 +1353,63 @@ void readin (void)
 				 (" and may be the actual source of other reported performance penalties\n"));
 		}
 
-		else if (ctrl.do_yylineno) {
+		інакше якщо (ctrl.do_yylineno) {
 			fprintf (stderr,
 				 _
 				 ("%%option yylineno entails a performance penalty ONLY on rules that can match newline characters\n"));
 		}
 
-		if (env.performance_hint > 1) {
-			if (ctrl.interactive == trit_true)
+		якщо (env.performance_hint > 1) {
+			якщо (ctrl.interactive == trit_true)
 				fprintf (stderr,
 					 _
 					 ("-I (interactive) entails a minor performance penalty\n"));
 
-			if (yymore_used)
+			якщо (yymore_used)
 				fprintf (stderr,
 					 _
 					 ("yymore() entails a minor performance penalty\n"));
 		}
 
-		if (reject)
+		якщо (reject)
 			fprintf (stderr,
 				 _
 				 ("REJECT entails a large performance penalty\n"));
 
-		if (variable_trailing_context_rules)
+		якщо (variable_trailing_context_rules)
 			fprintf (stderr,
 				 _
 				 ("Variable trailing context rules entail a large performance penalty\n"));
 	}
 
-	if (reject)
+	якщо (reject)
 		real_reject = true;
 
-	if (variable_trailing_context_rules)
+	якщо (variable_trailing_context_rules)
 		reject = true;
 
-	if ((ctrl.fulltbl || ctrl.fullspd) && reject) {
-		if (real_reject)
+	якщо ((ctrl.fulltbl || ctrl.fullspd) && reject) {
+		якщо (real_reject)
 			flexerror (_
 				   ("REJECT cannot be used with -f or -F"));
-		else if (ctrl.do_yylineno)
+		інакше якщо (ctrl.do_yylineno)
 			flexerror (_
 				   ("%option yylineno cannot be used with REJECT"));
-		else
+		інакше
 			flexerror (_
 				   ("variable trailing context rules cannot be used with -f or -F"));
 	}
 
-	if (ctrl.useecs)
+	якщо (ctrl.useecs)
 		numecs = cre8ecs (nextecm, ecgroup, ctrl.csize);
-	else
+	інакше
 		numecs = ctrl.csize;
 
 	/* Now map the equivalence class for NUL to its expected place. */
 	ecgroup[0] = ecgroup[ctrl.csize];
 	NUL_ec = ABS (ecgroup[0]);
 
-	if (ctrl.useecs)
+	якщо (ctrl.useecs)
 		ccl2ecl ();
 
 	// These are used to conditionalize code in the lex skeleton
@@ -1423,15 +1423,15 @@ void readin (void)
 	/* Define the start condition macros. */
 	{
 		struct Buf tmpbuf;
-		int i;
+		ціле i;
 		buf_init(&tmpbuf, sizeof(char));
-		for (i = 1; i <= lastsc; i++) {
+		для (i = 1; i <= lastsc; i++) {
 			char *str, *fmt = "M4_HOOK_CONST_DEFINE_STATE(%s, %d)";
 			size_t strsz;
 
 			strsz = strlen(fmt) + strlen(scname[i]) + (size_t)(1 + ceil (log10(i))) + 2;
 			str = malloc(strsz);
-			if (!str)
+			якщо (!str)
 				flexfatal(_("allocation of macro definition failed"));
 			snprintf(str, strsz, fmt, scname[i], i - 1);
 			buf_strappend(&tmpbuf, str);
@@ -1442,237 +1442,237 @@ void readin (void)
 		buf_destroy(&tmpbuf);
 	}
 
-	if (ctrl.bison_bridge_lval)
+	якщо (ctrl.bison_bridge_lval)
 		visible_define("M4_YY_BISON_LVAL");
 
-	if (ctrl.bison_bridge_lloc)
+	якщо (ctrl.bison_bridge_lloc)
 		visible_define("<M4_YY_BISON_LLOC>");
 
-	if (extra_type != NULL)
+	якщо (extra_type != NULL)
 		visible_define_str ("M4_MODE_EXTRA_TYPE", extra_type);
 
 	/* always generate the tablesverify flag. */
 	visible_define_str ("M4_YY_TABLES_VERIFY", tablesverify ? "1" : "0");
 
-	if (ctrl.reentrant) {
+	якщо (ctrl.reentrant) {
 		visible_define ("M4_YY_REENTRANT");
-		if (ctrl.yytext_is_array)
+		якщо (ctrl.yytext_is_array)
 			visible_define ("M4_MODE_REENTRANT_TEXT_IS_ARRAY");
 	}
 
-	if (ctrl.do_main == trit_true)
+	якщо (ctrl.do_main == trit_true)
 		visible_define_str ( "YY_MAIN", "1");
-	else if (ctrl.do_main == trit_false)
+	інакше якщо (ctrl.do_main == trit_false)
 		visible_define_str ( "YY_MAIN", "0");
 
-	if (ctrl.do_stdinit)
+	якщо (ctrl.do_stdinit)
 		visible_define ( "M4_MODE_DO_STDINIT");
-	else
+	інакше
 		visible_define ( "M4_MODE_NO_DO_STDINIT");
 
 	// mode switches for YY_DO_BEFORE_ACTION code generation
-	if (ctrl.yytext_is_array)
+	якщо (ctrl.yytext_is_array)
 		visible_define ( "M4_MODE_YYTEXT_IS_ARRAY");
-	else
+	інакше
 		visible_define ( "M4_MODE_NO_YYTEXT_IS_ARRAY");
-	if (yymore_used)
+	якщо (yymore_used)
 		visible_define ( "M4_MODE_YYMORE_USED");
-	else
+	інакше
 		visible_define ( "M4_MODE_NO_YYMORE_USED");
 
-	if (ctrl.fullspd)
+	якщо (ctrl.fullspd)
 		visible_define ( "M4_MODE_REAL_FULLSPD");
-	else
+	інакше
 		visible_define ( "M4_MODE_NO_REAL_FULLSPD");
 
-	if (ctrl.fulltbl)
+	якщо (ctrl.fulltbl)
 		visible_define ( "M4_MODE_REAL_FULLTBL");
-	else
+	інакше
 		visible_define ( "M4_MODE_NO_REAL_FULLTBL");
 
 	// niode switches for YYINPUT code generation
-	if (ctrl.use_read)
+	якщо (ctrl.use_read)
 		visible_define ( "M4_MODE_CPP_USE_READ");
-	else
+	інакше
 		visible_define ( "M4_MODE_NO_CPP_USE_READ");
 
 	// mode switches for next-action code
-	if (variable_trailing_context_rules) {
+	якщо (variable_trailing_context_rules) {
 		visible_define ( "M4_MODE_VARIABLE_TRAILING_CONTEXT_RULES");
-	} else {
+	} інакше {
 		visible_define ( "M4_MODE_NO_VARIABLE_TRAILING_CONTEXT_RULES");
 	}
-	if (real_reject)
+	якщо (real_reject)
 		visible_define ( "M4_MODE_REAL_REJECT");
-	if (ctrl.reject_really_used)
+	якщо (ctrl.reject_really_used)
 		visible_define ( "M4_MODE_FIND_ACTION_REJECT_REALLY_USED");
-	if (reject)
+	якщо (reject)
 		visible_define ( "M4_MODE_USES_REJECT");
-	else
+	інакше
 		visible_define ( "M4_MODE_NO_USES_REJECT");
 
 	// mode switches for computing next compressed state
-	if (ctrl.usemecs)
+	якщо (ctrl.usemecs)
 		visible_define ( "M4_MODE_USEMECS");
 
 	// mode switches for find-action code
-	if (ctrl.fullspd)
+	якщо (ctrl.fullspd)
 		visible_define ( "M4_MODE_FULLSPD");
-	else if (ctrl.fulltbl)
+	інакше якщо (ctrl.fulltbl)
 	    visible_define ( "M4_MODE_FIND_ACTION_FULLTBL");
-	else if (reject)
+	інакше якщо (reject)
 	    visible_define ( "M4_MODE_FIND_ACTION_REJECT");
-	else
+	інакше
 	    visible_define ( "M4_MODE_FIND_ACTION_COMPRESSED");
 
 	// mode switches for backup generation and gen_start_state
-	if (!ctrl.fullspd)
+	якщо (!ctrl.fullspd)
 		visible_define ( "M4_MODE_NO_FULLSPD");
-	if (bol_needed)
+	якщо (bol_needed)
 		visible_define ( "M4_MODE_BOL_NEEDED");
-	else
+	інакше
 		visible_define ( "M4_MODE_NO_BOL_NEEDED");
 
 	// yylineno
-	if (ctrl.do_yylineno)
+	якщо (ctrl.do_yylineno)
 		visible_define ( "M4_MODE_YYLINENO");
 
 	// Equivalence classes
-	if (ctrl.useecs)
+	якщо (ctrl.useecs)
 		visible_define ( "M4_MODE_USEECS");
-	else
+	інакше
 		visible_define ( "M4_MODE_NO_USEECS");
 
 	// mode switches for getting next action
-	if (gentables)
+	якщо (gentables)
 		visible_define ( "M4_MODE_GENTABLES");
-	else
+	інакше
 		visible_define ( "M4_MODE_NO_GENTABLES");
-	if (ctrl.interactive == trit_true)
+	якщо (ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_INTERACTIVE");
-	else
+	інакше
 		visible_define ( "M4_MODE_NO_INTERACTIVE");
-	if (!(ctrl.fullspd || ctrl.fulltbl))
+	якщо (!(ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NO_FULLSPD_OR_FULLTBL");
-	if (reject || ctrl.interactive == trit_true)
+	якщо (reject || ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_FIND_ACTION_REJECT_OR_INTERACTIVE");
 
-	if (ctrl.yyclass != NULL) {
+	якщо (ctrl.yyclass != NULL) {
 		visible_define ( "M4_MODE_YYCLASS");
 		out_m4_define("M4_YY_CLASS_NAME", ctrl.yyclass);
 	}
 
-	if (ctrl.ddebug)
+	якщо (ctrl.ddebug)
 		visible_define ( "M4_MODE_DEBUG");
 
-	if (ctrl.lex_compat)
+	якщо (ctrl.lex_compat)
 		visible_define ( "M4_MODE_OPTIONS.LEX_COMPAT");
 
-	if (ctrl.do_yywrap)
+	якщо (ctrl.do_yywrap)
 		visible_define ( "M4_MODE_YYWRAP");
-	else
+	інакше
 		visible_define ( "M4_MODE_NO_YYWRAP");
 
-	if (ctrl.interactive == trit_true)
+	якщо (ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_INTERACTIVE");
 
-	if (ctrl.noyyread)
+	якщо (ctrl.noyyread)
 		visible_define("M4_MODE_USER_YYREAD");
 
-	if (is_default_backend()) {
-		if (ctrl.C_plus_plus) {
+	якщо (is_default_backend()) {
+		якщо (ctrl.C_plus_plus) {
 			visible_define ( "M4_MODE_CXX_ONLY");
-		} else {
+		} інакше {
 			visible_define ( "M4_MODE_C_ONLY");
 		}
 	}
 
-	if (tablesext)
+	якщо (tablesext)
 		visible_define ( "M4_MODE_TABLESEXT");
-	if (ctrl.prefix != NULL)
+	якщо (ctrl.prefix != NULL)
 	    visible_define_str ( "M4_MODE_PREFIX", ctrl.prefix);
 
-	if (ctrl.no_yyinput)
+	якщо (ctrl.no_yyinput)
 		visible_define("M4_MODE_NO_YYINPUT");
 
-	if (ctrl.bufsize != 0)
+	якщо (ctrl.bufsize != 0)
 	    visible_define_int("M4_MODE_YY_BUFSIZE", ctrl.bufsize);
 
-	if (ctrl.yyterminate != NULL)
+	якщо (ctrl.yyterminate != NULL)
 	    visible_define_str("M4_MODE_YYTERMINATE", ctrl.yyterminate);
 	
-	if (ctrl.no_yypanic)
+	якщо (ctrl.no_yypanic)
 		visible_define("M4_YY_NO_YYPANIC");
-	if (ctrl.no_yy_push_state)
+	якщо (ctrl.no_yy_push_state)
 		visible_define("M4_YY_NO_PUSH_STATE");
-	if (ctrl.no_yy_pop_state)
+	якщо (ctrl.no_yy_pop_state)
 		visible_define("M4_YY_NO_POP_STATE");
-	if (ctrl.no_yy_top_state)
+	якщо (ctrl.no_yy_top_state)
 		visible_define("M4_YY_NO_TOP_STATE");
-	if (ctrl.no_yyunput)
+	якщо (ctrl.no_yyunput)
 		visible_define("M4_YY_NO_YYUNPUT");
-	if (ctrl.no_yy_scan_buffer)
+	якщо (ctrl.no_yy_scan_buffer)
 		visible_define("M4_YY_NO_SCAN_BUFFER");
-	if (ctrl.no_yy_scan_bytes)
+	якщо (ctrl.no_yy_scan_bytes)
 		visible_define("M4_YY_NO_SCAN_BYTES");
-	if (ctrl.no_yy_scan_string)
+	якщо (ctrl.no_yy_scan_string)
 		visible_define("M4_YY_NO_SCAN_STRING");
-	if (ctrl.no_yyget_extra)
+	якщо (ctrl.no_yyget_extra)
 		visible_define("M4_YY_NO_GET_EXTRA");
-	if (ctrl.no_yyset_extra)
+	якщо (ctrl.no_yyset_extra)
 		visible_define("M4_YY_NO_SET_EXTRA");
-	if (ctrl.no_yyget_leng)
+	якщо (ctrl.no_yyget_leng)
 		visible_define("M4_YY_NO_GET_LENG");
-	if (ctrl.no_yyget_text)
+	якщо (ctrl.no_yyget_text)
 		visible_define("M4_YY_NO_GET_TEXT");
-	if (ctrl.no_yyget_lineno)
+	якщо (ctrl.no_yyget_lineno)
 		visible_define("M4_YY_NO_GET_LINENO");
-	if (ctrl.no_yyset_lineno)
+	якщо (ctrl.no_yyset_lineno)
 		visible_define("M4_YY_NO_SET_LINENO");
-	if (ctrl.no_yyget_column)
+	якщо (ctrl.no_yyget_column)
 		visible_define("M4_YY_NO_GET_COLUMN");
-	if (ctrl.no_yyset_column)
+	якщо (ctrl.no_yyset_column)
 		visible_define("M4_YY_NO_SET_COLUMN");
-	if (ctrl.no_yyget_in)
+	якщо (ctrl.no_yyget_in)
 		visible_define("M4_YY_NO_GET_IN");
-	if (ctrl.no_yyset_in)
+	якщо (ctrl.no_yyset_in)
 		visible_define("M4_YY_NO_SET_IN");
-	if (ctrl.no_yyget_out)
+	якщо (ctrl.no_yyget_out)
 		visible_define("M4_YY_NO_GET_OUT");
-	if (ctrl.no_yyset_out)
+	якщо (ctrl.no_yyset_out)
 		visible_define("M4_YY_NO_SET_OUT");
-	if (ctrl.no_yyget_lval)
+	якщо (ctrl.no_yyget_lval)
 		visible_define("M4_YY_NO_GET_LVAL");
-	if (ctrl.no_yyset_lval)
+	якщо (ctrl.no_yyset_lval)
 		visible_define("M4_YY_NO_SET_LVAL");
-	if (ctrl.no_yyget_lloc)
+	якщо (ctrl.no_yyget_lloc)
 		visible_define("M4_YY_NO_GET_LLOC");
-	if (ctrl.no_yyset_lloc)
+	якщо (ctrl.no_yyset_lloc)
 		visible_define("M4_YY_NO_SET_LLOC");
-	if (ctrl.no_flex_alloc)
+	якщо (ctrl.no_flex_alloc)
 		visible_define("M4_YY_NO_FLEX_ALLOC");
-	if (ctrl.no_flex_realloc)
+	якщо (ctrl.no_flex_realloc)
 		visible_define("M4_YY_NO_FLEX_REALLOC");
-	if (ctrl.no_flex_free)
+	якщо (ctrl.no_flex_free)
 		visible_define("M4_YY_NO_FLEX_FREE");
-	if (ctrl.no_get_debug)
+	якщо (ctrl.no_get_debug)
 		visible_define("M4_YY_NO_GET_DEBUG");
-	if (ctrl.no_set_debug)
+	якщо (ctrl.no_set_debug)
 		visible_define("M4_YY_NO_SET_DEBUG");
 
-	if (ctrl.no_unistd)
+	якщо (ctrl.no_unistd)
 		visible_define("M4_YY_NO_UNISTD_H");
 
-	if (ctrl.always_interactive)
+	якщо (ctrl.always_interactive)
 		visible_define("M4_YY_ALWAYS_INTERACTIVE");
-	if (ctrl.never_interactive)
+	якщо (ctrl.never_interactive)
 		visible_define("M4_YY_NEVER_INTERACTIVE");
-	if (ctrl.stack_used)
+	якщо (ctrl.stack_used)
 		visible_define("M4_YY_STACK_USED");
 
-	if (ctrl.rewrite)
+	якщо (ctrl.rewrite)
 		visible_define ( "M4_MODE_REWRITE");
-	else
+	інакше
 		visible_define ( "M4_MODE_NO_REWRITE");
 
 	comment("END of m4 controls\n");
@@ -1744,7 +1744,7 @@ void usage (void)
 {
 	FILE   *f = stdout;
 
-	if (!env.did_outfilename) {
+	якщо (!env.did_outfilename) {
 		snprintf (outfile_path, sizeof(outfile_path), outfile_template,
 			  ctrl.prefix, suffix());
 		env.outfilename = outfile_path;

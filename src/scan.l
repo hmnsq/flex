@@ -56,58 +56,58 @@ extern const char *escaped_qstart, *escaped_qend;
 #define MARK_END_OF_PROLOG mark_prolog();
 
 #define YY_DECL \
-	int flexscan(void)
+	ціле flexscan(void)
 
 #define RETURNCHAR \
 	yylval = (unsigned char) yytext[0]; \
-	return CHAR;
+	повернути CHAR;
 
 #define RETURNNAME \
-	if(yyleng < MAXLINE) \
+	якщо(yyleng < MAXLINE) \
          { \
 	strncpy( nmstr, yytext, sizeof(nmstr) ); \
-	return NAME; \
+	повернути NAME; \
 	 } \
-	else \
+	інакше \
 	 do { \
 	   synerr(_("Input line too long\n")); \
 	   FLEX_EXIT(EXIT_FAILURE);  \
-	 } while (0)
+	 } поки (0)
 
 #define PUT_BACK_STRING(str, start) \
 	{ size_t i = strlen( str );	\
-	  while ( i > start )		\
+	  поки ( i > start )		\
 	    unput((str)[--i]);		\
 	}
 
 #define CHECK_REJECT(str) \
-	if ( all_upper( str ) ) \
+	якщо ( all_upper( str ) ) \
 		reject = true;
 
 #define CHECK_YYREJECT(str) \
-	if ( all_lower( str ) ) \
+	якщо ( all_lower( str ) ) \
 		reject = true;
 
 #define YY_USER_INIT \
-	if ( getenv("POSIXLY_CORRECT") ) \
+	якщо ( getenv("POSIXLY_CORRECT") ) \
 		ctrl.posix_compat = true;
 
 #define START_CODEBLOCK(x) do { \
     /* Emit the needed line directive... */\
-    if (indented_code == false) { \
-        if (!x) linenum++; \
+    якщо (indented_code == false) { \
+        якщо (!x) linenum++; \
         line_directive_out(NULL, infilename, linenum);	\
     } \
     add_action(M4QSTART); \
     yy_push_state(CODEBLOCK); \
-    if ((indented_code = x)) ACTION_ECHO; \
-} while(0)
+    якщо ((indented_code = x)) ACTION_ECHO; \
+} поки(0)
 
 #define END_CODEBLOCK do { \
     yy_pop_state();\
     add_action(M4QEND); \
-    if (!indented_code) line_directive_out(NULL, NULL, linenum);	\
-} while (0)
+    якщо (!indented_code) line_directive_out(NULL, NULL, linenum);	\
+} поки (0)
 
 %}
 
@@ -154,12 +154,12 @@ void context_member(char *, const char *);
 #undef yyreject
 %}
 %%
-	static int bracelevel, didadef, indented_code;
+	static ціле bracelevel, didadef, indented_code;
 	static bool doing_rule_action = false;
 	static bool option_sense;
 
 	static bool doing_codeblock = false;
-	int brace_depth=0, brace_start_line=0;
+	ціле brace_depth=0, brace_start_line=0;
 	char nmdef[MAXLINE];
 
 
@@ -167,8 +167,8 @@ void context_member(char *, const char *);
 	^{WS}		START_CODEBLOCK(true);
 	^"/*"		add_action("/*[""["); yy_push_state( COMMENT );
 	^#{OPTWS}line{WS}	yy_push_state( LINEDIR );
-	^"%s"{NAME}?	return SCDECL;
-	^"%x"{NAME}?	return XSCDECL;
+	^"%s"{NAME}?	повернути SCDECL;
+	^"%x"{NAME}?	повернути XSCDECL;
 	^"%{".*{NL}	START_CODEBLOCK(false);
     ^"%top"[[:blank:]]*"{"[[:blank:]]*{NL}    {
 		char trampoline[512];
@@ -177,7 +177,7 @@ void context_member(char *, const char *);
 		snprintf(trampoline, sizeof(trampoline),
 			 "M4_HOOK_TRACE_LINE_FORMAT(%d, [[%s]])",
 			 linenum, infilename?infilename:"<stdin>");
-                if (ctrl.gen_line_dirs)
+                якщо (ctrl.gen_line_dirs)
                     buf_strappend(&top_buf, trampoline);
                 brace_depth = 1;
                 yy_push_state(CODEBLOCK_MATCH_BRACE);
@@ -193,13 +193,13 @@ void context_member(char *, const char *);
 			mark_defs1();
 			line_directive_out(NULL, infilename, linenum);
 			BEGIN(SECT2PROLOG);
-			return SECTEND;
+			повернути SECTEND;
 			}
 
 	^"%pointer".*{NL}	ctrl.yytext_is_array = false; ++linenum;
 	^"%array".*{NL}		ctrl.yytext_is_array = true; ++linenum;
 
-	^"%option"	BEGIN(OPTION); return TOK_OPTION;
+	^"%option"	BEGIN(OPTION); повернути TOK_OPTION;
 
 	^"%"{LEXOPT}{OPTWS}[[:digit:]]*{OPTWS}{NL}	++linenum; /* ignore */
 	^"%"{LEXOPT}{WS}.*{NL}	++linenum;	/* ignore */
@@ -208,11 +208,11 @@ void context_member(char *, const char *);
 	^"%"[^sxaceknopr{}].*	synerr( _( "unrecognized '%' directive" ) );
 
 	^{NAME}		{
-			if(yyleng < MAXLINE)
+			якщо(yyleng < MAXLINE)
         		 {
 			strncpy( nmstr, yytext, sizeof(nmstr) );
 			 }
-			else
+			інакше
 			 {
 			   synerr( _("Definition name too long\n"));
 			   FLEX_EXIT(EXIT_FAILURE);
@@ -278,16 +278,16 @@ void context_member(char *, const char *);
 	{NL}		{
 			++linenum;
 			ACTION_ECHO;
-			if ( indented_code ) END_CODEBLOCK;
+			якщо ( indented_code ) END_CODEBLOCK;
 			}
 }
 
 <CODEBLOCK_MATCH_BRACE>{
     "}"     {
-                if( --brace_depth == 0){
+                якщо( --brace_depth == 0){
                     /* TODO: Matched. */
                     yy_pop_state();
-                }else
+                }інакше
                     buf_strnappend(&top_buf, yytext, yyleng);
             }
 
@@ -301,8 +301,8 @@ void context_member(char *, const char *);
                 buf_strnappend(&top_buf, yytext, yyleng);
             }
 
-    {M4QSTART}  buf_strnappend(&top_buf, escaped_qstart, (int) strlen(escaped_qstart));
-    {M4QEND}    buf_strnappend(&top_buf, escaped_qend, (int) strlen(escaped_qend));
+    {M4QSTART}  buf_strnappend(&top_buf, escaped_qstart, (ціле) strlen(escaped_qstart));
+    {M4QEND}    buf_strnappend(&top_buf, escaped_qend, (ціле) strlen(escaped_qend));
     ([^{}\r\n\[\]]+)|[^{}\r\n]  {
        buf_strnappend(&top_buf, yytext, yyleng);
     }
@@ -310,7 +310,7 @@ void context_member(char *, const char *);
     <<EOF>>     {
                 linenum = brace_start_line;
                 synerr(_("Unmatched '{'"));
-                return YY_NULL;
+                повернути YY_NULL;
                 }
 }
 
@@ -319,11 +319,11 @@ void context_member(char *, const char *);
 	{WS}		/* separates name and definition */
 
 	{NOT_WS}[^\r\n]*	{
- 		        if(yyleng < MAXLINE)
+ 		        якщо(yyleng < MAXLINE)
  		         {
 			strncpy( nmdef, yytext, sizeof(nmdef) );
  		         }
- 		        else
+ 		        інакше
  		         {
  		           format_synerr( _("Definition value for {%s} too long\n"), nmstr);
  		           FLEX_EXIT(EXIT_FAILURE);
@@ -331,7 +331,7 @@ void context_member(char *, const char *);
 			/* Skip trailing whitespace. */
 			{
 			    size_t i = strlen( nmdef );
-			    while (i > 0 && (nmdef[i-1] == ' ' || nmdef[i-1] == '\t'))
+			    поки (i > 0 && (nmdef[i-1] == ' ' || nmdef[i-1] == '\t'))
 			       --i;
 			    nmdef[i] = '\0';
 			}
@@ -341,7 +341,7 @@ void context_member(char *, const char *);
 			}
 
 	{NL}		{
-			if ( ! didadef )
+			якщо ( ! didadef )
 				synerr( _( "incomplete name definition" ) );
 			BEGIN(INITIAL);
 			++linenum;
@@ -353,8 +353,8 @@ void context_member(char *, const char *);
 	{NL}		++linenum; BEGIN(INITIAL);
 	{WS}		option_sense = true;
 
-	"="		return '=';
-	[[:digit:]]+	{nmval = atoi(yytext); return TOK_NUMERIC;}
+	"="		повернути '=';
+	[[:digit:]]+	{nmval = atoi(yytext); повернути TOK_NUMERIC;}
 
 	no		option_sense = ! option_sense;
 
@@ -370,7 +370,7 @@ void context_member(char *, const char *);
 	backup		env.backing_up_report = option_sense;
 	batch		ctrl.interactive = (trit)!option_sense;
 	bison-bridge     ctrl.bison_bridge_lval = option_sense;
-	bison-locations  { if((ctrl.bison_bridge_lloc = option_sense))
+	bison-locations  { якщо((ctrl.bison_bridge_lloc = option_sense))
                             ctrl.bison_bridge_lval = true;
 			}
 	"c++"		ctrl.C_plus_plus = option_sense;
@@ -396,7 +396,7 @@ void context_member(char *, const char *);
 	main		{
 			ctrl.do_main = option_sense;
 			/* Override yywrap */
-			if (option_sense)
+			якщо (option_sense)
                 		ctrl.do_yywrap = false;
 			}
 	meta-ecs	ctrl.usemecs = option_sense;
@@ -456,39 +456,39 @@ void context_member(char *, const char *);
 	yyget_lloc      ctrl.no_yyget_lloc = ! option_sense;
 	yyset_lloc      ctrl.no_yyset_lloc = ! option_sense;
 
-	bufsize		return TOK_BUFSIZE;
-	emit		return TOK_EMIT;
-	extra-type	return TOK_EXTRA_TYPE;
-	outfile		return TOK_OUTFILE;
-	prefix		return TOK_PREFIX;
-	yyclass		return TOK_YYCLASS;
-	yylmax		return TOK_YYLMAX;
-	yydecl		return TOK_YYDECL;
-	yyterminate	return TOK_YYTERMINATE;
-	pre-action	return TOK_PREACTION;
-	post-action	return TOK_POSTACTION;
-	user-init	return TOK_USERINIT;
-	header(-file)?      return TOK_HEADER_FILE;
-	tables-file         return TOK_TABLES_FILE;
+	bufsize		повернути TOK_BUFSIZE;
+	emit		повернути TOK_EMIT;
+	extra-type	повернути TOK_EXTRA_TYPE;
+	outfile		повернути TOK_OUTFILE;
+	prefix		повернути TOK_PREFIX;
+	yyclass		повернути TOK_YYCLASS;
+	yylmax		повернути TOK_YYLMAX;
+	yydecl		повернути TOK_YYDECL;
+	yyterminate	повернути TOK_YYTERMINATE;
+	pre-action	повернути TOK_PREACTION;
+	post-action	повернути TOK_POSTACTION;
+	user-init	повернути TOK_USERINIT;
+	header(-file)?      повернути TOK_HEADER_FILE;
+	tables-file         повернути TOK_TABLES_FILE;
 	tables-verify   {
                     tablesverify = option_sense;
-                    if (!tablesext && option_sense)
+                    якщо (!tablesext && option_sense)
                         tablesext = true;
                     }
 
 
 	"\""[^""\n]*"\""	{
-			if(yyleng-1 < MAXLINE)
+			якщо(yyleng-1 < MAXLINE)
         		 {
 			strncpy( nmstr, yytext + 1, sizeof(nmstr) );
 			 }
-			else
+			інакше
 			 {
 			   synerr( _("Option line too long\n"));
 			   FLEX_EXIT(EXIT_FAILURE);
 			 }
 			nmstr[strlen( nmstr ) - 1] = '\0';
-			return NAME;
+			повернути NAME;
 			}
 
 	(([a-mo-z]|n[a-np-z])[[:alpha:]\-+]*)|.	{
@@ -509,13 +509,13 @@ void context_member(char *, const char *);
 
 	^{NOT_WS}.*	{
         /* non-indented code */
-		if ( bracelevel <= 0 ) {
+		якщо ( bracelevel <= 0 ) {
             /* not in %{ ... %} */
             yyless( 0 );	/* put it all back */
             yy_set_bol( 1 );
             mark_prolog();
             BEGIN(SECT2);
-        } else {
+        } інакше {
             START_CODEBLOCK(true);
         }
     }
@@ -526,7 +526,7 @@ void context_member(char *, const char *);
 	<<EOF>>		{
 			mark_prolog();
 			sectnum = 0;
-			return YY_NULL; /* to stop the parser */
+			повернути YY_NULL; /* to stop the parser */
 			}
 }
 
@@ -542,54 +542,54 @@ void context_member(char *, const char *);
 
 	^{OPTWS}"<"	    {
                         /* Allow "<" to appear in (?x) patterns. */
-                        if (!sf_skip_ws())
+                        якщо (!sf_skip_ws())
                             BEGIN(SC);
-                        return '<';
+                        повернути '<';
                     }
-	^{OPTWS}"^"	return '^';
-	"\""		BEGIN(QUOTE); return '"';
+	^{OPTWS}"^"	повернути '^';
+	"\""		BEGIN(QUOTE); повернути '"';
 	"{"/[[:digit:]]	{
 			BEGIN(NUM);
-			if ( ctrl.lex_compat || ctrl.posix_compat )
-				return BEGIN_REPEAT_POSIX;
-			else
-				return BEGIN_REPEAT_FLEX;
+			якщо ( ctrl.lex_compat || ctrl.posix_compat )
+				повернути BEGIN_REPEAT_POSIX;
+			інакше
+				повернути BEGIN_REPEAT_FLEX;
 			}
-	"$"/([[:blank:]]|{NL})	return '$';
+	"$"/([[:blank:]]|{NL})	повернути '$';
 
 	{WS}"%{"		{
 			bracelevel = 1;
 			BEGIN(PERCENT_BRACE_ACTION);
 
-			if ( in_rule )
+			якщо ( in_rule )
 				{
 				doing_rule_action = true;
 				in_rule = false;
-				return '\n';
+				повернути '\n';
 				}
 			}
 	{WS}"|".*{NL}	{
-                        if (sf_skip_ws()){
+                        якщо (sf_skip_ws()){
                             /* We're in the middle of a (?x: ) pattern. */
                             /* Push back everything starting at the "|" */
-                            int amt = (int) (strchr (yytext, '|') - yytext);
+                            ціле amt = (ціле) (strchr (yytext, '|') - yytext);
                             yyless(amt);
                         }
-                        else {
+                        інакше {
                             add_action("]""]");
                             continued_action = true;
                             ++linenum;
-                            return '\n';
+                            повернути '\n';
                         }
                     }
 
 	^{WS}"/*"	{
 
-                if (sf_skip_ws()){
+                якщо (sf_skip_ws()){
                     /* We're in the middle of a (?x: ) pattern. */
                     yy_push_state(COMMENT_DISCARD);
                 }
-                else{
+                інакше{
                     yyless( yyleng - 2 );	/* put back '/', '*' */
                     bracelevel = 0;
                     continued_action = false;
@@ -600,10 +600,10 @@ void context_member(char *, const char *);
 	^{WS}		/* allow indented rules */ ;
 
 	{WS}		{
-            if (sf_skip_ws()){
+            якщо (sf_skip_ws()){
                 /* We're in the middle of a (?x: ) pattern. */
             }
-            else{
+            інакше{
                 /* This rule is separate from the one below because
                  * otherwise we get variable trailing context, so
                  * we can't build the scanner using -{f,F}.
@@ -612,37 +612,37 @@ void context_member(char *, const char *);
                 continued_action = false;
                 BEGIN(ACTION);
 
-                if ( in_rule )
+                якщо ( in_rule )
                     {
                     doing_rule_action = true;
                     in_rule = false;
-                    return '\n';
+                    повернути '\n';
                     }
             }
 			}
 
 	{OPTWS}{NL}	{
-            if (sf_skip_ws()){
+            якщо (sf_skip_ws()){
                 /* We're in the middle of a (?x: ) pattern. */
                 ++linenum;
             }
-            else{
+            інакше{
                 bracelevel = 0;
                 continued_action = false;
                 BEGIN(ACTION);
                 unput( '\n' );	/* so <ACTION> sees it */
 
-                if ( in_rule )
+                якщо ( in_rule )
                     {
                     doing_rule_action = true;
                     in_rule = false;
-                    return '\n';
+                    повернути '\n';
                     }
             }
 			}
 
 	^{OPTWS}"<<EOF>>"	|
-	"<<EOF>>"	return EOF_OP;
+	"<<EOF>>"	повернути EOF_OP;
 
 	^"%%".*		{
 			sectnum = 3;
@@ -652,13 +652,13 @@ void context_member(char *, const char *);
 			}
 
 	"["({FIRST_CCL_CHAR}|{CCL_EXPR})({CCL_CHAR}|{CCL_EXPR})*	{
-			int cclval;
+			ціле cclval;
 
-			if(yyleng < MAXLINE)
+			якщо(yyleng < MAXLINE)
         		 {
 			strncpy( nmstr, yytext, sizeof(nmstr) );
 			 }
-			else
+			інакше
 			 {
 			   synerr( _("Input line too long\n"));
 			   FLEX_EXIT(EXIT_FAILURE);
@@ -667,7 +667,7 @@ void context_member(char *, const char *);
 			/* Check to see if we've already encountered this
 			 * ccl.
 			 */
-			if (0 /* <--- This "0" effectively disables the reuse of a
+			якщо (0 /* <--- This "0" effectively disables the reuse of a
                    * character class (purely based on its source text).
                    * The reason it was disabled is so yacc/bison can parse
                    * ccl operations, such as ccl difference and union.
@@ -676,7 +676,7 @@ void context_member(char *, const char *);
 				{
      				 /* Dead code removed */
 				}
-			else
+			інакше
 				{
 				/* We fudge a bit.  We know that this ccl will
 				 * soon be numbered as lastccl + 1 by cclinit.
@@ -689,11 +689,11 @@ void context_member(char *, const char *);
 				yyless( 1 );
 
 				BEGIN(FIRSTCCL);
-				return '[';
+				повернути '[';
 				}
 			}
-    "{-}"       return CCL_OP_DIFF;
-    "{+}"       return CCL_OP_UNION;
+    "{-}"       повернути CCL_OP_DIFF;
+    "{+}"       повернути CCL_OP_UNION;
 
 
     /* Check for :space: at the end of the rule so we don't
@@ -702,44 +702,44 @@ void context_member(char *, const char *);
      */
 	"{"{NAME}"}"[[:space:]]?	 {
 			char *nmdefptr;
-            int end_is_ws, end_ch;
+            ціле end_is_ws, end_ch;
 
             end_ch = yytext[yyleng-1];
             end_is_ws = end_ch != '}' ? 1 : 0;
 
- 			if(yyleng-1 < MAXLINE)
+ 			якщо(yyleng-1 < MAXLINE)
          		 {
 			strncpy( nmstr, yytext + 1, sizeof(nmstr) );
  			 }
- 			else
+ 			інакше
  			 {
  			   synerr( _("Input line too long\n"));
  			   FLEX_EXIT(EXIT_FAILURE);
  			 }
 nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 
-			if ( (nmdefptr = ndlookup( nmstr )) == 0 )
+			якщо ( (nmdefptr = ndlookup( nmstr )) == 0 )
 				format_synerr(
 					_( "undefined definition {%s}" ),
 						nmstr );
 
-			else
+			інакше
 				{ /* push back name surrounded by ()'s */
 				size_t len = strlen( nmdefptr );
-                if (end_is_ws)
+                якщо (end_is_ws)
                     unput(end_ch);
 
-				if ( ctrl.lex_compat || nmdefptr[0] == '^' ||
+				якщо ( ctrl.lex_compat || nmdefptr[0] == '^' ||
 				     (len > 0 && nmdefptr[len - 1] == '$')
                      || (end_is_ws && trlcontxt && !sf_skip_ws()))
 					{ /* don't use ()'s after all */
 					PUT_BACK_STRING(nmdefptr, 0);
 
-					if ( nmdefptr[0] == '^' )
+					якщо ( nmdefptr[0] == '^' )
 						BEGIN(CARETISBOL);
 					}
 
-				else
+				інакше
 					{
 					unput(')');
 					PUT_BACK_STRING(nmdefptr, 0);
@@ -749,53 +749,53 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 			}
 
     "/*"        {
-                    if (sf_skip_ws())
+                    якщо (sf_skip_ws())
                         yy_push_state(COMMENT_DISCARD);
-                    else{
+                    інакше{
                         /* Push back the "*" and return "/" as usual. */
                         yyless(1);
-                        return '/';
+                        повернути '/';
                     }
                 }
 
     "(?#"       {
-                    if (ctrl.lex_compat || ctrl.posix_compat){
+                    якщо (ctrl.lex_compat || ctrl.posix_compat){
                         /* Push back the "?#" and treat it like a normal parens. */
                         yyless(1);
                         sf_push(); 
-                        return '(';
+                        повернути '(';
                     }
-                    else
+                    інакше
                         yy_push_state(EXTENDED_COMMENT);
                 }
     "(?"        {
                     sf_push();
-                    if (ctrl.lex_compat || ctrl.posix_compat)
+                    якщо (ctrl.lex_compat || ctrl.posix_compat)
                         /* Push back the "?" and treat it like a normal parens. */
                         yyless(1);
-                    else
+                    інакше
                         BEGIN(GROUP_WITH_PARAMS);
-                    return '(';
+                    повернути '(';
                 }
-    "("         sf_push(); return '(';
+    "("         sf_push(); повернути '(';
     ")"         {
-                    if (_sf_top_ix > 0) {
+                    якщо (_sf_top_ix > 0) {
                         sf_pop();
-                        return ')';
-                    } else
+                        повернути ')';
+                    } інакше
                         synerr(_("unbalanced parenthesis"));
                 }
 
-	[/|*+?.(){}]	return (unsigned char) yytext[0];
+	[/|*+?.(){}]	повернути (unsigned char) yytext[0];
 	.		RETURNCHAR;
 }
 
 
 <SC>{
 	{OPTWS}{NL}{OPTWS}	++linenum;	/* Allow blank lines & continuations */
-	[,*]		return (unsigned char) yytext[0];
-	">"		BEGIN(SECT2); return '>';
-	">"/^		BEGIN(CARETISBOL); return '>';
+	[,*]		повернути (unsigned char) yytext[0];
+	">"		BEGIN(SECT2); повернути '>';
+	">"/^		BEGIN(CARETISBOL); повернути '>';
 	{SCNAME}	RETURNNAME;
 	.		{
 			format_synerr( _( "bad <start condition>: %s" ),
@@ -803,18 +803,18 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 			}
 }
 
-<CARETISBOL>"^"		BEGIN(SECT2); return '^';
+<CARETISBOL>"^"		BEGIN(SECT2); повернути '^';
 
 
 <QUOTE>{
 	[^""\n]		RETURNCHAR;
-	"\""		BEGIN(SECT2); return '"';
+	"\""		BEGIN(SECT2); повернути '"';
 
 	{NL}		{
 			synerr( _( "missing quote" ) );
 			BEGIN(SECT2);
 			++linenum;
-			return '"';
+			повернути '"';
 			}
 }
 
@@ -833,82 +833,82 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 }
 
 <FIRSTCCL>{
-	"^"/[^-\]\n]	BEGIN(CCL); return '^';
-	"^"/("-"|"]")	return '^';
+	"^"/[^-\]\n]	BEGIN(CCL); повернути '^';
+	"^"/("-"|"]")	повернути '^';
 	.		BEGIN(CCL); RETURNCHAR;
 }
 
 <CCL>{
-	-/[^\]\n]	return '-';
+	-/[^\]\n]	повернути '-';
 	[^\]\n]		RETURNCHAR;
-	"]"		BEGIN(SECT2); return ']';
+	"]"		BEGIN(SECT2); повернути ']';
 	.|{NL}		{
 			synerr( _( "bad character class" ) );
 			BEGIN(SECT2);
-			return ']';
+			повернути ']';
 			}
 }
 
 <FIRSTCCL,CCL>{
-	"[:alnum:]"	BEGIN(CCL); return CCE_ALNUM;
-	"[:alpha:]"	BEGIN(CCL); return CCE_ALPHA;
-	"[:blank:]"	BEGIN(CCL); return CCE_BLANK;
-	"[:cntrl:]"	BEGIN(CCL); return CCE_CNTRL;
-	"[:digit:]"	BEGIN(CCL); return CCE_DIGIT;
-	"[:graph:]"	BEGIN(CCL); return CCE_GRAPH;
-	"[:lower:]"	BEGIN(CCL); return CCE_LOWER;
-	"[:print:]"	BEGIN(CCL); return CCE_PRINT;
-	"[:punct:]"	BEGIN(CCL); return CCE_PUNCT;
-	"[:space:]"	BEGIN(CCL); return CCE_SPACE;
-	"[:upper:]"	BEGIN(CCL); return CCE_UPPER;
-	"[:xdigit:]"	BEGIN(CCL); return CCE_XDIGIT;
+	"[:alnum:]"	BEGIN(CCL); повернути CCE_ALNUM;
+	"[:alpha:]"	BEGIN(CCL); повернути CCE_ALPHA;
+	"[:blank:]"	BEGIN(CCL); повернути CCE_BLANK;
+	"[:cntrl:]"	BEGIN(CCL); повернути CCE_CNTRL;
+	"[:digit:]"	BEGIN(CCL); повернути CCE_DIGIT;
+	"[:graph:]"	BEGIN(CCL); повернути CCE_GRAPH;
+	"[:lower:]"	BEGIN(CCL); повернути CCE_LOWER;
+	"[:print:]"	BEGIN(CCL); повернути CCE_PRINT;
+	"[:punct:]"	BEGIN(CCL); повернути CCE_PUNCT;
+	"[:space:]"	BEGIN(CCL); повернути CCE_SPACE;
+	"[:upper:]"	BEGIN(CCL); повернути CCE_UPPER;
+	"[:xdigit:]"	BEGIN(CCL); повернути CCE_XDIGIT;
 
-	"[:^alnum:]"	BEGIN(CCL); return CCE_NEG_ALNUM;
-	"[:^alpha:]"	BEGIN(CCL); return CCE_NEG_ALPHA;
-	"[:^blank:]"	BEGIN(CCL); return CCE_NEG_BLANK;
-	"[:^cntrl:]"	BEGIN(CCL); return CCE_NEG_CNTRL;
-	"[:^digit:]"	BEGIN(CCL); return CCE_NEG_DIGIT;
-	"[:^graph:]"	BEGIN(CCL); return CCE_NEG_GRAPH;
-	"[:^lower:]"	BEGIN(CCL); return CCE_NEG_LOWER;
-	"[:^print:]"	BEGIN(CCL); return CCE_NEG_PRINT;
-	"[:^punct:]"	BEGIN(CCL); return CCE_NEG_PUNCT;
-	"[:^space:]"	BEGIN(CCL); return CCE_NEG_SPACE;
-	"[:^upper:]"	BEGIN(CCL); return CCE_NEG_UPPER;
-	"[:^xdigit:]"	BEGIN(CCL); return CCE_NEG_XDIGIT;
+	"[:^alnum:]"	BEGIN(CCL); повернути CCE_NEG_ALNUM;
+	"[:^alpha:]"	BEGIN(CCL); повернути CCE_NEG_ALPHA;
+	"[:^blank:]"	BEGIN(CCL); повернути CCE_NEG_BLANK;
+	"[:^cntrl:]"	BEGIN(CCL); повернути CCE_NEG_CNTRL;
+	"[:^digit:]"	BEGIN(CCL); повернути CCE_NEG_DIGIT;
+	"[:^graph:]"	BEGIN(CCL); повернути CCE_NEG_GRAPH;
+	"[:^lower:]"	BEGIN(CCL); повернути CCE_NEG_LOWER;
+	"[:^print:]"	BEGIN(CCL); повернути CCE_NEG_PRINT;
+	"[:^punct:]"	BEGIN(CCL); повернути CCE_NEG_PUNCT;
+	"[:^space:]"	BEGIN(CCL); повернути CCE_NEG_SPACE;
+	"[:^upper:]"	BEGIN(CCL); повернути CCE_NEG_UPPER;
+	"[:^xdigit:]"	BEGIN(CCL); повернути CCE_NEG_XDIGIT;
 	{CCL_EXPR}	{
 			format_synerr(
 				_( "bad character class expression: %s" ),
 					yytext );
-			BEGIN(CCL); return CCE_ALNUM;
+			BEGIN(CCL); повернути CCE_ALNUM;
 			}
 }
 
 <NUM>{
 	[[:digit:]]+	{
 			yylval = myctoi( yytext );
-			return NUMBER;
+			повернути NUMBER;
 			}
 
-	","		return ',';
+	","		повернути ',';
 	"}"		{
 			BEGIN(SECT2);
-			if ( ctrl.lex_compat || ctrl.posix_compat )
-				return END_REPEAT_POSIX;
-			else
-				return END_REPEAT_FLEX;
+			якщо ( ctrl.lex_compat || ctrl.posix_compat )
+				повернути END_REPEAT_POSIX;
+			інакше
+				повернути END_REPEAT_FLEX;
 			}
 
 	.		{
 			synerr( _( "bad character inside {}'s" ) );
 			BEGIN(SECT2);
-			return '}';
+			повернути '}';
 			}
 
 	{NL}		{
 			synerr( _( "missing }" ) );
 			BEGIN(SECT2);
 			++linenum;
-			return '}';
+			повернути '}';
 			}
 }
 
@@ -929,9 +929,9 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
         }
 		"yymore"{OPTWS}"("{OPTWS}")" {
 			yymore_used = true;
-			if (ctrl.rewrite)
+			якщо (ctrl.rewrite)
 				context_call(yytext);
-			else
+			інакше
 				ACTION_ECHO;
         }
 	}
@@ -940,8 +940,8 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 	{NL}	{
 		++linenum;
 		ACTION_ECHO;
-		if (bracelevel <= 0 || (doing_codeblock && indented_code)) {
-            if ( doing_rule_action )
+		якщо (bracelevel <= 0 || (doing_codeblock && indented_code)) {
+            якщо ( doing_rule_action )
                 add_action( "\t]""]M4_HOOK_STATE_CASE_BREAK\n" );
 
             doing_rule_action = doing_codeblock = false;
@@ -956,9 +956,9 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 	"{"		ACTION_ECHO; ++bracelevel;
 	"}"		ACTION_ECHO; --bracelevel;
 	yyecho\(\)|yyinput\(\)|yystart\({FUNARGS}\)|yybegin\({FUNARGS}\)|yyunput\({FUNARGS}\)|yypanic\({FUNARGS}\)|yyatbol\(\)|yysetbol\({FUNARGS}\) {
-			if (ctrl.rewrite)
+			якщо (ctrl.rewrite)
 				context_call(yytext);
-			else
+			інакше
 				ACTION_ECHO;
 	}
 	yyterminate\(\)|yyless\({FUNARGS}\) {
@@ -967,15 +967,15 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 			add_action("[""[");
 	}
 	(yyin|yyout|yyextra|yyleng|yytext|yyflexdebug)/[^[:alnum:]_] {
-			if (ctrl.rewrite)
+			якщо (ctrl.rewrite)
 				context_member(yytext, "M4_PROPERTY_CONTEXT_FORMAT");
-			else
+			інакше
 				ACTION_ECHO;
 	}
 	(yylineno|yycolumn)/[^[:alnum:]_] {
-			if (ctrl.rewrite)
+			якщо (ctrl.rewrite)
 				context_member(yytext, "M4_PROPERTY_BUFFERSTACK_CONTEXT_FORMAT");
-			else
+			інакше
 				ACTION_ECHO;
 	}
 	[^[:Alpha:]_{}""''/\n\[\]]+	ACTION_ECHO;
@@ -986,8 +986,8 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 	{NL} {
                 ++linenum;
                 ACTION_ECHO;
-                if (bracelevel <= 0) {
-                   if ( doing_rule_action )
+                якщо (bracelevel <= 0) {
+                   якщо ( doing_rule_action )
                       add_action( "\t]""]M4_HOOK_STATE_CASE_BREAK\n" );
 
                    doing_rule_action = false;
@@ -1008,7 +1008,7 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 <ACTION_STRING,CHARACTER_CONSTANT>{
         (\\\n)*         ACTION_ECHO;
 	\\(\\\n)*.	ACTION_ECHO;
-	{NL}	++linenum; ACTION_ECHO; if (bracelevel <= 0) { BEGIN(SECT2); } else { BEGIN(ACTION); }
+	{NL}	++linenum; ACTION_ECHO; якщо (bracelevel <= 0) { BEGIN(SECT2); } інакше { BEGIN(ACTION); }
         .	ACTION_ECHO;
 }
 
@@ -1025,10 +1025,10 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 <SECT2,QUOTE,FIRSTCCL,CCL>{ESCSEQ}	{
 			yylval = myesc( (unsigned char *) yytext );
 
-			if ( YY_START == FIRSTCCL )
+			якщо ( YY_START == FIRSTCCL )
 				BEGIN(CCL);
 
-			return CHAR;
+			повернути CHAR;
 			}
 
 <SECT3>{
@@ -1056,16 +1056,16 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 %%
 
 
-int yywrap(void)
+ціле yywrap(void)
 	{
-	if ( --num_input_files > 0 )
+	якщо ( --num_input_files > 0 )
 		{
 		set_input_file( *++input_files );
-		return 0;
+		повернути 0;
 		}
 
-	else
-		return 1;
+	інакше
+		повернути 1;
 	}
 
 
@@ -1073,16 +1073,16 @@ int yywrap(void)
 
 void set_input_file( char *file )
 	{
-	if ( file && strcmp( file, "-" ) )
+	якщо ( file && strcmp( file, "-" ) )
 		{
 		infilename = xstrdup(file);
 		yyin = fopen( infilename, "r" );
 
-		if ( yyin == NULL )
+		якщо ( yyin == NULL )
 			lerr( _( "can't open %s: %s" ), file, strerror(errno));
 		}
 
-	else
+	інакше
 		{
 		yyin = stdin;
 		infilename = xstrdup("<stdin>");
@@ -1095,9 +1095,9 @@ void context_call(char *txt) {
 	const char *context_arg = skel_property("M4_PROPERTY_CONTEXT_ARG");
 
 	/* if there's no such property, simply pass through */
-	if (context_arg == NULL) {
+	якщо (context_arg == NULL) {
 		add_action(txt);
-	} else {
+	} інакше {
 		char buf[BUFSIZ];
 
 		/* otherwise, supply the context string as a final argument */
@@ -1105,7 +1105,7 @@ void context_call(char *txt) {
 		strncpy(buf, txt, sizeof(buf));
 		buf[strlen(buf)-1] = '\0';	/* remove trailing ) */
 		add_action(buf);
-		if (txt[strlen(buf)-1] != '(') {
+		якщо (txt[strlen(buf)-1] != '(') {
 			add_action(", ");
 		}
 		add_action(context_arg);
@@ -1117,9 +1117,9 @@ void context_member(char *txt, const char *prop) {
 	const char *context_format = skel_property(prop);
 
 	/* if there's no such property, simply pass through */
-	if (context_format == NULL) {
+	якщо (context_format == NULL) {
 		add_action(txt);
-	} else {
+	} інакше {
 		char buf[128];
 		snprintf(buf, sizeof(buf), context_format, txt);
 		add_action(buf);

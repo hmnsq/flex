@@ -43,7 +43,7 @@ dnl
 #ifndef yyskel_static
 #define yyskel_static static
 #endif
-#else
+#інакше
 #include "flexdef.h"
 #include "tables.h"
 #ifndef yyskel_static
@@ -63,10 +63,10 @@ yyskel_static flex_int32_t yytbl_calc_total_len (const struct yytbl_data *tbl)
 
 	/* total number of ints */
 	n = tbl->td_lolen;
-	if (tbl->td_hilen > 0)
+	якщо (tbl->td_hilen > 0)
 		n *= tbl->td_hilen;
 
-	if (tbl->td_id == YYTD_ID_TRANSITION)
+	якщо (tbl->td_id == YYTD_ID_TRANSITION)
 		n *= 2;
-	return (flex_int32_t) n;
+	повернути (flex_int32_t) n;
 }
