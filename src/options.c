@@ -33,7 +33,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "options.h"
+#समावेश "options.h"
 
 /* Be sure to synchronize these options with those defined in "ctrl.h",
  * the giant switch() statement in "main.c", and the %option processing in
@@ -141,9 +141,9 @@ optspec_t flexopts[] = {
 	,			/* Maximal compatibility with POSIX lex. */
         {"--preproc=NUM", OPT_PREPROC_LEVEL, 0}
         ,
-	{"-L", OPT_NO_LINE, 0}
+	{"-L", OPT_NO_पंक्ति, 0}
 	,			/* Suppress #line directives in scanner. */
-	{"--noline", OPT_NO_LINE, 0}
+	{"--noline", OPT_NO_पंक्ति, 0}
 	,			/* Suppress #line directives in scanner. */
 	{"--main", OPT_MAIN, 0}
 	,			/* use built-in main() function. */
@@ -187,7 +187,7 @@ optspec_t flexopts[] = {
 	,
 	{"--skel=FILE", OPT_SKEL, 0}
 	,			/* Use skeleton from FILE */
-	{"--stack", OPT_STACK, 0}
+	{"--stack", OPT_ढेर, 0}
 	,
 	{"--stdinit", OPT_STDINIT, 0}
 	,
@@ -245,13 +245,13 @@ optspec_t flexopts[] = {
 	,
 	{"--noyyunput", OPT_NO_YYUNPUT, 0}
 	,
-	{"--noyy_push_state", OPT_NO_YY_PUSH_STATE, 0}
+	{"--noyy_push_state", OPT_NO_YY_धकेलो_STATE, 0}
 	,
-	{"--noyy_pop_state", OPT_NO_YY_POP_STATE, 0}
+	{"--noyy_pop_state", OPT_NO_YY_निकालो_STATE, 0}
 	,
-	{"--noyy_top_state", OPT_NO_YY_TOP_STATE, 0}
+	{"--noyy_top_state", OPT_NO_YY_शीर्ष_STATE, 0}
 	,
-	{"--noyy_scan_buffer", OPT_NO_YY_SCAN_BUFFER, 0}
+	{"--noyy_scan_buffer", OPT_NO_YY_SCAN_बफर, 0}
 	,
 	{"--noyy_scan_bytes", OPT_NO_YY_SCAN_BYTES, 0}
 	,

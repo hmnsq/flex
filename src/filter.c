@@ -23,15 +23,15 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
-static const char * check_4_gnu_m4 =
+#समावेश "flexdef.h"
+अटल स्थिर अक्षर * check_4_gnu_m4 =
     "m4_dnl ifdef(`__gnu__', ,"
     "`errprint(Flex requires GNU M4. Set the PATH or set the M4 environment variable to its path name.)"
     " m4exit(2)')\n";
 
 
 /** global chain. */
-struct filter *output_chain = NULL;
+काष्ठा filter *output_chain = शून्य;
 
 /* Allocate and initialize an external filter.
  * @param chain the current chain or NULL for new chain
@@ -40,50 +40,50 @@ struct filter *output_chain = NULL;
  *            not including argv[0].
  * @return newest filter in chain
  */
-struct filter *filter_create_ext (struct filter *chain, const char *cmd,
+काष्ठा filter *filter_create_ext (काष्ठा filter *chain, स्थिर अक्षर *cmd,
 				  ...)
 {
-	struct filter *f;
-	int     max_args;
-	const char *s;
-	va_list ap;
+	काष्ठा filter *f;
+	पूर्णांक     max_args;
+	स्थिर अक्षर *s;
+	बहु_सूची ap;
 
 	/* allocate and initialize new filter */
-	f = calloc(sizeof(struct filter), 1);
-	if (!f)
+	f = सुस्मृति(माप(काष्ठा filter), 1);
+	अगर (!f)
 		flexerror(_("calloc failed (f) in filter_create_ext"));
-	f->filter_func = NULL;
-	f->extra = NULL;
-	f->next = NULL;
+	f->filter_func = शून्य;
+	f->extra = शून्य;
+	f->अग्र = शून्य;
 	f->argc = 0;
 
-	if (chain != NULL) {
+	अगर (chain != शून्य) {
 		/* append f to end of chain */
-		while (chain->next)
-			chain = chain->next;
-		chain->next = f;
+		जबतक (chain->अग्र)
+			chain = chain->अग्र;
+		chain->अग्र = f;
 	}
 
 
 	/* allocate argv, and populate it with the argument list. */
 	max_args = 8;
-	f->argv = malloc(sizeof(char *) * (size_t) (max_args + 1));
-	if (!f->argv)
+	f->argv = दो_स्मृति(माप(अक्षर *) * (माप_प्रकार) (max_args + 1));
+	अगर (!f->argv)
 		flexerror(_("malloc failed (f->argv) in filter_create_ext"));
 	f->argv[f->argc++] = cmd;
 
-	va_start (ap, cmd);
-	while ((s = va_arg (ap, const char *)) != NULL) {
-		if (f->argc >= max_args) {
+	बहु_शुरू (ap, cmd);
+	जबतक ((s = बहु_तर्क (ap, स्थिर अक्षर *)) != शून्य) {
+		अगर (f->argc >= max_args) {
 			max_args += 8;
-			f->argv = realloc(f->argv, sizeof(char*) * (size_t) (max_args + 1));
+			f->argv = पुनः_स्मृति(f->argv, माप(अक्षर*) * (माप_प्रकार) (max_args + 1));
 		}
 		f->argv[f->argc++] = s;
 	}
-	f->argv[f->argc] = NULL;
+	f->argv[f->argc] = शून्य;
 
-	va_end (ap);
-	return f;
+	बहु_पूर्ण (ap);
+	वापस f;
 }
 
 /* Allocate and initialize an internal filter.
@@ -94,65 +94,65 @@ struct filter *filter_create_ext (struct filter *chain, const char *cmd,
  * @param extra optional user-defined data to pass to the filter.
  * @return newest filter in chain
  */
-struct filter *filter_create_int (struct filter *chain,
-				  int (*filter_func) (struct filter *),
-				  void *extra)
+काष्ठा filter *filter_create_int (काष्ठा filter *chain,
+				  पूर्णांक (*filter_func) (काष्ठा filter *),
+				  व्योम *extra)
 {
-	struct filter *f;
+	काष्ठा filter *f;
 
 	/* allocate and initialize new filter */
-	f = calloc(sizeof(struct filter), 1);
-	if (!f)
+	f = सुस्मृति(माप(काष्ठा filter), 1);
+	अगर (!f)
 		flexerror(_("calloc failed in filter_create_int"));
-	f->next = NULL;
+	f->अग्र = शून्य;
 	f->argc = 0;
-	f->argv = NULL;
+	f->argv = शून्य;
 
 	f->filter_func = filter_func;
 	f->extra = extra;
 
-	if (chain != NULL) {
+	अगर (chain != शून्य) {
 		/* append f to end of chain */
-		while (chain->next)
-			chain = chain->next;
-		chain->next = f;
+		जबतक (chain->अग्र)
+			chain = chain->अग्र;
+		chain->अग्र = f;
 	}
 
-	return f;
+	वापस f;
 }
 
 /** Fork and exec entire filter chain.
  *  @param chain The head of the chain.
  *  @return true on success.
  */
-bool filter_apply_chain (struct filter * chain)
+bool filter_apply_chain (काष्ठा filter * chain)
 {
-	int     pid, pipes[2];
+	पूर्णांक     pid, pipes[2];
 
 
 	/* Tricky recursion, since we want to begin the chain
 	 * at the END. Why? Because we need all the forked processes
 	 * to be children of the main flex process.
 	 */
-	if (chain)
-		filter_apply_chain (chain->next);
-	else
-		return true;
+	अगर (chain)
+		filter_apply_chain (chain->अग्र);
+	अन्यथा
+		वापस true;
 
 	/* Now we are the right-most unprocessed link in the chain.
 	 */
 
-	fflush (stdout);
-	fflush (stderr);
+	ख_साफ (मानक_निकास);
+	ख_साफ (मानक_त्रुटि);
 
 
-	if (pipe (pipes) == -1)
+	अगर (pipe (pipes) == -1)
 		flexerror (_("pipe failed"));
 
-	if ((pid = fork ()) == -1)
+	अगर ((pid = विभाजन ()) == -1)
 		flexerror (_("fork failed"));
 
-	if (pid == 0) {
+	अगर (pid == 0) {
 		/* child */
 
         /* We need stdin (the FILE* stdin) to connect to this new pipe.
@@ -161,26 +161,26 @@ bool filter_apply_chain (struct filter * chain)
          * So we dup the new pipe onto the stdin descriptor and use a no-op fseek
          * to sync the stream. This is a Hail Mary situation. It seems to work.
          */
-		close (pipes[1]);
-		clearerr(stdin);
-		if (dup2 (pipes[0], fileno (stdin)) == -1)
+		बंद (pipes[1]);
+		साफ_त्रुटि(मानक_निवेश);
+		अगर (dup2 (pipes[0], fileno (मानक_निवेश)) == -1)
 			flexfatal (_("dup2(pipes[0],0)"));
-		close (pipes[0]);
-		fseek (stdin, 0, SEEK_CUR);
-		ungetc(' ', stdin); /* still an evil hack, but one that works better */
-		(void)fgetc(stdin); /* on NetBSD than the fseek attempt does */
+		बंद (pipes[0]);
+		ख_जाओ (मानक_निवेश, 0, प्रस्तुत_से);
+		अक्षर_वापस(' ', मानक_निवेश); /* still an evil hack, but one that works better */
+		(व्योम)ख_अक्षर_लो(मानक_निवेश); /* on NetBSD than the fseek attempt does */
 
 		/* run as a filter, either internally or by exec */
-		if (chain->filter_func) {
-			int     r;
+		अगर (chain->filter_func) {
+			पूर्णांक     r;
 
-			if ((r = chain->filter_func (chain)) == -1)
+			अगर ((r = chain->filter_func (chain)) == -1)
 				flexfatal (_("filter_func failed"));
 			FLEX_EXIT (0);
 		}
-		else {
+		अन्यथा {
 			execvp (chain->argv[0],
-				(char **const) (chain->argv));
+				(अक्षर **स्थिर) (chain->argv));
 			lerr_fatal ( _("exec of %s failed"),
 				     chain->argv[0]);
 		}
@@ -189,13 +189,13 @@ bool filter_apply_chain (struct filter * chain)
 	}
 
 	/* Parent */
-	close (pipes[0]);
-	if (dup2 (pipes[1], fileno (stdout)) == -1)
+	बंद (pipes[0]);
+	अगर (dup2 (pipes[1], fileno (मानक_निकास)) == -1)
 		flexfatal (_("dup2(pipes[1],1)"));
-	close (pipes[1]);
-	fseek (stdout, 0, SEEK_CUR);
+	बंद (pipes[1]);
+	ख_जाओ (मानक_निकास, 0, प्रस्तुत_से);
 
-	return true;
+	वापस true;
 }
 
 /** Truncate the chain to max_len number of filters.
@@ -203,20 +203,20 @@ bool filter_apply_chain (struct filter * chain)
  * @param max_len the maximum length of the chain.
  * @return the resulting length of the chain.
  */
-int filter_truncate (struct filter *chain, int max_len)
+पूर्णांक filter_truncate (काष्ठा filter *chain, पूर्णांक max_len)
 {
-	int     len = 1;
+	पूर्णांक     len = 1;
 
-	if (!chain)
-		return 0;
+	अगर (!chain)
+		वापस 0;
 
-	while (chain->next && len < max_len) {
-		chain = chain->next;
+	जबतक (chain->अग्र && len < max_len) {
+		chain = chain->अग्र;
 		++len;
 	}
 
-	chain->next = NULL;
-	return len;
+	chain->अग्र = शून्य;
+	वापस len;
 }
 
 /** Splits the chain in order to write to a header file.
@@ -224,101 +224,101 @@ int filter_truncate (struct filter *chain, int max_len)
  *  The header file name is in extra.
  *  @return 0 (zero) on success, and -1 on failure.
  */
-int filter_tee_header (struct filter *chain)
+पूर्णांक filter_tee_header (काष्ठा filter *chain)
 {
 	/* This function reads from stdin and writes to both the C file and the
 	 * header file at the same time.
 	 */
 
-	char    buf[512];
-	int     to_cfd = -1;
-	FILE   *to_c = NULL, *to_h = NULL;
+	अक्षर    buf[512];
+	पूर्णांक     to_cfd = -1;
+	खाता   *to_c = शून्य, *to_h = शून्य;
 	bool    write_header;
 
-	write_header = (chain->extra != NULL);
+	write_header = (chain->extra != शून्य);
 
 	/* Store a copy of the stdout pipe, which is already piped to C file
 	 * through the running chain. Then create a new pipe to the H file as
 	 * stdout, and fork the rest of the chain again.
 	 */
 
-	if ((to_cfd = dup (1)) == -1)
+	अगर ((to_cfd = dup (1)) == -1)
 		flexfatal (_("dup(1) failed"));
 	to_c = fdopen (to_cfd, "w");
 
-	if (write_header) {
-		if (freopen ((char *) chain->extra, "w", stdout) == NULL)
+	अगर (write_header) {
+		अगर (ख_व_खोलो ((अक्षर *) chain->extra, "w", मानक_निकास) == शून्य)
 			flexfatal (_("freopen(headerfilename) failed"));
 
-		filter_apply_chain (chain->next);
-		to_h = stdout;
+		filter_apply_chain (chain->अग्र);
+		to_h = मानक_निकास;
 	}
 
 	/* Now to_c is a pipe to the C branch, and to_h is a pipe to the H branch.
 	 */
 
-	if (write_header) {
-		fputs (check_4_gnu_m4, to_h);
-		fputs ("m4_changecom`'m4_dnl\n", to_h);
-		fputs ("m4_changequote`'m4_dnl\n", to_h);
-	fputs ("m4_changequote([[,]])[[]]m4_dnl\n", to_h);
-		fputs ("m4_define([[M4_YY_NOOP]])[[]]m4_dnl\n", to_h);
-		fputs ("m4_define([[M4_YY_IN_HEADER]],[[]])m4_dnl\n", to_h);
-		fprintf (to_h,
+	अगर (write_header) {
+		ख_माला_दो (check_4_gnu_m4, to_h);
+		ख_माला_दो ("m4_changecom`'m4_dnl\n", to_h);
+		ख_माला_दो ("m4_changequote`'m4_dnl\n", to_h);
+	ख_माला_दो ("m4_changequote([[,]])[[]]m4_dnl\n", to_h);
+		ख_माला_दो ("m4_define([[M4_YY_NOOP]])[[]]m4_dnl\n", to_h);
+		ख_माला_दो ("m4_define([[M4_YY_IN_HEADER]],[[]])m4_dnl\n", to_h);
+		ख_लिखो (to_h,
 			 "m4_define( [[M4_YY_OUTFILE_NAME]],[[%s]])m4_dnl\n",
-			 env.headerfilename != NULL ? env.headerfilename : "<stdout>");
+			 env.headerfilename != शून्य ? env.headerfilename : "<stdout>");
 	}
 
-	fputs (check_4_gnu_m4, to_c);
-	fputs ("m4_changecom`'m4_dnl\n", to_c);
-	fputs ("m4_changequote`'m4_dnl\n", to_c);
-	fputs ("m4_changequote([[,]])[[]]m4_dnl\n", to_c);
-	fputs ("m4_define([[M4_YY_NOOP]])[[]]m4_dnl\n", to_c);
-	fprintf (to_c, "m4_define( [[M4_YY_OUTFILE_NAME]],[[%s]])m4_dnl\n",
-		 env.outfilename != NULL ? env.outfilename : "<stdout>");
+	ख_माला_दो (check_4_gnu_m4, to_c);
+	ख_माला_दो ("m4_changecom`'m4_dnl\n", to_c);
+	ख_माला_दो ("m4_changequote`'m4_dnl\n", to_c);
+	ख_माला_दो ("m4_changequote([[,]])[[]]m4_dnl\n", to_c);
+	ख_माला_दो ("m4_define([[M4_YY_NOOP]])[[]]m4_dnl\n", to_c);
+	ख_लिखो (to_c, "m4_define( [[M4_YY_OUTFILE_NAME]],[[%s]])m4_dnl\n",
+		 env.outfilename != शून्य ? env.outfilename : "<stdout>");
 
-	while (fgets (buf, sizeof buf, stdin)) {
-		fputs (buf, to_c);
-		if (write_header)
-			fputs (buf, to_h);
+	जबतक (ख_माला_लो (buf, माप buf, मानक_निवेश)) {
+		ख_माला_दो (buf, to_c);
+		अगर (write_header)
+			ख_माला_दो (buf, to_h);
 	}
 
-	if (write_header) {
-		fprintf (to_h, "\n");
+	अगर (write_header) {
+		ख_लिखो (to_h, "\n");
 
 		/* write a fake line number. It will get fixed by the linedir filter. */
-		if (ctrl.gen_line_dirs)
-			line_directive_out (to_h, NULL, 4000);
-		fflush (to_h);
-		if (ferror (to_h))
+		अगर (ctrl.gen_पंक्ति_dirs)
+			पंक्ति_directive_out (to_h, शून्य, 4000);
+		ख_साफ (to_h);
+		अगर (ख_त्रुटि (to_h))
 			lerr (_("error writing output file %s"),
-				(char *) chain->extra);
+				(अक्षर *) chain->extra);
 
-		else if (fclose (to_h))
+		अन्यथा अगर (ख_बंद (to_h))
 			lerr (_("error closing output file %s"),
-				(char *) chain->extra);
+				(अक्षर *) chain->extra);
 	}
 
-	fflush (to_c);
-	if (ferror (to_c))
+	ख_साफ (to_c);
+	अगर (ख_त्रुटि (to_c))
 		lerr (_("error writing output file %s"),
-			env.outfilename != NULL ? env.outfilename : "<stdout>");
+			env.outfilename != शून्य ? env.outfilename : "<stdout>");
 
-	else if (fclose (to_c))
+	अन्यथा अगर (ख_बंद (to_c))
 		lerr (_("error closing output file %s"),
-			env.outfilename != NULL ? env.outfilename : "<stdout>");
+			env.outfilename != शून्य ? env.outfilename : "<stdout>");
 
-	while (wait (0) > 0) ;
+	जबतक (रुको (0) > 0) ;
 
 	FLEX_EXIT (0);
-	return 0;
+	वापस 0;
 }
 
-static bool is_blank_line (const char *str)
+अटल bool is_blank_पंक्ति (स्थिर अक्षर *str)
 {
-	while (isspace(*str))
+	जबतक (है_खाली(*str))
 		str++;
-	return (*str == '\0');
+	वापस (*str == '\0');
 }
 
 /** Adjust the line numbers in the #line directives of the generated scanner.
@@ -327,53 +327,53 @@ static bool is_blank_line (const char *str)
  * not user code. This also happens to be a good place to squeeze multiple
  * blank lines into a single blank line.
  */
-int filter_fix_linedirs (struct filter *chain)
+पूर्णांक filter_fix_linedirs (काष्ठा filter *chain)
 {
-	char   buf[4096];
-	const char *cp;
-	const size_t readsz = sizeof buf;
-	int     lineno = 1;
+	अक्षर   buf[4096];
+	स्थिर अक्षर *cp;
+	स्थिर माप_प्रकार readsz = माप buf;
+	पूर्णांक     lineno = 1;
 	bool    in_gen = true;	/* in generated code */
 	bool    last_was_blank = false;
 
-	if (!chain)
-		return 0;
+	अगर (!chain)
+		वापस 0;
 
-	while (fgets (buf, (int) readsz, stdin)) {
+	जबतक (ख_माला_लो (buf, (पूर्णांक) readsz, मानक_निवेश)) {
 
 		regmatch_t m[10];
 
 		/* Check for directive. Note wired-in assumption:
 		 * field reference 1 is line number, 2 is filename.
 		 */
-		if (ctrl.traceline_re != NULL &&
-		    ctrl.traceline_template != NULL &&
+		अगर (ctrl.traceline_re != शून्य &&
+		    ctrl.traceline_template != शून्य &&
 		    regexec (&regex_linedir, buf, 3, m, 0) == 0) {
 
-			char   *fname;
+			अक्षर   *fname;
 
 			/* extract the line number and filename */
 			fname = regmatch_dup (&m[2], buf);
 
-			if (strcmp (fname,
-				env.outfilename != NULL ? env.outfilename : "<stdout>")
+			अगर (म_भेद (fname,
+				env.outfilename != शून्य ? env.outfilename : "<stdout>")
 					== 0
-			 || strcmp (fname,
-			 	env.headerfilename != NULL ? env.headerfilename : "<stdout>")
+			 || म_भेद (fname,
+			 	env.headerfilename != शून्य ? env.headerfilename : "<stdout>")
 					== 0) {
 
-				char    *s1, *s2;
-				char	filename[MAXLINE];
+				अक्षर    *s1, *s2;
+				अक्षर	filename[MAXLINE];
 
 				s1 = fname;
 				s2 = filename;
 
-				while ((s2 - filename) < (MAXLINE - 1) && *s1) {
+				जबतक ((s2 - filename) < (MAXLINE - 1) && *s1) {
 					/* Escape the backslash */
-					if (*s1 == '\\')
+					अगर (*s1 == '\\')
 						*s2++ = '\\';
 					/* Escape the double quote */
-					if (*s1 == '\"')
+					अगर (*s1 == '\"')
 						*s2++ = '\\';
 					/* Copy the character as usual */
 					*s2++ = *s1++;
@@ -385,43 +385,43 @@ int filter_fix_linedirs (struct filter *chain)
 				in_gen = true;
 				snprintf (buf, readsz, ctrl.traceline_template,
 					  lineno + 1, filename);
-				strncat(buf, "\n", sizeof(buf)-1);
+				म_जोड़न(buf, "\n", माप(buf)-1);
 			}
-			else {
+			अन्यथा {
 				/* it's a #line directive for code we didn't write */
 				in_gen = false;
 			}
 
-			free (fname);
+			मुक्त (fname);
 			last_was_blank = false;
 		}
 
 		/* squeeze blank lines from generated code */
-		else if (in_gen && is_blank_line(buf)) {
-			if (last_was_blank)
-				continue;
-			else
+		अन्यथा अगर (in_gen && is_blank_पंक्ति(buf)) {
+			अगर (last_was_blank)
+				जारी;
+			अन्यथा
 				last_was_blank = true;
 		}
 
-		else {
+		अन्यथा {
 			/* it's a line of normal, non-empty code. */
 			last_was_blank = false;
 		}
 
-		fputs (buf, stdout);
+		ख_माला_दो (buf, मानक_निकास);
 		lineno++;
 	}
-	fflush (stdout);
-	if (ferror (stdout))
+	ख_साफ (मानक_निकास);
+	अगर (ख_त्रुटि (मानक_निकास))
 		lerr (_("error writing output file %s"),
-			env.outfilename != NULL ? env.outfilename : "<stdout>");
+			env.outfilename != शून्य ? env.outfilename : "<stdout>");
 
-	else if (fclose (stdout))
+	अन्यथा अगर (ख_बंद (मानक_निकास))
 		lerr (_("error closing output file %s"),
-			env.outfilename != NULL ? env.outfilename : "<stdout>");
+			env.outfilename != शून्य ? env.outfilename : "<stdout>");
 
-	return 0;
+	वापस 0;
 }
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */

@@ -33,13 +33,13 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#समावेश "flexdef.h"
 
 
 /* declare functions that have forward references */
 
-int	dupmachine(int);
-void	mkxtion(int, int);
+पूर्णांक	dupmachine(पूर्णांक);
+व्योम	mkxtion(पूर्णांक, पूर्णांक);
 
 
 /* add_accept - add an accepting state to a machine
@@ -47,7 +47,7 @@ void	mkxtion(int, int);
  * accepting_number becomes mach's accepting number.
  */
 
-void    add_accept (int mach, int accepting_number)
+व्योम    add_accept (पूर्णांक mach, पूर्णांक accepting_संख्या)
 {
 	/* Hang the accepting number off an epsilon state.  if it is associated
 	 * with a state that has a non-epsilon out-transition, then the state
@@ -55,14 +55,14 @@ void    add_accept (int mach, int accepting_number)
 	 * too soon.
 	 */
 
-	if (transchar[finalst[mach]] == SYM_EPSILON)
-		accptnum[finalst[mach]] = accepting_number;
+	अगर (transchar[finalst[mach]] == SYM_EPSILON)
+		accptnum[finalst[mach]] = accepting_संख्या;
 
-	else {
-		int     astate = mkstate (SYM_EPSILON);
+	अन्यथा {
+		पूर्णांक     astate = mkstate (SYM_EPSILON);
 
-		accptnum[astate] = accepting_number;
-		(void) link_machines (mach, astate);
+		accptnum[astate] = accepting_संख्या;
+		(व्योम) link_machines (mach, astate);
 	}
 }
 
@@ -78,26 +78,26 @@ void    add_accept (int mach, int accepting_number)
  *     num    - the number of copies of singl to be present in newsng
  */
 
-int     copysingl (int singl, int num)
+पूर्णांक     copysingl (पूर्णांक singl, पूर्णांक अंक)
 {
-	int     copy, i;
+	पूर्णांक     copy, i;
 
 	copy = mkstate (SYM_EPSILON);
 
-	for (i = 1; i <= num; ++i)
+	क्रम (i = 1; i <= अंक; ++i)
 		copy = link_machines (copy, dupmachine (singl));
 
-	return copy;
+	वापस copy;
 }
 
 
 /* dumpnfa - debugging routine to write out an nfa */
 
-void    dumpnfa (int state1)
+व्योम    dumpnfa (पूर्णांक state1)
 {
-	int     sym, tsp1, tsp2, anum, ns;
+	पूर्णांक     sym, tsp1, tsp2, anum, ns;
 
-	fprintf (stderr,
+	ख_लिखो (मानक_त्रुटि,
 		 _
 		 ("\n\n********** beginning dump of nfa with start state %d\n"),
 		 state1);
@@ -109,23 +109,23 @@ void    dumpnfa (int state1)
 	 */
 
 	/* for ( ns = firstst[state1]; ns <= lastst[state1]; ++ns ) */
-	for (ns = 1; ns <= lastnfa; ++ns) {
-		fprintf (stderr, _("state # %4d\t"), ns);
+	क्रम (ns = 1; ns <= lastnfa; ++ns) {
+		ख_लिखो (मानक_त्रुटि, _("state # %4d\t"), ns);
 
 		sym = transchar[ns];
 		tsp1 = trans1[ns];
 		tsp2 = trans2[ns];
 		anum = accptnum[ns];
 
-		fprintf (stderr, "%3d:  %4d, %4d", sym, tsp1, tsp2);
+		ख_लिखो (मानक_त्रुटि, "%3d:  %4d, %4d", sym, tsp1, tsp2);
 
-		if (anum != NIL)
-			fprintf (stderr, "  [%d]", anum);
+		अगर (anum != NIL)
+			ख_लिखो (मानक_त्रुटि, "  [%d]", anum);
 
-		fprintf (stderr, "\n");
+		ख_लिखो (मानक_त्रुटि, "\n");
 	}
 
-	fprintf (stderr, _("********** end of dump\n"));
+	ख_लिखो (मानक_त्रुटि, _("********** end of dump\n"));
 }
 
 
@@ -146,19 +146,19 @@ void    dumpnfa (int state1)
  * states accessible by the arrays firstst and lastst
  */
 
-int     dupmachine (int mach)
+पूर्णांक     dupmachine (पूर्णांक mach)
 {
-	int     i, init, state_offset;
-	int     state = 0;
-	int     last = lastst[mach];
+	पूर्णांक     i, init, state_offset;
+	पूर्णांक     state = 0;
+	पूर्णांक     last = lastst[mach];
 
-	for (i = firstst[mach]; i <= last; ++i) {
+	क्रम (i = firstst[mach]; i <= last; ++i) {
 		state = mkstate (transchar[i]);
 
-		if (trans1[i] != NO_TRANSITION) {
+		अगर (trans1[i] != NO_TRANSITION) {
 			mkxtion (finalst[state], trans1[i] + state - i);
 
-			if (transchar[i] == SYM_EPSILON &&
+			अगर (transchar[i] == SYM_EPSILON &&
 			    trans2[i] != NO_TRANSITION)
 					mkxtion (finalst[state],
 						 trans2[i] + state - i);
@@ -167,7 +167,7 @@ int     dupmachine (int mach)
 		accptnum[state] = accptnum[i];
 	}
 
-	if (state == 0)
+	अगर (state == 0)
 		flexfatal (_("empty machine in dupmachine()"));
 
 	state_offset = state - i + 1;
@@ -177,7 +177,7 @@ int     dupmachine (int mach)
 	finalst[init] = finalst[mach] + state_offset;
 	lastst[init] = lastst[mach] + state_offset;
 
-	return init;
+	वापस init;
 }
 
 
@@ -193,80 +193,80 @@ int     dupmachine (int mach)
  * context has variable length.
  */
 
-void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailcnt,
-		     int pcont_act)
+व्योम    finish_rule (पूर्णांक mach, bool variable_trail_rule, पूर्णांक headcnt, पूर्णांक trailcnt,
+		     पूर्णांक pcont_act)
 {
-	char    action_text[MAXLINE];
+	अक्षर    action_text[MAXLINE];
 
-	add_accept (mach, num_rules);
+	add_accept (mach, अंक_rules);
 
 	/* We did this in new_rule(), but it often gets the wrong
 	 * number because we do it before we start parsing the current rule.
 	 */
-	rule_linenum[num_rules] = linenum;
+	rule_linenum[अंक_rules] = linenum;
 
 	/* If this is a continued action, then the line-number has already
 	 * been updated, giving us the wrong number.
 	 */
-	if (continued_action)
-		--rule_linenum[num_rules];
+	अगर (continued_action)
+		--rule_linenum[अंक_rules];
 
 
 	/* If the previous rule was continued action, then we inherit the
 	 * previous newline flag, possibly overriding the current one.
 	 */
-	if (pcont_act && rule_has_nl[num_rules - 1])
-		rule_has_nl[num_rules] = true;
+	अगर (pcont_act && rule_has_nl[अंक_rules - 1])
+		rule_has_nl[अंक_rules] = true;
 
-	snprintf (action_text, sizeof(action_text), "M4_HOOK_NORMAL_STATE_CASE_ARM(%d)\n", num_rules);
+	snprintf (action_text, माप(action_text), "M4_HOOK_NORMAL_STATE_CASE_ARM(%d)\n", अंक_rules);
 	add_action (action_text);
-	if (rule_has_nl[num_rules]) {
-		snprintf (action_text, sizeof(action_text), "M4_HOOK_COMMENT_OPEN rule %d can match eol M4_HOOK_COMMENT_CLOSE\n",
-			 num_rules);
+	अगर (rule_has_nl[अंक_rules]) {
+		snprintf (action_text, माप(action_text), "M4_HOOK_COMMENT_OPEN rule %d can match eol M4_HOOK_COMMENT_CLOSE\n",
+			 अंक_rules);
 		add_action (action_text);
 	}
 
 
-	if (variable_trail_rule) {
-		rule_type[num_rules] = RULE_VARIABLE;
+	अगर (variable_trail_rule) {
+		rule_type[अंक_rules] = RULE_VARIABLE;
 
-		if (env.performance_hint > 0)
-			fprintf (stderr,
+		अगर (env.performance_hint > 0)
+			ख_लिखो (मानक_त्रुटि,
 				 _
 				 ("Variable trailing context rule at line %d\n"),
-				 rule_linenum[num_rules]);
+				 rule_linenum[अंक_rules]);
 
 		variable_trailing_context_rules = true;
 	}
 
-	else {
-		rule_type[num_rules] = RULE_NORMAL;
+	अन्यथा {
+		rule_type[अंक_rules] = RULE_NORMAL;
 
-		if (headcnt > 0 || trailcnt > 0) {
+		अगर (headcnt > 0 || trailcnt > 0) {
 			/* Do trailing context magic to not match the trailing
 			 * characters.
 			 */
 			add_action ("M4_HOOK_RELEASE_YYTEXT\n");
 
-			if (headcnt > 0) {
-				if (rule_has_nl[num_rules]) {
-					snprintf (action_text, sizeof(action_text),
+			अगर (headcnt > 0) {
+				अगर (rule_has_nl[अंक_rules]) {
+					snprintf (action_text, माप(action_text),
 						"M4_HOOK_LINE_FORWARD(%d)\n", headcnt);
 					add_action (action_text);
 				}
-				snprintf (action_text, sizeof(action_text), "M4_HOOK_CHAR_FORWARD(%d)\n",
+				snprintf (action_text, माप(action_text), "M4_HOOK_CHAR_FORWARD(%d)\n",
 					 headcnt);
 				add_action (action_text);
 			}
 
-			else {
-				if (rule_has_nl[num_rules]) {
-					snprintf (action_text, sizeof(action_text),
+			अन्यथा {
+				अगर (rule_has_nl[अंक_rules]) {
+					snprintf (action_text, माप(action_text),
 						 "M4_HOOK_LINE_REWIND(%d)\n", trailcnt);
 					add_action (action_text);
 				}
 
-				snprintf (action_text, sizeof(action_text), "M4_HOOK_CHAR_REWIND(%d)\n",
+				snprintf (action_text, माप(action_text), "M4_HOOK_CHAR_REWIND(%d)\n",
 					 trailcnt);
 				add_action (action_text);
 			}
@@ -281,10 +281,10 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 	 * to do any user action.  But don't do it for continued actions,
 	 * as that'll result in multiple rule-setup calls.
 	 */
-	if (!continued_action)
+	अगर (!continued_action)
 		add_action ("M4_HOOK_SET_RULE_SETUP\n");
 
-	line_directive_out(NULL, infilename, linenum);
+	पंक्ति_directive_out(शून्य, infilename, linenum);
         add_action("[[");
 }
 
@@ -305,21 +305,21 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
  *  FIRST is set to new by the operation.  last is unmolested.
  */
 
-int     link_machines (int first, int last)
+पूर्णांक     link_machines (पूर्णांक first, पूर्णांक last)
 {
-	if (first == NIL)
-		return last;
+	अगर (first == NIL)
+		वापस last;
 
-	else if (last == NIL)
-		return first;
+	अन्यथा अगर (last == NIL)
+		वापस first;
 
-	else {
+	अन्यथा {
 		mkxtion (finalst[first], last);
 		finalst[first] = finalst[last];
 		lastst[first] = MAX (lastst[first], lastst[last]);
 		firstst[first] = MIN (firstst[first], firstst[last]);
 
-		return first;
+		वापस first;
 	}
 }
 
@@ -331,29 +331,29 @@ int     link_machines (int first, int last)
  * The "beginning" states are the epsilon closure of the first state
  */
 
-void    mark_beginning_as_normal (int mach)
+व्योम    mark_beginning_as_normal (पूर्णांक mach)
 {
-	switch (state_type[mach]) {
-	case STATE_NORMAL:
+	चयन (state_type[mach]) {
+	हाल STATE_NORMAL:
 		/* Oh, we've already visited here. */
-		return;
+		वापस;
 
-	case STATE_TRAILING_CONTEXT:
+	हाल STATE_TRAILING_CONTEXT:
 		state_type[mach] = STATE_NORMAL;
 
-		if (transchar[mach] == SYM_EPSILON) {
-			if (trans1[mach] != NO_TRANSITION)
+		अगर (transchar[mach] == SYM_EPSILON) {
+			अगर (trans1[mach] != NO_TRANSITION)
 				mark_beginning_as_normal (trans1[mach]);
 
-			if (trans2[mach] != NO_TRANSITION)
+			अगर (trans2[mach] != NO_TRANSITION)
 				mark_beginning_as_normal (trans2[mach]);
 		}
-		break;
+		अवरोध;
 
-	default:
+	शेष:
 		flexerror (_
 			   ("bad state type in mark_beginning_as_normal()"));
-		break;
+		अवरोध;
 	}
 }
 
@@ -372,22 +372,22 @@ void    mark_beginning_as_normal (int mach)
  * more mkbranch's.  Compare with mkor()
  */
 
-int     mkbranch (int first, int second)
+पूर्णांक     mkbranch (पूर्णांक first, पूर्णांक second)
 {
-	int     eps;
+	पूर्णांक     eps;
 
-	if (first == NO_TRANSITION)
-		return second;
+	अगर (first == NO_TRANSITION)
+		वापस second;
 
-	else if (second == NO_TRANSITION)
-		return first;
+	अन्यथा अगर (second == NO_TRANSITION)
+		वापस first;
 
 	eps = mkstate (SYM_EPSILON);
 
 	mkxtion (eps, first);
 	mkxtion (eps, second);
 
-	return eps;
+	वापस eps;
 }
 
 
@@ -399,9 +399,9 @@ int     mkbranch (int first, int second)
  * new - a new state which matches the closure of "state"
  */
 
-int     mkclos (int state)
+पूर्णांक     mkclos (पूर्णांक state)
 {
-	return mkopt (mkposcl (state));
+	वापस mkopt (mkposcl (state));
 }
 
 
@@ -419,11 +419,11 @@ int     mkclos (int state)
  *     2. mach is destroyed by the call
  */
 
-int     mkopt (int mach)
+पूर्णांक     mkopt (पूर्णांक mach)
 {
-	int     eps;
+	पूर्णांक     eps;
 
-	if (!SUPER_FREE_EPSILON (finalst[mach])) {
+	अगर (!SUPER_FREE_EPSILON (finalst[mach])) {
 		eps = mkstate (SYM_EPSILON);
 		mach = link_machines (mach, eps);
 	}
@@ -437,7 +437,7 @@ int     mkopt (int mach)
 
 	mkxtion (mach, finalst[mach]);
 
-	return mach;
+	वापस mach;
 }
 
 
@@ -455,17 +455,17 @@ int     mkopt (int mach)
  * the number of epsilon states needed
  */
 
-int     mkor (int first, int second)
+पूर्णांक     mkor (पूर्णांक first, पूर्णांक second)
 {
-	int     eps, orend;
+	पूर्णांक     eps, orend;
 
-	if (first == NIL)
-		return second;
+	अगर (first == NIL)
+		वापस second;
 
-	else if (second == NIL)
-		return first;
+	अन्यथा अगर (second == NIL)
+		वापस first;
 
-	else {
+	अन्यथा {
 		/* See comment in mkopt() about why we can't use the first
 		 * state of "first" or "second" if they satisfy "FREE_EPSILON".
 		 */
@@ -475,19 +475,19 @@ int     mkor (int first, int second)
 
 		mkxtion (first, second);
 
-		if (SUPER_FREE_EPSILON (finalst[first]) &&
+		अगर (SUPER_FREE_EPSILON (finalst[first]) &&
 		    accptnum[finalst[first]] == NIL) {
 			orend = finalst[first];
 			mkxtion (finalst[second], orend);
 		}
 
-		else if (SUPER_FREE_EPSILON (finalst[second]) &&
+		अन्यथा अगर (SUPER_FREE_EPSILON (finalst[second]) &&
 			 accptnum[finalst[second]] == NIL) {
 			orend = finalst[second];
 			mkxtion (finalst[first], orend);
 		}
 
-		else {
+		अन्यथा {
 			eps = mkstate (SYM_EPSILON);
 
 			first = link_machines (first, eps);
@@ -500,7 +500,7 @@ int     mkor (int first, int second)
 	firstst[first] = MIN(firstst[first], firstst[second]);
 
 	finalst[first] = orend;
-	return first;
+	वापस first;
 }
 
 
@@ -512,19 +512,19 @@ int     mkor (int first, int second)
  *    new - a machine matching the positive closure of "state"
  */
 
-int     mkposcl (int state)
+पूर्णांक     mkposcl (पूर्णांक state)
 {
-	int     eps;
+	पूर्णांक     eps;
 
-	if (SUPER_FREE_EPSILON (finalst[state])) {
+	अगर (SUPER_FREE_EPSILON (finalst[state])) {
 		mkxtion (finalst[state], state);
-		return state;
+		वापस state;
 	}
 
-	else {
+	अन्यथा {
 		eps = mkstate (SYM_EPSILON);
 		mkxtion (eps, state);
-		return link_machines (state, eps);
+		वापस link_machines (state, eps);
 	}
 }
 
@@ -541,33 +541,33 @@ int     mkposcl (int state)
  *   if "ub" is INFINITE_REPEAT then "new" matches "lb" or more occurrences of "mach"
  */
 
-int     mkrep (int mach, int lb, int ub)
+पूर्णांक     mkrep (पूर्णांक mach, पूर्णांक lb, पूर्णांक ub)
 {
-	int     base_mach, tail, copy, i;
+	पूर्णांक     base_mach, पुच्छ, copy, i;
 
 	base_mach = copysingl (mach, lb - 1);
 
-	if (ub == INFINITE_REPEAT) {
+	अगर (ub == INFINITE_REPEAT) {
 		copy = dupmachine (mach);
 		mach = link_machines (mach,
 				      link_machines (base_mach,
 						     mkclos (copy)));
 	}
 
-	else {
-		tail = mkstate (SYM_EPSILON);
+	अन्यथा {
+		पुच्छ = mkstate (SYM_EPSILON);
 
-		for (i = lb; i < ub; ++i) {
+		क्रम (i = lb; i < ub; ++i) {
 			copy = dupmachine (mach);
-			tail = mkopt (link_machines (copy, tail));
+			पुच्छ = mkopt (link_machines (copy, पुच्छ));
 		}
 
 		mach =
 			link_machines (mach,
-				       link_machines (base_mach, tail));
+				       link_machines (base_mach, पुच्छ));
 	}
 
-	return mach;
+	वापस mach;
 }
 
 
@@ -587,15 +587,15 @@ int     mkrep (int mach, int lb, int ub)
  * that it admittedly is)
  */
 
-int     mkstate (int sym)
+पूर्णांक     mkstate (पूर्णांक sym)
 {
-	if (++lastnfa >= current_mns) {
-		if ((current_mns += MNS_INCREMENT) >= maximum_mns)
+	अगर (++lastnfa >= current_mns) {
+		अगर ((current_mns += MNS_INCREMENT) >= maximum_mns)
 			lerr(_
 				("input rules are too complicated (>= %d NFA states)"),
 current_mns);
 
-		++num_reallocs;
+		++अंक_reallocs;
 
 		firstst = reallocate_integer_array (firstst, current_mns);
 		lastst = reallocate_integer_array (lastst, current_mns);
@@ -619,7 +619,7 @@ current_mns);
 	trans1[lastnfa] = NO_TRANSITION;
 	trans2[lastnfa] = NO_TRANSITION;
 	accptnum[lastnfa] = NIL;
-	assoc_rule[lastnfa] = num_rules;
+	assoc_rule[lastnfa] = अंक_rules;
 	state_type[lastnfa] = current_state_type;
 
 	/* Fix up equivalence classes base on this transition.  Note that any
@@ -631,25 +631,25 @@ current_mns);
 	 * elsewhere in the input).
 	 */
 
-	if (sym < 0) {
+	अगर (sym < 0) {
 		/* We don't have to update the equivalence classes since
 		 * that was already done when the ccl was created for the
 		 * first time.
 		 */
 	}
 
-	else if (sym == SYM_EPSILON)
+	अन्यथा अगर (sym == SYM_EPSILON)
 		++numeps;
 
-	else {
+	अन्यथा {
 		check_char (sym);
 
-		if (ctrl.useecs)
+		अगर (ctrl.useecs)
 			/* Map NUL's to csize. */
 			mkechar (sym ? sym : ctrl.csize, nextecm, ecgroup);
 	}
 
-	return lastnfa;
+	वापस lastnfa;
 }
 
 
@@ -663,16 +663,16 @@ current_mns);
  *     stateto   - the state to which the transition is to be made
  */
 
-void    mkxtion (int statefrom, int stateto)
+व्योम    mkxtion (पूर्णांक statefrom, पूर्णांक stateto)
 {
-	if (trans1[statefrom] == NO_TRANSITION)
+	अगर (trans1[statefrom] == NO_TRANSITION)
 		trans1[statefrom] = stateto;
 
-	else if ((transchar[statefrom] != SYM_EPSILON) ||
+	अन्यथा अगर ((transchar[statefrom] != SYM_EPSILON) ||
 		 (trans2[statefrom] != NO_TRANSITION))
 		flexfatal (_("found too many transitions in mkxtion()"));
 
-	else {			/* second out-transition for an epsilon state */
+	अन्यथा {			/* second out-transition for an epsilon state */
 		++eps2;
 		trans2[statefrom] = stateto;
 	}
@@ -680,25 +680,25 @@ void    mkxtion (int statefrom, int stateto)
 
 /* new_rule - initialize for a new rule */
 
-void    new_rule (void)
+व्योम    new_rule (व्योम)
 {
-	if (++num_rules >= current_max_rules) {
-		++num_reallocs;
+	अगर (++अंक_rules >= current_max_rules) {
+		++अंक_reallocs;
 		current_max_rules += MAX_RULES_INCREMENT;
 		rule_type = reallocate_integer_array (rule_type,
 						      current_max_rules);
 		rule_linenum = reallocate_integer_array (rule_linenum,
 							 current_max_rules);
 		rule_useful = reallocate_array(rule_useful,
-					current_max_rules, sizeof(char));
+					current_max_rules, माप(अक्षर));
 		rule_has_nl = reallocate_array(rule_has_nl,
-					current_max_rules, sizeof(char));
+					current_max_rules, माप(अक्षर));
 	}
 
-	if (num_rules > MAX_RULE)
+	अगर (अंक_rules > MAX_RULE)
 		lerr (_("too many rules (> %d)!"), MAX_RULE);
 
-	rule_linenum[num_rules] = linenum;
-	rule_useful[num_rules] = false;
-	rule_has_nl[num_rules] = false;
+	rule_linenum[अंक_rules] = linenum;
+	rule_useful[अंक_rules] = false;
+	rule_has_nl[अंक_rules] = false;
 }

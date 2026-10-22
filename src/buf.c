@@ -33,7 +33,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#समावेश "flexdef.h"
 
 /* Take note: The buffer object is sometimes used as a String buffer (one
  * continuous string), and sometimes used as a list of strings, usually line by
@@ -48,57 +48,57 @@
  */
 
 /* global buffers. */
-struct Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
-struct Buf top_buf;             /**< contains %top code. String buffer. */
+काष्ठा Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
+काष्ठा Buf शीर्ष_buf;             /**< contains %top code. String buffer. */
 
 /* Append a "%s" formatted string to a string buffer */
-struct Buf *buf_prints (struct Buf *buf, const char *fmt, const char *s)
+काष्ठा Buf *buf_prints (काष्ठा Buf *buf, स्थिर अक्षर *fmt, स्थिर अक्षर *s)
 {
-	char   *t;
-	size_t tsz;
+	अक्षर   *t;
+	माप_प्रकार tsz;
 
-	tsz = strlen(fmt) + strlen(s) + 1;
-	t = malloc(tsz);
-	if (!t)
+	tsz = म_माप(fmt) + म_माप(s) + 1;
+	t = दो_स्मृति(tsz);
+	अगर (!t)
 	    flexfatal (_("Allocation of buffer to print string failed"));
 	snprintf (t, tsz, fmt, s);
 	buf = buf_strappend (buf, t);
-	free(t);
-	return buf;
+	मुक्त(t);
+	वापस buf;
 }
 
 /* Appends n characters in str to buf. */
-struct Buf *buf_strnappend (struct Buf *buf, const char *str, int n)
+काष्ठा Buf *buf_strnappend (काष्ठा Buf *buf, स्थिर अक्षर *str, पूर्णांक n)
 {
 	buf_append (buf, str, n + 1);
 
 	/* "undo" the '\0' character that buf_append() already copied. */
 	buf->nelts--;
 
-	return buf;
+	वापस buf;
 }
 
 /* Appends characters in str to buf. */
-struct Buf *buf_strappend (struct Buf *buf, const char *str)
+काष्ठा Buf *buf_strappend (काष्ठा Buf *buf, स्थिर अक्षर *str)
 {
-	return buf_strnappend (buf, str, (int) strlen (str));
+	वापस buf_strnappend (buf, str, (पूर्णांक) म_माप (str));
 }
 
 /* create buf with 0 elements, each of size elem_size. */
-void buf_init (struct Buf *buf, size_t elem_size)
+व्योम buf_init (काष्ठा Buf *buf, माप_प्रकार elem_आकार)
 {
-	buf->elts = NULL;
+	buf->elts = शून्य;
 	buf->nelts = 0;
-	buf->elt_size = elem_size;
+	buf->elt_आकार = elem_आकार;
 	buf->nmax = 0;
 }
 
 /* frees memory */
-void buf_destroy (struct Buf *buf)
+व्योम buf_destroy (काष्ठा Buf *buf)
 {
-	if (buf) {
-		free(buf->elts);
-		buf->elts = NULL;
+	अगर (buf) {
+		मुक्त(buf->elts);
+		buf->elts = शून्य;
 	}
 }
 
@@ -109,43 +109,43 @@ void buf_destroy (struct Buf *buf)
  * We grow by mod(512) boundaries.
  */
 
-struct Buf *buf_append (struct Buf *buf, const void *ptr, int n_elem)
+काष्ठा Buf *buf_append (काष्ठा Buf *buf, स्थिर व्योम *ptr, पूर्णांक n_elem)
 {
-	int     n_alloc = 0;
+	पूर्णांक     n_alloc = 0;
 
-	if (!ptr || n_elem == 0)
-		return buf;
+	अगर (!ptr || n_elem == 0)
+		वापस buf;
 
 	/* May need to alloc more. */
-	if (n_elem + buf->nelts > buf->nmax) {
+	अगर (n_elem + buf->nelts > buf->nmax) {
 
 		/* exact count needed... */
 		n_alloc = n_elem + buf->nelts;
 
 		/* ...plus some extra */
-		if ((((size_t) n_alloc * buf->elt_size) % 512) != 0
-		    && buf->elt_size < 512)
-			n_alloc += (int)
+		अगर ((((माप_प्रकार) n_alloc * buf->elt_आकार) % 512) != 0
+		    && buf->elt_आकार < 512)
+			n_alloc += (पूर्णांक)
 				((512 -
-				 (((size_t) n_alloc * buf->elt_size) % 512)) /
-				buf->elt_size);
+				 (((माप_प्रकार) n_alloc * buf->elt_आकार) % 512)) /
+				buf->elt_आकार);
 
-		if (!buf->elts)
+		अगर (!buf->elts)
 			buf->elts =
-				allocate_array ((int) n_alloc, buf->elt_size);
-		else
+				allocate_array ((पूर्णांक) n_alloc, buf->elt_आकार);
+		अन्यथा
 			buf->elts =
-				reallocate_array (buf->elts, (int) n_alloc,
-						  buf->elt_size);
+				reallocate_array (buf->elts, (पूर्णांक) n_alloc,
+						  buf->elt_आकार);
 
 		buf->nmax = n_alloc;
 	}
 
-	memcpy ((char *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
-		(size_t) n_elem * buf->elt_size);
+	स_नकल ((अक्षर *) buf->elts + (माप_प्रकार) buf->nelts * buf->elt_आकार, ptr,
+		(माप_प्रकार) n_elem * buf->elt_आकार);
 	buf->nelts += n_elem;
 
-	return buf;
+	वापस buf;
 }
 
 /* vim:set tabstop=8 softtabstop=4 shiftwidth=4: */

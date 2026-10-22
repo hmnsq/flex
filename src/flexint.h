@@ -1,54 +1,54 @@
 /* flex integer type definitions */
 
-#ifndef FLEXINT_H
-#define FLEXINT_H
+#अगर_अघोषित FLEXINT_H
+#घोषणा FLEXINT_H
 
 /* C++ systems might need __STDC_LIMIT_MACROS defined before including
  * <stdint.h>, if you want the limit (max/min) macros for int types.
  */
-#ifndef __STDC_LIMIT_MACROS
-#define __STDC_LIMIT_MACROS 1
-#endif
+#अगर_अघोषित __STDC_LIMIT_MACROS
+#घोषणा __STDC_LIMIT_MACROS 1
+#पूर्ण_अगर
 
 /* "flexint_shared.h" will be included also in skeleton. It will include
  * <inttypes.h> (if available) and define flex's integral types.
  */
-#include "flexint_shared.h"
+#समावेश "flexint_shared.h"
 
 /* Limits of integral types. */
-#ifndef INT8_MIN
-#define INT8_MIN               (-128)
-#endif
-#ifndef INT16_MIN
-#define INT16_MIN              (-32767-1)
-#endif
-#ifndef INT32_MIN
-#define INT32_MIN              (-2147483647-1)
-#endif
-#ifndef INT8_MAX
-#define INT8_MAX               (127)
-#endif
-#ifndef INT16_MAX
-#define INT16_MAX              (32767)
-#endif
-#ifndef INT32_MAX
-#define INT32_MAX              (2147483647)
-#endif
-#ifndef UINT8_MAX
-#define UINT8_MAX              (255U)
-#endif
-#ifndef UINT16_MAX
-#define UINT16_MAX             (65535U)
-#endif
-#ifndef UINT32_MAX
-#define UINT32_MAX             (4294967295U)
-#endif
+#अगर_अघोषित INT8_MIN
+#घोषणा INT8_MIN               (-128)
+#पूर्ण_अगर
+#अगर_अघोषित INT16_MIN
+#घोषणा INT16_MIN              (-32767-1)
+#पूर्ण_अगर
+#अगर_अघोषित INT32_MIN
+#घोषणा INT32_MIN              (-2147483647-1)
+#पूर्ण_अगर
+#अगर_अघोषित INT8_MAX
+#घोषणा INT8_MAX               (127)
+#पूर्ण_अगर
+#अगर_अघोषित INT16_MAX
+#घोषणा INT16_MAX              (32767)
+#पूर्ण_अगर
+#अगर_अघोषित INT32_MAX
+#घोषणा INT32_MAX              (2147483647)
+#पूर्ण_अगर
+#अगर_अघोषित UINT8_MAX
+#घोषणा UINT8_MAX              (255U)
+#पूर्ण_अगर
+#अगर_अघोषित UINT16_MAX
+#घोषणा UINT16_MAX             (65535U)
+#पूर्ण_अगर
+#अगर_अघोषित UINT32_MAX
+#घोषणा UINT32_MAX             (4294967295U)
+#पूर्ण_अगर
 
-#ifndef INT_MAX
-#define INT_MAX                ((int)(~0U)>>1)
-#endif
-#ifndef SIZE_MAX
-#define SIZE_MAX               (~(size_t)0)
-#endif
+#अगर_अघोषित पूर्णांक_उच्च
+#घोषणा पूर्णांक_उच्च                ((पूर्णांक)(~0U)>>1)
+#पूर्ण_अगर
+#अगर_अघोषित आकार_MAX
+#घोषणा आकार_MAX               (~(माप_प्रकार)0)
+#पूर्ण_अगर
 
-#endif /* ! FLEXINT_H */
+#पूर्ण_अगर /* ! FLEXINT_H */

@@ -3,7 +3,7 @@
 %top{
 /* flexdef.h includes config.h, which may contain macros that alter the API */
 /* of libc functions. Must include first before any libc header. */
-#include "flexdef.h"
+#समावेश "flexdef.h"
 }
 
 %{
@@ -38,83 +38,83 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "parse.h"
-extern bool tablesverify, tablesext;
-extern bool trlcontxt; /* Set in parse.y for each rule. */
-extern const char *escaped_qstart, *escaped_qend;
+#समावेश "parse.h"
+बाह्य bool tablesverify, tablesext;
+बाह्य bool trlcontxt; /* Set in parse.y for each rule. */
+बाह्य स्थिर अक्षर *escaped_qstart, *escaped_qend;
 
-#define M4QSTART "[""["
-#define M4QEND "]""]"
+#घोषणा M4QSTART "[""["
+#घोषणा M4QEND "]""]"
 
-#define ESCAPED_QSTART "[" M4QEND M4QSTART "[" M4QEND M4QSTART
-#define ESCAPED_QEND M4QEND "]" M4QSTART M4QEND "]" M4QSTART
+#घोषणा ESCAPED_QSTART "[" M4QEND M4QSTART "[" M4QEND M4QSTART
+#घोषणा ESCAPED_QEND M4QEND "]" M4QSTART M4QEND "]" M4QSTART
 
-#define ACTION_ECHO add_action( yytext )
-#define ACTION_ECHO_QSTART add_action (ESCAPED_QSTART)
-#define ACTION_ECHO_QEND   add_action (ESCAPED_QEND)
+#घोषणा ACTION_ECHO add_action( श_माला )
+#घोषणा ACTION_ECHO_QSTART add_action (ESCAPED_QSTART)
+#घोषणा ACTION_ECHO_QEND   add_action (ESCAPED_QEND)
 
-#define MARK_END_OF_PROLOG mark_prolog();
+#घोषणा MARK_END_OF_PROLOG mark_prolog();
 
-#define YY_DECL \
-	int flexscan(void)
+#घोषणा YY_DECL \
+	पूर्णांक flexscan(व्योम)
 
-#define RETURNCHAR \
-	yylval = (unsigned char) yytext[0]; \
-	return CHAR;
+#घोषणा RETURNCHAR \
+	yylval = (अचिन्हित अक्षर) श_माला[0]; \
+	वापस CHAR;
 
-#define RETURNNAME \
-	if(yyleng < MAXLINE) \
+#घोषणा RETURNNAME \
+	अगर(yyleng < MAXLINE) \
          { \
-	strncpy( nmstr, yytext, sizeof(nmstr) ); \
-	return NAME; \
+	म_नकलन( nmstr, श_माला, माप(nmstr) ); \
+	वापस NAME; \
 	 } \
-	else \
-	 do { \
+	अन्यथा \
+	 करो { \
 	   synerr(_("Input line too long\n")); \
-	   FLEX_EXIT(EXIT_FAILURE);  \
-	 } while (0)
+	   FLEX_EXIT(निकास_त्रुटि);  \
+	 } जबतक (0)
 
-#define PUT_BACK_STRING(str, start) \
-	{ size_t i = strlen( str );	\
-	  while ( i > start )		\
+#घोषणा PUT_BACK_STRING(str, start) \
+	{ माप_प्रकार i = म_माप( str );	\
+	  जबतक ( i > start )		\
 	    unput((str)[--i]);		\
 	}
 
-#define CHECK_REJECT(str) \
-	if ( all_upper( str ) ) \
+#घोषणा CHECK_REJECT(str) \
+	अगर ( all_upper( str ) ) \
 		reject = true;
 
-#define CHECK_YYREJECT(str) \
-	if ( all_lower( str ) ) \
+#घोषणा CHECK_YYREJECT(str) \
+	अगर ( all_lower( str ) ) \
 		reject = true;
 
-#define YY_USER_INIT \
-	if ( getenv("POSIXLY_CORRECT") ) \
+#घोषणा YY_USER_INIT \
+	अगर ( दो_पर्या("POSIXLY_CORRECT") ) \
 		ctrl.posix_compat = true;
 
-#define START_CODEBLOCK(x) do { \
+#घोषणा START_CODEBLOCK(x) करो { \
     /* Emit the needed line directive... */\
-    if (indented_code == false) { \
-        if (!x) linenum++; \
-        line_directive_out(NULL, infilename, linenum);	\
+    अगर (indented_code == false) { \
+        अगर (!x) linenum++; \
+        पंक्ति_directive_out(शून्य, infilename, linenum);	\
     } \
     add_action(M4QSTART); \
-    yy_push_state(CODEBLOCK); \
-    if ((indented_code = x)) ACTION_ECHO; \
-} while(0)
+    yy_धकेलो_state(CODEBLOCK); \
+    अगर ((indented_code = x)) ACTION_ECHO; \
+} जबतक(0)
 
-#define END_CODEBLOCK do { \
-    yy_pop_state();\
+#घोषणा END_CODEBLOCK करो { \
+    yy_निकालो_state();\
     add_action(M4QEND); \
-    if (!indented_code) line_directive_out(NULL, NULL, linenum);	\
-} while (0)
+    अगर (!indented_code) पंक्ति_directive_out(शून्य, शून्य, linenum);	\
+} जबतक (0)
 
 %}
 
-%option caseless nodefault noreject stack noyy_top_state
+%option caseless nodefault noreject ढेर noyy_शीर्ष_state
 %option nostdinit
 
-%x SECT2 SECT2PROLOG SECT3 CODEBLOCK PICKUPDEF SC CARETISBOL NUM QUOTE
+%x SECT2 SECT2PROLOG SECT3 CODEBLOCK PICKUPDEF SC CARETISBOL अंक_2 QUOTE
 %x FIRSTCCL CCL ACTION RECOVER COMMENT ACTION_STRING PERCENT_BRACE_ACTION
 %x OPTION LINEDIR CODEBLOCK_MATCH_BRACE
 %x GROUP_WITH_PARAMS
@@ -139,7 +139,7 @@ ESCSEQ		(\\([^\n]|[0-7]{1,3}|x[[:xdigit:]]{1,2}))
 
 FIRST_CCL_CHAR	([^\\\n]|{ESCSEQ})
 CCL_CHAR	([^\\\n\]]|{ESCSEQ})
-CCL_EXPR	("[:"^?[[:alpha:]]+":]")
+CCL_व्यंजक	("[:"^?[[:alpha:]]+":]")
 
 LEXOPT		[aceknopr]
 
@@ -149,38 +149,38 @@ M4QEND      "]""]"
 FUNARGS     [^)]*
 
 %{
-void context_call(char *);
-void context_member(char *, const char *);
-#undef yyreject
+व्योम context_call(अक्षर *);
+व्योम context_member(अक्षर *, स्थिर अक्षर *);
+#अघोषित yyreject
 %}
 %%
-	static int bracelevel, didadef, indented_code;
-	static bool doing_rule_action = false;
-	static bool option_sense;
+	अटल पूर्णांक bracelevel, didadef, indented_code;
+	अटल bool doing_rule_action = false;
+	अटल bool option_sense;
 
-	static bool doing_codeblock = false;
-	int brace_depth=0, brace_start_line=0;
-	char nmdef[MAXLINE];
+	अटल bool doing_codeblock = false;
+	पूर्णांक brace_depth=0, brace_start_पंक्ति=0;
+	अक्षर nmdef[MAXLINE];
 
 
 <INITIAL>{
 	^{WS}		START_CODEBLOCK(true);
-	^"/*"		add_action("/*[""["); yy_push_state( COMMENT );
-	^#{OPTWS}line{WS}	yy_push_state( LINEDIR );
-	^"%s"{NAME}?	return SCDECL;
-	^"%x"{NAME}?	return XSCDECL;
+	^"/*"		add_action("/*[""["); yy_धकेलो_state( COMMENT );
+	^#{OPTWS}पंक्ति{WS}	yy_धकेलो_state( LINEDIR );
+	^"%s"{NAME}?	वापस SCDECL;
+	^"%x"{NAME}?	वापस XSCDECL;
 	^"%{".*{NL}	START_CODEBLOCK(false);
     ^"%top"[[:blank:]]*"{"[[:blank:]]*{NL}    {
-		char trampoline[512];
-                brace_start_line = linenum;
+		अक्षर trampoline[512];
+                brace_start_पंक्ति = linenum;
                 ++linenum;
-		snprintf(trampoline, sizeof(trampoline),
+		snprintf(trampoline, माप(trampoline),
 			 "M4_HOOK_TRACE_LINE_FORMAT(%d, [[%s]])",
 			 linenum, infilename?infilename:"<stdin>");
-                if (ctrl.gen_line_dirs)
-                    buf_strappend(&top_buf, trampoline);
+                अगर (ctrl.gen_पंक्ति_dirs)
+                    buf_strappend(&शीर्ष_buf, trampoline);
                 brace_depth = 1;
-                yy_push_state(CODEBLOCK_MATCH_BRACE);
+                yy_धकेलो_state(CODEBLOCK_MATCH_BRACE);
             }
 
     ^"%top".*   synerr( _("malformed '%top' directive") );
@@ -191,15 +191,15 @@ void context_member(char *, const char *);
 			sectnum = 2;
 			bracelevel = 0;
 			mark_defs1();
-			line_directive_out(NULL, infilename, linenum);
+			पंक्ति_directive_out(शून्य, infilename, linenum);
 			BEGIN(SECT2PROLOG);
-			return SECTEND;
+			वापस SECTEND;
 			}
 
 	^"%pointer".*{NL}	ctrl.yytext_is_array = false; ++linenum;
 	^"%array".*{NL}		ctrl.yytext_is_array = true; ++linenum;
 
-	^"%option"	BEGIN(OPTION); return TOK_OPTION;
+	^"%option"	BEGIN(OPTION); वापस TOK_OPTION;
 
 	^"%"{LEXOPT}{OPTWS}[[:digit:]]*{OPTWS}{NL}	++linenum; /* ignore */
 	^"%"{LEXOPT}{WS}.*{NL}	++linenum;	/* ignore */
@@ -208,14 +208,14 @@ void context_member(char *, const char *);
 	^"%"[^sxaceknopr{}].*	synerr( _( "unrecognized '%' directive" ) );
 
 	^{NAME}		{
-			if(yyleng < MAXLINE)
+			अगर(yyleng < MAXLINE)
         		 {
-			strncpy( nmstr, yytext, sizeof(nmstr) );
+			म_नकलन( nmstr, श_माला, माप(nmstr) );
 			 }
-			else
+			अन्यथा
 			 {
 			   synerr( _("Definition name too long\n"));
-			   FLEX_EXIT(EXIT_FAILURE);
+			   FLEX_EXIT(निकास_त्रुटि);
 			 }
 
 			didadef = false;
@@ -235,34 +235,34 @@ void context_member(char *, const char *);
 	{NL}	    ++linenum; ACTION_ECHO;
 }
 <COMMENT>{
-	"*/"	    add_action("*/]""]"); yy_pop_state();
+	"*/"	    add_action("*/]""]"); yy_निकालो_state();
 }
 <CODE_COMMENT>{
-        "*/"        ACTION_ECHO; yy_pop_state();
+        "*/"        ACTION_ECHO; yy_निकालो_state();
 }
 
 <COMMENT_DISCARD>{
         /* This is the same as COMMENT, but is discarded rather than output. */
-	"*/"		yy_pop_state();
+	"*/"		yy_निकालो_state();
     "*"         ;
 	[^*\n]      ;
 	{NL}	    ++linenum;
 }
 
 <EXTENDED_COMMENT>{
-    ")"         yy_pop_state();
+    ")"         yy_निकालो_state();
     [^\n\)]+      ;
     {NL}        ++linenum;
 }
 
 <LINEDIR>{
-	\n		yy_pop_state();
-	[[:digit:]]+	linenum = myctoi( yytext );
+	\n		yy_निकालो_state();
+	[[:digit:]]+	linenum = myctoi( श_माला );
 
 	"\""[^""\n]*"\""	{
-			free(infilename);
-			infilename = xstrdup(yytext + 1);
-			infilename[strlen( infilename ) - 1] = '\0';
+			मुक्त(infilename);
+			infilename = xstrdup(श_माला + 1);
+			infilename[म_माप( infilename ) - 1] = '\0';
 			}
 	.		/* ignore spurious characters */
 }
@@ -278,39 +278,39 @@ void context_member(char *, const char *);
 	{NL}		{
 			++linenum;
 			ACTION_ECHO;
-			if ( indented_code ) END_CODEBLOCK;
+			अगर ( indented_code ) END_CODEBLOCK;
 			}
 }
 
 <CODEBLOCK_MATCH_BRACE>{
     "}"     {
-                if( --brace_depth == 0){
+                अगर( --brace_depth == 0){
                     /* TODO: Matched. */
-                    yy_pop_state();
-                }else
-                    buf_strnappend(&top_buf, yytext, yyleng);
+                    yy_निकालो_state();
+                }अन्यथा
+                    buf_strnappend(&शीर्ष_buf, श_माला, yyleng);
             }
 
     "{"     {
                 brace_depth++;
-                buf_strnappend(&top_buf, yytext, yyleng);
+                buf_strnappend(&शीर्ष_buf, श_माला, yyleng);
             }
 
     {NL}    {
                 ++linenum;
-                buf_strnappend(&top_buf, yytext, yyleng);
+                buf_strnappend(&शीर्ष_buf, श_माला, yyleng);
             }
 
-    {M4QSTART}  buf_strnappend(&top_buf, escaped_qstart, (int) strlen(escaped_qstart));
-    {M4QEND}    buf_strnappend(&top_buf, escaped_qend, (int) strlen(escaped_qend));
+    {M4QSTART}  buf_strnappend(&शीर्ष_buf, escaped_qstart, (पूर्णांक) म_माप(escaped_qstart));
+    {M4QEND}    buf_strnappend(&शीर्ष_buf, escaped_qend, (पूर्णांक) म_माप(escaped_qend));
     ([^{}\r\n\[\]]+)|[^{}\r\n]  {
-       buf_strnappend(&top_buf, yytext, yyleng);
+       buf_strnappend(&शीर्ष_buf, श_माला, yyleng);
     }
 
-    <<EOF>>     {
-                linenum = brace_start_line;
+    <<खातापूर्ण>>     {
+                linenum = brace_start_पंक्ति;
                 synerr(_("Unmatched '{'"));
-                return YY_NULL;
+                वापस YY_NULL;
                 }
 }
 
@@ -319,19 +319,19 @@ void context_member(char *, const char *);
 	{WS}		/* separates name and definition */
 
 	{NOT_WS}[^\r\n]*	{
- 		        if(yyleng < MAXLINE)
+ 		        अगर(yyleng < MAXLINE)
  		         {
-			strncpy( nmdef, yytext, sizeof(nmdef) );
+			म_नकलन( nmdef, श_माला, माप(nmdef) );
  		         }
- 		        else
+ 		        अन्यथा
  		         {
  		           format_synerr( _("Definition value for {%s} too long\n"), nmstr);
- 		           FLEX_EXIT(EXIT_FAILURE);
+ 		           FLEX_EXIT(निकास_त्रुटि);
 			 }
 			/* Skip trailing whitespace. */
 			{
-			    size_t i = strlen( nmdef );
-			    while (i > 0 && (nmdef[i-1] == ' ' || nmdef[i-1] == '\t'))
+			    माप_प्रकार i = म_माप( nmdef );
+			    जबतक (i > 0 && (nmdef[i-1] == ' ' || nmdef[i-1] == '\t'))
 			       --i;
 			    nmdef[i] = '\0';
 			}
@@ -341,7 +341,7 @@ void context_member(char *, const char *);
 			}
 
 	{NL}		{
-			if ( ! didadef )
+			अगर ( ! didadef )
 				synerr( _( "incomplete name definition" ) );
 			BEGIN(INITIAL);
 			++linenum;
@@ -353,8 +353,8 @@ void context_member(char *, const char *);
 	{NL}		++linenum; BEGIN(INITIAL);
 	{WS}		option_sense = true;
 
-	"="		return '=';
-	[[:digit:]]+	{nmval = atoi(yytext); return TOK_NUMERIC;}
+	"="		वापस '=';
+	[[:digit:]]+	{nmval = म_से_प(श_माला); वापस TOK_NUMERIC;}
 
 	no		option_sense = ! option_sense;
 
@@ -370,14 +370,14 @@ void context_member(char *, const char *);
 	backup		env.backing_up_report = option_sense;
 	batch		ctrl.interactive = (trit)!option_sense;
 	bison-bridge     ctrl.bison_bridge_lval = option_sense;
-	bison-locations  { if((ctrl.bison_bridge_lloc = option_sense))
+	bison-locations  { अगर((ctrl.bison_bridge_lloc = option_sense))
                             ctrl.bison_bridge_lval = true;
 			}
 	"c++"		ctrl.C_plus_plus = option_sense;
-	caseful|case-sensitive		sf_set_case_ins(!option_sense);
-	caseless|case-insensitive	sf_set_case_ins(option_sense);
+	caseful|हाल-sensitive		sf_set_case_ins(!option_sense);
+	caseless|हाल-insensitive	sf_set_case_ins(option_sense);
 	debug		ctrl.ddebug = option_sense;
-	default		ctrl.spprdflt = ! option_sense;
+	शेष		ctrl.spprdflt = ! option_sense;
 	ecs		ctrl.useecs = option_sense;
 	fast		{
 			ctrl.useecs = ctrl.usemecs = false;
@@ -387,16 +387,16 @@ void context_member(char *, const char *);
 			ctrl.useecs = ctrl.usemecs = false;
 			ctrl.use_read = ctrl.fulltbl = true;
 			}
-	input		ctrl.no_yyinput = ! option_sense;
+	निवेश		ctrl.no_yyinput = ! option_sense;
 	yyinput		ctrl.no_yyinput = ! option_sense;
 	interactive	ctrl.interactive = (trit)option_sense;
 	lex-compat	ctrl.lex_compat = option_sense;
 	posix-compat	ctrl.posix_compat = option_sense;
-	line		ctrl.gen_line_dirs = option_sense;
-	main		{
+	पंक्ति		ctrl.gen_पंक्ति_dirs = option_sense;
+	मुख्य		{
 			ctrl.do_main = option_sense;
 			/* Override yywrap */
-			if (option_sense)
+			अगर (option_sense)
                 		ctrl.do_yywrap = false;
 			}
 	meta-ecs	ctrl.usemecs = option_sense;
@@ -406,30 +406,30 @@ void context_member(char *, const char *);
 			}
 	perf-report	env.performance_hint += option_sense ? 1 : -1;
 	pointer		ctrl.yytext_is_array = ! option_sense;
-	read		ctrl.use_read = option_sense;
+	पढ़ो		ctrl.use_read = option_sense;
 	reentrant	ctrl.reentrant = option_sense;
 	reject		ctrl.reject_really_used = option_sense;
 	rewrite		ctrl.rewrite = option_sense;
-	stack		ctrl.stack_used = option_sense;
+	ढेर		ctrl.ढेर_used = option_sense;
 	stdinit		ctrl.do_stdinit = option_sense;
-	stdout		env.use_stdout = option_sense;
+	मानक_निकास		env.use_stdout = option_sense;
 	unistd		ctrl.no_unistd = ! option_sense;
 	unput		ctrl.no_yyunput = ! option_sense;
 	yyunput		ctrl.no_yyunput = ! option_sense;
 	verbose		env.printstats = option_sense;
 	warn		env.nowarn = ! option_sense;
-	yylineno	ctrl.do_yylineno = option_sense;
+	श_पंक्ति	ctrl.do_yylineno = option_sense;
 	yymore		ctrl.yymore_really_used = option_sense;
 	yywrap		ctrl.do_yywrap = option_sense;
 	yyread		ctrl.noyyread = !option_sense;
 
 	yypanic		ctrl.no_yypanic = !option_sense;
 
-	yy_push_state	ctrl.no_yy_push_state = ! option_sense;
-	yy_pop_state	ctrl.no_yy_pop_state = ! option_sense;
-	yy_top_state	ctrl.no_yy_top_state = ! option_sense;
+	yy_धकेलो_state	ctrl.no_yy_धकेलो_state = ! option_sense;
+	yy_निकालो_state	ctrl.no_yy_निकालो_state = ! option_sense;
+	yy_शीर्ष_state	ctrl.no_yy_शीर्ष_state = ! option_sense;
 
-	yy_scan_buffer	ctrl.no_yy_scan_buffer = ! option_sense;
+	yy_scan_बफर	ctrl.no_yy_scan_बफर = ! option_sense;
 	yy_scan_bytes	ctrl.no_yy_scan_bytes = ! option_sense;
 	yy_scan_string	ctrl.no_yy_scan_string = ! option_sense;
 
@@ -456,44 +456,44 @@ void context_member(char *, const char *);
 	yyget_lloc      ctrl.no_yyget_lloc = ! option_sense;
 	yyset_lloc      ctrl.no_yyset_lloc = ! option_sense;
 
-	bufsize		return TOK_BUFSIZE;
-	emit		return TOK_EMIT;
-	extra-type	return TOK_EXTRA_TYPE;
-	outfile		return TOK_OUTFILE;
-	prefix		return TOK_PREFIX;
-	yyclass		return TOK_YYCLASS;
-	yylmax		return TOK_YYLMAX;
-	yydecl		return TOK_YYDECL;
-	yyterminate	return TOK_YYTERMINATE;
-	pre-action	return TOK_PREACTION;
-	post-action	return TOK_POSTACTION;
-	user-init	return TOK_USERINIT;
-	header(-file)?      return TOK_HEADER_FILE;
-	tables-file         return TOK_TABLES_FILE;
+	bufsize		वापस TOK_BUFSIZE;
+	emit		वापस TOK_EMIT;
+	extra-type	वापस TOK_EXTRA_TYPE;
+	outfile		वापस TOK_OUTFILE;
+	prefix		वापस TOK_PREFIX;
+	yyclass		वापस TOK_YYCLASS;
+	yylmax		वापस TOK_YYLMAX;
+	yydecl		वापस TOK_YYDECL;
+	yyterminate	वापस TOK_YYTERMINATE;
+	pre-action	वापस TOK_PREACTION;
+	post-action	वापस TOK_POSTACTION;
+	user-init	वापस TOK_USERINIT;
+	header(-file)?      वापस TOK_HEADER_FILE;
+	tables-file         वापस TOK_TABLES_FILE;
 	tables-verify   {
                     tablesverify = option_sense;
-                    if (!tablesext && option_sense)
+                    अगर (!tablesext && option_sense)
                         tablesext = true;
                     }
 
 
 	"\""[^""\n]*"\""	{
-			if(yyleng-1 < MAXLINE)
+			अगर(yyleng-1 < MAXLINE)
         		 {
-			strncpy( nmstr, yytext + 1, sizeof(nmstr) );
+			म_नकलन( nmstr, श_माला + 1, माप(nmstr) );
 			 }
-			else
+			अन्यथा
 			 {
 			   synerr( _("Option line too long\n"));
-			   FLEX_EXIT(EXIT_FAILURE);
+			   FLEX_EXIT(निकास_त्रुटि);
 			 }
-			nmstr[strlen( nmstr ) - 1] = '\0';
-			return NAME;
+			nmstr[म_माप( nmstr ) - 1] = '\0';
+			वापस NAME;
 			}
 
 	(([a-mo-z]|n[a-np-z])[[:alpha:]\-+]*)|.	{
 			format_synerr( _( "unrecognized %%option: %s" ),
-				yytext );
+				श_माला );
 			BEGIN(RECOVER);
 			}
 }
@@ -509,13 +509,13 @@ void context_member(char *, const char *);
 
 	^{NOT_WS}.*	{
         /* non-indented code */
-		if ( bracelevel <= 0 ) {
+		अगर ( bracelevel <= 0 ) {
             /* not in %{ ... %} */
             yyless( 0 );	/* put it all back */
             yy_set_bol( 1 );
             mark_prolog();
             BEGIN(SECT2);
-        } else {
+        } अन्यथा {
             START_CODEBLOCK(true);
         }
     }
@@ -523,10 +523,10 @@ void context_member(char *, const char *);
 	.		ACTION_ECHO;
 	{NL}	++linenum; ACTION_ECHO;
 
-	<<EOF>>		{
+	<<खातापूर्ण>>		{
 			mark_prolog();
 			sectnum = 0;
-			return YY_NULL; /* to stop the parser */
+			वापस YY_NULL; /* to stop the parser */
 			}
 }
 
@@ -542,54 +542,54 @@ void context_member(char *, const char *);
 
 	^{OPTWS}"<"	    {
                         /* Allow "<" to appear in (?x) patterns. */
-                        if (!sf_skip_ws())
+                        अगर (!sf_skip_ws())
                             BEGIN(SC);
-                        return '<';
+                        वापस '<';
                     }
-	^{OPTWS}"^"	return '^';
-	"\""		BEGIN(QUOTE); return '"';
+	^{OPTWS}"^"	वापस '^';
+	"\""		BEGIN(QUOTE); वापस '"';
 	"{"/[[:digit:]]	{
-			BEGIN(NUM);
-			if ( ctrl.lex_compat || ctrl.posix_compat )
-				return BEGIN_REPEAT_POSIX;
-			else
-				return BEGIN_REPEAT_FLEX;
+			BEGIN(अंक_2);
+			अगर ( ctrl.lex_compat || ctrl.posix_compat )
+				वापस BEGIN_REPEAT_POSIX;
+			अन्यथा
+				वापस BEGIN_REPEAT_FLEX;
 			}
-	"$"/([[:blank:]]|{NL})	return '$';
+	"$"/([[:blank:]]|{NL})	वापस '$';
 
 	{WS}"%{"		{
 			bracelevel = 1;
 			BEGIN(PERCENT_BRACE_ACTION);
 
-			if ( in_rule )
+			अगर ( in_rule )
 				{
 				doing_rule_action = true;
 				in_rule = false;
-				return '\n';
+				वापस '\n';
 				}
 			}
 	{WS}"|".*{NL}	{
-                        if (sf_skip_ws()){
+                        अगर (sf_skip_ws()){
                             /* We're in the middle of a (?x: ) pattern. */
                             /* Push back everything starting at the "|" */
-                            int amt = (int) (strchr (yytext, '|') - yytext);
+                            पूर्णांक amt = (पूर्णांक) (म_अक्षर (श_माला, '|') - श_माला);
                             yyless(amt);
                         }
-                        else {
+                        अन्यथा {
                             add_action("]""]");
                             continued_action = true;
                             ++linenum;
-                            return '\n';
+                            वापस '\n';
                         }
                     }
 
 	^{WS}"/*"	{
 
-                if (sf_skip_ws()){
+                अगर (sf_skip_ws()){
                     /* We're in the middle of a (?x: ) pattern. */
-                    yy_push_state(COMMENT_DISCARD);
+                    yy_धकेलो_state(COMMENT_DISCARD);
                 }
-                else{
+                अन्यथा{
                     yyless( yyleng - 2 );	/* put back '/', '*' */
                     bracelevel = 0;
                     continued_action = false;
@@ -600,10 +600,10 @@ void context_member(char *, const char *);
 	^{WS}		/* allow indented rules */ ;
 
 	{WS}		{
-            if (sf_skip_ws()){
+            अगर (sf_skip_ws()){
                 /* We're in the middle of a (?x: ) pattern. */
             }
-            else{
+            अन्यथा{
                 /* This rule is separate from the one below because
                  * otherwise we get variable trailing context, so
                  * we can't build the scanner using -{f,F}.
@@ -612,37 +612,37 @@ void context_member(char *, const char *);
                 continued_action = false;
                 BEGIN(ACTION);
 
-                if ( in_rule )
+                अगर ( in_rule )
                     {
                     doing_rule_action = true;
                     in_rule = false;
-                    return '\n';
+                    वापस '\n';
                     }
             }
 			}
 
 	{OPTWS}{NL}	{
-            if (sf_skip_ws()){
+            अगर (sf_skip_ws()){
                 /* We're in the middle of a (?x: ) pattern. */
                 ++linenum;
             }
-            else{
+            अन्यथा{
                 bracelevel = 0;
                 continued_action = false;
                 BEGIN(ACTION);
                 unput( '\n' );	/* so <ACTION> sees it */
 
-                if ( in_rule )
+                अगर ( in_rule )
                     {
                     doing_rule_action = true;
                     in_rule = false;
-                    return '\n';
+                    वापस '\n';
                     }
             }
 			}
 
 	^{OPTWS}"<<EOF>>"	|
-	"<<EOF>>"	return EOF_OP;
+	"<<EOF>>"	वापस EOF_OP;
 
 	^"%%".*		{
 			sectnum = 3;
@@ -651,23 +651,23 @@ void context_member(char *, const char *);
 
 			}
 
-	"["({FIRST_CCL_CHAR}|{CCL_EXPR})({CCL_CHAR}|{CCL_EXPR})*	{
-			int cclval;
+	"["({FIRST_CCL_CHAR}|{CCL_व्यंजक})({CCL_CHAR}|{CCL_व्यंजक})*	{
+			पूर्णांक cclval;
 
-			if(yyleng < MAXLINE)
+			अगर(yyleng < MAXLINE)
         		 {
-			strncpy( nmstr, yytext, sizeof(nmstr) );
+			म_नकलन( nmstr, श_माला, माप(nmstr) );
 			 }
-			else
+			अन्यथा
 			 {
 			   synerr( _("Input line too long\n"));
-			   FLEX_EXIT(EXIT_FAILURE);
+			   FLEX_EXIT(निकास_त्रुटि);
 			 }
 
 			/* Check to see if we've already encountered this
 			 * ccl.
 			 */
-			if (0 /* <--- This "0" effectively disables the reuse of a
+			अगर (0 /* <--- This "0" effectively disables the reuse of a
                    * character class (purely based on its source text).
                    * The reason it was disabled is so yacc/bison can parse
                    * ccl operations, such as ccl difference and union.
@@ -676,7 +676,7 @@ void context_member(char *, const char *);
 				{
      				 /* Dead code removed */
 				}
-			else
+			अन्यथा
 				{
 				/* We fudge a bit.  We know that this ccl will
 				 * soon be numbered as lastccl + 1 by cclinit.
@@ -689,11 +689,11 @@ void context_member(char *, const char *);
 				yyless( 1 );
 
 				BEGIN(FIRSTCCL);
-				return '[';
+				वापस '[';
 				}
 			}
-    "{-}"       return CCL_OP_DIFF;
-    "{+}"       return CCL_OP_UNION;
+    "{-}"       वापस CCL_OP_DIFF;
+    "{+}"       वापस CCL_OP_UNION;
 
 
     /* Check for :space: at the end of the rule so we don't
@@ -701,45 +701,45 @@ void context_member(char *, const char *);
      * context.
      */
 	"{"{NAME}"}"[[:space:]]?	 {
-			char *nmdefptr;
-            int end_is_ws, end_ch;
+			अक्षर *nmdefptr;
+            पूर्णांक end_is_ws, end_ch;
 
-            end_ch = yytext[yyleng-1];
+            end_ch = श_माला[yyleng-1];
             end_is_ws = end_ch != '}' ? 1 : 0;
 
- 			if(yyleng-1 < MAXLINE)
+ 			अगर(yyleng-1 < MAXLINE)
          		 {
-			strncpy( nmstr, yytext + 1, sizeof(nmstr) );
+			म_नकलन( nmstr, श_माला + 1, माप(nmstr) );
  			 }
- 			else
+ 			अन्यथा
  			 {
  			   synerr( _("Input line too long\n"));
- 			   FLEX_EXIT(EXIT_FAILURE);
+ 			   FLEX_EXIT(निकास_त्रुटि);
  			 }
 nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 
-			if ( (nmdefptr = ndlookup( nmstr )) == 0 )
+			अगर ( (nmdefptr = ndlookup( nmstr )) == 0 )
 				format_synerr(
 					_( "undefined definition {%s}" ),
 						nmstr );
 
-			else
+			अन्यथा
 				{ /* push back name surrounded by ()'s */
-				size_t len = strlen( nmdefptr );
-                if (end_is_ws)
+				माप_प्रकार len = म_माप( nmdefptr );
+                अगर (end_is_ws)
                     unput(end_ch);
 
-				if ( ctrl.lex_compat || nmdefptr[0] == '^' ||
+				अगर ( ctrl.lex_compat || nmdefptr[0] == '^' ||
 				     (len > 0 && nmdefptr[len - 1] == '$')
                      || (end_is_ws && trlcontxt && !sf_skip_ws()))
 					{ /* don't use ()'s after all */
 					PUT_BACK_STRING(nmdefptr, 0);
 
-					if ( nmdefptr[0] == '^' )
+					अगर ( nmdefptr[0] == '^' )
 						BEGIN(CARETISBOL);
 					}
 
-				else
+				अन्यथा
 					{
 					unput(')');
 					PUT_BACK_STRING(nmdefptr, 0);
@@ -749,72 +749,72 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 			}
 
     "/*"        {
-                    if (sf_skip_ws())
-                        yy_push_state(COMMENT_DISCARD);
-                    else{
+                    अगर (sf_skip_ws())
+                        yy_धकेलो_state(COMMENT_DISCARD);
+                    अन्यथा{
                         /* Push back the "*" and return "/" as usual. */
                         yyless(1);
-                        return '/';
+                        वापस '/';
                     }
                 }
 
     "(?#"       {
-                    if (ctrl.lex_compat || ctrl.posix_compat){
+                    अगर (ctrl.lex_compat || ctrl.posix_compat){
                         /* Push back the "?#" and treat it like a normal parens. */
                         yyless(1);
-                        sf_push(); 
-                        return '(';
+                        sf_धकेलो(); 
+                        वापस '(';
                     }
-                    else
-                        yy_push_state(EXTENDED_COMMENT);
+                    अन्यथा
+                        yy_धकेलो_state(EXTENDED_COMMENT);
                 }
     "(?"        {
-                    sf_push();
-                    if (ctrl.lex_compat || ctrl.posix_compat)
+                    sf_धकेलो();
+                    अगर (ctrl.lex_compat || ctrl.posix_compat)
                         /* Push back the "?" and treat it like a normal parens. */
                         yyless(1);
-                    else
+                    अन्यथा
                         BEGIN(GROUP_WITH_PARAMS);
-                    return '(';
+                    वापस '(';
                 }
-    "("         sf_push(); return '(';
+    "("         sf_धकेलो(); वापस '(';
     ")"         {
-                    if (_sf_top_ix > 0) {
-                        sf_pop();
-                        return ')';
-                    } else
+                    अगर (sf_शीर्ष_ix > 0) {
+                        sf_निकालो();
+                        वापस ')';
+                    } अन्यथा
                         synerr(_("unbalanced parenthesis"));
                 }
 
-	[/|*+?.(){}]	return (unsigned char) yytext[0];
+	[/|*+?.(){}]	वापस (अचिन्हित अक्षर) श_माला[0];
 	.		RETURNCHAR;
 }
 
 
 <SC>{
 	{OPTWS}{NL}{OPTWS}	++linenum;	/* Allow blank lines & continuations */
-	[,*]		return (unsigned char) yytext[0];
-	">"		BEGIN(SECT2); return '>';
-	">"/^		BEGIN(CARETISBOL); return '>';
+	[,*]		वापस (अचिन्हित अक्षर) श_माला[0];
+	">"		BEGIN(SECT2); वापस '>';
+	">"/^		BEGIN(CARETISBOL); वापस '>';
 	{SCNAME}	RETURNNAME;
 	.		{
 			format_synerr( _( "bad <start condition>: %s" ),
-				yytext );
+				श_माला );
 			}
 }
 
-<CARETISBOL>"^"		BEGIN(SECT2); return '^';
+<CARETISBOL>"^"		BEGIN(SECT2); वापस '^';
 
 
 <QUOTE>{
 	[^""\n]		RETURNCHAR;
-	"\""		BEGIN(SECT2); return '"';
+	"\""		BEGIN(SECT2); वापस '"';
 
 	{NL}		{
 			synerr( _( "missing quote" ) );
 			BEGIN(SECT2);
 			++linenum;
-			return '"';
+			वापस '"';
 			}
 }
 
@@ -833,82 +833,82 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 }
 
 <FIRSTCCL>{
-	"^"/[^-\]\n]	BEGIN(CCL); return '^';
-	"^"/("-"|"]")	return '^';
+	"^"/[^-\]\n]	BEGIN(CCL); वापस '^';
+	"^"/("-"|"]")	वापस '^';
 	.		BEGIN(CCL); RETURNCHAR;
 }
 
 <CCL>{
-	-/[^\]\n]	return '-';
+	-/[^\]\n]	वापस '-';
 	[^\]\n]		RETURNCHAR;
-	"]"		BEGIN(SECT2); return ']';
+	"]"		BEGIN(SECT2); वापस ']';
 	.|{NL}		{
 			synerr( _( "bad character class" ) );
 			BEGIN(SECT2);
-			return ']';
+			वापस ']';
 			}
 }
 
 <FIRSTCCL,CCL>{
-	"[:alnum:]"	BEGIN(CCL); return CCE_ALNUM;
-	"[:alpha:]"	BEGIN(CCL); return CCE_ALPHA;
-	"[:blank:]"	BEGIN(CCL); return CCE_BLANK;
-	"[:cntrl:]"	BEGIN(CCL); return CCE_CNTRL;
-	"[:digit:]"	BEGIN(CCL); return CCE_DIGIT;
-	"[:graph:]"	BEGIN(CCL); return CCE_GRAPH;
-	"[:lower:]"	BEGIN(CCL); return CCE_LOWER;
-	"[:print:]"	BEGIN(CCL); return CCE_PRINT;
-	"[:punct:]"	BEGIN(CCL); return CCE_PUNCT;
-	"[:space:]"	BEGIN(CCL); return CCE_SPACE;
-	"[:upper:]"	BEGIN(CCL); return CCE_UPPER;
-	"[:xdigit:]"	BEGIN(CCL); return CCE_XDIGIT;
+	"[:alnum:]"	BEGIN(CCL); वापस CCE_ALNUM;
+	"[:alpha:]"	BEGIN(CCL); वापस CCE_ALPHA;
+	"[:blank:]"	BEGIN(CCL); वापस CCE_BLANK;
+	"[:cntrl:]"	BEGIN(CCL); वापस CCE_CNTRL;
+	"[:digit:]"	BEGIN(CCL); वापस CCE_DIGIT;
+	"[:graph:]"	BEGIN(CCL); वापस CCE_GRAPH;
+	"[:lower:]"	BEGIN(CCL); वापस CCE_LOWER;
+	"[:print:]"	BEGIN(CCL); वापस CCE_PRINT;
+	"[:punct:]"	BEGIN(CCL); वापस CCE_PUNCT;
+	"[:space:]"	BEGIN(CCL); वापस CCE_SPACE;
+	"[:upper:]"	BEGIN(CCL); वापस CCE_UPPER;
+	"[:xdigit:]"	BEGIN(CCL); वापस CCE_XDIGIT;
 
-	"[:^alnum:]"	BEGIN(CCL); return CCE_NEG_ALNUM;
-	"[:^alpha:]"	BEGIN(CCL); return CCE_NEG_ALPHA;
-	"[:^blank:]"	BEGIN(CCL); return CCE_NEG_BLANK;
-	"[:^cntrl:]"	BEGIN(CCL); return CCE_NEG_CNTRL;
-	"[:^digit:]"	BEGIN(CCL); return CCE_NEG_DIGIT;
-	"[:^graph:]"	BEGIN(CCL); return CCE_NEG_GRAPH;
-	"[:^lower:]"	BEGIN(CCL); return CCE_NEG_LOWER;
-	"[:^print:]"	BEGIN(CCL); return CCE_NEG_PRINT;
-	"[:^punct:]"	BEGIN(CCL); return CCE_NEG_PUNCT;
-	"[:^space:]"	BEGIN(CCL); return CCE_NEG_SPACE;
-	"[:^upper:]"	BEGIN(CCL); return CCE_NEG_UPPER;
-	"[:^xdigit:]"	BEGIN(CCL); return CCE_NEG_XDIGIT;
-	{CCL_EXPR}	{
+	"[:^alnum:]"	BEGIN(CCL); वापस CCE_NEG_ALNUM;
+	"[:^alpha:]"	BEGIN(CCL); वापस CCE_NEG_ALPHA;
+	"[:^blank:]"	BEGIN(CCL); वापस CCE_NEG_BLANK;
+	"[:^cntrl:]"	BEGIN(CCL); वापस CCE_NEG_CNTRL;
+	"[:^digit:]"	BEGIN(CCL); वापस CCE_NEG_DIGIT;
+	"[:^graph:]"	BEGIN(CCL); वापस CCE_NEG_GRAPH;
+	"[:^lower:]"	BEGIN(CCL); वापस CCE_NEG_LOWER;
+	"[:^print:]"	BEGIN(CCL); वापस CCE_NEG_PRINT;
+	"[:^punct:]"	BEGIN(CCL); वापस CCE_NEG_PUNCT;
+	"[:^space:]"	BEGIN(CCL); वापस CCE_NEG_SPACE;
+	"[:^upper:]"	BEGIN(CCL); वापस CCE_NEG_UPPER;
+	"[:^xdigit:]"	BEGIN(CCL); वापस CCE_NEG_XDIGIT;
+	{CCL_व्यंजक}	{
 			format_synerr(
 				_( "bad character class expression: %s" ),
-					yytext );
-			BEGIN(CCL); return CCE_ALNUM;
+					श_माला );
+			BEGIN(CCL); वापस CCE_ALNUM;
 			}
 }
 
-<NUM>{
+<अंक_2>{
 	[[:digit:]]+	{
-			yylval = myctoi( yytext );
-			return NUMBER;
+			yylval = myctoi( श_माला );
+			वापस संख्या;
 			}
 
-	","		return ',';
+	","		वापस ',';
 	"}"		{
 			BEGIN(SECT2);
-			if ( ctrl.lex_compat || ctrl.posix_compat )
-				return END_REPEAT_POSIX;
-			else
-				return END_REPEAT_FLEX;
+			अगर ( ctrl.lex_compat || ctrl.posix_compat )
+				वापस END_REPEAT_POSIX;
+			अन्यथा
+				वापस END_REPEAT_FLEX;
 			}
 
 	.		{
 			synerr( _( "bad character inside {}'s" ) );
 			BEGIN(SECT2);
-			return '}';
+			वापस '}';
 			}
 
 	{NL}		{
 			synerr( _( "missing }" ) );
 			BEGIN(SECT2);
 			++linenum;
-			return '}';
+			वापस '}';
 			}
 }
 
@@ -916,22 +916,22 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 <PERCENT_BRACE_ACTION>{
 	{OPTWS}"%}".*		bracelevel = 0;
 
-	<ACTION>"/*"		ACTION_ECHO; yy_push_state( CODE_COMMENT );
+	<ACTION>"/*"		ACTION_ECHO; yy_धकेलो_state( CODE_COMMENT );
 
 	<CODEBLOCK,ACTION>{
 		"reject" {
 			ACTION_ECHO;
-			CHECK_REJECT(yytext);
+			CHECK_REJECT(श_माला);
         }
 		"yyreject"{OPTWS}"("{OPTWS}")" {
 			add_action("]""]M4_HOOK_REJECT[""[");
-			CHECK_YYREJECT(yytext);
+			CHECK_YYREJECT(श_माला);
         }
 		"yymore"{OPTWS}"("{OPTWS}")" {
 			yymore_used = true;
-			if (ctrl.rewrite)
-				context_call(yytext);
-			else
+			अगर (ctrl.rewrite)
+				context_call(श_माला);
+			अन्यथा
 				ACTION_ECHO;
         }
 	}
@@ -940,8 +940,8 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 	{NL}	{
 		++linenum;
 		ACTION_ECHO;
-		if (bracelevel <= 0 || (doing_codeblock && indented_code)) {
-            if ( doing_rule_action )
+		अगर (bracelevel <= 0 || (doing_codeblock && indented_code)) {
+            अगर ( doing_rule_action )
                 add_action( "\t]""]M4_HOOK_STATE_CASE_BREAK\n" );
 
             doing_rule_action = doing_codeblock = false;
@@ -956,26 +956,26 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 	"{"		ACTION_ECHO; ++bracelevel;
 	"}"		ACTION_ECHO; --bracelevel;
 	yyecho\(\)|yyinput\(\)|yystart\({FUNARGS}\)|yybegin\({FUNARGS}\)|yyunput\({FUNARGS}\)|yypanic\({FUNARGS}\)|yyatbol\(\)|yysetbol\({FUNARGS}\) {
-			if (ctrl.rewrite)
-				context_call(yytext);
-			else
+			अगर (ctrl.rewrite)
+				context_call(श_माला);
+			अन्यथा
 				ACTION_ECHO;
 	}
 	yyterminate\(\)|yyless\({FUNARGS}\) {
 			add_action("]""]");
-			add_action(yytext);
+			add_action(श_माला);
 			add_action("[""[");
 	}
-	(yyin|yyout|yyextra|yyleng|yytext|yyflexdebug)/[^[:alnum:]_] {
-			if (ctrl.rewrite)
-				context_member(yytext, "M4_PROPERTY_CONTEXT_FORMAT");
-			else
+	(yyin|yyout|yyextra|yyleng|श_माला|yyflexdebug)/[^[:alnum:]_] {
+			अगर (ctrl.rewrite)
+				context_member(श_माला, "M4_PROPERTY_CONTEXT_FORMAT");
+			अन्यथा
 				ACTION_ECHO;
 	}
-	(yylineno|yycolumn)/[^[:alnum:]_] {
-			if (ctrl.rewrite)
-				context_member(yytext, "M4_PROPERTY_BUFFERSTACK_CONTEXT_FORMAT");
-			else
+	(श_पंक्ति|yycolumn)/[^[:alnum:]_] {
+			अगर (ctrl.rewrite)
+				context_member(श_माला, "M4_PROPERTY_BUFFERSTACK_CONTEXT_FORMAT");
+			अन्यथा
 				ACTION_ECHO;
 	}
 	[^[:Alpha:]_{}""''/\n\[\]]+	ACTION_ECHO;
@@ -986,8 +986,8 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 	{NL} {
                 ++linenum;
                 ACTION_ECHO;
-                if (bracelevel <= 0) {
-                   if ( doing_rule_action )
+                अगर (bracelevel <= 0) {
+                   अगर ( doing_rule_action )
                       add_action( "\t]""]M4_HOOK_STATE_CASE_BREAK\n" );
 
                    doing_rule_action = false;
@@ -1008,104 +1008,104 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 <ACTION_STRING,CHARACTER_CONSTANT>{
         (\\\n)*         ACTION_ECHO;
 	\\(\\\n)*.	ACTION_ECHO;
-	{NL}	++linenum; ACTION_ECHO; if (bracelevel <= 0) { BEGIN(SECT2); } else { BEGIN(ACTION); }
+	{NL}	++linenum; ACTION_ECHO; अगर (bracelevel <= 0) { BEGIN(SECT2); } अन्यथा { BEGIN(ACTION); }
         .	ACTION_ECHO;
 }
 
-<COMMENT,CODE_COMMENT,COMMENT_DISCARD,ACTION,ACTION_STRING,CHARACTER_CONSTANT><<EOF>>	{
+<COMMENT,CODE_COMMENT,COMMENT_DISCARD,ACTION,ACTION_STRING,CHARACTER_CONSTANT><<खातापूर्ण>>	{
 			synerr( _( "EOF encountered inside an action" ) );
 			yyterminate();
 			}
 
-<EXTENDED_COMMENT,GROUP_WITH_PARAMS,GROUP_MINUS_PARAMS><<EOF>>	{
+<EXTENDED_COMMENT,GROUP_WITH_PARAMS,GROUP_MINUS_PARAMS><<खातापूर्ण>>	{
 			synerr( _( "EOF encountered inside pattern" ) );
 			yyterminate();
 			}
 
 <SECT2,QUOTE,FIRSTCCL,CCL>{ESCSEQ}	{
-			yylval = myesc( (unsigned char *) yytext );
+			yylval = myesc( (अचिन्हित अक्षर *) श_माला );
 
-			if ( YY_START == FIRSTCCL )
+			अगर ( YY_START == FIRSTCCL )
 				BEGIN(CCL);
 
-			return CHAR;
+			वापस CHAR;
 			}
 
 <SECT3>{
-    {M4QSTART}   fputs(escaped_qstart, yyout);
-    {M4QEND}     fputs(escaped_qend, yyout);
+    {M4QSTART}   ख_माला_दो(escaped_qstart, yyout);
+    {M4QEND}     ख_माला_दो(escaped_qend, yyout);
     [^\[\]]*     ECHO;
     [][]         ECHO;
-    <<EOF>>      {
+    <<खातापूर्ण>>      {
         sectnum = 0;
         yyterminate();
     }
 }
 <SECT3_NOESCAPE>{
-    {M4QSTART}  fprintf(yyout, "[""[%s]""]", escaped_qstart);
-    {M4QEND}    fprintf(yyout, "[""[%s]""]", escaped_qend);
+    {M4QSTART}  ख_लिखो(yyout, "[""[%s]""]", escaped_qstart);
+    {M4QEND}    ख_लिखो(yyout, "[""[%s]""]", escaped_qend);
     [^][]*      ECHO;
     [][]        ECHO;
-    <<EOF>>		{
+    <<खातापूर्ण>>		{
        sectnum = 0;
        yyterminate();
     }
 }
-<*>.|\n			format_synerr( _( "bad character: %s" ), yytext );
+<*>.|\n			format_synerr( _( "bad character: %s" ), श_माला );
 
 %%
 
 
-int yywrap(void)
+पूर्णांक yywrap(व्योम)
 	{
-	if ( --num_input_files > 0 )
+	अगर ( --num_input_files > 0 )
 		{
-		set_input_file( *++input_files );
-		return 0;
+		set_निवेश_file( *++निवेश_files );
+		वापस 0;
 		}
 
-	else
-		return 1;
+	अन्यथा
+		वापस 1;
 	}
 
 
 /* set_input_file - open the given file (if NULL, stdin) for scanning */
 
-void set_input_file( char *file )
+व्योम set_निवेश_file( अक्षर *file )
 	{
-	if ( file && strcmp( file, "-" ) )
+	अगर ( file && म_भेद( file, "-" ) )
 		{
 		infilename = xstrdup(file);
-		yyin = fopen( infilename, "r" );
+		yyin = ख_खोलो( infilename, "r" );
 
-		if ( yyin == NULL )
-			lerr( _( "can't open %s: %s" ), file, strerror(errno));
+		अगर ( yyin == शून्य )
+			lerr( _( "can't open %s: %s" ), file, म_त्रुटि(त्रुटि_सं));
 		}
 
-	else
+	अन्यथा
 		{
-		yyin = stdin;
+		yyin = मानक_निवेश;
 		infilename = xstrdup("<stdin>");
 		}
 
 	linenum = 1;
 	}
 
-void context_call(char *txt) {
-	const char *context_arg = skel_property("M4_PROPERTY_CONTEXT_ARG");
+व्योम context_call(अक्षर *txt) {
+	स्थिर अक्षर *context_arg = skel_property("M4_PROPERTY_CONTEXT_ARG");
 
 	/* if there's no such property, simply pass through */
-	if (context_arg == NULL) {
+	अगर (context_arg == शून्य) {
 		add_action(txt);
-	} else {
-		char buf[BUFSIZ];
+	} अन्यथा {
+		अक्षर buf[बफ_मान];
 
 		/* otherwise, supply the context string as a final argument */
-		assert(txt[strlen(txt)-1] == ')');
-		strncpy(buf, txt, sizeof(buf));
-		buf[strlen(buf)-1] = '\0';	/* remove trailing ) */
+		निश्चित(txt[म_माप(txt)-1] == ')');
+		म_नकलन(buf, txt, माप(buf));
+		buf[म_माप(buf)-1] = '\0';	/* remove trailing ) */
 		add_action(buf);
-		if (txt[strlen(buf)-1] != '(') {
+		अगर (txt[म_माप(buf)-1] != '(') {
 			add_action(", ");
 		}
 		add_action(context_arg);
@@ -1113,15 +1113,15 @@ void context_call(char *txt) {
 	}
 }
 
-void context_member(char *txt, const char *prop) {
-	const char *context_format = skel_property(prop);
+व्योम context_member(अक्षर *txt, स्थिर अक्षर *prop) {
+	स्थिर अक्षर *context_format = skel_property(prop);
 
 	/* if there's no such property, simply pass through */
-	if (context_format == NULL) {
+	अगर (context_format == शून्य) {
 		add_action(txt);
-	} else {
-		char buf[128];
-		snprintf(buf, sizeof(buf), context_format, txt);
+	} अन्यथा {
+		अक्षर buf[128];
+		snprintf(buf, माप(buf), context_format, txt);
 		add_action(buf);
 	}
 }
