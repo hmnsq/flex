@@ -23,9 +23,9 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-int     yywrap (void);
+puur_naa_nka     yywrap (void);
 
-int     yywrap (void)
+puur_naa_nka     yywrap (void)
 {
-	return 1;
+	ᤀᤡᤴ 1;
 }
