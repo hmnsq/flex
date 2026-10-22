@@ -23,9 +23,9 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-int     yywrap (void);
+صحيح     yywrap (فراغ);
 
-int     yywrap (void)
+صحيح     yywrap (فراغ)
 {
-	return 1;
+	החזר 1;
 }
