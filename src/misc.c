@@ -38,16 +38,16 @@
 /* Append "new_text" to the running buffer. */
 void add_action (const char *new_text)
 {
-	int     len = (int) strlen (new_text);
+	целое     len = (целое) strlen (new_text);
 
-	while (len + action_index >= action_size - 10 /* slop */ ) {
+	пока (len + action_index >= action_size - 10 /* slop */ ) {
 
-		if (action_size > INT_MAX / 2)
+		если (action_size > INT_MAX / 2)
 			/* Increase just a little, to try to avoid overflow
 			 * on 16-bit machines.
 			 */
 			action_size += action_size / 8;
-		else
+		иначе
 			action_size = action_size * 2;
 
 		action_array =
@@ -63,45 +63,45 @@ void add_action (const char *new_text)
 
 /* allocate_array - allocate memory for an integer array of the given size */
 
-void   *allocate_array (int size, size_t element_size)
+void   *allocate_array (целое size, size_t element_size)
 {
-	return reallocate_array(NULL, size, element_size);
+	вернуть reallocate_array(NULL, size, element_size);
 }
 
 
 /* all_lower - true if a string is all lower-case */
 
-int all_lower (char *str)
+целое all_lower (char *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !islower ((unsigned char) * str))
-			return 0;
+	пока (*str) {
+		если (!isascii ((unsigned char) * str) || !islower ((unsigned char) * str))
+			вернуть 0;
 		++str;
 	}
 
-	return 1;
+	вернуть 1;
 }
 
 
 /* all_upper - true if a string is all upper-case */
 
-int all_upper (char *str)
+целое all_upper (char *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !isupper ((unsigned char) * str))
-			return 0;
+	пока (*str) {
+		если (!isascii ((unsigned char) * str) || !isupper ((unsigned char) * str))
+			вернуть 0;
 		++str;
 	}
 
-	return 1;
+	вернуть 1;
 }
 
 
 /* intcmp - compares two integers for use by qsort. */
 
-int intcmp (const void *a, const void *b)
+целое intcmp (const void *a, const void *b)
 {
-  return *(const int *) a - *(const int *) b;
+  вернуть *(const целое *) a - *(const целое *) b;
 }
 
 
@@ -110,13 +110,13 @@ int intcmp (const void *a, const void *b)
  *		and exits.
  */
 
-void check_char (int c)
+void check_char (целое c)
 {
-	if (c >= CSIZE)
+	если (c >= CSIZE)
 		lerr (_("bad character '%s' detected in check_char()"),
 			readable_form (c));
 
-	if (c >= ctrl.csize)
+	если (c >= ctrl.csize)
 		lerr (_
 			("scanner requires -8 flag to use the character %s"),
 			readable_form (c));
@@ -126,9 +126,9 @@ void check_char (int c)
 
 /* clower - replace upper-case letter to lower-case */
 
-unsigned char clower (int c)
+unsigned char clower (целое c)
 {
-	return (unsigned char) ((isascii (c) && isupper (c)) ? tolower (c) : c);
+	вернуть (unsigned char) ((isascii (c) && isupper (c)) ? tolower (c) : c);
 }
 
 
@@ -136,24 +136,24 @@ char *xstrdup(const char *s)
 {
 	char *s2;
 
-	if ((s2 = strdup(s)) == NULL)
+	если ((s2 = strdup(s)) == NULL)
 		flexfatal (_("memory allocation failure in xstrdup()"));
 
-	return s2;
+	вернуть s2;
 }
 
 
 /* cclcmp - compares two characters for use by qsort with '\0' sorting last. */
 
-int cclcmp (const void *a, const void *b)
+целое cclcmp (const void *a, const void *b)
 {
-	if (!*(const unsigned char *) a)
-		return 1;
-	else
-		if (!*(const unsigned char *) b)
-			return - 1;
-		else
-			return *(const unsigned char *) a - *(const unsigned char *) b;
+	если (!*(const unsigned char *) a)
+		вернуть 1;
+	иначе
+		если (!*(const unsigned char *) b)
+			вернуть - 1;
+		иначе
+			вернуть *(const unsigned char *) a - *(const unsigned char *) b;
 }
 
 
@@ -162,13 +162,13 @@ int cclcmp (const void *a, const void *b)
 void dataend (const char *endit)
 {
 	/* short circuit any output */
-	if (gentables) {
+	если (gentables) {
 
-		if (datapos > 0)
+		если (datapos > 0)
 			dataflush ();
 
 		/* add terminator for initialization; { for vi */
-		if (endit)
+		если (endit)
 			outn (endit);
 	}
 	dataline = 0;
@@ -182,10 +182,10 @@ void dataflush (void)
 {
 	assert (gentables);
 
-	if (datapos > 0)
+	если (datapos > 0)
 		outc ('\n');
 
-	if (++dataline >= NUMDATALINES) {
+	если (++dataline >= NUMDATALINES) {
 		/* Put out a blank line so that the table is grouped into
 		 * large blocks that enable the user to find elements easily.
 		 */
@@ -246,25 +246,25 @@ void lerr_fatal (const char *msg, ...)
 
 
 /* line_directive_out - spit out a "#line" statement or equivalent */
-void line_directive_out (FILE *output_file, char *path, int linenum)
+void line_directive_out (FILE *output_file, char *path, целое linenum)
 {
 	char	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
 	char    directive[MAXLINE*2], filename[MAXLINE];
 	char   *s1, *s2, *s3;
 
-	if (!ctrl.gen_line_dirs)
-		return;
+	если (!ctrl.gen_line_dirs)
+		вернуть;
 
 	s1 = (path != NULL) ? path : "M4_YY_OUTFILE_NAME";
 
-	if ((path != NULL) && !s1)
+	если ((path != NULL) && !s1)
 		s1 = "<stdin>";
     
 	s2 = filename;
 	s3 = &filename[sizeof (filename) - 2];
 
-	while (s2 < s3 && *s1) {
-		if (*s1 == '\\' || *s1 == '"')
+	пока (s2 < s3 && *s1) {
+		если (*s1 == '\\' || *s1 == '"')
 			/* Escape the '\' or '"' */
 			*s2++ = '\\';
 
@@ -273,19 +273,19 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
 
 	*s2 = '\0';
 
-	if (path != NULL)
+	если (path != NULL)
 		snprintf (directive, sizeof(directive), trace_fmt, linenum, filename);
-	else {
+	иначе {
 		snprintf (directive, sizeof(directive), trace_fmt, 0, filename);
 	}
 
 	/* If output_file is nil then we should put the directive in
 	 * the accumulated actions.
 	 */
-	if (output_file) {
+	если (output_file) {
 		fputs (directive, output_file);
 	}
-	else
+	иначе
 		add_action (directive);
 }
 
@@ -318,22 +318,22 @@ void mark_prolog (void)
  *
  * Generates a data statement initializing the current 2-D array to "value".
  */
-void mk2data (int value)
+void mk2data (целое value)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	если (!gentables)
+		вернуть;
 
-	if (datapos >= NUMDATAITEMS) {
+	если (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	если (datapos == 0)
 		/* Indent. */
 		out ("    ");
 
-	else
+	иначе
 	  outc (',');
 
 	++datapos;
@@ -347,21 +347,21 @@ void mk2data (int value)
  * Generates a data statement initializing the current array element to
  * "value".
  */
-void mkdata (int value)
+void mkdata (целое value)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	если (!gentables)
+		вернуть;
 
-	if (datapos >= NUMDATAITEMS) {
+	если (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	если (datapos == 0)
 		/* Indent. */
 		out ("    ");
-	else
+	иначе
 		outc (',');
 	++datapos;
 
@@ -371,13 +371,13 @@ void mkdata (int value)
 
 /* myctoi - return the integer represented by a string of digits */
 
-int myctoi (const char *array)
+целое myctoi (const char *array)
 {
-	int     val = 0;
+	целое     val = 0;
 
 	(void) sscanf (array, "%d", &val);
 
-	return val;
+	вернуть val;
 }
 
 
@@ -389,19 +389,19 @@ unsigned char myesc (unsigned char array[])
 
 	switch (array[1]) {
 	case 'b':
-		return '\b';
+		вернуть '\b';
 	case 'f':
-		return '\f';
+		вернуть '\f';
 	case 'n':
-		return '\n';
+		вернуть '\n';
 	case 'r':
-		return '\r';
+		вернуть '\r';
 	case 't':
-		return '\t';
+		вернуть '\t';
 	case 'a':
-		return '\a';
+		вернуть '\a';
 	case 'v':
-		return '\v';
+		вернуть '\v';
 	case '0':
 	case '1':
 	case '2':
@@ -411,9 +411,9 @@ unsigned char myesc (unsigned char array[])
 	case '6':
 	case '7':
 		{		/* \<octal> */
-			int     sptr = 1;
+			целое     sptr = 1;
 
-			while (sptr <= 3 &&
+			пока (sptr <= 3 &&
                                array[sptr] >= '0' && array[sptr] <= '7') {
 				++sptr;
 			}
@@ -425,14 +425,14 @@ unsigned char myesc (unsigned char array[])
 
 			array[sptr] = c;
 
-			return esc_char;
+			вернуть esc_char;
 		}
 
 	case 'x':
 		{		/* \x<hex> */
-			int     sptr = 2;
+			целое     sptr = 2;
 
-			while (sptr <= 3 && isxdigit (array[sptr])) {
+			пока (sptr <= 3 && isxdigit (array[sptr])) {
 				/* Don't increment inside loop control
 				 * because if isxdigit() is a macro it might
 				 * expand into multiple increments ...
@@ -447,11 +447,11 @@ unsigned char myesc (unsigned char array[])
 
 			array[sptr] = c;
 
-			return esc_char;
+			вернуть esc_char;
 		}
 
 	default:
-		return array[1];
+		вернуть array[1];
 	}
 }
 
@@ -465,17 +465,17 @@ void out (const char *str)
 	fputs (str, stdout);
 }
 
-void out_dec (const char *fmt, int n)
+void out_dec (const char *fmt, целое n)
 {
 	fprintf (stdout, fmt, n);
 }
 
-void out_dec2 (const char *fmt, int n1, int n2)
+void out_dec2 (const char *fmt, целое n1, целое n2)
 {
 	fprintf (stdout, fmt, n1, n2);
 }
 
-void out_hex (const char *fmt, unsigned int x)
+void out_hex (const char *fmt, unsigned целое x)
 {
 	fprintf (stdout, fmt, x);
 }
@@ -485,12 +485,12 @@ void out_str (const char *fmt, const char str[])
 	fprintf (stdout,fmt, str);
 }
 
-void out_str_dec (const char *fmt, const char str[], int n)
+void out_str_dec (const char *fmt, const char str[], целое n)
 {
 	fprintf (stdout,fmt, str, n);
 }
 
-void outc (int c)
+void outc (целое c)
 {
 	fputc (c, stdout);
 }
@@ -517,71 +517,71 @@ void out_m4_define (const char* def, const char* val)
  * The returned string is in static storage.
  */
 
-char   *readable_form (int c)
+char   *readable_form (целое c)
 {
 	static char rform[20];
 
-	if ((c >= 0 && c < 32) || c >= 127) {
+	если ((c >= 0 && c < 32) || c >= 127) {
 		switch (c) {
 		case '\b':
-			return "\\b";
+			вернуть "\\b";
 		case '\f':
-			return "\\f";
+			вернуть "\\f";
 		case '\n':
-			return "\\n";
+			вернуть "\\n";
 		case '\r':
-			return "\\r";
+			вернуть "\\r";
 		case '\t':
-			return "\\t";
+			вернуть "\\t";
 		case '\a':
-			return "\\a";
+			вернуть "\\a";
 		case '\v':
-			return "\\v";
+			вернуть "\\v";
 		default:
-			if(env.trace_hex)
-				snprintf (rform, sizeof(rform), "\\x%.2x", (unsigned int) c);
-			else
-				snprintf (rform, sizeof(rform), "\\%.3o", (unsigned int) c);
-			return rform;
+			если(env.trace_hex)
+				snprintf (rform, sizeof(rform), "\\x%.2x", (unsigned целое) c);
+			иначе
+				snprintf (rform, sizeof(rform), "\\%.3o", (unsigned целое) c);
+			вернуть rform;
 		}
 	}
 
-	else if (c == ' ')
-		return "' '";
+	иначе если (c == ' ')
+		вернуть "' '";
 
-	else {
+	иначе {
 		rform[0] = (char) c;
 		rform[1] = '\0';
 
-		return rform;
+		вернуть rform;
 	}
 }
 
 
 /* reallocate_array - increase the size of a dynamic array */
 
-void   *reallocate_array (void *array, int size, size_t element_size)
+void   *reallocate_array (void *array, целое size, size_t element_size)
 {
 	void *new_array;
 #ifdef HAVE_REALLOCARR
 	new_array = array;
-	if (reallocarr(&new_array, (size_t) size, element_size)) {
+	если (reallocarr(&new_array, (size_t) size, element_size)) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
 			 * compatibility (for translations): */
 			_("memory allocation failed in allocate_array()"));
 	}
-#else
+#иначе
 # ifdef HAVE_REALLOCARRAY
 	new_array = reallocarray(array, (size_t) size, element_size);
-# else
+# иначе
 	/* Do manual overflow detection */
 	size_t num_bytes = (size_t) size * element_size;
 	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? NULL :
 		realloc(array, num_bytes);
 # endif
-	if (!new_array) {
+	если (!new_array) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
@@ -589,7 +589,7 @@ void   *reallocate_array (void *array, int size, size_t element_size)
 			_("memory allocation failed in allocate_array()"));
 	}
 #endif
-	return new_array;
+	вернуть new_array;
 }
 
 
@@ -599,22 +599,22 @@ void   *reallocate_array (void *array, int size, size_t element_size)
  * element_n.  Formats the output with spaces and carriage returns.
  */
 
-void transition_struct_out (int element_v, int element_n)
+void transition_struct_out (целое element_v, целое element_n)
 {
 
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	если (!gentables)
+		вернуть;
 
 	out_dec2 ("M4_HOOK_TABLE_OPENER[[%4d]],[[%4d]]M4_HOOK_TABLE_CONTINUE", element_v, element_n);
 	outc ('\n');
 
 	datapos += TRANS_STRUCT_PRINT_LENGTH;
 
-	if (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
+	если (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
 		outc ('\n');
 
-		if (++dataline % 10 == 0)
+		если (++dataline % 10 == 0)
 			outc ('\n');
 
 		datapos = 0;
@@ -627,16 +627,16 @@ void transition_struct_out (int element_v, int element_n)
  *
  * XXX: this is should go soon
  */
-void   *yy_flex_xmalloc (int size)
+void   *yy_flex_xmalloc (целое size)
 {
 	void   *result;
 
 	result = malloc((size_t) size);
-	if (!result)
+	если (!result)
 		flexfatal (_
 			   ("memory allocation failed in yy_flex_xmalloc()"));
 
-	return result;
+	вернуть result;
 }
 
 
@@ -647,18 +647,18 @@ char   *chomp (char *str)
 {
 	char   *p = str;
 
-	if (!str || !*str)	/* s is null or empty string */
-		return str;
+	если (!str || !*str)	/* s is null or empty string */
+		вернуть str;
 
 	/* find end of string minus one */
-	while (*p)
+	пока (*p)
 		++p;
 	--p;
 
 	/* eat newlines */
-	while (p >= str && (*p == '\r' || *p == '\n'))
+	пока (p >= str && (*p == '\r' || *p == '\n'))
 		*p-- = 0;
-	return str;
+	вернуть str;
 }
 
 void comment(const char *txt)
@@ -669,10 +669,10 @@ void comment(const char *txt)
 	strncpy(buf, txt, MAXLINE-1);
 	eol = buf[strlen(buf)-1] == '\n';
 
-	if (eol)
+	если (eol)
 		buf[strlen(buf)-1] = '\0';
 	out_str("M4_HOOK_COMMENT_OPEN [[%s]] M4_HOOK_COMMENT_CLOSE", buf);
-	if (eol)
+	если (eol)
 		outc ('\n');
 }
 

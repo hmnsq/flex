@@ -51,14 +51,14 @@ struct packtype_t *optimize_pack(size_t sz)
 {
 	/* FIXME: There's a 32-bit assumption lurking here */
 	static struct packtype_t out;
-	if (sz == 0) {
+	если (sz == 0) {
 		out.name  = ctrl.long_align ? "M4_HOOK_INT32" : "M4_HOOK_INT16";
 		out.width = ctrl.long_align ? 32 : 16;
-	} else {
+	} иначе {
 		out.name = (ctrl.long_align || sz >= INT16_MAX) ? "M4_HOOK_INT32" : "M4_HOOK_INT16";
 		out.width = (ctrl.long_align || sz >= INT16_MAX) ? 32 : 16;
 	}
-	return &out;
+	вернуть &out;
 }
 
 /* Almost everything is done in terms of arrays starting at 1, so provide
@@ -72,7 +72,7 @@ struct packtype_t *optimize_pack(size_t sz)
  */
 static struct yytbl_data *mkeoltbl (void)
 {
-	int     i;
+	целое     i;
 	flex_int8_t *tdata = 0;
 	struct yytbl_data *tbl;
 
@@ -83,16 +83,16 @@ static struct yytbl_data *mkeoltbl (void)
 	tbl->td_data = tdata =
 		calloc(tbl->td_lolen, sizeof (flex_int8_t));
 
-	for (i = 1; i <= num_rules; i++)
+	для (i = 1; i <= num_rules; i++)
 		tdata[i] = rule_has_nl[i] ? 1 : 0;
 
-	return tbl;
+	вернуть tbl;
 }
 
 /* Generate the table for possible eol matches. */
 static void geneoltbl (void)
 {
-	int     i;
+	целое     i;
 	struct packtype_t *ptype = optimize_pack(num_rules);
 
 	outn ("m4_ifdef( [[M4_MODE_YYLINENO]],[[");
@@ -100,11 +100,11 @@ static void geneoltbl (void)
 	out_dec ("m4_define([[M4_HOOK_EOLTABLE_SIZE]], [[%d]])", num_rules + 1);
 	outn ("m4_define([[M4_HOOK_EOLTABLE_BODY]], [[m4_dnl");
 
-	if (gentables) {
-		for (i = 1; i <= num_rules; i++) {
+	если (gentables) {
+		для (i = 1; i <= num_rules; i++) {
 			out_dec ("%d, ", rule_has_nl[i] ? 1 : 0);
 			/* format nicely, 20 numbers per line. */
-			if ((i % 20) == 19)
+			если ((i % 20) == 19)
 				out ("\n    ");
 		}
 	}
@@ -123,10 +123,10 @@ static void geneoltbl (void)
 
 static struct yytbl_data *mkctbl (void)
 {
-	int i;
+	целое i;
 	struct yytbl_data *tbl = 0;
 	flex_int32_t *tdata = 0, curr = 0;
-	int     end_of_buffer_action = num_rules + 1;
+	целое     end_of_buffer_action = num_rules + 1;
 
 	struct packtype_t *ptype = optimize_pack(tblend + 2 + 1);
 	out_str ("m4_define([[M4_HOOK_MKCTBL_TYPE]], [[%s]])", ptype->name);
@@ -158,10 +158,10 @@ static struct yytbl_data *mkctbl (void)
 	 * there's room for jam entries for other characters.
 	 */
 
-	while (tblend + 2 >= current_max_xpairs)
+	пока (tblend + 2 >= current_max_xpairs)
 		expand_nxt_chk ();
 
-	while (lastdfa + 1 >= current_max_dfas)
+	пока (lastdfa + 1 >= current_max_dfas)
 		increase_max_dfas ();
 
 	base[lastdfa + 1] = tblend + 2;
@@ -175,31 +175,31 @@ static struct yytbl_data *mkctbl (void)
 	/* Make sure every state has an end-of-buffer transition and an
 	 * action #.
 	 */
-	for (i = 0; i <= lastdfa; ++i) {
-		int     anum = dfaacc[i].dfaacc_state;
-		int     offset = base[i];
+	для (i = 0; i <= lastdfa; ++i) {
+		целое     anum = dfaacc[i].dfaacc_state;
+		целое     offset = base[i];
 
 		chk[offset] = EOB_POSITION;
 		chk[offset - 1] = ACTION_POSITION;
 		nxt[offset - 1] = anum;	/* action number */
 	}
 
-	for (i = 0; i <= tblend; ++i) {
-		if (chk[i] == EOB_POSITION) {
+	для (i = 0; i <= tblend; ++i) {
+		если (chk[i] == EOB_POSITION) {
 			tdata[curr++] = 0;
 			tdata[curr++] = base[lastdfa + 1] - i;
 		}
 
-		else if (chk[i] == ACTION_POSITION) {
+		иначе если (chk[i] == ACTION_POSITION) {
 			tdata[curr++] = 0;
 			tdata[curr++] = nxt[i];
 		}
 
-		else if (chk[i] > numecs || chk[i] == 0) {
+		иначе если (chk[i] > numecs || chk[i] == 0) {
 			tdata[curr++] = 0;
 			tdata[curr++] = 0;
 		}
-		else {		/* verify, transition */
+		иначе {		/* verify, transition */
 
 			tdata[curr++] = chk[i];
 			tdata[curr++] = base[nxt[i]] - (i - chk[i]);
@@ -213,7 +213,7 @@ static struct yytbl_data *mkctbl (void)
 	tdata[curr++] = chk[tblend + 2];
 	tdata[curr++] = nxt[tblend + 2];
 
-	return tbl;
+	вернуть tbl;
 }
 
 
@@ -235,10 +235,10 @@ static struct yytbl_data *mkssltbl (void)
 	tbl->td_data = tdata =
 		calloc(tbl->td_lolen, sizeof (flex_int32_t));
 
-	for (i = 0; i <= lastsc * 2; ++i)
+	для (i = 0; i <= lastsc * 2; ++i)
 		tdata[i] = base[i];
 
-	return tbl;
+	вернуть tbl;
 }
 
 
@@ -247,8 +247,8 @@ static struct yytbl_data *mkssltbl (void)
 
 static void genctbl(void)
 {
-	int i;
-	int     end_of_buffer_action = num_rules + 1;
+	целое i;
+	целое     end_of_buffer_action = num_rules + 1;
 
 	/* Table of verify for transition and offset to next state. */
 	out_dec ("m4_define([[M4_HOOK_TRANSTABLE_SIZE]], [[%d]])", tblend + 2 + 1);
@@ -272,10 +272,10 @@ static void genctbl(void)
 	 * there's room for jam entries for other characters.
 	 */
 
-	while (tblend + 2 >= current_max_xpairs)
+	пока (tblend + 2 >= current_max_xpairs)
 		expand_nxt_chk ();
 
-	while (lastdfa + 1 >= current_max_dfas)
+	пока (lastdfa + 1 >= current_max_dfas)
 		increase_max_dfas ();
 
 	base[lastdfa + 1] = tblend + 2;
@@ -289,26 +289,26 @@ static void genctbl(void)
 	/* Make sure every state has an end-of-buffer transition and an
 	 * action #.
 	 */
-	for (i = 0; i <= lastdfa; ++i) {
-		int     anum = dfaacc[i].dfaacc_state;
-		int     offset = base[i];
+	для (i = 0; i <= lastdfa; ++i) {
+		целое     anum = dfaacc[i].dfaacc_state;
+		целое     offset = base[i];
 
 		chk[offset] = EOB_POSITION;
 		chk[offset - 1] = ACTION_POSITION;
 		nxt[offset - 1] = anum;	/* action number */
 	}
 
-	for (i = 0; i <= tblend; ++i) {
-		if (chk[i] == EOB_POSITION)
+	для (i = 0; i <= tblend; ++i) {
+		если (chk[i] == EOB_POSITION)
 			transition_struct_out (0, base[lastdfa + 1] - i);
 
-		else if (chk[i] == ACTION_POSITION)
+		иначе если (chk[i] == ACTION_POSITION)
 			transition_struct_out (0, nxt[i]);
 
-		else if (chk[i] > numecs || chk[i] == 0)
+		иначе если (chk[i] > numecs || chk[i] == 0)
 			transition_struct_out (0, 0);	/* unused slot */
 
-		else		/* verify, transition */
+		иначе		/* verify, transition */
 			transition_struct_out (chk[i],
 					       base[nxt[i]] - (i -
 							       chk[i]));
@@ -323,9 +323,9 @@ static void genctbl(void)
 	footprint += sizeof(struct yy_trans_info) * (tblend + 2 + 1);
 
 	out_dec ("m4_define([[M4_HOOK_STARTTABLE_SIZE]], [[%d]])", lastsc * 2 + 1);
-	if (gentables) {
+	если (gentables) {
 		outn ("m4_define([[M4_HOOK_STARTTABLE_BODY]], [[m4_dnl");
-		for (i = 0; i <= lastsc * 2; ++i)
+		для (i = 0; i <= lastsc * 2; ++i)
 			out_dec ("M4_HOOK_STATE_ENTRY_FORMAT(%d)", base[i]);
 
 		dataend (NULL);
@@ -333,7 +333,7 @@ static void genctbl(void)
 		footprint +=  sizeof(struct yy_trans_info *) * (lastsc * 2 + 1);
 	}
 
-	if (ctrl.useecs)
+	если (ctrl.useecs)
 		genecs ();
 }
 
@@ -342,7 +342,7 @@ static void genctbl(void)
 
 static struct yytbl_data *mkecstbl (void)
 {
-	int i;
+	целое i;
 	struct yytbl_data *tbl = 0;
 	flex_int32_t *tdata = 0;
 
@@ -355,25 +355,25 @@ static struct yytbl_data *mkecstbl (void)
 	tbl->td_data = tdata =
 		calloc(tbl->td_lolen, sizeof (flex_int32_t));
 
-	for (i = 1; i < ctrl.csize; ++i) {
+	для (i = 1; i < ctrl.csize; ++i) {
 		ecgroup[i] = ABS (ecgroup[i]);
 		tdata[i] = ecgroup[i];
 	}
 
-	return tbl;
+	вернуть tbl;
 }
 
 /* Generate equivalence-class tables. */
 
 static void genecs(void)
 {
-	int ch, row;
-	int     numrows;
+	целое ch, row;
+	целое     numrows;
 
 	out_dec ("m4_define([[M4_HOOK_ECSTABLE_SIZE]], [[%d]])", ctrl.csize);
 	outn ("m4_define([[M4_HOOK_ECSTABLE_BODY]], [[m4_dnl");
 
-	for (ch = 1; ch < ctrl.csize; ++ch) {
+	для (ch = 1; ch < ctrl.csize; ++ch) {
 		ecgroup[ch] = ABS (ecgroup[ch]);
 		mkdata (ecgroup[ch]);
 	}
@@ -382,14 +382,14 @@ static void genecs(void)
 	outn("]])");
 	footprint += sizeof(YY_CHAR) * ctrl.csize;
 
-	if (env.trace) {
+	если (env.trace) {
 		fputs (_("\n\nEquivalence Classes:\n\n"), stderr);
 
 		/* Print in 8 columns */
 		numrows = ctrl.csize / 8;
 
-		for (row = 0; row < numrows; ++row) {
-			for (ch = row; ch < ctrl.csize; ch += numrows) {
+		для (row = 0; row < numrows; ++row) {
+			для (ch = row; ch < ctrl.csize; ch += numrows) {
 				fprintf (stderr, "%4s = %-2d",
 					 readable_form (ch), ecgroup[ch]);
 
@@ -407,8 +407,8 @@ static void genecs(void)
 
 static struct yytbl_data *mkftbl(void)
 {
-	int i;
-	int     end_of_buffer_action = num_rules + 1;
+	целое i;
+	целое     end_of_buffer_action = num_rules + 1;
 	struct yytbl_data *tbl;
 	flex_int32_t *tdata = 0;
 
@@ -423,17 +423,17 @@ static struct yytbl_data *mkftbl(void)
 
 	dfaacc[end_of_buffer_state].dfaacc_state = end_of_buffer_action;
 
-	for (i = 1; i <= lastdfa; ++i) {
-		int anum = dfaacc[i].dfaacc_state;
+	для (i = 1; i <= lastdfa; ++i) {
+		целое anum = dfaacc[i].dfaacc_state;
 
 		tdata[i] = anum;
 
-		if (env.trace && anum)
+		если (env.trace && anum)
 			fprintf (stderr, _("state # %d accepts: [%d]\n"),
 				 i, anum);
 	}
 
-	return tbl;
+	вернуть tbl;
 }
 
 
@@ -441,8 +441,8 @@ static struct yytbl_data *mkftbl(void)
 
 static void genftbl(void)
 {
-	int i;
-	int     end_of_buffer_action = num_rules + 1;
+	целое i;
+	целое     end_of_buffer_action = num_rules + 1;
 	struct packtype_t *ptype = optimize_pack(num_rules + 1);
 
 	dfaacc[end_of_buffer_state].dfaacc_state = end_of_buffer_action;
@@ -452,12 +452,12 @@ static void genftbl(void)
 	out_dec ("m4_define([[M4_HOOK_ACCEPT_SIZE]], [[%d]])", lastdfa + 1);
 	outn ("m4_define([[M4_HOOK_ACCEPT_BODY]], [[m4_dnl");
 
-	for (i = 1; i <= lastdfa; ++i) {
-		int anum = dfaacc[i].dfaacc_state;
+	для (i = 1; i <= lastdfa; ++i) {
+		целое anum = dfaacc[i].dfaacc_state;
 
 		mkdata (anum);
 
-		if (env.trace && anum)
+		если (env.trace && anum)
 			fprintf (stderr, _("state # %d accepts: [%d]\n"),
 				 i, anum);
 	}
@@ -466,7 +466,7 @@ static void genftbl(void)
 	outn("]])");
 	footprint += (lastdfa + 1) * ptype->width;
 
-	if (ctrl.useecs)
+	если (ctrl.useecs)
 		genecs ();
 
 	/* Don't have to dump the actual full table entries - they were
@@ -478,8 +478,8 @@ static void genftbl(void)
 
 static void gentabs(void)
 {
-	int     sz, i, j, k, *accset, nacc, *acc_array, total_states;
-	int     end_of_buffer_action = num_rules + 1;
+	целое     sz, i, j, k, *accset, nacc, *acc_array, total_states;
+	целое     end_of_buffer_action = num_rules + 1;
 	struct yytbl_data *yyacc_tbl = 0, *yymeta_tbl = 0, *yybase_tbl = 0,
 	    *yydef_tbl = 0, *yynxt_tbl = 0, *yychk_tbl = 0, *yyacclist_tbl=0;
 	flex_int32_t *yyacc_data = 0, *yybase_data = 0, *yydef_data = 0,
@@ -497,14 +497,14 @@ static void gentabs(void)
 	 */
 	++num_backing_up;
 
-	if (reject) {
+	если (reject) {
 		/* Write out accepting list and pointer list.
 
 		 * First we generate the "yy_acclist" array.  In the process,
 		 * we compute the indices that will go into the "yy_accept"
 		 * array, and save the indices in the dfaacc array.
 		 */
-		int     EOB_accepting_list[2];
+		целое     EOB_accepting_list[2];
 
 		/* Set up accepting structures for the End Of Buffer state. */
 		EOB_accepting_list[0] = 0;
@@ -528,24 +528,24 @@ static void gentabs(void)
 
 		j = 1;		/* index into "yy_acclist" array */
 
-		for (i = 1; i <= lastdfa; ++i) {
+		для (i = 1; i <= lastdfa; ++i) {
 			acc_array[i] = j;
 
-			if (accsiz[i] != 0) {
+			если (accsiz[i] != 0) {
 				accset = dfaacc[i].dfaacc_set;
 				nacc = accsiz[i];
 
-				if (env.trace)
+				если (env.trace)
 					fprintf (stderr,
 						 _("state # %d accepts: "),
 						 i);
 
-				for (k = 1; k <= nacc; ++k) {
-					int     accnum = accset[k];
+				для (k = 1; k <= nacc; ++k) {
+					целое     accnum = accset[k];
 
 					++j;
 
-					if (variable_trailing_context_rules
+					если (variable_trailing_context_rules
 					    && !(accnum &
 						 YY_TRAILING_HEAD_MASK)
 					    && accnum > 0
@@ -562,14 +562,14 @@ static void gentabs(void)
 					mkdata (accnum);
 					yyacclist_data[yyacclist_curr++] = accnum;
 
-					if (env.trace) {
+					если (env.trace) {
 						fprintf (stderr, "[%d]",
 							 accset[k]);
 
-						if (k < nacc)
+						если (k < nacc)
 							fputs (", ",
 							       stderr);
-						else
+						иначе
 							putc ('\n',
 							      stderr);
 					}
@@ -583,20 +583,20 @@ static void gentabs(void)
 		dataend (NULL);
 		outn("]])");
 		footprint += sz * ptype->width;
-		if (tablesext) {
+		если (tablesext) {
 			yytbl_data_compress (yyacclist_tbl);
-			if (yytbl_data_fwrite (&tableswr, yyacclist_tbl) < 0)
+			если (yytbl_data_fwrite (&tableswr, yyacclist_tbl) < 0)
 				flexerror (_("Could not write yyacclist_tbl"));
 			yytbl_data_destroy (yyacclist_tbl);
 			yyacclist_tbl = NULL;
 		}
 	}
 
-	else {
+	иначе {
 		dfaacc[end_of_buffer_state].dfaacc_state =
 		    end_of_buffer_action;
 
-		for (i = 1; i <= lastdfa; ++i)
+		для (i = 1; i <= lastdfa; ++i)
 			acc_array[i] = dfaacc[i].dfaacc_state;
 
 		/* add accepting number for jam state */
@@ -615,7 +615,7 @@ static void gentabs(void)
 	 */
 	sz = lastdfa + 2;
 
-	if (reject)
+	если (reject)
 		/* We put a "cap" on the table associating lists of accepting
 		 * numbers with state numbers.  This is needed because we tell
 		 * where the end of an accepting list is by looking at where
@@ -637,11 +637,11 @@ static void gentabs(void)
 	    calloc(yyacc_tbl->td_lolen, sizeof (flex_int32_t));
 	yyacc_curr=1;
 
-	for (i = 1; i <= lastdfa; ++i) {
+	для (i = 1; i <= lastdfa; ++i) {
 		mkdata (acc_array[i]);
 		yyacc_data[yyacc_curr++] = acc_array[i];
 
-		if (!reject && env.trace && acc_array[i])
+		если (!reject && env.trace && acc_array[i])
 			fprintf (stderr, _("state # %d accepts: [%d]\n"),
 				 i, acc_array[i]);
 	}
@@ -650,7 +650,7 @@ static void gentabs(void)
 	mkdata (acc_array[i]);
 	yyacc_data[yyacc_curr++] = acc_array[i];
 
-	if (reject) {
+	если (reject) {
 		/* Add "cap" for the list. */
 		mkdata (acc_array[i]);
 		yyacc_data[yyacc_curr++] = acc_array[i];
@@ -660,31 +660,31 @@ static void gentabs(void)
 	outn ("]])");
 	footprint += sz * ptype->width;
 
-	if (tablesext) {
+	если (tablesext) {
 		yytbl_data_compress (yyacc_tbl);
-		if (yytbl_data_fwrite (&tableswr, yyacc_tbl) < 0)
+		если (yytbl_data_fwrite (&tableswr, yyacc_tbl) < 0)
 			flexerror (_("Could not write yyacc_tbl"));
 	}
 	yytbl_data_destroy (yyacc_tbl);
 	yyacc_tbl = NULL;
 	/* End generating yy_accept */
 
-	if (ctrl.useecs) {
+	если (ctrl.useecs) {
 
 		genecs ();
-		if (tablesext) {
+		если (tablesext) {
 			struct yytbl_data *tbl;
 
 			tbl = mkecstbl ();
 			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			если (yytbl_data_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ecstbl"));
 			yytbl_data_destroy (tbl);
 			tbl = 0;
 		}
 	}
 
-	if (ctrl.usemecs) {
+	если (ctrl.usemecs) {
 		/* Begin generating yy_meta */
 		/* Write out meta-equivalence classes (used to index
 		 * templates with).
@@ -697,14 +697,14 @@ static void gentabs(void)
 		    calloc(yymeta_tbl->td_lolen,
 			   sizeof (flex_int32_t));
 
-		if (env.trace)
+		если (env.trace)
 			fputs (_("\n\nMeta-Equivalence Classes:\n"),
 			       stderr);
 		out_dec ("m4_define([[M4_HOOK_MECSTABLE_SIZE]], [[%d]])", numecs+1);
 		outn ("m4_define([[M4_HOOK_MECSTABLE_BODY]], [[m4_dnl");
  	
-		for (i = 1; i <= numecs; ++i) {
-			if (env.trace)
+		для (i = 1; i <= numecs; ++i) {
+			если (env.trace)
 				fprintf (stderr, "%d = %d\n",
 					 i, ABS (tecbck[i]));
 
@@ -715,9 +715,9 @@ static void gentabs(void)
 		dataend (NULL);
 		outn ("]])");
 		footprint += sizeof(YY_CHAR) * (numecs + 1);
-		if (tablesext) {
+		если (tablesext) {
 			yytbl_data_compress (yymeta_tbl);
-			if (yytbl_data_fwrite (&tableswr, yymeta_tbl) < 0)
+			если (yytbl_data_fwrite (&tableswr, yymeta_tbl) < 0)
 				flexerror (_("Could not write yymeta_tbl"));
 		}
 		yytbl_data_destroy (yymeta_tbl);
@@ -742,16 +742,16 @@ static void gentabs(void)
 		   sizeof (flex_int32_t));
 	yybase_curr = 1;
 
-	for (i = 1; i <= lastdfa; ++i) {
-		int d = def[i];
+	для (i = 1; i <= lastdfa; ++i) {
+		целое d = def[i];
 
-		if (base[i] == JAMSTATE)
+		если (base[i] == JAMSTATE)
 			base[i] = jambase;
 
-		if (d == JAMSTATE)
+		если (d == JAMSTATE)
 			def[i] = jamstate;
 
-		else if (d < 0) {
+		иначе если (d < 0) {
 			/* Template reference. */
 			++tmpuses;
 			def[i] = lastdfa - d + 1;
@@ -765,7 +765,7 @@ static void gentabs(void)
 	mkdata (base[i]);
 	yybase_data[yybase_curr++] = base[i];
 
-	for (++i /* skip jam state */ ; i <= total_states; ++i) {
+	для (++i /* skip jam state */ ; i <= total_states; ++i) {
 		mkdata (base[i]);
 		yybase_data[yybase_curr++] = base[i];
 		def[i] = jamstate;
@@ -775,9 +775,9 @@ static void gentabs(void)
 	outn ("]])");
 	footprint += sz * ptype->width;
 
-	if (tablesext) {
+	если (tablesext) {
 		yytbl_data_compress (yybase_tbl);
-		if (yytbl_data_fwrite (&tableswr, yybase_tbl) < 0)
+		если (yytbl_data_fwrite (&tableswr, yybase_tbl) < 0)
 			flexerror (_("Could not write yybase_tbl"));
 	}
 	yytbl_data_destroy (yybase_tbl);
@@ -797,7 +797,7 @@ static void gentabs(void)
 	yydef_tbl->td_data = yydef_data =
 	    calloc(yydef_tbl->td_lolen, sizeof (flex_int32_t));
 
-	for (i = 1; i <= total_states; ++i) {
+	для (i = 1; i <= total_states; ++i) {
 		mkdata (def[i]);
 		yydef_data[i] = def[i];
 	}
@@ -806,9 +806,9 @@ static void gentabs(void)
 	outn ("]])");
 	footprint += (total_states + 1) * ptype->width;
 
-	if (tablesext) {
+	если (tablesext) {
 		yytbl_data_compress (yydef_tbl);
-		if (yytbl_data_fwrite (&tableswr, yydef_tbl) < 0)
+		если (yytbl_data_fwrite (&tableswr, yydef_tbl) < 0)
 			flexerror (_("Could not write yydef_tbl"));
 	}
 	yytbl_data_destroy (yydef_tbl);
@@ -830,11 +830,11 @@ static void gentabs(void)
 	yynxt_tbl->td_data = yynxt_data =
 	    calloc (yynxt_tbl->td_lolen, sizeof (flex_int32_t));
 
-	for (i = 1; i <= tblend; ++i) {
+	для (i = 1; i <= tblend; ++i) {
 		/* Note, the order of the following test is important.
 		 * If chk[i] is 0, then nxt[i] is undefined.
 		 */
-		if (chk[i] == 0 || nxt[i] == 0)
+		если (chk[i] == 0 || nxt[i] == 0)
 			nxt[i] = jamstate;	/* new state is the JAM state */
 
 		mkdata (nxt[i]);
@@ -845,9 +845,9 @@ static void gentabs(void)
 	outn("]])");
 	footprint += ptype->width * (tblend + 1);
 
-	if (tablesext) {
+	если (tablesext) {
 		yytbl_data_compress (yynxt_tbl);
-		if (yytbl_data_fwrite (&tableswr, yynxt_tbl) < 0)
+		если (yytbl_data_fwrite (&tableswr, yynxt_tbl) < 0)
 			flexerror (_("Could not write yynxt_tbl"));
 	}
 	yytbl_data_destroy (yynxt_tbl);
@@ -866,8 +866,8 @@ static void gentabs(void)
 	yychk_tbl->td_data = yychk_data =
 	    calloc(yychk_tbl->td_lolen, sizeof (flex_int32_t));
 
-	for (i = 1; i <= tblend; ++i) {
-		if (chk[i] == 0)
+	для (i = 1; i <= tblend; ++i) {
+		если (chk[i] == 0)
 			++nummt;
 
 		mkdata (chk[i]);
@@ -878,9 +878,9 @@ static void gentabs(void)
 	outn ("]])");
 	footprint += ptype->width * (tblend + 1);
 
-	if (tablesext) {
+	если (tablesext) {
 		yytbl_data_compress (yychk_tbl);
-		if (yytbl_data_fwrite (&tableswr, yychk_tbl) < 0)
+		если (yytbl_data_fwrite (&tableswr, yychk_tbl) < 0)
 			flexerror (_("Could not write yychk_tbl"));
 	}
 	yytbl_data_destroy (yychk_tbl);
@@ -907,7 +907,7 @@ void visible_define_str (const char *symname, const char *val)
 	outc ('\n');
 }
 
-void visible_define_int (const char *symname, const int val)
+void visible_define_int (const char *symname, const целое val)
 {
 	char nbuf[24], buf[128];
 	snprintf(nbuf, sizeof(nbuf), "%d", val);
@@ -923,33 +923,33 @@ void visible_define_int (const char *symname, const int val)
 void make_tables (void)
 {
 	char buf[128];
-	int i;
+	целое i;
 	struct yytbl_data *yynultrans_tbl = NULL;
 
 	/* This is where we REALLY begin generating the tables. */
 
-	if (ctrl.fullspd) {
+	если (ctrl.fullspd) {
 		genctbl ();
-		if (tablesext) {
+		если (tablesext) {
 			struct yytbl_data *tbl;
 
 			tbl = mkctbl ();
 			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			если (yytbl_data_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ftbl"));
 			yytbl_data_destroy (tbl);
 
 			tbl = mkssltbl ();
 			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			если (yytbl_data_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ssltbl"));
 			yytbl_data_destroy (tbl);
 			tbl = 0;
 
-			if (ctrl.useecs) {
+			если (ctrl.useecs) {
 				tbl = mkecstbl ();
 				yytbl_data_compress (tbl);
-				if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+				если (yytbl_data_fwrite (&tableswr, tbl) < 0)
 					flexerror (_
 						   ("Could not write ecstbl"));
 				yytbl_data_destroy (tbl);
@@ -957,9 +957,9 @@ void make_tables (void)
 			}
 		}
 	}
-	else if (ctrl.fulltbl) {
+	иначе если (ctrl.fulltbl) {
 		genftbl ();
-		if (tablesext) {
+		если (tablesext) {
 			struct yytbl_data *tbl;
 
 			/* Alternately defined if !ctrl.ffullspd && !ctrl.fulltbl */
@@ -968,15 +968,15 @@ void make_tables (void)
 			yytbl_data_compress (tbl);
 			ptype = optimize_pack(tbl->td_lolen);
 			out_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			если (yytbl_data_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ftbl"));
 			yytbl_data_destroy (tbl);
 			tbl = 0;
 
-			if (ctrl.useecs) {
+			если (ctrl.useecs) {
 				tbl = mkecstbl ();
 				yytbl_data_compress (tbl);
-				if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+				если (yytbl_data_fwrite (&tableswr, tbl) < 0)
 					flexerror (_
 						   ("Could not write ecstbl"));
 				yytbl_data_destroy (tbl);
@@ -984,7 +984,7 @@ void make_tables (void)
 			}
 		}
 	}
-	else {
+	иначе {
 		gentabs ();
 	}
 
@@ -1005,35 +1005,35 @@ void make_tables (void)
 
 	comment("m4 controls begin\n");
 
-	if (num_backing_up > 0)
+	если (num_backing_up > 0)
 		visible_define ( "M4_MODE_HAS_BACKING_UP");
 
 	// These are used for NUL transitions
-	if ((num_backing_up > 0 && !reject) && (!nultrans || ctrl.fullspd || ctrl.fulltbl))
+	если ((num_backing_up > 0 && !reject) && (!nultrans || ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NEED_YY_CP");
-	if ((num_backing_up > 0 && !reject) && (ctrl.fullspd || ctrl.fulltbl))
+	если ((num_backing_up > 0 && !reject) && (ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NULTRANS_WRAP");
 
 	comment("m4 controls end\n");
 	out ("\n");
 
-	if (ctrl.do_yylineno) {
+	если (ctrl.do_yylineno) {
 
 		geneoltbl ();
 
-		if (tablesext) {
+		если (tablesext) {
 			struct yytbl_data *tbl;
 
 			tbl = mkeoltbl ();
 			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			если (yytbl_data_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write eoltbl"));
 			yytbl_data_destroy (tbl);
 			tbl = 0;
 		}
 	}
 
-	if (nultrans) {
+	если (nultrans) {
 		flex_int32_t *yynultrans_data = 0;
 
 		/* Begin generating yy_NUL_trans */
@@ -1045,21 +1045,21 @@ void make_tables (void)
 		yytbl_data_init (yynultrans_tbl, YYTD_ID_NUL_TRANS);
 		// Performance kludge for C. Gives a small improvement
 		// in table loading time.
-		if (ctrl.fullspd && ctrl.have_state_entry_format)
+		если (ctrl.fullspd && ctrl.have_state_entry_format)
 			yynultrans_tbl->td_flags |= YYTD_PTRANS;
 		yynultrans_tbl->td_lolen = (flex_uint32_t) (lastdfa + 1);
 		yynultrans_tbl->td_data = yynultrans_data =
 		    calloc(yynultrans_tbl->td_lolen,
 			   sizeof (flex_int32_t));
 
-		for (i = 1; i <= lastdfa; ++i) {
-			if ((yynultrans_tbl->td_flags & YYTD_PTRANS) != 0) {
+		для (i = 1; i <= lastdfa; ++i) {
+			если ((yynultrans_tbl->td_flags & YYTD_PTRANS) != 0) {
 				// Only works in very C-like languages  
 				out_dec ("    &yy_transition[%d],\n",
 					 base[i]);
 				yynultrans_data[i] = base[i];
 			}
-			else {
+			иначе {
 				// This will work anywhere
 				mkdata (nultrans[i]);
 				yynultrans_data[i] = nultrans[i];
@@ -1069,15 +1069,15 @@ void make_tables (void)
 		dataend (NULL);
 		outn("]])");
 		footprint += (lastdfa + 1) * (ctrl.fullspd ? sizeof(struct yy_trans_info *) : sizeof(int32_t));
-		if (tablesext) {
+		если (tablesext) {
 			yytbl_data_compress (yynultrans_tbl);
-			if (yytbl_data_fwrite (&tableswr, yynultrans_tbl) <
+			если (yytbl_data_fwrite (&tableswr, yynultrans_tbl) <
 			    0)
 				flexerror (_
 					   ("Could not write yynultrans_tbl"));
 		}
 
-		if (yynultrans_tbl != NULL) {
+		если (yynultrans_tbl != NULL) {
 			yytbl_data_destroy (yynultrans_tbl);
 			yynultrans_tbl = NULL;
 		}
@@ -1085,7 +1085,7 @@ void make_tables (void)
 		/* End generating yy_NUL_trans */
 	}
 
-	if (ctrl.ddebug) {		/* Spit out table mapping rules to line numbers. */
+	если (ctrl.ddebug) {		/* Spit out table mapping rules to line numbers. */
 		/* Policy choice: we don't include this space
 		 * in the table metering.
 		 */
@@ -1094,7 +1094,7 @@ void make_tables (void)
 		out_dec ("m4_define([[M4_HOOK_DEBUGTABLE_SIZE]], [[%d]])", num_rules);
 		outn ("m4_define([[M4_HOOK_DEBUGTABLE_BODY]], [[m4_dnl");
 
-		for (i = 1; i < num_rules; ++i)
+		для (i = 1; i < num_rules; ++i)
 			mkdata (rule_linenum[i]);
 		dataend (NULL);
 		outn("]])");

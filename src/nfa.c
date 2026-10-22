@@ -38,8 +38,8 @@
 
 /* declare functions that have forward references */
 
-int	dupmachine(int);
-void	mkxtion(int, int);
+целое	dupmachine(целое);
+void	mkxtion(целое, целое);
 
 
 /* add_accept - add an accepting state to a machine
@@ -47,7 +47,7 @@ void	mkxtion(int, int);
  * accepting_number becomes mach's accepting number.
  */
 
-void    add_accept (int mach, int accepting_number)
+void    add_accept (целое mach, целое accepting_number)
 {
 	/* Hang the accepting number off an epsilon state.  if it is associated
 	 * with a state that has a non-epsilon out-transition, then the state
@@ -55,11 +55,11 @@ void    add_accept (int mach, int accepting_number)
 	 * too soon.
 	 */
 
-	if (transchar[finalst[mach]] == SYM_EPSILON)
+	если (transchar[finalst[mach]] == SYM_EPSILON)
 		accptnum[finalst[mach]] = accepting_number;
 
-	else {
-		int     astate = mkstate (SYM_EPSILON);
+	иначе {
+		целое     astate = mkstate (SYM_EPSILON);
 
 		accptnum[astate] = accepting_number;
 		(void) link_machines (mach, astate);
@@ -78,24 +78,24 @@ void    add_accept (int mach, int accepting_number)
  *     num    - the number of copies of singl to be present in newsng
  */
 
-int     copysingl (int singl, int num)
+целое     copysingl (целое singl, целое num)
 {
-	int     copy, i;
+	целое     copy, i;
 
 	copy = mkstate (SYM_EPSILON);
 
-	for (i = 1; i <= num; ++i)
+	для (i = 1; i <= num; ++i)
 		copy = link_machines (copy, dupmachine (singl));
 
-	return copy;
+	вернуть copy;
 }
 
 
 /* dumpnfa - debugging routine to write out an nfa */
 
-void    dumpnfa (int state1)
+void    dumpnfa (целое state1)
 {
-	int     sym, tsp1, tsp2, anum, ns;
+	целое     sym, tsp1, tsp2, anum, ns;
 
 	fprintf (stderr,
 		 _
@@ -109,7 +109,7 @@ void    dumpnfa (int state1)
 	 */
 
 	/* for ( ns = firstst[state1]; ns <= lastst[state1]; ++ns ) */
-	for (ns = 1; ns <= lastnfa; ++ns) {
+	для (ns = 1; ns <= lastnfa; ++ns) {
 		fprintf (stderr, _("state # %4d\t"), ns);
 
 		sym = transchar[ns];
@@ -119,7 +119,7 @@ void    dumpnfa (int state1)
 
 		fprintf (stderr, "%3d:  %4d, %4d", sym, tsp1, tsp2);
 
-		if (anum != NIL)
+		если (anum != NIL)
 			fprintf (stderr, "  [%d]", anum);
 
 		fprintf (stderr, "\n");
@@ -146,19 +146,19 @@ void    dumpnfa (int state1)
  * states accessible by the arrays firstst and lastst
  */
 
-int     dupmachine (int mach)
+целое     dupmachine (целое mach)
 {
-	int     i, init, state_offset;
-	int     state = 0;
-	int     last = lastst[mach];
+	целое     i, init, state_offset;
+	целое     state = 0;
+	целое     last = lastst[mach];
 
-	for (i = firstst[mach]; i <= last; ++i) {
+	для (i = firstst[mach]; i <= last; ++i) {
 		state = mkstate (transchar[i]);
 
-		if (trans1[i] != NO_TRANSITION) {
+		если (trans1[i] != NO_TRANSITION) {
 			mkxtion (finalst[state], trans1[i] + state - i);
 
-			if (transchar[i] == SYM_EPSILON &&
+			если (transchar[i] == SYM_EPSILON &&
 			    trans2[i] != NO_TRANSITION)
 					mkxtion (finalst[state],
 						 trans2[i] + state - i);
@@ -167,7 +167,7 @@ int     dupmachine (int mach)
 		accptnum[state] = accptnum[i];
 	}
 
-	if (state == 0)
+	если (state == 0)
 		flexfatal (_("empty machine in dupmachine()"));
 
 	state_offset = state - i + 1;
@@ -177,7 +177,7 @@ int     dupmachine (int mach)
 	finalst[init] = finalst[mach] + state_offset;
 	lastst[init] = lastst[mach] + state_offset;
 
-	return init;
+	вернуть init;
 }
 
 
@@ -193,8 +193,8 @@ int     dupmachine (int mach)
  * context has variable length.
  */
 
-void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailcnt,
-		     int pcont_act)
+void    finish_rule (целое mach, bool variable_trail_rule, целое headcnt, целое trailcnt,
+		     целое pcont_act)
 {
 	char    action_text[MAXLINE];
 
@@ -208,29 +208,29 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 	/* If this is a continued action, then the line-number has already
 	 * been updated, giving us the wrong number.
 	 */
-	if (continued_action)
+	если (continued_action)
 		--rule_linenum[num_rules];
 
 
 	/* If the previous rule was continued action, then we inherit the
 	 * previous newline flag, possibly overriding the current one.
 	 */
-	if (pcont_act && rule_has_nl[num_rules - 1])
+	если (pcont_act && rule_has_nl[num_rules - 1])
 		rule_has_nl[num_rules] = true;
 
 	snprintf (action_text, sizeof(action_text), "M4_HOOK_NORMAL_STATE_CASE_ARM(%d)\n", num_rules);
 	add_action (action_text);
-	if (rule_has_nl[num_rules]) {
+	если (rule_has_nl[num_rules]) {
 		snprintf (action_text, sizeof(action_text), "M4_HOOK_COMMENT_OPEN rule %d can match eol M4_HOOK_COMMENT_CLOSE\n",
 			 num_rules);
 		add_action (action_text);
 	}
 
 
-	if (variable_trail_rule) {
+	если (variable_trail_rule) {
 		rule_type[num_rules] = RULE_VARIABLE;
 
-		if (env.performance_hint > 0)
+		если (env.performance_hint > 0)
 			fprintf (stderr,
 				 _
 				 ("Variable trailing context rule at line %d\n"),
@@ -239,17 +239,17 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 		variable_trailing_context_rules = true;
 	}
 
-	else {
+	иначе {
 		rule_type[num_rules] = RULE_NORMAL;
 
-		if (headcnt > 0 || trailcnt > 0) {
+		если (headcnt > 0 || trailcnt > 0) {
 			/* Do trailing context magic to not match the trailing
 			 * characters.
 			 */
 			add_action ("M4_HOOK_RELEASE_YYTEXT\n");
 
-			if (headcnt > 0) {
-				if (rule_has_nl[num_rules]) {
+			если (headcnt > 0) {
+				если (rule_has_nl[num_rules]) {
 					snprintf (action_text, sizeof(action_text),
 						"M4_HOOK_LINE_FORWARD(%d)\n", headcnt);
 					add_action (action_text);
@@ -259,8 +259,8 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 				add_action (action_text);
 			}
 
-			else {
-				if (rule_has_nl[num_rules]) {
+			иначе {
+				если (rule_has_nl[num_rules]) {
 					snprintf (action_text, sizeof(action_text),
 						 "M4_HOOK_LINE_REWIND(%d)\n", trailcnt);
 					add_action (action_text);
@@ -281,7 +281,7 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 	 * to do any user action.  But don't do it for continued actions,
 	 * as that'll result in multiple rule-setup calls.
 	 */
-	if (!continued_action)
+	если (!continued_action)
 		add_action ("M4_HOOK_SET_RULE_SETUP\n");
 
 	line_directive_out(NULL, infilename, linenum);
@@ -305,21 +305,21 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
  *  FIRST is set to new by the operation.  last is unmolested.
  */
 
-int     link_machines (int first, int last)
+целое     link_machines (целое first, целое last)
 {
-	if (first == NIL)
-		return last;
+	если (first == NIL)
+		вернуть last;
 
-	else if (last == NIL)
-		return first;
+	иначе если (last == NIL)
+		вернуть first;
 
-	else {
+	иначе {
 		mkxtion (finalst[first], last);
 		finalst[first] = finalst[last];
 		lastst[first] = MAX (lastst[first], lastst[last]);
 		firstst[first] = MIN (firstst[first], firstst[last]);
 
-		return first;
+		вернуть first;
 	}
 }
 
@@ -331,21 +331,21 @@ int     link_machines (int first, int last)
  * The "beginning" states are the epsilon closure of the first state
  */
 
-void    mark_beginning_as_normal (int mach)
+void    mark_beginning_as_normal (целое mach)
 {
 	switch (state_type[mach]) {
 	case STATE_NORMAL:
 		/* Oh, we've already visited here. */
-		return;
+		вернуть;
 
 	case STATE_TRAILING_CONTEXT:
 		state_type[mach] = STATE_NORMAL;
 
-		if (transchar[mach] == SYM_EPSILON) {
-			if (trans1[mach] != NO_TRANSITION)
+		если (transchar[mach] == SYM_EPSILON) {
+			если (trans1[mach] != NO_TRANSITION)
 				mark_beginning_as_normal (trans1[mach]);
 
-			if (trans2[mach] != NO_TRANSITION)
+			если (trans2[mach] != NO_TRANSITION)
 				mark_beginning_as_normal (trans2[mach]);
 		}
 		break;
@@ -372,22 +372,22 @@ void    mark_beginning_as_normal (int mach)
  * more mkbranch's.  Compare with mkor()
  */
 
-int     mkbranch (int first, int second)
+целое     mkbranch (целое first, целое second)
 {
-	int     eps;
+	целое     eps;
 
-	if (first == NO_TRANSITION)
-		return second;
+	если (first == NO_TRANSITION)
+		вернуть second;
 
-	else if (second == NO_TRANSITION)
-		return first;
+	иначе если (second == NO_TRANSITION)
+		вернуть first;
 
 	eps = mkstate (SYM_EPSILON);
 
 	mkxtion (eps, first);
 	mkxtion (eps, second);
 
-	return eps;
+	вернуть eps;
 }
 
 
@@ -399,9 +399,9 @@ int     mkbranch (int first, int second)
  * new - a new state which matches the closure of "state"
  */
 
-int     mkclos (int state)
+целое     mkclos (целое state)
 {
-	return mkopt (mkposcl (state));
+	вернуть mkopt (mkposcl (state));
 }
 
 
@@ -419,11 +419,11 @@ int     mkclos (int state)
  *     2. mach is destroyed by the call
  */
 
-int     mkopt (int mach)
+целое     mkopt (целое mach)
 {
-	int     eps;
+	целое     eps;
 
-	if (!SUPER_FREE_EPSILON (finalst[mach])) {
+	если (!SUPER_FREE_EPSILON (finalst[mach])) {
 		eps = mkstate (SYM_EPSILON);
 		mach = link_machines (mach, eps);
 	}
@@ -437,7 +437,7 @@ int     mkopt (int mach)
 
 	mkxtion (mach, finalst[mach]);
 
-	return mach;
+	вернуть mach;
 }
 
 
@@ -455,17 +455,17 @@ int     mkopt (int mach)
  * the number of epsilon states needed
  */
 
-int     mkor (int first, int second)
+целое     mkor (целое first, целое second)
 {
-	int     eps, orend;
+	целое     eps, orend;
 
-	if (first == NIL)
-		return second;
+	если (first == NIL)
+		вернуть second;
 
-	else if (second == NIL)
-		return first;
+	иначе если (second == NIL)
+		вернуть first;
 
-	else {
+	иначе {
 		/* See comment in mkopt() about why we can't use the first
 		 * state of "first" or "second" if they satisfy "FREE_EPSILON".
 		 */
@@ -475,19 +475,19 @@ int     mkor (int first, int second)
 
 		mkxtion (first, second);
 
-		if (SUPER_FREE_EPSILON (finalst[first]) &&
+		если (SUPER_FREE_EPSILON (finalst[first]) &&
 		    accptnum[finalst[first]] == NIL) {
 			orend = finalst[first];
 			mkxtion (finalst[second], orend);
 		}
 
-		else if (SUPER_FREE_EPSILON (finalst[second]) &&
+		иначе если (SUPER_FREE_EPSILON (finalst[second]) &&
 			 accptnum[finalst[second]] == NIL) {
 			orend = finalst[second];
 			mkxtion (finalst[first], orend);
 		}
 
-		else {
+		иначе {
 			eps = mkstate (SYM_EPSILON);
 
 			first = link_machines (first, eps);
@@ -500,7 +500,7 @@ int     mkor (int first, int second)
 	firstst[first] = MIN(firstst[first], firstst[second]);
 
 	finalst[first] = orend;
-	return first;
+	вернуть first;
 }
 
 
@@ -512,19 +512,19 @@ int     mkor (int first, int second)
  *    new - a machine matching the positive closure of "state"
  */
 
-int     mkposcl (int state)
+целое     mkposcl (целое state)
 {
-	int     eps;
+	целое     eps;
 
-	if (SUPER_FREE_EPSILON (finalst[state])) {
+	если (SUPER_FREE_EPSILON (finalst[state])) {
 		mkxtion (finalst[state], state);
-		return state;
+		вернуть state;
 	}
 
-	else {
+	иначе {
 		eps = mkstate (SYM_EPSILON);
 		mkxtion (eps, state);
-		return link_machines (state, eps);
+		вернуть link_machines (state, eps);
 	}
 }
 
@@ -541,23 +541,23 @@ int     mkposcl (int state)
  *   if "ub" is INFINITE_REPEAT then "new" matches "lb" or more occurrences of "mach"
  */
 
-int     mkrep (int mach, int lb, int ub)
+целое     mkrep (целое mach, целое lb, целое ub)
 {
-	int     base_mach, tail, copy, i;
+	целое     base_mach, tail, copy, i;
 
 	base_mach = copysingl (mach, lb - 1);
 
-	if (ub == INFINITE_REPEAT) {
+	если (ub == INFINITE_REPEAT) {
 		copy = dupmachine (mach);
 		mach = link_machines (mach,
 				      link_machines (base_mach,
 						     mkclos (copy)));
 	}
 
-	else {
+	иначе {
 		tail = mkstate (SYM_EPSILON);
 
-		for (i = lb; i < ub; ++i) {
+		для (i = lb; i < ub; ++i) {
 			copy = dupmachine (mach);
 			tail = mkopt (link_machines (copy, tail));
 		}
@@ -567,7 +567,7 @@ int     mkrep (int mach, int lb, int ub)
 				       link_machines (base_mach, tail));
 	}
 
-	return mach;
+	вернуть mach;
 }
 
 
@@ -587,10 +587,10 @@ int     mkrep (int mach, int lb, int ub)
  * that it admittedly is)
  */
 
-int     mkstate (int sym)
+целое     mkstate (целое sym)
 {
-	if (++lastnfa >= current_mns) {
-		if ((current_mns += MNS_INCREMENT) >= maximum_mns)
+	если (++lastnfa >= current_mns) {
+		если ((current_mns += MNS_INCREMENT) >= maximum_mns)
 			lerr(_
 				("input rules are too complicated (>= %d NFA states)"),
 current_mns);
@@ -631,25 +631,25 @@ current_mns);
 	 * elsewhere in the input).
 	 */
 
-	if (sym < 0) {
+	если (sym < 0) {
 		/* We don't have to update the equivalence classes since
 		 * that was already done when the ccl was created for the
 		 * first time.
 		 */
 	}
 
-	else if (sym == SYM_EPSILON)
+	иначе если (sym == SYM_EPSILON)
 		++numeps;
 
-	else {
+	иначе {
 		check_char (sym);
 
-		if (ctrl.useecs)
+		если (ctrl.useecs)
 			/* Map NUL's to csize. */
 			mkechar (sym ? sym : ctrl.csize, nextecm, ecgroup);
 	}
 
-	return lastnfa;
+	вернуть lastnfa;
 }
 
 
@@ -663,16 +663,16 @@ current_mns);
  *     stateto   - the state to which the transition is to be made
  */
 
-void    mkxtion (int statefrom, int stateto)
+void    mkxtion (целое statefrom, целое stateto)
 {
-	if (trans1[statefrom] == NO_TRANSITION)
+	если (trans1[statefrom] == NO_TRANSITION)
 		trans1[statefrom] = stateto;
 
-	else if ((transchar[statefrom] != SYM_EPSILON) ||
+	иначе если ((transchar[statefrom] != SYM_EPSILON) ||
 		 (trans2[statefrom] != NO_TRANSITION))
 		flexfatal (_("found too many transitions in mkxtion()"));
 
-	else {			/* second out-transition for an epsilon state */
+	иначе {			/* second out-transition for an epsilon state */
 		++eps2;
 		trans2[statefrom] = stateto;
 	}
@@ -682,7 +682,7 @@ void    mkxtion (int statefrom, int stateto)
 
 void    new_rule (void)
 {
-	if (++num_rules >= current_max_rules) {
+	если (++num_rules >= current_max_rules) {
 		++num_reallocs;
 		current_max_rules += MAX_RULES_INCREMENT;
 		rule_type = reallocate_integer_array (rule_type,
@@ -695,7 +695,7 @@ void    new_rule (void)
 					current_max_rules, sizeof(char));
 	}
 
-	if (num_rules > MAX_RULE)
+	если (num_rules > MAX_RULE)
 		lerr (_("too many rules (> %d)!"), MAX_RULE);
 
 	rule_linenum[num_rules] = linenum;

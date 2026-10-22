@@ -39,7 +39,7 @@
 # ifdef HAVE_CONFIG_H
 #include <config.h>
 # endif
-#else
+#иначе
 #include <config_for_build.h>
 #endif
 
@@ -53,7 +53,7 @@
 
 #ifdef HAVE_ASSERT_H
 #include <assert.h>
-#else
+#иначе
 #define assert(Pred)
 #endif
 
@@ -76,8 +76,8 @@
       __STDC_VERSION__ < 202311L)
 # ifdef HAVE__BOOL
 #  define bool _Bool
-# else
-#  define bool int
+# иначе
+#  define bool целое
 # endif
 # define false 0
 # define true 1
@@ -92,13 +92,13 @@
 /* We use gettext. So, when we write strings which should be translated, we
  * mark them with _()
  */
-#if defined(ENABLE_NLS) && ENABLE_NLS
+#если defined(ENABLE_NLS) && ENABLE_NLS
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
 #endif /* HAVE_LOCALE_H */
 #include "gettext.h"
 #define _(String) gettext (String)
-#else
+#иначе
 #define _(STRING) STRING
 #endif /* ENABLE_NLS */
 
@@ -326,7 +326,7 @@ struct ctrl_bundle_t {
 	bool bison_bridge_lloc;	// (--bison-locations), bison yylloc.
 	size_t bufsize;		// input buffer size
 	bool C_plus_plus;	// (-+ flag) generate a C++ scanner class 
-	int csize;		// size of character set for the scanner 
+	целое csize;		// size of character set for the scanner 
 				// 128 for 7-bit chars and 256 for 8-bit 
 	bool ddebug;		// (-d) make a "debug" scanner 
 	trit do_main;		// generate main part to make lexer standalone.
@@ -357,7 +357,7 @@ struct ctrl_bundle_t {
        				// otherwise, use fread(). 
 	char *yyclass;		// yyFlexLexer subclass to use for YY_DECL
 	char *yydecl;		// user-specified prototype for yylex.
-	int yylmax;		// Maximum buffer length if %array
+	целое yylmax;		// Maximum buffer length if %array
 	trit yymore_really_used;// Force geberation of support code for yymore
 	bool yytext_is_array;	// if true (i.e., %array directive), then declare
 				// yytext as array instead of a character pointer.
@@ -415,7 +415,7 @@ struct env_bundle_t {
 	bool did_outfilename;	// whether outfilename was explicitly set
 	char *headerfilename;	// name of the .h file to generate
 	bool nowarn;		// (-w) do not generate warnings 
-	int performance_hint;	// if > 0 (i.e., -p flag), generate a report 
+	целое performance_hint;	// if > 0 (i.e., -p flag), generate a report 
 				// relating to scanner performance; 
 				// if > 1 (-p -p), report 
  				// on minor performance problems, too.
@@ -456,7 +456,7 @@ extern struct env_bundle_t env;
   */
 
 extern bool syntaxerror, eofseen;
-extern int yymore_used, reject, real_reject, continued_action, in_rule;
+extern целое yymore_used, reject, real_reject, continued_action, in_rule;
 
 /* Variables used in the flex input routines:
  * datapos - characters on current output line
@@ -482,17 +482,17 @@ extern int yymore_used, reject, real_reject, continued_action, in_rule;
  * always_interactive - if true, generate an interactive scanner
  */
 
-extern int datapos, dataline, linenum;
-extern int skel_ind;
+extern целое datapos, dataline, linenum;
+extern целое skel_ind;
 extern char *infilename;
 extern char *extra_type;
 extern char **input_files;
-extern int num_input_files;
+extern целое num_input_files;
 extern char *program_name;
 
 extern char *action_array;
-extern int action_size;
-extern int defs1_offset, prolog_offset, action_offset, action_index;
+extern целое action_size;
+extern целое defs1_offset, prolog_offset, action_offset, action_index;
 
 
 /* Variables for stack of states having only one out-transition:
@@ -503,8 +503,8 @@ extern int defs1_offset, prolog_offset, action_offset, action_index;
  * onesp - stack pointer
  */
 
-extern int onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
-extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
+extern целое onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
+extern целое onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
 
 
 /* Variables for nfa machine data:
@@ -541,15 +541,15 @@ extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
  * footprint - total size of tables, in bytes.
  */
 
-extern int maximum_mns, current_mns, current_max_rules;
-extern int num_rules, num_eof_rules, default_rule, lastnfa;
-extern int *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
-extern int *accptnum, *assoc_rule, *state_type;
-extern int *rule_type, *rule_linenum;
+extern целое maximum_mns, current_mns, current_max_rules;
+extern целое num_rules, num_eof_rules, default_rule, lastnfa;
+extern целое *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
+extern целое *accptnum, *assoc_rule, *state_type;
+extern целое *rule_type, *rule_linenum;
 /* rule_useful[], rule_has_nl[] and ccl_has_nl[] are boolean arrays,
  * but allocated as char arrays for size. */
 extern char *rule_useful, *rule_has_nl, *ccl_has_nl;
-extern int nlch;
+extern целое nlch;
 extern size_t footprint;
 
 
@@ -561,7 +561,7 @@ extern size_t footprint;
 
 /* Global holding current type of state we're making. */
 
-extern int current_state_type;
+extern целое current_state_type;
 
 /* Different types of rules. */
 #define RULE_NORMAL 0
@@ -585,8 +585,8 @@ extern bool variable_trailing_context_rules;
  * protsave contains the entire state array for protos
  */
 
-extern int numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
-extern int protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
+extern целое numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
+extern целое protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
 
 
 /* Variables for managing equivalence classes:
@@ -604,14 +604,14 @@ extern int protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
  * for the NUL character.  Later we'll move this information into
  * the 0th element.
  */
-extern int numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs;
+extern целое numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs;
 
 /* Meta-equivalence classes are indexed starting at 1, so it's possible
  * that they will require positions from 1 .. CSIZE, i.e., CSIZE + 1
  * slots total (since the arrays are 0-based).  nextecm[] and ecgroup[]
  * don't require the extra position since they're indexed from 1 .. CSIZE - 1.
  */
-extern int tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
+extern целое tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
 
 
 /* Variables for start conditions:
@@ -624,11 +624,11 @@ extern int tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
  * scname - start condition name
  */
 
-extern int lastsc, *scset, *scbol;
+extern целое lastsc, *scset, *scbol;
 /* scxclu[] and sceof[] are boolean arrays, but allocated as char
  * arrays for size. */
 extern char *scxclu, *sceof;
-extern int current_max_scs;
+extern целое current_max_scs;
 extern const char **scname;
 
 
@@ -662,18 +662,18 @@ extern const char **scname;
  * end_of_buffer_state - end-of-buffer dfa state number
  */
 
-extern int current_max_dfa_size, current_max_xpairs;
-extern int current_max_template_xpairs, current_max_dfas;
-extern int lastdfa, *nxt, *chk, *tnxt;
-extern int *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss,
+extern целое current_max_dfa_size, current_max_xpairs;
+extern целое current_max_template_xpairs, current_max_dfas;
+extern целое lastdfa, *nxt, *chk, *tnxt;
+extern целое *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss,
 	*dfasiz;
 extern union dfaacc_union {
-	int    *dfaacc_set;
-	int     dfaacc_state;
+	целое    *dfaacc_set;
+	целое     dfaacc_state;
 }      *dfaacc;
-extern int *accsiz, *dhash, numas;
-extern int numsnpairs, jambase, jamstate;
-extern int end_of_buffer_state;
+extern целое *accsiz, *dhash, numas;
+extern целое numsnpairs, jambase, jamstate;
+extern целое end_of_buffer_state;
 
 /* Variables for ccl information:
  * lastccl - ccl index of the last created ccl
@@ -687,8 +687,8 @@ extern int end_of_buffer_state;
  * ccltbl - holds the characters in each ccl - indexed by cclmap
  */
 
-extern int lastccl, *cclmap, *ccllen, *cclng, cclreuse;
-extern int current_maxccls, current_max_ccl_tbl_size;
+extern целое lastccl, *cclmap, *ccllen, *cclng, cclreuse;
+extern целое current_maxccls, current_max_ccl_tbl_size;
 extern unsigned char *ccltbl;
 
 
@@ -714,27 +714,27 @@ extern unsigned char *ccltbl;
  */
 
 extern char nmstr[MAXLINE];
-extern int sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
-extern int tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
-extern int num_backing_up, bol_needed;
+extern целое sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
+extern целое tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
+extern целое num_backing_up, bol_needed;
 
-void   *allocate_array(int, size_t);
-void   *reallocate_array(void *, int, size_t);
+void   *allocate_array(целое, size_t);
+void   *reallocate_array(void *, целое, size_t);
 
 #define allocate_integer_array(size) \
-	allocate_array(size, sizeof(int))
+	allocate_array(size, sizeof(целое))
 
 #define reallocate_integer_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(int))
+	reallocate_array((void *) array, size, sizeof(целое))
 
 #define allocate_int_ptr_array(size) \
-	allocate_array(size, sizeof(int *))
+	allocate_array(size, sizeof(целое *))
 
 #define allocate_char_ptr_array(size) \
 	allocate_array(size, sizeof(char *))
 
 #define reallocate_int_ptr_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(int *))
+	reallocate_array((void *) array, size, sizeof(целое *))
 
 #define reallocate_char_ptr_array(array,size) \
 	reallocate_array((void *) array, size, sizeof(char *))
@@ -757,14 +757,14 @@ void   *reallocate_array(void *, int, size_t);
 
 /* from file ccl.c */
 
-extern void ccladd(int, int);	/* add a single character to a ccl */
-extern int cclinit(void);	/* make an empty ccl */
-extern void cclnegate(int);	/* negate a ccl */
-extern int ccl_set_diff (int a, int b); /* set difference of two ccls. */
-extern int ccl_set_union (int a, int b); /* set union of two ccls. */
+extern void ccladd(целое, целое);	/* add a single character to a ccl */
+extern целое cclinit(void);	/* make an empty ccl */
+extern void cclnegate(целое);	/* negate a ccl */
+extern целое ccl_set_diff (целое a, целое b); /* set difference of two ccls. */
+extern целое ccl_set_union (целое a, целое b); /* set union of two ccls. */
 
 /* List the members of a set of characters in CCL form. */
-extern void list_character_set(FILE *, int[]);
+extern void list_character_set(FILE *, целое[]);
 
 
 /* from file dfa.c */
@@ -781,13 +781,13 @@ extern size_t ntod(void);	/* convert a ndfa to a dfa */
 extern void ccl2ecl(void);
 
 /* Associate equivalence class numbers with class members. */
-extern int cre8ecs(int[], int[], int);
+extern целое cre8ecs(целое[], целое[], целое);
 
 /* Update equivalence classes based on character class transitions. */
-extern void mkeccl(unsigned char[], int, int[], int[], int, int);
+extern void mkeccl(unsigned char[], целое, целое[], целое[], целое, целое);
 
 /* Create equivalence class for single character. */
-extern void mkechar(int, int[], int[]);
+extern void mkechar(целое, целое[], целое[]);
 
 
 /* from file gen.c */
@@ -799,7 +799,7 @@ extern void visible_define (const char *);
 extern void visible_define_str (const char *, const char *);
 
 /* This time the value part is an int */
-extern void visible_define_int (const char *, const int);
+extern void visible_define_int (const char *, const целое);
 
 /* generate transition tables */
 extern void make_tables(void);
@@ -810,7 +810,7 @@ struct packtype_t *optimize_pack(size_t);
 /* from file main.c */
 
 extern void check_options(void);
-extern void flexend(int);
+extern void flexend(целое);
 extern void usage(void);
 
 
@@ -820,25 +820,25 @@ extern void usage(void);
 extern void add_action(const char *new_text);
 
 /* True if a string is all lower case. */
-extern int all_lower(char *);
+extern целое all_lower(char *);
 
 /* True if a string is all upper case. */
-extern int all_upper(char *);
+extern целое all_upper(char *);
 
 /* Compare two integers for use by qsort. */
-extern int intcmp(const void *, const void *);
+extern целое intcmp(const void *, const void *);
 
 /* Check a character to make sure it's in the expected range. */
-extern void check_char(int c);
+extern void check_char(целое c);
 
 /* Replace upper-case letter to lower-case. */
-extern unsigned char clower(int);
+extern unsigned char clower(целое);
 
 /* strdup() that fails fatally on allocation failures. */
 extern char *xstrdup(const char *);
 
 /* Compare two characters for use by qsort with '\0' sorting last. */
-extern int cclcmp(const void *, const void *);
+extern целое cclcmp(const void *, const void *);
 
 /* Finish up a block of data declarations. */
 extern void dataend(const char *);
@@ -858,37 +858,37 @@ extern void flexfatal(const char *);
     do{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d (%s): %s\n"),\
-                program_name, __FILE__, (int)__LINE__,\
+                program_name, __FILE__, (целое)__LINE__,\
                 __func__,msg);\
         FLEX_EXIT(1);\
-    }while(0)
-#else /* ! HAVE_DECL___FUNC__ */
+    }пока(0)
+#иначе /* ! HAVE_DECL___FUNC__ */
 #define flex_die(msg) \
     do{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d %s\n"),\
-                program_name, __FILE__, (int)__LINE__,\
+                program_name, __FILE__, (целое)__LINE__,\
                 msg);\
         FLEX_EXIT(1);\
-    }while(0)
+    }пока(0)
 #endif /* ! HAVE_DECL___func__ */
 
 /* Report an error message formatted  */
 extern void lerr(const char *, ...)
-#if defined(__GNUC__) && __GNUC__ >= 3
+#если defined(__GNUC__) && __GNUC__ >= 3
     __attribute__((__format__(__printf__, 1, 2)))
 #endif
 ;
 
 /* Like lerr, but also exit after displaying message. */
 extern void lerr_fatal(const char *, ...)
-#if defined(__GNUC__) && __GNUC__ >= 3
+#если defined(__GNUC__) && __GNUC__ >= 3
     __attribute__((__format__(__printf__, 1, 2)))
 #endif
 ;
 
 /* Spit out a "#line" statement. */
-extern void line_directive_out(FILE *, char *, int);
+extern void line_directive_out(FILE *, char *, целое);
 
 /* Mark the current position in the action array as the end of the section 1
  * user defs.
@@ -899,77 +899,77 @@ extern void mark_defs1(void);
 extern void mark_prolog(void);
 
 /* Generate a data statement for a two-dimensional array. */
-extern void mk2data(int);
+extern void mk2data(целое);
 
-extern void mkdata(int);	/* generate a data statement */
+extern void mkdata(целое);	/* generate a data statement */
 
 /* Return the integer represented by a string of digits. */
-extern int myctoi(const char *);
+extern целое myctoi(const char *);
 
 /* Return character corresponding to escape sequence. */
 extern unsigned char myesc(unsigned char[]);
 
 /* Output a (possibly-formatted) string to the generated scanner. */
 extern void out(const char *);
-extern void out_dec(const char *, int);
-extern void out_dec2(const char *, int, int);
-extern void out_hex(const char *, unsigned int);
+extern void out_dec(const char *, целое);
+extern void out_dec2(const char *, целое, целое);
+extern void out_hex(const char *, unsigned целое);
 extern void out_str(const char *, const char *);
-extern void out_str_dec(const char *, const char *, int);
-extern void outc(int);
+extern void out_str_dec(const char *, const char *, целое);
+extern void outc(целое);
 extern void outn(const char *);
 extern void out_m4_define(const char* def, const char* val);
 
 /* Return a printable version of the given character, which might be
  * 8-bit.
  */
-extern char *readable_form(int);
+extern char *readable_form(целое);
 
 /* Output a yy_trans_info structure. */
-extern void transition_struct_out(int, int);
+extern void transition_struct_out(целое, целое);
 
 /* Only needed when using certain broken versions of bison to build parse.c. */
-extern void *yy_flex_xmalloc(int);
+extern void *yy_flex_xmalloc(целое);
 
 
 /* from file nfa.c */
 
 /* Add an accepting state to a machine. */
-extern void add_accept(int, int);
+extern void add_accept(целое, целое);
 
 /* Make a given number of copies of a singleton machine. */
-extern int copysingl(int, int);
+extern целое copysingl(целое, целое);
 
 /* Debugging routine to write out an nfa. */
-extern void dumpnfa(int);
+extern void dumpnfa(целое);
 
 /* Finish up the processing for a rule. */
-extern void finish_rule(int, bool, int, int, int);
+extern void finish_rule(целое, bool, целое, целое, целое);
 
 /* Connect two machines together. */
-extern int link_machines(int, int);
+extern целое link_machines(целое, целое);
 
 /* Mark each "beginning" state in a machine as being a "normal" (i.e.,
  * not trailing context associated) state.
  */
-extern void mark_beginning_as_normal(int);
+extern void mark_beginning_as_normal(целое);
 
 /* Make a machine that branches to two machines. */
-extern int mkbranch(int, int);
+extern целое mkbranch(целое, целое);
 
-extern int mkclos(int);	/* convert a machine into a closure */
-extern int mkopt(int);	/* make a machine optional */
+extern целое mkclos(целое);	/* convert a machine into a closure */
+extern целое mkopt(целое);	/* make a machine optional */
 
 /* Make a machine that matches either one of two machines. */
-extern int mkor(int, int);
+extern целое mkor(целое, целое);
 
 /* Convert a machine into a positive closure. */
-extern int mkposcl(int);
+extern целое mkposcl(целое);
 
-extern int mkrep(int, int, int);	/* make a replicated machine */
+extern целое mkrep(целое, целое, целое);	/* make a replicated machine */
 
 /* Create a state with a transition on a given symbol. */
-extern int mkstate(int);
+extern целое mkstate(целое);
 
 extern void new_rule(void);	/* initialize for a new rule */
 
@@ -986,10 +986,10 @@ extern void format_pinpoint_message(const char *, const char *);
 extern void pinpoint_message(const char *);
 
 /* Write out a warning, pinpointing it at the given line. */
-extern void line_warning(const char *, int);
+extern void line_warning(const char *, целое);
 
 /* Write out a message, pinpointing it at the given line. */
-extern void line_pinpoint(const char *, int);
+extern void line_pinpoint(const char *, целое);
 
 /* Report a formatted syntax error. */
 extern void format_synerr(const char *, const char *);
@@ -997,7 +997,7 @@ extern void synerr(const char *);	/* report a syntax error */
 extern void format_warn(const char *, const char *);
 extern void lwarn(const char *);	/* report a warning */
 extern void yyerror(const char *);	/* report a parse error */
-extern int yyparse(void);		/* the YACC parser */
+extern целое yyparse(void);		/* the YACC parser */
 
 /* Ship a comment to the generated output */
 extern void comment(const char *);
@@ -1005,7 +1005,7 @@ extern void comment(const char *);
 /* from file scan.l */
 
 /* The Flex-generated scanner for flex. */
-extern int flexscan(void);
+extern целое flexscan(void);
 
 /* Open the given file (if NULL, stdin) for scanning. */
 extern void set_input_file(char *);
@@ -1030,10 +1030,10 @@ extern void skelout(bool);
 /* from file sym.c */
 
 /* Save the text of a character class. */
-extern void cclinstal(char[], int);
+extern void cclinstal(char[], целое);
 
 /* Lookup the number associated with character class. */
-extern int ccllookup(char[]);
+extern целое ccllookup(char[]);
 
 extern void ndinstal(const char *, char[]);	/* install a name definition */
 extern char *ndlookup(const char *);	/* lookup a name definition */
@@ -1043,7 +1043,7 @@ extern void scextend(void);
 extern void scinstal(const char *, bool);	/* make a start condition */
 
 /* Lookup the number associated with a start condition. */
-extern int sclookup(const char *);
+extern целое sclookup(const char *);
 
 /* Supply context argument for a function if required */
 extern void context_call(char *);
@@ -1051,13 +1051,13 @@ extern void context_call(char *);
 /* from file tblcmp.c */
 
 /* Build table entries for dfa state. */
-extern void bldtbl(int[], int, int, int, int);
+extern void bldtbl(целое[], целое, целое, целое, целое);
 
 extern void cmptmps(void);	/* compress template table entries */
 extern void expand_nxt_chk(void);	/* increase nxt/chk arrays */
 
 /* Finds a space in the table for a state to be placed. */
-extern int find_table_space(int *, int);
+extern целое find_table_space(целое *, целое);
 extern void inittbl(void);	/* initialize transition tables */
 
 /* Make the default, "jam" table entries. */
@@ -1066,32 +1066,32 @@ extern void mkdeftbl(void);
 /* Create table entries for a state (or state fragment) which has
  * only one out-transition.
  */
-extern void mk1tbl(int, int, int, int);
+extern void mk1tbl(целое, целое, целое, целое);
 
 /* Place a state into full speed transition table. */
-extern void place_state(int *, int, int);
+extern void place_state(целое *, целое, целое);
 
 /* Save states with only one out-transition to be processed later. */
-extern void stack1(int, int, int, int);
+extern void stack1(целое, целое, целое, целое);
 
 
 /* from file yylex.c */
 
-extern int yylex(void);
+extern целое yylex(void);
 
 /* A growable array. See buf.c. */
 struct Buf {
 	void   *elts;		/* elements. */
-	int     nelts;		/* number of elements. */
+	целое     nelts;		/* number of elements. */
 	size_t  elt_size;	/* in bytes. */
-	int     nmax;		/* max capacity of elements. */
+	целое     nmax;		/* max capacity of elements. */
 };
 
 extern void buf_init(struct Buf * buf, size_t elem_size);
 extern void buf_destroy(struct Buf * buf);
-extern struct Buf *buf_append(struct Buf * buf, const void *ptr, int n_elem);
+extern struct Buf *buf_append(struct Buf * buf, const void *ptr, целое n_elem);
 extern struct Buf *buf_strappend(struct Buf *, const char *str);
-extern struct Buf *buf_strnappend(struct Buf *, const char *str, int nchars);
+extern struct Buf *buf_strnappend(struct Buf *, const char *str, целое nchars);
 extern struct Buf *buf_prints(struct Buf *buf, const char *fmt, const char* s);
 
 extern struct Buf userdef_buf; /* a string buffer for #define's generated by user-options on cmd line. */
@@ -1125,13 +1125,13 @@ extern char *chomp (char *str);
 #define b_isxdigit(c) (isxdigit(c)?true:false)
 
 /* return true if char is uppercase or lowercase. */
-bool has_case(int c);
+bool has_case(целое c);
 
 /* Change case of character if possible. */
-int reverse_case(int c);
+целое reverse_case(целое c);
 
 /* return false if [c1-c2] is ambiguous for a caseless scanner. */
-bool range_covers_case (int c1, int c2);
+bool range_covers_case (целое c1, целое c2);
 
 /*
  *  From "filter.c"
@@ -1142,9 +1142,9 @@ bool range_covers_case (int c1, int c2);
  *  may be internal, as a function call.
  */
 struct filter {
-    int    (*filter_func)(struct filter*); /**< internal filter function */
+    целое    (*filter_func)(struct filter*); /**< internal filter function */
     void * extra;         /**< extra data passed to filter_func */
-	int     argc;         /**< arg count */
+	целое     argc;         /**< arg count */
 	const char ** argv;   /**< arg vector, \0-terminated */
     struct filter * next; /**< next filter or NULL */
 };
@@ -1153,12 +1153,12 @@ struct filter {
 extern struct filter * output_chain;
 extern struct filter *filter_create_ext (struct filter * chain, const char *cmd, ...);
 struct filter *filter_create_int(struct filter *chain,
-				  int (*filter_func) (struct filter *),
+				  целое (*filter_func) (struct filter *),
                   void *extra);
 extern bool filter_apply_chain(struct filter * chain);
-extern int filter_truncate(struct filter * chain, int max_len);
-extern int filter_tee_header(struct filter *chain);
-extern int filter_fix_linedirs(struct filter *chain);
+extern целое filter_truncate(struct filter * chain, целое max_len);
+extern целое filter_tee_header(struct filter *chain);
+extern целое filter_fix_linedirs(struct filter *chain);
 
 
 /*
@@ -1167,15 +1167,15 @@ extern int filter_fix_linedirs(struct filter *chain);
 
 extern regex_t regex_linedir;
 bool flex_init_regex(const char *);
-void flex_regcomp(regex_t *preg, const char *regex, int cflags);
+void flex_regcomp(regex_t *preg, const char *regex, целое cflags);
 char   *regmatch_dup (regmatch_t * m, const char *src);
 char   *regmatch_cpy (regmatch_t * m, char *dest, const char *src);
-int regmatch_len (regmatch_t * m);
-int regmatch_strtol (regmatch_t * m, const char *src, char **endptr, int base);
+целое regmatch_len (regmatch_t * m);
+целое regmatch_strtol (regmatch_t * m, const char *src, char **endptr, целое base);
 bool regmatch_empty (regmatch_t * m);
 
 /* From "scanflags.h" */
-typedef unsigned int scanflags_t;
+typedef unsigned целое scanflags_t;
 extern scanflags_t* _sf_stk;
 extern size_t _sf_top_ix, _sf_max; /**< stack of scanner flags. */
 #define _SF_CASE_INS   ((scanflags_t) 0x0001)

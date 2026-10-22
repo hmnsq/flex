@@ -45,7 +45,7 @@ extern  "C" {
 #include "tables_shared.h"
 struct yytbl_writer {
 	FILE   *out;
-	int total_written;
+	целое total_written;
 			    /**< bytes written so far */
 	fpos_t  th_ssize_pos;
 			    /**< position of th_ssize */
@@ -63,14 +63,14 @@ extern bool tablesext, tablesverify,gentables;
 extern char *tablesfilename, *tablesname;
 extern struct yytbl_writer tableswr;
 
-int     yytbl_writer_init (struct yytbl_writer *, FILE *);
-int     yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
+целое     yytbl_writer_init (struct yytbl_writer *, FILE *);
+целое     yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
 			const char *name);
-int     yytbl_data_init (struct yytbl_data *tbl, enum yytbl_id id);
-int     yytbl_data_destroy (struct yytbl_data *td);
-int     yytbl_hdr_fwrite (struct yytbl_writer *wr,
+целое     yytbl_data_init (struct yytbl_data *tbl, enum yytbl_id id);
+целое     yytbl_data_destroy (struct yytbl_data *td);
+целое     yytbl_hdr_fwrite (struct yytbl_writer *wr,
 			  const struct yytbl_hdr *th);
-int     yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td);
+целое     yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td);
 void    yytbl_data_compress (struct yytbl_data *tbl);
 
 
