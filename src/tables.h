@@ -37,17 +37,17 @@
 
 #ifdef __cplusplus
 /* *INDENT-OFF* */
-extern  "C" {
+बाह्य  "C" {
 /* *INDENT-ON* */
 #endif
 
 /* Tables serialization API declarations. */
-#include "tables_shared.h"
-struct yytbl_writer {
-	FILE   *out;
-	int total_written;
+#अन्तर्भाव "tables_shared.h"
+संरचना yytbl_writer {
+	खाता   *out;
+	पूर्णाङ्क total_written;
 			    /**< bytes written so far */
-	fpos_t  th_ssize_pos;
+	ख_स्थान_प्रकार  th_ssize_pos;
 			    /**< position of th_ssize */
 };
 
@@ -59,19 +59,19 @@ struct yytbl_writer {
  * tablesverify - true if tables-verify option specified
  * gentables - true if we should spit out the normal C tables
  */
-extern bool tablesext, tablesverify,gentables;
-extern char *tablesfilename, *tablesname;
-extern struct yytbl_writer tableswr;
+बाह्य bool tablesext, tablesverify,gentables;
+बाह्य वर्ण *tablesfilename, *tablesname;
+बाह्य संरचना yytbl_writer tableswr;
 
-int     yytbl_writer_init (struct yytbl_writer *, FILE *);
-int     yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
-			const char *name);
-int     yytbl_data_init (struct yytbl_data *tbl, enum yytbl_id id);
-int     yytbl_data_destroy (struct yytbl_data *td);
-int     yytbl_hdr_fwrite (struct yytbl_writer *wr,
-			  const struct yytbl_hdr *th);
-int     yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td);
-void    yytbl_data_compress (struct yytbl_data *tbl);
+पूर्णाङ्क     yytbl_writer_init (संरचना yytbl_writer *, खाता *);
+पूर्णाङ्क     yytbl_hdr_init (संरचना yytbl_hdr *th, अचर वर्ण *version_str,
+			अचर वर्ण *name);
+पूर्णाङ्क     yytbl_data_init (संरचना yytbl_data *tbl, गणना yytbl_id id);
+पूर्णाङ्क     yytbl_data_destroy (संरचना yytbl_data *td);
+पूर्णाङ्क     yytbl_hdr_fwrite (संरचना yytbl_writer *wr,
+			  अचर संरचना yytbl_hdr *th);
+पूर्णाङ्क     yytbl_data_fwrite (संरचना yytbl_writer *wr, संरचना yytbl_data *td);
+शून्य    yytbl_data_compress (संरचना yytbl_data *tbl);
 
 
 #ifdef __cplusplus
