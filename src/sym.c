@@ -33,7 +33,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#અન્તર્ભાવ "flexdef.h"
 
 /* Variables for symbol tables:
  * sctbl - start-condition symbol table
@@ -41,30 +41,30 @@
  * ccltab - character class text symbol table
  */
 
-struct hash_entry {
-	struct hash_entry *next;
-	char   *name;
-	char   *str_val;
-	int     int_val;
+સંરચના hash_entry {
+	સંરચના hash_entry *next;
+	અક્ષર   *name;
+	અક્ષર   *str_val;
+	પૂર્ણાંક     int_val;
 };
 
-typedef struct hash_entry **hash_table;
+પ્રકારવ્યાખ્યા સંરચના hash_entry **hash_table;
 
 #define NAME_TABLE_HASH_SIZE 101
 #define START_COND_HASH_SIZE 101
 #define CCL_HASH_SIZE 101
 
-static struct hash_entry *ndtbl[NAME_TABLE_HASH_SIZE] = {NULL};
-static struct hash_entry *sctbl[START_COND_HASH_SIZE] = {NULL};
-static struct hash_entry *ccltab[CCL_HASH_SIZE] = {NULL};
+સ્થિર સંરચના hash_entry *ndtbl[NAME_TABLE_HASH_SIZE] = {ખાલી};
+સ્થિર સંરચના hash_entry *sctbl[START_COND_HASH_SIZE] = {ખાલી};
+સ્થિર સંરચના hash_entry *ccltab[CCL_HASH_SIZE] = {ખાલી};
 
 
 /* declare functions that have forward references */
 
-static int addsym(const char *, const char *, int, hash_table, size_t);
-static struct hash_entry *findsym (const char *sym, hash_table table,
+સ્થિર પૂર્ણાંક addsym(અચલ અક્ષર *, અચલ અક્ષર *, પૂર્ણાંક, hash_table, size_t);
+સ્થિર સંરચના hash_entry *findsym (અચલ અક્ષર *sym, hash_table table,
 				   size_t table_size);
-static size_t hashfunct(const char *, size_t);
+સ્થિર size_t hashfunct(અચલ અક્ષર *, size_t);
 
 
 /* addsym - add symbol and definitions to symbol table
@@ -72,50 +72,50 @@ static size_t hashfunct(const char *, size_t);
  * -1 is returned if the symbol already exists, and the change not made.
  */
 
-static int addsym (const char *sym, const char *str_def, int int_def, hash_table table, size_t table_size)
+સ્થિર પૂર્ણાંક addsym (અચલ અક્ષર *sym, અચલ અક્ષર *str_def, પૂર્ણાંક int_def, hash_table table, size_t table_size)
 {
 	size_t hash_val = hashfunct (sym, table_size);
-	struct hash_entry *sym_entry = table[hash_val];
-	struct hash_entry *new_entry;
+	સંરચના hash_entry *sym_entry = table[hash_val];
+	સંરચના hash_entry *new_entry;
 
-	while (sym_entry) {
-		if (!strcmp (sym, sym_entry->name)) {	/* entry already exists */
-			return -1;
+	જ્યારે (sym_entry) {
+		જો (!strcmp (sym, sym_entry->name)) {	/* entry already exists */
+			પાછા -1;
 		}
 
 		sym_entry = sym_entry->next;
 	}
 
 	/* create new entry */
-	new_entry = malloc(sizeof(struct hash_entry));
+	new_entry = malloc(કદ(સંરચના hash_entry));
 
-	if (new_entry == NULL)
+	જો (new_entry == ખાલી)
 		flexfatal (_("symbol table memory allocation failed"));
 
 	new_entry->next = table[hash_val];
 	new_entry->name = xstrdup(sym);
-	if (str_def == NULL) {
-		new_entry->str_val = NULL;
-	} else {
+	જો (str_def == ખાલી) {
+		new_entry->str_val = ખાલી;
+	} નહીંતર {
 		new_entry->str_val = xstrdup(str_def);
 	}
 	new_entry->int_val = int_def;
 
 	table[hash_val] = new_entry;
 
-	return 0;
+	પાછા 0;
 }
 
 
 /* cclinstal - save the text of a character class */
 
-void    cclinstal (char ccltxt[], int cclnum)
+શૂન્ય    cclinstal (અક્ષર ccltxt[], પૂર્ણાંક cclnum)
 {
 	/* We don't bother checking the return status because we are not
 	 * called unless the symbol is new.
 	 */
 
-	(void) addsym(ccltxt, NULL, cclnum, ccltab, CCL_HASH_SIZE);
+	(શૂન્ય) addsym(ccltxt, ખાલી, cclnum, ccltab, CCL_HASH_SIZE);
 }
 
 
@@ -124,35 +124,35 @@ void    cclinstal (char ccltxt[], int cclnum)
  * Returns 0 if there's no CCL associated with the text.
  */
 
-int     ccllookup (char ccltxt[])
+પૂર્ણાંક     ccllookup (અક્ષર ccltxt[])
 {
-	return findsym (ccltxt, ccltab, CCL_HASH_SIZE)->int_val;
+	પાછા findsym (ccltxt, ccltab, CCL_HASH_SIZE)->int_val;
 }
 
 
 /* findsym - find symbol in symbol table */
 
-static struct hash_entry *findsym (const char *sym, hash_table table, size_t table_size)
+સ્થિર સંરચના hash_entry *findsym (અચલ અક્ષર *sym, hash_table table, size_t table_size)
 {
-	static struct hash_entry empty_entry = {
-		NULL, NULL, NULL, 0,
+	સ્થિર સંરચના hash_entry empty_entry = {
+		ખાલી, ખાલી, ખાલી, 0,
 	};
-	struct hash_entry *sym_entry =
+	સંરચના hash_entry *sym_entry =
 
 		table[hashfunct (sym, table_size)];
 
-	while (sym_entry) {
-		if (!strcmp (sym, sym_entry->name))
-			return sym_entry;
+	જ્યારે (sym_entry) {
+		જો (!strcmp (sym, sym_entry->name))
+			પાછા sym_entry;
 		sym_entry = sym_entry->next;
 	}
 
-	return &empty_entry;
+	પાછા &empty_entry;
 }
 
 /* hashfunct - compute the hash value for "str" and hash size "hash_size" */
 
-static size_t hashfunct (const char *str, size_t hash_size)
+સ્થિર size_t hashfunct (અચલ અક્ષર *str, size_t hash_size)
 {
 	size_t hashval;
 	size_t locstr;
@@ -160,20 +160,20 @@ static size_t hashfunct (const char *str, size_t hash_size)
 	hashval = 0;
 	locstr = 0;
 
-	while (str[locstr] != '\0') {
-		hashval = (hashval << 1) + (unsigned char) str[locstr++];
+	જ્યારે (str[locstr] != '\0') {
+		hashval = (hashval << 1) + (unsigned અક્ષર) str[locstr++];
 		hashval %= hash_size;
 	}
 
-	return hashval;
+	પાછા hashval;
 }
 
 
 /* ndinstal - install a name definition */
 
-void    ndinstal (const char *name, char definition[])
+શૂન્ય    ndinstal (અચલ અક્ષર *name, અક્ષર definition[])
 {
-	if (addsym(name, definition, 0, ndtbl, NAME_TABLE_HASH_SIZE)) {
+	જો (addsym(name, definition, 0, ndtbl, NAME_TABLE_HASH_SIZE)) {
 		synerr (_("name defined twice"));
 	}
 }
@@ -184,38 +184,38 @@ void    ndinstal (const char *name, char definition[])
  * Returns a nil pointer if the name definition does not exist.
  */
 
-char   *ndlookup (const char *nd)
+અક્ષર   *ndlookup (અચલ અક્ષર *nd)
 {
-	return findsym (nd, ndtbl, NAME_TABLE_HASH_SIZE)->str_val;
+	પાછા findsym (nd, ndtbl, NAME_TABLE_HASH_SIZE)->str_val;
 }
 
 
 /* scextend - increase the maximum number of start conditions */
 
-void    scextend (void)
+શૂન્ય    scextend (શૂન્ય)
 {
 	current_max_scs += MAX_SCS_INCREMENT;
 
-	++num_reallocs;
+	++અંક_reallocs;
 
 	scset = reallocate_integer_array (scset, current_max_scs);
 	scbol = reallocate_integer_array (scbol, current_max_scs);
 	scxclu = reallocate_array(scxclu, current_max_scs,
-		sizeof(char));
-	sceof = reallocate_array(sceof, current_max_scs, sizeof(char));
+		કદ(અક્ષર));
+	sceof = reallocate_array(sceof, current_max_scs, કદ(અક્ષર));
 	scname = reallocate_char_ptr_array (scname, current_max_scs);
 }
 
 
 /* scinstal - make a start condition */
 
-void    scinstal (const char *str, bool sc_is_exclusive)
+શૂન્ય    scinstal (અચલ અક્ષર *str, bool sc_is_exclusive)
 {
 
-	if (++lastsc >= current_max_scs)
+	જો (++lastsc >= current_max_scs)
 		scextend ();
 
-	if (addsym(str, NULL, lastsc, sctbl, START_COND_HASH_SIZE)) {
+	જો (addsym(str, ખાલી, lastsc, sctbl, START_COND_HASH_SIZE)) {
 		format_pinpoint_message (
 			_("start condition %s declared twice"), str);
 	}
@@ -233,7 +233,7 @@ void    scinstal (const char *str, bool sc_is_exclusive)
  * Returns 0 if no such start condition.
  */
 
-int     sclookup (const char *str)
+પૂર્ણાંક     sclookup (અચલ અક્ષર *str)
 {
-	return findsym (str, sctbl, START_COND_HASH_SIZE)->int_val;
+	પાછા findsym (str, sctbl, START_COND_HASH_SIZE)->int_val;
 }

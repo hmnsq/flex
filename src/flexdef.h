@@ -37,68 +37,68 @@
 
 #ifndef USE_CONFIG_FOR_BUILD
 # ifdef HAVE_CONFIG_H
-#include <config.h>
+#અન્તર્ભાવ <config.h>
 # endif
-#else
-#include <config_for_build.h>
+#નહીંતર
+#અન્તર્ભાવ <config_for_build.h>
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <setjmp.h>
-#include <ctype.h>
-#include <string.h>
-#include <math.h>
+#અન્તર્ભાવ <stdio.h>
+#અન્તર્ભાવ <stdlib.h>
+#અન્તર્ભાવ <stdarg.h>
+#અન્તર્ભાવ <setjmp.h>
+#અન્તર્ભાવ <ctype.h>
+#અન્તર્ભાવ <string.h>
+#અન્તર્ભાવ <math.h>
 
 #ifdef HAVE_ASSERT_H
-#include <assert.h>
-#else
-#define assert(Pred)
+#અન્તર્ભાવ <assert.h>
+#નહીંતર
+#define પ્રતિજ્ઞા(Pred)
 #endif
 
 #ifdef HAVE_LIMITS_H
-#include <limits.h>
+#અન્તર્ભાવ <limits.h>
 #endif
 /* Required: dup() and dup2() in <unistd.h> */
-#include <unistd.h>
+#અન્તર્ભાવ <unistd.h>
 #ifdef HAVE_NETINET_IN_H
-#include <netinet/in.h>
+#અન્તર્ભાવ <netinet/in.h>
 #endif
 #ifdef HAVE_SYS_PARAMS_H
-#include <sys/params.h>
+#અન્તર્ભાવ <sys/params.h>
 #endif
 /* Required: wait() in <sys/wait.h> */
-#include <sys/wait.h>
+#અન્તર્ભાવ <sys/wait.h>
 #ifdef HAVE_STDBOOL_H
-#include <stdbool.h>
-#elif !defined(__cplusplus) && (!defined(__STDC_VERSION__) || \
+#અન્તર્ભાવ <stdbool.h>
+#અથવાજો !defined(__cplusplus) && (!defined(__STDC_VERSION__) || \
       __STDC_VERSION__ < 202311L)
 # ifdef HAVE__BOOL
 #  define bool _Bool
-# else
-#  define bool int
+# નહીંતર
+#  define bool પૂર્ણાંક
 # endif
 # define false 0
 # define true 1
 #endif
-#include <stdarg.h>
+#અન્તર્ભાવ <stdarg.h>
 /* Required: regcomp(), regexec() and regerror() in <regex.h> */
-#include <regex.h>
+#અન્તર્ભાવ <regex.h>
 /* Required: strcasecmp() in <strings.h> */
-#include <strings.h>
-#include "flexint.h"
+#અન્તર્ભાવ <strings.h>
+#અન્તર્ભાવ "flexint.h"
 
 /* We use gettext. So, when we write strings which should be translated, we
  * mark them with _()
  */
-#if defined(ENABLE_NLS) && ENABLE_NLS
+#જો defined(ENABLE_NLS) && ENABLE_NLS
 #ifdef HAVE_LOCALE_H
-#include <locale.h>
+#અન્તર્ભાવ <locale.h>
 #endif /* HAVE_LOCALE_H */
-#include "gettext.h"
+#અન્તર્ભાવ "gettext.h"
 #define _(String) gettext (String)
-#else
+#નહીંતર
 #define _(STRING) STRING
 #endif /* ENABLE_NLS */
 
@@ -236,7 +236,7 @@
 #define INITIAL_MAX_SCS 40	/* maximum number of start conditions */
 #define MAX_SCS_INCREMENT 40	/* amount to bump by if it's not enough */
 
-#define ONE_STACK_SIZE 500	/* stack of states with only one out-transition */
+#define ONE_ઢગલો_SIZE 500	/* stack of states with only one out-transition */
 #define SAME_TRANS -1		/* transition is the same as "default" entry for state */
 
 /* The following percentages are used to tune table compression:
@@ -309,7 +309,7 @@
  */
 #define BAD_SUBSCRIPT -32767
 
-typedef enum trit_t {
+પ્રકારવ્યાખ્યા ગણના trit_t {
 	trit_unspecified = -1,
 	trit_false = 0,
 	trit_true = 1,
@@ -319,14 +319,14 @@ typedef enum trit_t {
  * twice for each option, instead a single struct can be declared and externed.
  * If it's in this structure, it has a corresponding m4 symbol.
  */
-struct ctrl_bundle_t {
+સંરચના ctrl_bundle_t {
 	bool always_interactive;// always use character-by-character input
 	FILE *backing_up_file;	// file to summarize backing-up states to 
 	bool bison_bridge_lval;	// (--bison-bridge), bison pure calling convention. 
 	bool bison_bridge_lloc;	// (--bison-locations), bison yylloc.
 	size_t bufsize;		// input buffer size
 	bool C_plus_plus;	// (-+ flag) generate a C++ scanner class 
-	int csize;		// size of character set for the scanner 
+	પૂર્ણાંક csize;		// size of character set for the scanner 
 				// 128 for 7-bit chars and 256 for 8-bit 
 	bool ddebug;		// (-d) make a "debug" scanner 
 	trit do_main;		// generate main part to make lexer standalone.
@@ -336,7 +336,7 @@ struct ctrl_bundle_t {
 				// If false, EOF treated as "no more files" 
 	bool fullspd;		// (-F flag) use Jacobson method of table representation 
 	bool fulltbl;		// (-Cf flag) don't compress the DFA state table 
- 	bool gen_line_dirs;	// (no -L flag) generate #line directives 
+ 	bool gen_લીટી_dirs;	// (no -L flag) generate #line directives 
 	trit interactive;	// (-I) generate an interactive scanner
 	bool never_interactive;	// always use buffered input, don't check for tty.
 	bool lex_compat;	// (-l), maximize compatibility with AT&T lex 
@@ -344,35 +344,35 @@ struct ctrl_bundle_t {
 	bool no_yyinput;	// suppress use of yyinput()
 	bool no_unistd;		// suppress inclusion of unistd.h
 	bool posix_compat;	// (-X) maximize compatibility with POSIX lex 
-	char *prefix;		// prefix for externally visible names, default "yy" 
+	અક્ષર *prefix;		// prefix for externally visible names, default "yy" 
 	trit reject_really_used;// Force generation of support code for reject operation
 	bool reentrant;		// if true (-R), generate a reentrant C scanner
 	bool rewrite;		// Appl;y magic rewre rles to special fumctions 
-	bool stack_used;	// Enable use of start-condition stacks
+	bool ઢગલો_used;	// Enable use of start-condition stacks
 	bool no_section3_escape;// True if the undocumented option --unsafe-no-m4-sect3-escape was passed
 	bool spprdflt;		// (-s) suppress the default rule
 	bool useecs;		// (-Ce flag) use equivalence classes 
 	bool usemecs;		// (-Cm flag), use meta-equivalence classes 
 	bool use_read;		// (-f, -F, or -Cr) use read() for scanner input 
        				// otherwise, use fread(). 
-	char *yyclass;		// yyFlexLexer subclass to use for YY_DECL
-	char *yydecl;		// user-specified prototype for yylex.
-	int yylmax;		// Maximum buffer length if %array
+	અક્ષર *yyclass;		// yyFlexLexer subclass to use for YY_DECL
+	અક્ષર *yydecl;		// user-specified prototype for yylex.
+	પૂર્ણાંક yylmax;		// Maximum buffer length if %array
 	trit yymore_really_used;// Force geberation of support code for yymore
 	bool yytext_is_array;	// if true (i.e., %array directive), then declare
 				// yytext as array instead of a character pointer.
 				// Nice and inefficient.
 	bool noyyread;		// User supplied a yyread function, don't generate default
-	char *userinit;		// Code fragment to be inserted before scanning
-	char *preaction;	// Code fragment to be inserted before each action
-	char *postaction;	// Code fragment to be inserted after each action
-	char *emit;		// Specify target language to emit.
-	char *yyterminate;	// Set a non-default termination hook.
+	અક્ષર *userinit;		// Code fragment to be inserted before scanning
+	અક્ષર *preaction;	// Code fragment to be inserted before each action
+	અક્ષર *postaction;	// Code fragment to be inserted after each action
+	અક્ષર *emit;		// Specify target language to emit.
+	અક્ષર *yyterminate;	// Set a non-default termination hook.
 	bool no_yypanic;	// if true, no not generate default yypanic function
  	// flags corresponding to the huge mass of --no-yy options
-	bool no_yy_push_state;
-	bool no_yy_pop_state;
-	bool no_yy_top_state;
+	bool no_yy_ધકેલો_state;
+	bool no_yy_કાઢો_state;
+	bool no_yy_ટોચ_state;
 	bool no_yyunput;
 	bool no_yy_scan_buffer;
 	bool no_yy_scan_bytes;
@@ -399,9 +399,9 @@ struct ctrl_bundle_t {
 	bool no_get_debug;
 	bool no_set_debug;
 	// Properties read from the skeleton
-	const char *backend_name;	// What the back end tells you its name is
-	const char *traceline_re;	// Regular expression for recognizing tracelines */
-	const char *traceline_template;	// templare for emitting trace lines */
+	અચલ અક્ષર *backend_name;	// What the back end tells you its name is
+	અચલ અક્ષર *traceline_re;	// Regular expression for recognizing tracelines */
+	અચલ અક્ષર *traceline_template;	// templare for emitting trace lines */
 	bool have_state_entry_format;	// Do we know how to make a state entry address?
 };
 
@@ -409,19 +409,19 @@ struct ctrl_bundle_t {
  * not have corresponding m4 symbols and do not affect the behavior of
  * the generated parser.
  */
-struct env_bundle_t {
+સંરચના env_bundle_t {
 	bool backing_up_report;	// (-b flag), generate "lex.backup" file 
 				// listing backing-up states
 	bool did_outfilename;	// whether outfilename was explicitly set
-	char *headerfilename;	// name of the .h file to generate
+	અક્ષર *headerfilename;	// name of the .h file to generate
 	bool nowarn;		// (-w) do not generate warnings 
-	int performance_hint;	// if > 0 (i.e., -p flag), generate a report 
+	પૂર્ણાંક performance_hint;	// if > 0 (i.e., -p flag), generate a report 
 				// relating to scanner performance; 
 				// if > 1 (-p -p), report 
  				// on minor performance problems, too.
-	char *outfilename;	// output file name
+	અક્ષર *outfilename;	// output file name
 	bool printstats;	// (-v) dump statistics
-	char *skelname;		// name of skeleton for code generation
+	અક્ષર *skelname;		// name of skeleton for code generation
 	FILE *skelfile;		// the skeleton file'd descriptor
 	bool trace;		// (-T) env.trace processing 
 	bool trace_hex; 	// use hex in trace/debug outputs not octal
@@ -429,13 +429,13 @@ struct env_bundle_t {
 };
 
 /* Name and byte-width information on a type for code-generation purposes. */
-struct packtype_t {
-	char *name;
+સંરચના packtype_t {
+	અક્ષર *name;
 	size_t width;
 };
 
-extern struct ctrl_bundle_t ctrl;
-extern struct env_bundle_t env;
+બાહ્ય સંરચના ctrl_bundle_t ctrl;
+બાહ્ય સંરચના env_bundle_t env;
 
 /* Declarations for global variables. */
 
@@ -455,8 +455,8 @@ extern struct env_bundle_t env;
  * reject_really_used - same for REJECT
   */
 
-extern bool syntaxerror, eofseen;
-extern int yymore_used, reject, real_reject, continued_action, in_rule;
+બાહ્ય bool syntaxerror, eofseen;
+બાહ્ય પૂર્ણાંક yymore_used, reject, real_reject, continued_action, in_rule;
 
 /* Variables used in the flex input routines:
  * datapos - characters on current output line
@@ -482,17 +482,17 @@ extern int yymore_used, reject, real_reject, continued_action, in_rule;
  * always_interactive - if true, generate an interactive scanner
  */
 
-extern int datapos, dataline, linenum;
-extern int skel_ind;
-extern char *infilename;
-extern char *extra_type;
-extern char **input_files;
-extern int num_input_files;
-extern char *program_name;
+બાહ્ય પૂર્ણાંક datapos, dataline, linenum;
+બાહ્ય પૂર્ણાંક skel_ind;
+બાહ્ય અક્ષર *infilename;
+બાહ્ય અક્ષર *extra_type;
+બાહ્ય અક્ષર **આગત_files;
+બાહ્ય પૂર્ણાંક અંક_આગત_files;
+બાહ્ય અક્ષર *program_name;
 
-extern char *action_array;
-extern int action_size;
-extern int defs1_offset, prolog_offset, action_offset, action_index;
+બાહ્ય અક્ષર *action_array;
+બાહ્ય પૂર્ણાંક action_size;
+બાહ્ય પૂર્ણાંક defs1_offset, prolog_offset, action_offset, action_index;
 
 
 /* Variables for stack of states having only one out-transition:
@@ -503,8 +503,8 @@ extern int defs1_offset, prolog_offset, action_offset, action_index;
  * onesp - stack pointer
  */
 
-extern int onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
-extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
+બાહ્ય પૂર્ણાંક onestate[ONE_ઢગલો_SIZE], onesym[ONE_ઢગલો_SIZE];
+બાહ્ય પૂર્ણાંક onenext[ONE_ઢગલો_SIZE], onedef[ONE_ઢગલો_SIZE], onesp;
 
 
 /* Variables for nfa machine data:
@@ -541,16 +541,16 @@ extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
  * footprint - total size of tables, in bytes.
  */
 
-extern int maximum_mns, current_mns, current_max_rules;
-extern int num_rules, num_eof_rules, default_rule, lastnfa;
-extern int *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
-extern int *accptnum, *assoc_rule, *state_type;
-extern int *rule_type, *rule_linenum;
+બાહ્ય પૂર્ણાંક maximum_mns, current_mns, current_max_rules;
+બાહ્ય પૂર્ણાંક અંક_rules, અંક_eof_rules, default_rule, lastnfa;
+બાહ્ય પૂર્ણાંક *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
+બાહ્ય પૂર્ણાંક *accptnum, *assoc_rule, *state_type;
+બાહ્ય પૂર્ણાંક *rule_type, *rule_linenum;
 /* rule_useful[], rule_has_nl[] and ccl_has_nl[] are boolean arrays,
  * but allocated as char arrays for size. */
-extern char *rule_useful, *rule_has_nl, *ccl_has_nl;
-extern int nlch;
-extern size_t footprint;
+બાહ્ય અક્ષર *rule_useful, *rule_has_nl, *ccl_has_nl;
+બાહ્ય પૂર્ણાંક nlch;
+બાહ્ય size_t footprint;
 
 
 /* Different types of states; values are useful as masks, as well, for
@@ -561,7 +561,7 @@ extern size_t footprint;
 
 /* Global holding current type of state we're making. */
 
-extern int current_state_type;
+બાહ્ય પૂર્ણાંક current_state_type;
 
 /* Different types of rules. */
 #define RULE_NORMAL 0
@@ -570,7 +570,7 @@ extern int current_state_type;
 /* True if the input rules include a rule with both variable-length head
  * and trailing context, false otherwise.
  */
-extern bool variable_trailing_context_rules;
+બાહ્ય bool variable_trailing_context_rules;
 
 
 /* Variables for protos:
@@ -585,8 +585,8 @@ extern bool variable_trailing_context_rules;
  * protsave contains the entire state array for protos
  */
 
-extern int numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
-extern int protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
+બાહ્ય પૂર્ણાંક numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
+બાહ્ય પૂર્ણાંક protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
 
 
 /* Variables for managing equivalence classes:
@@ -604,14 +604,14 @@ extern int protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
  * for the NUL character.  Later we'll move this information into
  * the 0th element.
  */
-extern int numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs;
+બાહ્ય પૂર્ણાંક numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs;
 
 /* Meta-equivalence classes are indexed starting at 1, so it's possible
  * that they will require positions from 1 .. CSIZE, i.e., CSIZE + 1
  * slots total (since the arrays are 0-based).  nextecm[] and ecgroup[]
  * don't require the extra position since they're indexed from 1 .. CSIZE - 1.
  */
-extern int tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
+બાહ્ય પૂર્ણાંક tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
 
 
 /* Variables for start conditions:
@@ -624,12 +624,12 @@ extern int tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
  * scname - start condition name
  */
 
-extern int lastsc, *scset, *scbol;
+બાહ્ય પૂર્ણાંક lastsc, *scset, *scbol;
 /* scxclu[] and sceof[] are boolean arrays, but allocated as char
  * arrays for size. */
-extern char *scxclu, *sceof;
-extern int current_max_scs;
-extern const char **scname;
+બાહ્ય અક્ષર *scxclu, *sceof;
+બાહ્ય પૂર્ણાંક current_max_scs;
+બાહ્ય અચલ અક્ષર **scname;
 
 
 /* Variables for dfa machine data:
@@ -662,18 +662,18 @@ extern const char **scname;
  * end_of_buffer_state - end-of-buffer dfa state number
  */
 
-extern int current_max_dfa_size, current_max_xpairs;
-extern int current_max_template_xpairs, current_max_dfas;
-extern int lastdfa, *nxt, *chk, *tnxt;
-extern int *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss,
+બાહ્ય પૂર્ણાંક current_max_dfa_size, current_max_xpairs;
+બાહ્ય પૂર્ણાંક current_max_template_xpairs, current_max_dfas;
+બાહ્ય પૂર્ણાંક lastdfa, *nxt, *chk, *tnxt;
+બાહ્ય પૂર્ણાંક *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss,
 	*dfasiz;
-extern union dfaacc_union {
-	int    *dfaacc_set;
-	int     dfaacc_state;
+બાહ્ય સંઘ dfaacc_union {
+	પૂર્ણાંક    *dfaacc_set;
+	પૂર્ણાંક     dfaacc_state;
 }      *dfaacc;
-extern int *accsiz, *dhash, numas;
-extern int numsnpairs, jambase, jamstate;
-extern int end_of_buffer_state;
+બાહ્ય પૂર્ણાંક *accsiz, *dhash, numas;
+બાહ્ય પૂર્ણાંક numsnpairs, jambase, jamstate;
+બાહ્ય પૂર્ણાંક end_of_buffer_state;
 
 /* Variables for ccl information:
  * lastccl - ccl index of the last created ccl
@@ -687,9 +687,9 @@ extern int end_of_buffer_state;
  * ccltbl - holds the characters in each ccl - indexed by cclmap
  */
 
-extern int lastccl, *cclmap, *ccllen, *cclng, cclreuse;
-extern int current_maxccls, current_max_ccl_tbl_size;
-extern unsigned char *ccltbl;
+બાહ્ય પૂર્ણાંક lastccl, *cclmap, *ccllen, *cclng, cclreuse;
+બાહ્ય પૂર્ણાંક current_maxccls, current_max_ccl_tbl_size;
+બાહ્ય unsigned અક્ષર *ccltbl;
 
 
 /* Variables for miscellaneous information:
@@ -713,43 +713,43 @@ extern unsigned char *ccltbl;
  * bol_needed - whether scanner needs beginning-of-line recognition
  */
 
-extern char nmstr[MAXLINE];
-extern int sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
-extern int tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
-extern int num_backing_up, bol_needed;
+બાહ્ય અક્ષર nmstr[MAXLINE];
+બાહ્ય પૂર્ણાંક sectnum, nummt, hshcol, dfaeql, numeps, eps2, અંક_reallocs, nmval;
+બાહ્ય પૂર્ણાંક tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
+બાહ્ય પૂર્ણાંક અંક_backing_up, bol_needed;
 
-void   *allocate_array(int, size_t);
-void   *reallocate_array(void *, int, size_t);
+શૂન્ય   *allocate_array(પૂર્ણાંક, size_t);
+શૂન્ય   *reallocate_array(શૂન્ય *, પૂર્ણાંક, size_t);
 
 #define allocate_integer_array(size) \
-	allocate_array(size, sizeof(int))
+	allocate_array(size, કદ(પૂર્ણાંક))
 
 #define reallocate_integer_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(int))
+	reallocate_array((શૂન્ય *) array, size, કદ(પૂર્ણાંક))
 
 #define allocate_int_ptr_array(size) \
-	allocate_array(size, sizeof(int *))
+	allocate_array(size, કદ(પૂર્ણાંક *))
 
 #define allocate_char_ptr_array(size) \
-	allocate_array(size, sizeof(char *))
+	allocate_array(size, કદ(અક્ષર *))
 
 #define reallocate_int_ptr_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(int *))
+	reallocate_array((શૂન્ય *) array, size, કદ(પૂર્ણાંક *))
 
 #define reallocate_char_ptr_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(char *))
+	reallocate_array((શૂન્ય *) array, size, કદ(અક્ષર *))
 
 #define allocate_character_array(size) \
-	allocate_array( size, sizeof(char))
+	allocate_array( size, કદ(અક્ષર))
 
 #define reallocate_character_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(char))
+	reallocate_array((શૂન્ય *) array, size, કદ(અક્ષર))
 
 #define allocate_Character_array(size) \
-	allocate_array(size, sizeof(unsigned char))
+	allocate_array(size, કદ(unsigned અક્ષર))
 
 #define reallocate_Character_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(unsigned char))
+	reallocate_array((શૂન્ય *) array, size, કદ(unsigned અક્ષર))
 
 
 /* External functions that are cross-referenced among the flex source files. */
@@ -757,357 +757,357 @@ void   *reallocate_array(void *, int, size_t);
 
 /* from file ccl.c */
 
-extern void ccladd(int, int);	/* add a single character to a ccl */
-extern int cclinit(void);	/* make an empty ccl */
-extern void cclnegate(int);	/* negate a ccl */
-extern int ccl_set_diff (int a, int b); /* set difference of two ccls. */
-extern int ccl_set_union (int a, int b); /* set union of two ccls. */
+બાહ્ય શૂન્ય ccladd(પૂર્ણાંક, પૂર્ણાંક);	/* add a single character to a ccl */
+બાહ્ય પૂર્ણાંક cclinit(શૂન્ય);	/* make an empty ccl */
+બાહ્ય શૂન્ય cclnegate(પૂર્ણાંક);	/* negate a ccl */
+બાહ્ય પૂર્ણાંક ccl_set_diff (પૂર્ણાંક a, પૂર્ણાંક b); /* set difference of two ccls. */
+બાહ્ય પૂર્ણાંક ccl_set_union (પૂર્ણાંક a, પૂર્ણાંક b); /* set union of two ccls. */
 
 /* List the members of a set of characters in CCL form. */
-extern void list_character_set(FILE *, int[]);
+બાહ્ય શૂન્ય list_character_set(FILE *, પૂર્ણાંક[]);
 
 
 /* from file dfa.c */
 
 /* Increase the maximum number of dfas. */
-extern void increase_max_dfas(void);
+બાહ્ય શૂન્ય increase_max_dfas(શૂન્ય);
 
-extern size_t ntod(void);	/* convert a ndfa to a dfa */
+બાહ્ય size_t ntod(શૂન્ય);	/* convert a ndfa to a dfa */
 
 
 /* from file ecs.c */
 
 /* Convert character classes to set of equivalence classes. */
-extern void ccl2ecl(void);
+બાહ્ય શૂન્ય ccl2ecl(શૂન્ય);
 
 /* Associate equivalence class numbers with class members. */
-extern int cre8ecs(int[], int[], int);
+બાહ્ય પૂર્ણાંક cre8ecs(પૂર્ણાંક[], પૂર્ણાંક[], પૂર્ણાંક);
 
 /* Update equivalence classes based on character class transitions. */
-extern void mkeccl(unsigned char[], int, int[], int[], int, int);
+બાહ્ય શૂન્ય mkeccl(unsigned અક્ષર[], પૂર્ણાંક, પૂર્ણાંક[], પૂર્ણાંક[], પૂર્ણાંક, પૂર્ણાંક);
 
 /* Create equivalence class for single character. */
-extern void mkechar(int, int[], int[]);
+બાહ્ય શૂન્ય mkechar(પૂર્ણાંક, પૂર્ણાંક[], પૂર્ણાંક[]);
 
 
 /* from file gen.c */
 
 /* Set a conditional amd make it visible in generated code */
-extern void visible_define (const char *);
+બાહ્ય શૂન્ય visible_define (અચલ અક્ષર *);
 
 /* And again, with an explicit value part. */
-extern void visible_define_str (const char *, const char *);
+બાહ્ય શૂન્ય visible_define_str (અચલ અક્ષર *, અચલ અક્ષર *);
 
 /* This time the value part is an int */
-extern void visible_define_int (const char *, const int);
+બાહ્ય શૂન્ય visible_define_int (અચલ અક્ષર *, અચલ પૂર્ણાંક);
 
 /* generate transition tables */
-extern void make_tables(void);
+બાહ્ય શૂન્ય make_tables(શૂન્ય);
 
 /* Select a type for optimal packing */
-struct packtype_t *optimize_pack(size_t);
+સંરચના packtype_t *optimize_pack(size_t);
 
 /* from file main.c */
 
-extern void check_options(void);
-extern void flexend(int);
-extern void usage(void);
+બાહ્ય શૂન્ય check_options(શૂન્ય);
+બાહ્ય શૂન્ય flexend(પૂર્ણાંક);
+બાહ્ય શૂન્ય usage(શૂન્ય);
 
 
 /* from file misc.c */
 
 /* Add the given text to the stored actions. */
-extern void add_action(const char *new_text);
+બાહ્ય શૂન્ય add_action(અચલ અક્ષર *new_text);
 
 /* True if a string is all lower case. */
-extern int all_lower(char *);
+બાહ્ય પૂર્ણાંક all_lower(અક્ષર *);
 
 /* True if a string is all upper case. */
-extern int all_upper(char *);
+બાહ્ય પૂર્ણાંક all_upper(અક્ષર *);
 
 /* Compare two integers for use by qsort. */
-extern int intcmp(const void *, const void *);
+બાહ્ય પૂર્ણાંક intcmp(અચલ શૂન્ય *, અચલ શૂન્ય *);
 
 /* Check a character to make sure it's in the expected range. */
-extern void check_char(int c);
+બાહ્ય શૂન્ય check_char(પૂર્ણાંક c);
 
 /* Replace upper-case letter to lower-case. */
-extern unsigned char clower(int);
+બાહ્ય unsigned અક્ષર clower(પૂર્ણાંક);
 
 /* strdup() that fails fatally on allocation failures. */
-extern char *xstrdup(const char *);
+બાહ્ય અક્ષર *xstrdup(અચલ અક્ષર *);
 
 /* Compare two characters for use by qsort with '\0' sorting last. */
-extern int cclcmp(const void *, const void *);
+બાહ્ય પૂર્ણાંક cclcmp(અચલ શૂન્ય *, અચલ શૂન્ય *);
 
 /* Finish up a block of data declarations. */
-extern void dataend(const char *);
+બાહ્ય શૂન્ય dataend(અચલ અક્ષર *);
 
 /* Flush generated data statements. */
-extern void dataflush(void);
+બાહ્ય શૂન્ય dataflush(શૂન્ય);
 
 /* Report an error message and terminate. */
-extern void flexerror(const char *);
+બાહ્ય શૂન્ય flexerror(અચલ અક્ષર *);
 
 /* Report a fatal error message and terminate. */
-extern void flexfatal(const char *);
+બાહ્ય શૂન્ય flexfatal(અચલ અક્ષર *);
 
 /* Report a fatal error with a pinpoint, and terminate */
 #ifdef HAVE_DECL___FUNC__
-#define flex_die(msg) \
-    do{ \
+#define flex_die(સંદેશ) \
+    કરો{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d (%s): %s\n"),\
-                program_name, __FILE__, (int)__LINE__,\
-                __func__,msg);\
+                program_name, __FILE__, (પૂર્ણાંક)__LINE__,\
+                __func__,સંદેશ);\
         FLEX_EXIT(1);\
-    }while(0)
-#else /* ! HAVE_DECL___FUNC__ */
-#define flex_die(msg) \
-    do{ \
+    }જ્યારે(0)
+#નહીંતર /* ! HAVE_DECL___FUNC__ */
+#define flex_die(સંદેશ) \
+    કરો{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d %s\n"),\
-                program_name, __FILE__, (int)__LINE__,\
-                msg);\
+                program_name, __FILE__, (પૂર્ણાંક)__LINE__,\
+                સંદેશ);\
         FLEX_EXIT(1);\
-    }while(0)
+    }જ્યારે(0)
 #endif /* ! HAVE_DECL___func__ */
 
 /* Report an error message formatted  */
-extern void lerr(const char *, ...)
-#if defined(__GNUC__) && __GNUC__ >= 3
+બાહ્ય શૂન્ય lerr(અચલ અક્ષર *, ...)
+#જો defined(__GNUC__) && __GNUC__ >= 3
     __attribute__((__format__(__printf__, 1, 2)))
 #endif
 ;
 
 /* Like lerr, but also exit after displaying message. */
-extern void lerr_fatal(const char *, ...)
-#if defined(__GNUC__) && __GNUC__ >= 3
+બાહ્ય શૂન્ય lerr_fatal(અચલ અક્ષર *, ...)
+#જો defined(__GNUC__) && __GNUC__ >= 3
     __attribute__((__format__(__printf__, 1, 2)))
 #endif
 ;
 
 /* Spit out a "#line" statement. */
-extern void line_directive_out(FILE *, char *, int);
+બાહ્ય શૂન્ય લીટી_directive_out(FILE *, અક્ષર *, પૂર્ણાંક);
 
 /* Mark the current position in the action array as the end of the section 1
  * user defs.
  */
-extern void mark_defs1(void);
+બાહ્ય શૂન્ય mark_defs1(શૂન્ય);
 
 /* Mark the current position in the action array as the end of the prolog. */
-extern void mark_prolog(void);
+બાહ્ય શૂન્ય mark_prolog(શૂન્ય);
 
 /* Generate a data statement for a two-dimensional array. */
-extern void mk2data(int);
+બાહ્ય શૂન્ય mk2data(પૂર્ણાંક);
 
-extern void mkdata(int);	/* generate a data statement */
+બાહ્ય શૂન્ય mkdata(પૂર્ણાંક);	/* generate a data statement */
 
 /* Return the integer represented by a string of digits. */
-extern int myctoi(const char *);
+બાહ્ય પૂર્ણાંક myctoi(અચલ અક્ષર *);
 
 /* Return character corresponding to escape sequence. */
-extern unsigned char myesc(unsigned char[]);
+બાહ્ય unsigned અક્ષર myesc(unsigned અક્ષર[]);
 
 /* Output a (possibly-formatted) string to the generated scanner. */
-extern void out(const char *);
-extern void out_dec(const char *, int);
-extern void out_dec2(const char *, int, int);
-extern void out_hex(const char *, unsigned int);
-extern void out_str(const char *, const char *);
-extern void out_str_dec(const char *, const char *, int);
-extern void outc(int);
-extern void outn(const char *);
-extern void out_m4_define(const char* def, const char* val);
+બાહ્ય શૂન્ય out(અચલ અક્ષર *);
+બાહ્ય શૂન્ય out_dec(અચલ અક્ષર *, પૂર્ણાંક);
+બાહ્ય શૂન્ય out_dec2(અચલ અક્ષર *, પૂર્ણાંક, પૂર્ણાંક);
+બાહ્ય શૂન્ય out_hex(અચલ અક્ષર *, unsigned પૂર્ણાંક);
+બાહ્ય શૂન્ય out_str(અચલ અક્ષર *, અચલ અક્ષર *);
+બાહ્ય શૂન્ય out_str_dec(અચલ અક્ષર *, અચલ અક્ષર *, પૂર્ણાંક);
+બાહ્ય શૂન્ય outc(પૂર્ણાંક);
+બાહ્ય શૂન્ય outn(અચલ અક્ષર *);
+બાહ્ય શૂન્ય out_m4_define(અચલ અક્ષર* def, અચલ અક્ષર* val);
 
 /* Return a printable version of the given character, which might be
  * 8-bit.
  */
-extern char *readable_form(int);
+બાહ્ય અક્ષર *readable_form(પૂર્ણાંક);
 
 /* Output a yy_trans_info structure. */
-extern void transition_struct_out(int, int);
+બાહ્ય શૂન્ય transition_struct_out(પૂર્ણાંક, પૂર્ણાંક);
 
 /* Only needed when using certain broken versions of bison to build parse.c. */
-extern void *yy_flex_xmalloc(int);
+બાહ્ય શૂન્ય *yy_flex_xmalloc(પૂર્ણાંક);
 
 
 /* from file nfa.c */
 
 /* Add an accepting state to a machine. */
-extern void add_accept(int, int);
+બાહ્ય શૂન્ય add_accept(પૂર્ણાંક, પૂર્ણાંક);
 
 /* Make a given number of copies of a singleton machine. */
-extern int copysingl(int, int);
+બાહ્ય પૂર્ણાંક copysingl(પૂર્ણાંક, પૂર્ણાંક);
 
 /* Debugging routine to write out an nfa. */
-extern void dumpnfa(int);
+બાહ્ય શૂન્ય dumpnfa(પૂર્ણાંક);
 
 /* Finish up the processing for a rule. */
-extern void finish_rule(int, bool, int, int, int);
+બાહ્ય શૂન્ય finish_rule(પૂર્ણાંક, bool, પૂર્ણાંક, પૂર્ણાંક, પૂર્ણાંક);
 
 /* Connect two machines together. */
-extern int link_machines(int, int);
+બાહ્ય પૂર્ણાંક link_machines(પૂર્ણાંક, પૂર્ણાંક);
 
 /* Mark each "beginning" state in a machine as being a "normal" (i.e.,
  * not trailing context associated) state.
  */
-extern void mark_beginning_as_normal(int);
+બાહ્ય શૂન્ય mark_beginning_as_normal(પૂર્ણાંક);
 
 /* Make a machine that branches to two machines. */
-extern int mkbranch(int, int);
+બાહ્ય પૂર્ણાંક mkbranch(પૂર્ણાંક, પૂર્ણાંક);
 
-extern int mkclos(int);	/* convert a machine into a closure */
-extern int mkopt(int);	/* make a machine optional */
+બાહ્ય પૂર્ણાંક mkclos(પૂર્ણાંક);	/* convert a machine into a closure */
+બાહ્ય પૂર્ણાંક mkopt(પૂર્ણાંક);	/* make a machine optional */
 
 /* Make a machine that matches either one of two machines. */
-extern int mkor(int, int);
+બાહ્ય પૂર્ણાંક mkor(પૂર્ણાંક, પૂર્ણાંક);
 
 /* Convert a machine into a positive closure. */
-extern int mkposcl(int);
+બાહ્ય પૂર્ણાંક mkposcl(પૂર્ણાંક);
 
-extern int mkrep(int, int, int);	/* make a replicated machine */
+બાહ્ય પૂર્ણાંક mkrep(પૂર્ણાંક, પૂર્ણાંક, પૂર્ણાંક);	/* make a replicated machine */
 
 /* Create a state with a transition on a given symbol. */
-extern int mkstate(int);
+બાહ્ય પૂર્ણાંક mkstate(પૂર્ણાંક);
 
-extern void new_rule(void);	/* initialize for a new rule */
+બાહ્ય શૂન્ય new_rule(શૂન્ય);	/* initialize for a new rule */
 
 
 /* from file parse.y */
 
 /* Build the "<<EOF>>" action for the active start conditions. */
-extern void build_eof_action(void);
+બાહ્ય શૂન્ય build_eof_action(શૂન્ય);
 
 /* Write out a message formatted with one string, pinpointing its location. */
-extern void format_pinpoint_message(const char *, const char *);
+બાહ્ય શૂન્ય format_pinpoint_message(અચલ અક્ષર *, અચલ અક્ષર *);
 
 /* Write out a message, pinpointing its location. */
-extern void pinpoint_message(const char *);
+બાહ્ય શૂન્ય pinpoint_message(અચલ અક્ષર *);
 
 /* Write out a warning, pinpointing it at the given line. */
-extern void line_warning(const char *, int);
+બાહ્ય શૂન્ય લીટી_warning(અચલ અક્ષર *, પૂર્ણાંક);
 
 /* Write out a message, pinpointing it at the given line. */
-extern void line_pinpoint(const char *, int);
+બાહ્ય શૂન્ય લીટી_pinpoint(અચલ અક્ષર *, પૂર્ણાંક);
 
 /* Report a formatted syntax error. */
-extern void format_synerr(const char *, const char *);
-extern void synerr(const char *);	/* report a syntax error */
-extern void format_warn(const char *, const char *);
-extern void lwarn(const char *);	/* report a warning */
-extern void yyerror(const char *);	/* report a parse error */
-extern int yyparse(void);		/* the YACC parser */
+બાહ્ય શૂન્ય format_synerr(અચલ અક્ષર *, અચલ અક્ષર *);
+બાહ્ય શૂન્ય synerr(અચલ અક્ષર *);	/* report a syntax error */
+બાહ્ય શૂન્ય format_warn(અચલ અક્ષર *, અચલ અક્ષર *);
+બાહ્ય શૂન્ય lwarn(અચલ અક્ષર *);	/* report a warning */
+બાહ્ય શૂન્ય yyerror(અચલ અક્ષર *);	/* report a parse error */
+બાહ્ય પૂર્ણાંક yyparse(શૂન્ય);		/* the YACC parser */
 
 /* Ship a comment to the generated output */
-extern void comment(const char *);
+બાહ્ય શૂન્ય comment(અચલ અક્ષર *);
 
 /* from file scan.l */
 
 /* The Flex-generated scanner for flex. */
-extern int flexscan(void);
+બાહ્ય પૂર્ણાંક flexscan(શૂન્ય);
 
 /* Open the given file (if NULL, stdin) for scanning. */
-extern void set_input_file(char *);
+બાહ્ય શૂન્ય set_આગત_file(અક્ષર *);
 
 /* from file skeletons.c */
 
 /* return the correct file suffix for the selected back end */
-const char *suffix (void);
+અચલ અક્ષર *suffix (શૂન્ય);
 
 /* Mine a text-valued property out of the skeleton file */
-extern const char *skel_property(const char *);
+બાહ્ય અચલ અક્ષર *skel_property(અચલ અક્ષર *);
 
 /* Is the default back end selected?*/
-extern bool is_default_backend(void);
+બાહ્ય bool is_default_backend(શૂન્ય);
 
 /* Select a backend by name */
-extern void backend_by_name(const char *);
+બાહ્ય શૂન્ય backend_by_name(અચલ અક્ષર *);
 
 /* Write out one section of the skeleton file. */
-extern void skelout(bool);
+બાહ્ય શૂન્ય skelout(bool);
 
 /* from file sym.c */
 
 /* Save the text of a character class. */
-extern void cclinstal(char[], int);
+બાહ્ય શૂન્ય cclinstal(અક્ષર[], પૂર્ણાંક);
 
 /* Lookup the number associated with character class. */
-extern int ccllookup(char[]);
+બાહ્ય પૂર્ણાંક ccllookup(અક્ષર[]);
 
-extern void ndinstal(const char *, char[]);	/* install a name definition */
-extern char *ndlookup(const char *);	/* lookup a name definition */
+બાહ્ય શૂન્ય ndinstal(અચલ અક્ષર *, અક્ષર[]);	/* install a name definition */
+બાહ્ય અક્ષર *ndlookup(અચલ અક્ષર *);	/* lookup a name definition */
 
 /* Increase maximum number of SC's. */
-extern void scextend(void);
-extern void scinstal(const char *, bool);	/* make a start condition */
+બાહ્ય શૂન્ય scextend(શૂન્ય);
+બાહ્ય શૂન્ય scinstal(અચલ અક્ષર *, bool);	/* make a start condition */
 
 /* Lookup the number associated with a start condition. */
-extern int sclookup(const char *);
+બાહ્ય પૂર્ણાંક sclookup(અચલ અક્ષર *);
 
 /* Supply context argument for a function if required */
-extern void context_call(char *);
+બાહ્ય શૂન્ય context_call(અક્ષર *);
 
 /* from file tblcmp.c */
 
 /* Build table entries for dfa state. */
-extern void bldtbl(int[], int, int, int, int);
+બાહ્ય શૂન્ય bldtbl(પૂર્ણાંક[], પૂર્ણાંક, પૂર્ણાંક, પૂર્ણાંક, પૂર્ણાંક);
 
-extern void cmptmps(void);	/* compress template table entries */
-extern void expand_nxt_chk(void);	/* increase nxt/chk arrays */
+બાહ્ય શૂન્ય cmptmps(શૂન્ય);	/* compress template table entries */
+બાહ્ય શૂન્ય expand_nxt_chk(શૂન્ય);	/* increase nxt/chk arrays */
 
 /* Finds a space in the table for a state to be placed. */
-extern int find_table_space(int *, int);
-extern void inittbl(void);	/* initialize transition tables */
+બાહ્ય પૂર્ણાંક find_table_space(પૂર્ણાંક *, પૂર્ણાંક);
+બાહ્ય શૂન્ય inittbl(શૂન્ય);	/* initialize transition tables */
 
 /* Make the default, "jam" table entries. */
-extern void mkdeftbl(void);
+બાહ્ય શૂન્ય mkdeftbl(શૂન્ય);
 
 /* Create table entries for a state (or state fragment) which has
  * only one out-transition.
  */
-extern void mk1tbl(int, int, int, int);
+બાહ્ય શૂન્ય mk1tbl(પૂર્ણાંક, પૂર્ણાંક, પૂર્ણાંક, પૂર્ણાંક);
 
 /* Place a state into full speed transition table. */
-extern void place_state(int *, int, int);
+બાહ્ય શૂન્ય place_state(પૂર્ણાંક *, પૂર્ણાંક, પૂર્ણાંક);
 
 /* Save states with only one out-transition to be processed later. */
-extern void stack1(int, int, int, int);
+બાહ્ય શૂન્ય stack1(પૂર્ણાંક, પૂર્ણાંક, પૂર્ણાંક, પૂર્ણાંક);
 
 
 /* from file yylex.c */
 
-extern int yylex(void);
+બાહ્ય પૂર્ણાંક yylex(શૂન્ય);
 
 /* A growable array. See buf.c. */
-struct Buf {
-	void   *elts;		/* elements. */
-	int     nelts;		/* number of elements. */
+સંરચના Buf {
+	શૂન્ય   *elts;		/* elements. */
+	પૂર્ણાંક     nelts;		/* number of elements. */
 	size_t  elt_size;	/* in bytes. */
-	int     nmax;		/* max capacity of elements. */
+	પૂર્ણાંક     nmax;		/* max capacity of elements. */
 };
 
-extern void buf_init(struct Buf * buf, size_t elem_size);
-extern void buf_destroy(struct Buf * buf);
-extern struct Buf *buf_append(struct Buf * buf, const void *ptr, int n_elem);
-extern struct Buf *buf_strappend(struct Buf *, const char *str);
-extern struct Buf *buf_strnappend(struct Buf *, const char *str, int nchars);
-extern struct Buf *buf_prints(struct Buf *buf, const char *fmt, const char* s);
+બાહ્ય શૂન્ય buf_init(સંરચના Buf * buf, size_t elem_size);
+બાહ્ય શૂન્ય buf_destroy(સંરચના Buf * buf);
+બાહ્ય સંરચના Buf *buf_append(સંરચના Buf * buf, અચલ શૂન્ય *ptr, પૂર્ણાંક n_elem);
+બાહ્ય સંરચના Buf *buf_strappend(સંરચના Buf *, અચલ અક્ષર *str);
+બાહ્ય સંરચના Buf *buf_strnappend(સંરચના Buf *, અચલ અક્ષર *str, પૂર્ણાંક nchars);
+બાહ્ય સંરચના Buf *buf_prints(સંરચના Buf *buf, અચલ અક્ષર *fmt, અચલ અક્ષર* s);
 
-extern struct Buf userdef_buf; /* a string buffer for #define's generated by user-options on cmd line. */
-extern struct Buf top_buf;     /* contains %top code. String buffer. */
+બાહ્ય સંરચના Buf userdef_buf; /* a string buffer for #define's generated by user-options on cmd line. */
+બાહ્ય સંરચના Buf ટોચ_buf;     /* contains %top code. String buffer. */
 
 /* For blocking out code from the header file. */
 #define OUT_BEGIN_CODE() outn("m4_ifdef( [[M4_YY_IN_HEADER]],,[[m4_dnl")
 #define OUT_END_CODE()   outn("]])")
 
 /* For setjmp/longjmp (instead of calling exit(2)). Linkage in main.c */
-extern jmp_buf flex_main_jmp_buf;
+બાહ્ય jmp_buf flex_main_jmp_buf;
 
 #define FLEX_EXIT(status) longjmp(flex_main_jmp_buf,(status)+1)
 
 /* Removes all \n and \r chars from tail of str. returns str. */
-extern char *chomp (char *str);
+બાહ્ય અક્ષર *chomp (અક્ષર *str);
 
 /* ctype functions forced to return boolean */
 #define b_isalnum(c) (isalnum(c)?true:false)
@@ -1125,13 +1125,13 @@ extern char *chomp (char *str);
 #define b_isxdigit(c) (isxdigit(c)?true:false)
 
 /* return true if char is uppercase or lowercase. */
-bool has_case(int c);
+bool has_case(પૂર્ણાંક c);
 
 /* Change case of character if possible. */
-int reverse_case(int c);
+પૂર્ણાંક reverse_case(પૂર્ણાંક c);
 
 /* return false if [c1-c2] is ambiguous for a caseless scanner. */
-bool range_covers_case (int c1, int c2);
+bool range_covers_case (પૂર્ણાંક c1, પૂર્ણાંક c2);
 
 /*
  *  From "filter.c"
@@ -1141,56 +1141,56 @@ bool range_covers_case (int c1, int c2);
  *  The filter may be external, such as "sed", or it
  *  may be internal, as a function call.
  */
-struct filter {
-    int    (*filter_func)(struct filter*); /**< internal filter function */
-    void * extra;         /**< extra data passed to filter_func */
-	int     argc;         /**< arg count */
-	const char ** argv;   /**< arg vector, \0-terminated */
-    struct filter * next; /**< next filter or NULL */
+સંરચના filter {
+    પૂર્ણાંક    (*filter_func)(સંરચના filter*); /**< internal filter function */
+    શૂન્ય * extra;         /**< extra data passed to filter_func */
+	પૂર્ણાંક     argc;         /**< arg count */
+	અચલ અક્ષર ** argv;   /**< arg vector, \0-terminated */
+    સંરચના filter * next; /**< next filter or NULL */
 };
 
 /* output filter chain */
-extern struct filter * output_chain;
-extern struct filter *filter_create_ext (struct filter * chain, const char *cmd, ...);
-struct filter *filter_create_int(struct filter *chain,
-				  int (*filter_func) (struct filter *),
-                  void *extra);
-extern bool filter_apply_chain(struct filter * chain);
-extern int filter_truncate(struct filter * chain, int max_len);
-extern int filter_tee_header(struct filter *chain);
-extern int filter_fix_linedirs(struct filter *chain);
+બાહ્ય સંરચના filter * output_chain;
+બાહ્ય સંરચના filter *filter_create_ext (સંરચના filter * chain, અચલ અક્ષર *cmd, ...);
+સંરચના filter *filter_create_int(સંરચના filter *chain,
+				  પૂર્ણાંક (*filter_func) (સંરચના filter *),
+                  શૂન્ય *extra);
+બાહ્ય bool filter_apply_chain(સંરચના filter * chain);
+બાહ્ય પૂર્ણાંક filter_truncate(સંરચના filter * chain, પૂર્ણાંક max_len);
+બાહ્ય પૂર્ણાંક filter_tee_header(સંરચના filter *chain);
+બાહ્ય પૂર્ણાંક filter_fix_linedirs(સંરચના filter *chain);
 
 
 /*
  * From "regex.c"
  */
 
-extern regex_t regex_linedir;
-bool flex_init_regex(const char *);
-void flex_regcomp(regex_t *preg, const char *regex, int cflags);
-char   *regmatch_dup (regmatch_t * m, const char *src);
-char   *regmatch_cpy (regmatch_t * m, char *dest, const char *src);
-int regmatch_len (regmatch_t * m);
-int regmatch_strtol (regmatch_t * m, const char *src, char **endptr, int base);
+બાહ્ય regex_t regex_linedir;
+bool flex_init_regex(અચલ અક્ષર *);
+શૂન્ય flex_regcomp(regex_t *preg, અચલ અક્ષર *regex, પૂર્ણાંક cflags);
+અક્ષર   *regmatch_dup (regmatch_t * m, અચલ અક્ષર *src);
+અક્ષર   *regmatch_cpy (regmatch_t * m, અક્ષર *dest, અચલ અક્ષર *src);
+પૂર્ણાંક regmatch_len (regmatch_t * m);
+પૂર્ણાંક regmatch_strtol (regmatch_t * m, અચલ અક્ષર *src, અક્ષર **endptr, પૂર્ણાંક base);
 bool regmatch_empty (regmatch_t * m);
 
 /* From "scanflags.h" */
-typedef unsigned int scanflags_t;
-extern scanflags_t* _sf_stk;
-extern size_t _sf_top_ix, _sf_max; /**< stack of scanner flags. */
+પ્રકારવ્યાખ્યા unsigned પૂર્ણાંક scanflags_t;
+બાહ્ય scanflags_t* _sf_stk;
+બાહ્ય size_t sf_ટોચ_ix, _sf_max; /**< stack of scanner flags. */
 #define _SF_CASE_INS   ((scanflags_t) 0x0001)
 #define _SF_DOT_ALL    ((scanflags_t) 0x0002)
 #define _SF_SKIP_WS    ((scanflags_t) 0x0004)
-#define sf_top()           (_sf_stk[_sf_top_ix])
-#define sf_case_ins()      (sf_top() & _SF_CASE_INS)
-#define sf_dot_all()       (sf_top() & _SF_DOT_ALL)
-#define sf_skip_ws()       (sf_top() & _SF_SKIP_WS)
-#define sf_set_case_ins(X)      ((X) ? (sf_top() |= _SF_CASE_INS) : (sf_top() &= ~_SF_CASE_INS))
-#define sf_set_dot_all(X)       ((X) ? (sf_top() |= _SF_DOT_ALL)  : (sf_top() &= ~_SF_DOT_ALL))
-#define sf_set_skip_ws(X)       ((X) ? (sf_top() |= _SF_SKIP_WS)  : (sf_top() &= ~_SF_SKIP_WS))
-extern void sf_init(void);
-extern void sf_push(void);
-extern void sf_pop(void);
+#define sf_ટોચ()           (_sf_stk[sf_ટોચ_ix])
+#define sf_case_ins()      (sf_ટોચ() & _SF_CASE_INS)
+#define sf_dot_all()       (sf_ટોચ() & _SF_DOT_ALL)
+#define sf_skip_ws()       (sf_ટોચ() & _SF_SKIP_WS)
+#define sf_set_case_ins(X)      ((X) ? (sf_ટોચ() |= _SF_CASE_INS) : (sf_ટોચ() &= ~_SF_CASE_INS))
+#define sf_set_dot_all(X)       ((X) ? (sf_ટોચ() |= _SF_DOT_ALL)  : (sf_ટોચ() &= ~_SF_DOT_ALL))
+#define sf_set_skip_ws(X)       ((X) ? (sf_ટોચ() |= _SF_SKIP_WS)  : (sf_ટોચ() &= ~_SF_SKIP_WS))
+બાહ્ય શૂન્ય sf_init(શૂન્ય);
+બાહ્ય શૂન્ય sf_ધકેલો(શૂન્ય);
+બાહ્ય શૂન્ય sf_કાઢો(શૂન્ય);
 
 
 #endif /* not defined FLEXDEF_H */

@@ -1,6 +1,6 @@
 /* parse.y - parser for flex input */
 
-%token CHAR NUMBER SECTEND SCDECL XSCDECL NAME PREVCCL EOF_OP
+%token CHAR સંખ્યા SECTEND SCDECL XSCDECL NAME PREVCCL EOF_OP
 %token TOK_OPTION TOK_OUTFILE TOK_PREFIX TOK_YYCLASS TOK_HEADER_FILE TOK_EXTRA_TYPE
 %token TOK_TABLES_FILE TOK_YYLMAX TOK_NUMERIC TOK_YYDECL TOK_PREACTION TOK_POSTACTION
 %token TOK_USERINIT TOK_EMIT TOK_BUFSIZE TOK_YYTERMINATE
@@ -64,45 +64,45 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
-#include "tables.h"
+#અન્તર્ભાવ "flexdef.h"
+#અન્તર્ભાવ "tables.h"
 
-int pat, scnum, eps, headcnt, trailcnt, lastchar, i, rulelen;
-static int currccl;
+પૂર્ણાંક pat, scnum, eps, headcnt, trailcnt, lastchar, i, rulelen;
+સ્થિર પૂર્ણાંક currccl;
 bool trlcontxt;
-static bool sc_is_exclusive, cclsorted, varlength, variable_trail_rule;
+સ્થિર bool sc_is_exclusive, cclsorted, varlength, variable_trail_rule;
 
-int *scon_stk;
-int scon_stk_ptr;
+પૂર્ણાંક *scon_stk;
+પૂર્ણાંક scon_stk_ptr;
 
-static int madeany = false;  /* whether we've made the '.' character class */
-static int ccldot, cclany;
-int previous_continued_action;	/* whether the previous rule's action was '|' */
+સ્થિર પૂર્ણાંક madeany = false;  /* whether we've made the '.' character class */
+સ્થિર પૂર્ણાંક ccldot, cclany;
+પૂર્ણાંક previous_continued_action;	/* whether the previous rule's action was '|' */
 
 #define format_warn3(fmt, a1, a2) \
-	do{ \
-        char fw3_msg[MAXLINE];\
-        snprintf( fw3_msg, MAXLINE,(fmt), (a1), (a2) );\
-        lwarn( fw3_msg );\
-	}while(0)
+	કરો{ \
+        અક્ષર fw3_સંદેશ[MAXLINE];\
+        snprintf( fw3_સંદેશ, MAXLINE,(fmt), (a1), (a2) );\
+        lwarn( fw3_સંદેશ );\
+	}જ્યારે(0)
 
 /* Expand a POSIX character class expression. */
-#define CCL_EXPR(func) \
-	do{ \
-	int c; \
-	for ( c = 0; c < ctrl.csize; ++c ) \
-		if ( isascii(c) && func(c) ) \
+#define CCL_પદાવલિ(func) \
+	કરો{ \
+	પૂર્ણાંક c; \
+	માટે ( c = 0; c < ctrl.csize; ++c ) \
+		જો ( isascii(c) && func(c) ) \
 			ccladd( currccl, c ); \
-	}while(0)
+	}જ્યારે(0)
 
 /* negated class */
-#define CCL_NEG_EXPR(func) \
-	do{ \
-	int c; \
-	for ( c = 0; c < ctrl.csize; ++c ) \
-		if ( !func(c) ) \
+#define CCL_NEG_પદાવલિ(func) \
+	કરો{ \
+	પૂર્ણાંક c; \
+	માટે ( c = 0; c < ctrl.csize; ++c ) \
+		જો ( !func(c) ) \
 			ccladd( currccl, c ); \
-	}while(0)
+	}જ્યારે(0)
 
 /* While POSIX defines isblank(), it's not ANSI C. */
 #define IS_BLANK(c) ((c) == ' ' || (c) == '\t')
@@ -113,14 +113,14 @@ int previous_continued_action;	/* whether the previous rule's action was '|' */
  * wrap their definitions of YYSTYPE with "#ifndef YYSTYPE"'s, so the
  * following should ensure that the default token type is "int".
  */
-#define YYSTYPE int
+#define YYSTYPE પૂર્ણાંક
 
 %}
 
 %%
 goal		:  initlex sect1 sect1end sect2 initforrule
 			{ /* add default rule */
-			int def_rule;
+			પૂર્ણાંક def_rule;
 
 			pat = cclinit();
 			cclnegate( pat );
@@ -130,19 +130,19 @@ goal		:  initlex sect1 sect1end sect2 initforrule
 			/* Remember the number of the default rule so we
 			 * don't generate "can't match" warnings for it.
 			 */
-			default_rule = num_rules;
+			default_rule = અંક_rules;
 
 			finish_rule( def_rule, false, 0, 0, 0);
 
-			for ( i = 1; i <= lastsc; ++i )
+			માટે ( i = 1; i <= lastsc; ++i )
 				scset[i] = mkbranch( scset[i], def_rule );
 
 			add_action("]]");
 
-			if ( ctrl.spprdflt )
+			જો ( ctrl.spprdflt )
 				add_action(
 				"M4_HOOK_FATAL_ERROR(\"flex scanner jammed\")");
-			else {
+			નહીંતર {
 			    add_action("M4_HOOK_ECHO");
 			}
 
@@ -206,7 +206,7 @@ option		:  TOK_OUTFILE '=' NAME
 			{ extra_type = xstrdup(nmstr); }
 		|  TOK_PREFIX '=' NAME
 			{ ctrl.prefix = xstrdup(nmstr);
-                          if (strchr(ctrl.prefix, '[') || strchr(ctrl.prefix, ']'))
+                          જો (strchr(ctrl.prefix, '[') || strchr(ctrl.prefix, ']'))
                               flexerror(_("Prefix must not contain [ or ]")); }
 		|  TOK_YYCLASS '=' NAME
 			{ ctrl.yyclass = xstrdup(nmstr); }
@@ -258,31 +258,31 @@ flexrule	:  '^' rule
 			finish_rule( pat, variable_trail_rule,
 				headcnt, trailcnt , previous_continued_action);
 
-			if ( scon_stk_ptr > 0 )
+			જો ( scon_stk_ptr > 0 )
 				{
-				for ( i = 1; i <= scon_stk_ptr; ++i )
+				માટે ( i = 1; i <= scon_stk_ptr; ++i )
 					scbol[scon_stk[i]] =
 						mkbranch( scbol[scon_stk[i]],
 								pat );
 				}
 
-			else
+			નહીંતર
 				{
 				/* Add to all non-exclusive start conditions,
 				 * including the default (0) start condition.
 				 */
 
-				for ( i = 1; i <= lastsc; ++i )
-					if ( ! scxclu[i] )
+				માટે ( i = 1; i <= lastsc; ++i )
+					જો ( ! scxclu[i] )
 						scbol[i] = mkbranch( scbol[i],
 									pat );
 				}
 
-			if ( ! bol_needed )
+			જો ( ! bol_needed )
 				{
 				bol_needed = true;
 
-				if ( env.performance_hint > 1 )
+				જો ( env.performance_hint > 1 )
 					pinpoint_message(
 			"'^' operator results in sub-optimal performance" );
 				}
@@ -294,18 +294,18 @@ flexrule	:  '^' rule
 			finish_rule( pat, variable_trail_rule,
 				headcnt, trailcnt , previous_continued_action);
 
-			if ( scon_stk_ptr > 0 )
+			જો ( scon_stk_ptr > 0 )
 				{
-				for ( i = 1; i <= scon_stk_ptr; ++i )
+				માટે ( i = 1; i <= scon_stk_ptr; ++i )
 					scset[scon_stk[i]] =
 						mkbranch( scset[scon_stk[i]],
 								pat );
 				}
 
-			else
+			નહીંતર
 				{
-				for ( i = 1; i <= lastsc; ++i )
-					if ( ! scxclu[i] )
+				માટે ( i = 1; i <= lastsc; ++i )
+					જો ( ! scxclu[i] )
 						scset[i] =
 							mkbranch( scset[i],
 								pat );
@@ -314,23 +314,23 @@ flexrule	:  '^' rule
 
 		|  EOF_OP
 			{
-			if ( scon_stk_ptr > 0 )
+			જો ( scon_stk_ptr > 0 )
 				build_eof_action();
 	
-			else
+			નહીંતર
 				{
 				/* This EOF applies to all start conditions
 				 * which don't already have EOF actions.
 				 */
-				for ( i = 1; i <= lastsc; ++i )
-					if ( ! sceof[i] )
+				માટે ( i = 1; i <= lastsc; ++i )
+					જો ( ! sceof[i] )
 						scon_stk[++scon_stk_ptr] = i;
 
-				if ( scon_stk_ptr == 0 )
+				જો ( scon_stk_ptr == 0 )
 					lwarn(
 			"all start conditions already have <<EOF>> rules" );
 
-				else
+				નહીંતર
 					build_eof_action();
 				}
 			}
@@ -350,15 +350,15 @@ scon		:  '<' scon_stk_ptr namelist2 '>'
 			{
 			$$ = scon_stk_ptr;
 
-			for ( i = 1; i <= lastsc; ++i )
+			માટે ( i = 1; i <= lastsc; ++i )
 				{
-				int j;
+				પૂર્ણાંક j;
 
-				for ( j = 1; j <= scon_stk_ptr; ++j )
-					if ( scon_stk[j] == i )
-						break;
+				માટે ( j = 1; j <= scon_stk_ptr; ++j )
+					જો ( scon_stk[j] == i )
+						તોડો;
 
-				if ( j > scon_stk_ptr )
+				જો ( j > scon_stk_ptr )
 					scon_stk[++scon_stk_ptr] = i;
 				}
 			}
@@ -377,22 +377,22 @@ namelist2	:  namelist2 ',' sconname
 
 sconname	:  NAME
 			{
-			if ( (scnum = sclookup( nmstr )) == 0 )
+			જો ( (scnum = sclookup( nmstr )) == 0 )
 				format_pinpoint_message(
 					"undeclared start condition %s",
 					nmstr );
-			else
+			નહીંતર
 				{
-				for ( i = 1; i <= scon_stk_ptr; ++i )
-					if ( scon_stk[i] == scnum )
+				માટે ( i = 1; i <= scon_stk_ptr; ++i )
+					જો ( scon_stk[i] == scnum )
 						{
 						format_warn(
 							"<%s> specified twice",
 							scname[scnum] );
-						break;
+						તોડો;
 						}
 
-				if ( i > scon_stk_ptr )
+				જો ( i > scon_stk_ptr )
 					scon_stk[++scon_stk_ptr] = scnum;
 				}
 			}
@@ -400,7 +400,7 @@ sconname	:  NAME
 
 rule		:  re2 re
 			{
-			if ( transchar[lastst[$2]] != SYM_EPSILON )
+			જો ( transchar[lastst[$2]] != SYM_EPSILON )
 				/* Provide final transition \now/ so it
 				 * will be marked as a trailing context
 				 * state.
@@ -411,7 +411,7 @@ rule		:  re2 re
 			mark_beginning_as_normal( $2 );
 			current_state_type = STATE_NORMAL;
 
-			if ( previous_continued_action )
+			જો ( previous_continued_action )
 				{
 				/* We need to treat this as variable trailing
 				 * context so that the backup does not happen
@@ -421,7 +421,7 @@ rule		:  re2 re
 				 * one's action will *also* do the backup,
 				 * erroneously.
 				 */
-				if ( ! varlength || headcnt != 0 )
+				જો ( ! varlength || headcnt != 0 )
 					lwarn(
 		"trailing context made variable due to preceding '|' action" );
 
@@ -431,7 +431,7 @@ rule		:  re2 re
 
 				}
 
-			if ( ctrl.lex_compat || (varlength && headcnt == 0) )
+			જો ( ctrl.lex_compat || (varlength && headcnt == 0) )
 				{ /* variable trailing context rule */
 				/* Mark the first part of the rule as the
 				 * accepting "head" part of a trailing
@@ -444,11 +444,11 @@ rule		:  re2 re
 				 * a new state ...
 				 */
 				add_accept( $1,
-					num_rules | YY_TRAILING_HEAD_MASK );
+					અંક_rules | YY_TRAILING_HEAD_MASK );
 				variable_trail_rule = true;
 				}
 			
-			else
+			નહીંતર
 				trailcnt = rulelen;
 
 			$$ = link_machines( $1, $2 );
@@ -466,13 +466,13 @@ rule		:  re2 re
 
 			current_state_type = STATE_TRAILING_CONTEXT;
 
-			if ( trlcontxt )
+			જો ( trlcontxt )
 				{
 				synerr( _("trailing context used twice") );
 				$$ = mkstate( SYM_EPSILON );
 				}
 
-			else if ( previous_continued_action )
+			નહીંતર જો ( previous_continued_action )
 				{
 				/* See the comment in the rule for "re2 re"
 				 * above.
@@ -483,13 +483,13 @@ rule		:  re2 re
 				varlength = true;
 				}
 
-			if ( ctrl.lex_compat || varlength )
+			જો ( ctrl.lex_compat || varlength )
 				{
 				/* Again, see the comment in the rule for
 				 * "re2 re" above.
 				 */
 				add_accept( $1,
-					num_rules | YY_TRAILING_HEAD_MASK );
+					અંક_rules | YY_TRAILING_HEAD_MASK );
 				variable_trail_rule = true;
 				}
 
@@ -504,14 +504,14 @@ rule		:  re2 re
 			{
 			$$ = $1;
 
-			if ( trlcontxt )
+			જો ( trlcontxt )
 				{
-				if ( ctrl.lex_compat || (varlength && headcnt == 0) )
+				જો ( ctrl.lex_compat || (varlength && headcnt == 0) )
 					/* Both head and trail are
 					 * variable-length.
 					 */
 					variable_trail_rule = true;
-				else
+				નહીંતર
 					trailcnt = rulelen;
 				}
 			}
@@ -536,17 +536,17 @@ re2		:  re '/'
 			 * series is parsed.
 			 */
 
-			if ( trlcontxt )
+			જો ( trlcontxt )
 				synerr( _("trailing context used twice") );
-			else
+			નહીંતર
 				trlcontxt = true;
 
-			if ( varlength )
+			જો ( varlength )
 				/* We hope the trailing context is
 				 * fixed-length.
 				 */
 				varlength = false;
-			else
+			નહીંતર
 				headcnt = rulelen;
 
 			rulelen = 0;
@@ -567,49 +567,49 @@ series		:  series singleton
 		|  singleton
 			{ $$ = $1; }
 
-		|  series BEGIN_REPEAT_POSIX NUMBER ',' NUMBER END_REPEAT_POSIX
+		|  series BEGIN_REPEAT_POSIX સંખ્યા ',' સંખ્યા END_REPEAT_POSIX
 			{
 			varlength = true;
 
-			if ( $3 > $5 || $3 < 0 )
+			જો ( $3 > $5 || $3 < 0 )
 				{
 				synerr( _("bad iteration values") );
 				$$ = $1;
 				}
-			else
+			નહીંતર
 				{
-				if ( $3 == 0 )
+				જો ( $3 == 0 )
 					{
-					if ( $5 <= 0 )
+					જો ( $5 <= 0 )
 						{
 						synerr(
 						_("bad iteration values") );
 						$$ = $1;
 						}
-					else
+					નહીંતર
 						$$ = mkopt(
 							mkrep( $1, 1, $5 ) );
 					}
-				else
+				નહીંતર
 					$$ = mkrep( $1, $3, $5 );
 				}
 			}
 
-		|  series BEGIN_REPEAT_POSIX NUMBER ',' END_REPEAT_POSIX
+		|  series BEGIN_REPEAT_POSIX સંખ્યા ',' END_REPEAT_POSIX
 			{
 			varlength = true;
 
-			if ( $3 <= 0 )
+			જો ( $3 <= 0 )
 				{
 				synerr( _("iteration value must be positive") );
 				$$ = $1;
 				}
 
-			else
+			નહીંતર
 				$$ = mkrep( $1, $3, INFINITE_REPEAT );
 			}
 
-		|  series BEGIN_REPEAT_POSIX NUMBER END_REPEAT_POSIX
+		|  series BEGIN_REPEAT_POSIX સંખ્યા END_REPEAT_POSIX
 			{
 			/* The series could be something like "(foo)",
 			 * in which case we have no idea what its length
@@ -617,14 +617,14 @@ series		:  series singleton
 			 */
 			varlength = true;
 
-			if ( $3 <= 0 )
+			જો ( $3 <= 0 )
 				{
 				  synerr( _("iteration value must be positive")
 					  );
 				$$ = $1;
 				}
 
-			else
+			નહીંતર
 				$$ = link_machines( $1,
 						copysingl( $1, $3 - 1 ) );
 			}
@@ -650,49 +650,49 @@ singleton	:  singleton '*'
 			$$ = mkopt( $1 );
 			}
 
-		|  singleton BEGIN_REPEAT_FLEX NUMBER ',' NUMBER END_REPEAT_FLEX
+		|  singleton BEGIN_REPEAT_FLEX સંખ્યા ',' સંખ્યા END_REPEAT_FLEX
 			{
 			varlength = true;
 
-			if ( $3 > $5 || $3 < 0 )
+			જો ( $3 > $5 || $3 < 0 )
 				{
 				synerr( _("bad iteration values") );
 				$$ = $1;
 				}
-			else
+			નહીંતર
 				{
-				if ( $3 == 0 )
+				જો ( $3 == 0 )
 					{
-					if ( $5 <= 0 )
+					જો ( $5 <= 0 )
 						{
 						synerr(
 						_("bad iteration values") );
 						$$ = $1;
 						}
-					else
+					નહીંતર
 						$$ = mkopt(
 							mkrep( $1, 1, $5 ) );
 					}
-				else
+				નહીંતર
 					$$ = mkrep( $1, $3, $5 );
 				}
 			}
 
-		|  singleton BEGIN_REPEAT_FLEX NUMBER ',' END_REPEAT_FLEX
+		|  singleton BEGIN_REPEAT_FLEX સંખ્યા ',' END_REPEAT_FLEX
 			{
 			varlength = true;
 
-			if ( $3 <= 0 )
+			જો ( $3 <= 0 )
 				{
 				synerr( _("iteration value must be positive") );
 				$$ = $1;
 				}
 
-			else
+			નહીંતર
 				$$ = mkrep( $1, $3, INFINITE_REPEAT );
 			}
 
-		|  singleton BEGIN_REPEAT_FLEX NUMBER END_REPEAT_FLEX
+		|  singleton BEGIN_REPEAT_FLEX સંખ્યા END_REPEAT_FLEX
 			{
 			/* The singleton could be something like "(foo)",
 			 * in which case we have no idea what its length
@@ -700,27 +700,27 @@ singleton	:  singleton '*'
 			 */
 			varlength = true;
 
-			if ( $3 <= 0 )
+			જો ( $3 <= 0 )
 				{
 				synerr( _("iteration value must be positive") );
 				$$ = $1;
 				}
 
-			else
+			નહીંતર
 				$$ = link_machines( $1,
 						copysingl( $1, $3 - 1 ) );
 			}
 
 		|  '.'
 			{
-			if ( ! madeany )
+			જો ( ! madeany )
 				{
 				/* Create the '.' character class. */
                     ccldot = cclinit();
                     ccladd( ccldot, '\n' );
                     cclnegate( ccldot );
 
-                    if ( ctrl.useecs )
+                    જો ( ctrl.useecs )
                         mkeccl( ccltbl + cclmap[ccldot],
                             ccllen[ccldot], nextecm,
                             ecgroup, ctrl.csize, ctrl.csize );
@@ -729,7 +729,7 @@ singleton	:  singleton '*'
                     cclany = cclinit();
                     cclnegate( cclany );
 
-                    if ( ctrl.useecs )
+                    જો ( ctrl.useecs )
                         mkeccl( ccltbl + cclmap[cclany],
                             ccllen[cclany], nextecm,
                             ecgroup, ctrl.csize, ctrl.csize );
@@ -739,9 +739,9 @@ singleton	:  singleton '*'
 
 			++rulelen;
 
-            if (sf_dot_all())
+            જો (sf_dot_all())
                 $$ = mkstate( -cclany );
-            else
+            નહીંતર
                 $$ = mkstate( -ccldot );
 			}
 
@@ -749,15 +749,15 @@ singleton	:  singleton '*'
 			{
 				/* Sort characters for fast searching.
 				 */
-				qsort( ccltbl + cclmap[$1], (size_t) ccllen[$1], sizeof (*ccltbl), cclcmp );
+				qsort( ccltbl + cclmap[$1], (size_t) ccllen[$1], કદ (*ccltbl), cclcmp );
 
-			if ( ctrl.useecs )
+			જો ( ctrl.useecs )
 				mkeccl( ccltbl + cclmap[$1], ccllen[$1],
 					nextecm, ecgroup, ctrl.csize, ctrl.csize);
 
 			++rulelen;
 
-			if (ccl_has_nl[$1])
+			જો (ccl_has_nl[$1])
 				rule_has_nl[num_rules] = true;
 
 			$$ = mkstate( -$1 );
@@ -767,7 +767,7 @@ singleton	:  singleton '*'
 			{
 			++rulelen;
 
-			if (ccl_has_nl[$1])
+			જો (ccl_has_nl[$1])
 				rule_has_nl[num_rules] = true;
 
 			$$ = mkstate( -$1 );
@@ -783,13 +783,13 @@ singleton	:  singleton '*'
 			{
 			++rulelen;
 
-			if ($1 == nlch)
+			જો ($1 == nlch)
 				rule_has_nl[num_rules] = true;
 
-            if (sf_case_ins() && has_case($1))
+            જો (sf_case_ins() && has_case($1))
                 /* create an alternation, as in (a|A) */
                 $$ = mkor (mkstate($1), mkstate(reverse_case($1)));
-            else
+            નહીંતર
                 $$ = mkstate( $1 );
 			}
 		;
@@ -813,7 +813,7 @@ braceccl:
 ccl		:  ccl CHAR '-' CHAR
 			{
 
-			if (sf_case_ins())
+			જો (sf_case_ins())
 			  {
 
 			    /* If one end of the range has case and the other
@@ -821,7 +821,7 @@ ccl		:  ccl CHAR '-' CHAR
 			     * sure what range the user is trying to express.
 			     * Examples: [@-z] or [S-t]
 			     */
-			    if (has_case ($2) != has_case ($4)
+			    જો (has_case ($2) != has_case ($4)
 				     || (has_case ($2) && (b_islower ($2) != b_islower ($4)))
 				     || (has_case ($2) && (b_isupper ($2) != b_isupper ($4))))
 			      format_warn3 (
@@ -833,18 +833,18 @@ ccl		:  ccl CHAR '-' CHAR
 			     * include lowercase characters in the range?
 			     * Example: [@-_] spans [a-z] but not [A-Z]
 			     */
-			    else if (!has_case ($2) && !has_case ($4) && !range_covers_case ($2, $4))
+			    નહીંતર જો (!has_case ($2) && !has_case ($4) && !range_covers_case ($2, $4))
 			      format_warn3 (
 			      _("the character range [%c-%c] is ambiguous in a case-insensitive scanner"),
 					    $2, $4);
 			  }
 
-			if ( $2 > $4 )
+			જો ( $2 > $4 )
 				synerr( _("negative range in character class") );
 
-			else
+			નહીંતર
 				{
-				for ( i = $2; i <= $4; ++i )
+				માટે ( i = $2; i <= $4; ++i )
 					ccladd( $1, i );
 
 				/* Keep track if this ccl is staying in
@@ -854,11 +854,11 @@ ccl		:  ccl CHAR '-' CHAR
 				lastchar = $4;
 
                 /* Do it again for upper/lowercase */
-                if (sf_case_ins() && has_case($2) && has_case($4)){
+                જો (sf_case_ins() && has_case($2) && has_case($4)){
                     $2 = reverse_case ($2);
                     $4 = reverse_case ($4);
                     
-                    for ( i = $2; i <= $4; ++i )
+                    માટે ( i = $2; i <= $4; ++i )
                         ccladd( $1, i );
 
                     cclsorted = cclsorted && ($2 > lastchar);
@@ -877,7 +877,7 @@ ccl		:  ccl CHAR '-' CHAR
 			lastchar = $2;
 
             /* Do it again for upper/lowercase */
-            if (sf_case_ins() && has_case($2)){
+            જો (sf_case_ins() && has_case($2)){
                 $2 = reverse_case ($2);
                 ccladd ($1, $2);
 
@@ -888,7 +888,7 @@ ccl		:  ccl CHAR '-' CHAR
 			$$ = $1;
 			}
 
-		|  ccl ccl_expr
+		|  ccl ccl_પદાવલિ
 			{
 			/* Too hard to properly maintain cclsorted. */
 			cclsorted = false;
@@ -903,62 +903,62 @@ ccl		:  ccl CHAR '-' CHAR
 			}
 		;
 
-ccl_expr:	   
-           CCE_ALNUM	{ CCL_EXPR(isalnum); }
-		|  CCE_ALPHA	{ CCL_EXPR(isalpha); }
-		|  CCE_BLANK	{ CCL_EXPR(IS_BLANK); }
-		|  CCE_CNTRL	{ CCL_EXPR(iscntrl); }
-		|  CCE_DIGIT	{ CCL_EXPR(isdigit); }
-		|  CCE_GRAPH	{ CCL_EXPR(isgraph); }
+ccl_પદાવલિ:	   
+           CCE_ALNUM	{ CCL_પદાવલિ(isalnum); }
+		|  CCE_ALPHA	{ CCL_પદાવલિ(isalpha); }
+		|  CCE_BLANK	{ CCL_પદાવલિ(IS_BLANK); }
+		|  CCE_CNTRL	{ CCL_પદાવલિ(iscntrl); }
+		|  CCE_DIGIT	{ CCL_પદાવલિ(isdigit); }
+		|  CCE_GRAPH	{ CCL_પદાવલિ(isgraph); }
 		|  CCE_LOWER	{ 
-                          CCL_EXPR(islower);
-                          if (sf_case_ins())
-                              CCL_EXPR(isupper);
+                          CCL_પદાવલિ(islower);
+                          જો (sf_case_ins())
+                              CCL_પદાવલિ(isupper);
                         }
-		|  CCE_PRINT	{ CCL_EXPR(isprint); }
-		|  CCE_PUNCT	{ CCL_EXPR(ispunct); }
-		|  CCE_SPACE	{ CCL_EXPR(isspace); }
-		|  CCE_XDIGIT	{ CCL_EXPR(isxdigit); }
+		|  CCE_PRINT	{ CCL_પદાવલિ(isprint); }
+		|  CCE_PUNCT	{ CCL_પદાવલિ(ispunct); }
+		|  CCE_SPACE	{ CCL_પદાવલિ(isspace); }
+		|  CCE_XDIGIT	{ CCL_પદાવલિ(isxdigit); }
 		|  CCE_UPPER	{
-                    CCL_EXPR(isupper);
-                    if (sf_case_ins())
-                        CCL_EXPR(islower);
+                    CCL_પદાવલિ(isupper);
+                    જો (sf_case_ins())
+                        CCL_પદાવલિ(islower);
 				}
 
-        |  CCE_NEG_ALNUM	{ CCL_NEG_EXPR(isalnum); }
-		|  CCE_NEG_ALPHA	{ CCL_NEG_EXPR(isalpha); }
-		|  CCE_NEG_BLANK	{ CCL_NEG_EXPR(IS_BLANK); }
-		|  CCE_NEG_CNTRL	{ CCL_NEG_EXPR(iscntrl); }
-		|  CCE_NEG_DIGIT	{ CCL_NEG_EXPR(isdigit); }
-		|  CCE_NEG_GRAPH	{ CCL_NEG_EXPR(isgraph); }
-		|  CCE_NEG_PRINT	{ CCL_NEG_EXPR(isprint); }
-		|  CCE_NEG_PUNCT	{ CCL_NEG_EXPR(ispunct); }
-		|  CCE_NEG_SPACE	{ CCL_NEG_EXPR(isspace); }
-		|  CCE_NEG_XDIGIT	{ CCL_NEG_EXPR(isxdigit); }
+        |  CCE_NEG_ALNUM	{ CCL_NEG_પદાવલિ(isalnum); }
+		|  CCE_NEG_ALPHA	{ CCL_NEG_પદાવલિ(isalpha); }
+		|  CCE_NEG_BLANK	{ CCL_NEG_પદાવલિ(IS_BLANK); }
+		|  CCE_NEG_CNTRL	{ CCL_NEG_પદાવલિ(iscntrl); }
+		|  CCE_NEG_DIGIT	{ CCL_NEG_પદાવલિ(isdigit); }
+		|  CCE_NEG_GRAPH	{ CCL_NEG_પદાવલિ(isgraph); }
+		|  CCE_NEG_PRINT	{ CCL_NEG_પદાવલિ(isprint); }
+		|  CCE_NEG_PUNCT	{ CCL_NEG_પદાવલિ(ispunct); }
+		|  CCE_NEG_SPACE	{ CCL_NEG_પદાવલિ(isspace); }
+		|  CCE_NEG_XDIGIT	{ CCL_NEG_પદાવલિ(isxdigit); }
 		|  CCE_NEG_LOWER	{ 
-				if ( sf_case_ins() )
+				જો ( sf_case_ins() )
 					lwarn(_("[:^lower:] is ambiguous in case insensitive scanner"));
-				else
-					CCL_NEG_EXPR(islower);
+				નહીંતર
+					CCL_NEG_પદાવલિ(islower);
 				}
 		|  CCE_NEG_UPPER	{
-				if ( sf_case_ins() )
+				જો ( sf_case_ins() )
 					lwarn(_("[:^upper:] ambiguous in case insensitive scanner"));
-				else
-					CCL_NEG_EXPR(isupper);
+				નહીંતર
+					CCL_NEG_પદાવલિ(isupper);
 				}
 		;
 		
 string		:  string CHAR
 			{
-			if ( $2 == nlch )
+			જો ( $2 == nlch )
 				rule_has_nl[num_rules] = true;
 
 			++rulelen;
 
-            if (sf_case_ins() && has_case($2))
+            જો (sf_case_ins() && has_case($2))
                 $$ = mkor (mkstate($2), mkstate(reverse_case($2)));
-            else
+            નહીંતર
                 $$ = mkstate ($2);
 
 			$$ = link_machines( $1, $$);
@@ -975,32 +975,32 @@ string		:  string CHAR
  *                    conditions
  */
 
-void build_eof_action(void)
+શૂન્ય build_eof_action(શૂન્ય)
 	{
-	int i;
-	char action_text[MAXLINE];
+	પૂર્ણાંક i;
+	અક્ષર action_text[MAXLINE];
 
-	for ( i = 1; i <= scon_stk_ptr; ++i )
+	માટે ( i = 1; i <= scon_stk_ptr; ++i )
 		{
-		if ( sceof[scon_stk[i]] )
+		જો ( sceof[scon_stk[i]] )
 			format_pinpoint_message(
 				"multiple <<EOF>> rules for start condition %s",
 				scname[scon_stk[i]] );
 
-		else
+		નહીંતર
 			{
 			sceof[scon_stk[i]] = true;
 
-			if (previous_continued_action /* && previous action was regular */)
+			જો (previous_continued_action /* && previous action was regular */)
 				add_action("YY_RULE_SETUP\n");
 
-			snprintf( action_text, sizeof(action_text), "M4_HOOK_EOF_STATE_CASE_ARM(%s)\n",
+			snprintf( action_text, કદ(action_text), "M4_HOOK_EOF_STATE_CASE_ARM(%s)\n",
 				scname[scon_stk[i]] );
 			add_action( action_text );
 			}
 		}
 
-	line_directive_out(NULL, infilename, linenum);
+	લીટી_directive_out(ખાલી, infilename, linenum);
         add_action("[[");
 
 	/* This isn't a normal rule after all - don't count it as
@@ -1009,24 +1009,24 @@ void build_eof_action(void)
 	 * more difficult.
 	 */
 	--num_rules;
-	++num_eof_rules;
+	++અંક_eof_rules;
 	}
 
 
 /* format_synerr - write out formatted syntax error */
 
-void format_synerr( const char *msg, const char arg[] )
+શૂન્ય format_synerr( અચલ અક્ષર *સંદેશ, અચલ અક્ષર arg[] )
 	{
-	char errmsg[MAXLINE];
+	અક્ષર errmsg[MAXLINE];
 
-	(void) snprintf( errmsg, sizeof(errmsg), msg, arg );
+	(શૂન્ય) snprintf( errmsg, કદ(errmsg), સંદેશ, arg );
 	synerr( errmsg );
 	}
 
 
 /* synerr - report a syntax error */
 
-void synerr( const char *str )
+શૂન્ય synerr( અચલ અક્ષર *str )
 	{
 	syntaxerror = true;
 	pinpoint_message( str );
@@ -1035,62 +1035,62 @@ void synerr( const char *str )
 
 /* format_warn - write out formatted warning */
 
-void format_warn( const char *msg, const char arg[] )
+શૂન્ય format_warn( અચલ અક્ષર *સંદેશ, અચલ અક્ષર arg[] )
 	{
-	char warn_msg[MAXLINE];
+	અક્ષર warn_સંદેશ[MAXLINE];
 
-	snprintf( warn_msg, sizeof(warn_msg), msg, arg );
-	lwarn( warn_msg );
+	snprintf( warn_સંદેશ, કદ(warn_સંદેશ), સંદેશ, arg );
+	lwarn( warn_સંદેશ );
 	}
 
 
 /* lwarn - report a warning, unless -w was given */
 
-void lwarn( const char *str )
+શૂન્ય lwarn( અચલ અક્ષર *str )
 	{
-	line_warning( str, linenum );
+	લીટી_warning( str, linenum );
 	}
 
 /* format_pinpoint_message - write out a message formatted with one string,
  *			     pinpointing its location
  */
 
-void format_pinpoint_message( const char *msg, const char arg[] )
+શૂન્ય format_pinpoint_message( અચલ અક્ષર *સંદેશ, અચલ અક્ષર arg[] )
 	{
-	char errmsg[MAXLINE*2];
+	અક્ષર errmsg[MAXLINE*2];
 
-	snprintf( errmsg, sizeof(errmsg), msg, arg );
+	snprintf( errmsg, કદ(errmsg), સંદેશ, arg );
 	pinpoint_message( errmsg );
 	}
 
 
 /* pinpoint_message - write out a message, pinpointing its location */
 
-void pinpoint_message( const char *str )
+શૂન્ય pinpoint_message( અચલ અક્ષર *str )
 	{
-	line_pinpoint( str, linenum );
+	લીટી_pinpoint( str, linenum );
 	}
 
 
 /* line_warning - report a warning at a given line, unless -w was given */
 
-void line_warning( const char *str, int line )
+શૂન્ય લીટી_warning( અચલ અક્ષર *str, પૂર્ણાંક લીટી )
 	{
-	char warning[MAXLINE*2];
+	અક્ષર warning[MAXLINE*2];
 
-	if ( ! env.nowarn )
+	જો ( ! env.nowarn )
 		{
-		snprintf( warning, sizeof(warning), "warning, %s", str );
-		line_pinpoint( warning, line );
+		snprintf( warning, કદ(warning), "warning, %s", str );
+		લીટી_pinpoint( warning, લીટી );
 		}
 	}
 
 
 /* line_pinpoint - write out a message, pinpointing it at the given line */
 
-void line_pinpoint( const char *str, int line )
+શૂન્ય લીટી_pinpoint( અચલ અક્ષર *str, પૂર્ણાંક લીટી )
 	{
-	fprintf( stderr, "%s:%d: %s\n", infilename, line, str );
+	fprintf( stderr, "%s:%d: %s\n", infilename, લીટી, str );
 	}
 
 
@@ -1098,7 +1098,7 @@ void line_pinpoint( const char *str, int line )
  *	     currently, messages are ignore
  */
 
-void yyerror( const char *msg )
+શૂન્ય yyerror( અચલ અક્ષર *સંદેશ )
 	{
-		(void)msg;
+		(શૂન્ય)સંદેશ;
 	}
