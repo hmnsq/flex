@@ -25,14 +25,14 @@
 
 #include <stdlib.h>
 
-extern int yylex (void);
+extern පූර්ණ_සංඛ්‍යා yylex (void);
 
-int     main (int argc, char *argv[])
+පූර්ණ_සංඛ්‍යා     main (පූර්ණ_සංඛ්‍යා argc, var_na *argv[])
 {
 	(void)argc;
 	(void)argv;
 
-	while (yylex () != 0) ;
+	අතරතුර (yylex () != 0) ;
 
 	exit(0);
 }
