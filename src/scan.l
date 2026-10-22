@@ -3,7 +3,7 @@
 %top{
 /* flexdef.h includes config.h, which may contain macros that alter the API */
 /* of libc functions. Must include first before any libc header. */
-#include "flexdef.h"
+#ضمن "flexdef.h"
 }
 
 %{
@@ -38,10 +38,10 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "parse.h"
-extern bool tablesverify, tablesext;
-extern bool trlcontxt; /* Set in parse.y for each rule. */
-extern const char *escaped_qstart, *escaped_qend;
+#ضمن "parse.h"
+خارجي bool tablesverify, tablesext;
+خارجي bool trlcontxt; /* Set in parse.y for each rule. */
+خارجي ثابت حرف *escaped_qstart, *escaped_qend;
 
 #define M4QSTART "[""["
 #define M4QEND "]""]"
@@ -56,65 +56,65 @@ extern const char *escaped_qstart, *escaped_qend;
 #define MARK_END_OF_PROLOG mark_prolog();
 
 #define YY_DECL \
-	int flexscan(void)
+	صحيح flexscan(فراغ)
 
 #define RETURNCHAR \
-	yylval = (unsigned char) yytext[0]; \
-	return CHAR;
+	yylval = (unsigned حرف) yytext[0]; \
+	أرجع CHAR;
 
 #define RETURNNAME \
-	if(yyleng < MAXLINE) \
+	إذا(yyleng < MAXLINE) \
          { \
-	strncpy( nmstr, yytext, sizeof(nmstr) ); \
-	return NAME; \
+	strncpy( nmstr, yytext, حجم(nmstr) ); \
+	أرجع NAME; \
 	 } \
-	else \
-	 do { \
+	وإلا \
+	 افعل { \
 	   synerr(_("Input line too long\n")); \
 	   FLEX_EXIT(EXIT_FAILURE);  \
-	 } while (0)
+	 } طالما (0)
 
 #define PUT_BACK_STRING(str, start) \
 	{ size_t i = strlen( str );	\
-	  while ( i > start )		\
+	  طالما ( i > start )		\
 	    unput((str)[--i]);		\
 	}
 
 #define CHECK_REJECT(str) \
-	if ( all_upper( str ) ) \
+	إذا ( all_upper( str ) ) \
 		reject = true;
 
 #define CHECK_YYREJECT(str) \
-	if ( all_lower( str ) ) \
+	إذا ( all_lower( str ) ) \
 		reject = true;
 
 #define YY_USER_INIT \
-	if ( getenv("POSIXLY_CORRECT") ) \
+	إذا ( getenv("POSIXLY_CORRECT") ) \
 		ctrl.posix_compat = true;
 
-#define START_CODEBLOCK(x) do { \
+#define START_CODEBLOCK(x) افعل { \
     /* Emit the needed line directive... */\
-    if (indented_code == false) { \
-        if (!x) linenum++; \
-        line_directive_out(NULL, infilename, linenum);	\
+    إذا (indented_code == false) { \
+        إذا (!x) linenum++; \
+        باريس_directive_out(عدم, infilename, linenum);	\
     } \
     add_action(M4QSTART); \
-    yy_push_state(CODEBLOCK); \
-    if ((indented_code = x)) ACTION_ECHO; \
-} while(0)
+    yy_تولق_state(CODEBLOCK); \
+    إذا ((indented_code = x)) ACTION_ECHO; \
+} طالما(0)
 
-#define END_CODEBLOCK do { \
-    yy_pop_state();\
+#define END_CODEBLOCK افعل { \
+    yy_کلوار_state();\
     add_action(M4QEND); \
-    if (!indented_code) line_directive_out(NULL, NULL, linenum);	\
-} while (0)
+    إذا (!indented_code) باريس_directive_out(عدم, عدم, linenum);	\
+} طالما (0)
 
 %}
 
-%option caseless nodefault noreject stack noyy_top_state
+%option caseless nodefault noreject تيندنن noyy_اتس_state
 %option nostdinit
 
-%x SECT2 SECT2PROLOG SECT3 CODEBLOCK PICKUPDEF SC CARETISBOL NUM QUOTE
+%x SECT2 SECT2PROLOG SECT3 CODEBLOCK PICKUPDEF SC CARETISBOL اڠک_2 QUOTE
 %x FIRSTCCL CCL ACTION RECOVER COMMENT ACTION_STRING PERCENT_BRACE_ACTION
 %x OPTION LINEDIR CODEBLOCK_MATCH_BRACE
 %x GROUP_WITH_PARAMS
@@ -139,7 +139,7 @@ ESCSEQ		(\\([^\n]|[0-7]{1,3}|x[[:xdigit:]]{1,2}))
 
 FIRST_CCL_CHAR	([^\\\n]|{ESCSEQ})
 CCL_CHAR	([^\\\n\]]|{ESCSEQ})
-CCL_EXPR	("[:"^?[[:alpha:]]+":]")
+CCL_اوڠکاڤن	("[:"^?[[:alpha:]]+":]")
 
 LEXOPT		[aceknopr]
 
@@ -149,38 +149,38 @@ M4QEND      "]""]"
 FUNARGS     [^)]*
 
 %{
-void context_call(char *);
-void context_member(char *, const char *);
+فراغ context_call(حرف *);
+فراغ context_member(حرف *, ثابت حرف *);
 #undef yyreject
 %}
 %%
-	static int bracelevel, didadef, indented_code;
-	static bool doing_rule_action = false;
-	static bool option_sense;
+	ساكن صحيح bracelevel, didadef, indented_code;
+	ساكن bool doing_rule_action = false;
+	ساكن bool option_sense;
 
-	static bool doing_codeblock = false;
-	int brace_depth=0, brace_start_line=0;
-	char nmdef[MAXLINE];
+	ساكن bool doing_codeblock = false;
+	صحيح brace_depth=0, brace_start_باريس=0;
+	حرف nmdef[MAXLINE];
 
 
 <INITIAL>{
 	^{WS}		START_CODEBLOCK(true);
-	^"/*"		add_action("/*[""["); yy_push_state( COMMENT );
-	^#{OPTWS}line{WS}	yy_push_state( LINEDIR );
-	^"%s"{NAME}?	return SCDECL;
-	^"%x"{NAME}?	return XSCDECL;
+	^"/*"		add_action("/*[""["); yy_تولق_state( COMMENT );
+	^#{OPTWS}باريس{WS}	yy_تولق_state( LINEDIR );
+	^"%s"{NAME}?	أرجع SCDECL;
+	^"%x"{NAME}?	أرجع XSCDECL;
 	^"%{".*{NL}	START_CODEBLOCK(false);
     ^"%top"[[:blank:]]*"{"[[:blank:]]*{NL}    {
-		char trampoline[512];
-                brace_start_line = linenum;
+		حرف trampoline[512];
+                brace_start_باريس = linenum;
                 ++linenum;
-		snprintf(trampoline, sizeof(trampoline),
+		snprintf(trampoline, حجم(trampoline),
 			 "M4_HOOK_TRACE_LINE_FORMAT(%d, [[%s]])",
 			 linenum, infilename?infilename:"<stdin>");
-                if (ctrl.gen_line_dirs)
-                    buf_strappend(&top_buf, trampoline);
+                إذا (ctrl.gen_باريس_dirs)
+                    buf_strappend(&اتس_buf, trampoline);
                 brace_depth = 1;
-                yy_push_state(CODEBLOCK_MATCH_BRACE);
+                yy_تولق_state(CODEBLOCK_MATCH_BRACE);
             }
 
     ^"%top".*   synerr( _("malformed '%top' directive") );
@@ -191,15 +191,15 @@ void context_member(char *, const char *);
 			sectnum = 2;
 			bracelevel = 0;
 			mark_defs1();
-			line_directive_out(NULL, infilename, linenum);
+			باريس_directive_out(عدم, infilename, linenum);
 			BEGIN(SECT2PROLOG);
-			return SECTEND;
+			أرجع SECTEND;
 			}
 
 	^"%pointer".*{NL}	ctrl.yytext_is_array = false; ++linenum;
 	^"%array".*{NL}		ctrl.yytext_is_array = true; ++linenum;
 
-	^"%option"	BEGIN(OPTION); return TOK_OPTION;
+	^"%option"	BEGIN(OPTION); أرجع TOK_OPTION;
 
 	^"%"{LEXOPT}{OPTWS}[[:digit:]]*{OPTWS}{NL}	++linenum; /* ignore */
 	^"%"{LEXOPT}{WS}.*{NL}	++linenum;	/* ignore */
@@ -208,11 +208,11 @@ void context_member(char *, const char *);
 	^"%"[^sxaceknopr{}].*	synerr( _( "unrecognized '%' directive" ) );
 
 	^{NAME}		{
-			if(yyleng < MAXLINE)
+			إذا(yyleng < MAXLINE)
         		 {
-			strncpy( nmstr, yytext, sizeof(nmstr) );
+			strncpy( nmstr, yytext, حجم(nmstr) );
 			 }
-			else
+			وإلا
 			 {
 			   synerr( _("Definition name too long\n"));
 			   FLEX_EXIT(EXIT_FAILURE);
@@ -235,32 +235,32 @@ void context_member(char *, const char *);
 	{NL}	    ++linenum; ACTION_ECHO;
 }
 <COMMENT>{
-	"*/"	    add_action("*/]""]"); yy_pop_state();
+	"*/"	    add_action("*/]""]"); yy_کلوار_state();
 }
 <CODE_COMMENT>{
-        "*/"        ACTION_ECHO; yy_pop_state();
+        "*/"        ACTION_ECHO; yy_کلوار_state();
 }
 
 <COMMENT_DISCARD>{
         /* This is the same as COMMENT, but is discarded rather than output. */
-	"*/"		yy_pop_state();
+	"*/"		yy_کلوار_state();
     "*"         ;
 	[^*\n]      ;
 	{NL}	    ++linenum;
 }
 
 <EXTENDED_COMMENT>{
-    ")"         yy_pop_state();
+    ")"         yy_کلوار_state();
     [^\n\)]+      ;
     {NL}        ++linenum;
 }
 
 <LINEDIR>{
-	\n		yy_pop_state();
+	\n		yy_کلوار_state();
 	[[:digit:]]+	linenum = myctoi( yytext );
 
 	"\""[^""\n]*"\""	{
-			free(infilename);
+			حرر(infilename);
 			infilename = xstrdup(yytext + 1);
 			infilename[strlen( infilename ) - 1] = '\0';
 			}
@@ -278,39 +278,39 @@ void context_member(char *, const char *);
 	{NL}		{
 			++linenum;
 			ACTION_ECHO;
-			if ( indented_code ) END_CODEBLOCK;
+			إذا ( indented_code ) END_CODEBLOCK;
 			}
 }
 
 <CODEBLOCK_MATCH_BRACE>{
     "}"     {
-                if( --brace_depth == 0){
+                إذا( --brace_depth == 0){
                     /* TODO: Matched. */
-                    yy_pop_state();
-                }else
-                    buf_strnappend(&top_buf, yytext, yyleng);
+                    yy_کلوار_state();
+                }وإلا
+                    buf_strnappend(&اتس_buf, yytext, yyleng);
             }
 
     "{"     {
                 brace_depth++;
-                buf_strnappend(&top_buf, yytext, yyleng);
+                buf_strnappend(&اتس_buf, yytext, yyleng);
             }
 
     {NL}    {
                 ++linenum;
-                buf_strnappend(&top_buf, yytext, yyleng);
+                buf_strnappend(&اتس_buf, yytext, yyleng);
             }
 
-    {M4QSTART}  buf_strnappend(&top_buf, escaped_qstart, (int) strlen(escaped_qstart));
-    {M4QEND}    buf_strnappend(&top_buf, escaped_qend, (int) strlen(escaped_qend));
+    {M4QSTART}  buf_strnappend(&اتس_buf, escaped_qstart, (صحيح) strlen(escaped_qstart));
+    {M4QEND}    buf_strnappend(&اتس_buf, escaped_qend, (صحيح) strlen(escaped_qend));
     ([^{}\r\n\[\]]+)|[^{}\r\n]  {
-       buf_strnappend(&top_buf, yytext, yyleng);
+       buf_strnappend(&اتس_buf, yytext, yyleng);
     }
 
     <<EOF>>     {
-                linenum = brace_start_line;
+                linenum = brace_start_باريس;
                 synerr(_("Unmatched '{'"));
-                return YY_NULL;
+                أرجع YY_NULL;
                 }
 }
 
@@ -319,11 +319,11 @@ void context_member(char *, const char *);
 	{WS}		/* separates name and definition */
 
 	{NOT_WS}[^\r\n]*	{
- 		        if(yyleng < MAXLINE)
+ 		        إذا(yyleng < MAXLINE)
  		         {
-			strncpy( nmdef, yytext, sizeof(nmdef) );
+			strncpy( nmdef, yytext, حجم(nmdef) );
  		         }
- 		        else
+ 		        وإلا
  		         {
  		           format_synerr( _("Definition value for {%s} too long\n"), nmstr);
  		           FLEX_EXIT(EXIT_FAILURE);
@@ -331,7 +331,7 @@ void context_member(char *, const char *);
 			/* Skip trailing whitespace. */
 			{
 			    size_t i = strlen( nmdef );
-			    while (i > 0 && (nmdef[i-1] == ' ' || nmdef[i-1] == '\t'))
+			    طالما (i > 0 && (nmdef[i-1] == ' ' || nmdef[i-1] == '\t'))
 			       --i;
 			    nmdef[i] = '\0';
 			}
@@ -341,7 +341,7 @@ void context_member(char *, const char *);
 			}
 
 	{NL}		{
-			if ( ! didadef )
+			إذا ( ! didadef )
 				synerr( _( "incomplete name definition" ) );
 			BEGIN(INITIAL);
 			++linenum;
@@ -353,8 +353,8 @@ void context_member(char *, const char *);
 	{NL}		++linenum; BEGIN(INITIAL);
 	{WS}		option_sense = true;
 
-	"="		return '=';
-	[[:digit:]]+	{nmval = atoi(yytext); return TOK_NUMERIC;}
+	"="		أرجع '=';
+	[[:digit:]]+	{nmval = atoi(yytext); أرجع TOK_NUMERIC;}
 
 	no		option_sense = ! option_sense;
 
@@ -370,14 +370,14 @@ void context_member(char *, const char *);
 	backup		env.backing_up_report = option_sense;
 	batch		ctrl.interactive = (trit)!option_sense;
 	bison-bridge     ctrl.bison_bridge_lval = option_sense;
-	bison-locations  { if((ctrl.bison_bridge_lloc = option_sense))
+	bison-locations  { إذا((ctrl.bison_bridge_lloc = option_sense))
                             ctrl.bison_bridge_lval = true;
 			}
 	"c++"		ctrl.C_plus_plus = option_sense;
-	caseful|case-sensitive		sf_set_case_ins(!option_sense);
-	caseless|case-insensitive	sf_set_case_ins(option_sense);
+	caseful|حالة-sensitive		sf_set_case_ins(!option_sense);
+	caseless|حالة-insensitive	sf_set_case_ins(option_sense);
 	debug		ctrl.ddebug = option_sense;
-	default		ctrl.spprdflt = ! option_sense;
+	افتراضي		ctrl.spprdflt = ! option_sense;
 	ecs		ctrl.useecs = option_sense;
 	fast		{
 			ctrl.useecs = ctrl.usemecs = false;
@@ -387,16 +387,16 @@ void context_member(char *, const char *);
 			ctrl.useecs = ctrl.usemecs = false;
 			ctrl.use_read = ctrl.fulltbl = true;
 			}
-	input		ctrl.no_yyinput = ! option_sense;
+	ماسوقن		ctrl.no_yyinput = ! option_sense;
 	yyinput		ctrl.no_yyinput = ! option_sense;
 	interactive	ctrl.interactive = (trit)option_sense;
 	lex-compat	ctrl.lex_compat = option_sense;
 	posix-compat	ctrl.posix_compat = option_sense;
-	line		ctrl.gen_line_dirs = option_sense;
+	باريس		ctrl.gen_باريس_dirs = option_sense;
 	main		{
 			ctrl.do_main = option_sense;
 			/* Override yywrap */
-			if (option_sense)
+			إذا (option_sense)
                 		ctrl.do_yywrap = false;
 			}
 	meta-ecs	ctrl.usemecs = option_sense;
@@ -406,11 +406,11 @@ void context_member(char *, const char *);
 			}
 	perf-report	env.performance_hint += option_sense ? 1 : -1;
 	pointer		ctrl.yytext_is_array = ! option_sense;
-	read		ctrl.use_read = option_sense;
+	اقرأ		ctrl.use_read = option_sense;
 	reentrant	ctrl.reentrant = option_sense;
 	reject		ctrl.reject_really_used = option_sense;
 	rewrite		ctrl.rewrite = option_sense;
-	stack		ctrl.stack_used = option_sense;
+	تيندنن		ctrl.تيندنن_used = option_sense;
 	stdinit		ctrl.do_stdinit = option_sense;
 	stdout		env.use_stdout = option_sense;
 	unistd		ctrl.no_unistd = ! option_sense;
@@ -425,9 +425,9 @@ void context_member(char *, const char *);
 
 	yypanic		ctrl.no_yypanic = !option_sense;
 
-	yy_push_state	ctrl.no_yy_push_state = ! option_sense;
-	yy_pop_state	ctrl.no_yy_pop_state = ! option_sense;
-	yy_top_state	ctrl.no_yy_top_state = ! option_sense;
+	yy_تولق_state	ctrl.no_yy_تولق_state = ! option_sense;
+	yy_کلوار_state	ctrl.no_yy_کلوار_state = ! option_sense;
+	yy_اتس_state	ctrl.no_yy_اتس_state = ! option_sense;
 
 	yy_scan_buffer	ctrl.no_yy_scan_buffer = ! option_sense;
 	yy_scan_bytes	ctrl.no_yy_scan_bytes = ! option_sense;
@@ -456,39 +456,39 @@ void context_member(char *, const char *);
 	yyget_lloc      ctrl.no_yyget_lloc = ! option_sense;
 	yyset_lloc      ctrl.no_yyset_lloc = ! option_sense;
 
-	bufsize		return TOK_BUFSIZE;
-	emit		return TOK_EMIT;
-	extra-type	return TOK_EXTRA_TYPE;
-	outfile		return TOK_OUTFILE;
-	prefix		return TOK_PREFIX;
-	yyclass		return TOK_YYCLASS;
-	yylmax		return TOK_YYLMAX;
-	yydecl		return TOK_YYDECL;
-	yyterminate	return TOK_YYTERMINATE;
-	pre-action	return TOK_PREACTION;
-	post-action	return TOK_POSTACTION;
-	user-init	return TOK_USERINIT;
-	header(-file)?      return TOK_HEADER_FILE;
-	tables-file         return TOK_TABLES_FILE;
+	bufsize		أرجع TOK_BUFSIZE;
+	emit		أرجع TOK_EMIT;
+	extra-type	أرجع TOK_EXTRA_TYPE;
+	outfile		أرجع TOK_OUTFILE;
+	prefix		أرجع TOK_PREFIX;
+	yyclass		أرجع TOK_YYCLASS;
+	yylmax		أرجع TOK_YYLMAX;
+	yydecl		أرجع TOK_YYDECL;
+	yyterminate	أرجع TOK_YYTERMINATE;
+	pre-action	أرجع TOK_PREACTION;
+	post-action	أرجع TOK_POSTACTION;
+	user-init	أرجع TOK_USERINIT;
+	header(-file)?      أرجع TOK_HEADER_FILE;
+	tables-file         أرجع TOK_TABLES_FILE;
 	tables-verify   {
                     tablesverify = option_sense;
-                    if (!tablesext && option_sense)
+                    إذا (!tablesext && option_sense)
                         tablesext = true;
                     }
 
 
 	"\""[^""\n]*"\""	{
-			if(yyleng-1 < MAXLINE)
+			إذا(yyleng-1 < MAXLINE)
         		 {
-			strncpy( nmstr, yytext + 1, sizeof(nmstr) );
+			strncpy( nmstr, yytext + 1, حجم(nmstr) );
 			 }
-			else
+			وإلا
 			 {
 			   synerr( _("Option line too long\n"));
 			   FLEX_EXIT(EXIT_FAILURE);
 			 }
 			nmstr[strlen( nmstr ) - 1] = '\0';
-			return NAME;
+			أرجع NAME;
 			}
 
 	(([a-mo-z]|n[a-np-z])[[:alpha:]\-+]*)|.	{
@@ -509,13 +509,13 @@ void context_member(char *, const char *);
 
 	^{NOT_WS}.*	{
         /* non-indented code */
-		if ( bracelevel <= 0 ) {
+		إذا ( bracelevel <= 0 ) {
             /* not in %{ ... %} */
             yyless( 0 );	/* put it all back */
             yy_set_bol( 1 );
             mark_prolog();
             BEGIN(SECT2);
-        } else {
+        } وإلا {
             START_CODEBLOCK(true);
         }
     }
@@ -526,7 +526,7 @@ void context_member(char *, const char *);
 	<<EOF>>		{
 			mark_prolog();
 			sectnum = 0;
-			return YY_NULL; /* to stop the parser */
+			أرجع YY_NULL; /* to stop the parser */
 			}
 }
 
@@ -542,54 +542,54 @@ void context_member(char *, const char *);
 
 	^{OPTWS}"<"	    {
                         /* Allow "<" to appear in (?x) patterns. */
-                        if (!sf_skip_ws())
+                        إذا (!sf_skip_ws())
                             BEGIN(SC);
-                        return '<';
+                        أرجع '<';
                     }
-	^{OPTWS}"^"	return '^';
-	"\""		BEGIN(QUOTE); return '"';
+	^{OPTWS}"^"	أرجع '^';
+	"\""		BEGIN(QUOTE); أرجع '"';
 	"{"/[[:digit:]]	{
-			BEGIN(NUM);
-			if ( ctrl.lex_compat || ctrl.posix_compat )
-				return BEGIN_REPEAT_POSIX;
-			else
-				return BEGIN_REPEAT_FLEX;
+			BEGIN(اڠک_2);
+			إذا ( ctrl.lex_compat || ctrl.posix_compat )
+				أرجع BEGIN_REPEAT_POSIX;
+			وإلا
+				أرجع BEGIN_REPEAT_FLEX;
 			}
-	"$"/([[:blank:]]|{NL})	return '$';
+	"$"/([[:blank:]]|{NL})	أرجع '$';
 
 	{WS}"%{"		{
 			bracelevel = 1;
 			BEGIN(PERCENT_BRACE_ACTION);
 
-			if ( in_rule )
+			إذا ( in_rule )
 				{
 				doing_rule_action = true;
 				in_rule = false;
-				return '\n';
+				أرجع '\n';
 				}
 			}
 	{WS}"|".*{NL}	{
-                        if (sf_skip_ws()){
+                        إذا (sf_skip_ws()){
                             /* We're in the middle of a (?x: ) pattern. */
                             /* Push back everything starting at the "|" */
-                            int amt = (int) (strchr (yytext, '|') - yytext);
+                            صحيح amt = (صحيح) (strchr (yytext, '|') - yytext);
                             yyless(amt);
                         }
-                        else {
+                        وإلا {
                             add_action("]""]");
                             continued_action = true;
                             ++linenum;
-                            return '\n';
+                            أرجع '\n';
                         }
                     }
 
 	^{WS}"/*"	{
 
-                if (sf_skip_ws()){
+                إذا (sf_skip_ws()){
                     /* We're in the middle of a (?x: ) pattern. */
-                    yy_push_state(COMMENT_DISCARD);
+                    yy_تولق_state(COMMENT_DISCARD);
                 }
-                else{
+                وإلا{
                     yyless( yyleng - 2 );	/* put back '/', '*' */
                     bracelevel = 0;
                     continued_action = false;
@@ -600,10 +600,10 @@ void context_member(char *, const char *);
 	^{WS}		/* allow indented rules */ ;
 
 	{WS}		{
-            if (sf_skip_ws()){
+            إذا (sf_skip_ws()){
                 /* We're in the middle of a (?x: ) pattern. */
             }
-            else{
+            وإلا{
                 /* This rule is separate from the one below because
                  * otherwise we get variable trailing context, so
                  * we can't build the scanner using -{f,F}.
@@ -612,37 +612,37 @@ void context_member(char *, const char *);
                 continued_action = false;
                 BEGIN(ACTION);
 
-                if ( in_rule )
+                إذا ( in_rule )
                     {
                     doing_rule_action = true;
                     in_rule = false;
-                    return '\n';
+                    أرجع '\n';
                     }
             }
 			}
 
 	{OPTWS}{NL}	{
-            if (sf_skip_ws()){
+            إذا (sf_skip_ws()){
                 /* We're in the middle of a (?x: ) pattern. */
                 ++linenum;
             }
-            else{
+            وإلا{
                 bracelevel = 0;
                 continued_action = false;
                 BEGIN(ACTION);
                 unput( '\n' );	/* so <ACTION> sees it */
 
-                if ( in_rule )
+                إذا ( in_rule )
                     {
                     doing_rule_action = true;
                     in_rule = false;
-                    return '\n';
+                    أرجع '\n';
                     }
             }
 			}
 
 	^{OPTWS}"<<EOF>>"	|
-	"<<EOF>>"	return EOF_OP;
+	"<<EOF>>"	أرجع EOF_OP;
 
 	^"%%".*		{
 			sectnum = 3;
@@ -651,14 +651,14 @@ void context_member(char *, const char *);
 
 			}
 
-	"["({FIRST_CCL_CHAR}|{CCL_EXPR})({CCL_CHAR}|{CCL_EXPR})*	{
-			int cclval;
+	"["({FIRST_CCL_CHAR}|{CCL_اوڠکاڤن})({CCL_CHAR}|{CCL_اوڠکاڤن})*	{
+			صحيح cclval;
 
-			if(yyleng < MAXLINE)
+			إذا(yyleng < MAXLINE)
         		 {
-			strncpy( nmstr, yytext, sizeof(nmstr) );
+			strncpy( nmstr, yytext, حجم(nmstr) );
 			 }
-			else
+			وإلا
 			 {
 			   synerr( _("Input line too long\n"));
 			   FLEX_EXIT(EXIT_FAILURE);
@@ -667,7 +667,7 @@ void context_member(char *, const char *);
 			/* Check to see if we've already encountered this
 			 * ccl.
 			 */
-			if (0 /* <--- This "0" effectively disables the reuse of a
+			إذا (0 /* <--- This "0" effectively disables the reuse of a
                    * character class (purely based on its source text).
                    * The reason it was disabled is so yacc/bison can parse
                    * ccl operations, such as ccl difference and union.
@@ -676,7 +676,7 @@ void context_member(char *, const char *);
 				{
      				 /* Dead code removed */
 				}
-			else
+			وإلا
 				{
 				/* We fudge a bit.  We know that this ccl will
 				 * soon be numbered as lastccl + 1 by cclinit.
@@ -689,11 +689,11 @@ void context_member(char *, const char *);
 				yyless( 1 );
 
 				BEGIN(FIRSTCCL);
-				return '[';
+				أرجع '[';
 				}
 			}
-    "{-}"       return CCL_OP_DIFF;
-    "{+}"       return CCL_OP_UNION;
+    "{-}"       أرجع CCL_OP_DIFF;
+    "{+}"       أرجع CCL_OP_UNION;
 
 
     /* Check for :space: at the end of the rule so we don't
@@ -701,45 +701,45 @@ void context_member(char *, const char *);
      * context.
      */
 	"{"{NAME}"}"[[:space:]]?	 {
-			char *nmdefptr;
-            int end_is_ws, end_ch;
+			حرف *nmdefptr;
+            صحيح end_is_ws, end_ch;
 
             end_ch = yytext[yyleng-1];
             end_is_ws = end_ch != '}' ? 1 : 0;
 
- 			if(yyleng-1 < MAXLINE)
+ 			إذا(yyleng-1 < MAXLINE)
          		 {
-			strncpy( nmstr, yytext + 1, sizeof(nmstr) );
+			strncpy( nmstr, yytext + 1, حجم(nmstr) );
  			 }
- 			else
+ 			وإلا
  			 {
  			   synerr( _("Input line too long\n"));
  			   FLEX_EXIT(EXIT_FAILURE);
  			 }
 nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 
-			if ( (nmdefptr = ndlookup( nmstr )) == 0 )
+			إذا ( (nmdefptr = ndlookup( nmstr )) == 0 )
 				format_synerr(
 					_( "undefined definition {%s}" ),
 						nmstr );
 
-			else
+			وإلا
 				{ /* push back name surrounded by ()'s */
 				size_t len = strlen( nmdefptr );
-                if (end_is_ws)
+                إذا (end_is_ws)
                     unput(end_ch);
 
-				if ( ctrl.lex_compat || nmdefptr[0] == '^' ||
+				إذا ( ctrl.lex_compat || nmdefptr[0] == '^' ||
 				     (len > 0 && nmdefptr[len - 1] == '$')
                      || (end_is_ws && trlcontxt && !sf_skip_ws()))
 					{ /* don't use ()'s after all */
 					PUT_BACK_STRING(nmdefptr, 0);
 
-					if ( nmdefptr[0] == '^' )
+					إذا ( nmdefptr[0] == '^' )
 						BEGIN(CARETISBOL);
 					}
 
-				else
+				وإلا
 					{
 					unput(')');
 					PUT_BACK_STRING(nmdefptr, 0);
@@ -749,53 +749,53 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 			}
 
     "/*"        {
-                    if (sf_skip_ws())
-                        yy_push_state(COMMENT_DISCARD);
-                    else{
+                    إذا (sf_skip_ws())
+                        yy_تولق_state(COMMENT_DISCARD);
+                    وإلا{
                         /* Push back the "*" and return "/" as usual. */
                         yyless(1);
-                        return '/';
+                        أرجع '/';
                     }
                 }
 
     "(?#"       {
-                    if (ctrl.lex_compat || ctrl.posix_compat){
+                    إذا (ctrl.lex_compat || ctrl.posix_compat){
                         /* Push back the "?#" and treat it like a normal parens. */
                         yyless(1);
-                        sf_push(); 
-                        return '(';
+                        sf_تولق(); 
+                        أرجع '(';
                     }
-                    else
-                        yy_push_state(EXTENDED_COMMENT);
+                    وإلا
+                        yy_تولق_state(EXTENDED_COMMENT);
                 }
     "(?"        {
-                    sf_push();
-                    if (ctrl.lex_compat || ctrl.posix_compat)
+                    sf_تولق();
+                    إذا (ctrl.lex_compat || ctrl.posix_compat)
                         /* Push back the "?" and treat it like a normal parens. */
                         yyless(1);
-                    else
+                    وإلا
                         BEGIN(GROUP_WITH_PARAMS);
-                    return '(';
+                    أرجع '(';
                 }
-    "("         sf_push(); return '(';
+    "("         sf_تولق(); أرجع '(';
     ")"         {
-                    if (_sf_top_ix > 0) {
-                        sf_pop();
-                        return ')';
-                    } else
+                    إذا (sf_اتس_ix > 0) {
+                        sf_کلوار();
+                        أرجع ')';
+                    } وإلا
                         synerr(_("unbalanced parenthesis"));
                 }
 
-	[/|*+?.(){}]	return (unsigned char) yytext[0];
+	[/|*+?.(){}]	أرجع (unsigned حرف) yytext[0];
 	.		RETURNCHAR;
 }
 
 
 <SC>{
 	{OPTWS}{NL}{OPTWS}	++linenum;	/* Allow blank lines & continuations */
-	[,*]		return (unsigned char) yytext[0];
-	">"		BEGIN(SECT2); return '>';
-	">"/^		BEGIN(CARETISBOL); return '>';
+	[,*]		أرجع (unsigned حرف) yytext[0];
+	">"		BEGIN(SECT2); أرجع '>';
+	">"/^		BEGIN(CARETISBOL); أرجع '>';
 	{SCNAME}	RETURNNAME;
 	.		{
 			format_synerr( _( "bad <start condition>: %s" ),
@@ -803,18 +803,18 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 			}
 }
 
-<CARETISBOL>"^"		BEGIN(SECT2); return '^';
+<CARETISBOL>"^"		BEGIN(SECT2); أرجع '^';
 
 
 <QUOTE>{
 	[^""\n]		RETURNCHAR;
-	"\""		BEGIN(SECT2); return '"';
+	"\""		BEGIN(SECT2); أرجع '"';
 
 	{NL}		{
 			synerr( _( "missing quote" ) );
 			BEGIN(SECT2);
 			++linenum;
-			return '"';
+			أرجع '"';
 			}
 }
 
@@ -833,82 +833,82 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 }
 
 <FIRSTCCL>{
-	"^"/[^-\]\n]	BEGIN(CCL); return '^';
-	"^"/("-"|"]")	return '^';
+	"^"/[^-\]\n]	BEGIN(CCL); أرجع '^';
+	"^"/("-"|"]")	أرجع '^';
 	.		BEGIN(CCL); RETURNCHAR;
 }
 
 <CCL>{
-	-/[^\]\n]	return '-';
+	-/[^\]\n]	أرجع '-';
 	[^\]\n]		RETURNCHAR;
-	"]"		BEGIN(SECT2); return ']';
+	"]"		BEGIN(SECT2); أرجع ']';
 	.|{NL}		{
 			synerr( _( "bad character class" ) );
 			BEGIN(SECT2);
-			return ']';
+			أرجع ']';
 			}
 }
 
 <FIRSTCCL,CCL>{
-	"[:alnum:]"	BEGIN(CCL); return CCE_ALNUM;
-	"[:alpha:]"	BEGIN(CCL); return CCE_ALPHA;
-	"[:blank:]"	BEGIN(CCL); return CCE_BLANK;
-	"[:cntrl:]"	BEGIN(CCL); return CCE_CNTRL;
-	"[:digit:]"	BEGIN(CCL); return CCE_DIGIT;
-	"[:graph:]"	BEGIN(CCL); return CCE_GRAPH;
-	"[:lower:]"	BEGIN(CCL); return CCE_LOWER;
-	"[:print:]"	BEGIN(CCL); return CCE_PRINT;
-	"[:punct:]"	BEGIN(CCL); return CCE_PUNCT;
-	"[:space:]"	BEGIN(CCL); return CCE_SPACE;
-	"[:upper:]"	BEGIN(CCL); return CCE_UPPER;
-	"[:xdigit:]"	BEGIN(CCL); return CCE_XDIGIT;
+	"[:alnum:]"	BEGIN(CCL); أرجع CCE_ALNUM;
+	"[:alpha:]"	BEGIN(CCL); أرجع CCE_ALPHA;
+	"[:blank:]"	BEGIN(CCL); أرجع CCE_BLANK;
+	"[:cntrl:]"	BEGIN(CCL); أرجع CCE_CNTRL;
+	"[:digit:]"	BEGIN(CCL); أرجع CCE_DIGIT;
+	"[:graph:]"	BEGIN(CCL); أرجع CCE_GRAPH;
+	"[:lower:]"	BEGIN(CCL); أرجع CCE_LOWER;
+	"[:print:]"	BEGIN(CCL); أرجع CCE_PRINT;
+	"[:punct:]"	BEGIN(CCL); أرجع CCE_PUNCT;
+	"[:space:]"	BEGIN(CCL); أرجع CCE_SPACE;
+	"[:upper:]"	BEGIN(CCL); أرجع CCE_UPPER;
+	"[:xdigit:]"	BEGIN(CCL); أرجع CCE_XDIGIT;
 
-	"[:^alnum:]"	BEGIN(CCL); return CCE_NEG_ALNUM;
-	"[:^alpha:]"	BEGIN(CCL); return CCE_NEG_ALPHA;
-	"[:^blank:]"	BEGIN(CCL); return CCE_NEG_BLANK;
-	"[:^cntrl:]"	BEGIN(CCL); return CCE_NEG_CNTRL;
-	"[:^digit:]"	BEGIN(CCL); return CCE_NEG_DIGIT;
-	"[:^graph:]"	BEGIN(CCL); return CCE_NEG_GRAPH;
-	"[:^lower:]"	BEGIN(CCL); return CCE_NEG_LOWER;
-	"[:^print:]"	BEGIN(CCL); return CCE_NEG_PRINT;
-	"[:^punct:]"	BEGIN(CCL); return CCE_NEG_PUNCT;
-	"[:^space:]"	BEGIN(CCL); return CCE_NEG_SPACE;
-	"[:^upper:]"	BEGIN(CCL); return CCE_NEG_UPPER;
-	"[:^xdigit:]"	BEGIN(CCL); return CCE_NEG_XDIGIT;
-	{CCL_EXPR}	{
+	"[:^alnum:]"	BEGIN(CCL); أرجع CCE_NEG_ALNUM;
+	"[:^alpha:]"	BEGIN(CCL); أرجع CCE_NEG_ALPHA;
+	"[:^blank:]"	BEGIN(CCL); أرجع CCE_NEG_BLANK;
+	"[:^cntrl:]"	BEGIN(CCL); أرجع CCE_NEG_CNTRL;
+	"[:^digit:]"	BEGIN(CCL); أرجع CCE_NEG_DIGIT;
+	"[:^graph:]"	BEGIN(CCL); أرجع CCE_NEG_GRAPH;
+	"[:^lower:]"	BEGIN(CCL); أرجع CCE_NEG_LOWER;
+	"[:^print:]"	BEGIN(CCL); أرجع CCE_NEG_PRINT;
+	"[:^punct:]"	BEGIN(CCL); أرجع CCE_NEG_PUNCT;
+	"[:^space:]"	BEGIN(CCL); أرجع CCE_NEG_SPACE;
+	"[:^upper:]"	BEGIN(CCL); أرجع CCE_NEG_UPPER;
+	"[:^xdigit:]"	BEGIN(CCL); أرجع CCE_NEG_XDIGIT;
+	{CCL_اوڠکاڤن}	{
 			format_synerr(
 				_( "bad character class expression: %s" ),
 					yytext );
-			BEGIN(CCL); return CCE_ALNUM;
+			BEGIN(CCL); أرجع CCE_ALNUM;
 			}
 }
 
-<NUM>{
+<اڠک_2>{
 	[[:digit:]]+	{
 			yylval = myctoi( yytext );
-			return NUMBER;
+			أرجع نومبور;
 			}
 
-	","		return ',';
+	","		أرجع ',';
 	"}"		{
 			BEGIN(SECT2);
-			if ( ctrl.lex_compat || ctrl.posix_compat )
-				return END_REPEAT_POSIX;
-			else
-				return END_REPEAT_FLEX;
+			إذا ( ctrl.lex_compat || ctrl.posix_compat )
+				أرجع END_REPEAT_POSIX;
+			وإلا
+				أرجع END_REPEAT_FLEX;
 			}
 
 	.		{
 			synerr( _( "bad character inside {}'s" ) );
 			BEGIN(SECT2);
-			return '}';
+			أرجع '}';
 			}
 
 	{NL}		{
 			synerr( _( "missing }" ) );
 			BEGIN(SECT2);
 			++linenum;
-			return '}';
+			أرجع '}';
 			}
 }
 
@@ -916,7 +916,7 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 <PERCENT_BRACE_ACTION>{
 	{OPTWS}"%}".*		bracelevel = 0;
 
-	<ACTION>"/*"		ACTION_ECHO; yy_push_state( CODE_COMMENT );
+	<ACTION>"/*"		ACTION_ECHO; yy_تولق_state( CODE_COMMENT );
 
 	<CODEBLOCK,ACTION>{
 		"reject" {
@@ -929,9 +929,9 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
         }
 		"yymore"{OPTWS}"("{OPTWS}")" {
 			yymore_used = true;
-			if (ctrl.rewrite)
+			إذا (ctrl.rewrite)
 				context_call(yytext);
-			else
+			وإلا
 				ACTION_ECHO;
         }
 	}
@@ -940,8 +940,8 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 	{NL}	{
 		++linenum;
 		ACTION_ECHO;
-		if (bracelevel <= 0 || (doing_codeblock && indented_code)) {
-            if ( doing_rule_action )
+		إذا (bracelevel <= 0 || (doing_codeblock && indented_code)) {
+            إذا ( doing_rule_action )
                 add_action( "\t]""]M4_HOOK_STATE_CASE_BREAK\n" );
 
             doing_rule_action = doing_codeblock = false;
@@ -956,9 +956,9 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 	"{"		ACTION_ECHO; ++bracelevel;
 	"}"		ACTION_ECHO; --bracelevel;
 	yyecho\(\)|yyinput\(\)|yystart\({FUNARGS}\)|yybegin\({FUNARGS}\)|yyunput\({FUNARGS}\)|yypanic\({FUNARGS}\)|yyatbol\(\)|yysetbol\({FUNARGS}\) {
-			if (ctrl.rewrite)
+			إذا (ctrl.rewrite)
 				context_call(yytext);
-			else
+			وإلا
 				ACTION_ECHO;
 	}
 	yyterminate\(\)|yyless\({FUNARGS}\) {
@@ -967,15 +967,15 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 			add_action("[""[");
 	}
 	(yyin|yyout|yyextra|yyleng|yytext|yyflexdebug)/[^[:alnum:]_] {
-			if (ctrl.rewrite)
+			إذا (ctrl.rewrite)
 				context_member(yytext, "M4_PROPERTY_CONTEXT_FORMAT");
-			else
+			وإلا
 				ACTION_ECHO;
 	}
 	(yylineno|yycolumn)/[^[:alnum:]_] {
-			if (ctrl.rewrite)
+			إذا (ctrl.rewrite)
 				context_member(yytext, "M4_PROPERTY_BUFFERSTACK_CONTEXT_FORMAT");
-			else
+			وإلا
 				ACTION_ECHO;
 	}
 	[^[:Alpha:]_{}""''/\n\[\]]+	ACTION_ECHO;
@@ -986,8 +986,8 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 	{NL} {
                 ++linenum;
                 ACTION_ECHO;
-                if (bracelevel <= 0) {
-                   if ( doing_rule_action )
+                إذا (bracelevel <= 0) {
+                   إذا ( doing_rule_action )
                       add_action( "\t]""]M4_HOOK_STATE_CASE_BREAK\n" );
 
                    doing_rule_action = false;
@@ -1008,7 +1008,7 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 <ACTION_STRING,CHARACTER_CONSTANT>{
         (\\\n)*         ACTION_ECHO;
 	\\(\\\n)*.	ACTION_ECHO;
-	{NL}	++linenum; ACTION_ECHO; if (bracelevel <= 0) { BEGIN(SECT2); } else { BEGIN(ACTION); }
+	{NL}	++linenum; ACTION_ECHO; إذا (bracelevel <= 0) { BEGIN(SECT2); } وإلا { BEGIN(ACTION); }
         .	ACTION_ECHO;
 }
 
@@ -1023,12 +1023,12 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 			}
 
 <SECT2,QUOTE,FIRSTCCL,CCL>{ESCSEQ}	{
-			yylval = myesc( (unsigned char *) yytext );
+			yylval = myesc( (unsigned حرف *) yytext );
 
-			if ( YY_START == FIRSTCCL )
+			إذا ( YY_START == FIRSTCCL )
 				BEGIN(CCL);
 
-			return CHAR;
+			أرجع CHAR;
 			}
 
 <SECT3>{
@@ -1056,33 +1056,33 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 %%
 
 
-int yywrap(void)
+صحيح yywrap(فراغ)
 	{
-	if ( --num_input_files > 0 )
+	إذا ( --num_input_files > 0 )
 		{
-		set_input_file( *++input_files );
-		return 0;
+		set_ماسوقن_file( *++ماسوقن_files );
+		أرجع 0;
 		}
 
-	else
-		return 1;
+	وإلا
+		أرجع 1;
 	}
 
 
 /* set_input_file - open the given file (if NULL, stdin) for scanning */
 
-void set_input_file( char *file )
+فراغ set_ماسوقن_file( حرف *file )
 	{
-	if ( file && strcmp( file, "-" ) )
+	إذا ( file && strcmp( file, "-" ) )
 		{
 		infilename = xstrdup(file);
 		yyin = fopen( infilename, "r" );
 
-		if ( yyin == NULL )
+		إذا ( yyin == عدم )
 			lerr( _( "can't open %s: %s" ), file, strerror(errno));
 		}
 
-	else
+	وإلا
 		{
 		yyin = stdin;
 		infilename = xstrdup("<stdin>");
@@ -1091,21 +1091,21 @@ void set_input_file( char *file )
 	linenum = 1;
 	}
 
-void context_call(char *txt) {
-	const char *context_arg = skel_property("M4_PROPERTY_CONTEXT_ARG");
+فراغ context_call(حرف *txt) {
+	ثابت حرف *context_arg = skel_property("M4_PROPERTY_CONTEXT_ARG");
 
 	/* if there's no such property, simply pass through */
-	if (context_arg == NULL) {
+	إذا (context_arg == عدم) {
 		add_action(txt);
-	} else {
-		char buf[BUFSIZ];
+	} وإلا {
+		حرف buf[BUFSIZ];
 
 		/* otherwise, supply the context string as a final argument */
-		assert(txt[strlen(txt)-1] == ')');
-		strncpy(buf, txt, sizeof(buf));
+		أكد(txt[strlen(txt)-1] == ')');
+		strncpy(buf, txt, حجم(buf));
 		buf[strlen(buf)-1] = '\0';	/* remove trailing ) */
 		add_action(buf);
-		if (txt[strlen(buf)-1] != '(') {
+		إذا (txt[strlen(buf)-1] != '(') {
 			add_action(", ");
 		}
 		add_action(context_arg);
@@ -1113,15 +1113,15 @@ void context_call(char *txt) {
 	}
 }
 
-void context_member(char *txt, const char *prop) {
-	const char *context_format = skel_property(prop);
+فراغ context_member(حرف *txt, ثابت حرف *prop) {
+	ثابت حرف *context_format = skel_property(prop);
 
 	/* if there's no such property, simply pass through */
-	if (context_format == NULL) {
+	إذا (context_format == عدم) {
 		add_action(txt);
-	} else {
-		char buf[128];
-		snprintf(buf, sizeof(buf), context_format, txt);
+	} وإلا {
+		حرف buf[128];
+		snprintf(buf, حجم(buf), context_format, txt);
 		add_action(buf);
 	}
 }
