@@ -40,9 +40,9 @@
 
 void    ccl2ecl (void)
 {
-	int     i, ich, newlen, cclp, ccls, cclmec;
+	整数     i, ich, newlen, cclp, ccls, cclmec;
 
-	for (i = 1; i <= lastccl; ++i) {
+	为 (i = 1; i <= lastccl; ++i) {
 		/* We loop through each character class, and for each character
 		 * in the class, add the character's equivalence class to the
 		 * new "character" class we are creating.  Thus when we are all
@@ -53,11 +53,11 @@ void    ccl2ecl (void)
 		newlen = 0;
 		cclp = cclmap[i];
 
-		for (ccls = 0; ccls < ccllen[i]; ++ccls) {
+		为 (ccls = 0; ccls < ccllen[i]; ++ccls) {
 			ich = ccltbl[cclp + ccls];
 			cclmec = ecgroup[ich];
 
-			if (cclmec > 0) {
+			如果 (cclmec > 0) {
 				/* Note: range 1..256 is mapped to 1..255,0 */
 				ccltbl[cclp + newlen] = (unsigned char) cclmec;
 				++newlen;
@@ -77,9 +77,9 @@ void    ccl2ecl (void)
  * Returned is the number of classes.
  */
 
-int     cre8ecs (int fwd[], int bck[], int num)
+整数     cre8ecs (整数 fwd[], 整数 bck[], 整数 num)
 {
-	int     i, j, numcl;
+	整数     i, j, numcl;
 
 	numcl = 0;
 
@@ -88,14 +88,14 @@ int     cre8ecs (int fwd[], int bck[], int num)
 	 * is positive, then x is the representative of its equivalence
 	 * class.
 	 */
-	for (i = 1; i <= num; ++i)
-		if (bck[i] == NIL) {
+	为 (i = 1; i <= num; ++i)
+		如果 (bck[i] == NIL) {
 			bck[i] = ++numcl;
-			for (j = fwd[i]; j != NIL; j = fwd[j])
+			为 (j = fwd[i]; j != NIL; j = fwd[j])
 				bck[j] = -numcl;
 		}
 
-	return numcl;
+	返回 numcl;
 }
 
 
@@ -114,10 +114,10 @@ int     cre8ecs (int fwd[], int bck[], int num)
  * NUL_mapping is the value which NUL (0) should be mapped to.
  */
 
-void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsiz, int NUL_mapping)
+void    mkeccl (unsigned char ccls[], 整数 lenccl, 整数 fwd[], 整数 bck[], 整数 llsiz, 整数 NUL_mapping)
 {
-	int     cclp, oldec, newec;
-	int     cclm, i, j;
+	整数     cclp, oldec, newec;
+	整数     cclm, i, j;
 	static unsigned char cclflags[CSIZE];	/* initialized to all '\0' */
 
 	/* Note that it doesn't matter whether or not the character class is
@@ -126,10 +126,10 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 	cclp = 0;
 
-	while (cclp < lenccl) {
+	当 (cclp < lenccl) {
 		cclm = ccls[cclp];
 
-		if (NUL_mapping && cclm == 0)
+		如果 (NUL_mapping && cclm == 0)
 			cclm = NUL_mapping;
 
 		oldec = bck[cclm];
@@ -137,19 +137,19 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 		j = cclp + 1;
 
-		for (i = fwd[cclm]; i != NIL && i <= llsiz; i = fwd[i]) {	/* look for the symbol in the character class */
-			for (; j < lenccl; ++j) {
-				int ccl_char;
+		为 (i = fwd[cclm]; i != NIL && i <= llsiz; i = fwd[i]) {	/* look for the symbol in the character class */
+			为 (; j < lenccl; ++j) {
+				整数 ccl_char;
 
-				if (NUL_mapping && ccls[j] == 0)
+				如果 (NUL_mapping && ccls[j] == 0)
 					ccl_char = NUL_mapping;
-				else
+				否则
 					ccl_char = ccls[j];
 
-				if (ccl_char > i)
+				如果 (ccl_char > i)
 					break;
 
-				if (ccl_char == i && !cclflags[j]) {
+				如果 (ccl_char == i && !cclflags[j]) {
 					/* We found an old companion of cclm
 					 * in the ccl.  Link it into the new
 					 * equivalence class and flag it as
@@ -174,7 +174,7 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 			bck[i] = oldec;
 
-			if (oldec != NIL)
+			如果 (oldec != NIL)
 				fwd[oldec] = i;
 
 			oldec = i;
@@ -182,7 +182,7 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 		      next_pt:;
 		}
 
-		if (bck[cclm] != NIL || oldec != bck[cclm]) {
+		如果 (bck[cclm] != NIL || oldec != bck[cclm]) {
 			bck[cclm] = NIL;
 			fwd[oldec] = NIL;
 		}
@@ -191,7 +191,7 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 		/* Find next ccl member to process. */
 
-		for (++cclp; cclp < lenccl && cclflags[cclp]; ++cclp) {
+		为 (++cclp; cclp < lenccl && cclflags[cclp]; ++cclp) {
 			/* Reset "doesn't need processing" flag. */
 			cclflags[cclp] = 0;
 		}
@@ -201,16 +201,16 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 /* mkechar - create equivalence class for single character */
 
-void    mkechar (int tch, int fwd[], int bck[])
+void    mkechar (整数 tch, 整数 fwd[], 整数 bck[])
 {
 	/* If until now the character has been a proper subset of
 	 * an equivalence class, break it away to create a new ec
 	 */
 
-	if (fwd[tch] != NIL)
+	如果 (fwd[tch] != NIL)
 		bck[fwd[tch]] = bck[tch];
 
-	if (bck[tch] != NIL)
+	如果 (bck[tch] != NIL)
 		fwd[bck[tch]] = fwd[tch];
 
 	fwd[tch] = NIL;

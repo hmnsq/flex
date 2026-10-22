@@ -38,16 +38,16 @@
 /* Append "new_text" to the running buffer. */
 void add_action (const char *new_text)
 {
-	int     len = (int) strlen (new_text);
+	整数     len = (整数) strlen (new_text);
 
-	while (len + action_index >= action_size - 10 /* slop */ ) {
+	当 (len + action_index >= action_size - 10 /* slop */ ) {
 
-		if (action_size > INT_MAX / 2)
+		如果 (action_size > INT_MAX / 2)
 			/* Increase just a little, to try to avoid overflow
 			 * on 16-bit machines.
 			 */
 			action_size += action_size / 8;
-		else
+		否则
 			action_size = action_size * 2;
 
 		action_array =
@@ -63,45 +63,45 @@ void add_action (const char *new_text)
 
 /* allocate_array - allocate memory for an integer array of the given size */
 
-void   *allocate_array (int size, size_t element_size)
+void   *allocate_array (整数 size, size_t element_size)
 {
-	return reallocate_array(NULL, size, element_size);
+	返回 reallocate_array(NULL, size, element_size);
 }
 
 
 /* all_lower - true if a string is all lower-case */
 
-int all_lower (char *str)
+整数 all_lower (char *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !islower ((unsigned char) * str))
-			return 0;
+	当 (*str) {
+		如果 (!isascii ((unsigned char) * str) || !islower ((unsigned char) * str))
+			返回 0;
 		++str;
 	}
 
-	return 1;
+	返回 1;
 }
 
 
 /* all_upper - true if a string is all upper-case */
 
-int all_upper (char *str)
+整数 all_upper (char *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !isupper ((unsigned char) * str))
-			return 0;
+	当 (*str) {
+		如果 (!isascii ((unsigned char) * str) || !isupper ((unsigned char) * str))
+			返回 0;
 		++str;
 	}
 
-	return 1;
+	返回 1;
 }
 
 
 /* intcmp - compares two integers for use by qsort. */
 
-int intcmp (const void *a, const void *b)
+整数 intcmp (const void *a, const void *b)
 {
-  return *(const int *) a - *(const int *) b;
+  返回 *(const 整数 *) a - *(const 整数 *) b;
 }
 
 
@@ -110,13 +110,13 @@ int intcmp (const void *a, const void *b)
  *		and exits.
  */
 
-void check_char (int c)
+void check_char (整数 c)
 {
-	if (c >= CSIZE)
+	如果 (c >= CSIZE)
 		lerr (_("bad character '%s' detected in check_char()"),
 			readable_form (c));
 
-	if (c >= ctrl.csize)
+	如果 (c >= ctrl.csize)
 		lerr (_
 			("scanner requires -8 flag to use the character %s"),
 			readable_form (c));
@@ -126,9 +126,9 @@ void check_char (int c)
 
 /* clower - replace upper-case letter to lower-case */
 
-unsigned char clower (int c)
+unsigned char clower (整数 c)
 {
-	return (unsigned char) ((isascii (c) && isupper (c)) ? tolower (c) : c);
+	返回 (unsigned char) ((isascii (c) && isupper (c)) ? tolower (c) : c);
 }
 
 
@@ -136,24 +136,24 @@ char *xstrdup(const char *s)
 {
 	char *s2;
 
-	if ((s2 = strdup(s)) == NULL)
+	如果 ((s2 = strdup(s)) == NULL)
 		flexfatal (_("memory allocation failure in xstrdup()"));
 
-	return s2;
+	返回 s2;
 }
 
 
 /* cclcmp - compares two characters for use by qsort with '\0' sorting last. */
 
-int cclcmp (const void *a, const void *b)
+整数 cclcmp (const void *a, const void *b)
 {
-	if (!*(const unsigned char *) a)
-		return 1;
-	else
-		if (!*(const unsigned char *) b)
-			return - 1;
-		else
-			return *(const unsigned char *) a - *(const unsigned char *) b;
+	如果 (!*(const unsigned char *) a)
+		返回 1;
+	否则
+		如果 (!*(const unsigned char *) b)
+			返回 - 1;
+		否则
+			返回 *(const unsigned char *) a - *(const unsigned char *) b;
 }
 
 
@@ -162,13 +162,13 @@ int cclcmp (const void *a, const void *b)
 void dataend (const char *endit)
 {
 	/* short circuit any output */
-	if (gentables) {
+	如果 (gentables) {
 
-		if (datapos > 0)
+		如果 (datapos > 0)
 			dataflush ();
 
 		/* add terminator for initialization; { for vi */
-		if (endit)
+		如果 (endit)
 			outn (endit);
 	}
 	dataline = 0;
@@ -182,10 +182,10 @@ void dataflush (void)
 {
 	assert (gentables);
 
-	if (datapos > 0)
+	如果 (datapos > 0)
 		outc ('\n');
 
-	if (++dataline >= NUMDATALINES) {
+	如果 (++dataline >= NUMDATALINES) {
 		/* Put out a blank line so that the table is grouped into
 		 * large blocks that enable the user to find elements easily.
 		 */
@@ -246,25 +246,25 @@ void lerr_fatal (const char *msg, ...)
 
 
 /* line_directive_out - spit out a "#line" statement or equivalent */
-void line_directive_out (FILE *output_file, char *path, int linenum)
+void line_directive_out (FILE *output_file, char *path, 整数 linenum)
 {
 	char	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
 	char    directive[MAXLINE*2], filename[MAXLINE];
 	char   *s1, *s2, *s3;
 
-	if (!ctrl.gen_line_dirs)
-		return;
+	如果 (!ctrl.gen_line_dirs)
+		返回;
 
 	s1 = (path != NULL) ? path : "M4_YY_OUTFILE_NAME";
 
-	if ((path != NULL) && !s1)
+	如果 ((path != NULL) && !s1)
 		s1 = "<stdin>";
     
 	s2 = filename;
 	s3 = &filename[sizeof (filename) - 2];
 
-	while (s2 < s3 && *s1) {
-		if (*s1 == '\\' || *s1 == '"')
+	当 (s2 < s3 && *s1) {
+		如果 (*s1 == '\\' || *s1 == '"')
 			/* Escape the '\' or '"' */
 			*s2++ = '\\';
 
@@ -273,19 +273,19 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
 
 	*s2 = '\0';
 
-	if (path != NULL)
+	如果 (path != NULL)
 		snprintf (directive, sizeof(directive), trace_fmt, linenum, filename);
-	else {
+	否则 {
 		snprintf (directive, sizeof(directive), trace_fmt, 0, filename);
 	}
 
 	/* If output_file is nil then we should put the directive in
 	 * the accumulated actions.
 	 */
-	if (output_file) {
+	如果 (output_file) {
 		fputs (directive, output_file);
 	}
-	else
+	否则
 		add_action (directive);
 }
 
@@ -318,22 +318,22 @@ void mark_prolog (void)
  *
  * Generates a data statement initializing the current 2-D array to "value".
  */
-void mk2data (int value)
+void mk2data (整数 value)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	如果 (!gentables)
+		返回;
 
-	if (datapos >= NUMDATAITEMS) {
+	如果 (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	如果 (datapos == 0)
 		/* Indent. */
 		out ("    ");
 
-	else
+	否则
 	  outc (',');
 
 	++datapos;
@@ -347,21 +347,21 @@ void mk2data (int value)
  * Generates a data statement initializing the current array element to
  * "value".
  */
-void mkdata (int value)
+void mkdata (整数 value)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	如果 (!gentables)
+		返回;
 
-	if (datapos >= NUMDATAITEMS) {
+	如果 (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	如果 (datapos == 0)
 		/* Indent. */
 		out ("    ");
-	else
+	否则
 		outc (',');
 	++datapos;
 
@@ -371,13 +371,13 @@ void mkdata (int value)
 
 /* myctoi - return the integer represented by a string of digits */
 
-int myctoi (const char *array)
+整数 myctoi (const char *array)
 {
-	int     val = 0;
+	整数     val = 0;
 
 	(void) sscanf (array, "%d", &val);
 
-	return val;
+	返回 val;
 }
 
 
@@ -389,19 +389,19 @@ unsigned char myesc (unsigned char array[])
 
 	switch (array[1]) {
 	case 'b':
-		return '\b';
+		返回 '\b';
 	case 'f':
-		return '\f';
+		返回 '\f';
 	case 'n':
-		return '\n';
+		返回 '\n';
 	case 'r':
-		return '\r';
+		返回 '\r';
 	case 't':
-		return '\t';
+		返回 '\t';
 	case 'a':
-		return '\a';
+		返回 '\a';
 	case 'v':
-		return '\v';
+		返回 '\v';
 	case '0':
 	case '1':
 	case '2':
@@ -411,9 +411,9 @@ unsigned char myesc (unsigned char array[])
 	case '6':
 	case '7':
 		{		/* \<octal> */
-			int     sptr = 1;
+			整数     sptr = 1;
 
-			while (sptr <= 3 &&
+			当 (sptr <= 3 &&
                                array[sptr] >= '0' && array[sptr] <= '7') {
 				++sptr;
 			}
@@ -425,14 +425,14 @@ unsigned char myesc (unsigned char array[])
 
 			array[sptr] = c;
 
-			return esc_char;
+			返回 esc_char;
 		}
 
 	case 'x':
 		{		/* \x<hex> */
-			int     sptr = 2;
+			整数     sptr = 2;
 
-			while (sptr <= 3 && isxdigit (array[sptr])) {
+			当 (sptr <= 3 && isxdigit (array[sptr])) {
 				/* Don't increment inside loop control
 				 * because if isxdigit() is a macro it might
 				 * expand into multiple increments ...
@@ -447,11 +447,11 @@ unsigned char myesc (unsigned char array[])
 
 			array[sptr] = c;
 
-			return esc_char;
+			返回 esc_char;
 		}
 
 	default:
-		return array[1];
+		返回 array[1];
 	}
 }
 
@@ -465,17 +465,17 @@ void out (const char *str)
 	fputs (str, stdout);
 }
 
-void out_dec (const char *fmt, int n)
+void out_dec (const char *fmt, 整数 n)
 {
 	fprintf (stdout, fmt, n);
 }
 
-void out_dec2 (const char *fmt, int n1, int n2)
+void out_dec2 (const char *fmt, 整数 n1, 整数 n2)
 {
 	fprintf (stdout, fmt, n1, n2);
 }
 
-void out_hex (const char *fmt, unsigned int x)
+void out_hex (const char *fmt, unsigned 整数 x)
 {
 	fprintf (stdout, fmt, x);
 }
@@ -485,12 +485,12 @@ void out_str (const char *fmt, const char str[])
 	fprintf (stdout,fmt, str);
 }
 
-void out_str_dec (const char *fmt, const char str[], int n)
+void out_str_dec (const char *fmt, const char str[], 整数 n)
 {
 	fprintf (stdout,fmt, str, n);
 }
 
-void outc (int c)
+void outc (整数 c)
 {
 	fputc (c, stdout);
 }
@@ -517,71 +517,71 @@ void out_m4_define (const char* def, const char* val)
  * The returned string is in static storage.
  */
 
-char   *readable_form (int c)
+char   *readable_form (整数 c)
 {
 	static char rform[20];
 
-	if ((c >= 0 && c < 32) || c >= 127) {
+	如果 ((c >= 0 && c < 32) || c >= 127) {
 		switch (c) {
 		case '\b':
-			return "\\b";
+			返回 "\\b";
 		case '\f':
-			return "\\f";
+			返回 "\\f";
 		case '\n':
-			return "\\n";
+			返回 "\\n";
 		case '\r':
-			return "\\r";
+			返回 "\\r";
 		case '\t':
-			return "\\t";
+			返回 "\\t";
 		case '\a':
-			return "\\a";
+			返回 "\\a";
 		case '\v':
-			return "\\v";
+			返回 "\\v";
 		default:
-			if(env.trace_hex)
-				snprintf (rform, sizeof(rform), "\\x%.2x", (unsigned int) c);
-			else
-				snprintf (rform, sizeof(rform), "\\%.3o", (unsigned int) c);
-			return rform;
+			如果(env.trace_hex)
+				snprintf (rform, sizeof(rform), "\\x%.2x", (unsigned 整数) c);
+			否则
+				snprintf (rform, sizeof(rform), "\\%.3o", (unsigned 整数) c);
+			返回 rform;
 		}
 	}
 
-	else if (c == ' ')
-		return "' '";
+	否则 如果 (c == ' ')
+		返回 "' '";
 
-	else {
+	否则 {
 		rform[0] = (char) c;
 		rform[1] = '\0';
 
-		return rform;
+		返回 rform;
 	}
 }
 
 
 /* reallocate_array - increase the size of a dynamic array */
 
-void   *reallocate_array (void *array, int size, size_t element_size)
+void   *reallocate_array (void *array, 整数 size, size_t element_size)
 {
 	void *new_array;
 #ifdef HAVE_REALLOCARR
 	new_array = array;
-	if (reallocarr(&new_array, (size_t) size, element_size)) {
+	如果 (reallocarr(&new_array, (size_t) size, element_size)) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
 			 * compatibility (for translations): */
 			_("memory allocation failed in allocate_array()"));
 	}
-#else
+#否则
 # ifdef HAVE_REALLOCARRAY
 	new_array = reallocarray(array, (size_t) size, element_size);
-# else
+# 否则
 	/* Do manual overflow detection */
 	size_t num_bytes = (size_t) size * element_size;
 	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? NULL :
 		realloc(array, num_bytes);
 # endif
-	if (!new_array) {
+	如果 (!new_array) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
@@ -589,7 +589,7 @@ void   *reallocate_array (void *array, int size, size_t element_size)
 			_("memory allocation failed in allocate_array()"));
 	}
 #endif
-	return new_array;
+	返回 new_array;
 }
 
 
@@ -599,22 +599,22 @@ void   *reallocate_array (void *array, int size, size_t element_size)
  * element_n.  Formats the output with spaces and carriage returns.
  */
 
-void transition_struct_out (int element_v, int element_n)
+void transition_struct_out (整数 element_v, 整数 element_n)
 {
 
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	如果 (!gentables)
+		返回;
 
 	out_dec2 ("M4_HOOK_TABLE_OPENER[[%4d]],[[%4d]]M4_HOOK_TABLE_CONTINUE", element_v, element_n);
 	outc ('\n');
 
 	datapos += TRANS_STRUCT_PRINT_LENGTH;
 
-	if (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
+	如果 (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
 		outc ('\n');
 
-		if (++dataline % 10 == 0)
+		如果 (++dataline % 10 == 0)
 			outc ('\n');
 
 		datapos = 0;
@@ -627,16 +627,16 @@ void transition_struct_out (int element_v, int element_n)
  *
  * XXX: this is should go soon
  */
-void   *yy_flex_xmalloc (int size)
+void   *yy_flex_xmalloc (整数 size)
 {
 	void   *result;
 
 	result = malloc((size_t) size);
-	if (!result)
+	如果 (!result)
 		flexfatal (_
 			   ("memory allocation failed in yy_flex_xmalloc()"));
 
-	return result;
+	返回 result;
 }
 
 
@@ -647,18 +647,18 @@ char   *chomp (char *str)
 {
 	char   *p = str;
 
-	if (!str || !*str)	/* s is null or empty string */
-		return str;
+	如果 (!str || !*str)	/* s is null or empty string */
+		返回 str;
 
 	/* find end of string minus one */
-	while (*p)
+	当 (*p)
 		++p;
 	--p;
 
 	/* eat newlines */
-	while (p >= str && (*p == '\r' || *p == '\n'))
+	当 (p >= str && (*p == '\r' || *p == '\n'))
 		*p-- = 0;
-	return str;
+	返回 str;
 }
 
 void comment(const char *txt)
@@ -669,10 +669,10 @@ void comment(const char *txt)
 	strncpy(buf, txt, MAXLINE-1);
 	eol = buf[strlen(buf)-1] == '\n';
 
-	if (eol)
+	如果 (eol)
 		buf[strlen(buf)-1] = '\0';
 	out_str("M4_HOOK_COMMENT_OPEN [[%s]] M4_HOOK_COMMENT_CLOSE", buf);
-	if (eol)
+	如果 (eol)
 		outc ('\n');
 }
 
