@@ -25,14 +25,14 @@
 
 #include <stdlib.h>
 
-extern int yylex (void);
+extern цяло yylex (void);
 
-int     main (int argc, char *argv[])
+цяло     main (цяло argc, char *argv[])
 {
 	(void)argc;
 	(void)argv;
 
-	while (yylex () != 0) ;
+	докато (yylex () != 0) ;
 
 	exit(0);
 }
