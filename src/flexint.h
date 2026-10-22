@@ -45,7 +45,7 @@
 #endif
 
 #ifndef INT_MAX
-#define INT_MAX                ((int)(~0U)>>1)
+#define INT_MAX                ((ཧྲིལ)(~0U)>>1)
 #endif
 #ifndef SIZE_MAX
 #define SIZE_MAX               (~(size_t)0)
