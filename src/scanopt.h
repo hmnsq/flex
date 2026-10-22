@@ -34,20 +34,20 @@
 #ifndef SCANOPT_H
 #define SCANOPT_H
 
-#include "flexdef.h"
+#അന്തര്ഭാവ "flexdef.h"
 
 
 #ifndef NO_SCANOPT_USAGE
 /* Used by scanopt_usage for pretty-printing. */
 #ifdef HAVE_NCURSES_H
-#include <ncurses.h>
+#അന്തര്ഭാവ <ncurses.h>
 #endif
 #endif
 
 #ifdef __cplusplus
-extern  "C" {
+ബാഹ്യ  "C" {
 #endif
-/* Error codes. */ enum scanopt_err_t {
+/* Error codes. */ എണ്ണൽ scanopt_err_t {
 		SCANOPT_ERR_OPT_UNRECOGNIZED = -1,	/* Unrecognized option. */
 		SCANOPT_ERR_OPT_AMBIGUOUS = -2,	/* It matched more than one option name. */
 		SCANOPT_ERR_ARG_NOT_FOUND = -3,	/* The required arg was not found. */
@@ -56,22 +56,22 @@ extern  "C" {
 
 
 /* flags passed to scanopt_init */
-	enum scanopt_flag_t {
-		SCANOPT_NO_ERR_MSG = 0x01	/* Suppress printing to stderr. */
+	എണ്ണൽ scanopt_flag_t {
+		SCANOPT_NO_ERR_സന്ദേശം = 0x01	/* Suppress printing to stderr. */
 	};
 
 /* Specification for a single option. */
-	struct optspec_t {
-		const char *opt_fmt;	/* e.g., "--foo=FILE", "-f FILE", "-n [NUM]" */
-		int     r_val;	/* Value to be returned by scanopt_ex(). */
-		const char *desc;	/* Brief description of this option, or NULL. */
+	ഘടന optspec_t {
+		സ്ഥിരം അക്ഷരം *opt_fmt;	/* e.g., "--foo=FILE", "-f FILE", "-n [NUM]" */
+		പൂർണ്ണസംഖ്യ     r_val;	/* Value to be returned by scanopt_ex(). */
+		സ്ഥിരം അക്ഷരം *desc;	/* Brief description of this option, or NULL. */
 	};
-	typedef struct optspec_t optspec_t;
+	തരനിർവചനം ഘടന optspec_t optspec_t;
 
 
 /* Used internally by scanopt() to maintain state. */
 /* Never modify these value directly. */
-	typedef void *scanopt_t;
+	തരനിർവചനം ശൂന്യം *scanopt_t;
 
 
 /* Initializes scanner and checks option list for errors.
@@ -82,12 +82,12 @@ extern  "C" {
  *   flags   - Control behavior.
  * Return:  A malloc'd pointer .
  */
-	scanopt_t *scanopt_init (const optspec_t * options, int argc,
-				 char **argv, int flags);
+	scanopt_t *scanopt_init (സ്ഥിരം optspec_t * options, പൂർണ്ണസംഖ്യ argc,
+				 അക്ഷരം **argv, പൂർണ്ണസംഖ്യ flags);
 
 /* Frees memory used by scanner.
  * Always returns 0. */
-	int scanopt_destroy (scanopt_t * scanner);
+	പൂർണ്ണസംഖ്യ scanopt_destroy (scanopt_t * scanner);
 
 #ifndef NO_SCANOPT_USAGE
 /* Prints a usage message based on contents of optlist.
@@ -97,7 +97,7 @@ extern  "C" {
  *   usage    - Text to be prepended to option list. May be NULL.
  * Return:  Always returns 0 (zero).
  */
-	int scanopt_usage (scanopt_t * scanner, FILE * fp, const char *usage);
+	പൂർണ്ണസംഖ്യ scanopt_usage (scanopt_t * scanner, FILE * fp, സ്ഥിരം അക്ഷരം *usage);
 #endif
 
 /* Scans command-line options in argv[].
@@ -114,7 +114,7 @@ extern  "C" {
  *          < 0 on error (return value is an error code).
  *
  */
-	int scanopt (scanopt_t * scanner, char **optarg, int *optindex);
+	പൂർണ്ണസംഖ്യ scanopt (scanopt_t * scanner, അക്ഷരം **optarg, പൂർണ്ണസംഖ്യ *optindex);
 
 #ifdef __cplusplus
 }

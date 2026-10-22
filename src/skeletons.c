@@ -34,23 +34,23 @@
 /*  PURPOSE. */
 
 
-#include "flexdef.h"
-#include "tables.h"
+#അന്തര്ഭാവ "flexdef.h"
+#അന്തര്ഭാവ "tables.h"
 
 /* START digested skeletons */
 
-const char *cpp_skel[] = {
-#include "cpp-flex.h"
+സ്ഥിരം അക്ഷരം *cpp_skel[] = {
+#അന്തര്ഭാവ "cpp-flex.h"
     0,
 };
 
-const char *c99_skel[] = {
-#include "c99-flex.h"
+സ്ഥിരം അക്ഷരം *c99_skel[] = {
+#അന്തര്ഭാവ "c99-flex.h"
     0,
 };
 
-const char *go_skel[] = {
-#include "go-flex.h"
+സ്ഥിരം അക്ഷരം *go_skel[] = {
+#അന്തര്ഭാവ "go-flex.h"
     0,
 };
 
@@ -61,59 +61,59 @@ const char *go_skel[] = {
  * array, it prevents us from getting lost in a maze of
  * twisty array reference levels, all different.
  */
-struct flex_backend_t {
-	const char **skel;		// Digested skeleton file
+ഘടന flex_backend_t {
+	സ്ഥിരം അക്ഷരം **skel;		// Digested skeleton file
 };
 
-static struct flex_backend_t backends[] = {
+സ്ഥിതം ഘടന flex_backend_t backends[] = {
     {.skel=cpp_skel},
     {.skel=c99_skel},
     {.skel=go_skel},
-    {NULL}
+    {ശൂന്യ}
 };
 
-static struct flex_backend_t *backend = &backends[0];
+സ്ഥിതം ഘടന flex_backend_t *backend = &backends[0];
 
 /* Functions for querying skeleton properties. */
 
-bool is_default_backend(void)
+bool is_default_backend(ശൂന്യം)
 {
-    return backend == &backends[0];
+    തിരികെ backend == &backends[0];
 }
 
 /* Search for a string in the skeleton prolog, where macros are defined.
  */
-static bool boneseeker(const char *bone)
+സ്ഥിതം bool boneseeker(സ്ഥിരം അക്ഷരം *bone)
 {
-	int i;
+	പൂർണ്ണസംഖ്യ i;
 
-	for (i = 0; backend->skel[i] != NULL; i++) {
-		const char *line = backend->skel[i];
-		if (strstr(line, bone) != NULL)
-			return true;
-		else if (strncmp(line, "%%", 2) == 0)
-			break;
+	വേണ്ടി (i = 0; backend->skel[i] != ശൂന്യ; i++) {
+		സ്ഥിരം അക്ഷരം *വരി = backend->skel[i];
+		എങ്കിൽ (strstr(വരി, bone) != ശൂന്യ)
+			തിരികെ true;
+		അല്ലെങ്കിൽ എങ്കിൽ (strncmp(വരി, "%%", 2) == 0)
+			നിർത്തുക;
 	}
-	return false;
+	തിരികെ false;
 }
 
-void backend_by_name(const char *name)
+ശൂന്യം backend_by_name(സ്ഥിരം അക്ഷരം *name)
 {
-	const char *prefix_property;
-	if (name != NULL) {
-		if (strcmp(name, "nr") == 0) {
+	സ്ഥിരം അക്ഷരം *prefix_property;
+	എങ്കിൽ (name != ശൂന്യ) {
+		എങ്കിൽ (strcmp(name, "nr") == 0) {
 			backend = &backends[0];
 			ctrl.reentrant = false;
-			goto backend_ok;
+			പോകുക backend_ok;
 		}
-		if (strcmp(name, "r") == 0) {
+		എങ്കിൽ (strcmp(name, "r") == 0) {
 			backend = &backends[0];
 			ctrl.reentrant = true;
-			goto backend_ok;
+			പോകുക backend_ok;
 		}
-		for (backend = &backends[0]; backend->skel != NULL; backend++) {
-			if (strcasecmp(skel_property("M4_PROPERTY_BACKEND_NAME"), name) == 0)
-				goto backend_ok;
+		വേണ്ടി (backend = &backends[0]; backend->skel != ശൂന്യ; backend++) {
+			എങ്കിൽ (strcasecmp(skel_property("M4_PROPERTY_BACKEND_NAME"), name) == 0)
+				പോകുക backend_ok;
 		}
 		flexerror(_("no such back end"));
 	}
@@ -124,83 +124,83 @@ void backend_by_name(const char *name)
 	ctrl.traceline_template = xstrdup(skel_property("M4_PROPERTY_TRACE_LINE_TEMPLATE"));
 	ctrl.have_state_entry_format = boneseeker("m4_define([[M4_HOOK_STATE_ENTRY_FORMAT]]");
 	prefix_property = skel_property("M4_PROPERTY_PREFIX");
-	if (prefix_property != NULL)
+	എങ്കിൽ (prefix_property != ശൂന്യ)
 		ctrl.prefix = xstrdup(prefix_property);
 	flex_init_regex(ctrl.traceline_re);
 }
 
-const char *suffix (void)
+സ്ഥിരം അക്ഷരം *suffix (ശൂന്യം)
 {
-	const char   *suffix;
+	സ്ഥിരം അക്ഷരം   *suffix;
 
-	if (is_default_backend()) {
-		if (ctrl.C_plus_plus)
+	എങ്കിൽ (is_default_backend()) {
+		എങ്കിൽ (ctrl.C_plus_plus)
 			suffix = "cc";
-		else
+		അല്ലെങ്കിൽ
 			suffix = "c";
-	} else {
+	} അല്ലെങ്കിൽ {
 		suffix = skel_property("M4_PROPERTY_SOURCE_SUFFIX");
 	}
 	
-	return suffix;
+	തിരികെ suffix;
 }
 
 /* Search for a m4 define of the property key, retrieve the value.  The
  * definition must be single-line.  Don't call this a second time before
  * stashing away the previous return, we cheat with static buffers.
  */
-const char *skel_property(const char *propname)
+സ്ഥിരം അക്ഷരം *skel_property(സ്ഥിരം അക്ഷരം *propname)
 {
-	int i;
-	static char name[256], value[256], *np, *vp;;
-	const char *cp;
+	പൂർണ്ണസംഖ്യ i;
+	സ്ഥിതം അക്ഷരം name[256], മൂല്യം[256], *np, *vp;;
+	സ്ഥിരം അക്ഷരം *cp;
 
-	for (i = 0; backend->skel[i] != NULL; i++) {
-		const char *line = backend->skel[i];
-		if (line[0] == '\0')
-			continue;
+	വേണ്ടി (i = 0; backend->skel[i] != ശൂന്യ; i++) {
+		സ്ഥിരം അക്ഷരം *വരി = backend->skel[i];
+		എങ്കിൽ (വരി[0] == '\0')
+			തുടരുക;
 		/* only scan before first skell breakpoint */
-		if (strncmp(line, "%%", 2) == 0)
-			break;
+		എങ്കിൽ (strncmp(വരി, "%%", 2) == 0)
+			നിർത്തുക;
 		/* ignore anything that's not a definition */
-		if (strncmp(line, "m4_define(", 10) != 0)
-			continue;
+		എങ്കിൽ (strncmp(വരി, "m4_define(", 10) != 0)
+			തുടരുക;
 		/* skip space and quotes before macro name */
-		for (cp = line + 10; isspace(*cp) || *cp == '['; *cp++)
-			continue;
+		വേണ്ടി (cp = വരി + 10; isspace(*cp) || *cp == '['; *cp++)
+			തുടരുക;
 		/* copy up to following ] into the name buffer */
 		np = name;
-		while (*cp != ']' && *cp != '\0' && (np < name + sizeof(name)-1)) {
+		ആകുമ്പോൾ (*cp != ']' && *cp != '\0' && (np < name + വലുപ്പം(name)-1)) {
 			*np++ = *cp++;
 		}
 		*np = '\0';
 		/* check for valid and matching name */
-		if (*cp == ']') {
-			if (strcmp(name, propname) != 0)
-				continue; /* try next line */
-		} else {
+		എങ്കിൽ (*cp == ']') {
+			എങ്കിൽ (strcmp(name, propname) != 0)
+				തുടരുക; /* try next line */
+		} അല്ലെങ്കിൽ {
 			flexerror(_("unterminated or too long property name"));
-			continue;
+			തുടരുക;
 		}
 		/* skip to the property value */
-		while (*cp != '\0' && (*cp == ']' || isspace(*cp) || *cp == ','))
+		ആകുമ്പോൾ (*cp != '\0' && (*cp == ']' || isspace(*cp) || *cp == ','))
 			cp++;
-		while (*cp == '[')
+		ആകുമ്പോൾ (*cp == '[')
 			cp++;
-		if (*cp == '\0')
+		എങ്കിൽ (*cp == '\0')
 			flexerror(_("garbled property line"));
 		/* extract the value */
-		vp = value;
-		while (*cp != '\0' && vp < value + sizeof(value) - 1 && (cp[0] != ']' || cp[1] != ']'))
+		vp = മൂല്യം;
+		ആകുമ്പോൾ (*cp != '\0' && vp < മൂല്യം + വലുപ്പം(മൂല്യം) - 1 && (cp[0] != ']' || cp[1] != ']'))
 			*vp++ = *cp++;
-		if (*cp == ']') {
+		എങ്കിൽ (*cp == ']') {
 			*vp = '\0';
-			return value;
-		} else {
+			തിരികെ മൂല്യം;
+		} അല്ലെങ്കിൽ {
 			flexerror(_("unterminated or too long property value"));
 		}
 	}
-	return NULL;
+	തിരികെ ശൂന്യ;
 }
 
 /* skelout - write out one section of the skeleton file
@@ -209,46 +209,46 @@ const char *skel_property(const char *propname)
  *    Copies skelfile or skel array to stdout until a line beginning with
  *    "%%" or EOF is found.
  */
-void skelout (bool announce)
+ശൂന്യം skelout (bool announce)
 {
-	char    buf_storage[MAXLINE];
-	char   *buf = buf_storage;
+	അക്ഷരം    buf_storage[MAXLINE];
+	അക്ഷരം   *buf = buf_storage;
 	bool   do_copy = true;
 
 	/* Loop pulling lines either from the skelfile, if we're using
 	 * one, or from the selected back end's skel[] array.
 	 */
-	while (env.skelfile != NULL ?
-	       (fgets (buf, MAXLINE, env.skelfile) != NULL) :
-	       ((buf = (char *) backend->skel[skel_ind++]) != 0)) {
+	ആകുമ്പോൾ (env.skelfile != ശൂന്യ ?
+	       (fgets (buf, MAXLINE, env.skelfile) != ശൂന്യ) :
+	       ((buf = (അക്ഷരം *) backend->skel[skel_ind++]) != 0)) {
 
-		if (env.skelfile != NULL)
+		എങ്കിൽ (env.skelfile != ശൂന്യ)
 			chomp (buf);
 
 		/* copy from skel array */
-		if (buf[0] == '%') {	/* control line */
+		എങ്കിൽ (buf[0] == '%') {	/* control line */
 			/* print the control line as a comment. */
-			if (ctrl.ddebug && buf[1] != '#') {
+			എങ്കിൽ (ctrl.ddebug && buf[1] != '#') {
 			    comment(buf);
 			    outc ('\n');
 			}
-			if (buf[1] == '#') {
+			എങ്കിൽ (buf[1] == '#') {
 				/* %# indicates comment line to be ignored */
 			} 
-			else if (buf[1] == '%') {
+			അല്ലെങ്കിൽ എങ്കിൽ (buf[1] == '%') {
 				/* %% is a break point for skelout() */
-				if (announce) {
+				എങ്കിൽ (announce) {
 					comment(buf);
 					outc ('\n');
 				}
-				return;
+				തിരികെ;
 			}
-			else {
+			അല്ലെങ്കിൽ {
 				flexfatal (_("bad line in skeleton file"));
 			}
 		}
 
-		else if (do_copy) 
+		അല്ലെങ്കിൽ എങ്കിൽ (do_copy) 
 			outn (buf);
 	}			/* end while */
 }

@@ -33,7 +33,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#അന്തര്ഭാവ "flexdef.h"
 
 /* Take note: The buffer object is sometimes used as a String buffer (one
  * continuous string), and sometimes used as a list of strings, usually line by
@@ -48,57 +48,57 @@
  */
 
 /* global buffers. */
-struct Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
-struct Buf top_buf;             /**< contains %top code. String buffer. */
+ഘടന Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
+ഘടന Buf മുകൾ_buf;             /**< contains %top code. String buffer. */
 
 /* Append a "%s" formatted string to a string buffer */
-struct Buf *buf_prints (struct Buf *buf, const char *fmt, const char *s)
+ഘടന Buf *buf_prints (ഘടന Buf *buf, സ്ഥിരം അക്ഷരം *fmt, സ്ഥിരം അക്ഷരം *s)
 {
-	char   *t;
+	അക്ഷരം   *t;
 	size_t tsz;
 
 	tsz = strlen(fmt) + strlen(s) + 1;
 	t = malloc(tsz);
-	if (!t)
+	എങ്കിൽ (!t)
 	    flexfatal (_("Allocation of buffer to print string failed"));
 	snprintf (t, tsz, fmt, s);
 	buf = buf_strappend (buf, t);
-	free(t);
-	return buf;
+	സ്വതന്ത്രം(t);
+	തിരികെ buf;
 }
 
 /* Appends n characters in str to buf. */
-struct Buf *buf_strnappend (struct Buf *buf, const char *str, int n)
+ഘടന Buf *buf_strnappend (ഘടന Buf *buf, സ്ഥിരം അക്ഷരം *str, പൂർണ്ണസംഖ്യ n)
 {
 	buf_append (buf, str, n + 1);
 
 	/* "undo" the '\0' character that buf_append() already copied. */
 	buf->nelts--;
 
-	return buf;
+	തിരികെ buf;
 }
 
 /* Appends characters in str to buf. */
-struct Buf *buf_strappend (struct Buf *buf, const char *str)
+ഘടന Buf *buf_strappend (ഘടന Buf *buf, സ്ഥിരം അക്ഷരം *str)
 {
-	return buf_strnappend (buf, str, (int) strlen (str));
+	തിരികെ buf_strnappend (buf, str, (പൂർണ്ണസംഖ്യ) strlen (str));
 }
 
 /* create buf with 0 elements, each of size elem_size. */
-void buf_init (struct Buf *buf, size_t elem_size)
+ശൂന്യം buf_init (ഘടന Buf *buf, size_t elem_size)
 {
-	buf->elts = NULL;
+	buf->elts = ശൂന്യ;
 	buf->nelts = 0;
 	buf->elt_size = elem_size;
 	buf->nmax = 0;
 }
 
 /* frees memory */
-void buf_destroy (struct Buf *buf)
+ശൂന്യം buf_destroy (ഘടന Buf *buf)
 {
-	if (buf) {
-		free(buf->elts);
-		buf->elts = NULL;
+	എങ്കിൽ (buf) {
+		സ്വതന്ത്രം(buf->elts);
+		buf->elts = ശൂന്യ;
 	}
 }
 
@@ -109,43 +109,43 @@ void buf_destroy (struct Buf *buf)
  * We grow by mod(512) boundaries.
  */
 
-struct Buf *buf_append (struct Buf *buf, const void *ptr, int n_elem)
+ഘടന Buf *buf_append (ഘടന Buf *buf, സ്ഥിരം ശൂന്യം *ptr, പൂർണ്ണസംഖ്യ n_elem)
 {
-	int     n_alloc = 0;
+	പൂർണ്ണസംഖ്യ     n_alloc = 0;
 
-	if (!ptr || n_elem == 0)
-		return buf;
+	എങ്കിൽ (!ptr || n_elem == 0)
+		തിരികെ buf;
 
 	/* May need to alloc more. */
-	if (n_elem + buf->nelts > buf->nmax) {
+	എങ്കിൽ (n_elem + buf->nelts > buf->nmax) {
 
 		/* exact count needed... */
 		n_alloc = n_elem + buf->nelts;
 
 		/* ...plus some extra */
-		if ((((size_t) n_alloc * buf->elt_size) % 512) != 0
+		എങ്കിൽ ((((size_t) n_alloc * buf->elt_size) % 512) != 0
 		    && buf->elt_size < 512)
-			n_alloc += (int)
+			n_alloc += (പൂർണ്ണസംഖ്യ)
 				((512 -
 				 (((size_t) n_alloc * buf->elt_size) % 512)) /
 				buf->elt_size);
 
-		if (!buf->elts)
+		എങ്കിൽ (!buf->elts)
 			buf->elts =
-				allocate_array ((int) n_alloc, buf->elt_size);
-		else
+				allocate_array ((പൂർണ്ണസംഖ്യ) n_alloc, buf->elt_size);
+		അല്ലെങ്കിൽ
 			buf->elts =
-				reallocate_array (buf->elts, (int) n_alloc,
+				reallocate_array (buf->elts, (പൂർണ്ണസംഖ്യ) n_alloc,
 						  buf->elt_size);
 
 		buf->nmax = n_alloc;
 	}
 
-	memcpy ((char *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
+	memcpy ((അക്ഷരം *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
 		(size_t) n_elem * buf->elt_size);
 	buf->nelts += n_elem;
 
-	return buf;
+	തിരികെ buf;
 }
 
 /* vim:set tabstop=8 softtabstop=4 shiftwidth=4: */

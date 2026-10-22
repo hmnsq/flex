@@ -23,16 +23,16 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include <stdlib.h>
+#അന്തര്ഭാവ <stdlib.h>
 
-extern int yylex (void);
+ബാഹ്യ പൂർണ്ണസംഖ്യ yylex (ശൂന്യം);
 
-int     main (int argc, char *argv[])
+പൂർണ്ണസംഖ്യ     പ്രധാന (പൂർണ്ണസംഖ്യ argc, അക്ഷരം *argv[])
 {
-	(void)argc;
-	(void)argv;
+	(ശൂന്യം)argc;
+	(ശൂന്യം)argv;
 
-	while (yylex () != 0) ;
+	ആകുമ്പോൾ (yylex () != 0) ;
 
 	exit(0);
 }

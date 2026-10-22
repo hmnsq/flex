@@ -32,22 +32,22 @@
 /*  IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED */
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
-#include "flexdef.h"
-#include "tables.h"
+#അന്തര്ഭാവ "flexdef.h"
+#അന്തര്ഭാവ "tables.h"
 
 /* Append "new_text" to the running buffer. */
-void add_action (const char *new_text)
+ശൂന്യം add_action (സ്ഥിരം അക്ഷരം *new_text)
 {
-	int     len = (int) strlen (new_text);
+	പൂർണ്ണസംഖ്യ     len = (പൂർണ്ണസംഖ്യ) strlen (new_text);
 
-	while (len + action_index >= action_size - 10 /* slop */ ) {
+	ആകുമ്പോൾ (len + action_index >= action_size - 10 /* slop */ ) {
 
-		if (action_size > INT_MAX / 2)
+		എങ്കിൽ (action_size > INT_MAX / 2)
 			/* Increase just a little, to try to avoid overflow
 			 * on 16-bit machines.
 			 */
 			action_size += action_size / 8;
-		else
+		അല്ലെങ്കിൽ
 			action_size = action_size * 2;
 
 		action_array =
@@ -63,45 +63,45 @@ void add_action (const char *new_text)
 
 /* allocate_array - allocate memory for an integer array of the given size */
 
-void   *allocate_array (int size, size_t element_size)
+ശൂന്യം   *allocate_array (പൂർണ്ണസംഖ്യ size, size_t element_size)
 {
-	return reallocate_array(NULL, size, element_size);
+	തിരികെ reallocate_array(ശൂന്യ, size, element_size);
 }
 
 
 /* all_lower - true if a string is all lower-case */
 
-int all_lower (char *str)
+പൂർണ്ണസംഖ്യ all_lower (അക്ഷരം *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !islower ((unsigned char) * str))
-			return 0;
+	ആകുമ്പോൾ (*str) {
+		എങ്കിൽ (!isascii ((unsigned അക്ഷരം) * str) || !islower ((unsigned അക്ഷരം) * str))
+			തിരികെ 0;
 		++str;
 	}
 
-	return 1;
+	തിരികെ 1;
 }
 
 
 /* all_upper - true if a string is all upper-case */
 
-int all_upper (char *str)
+പൂർണ്ണസംഖ്യ all_upper (അക്ഷരം *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !isupper ((unsigned char) * str))
-			return 0;
+	ആകുമ്പോൾ (*str) {
+		എങ്കിൽ (!isascii ((unsigned അക്ഷരം) * str) || !isupper ((unsigned അക്ഷരം) * str))
+			തിരികെ 0;
 		++str;
 	}
 
-	return 1;
+	തിരികെ 1;
 }
 
 
 /* intcmp - compares two integers for use by qsort. */
 
-int intcmp (const void *a, const void *b)
+പൂർണ്ണസംഖ്യ intcmp (സ്ഥിരം ശൂന്യം *a, സ്ഥിരം ശൂന്യം *b)
 {
-  return *(const int *) a - *(const int *) b;
+  തിരികെ *(സ്ഥിരം പൂർണ്ണസംഖ്യ *) a - *(സ്ഥിരം പൂർണ്ണസംഖ്യ *) b;
 }
 
 
@@ -110,13 +110,13 @@ int intcmp (const void *a, const void *b)
  *		and exits.
  */
 
-void check_char (int c)
+ശൂന്യം check_char (പൂർണ്ണസംഖ്യ c)
 {
-	if (c >= CSIZE)
+	എങ്കിൽ (c >= CSIZE)
 		lerr (_("bad character '%s' detected in check_char()"),
 			readable_form (c));
 
-	if (c >= ctrl.csize)
+	എങ്കിൽ (c >= ctrl.csize)
 		lerr (_
 			("scanner requires -8 flag to use the character %s"),
 			readable_form (c));
@@ -126,49 +126,49 @@ void check_char (int c)
 
 /* clower - replace upper-case letter to lower-case */
 
-unsigned char clower (int c)
+unsigned അക്ഷരം clower (പൂർണ്ണസംഖ്യ c)
 {
-	return (unsigned char) ((isascii (c) && isupper (c)) ? tolower (c) : c);
+	തിരികെ (unsigned അക്ഷരം) ((isascii (c) && isupper (c)) ? tolower (c) : c);
 }
 
 
-char *xstrdup(const char *s)
+അക്ഷരം *xstrdup(സ്ഥിരം അക്ഷരം *s)
 {
-	char *s2;
+	അക്ഷരം *s2;
 
-	if ((s2 = strdup(s)) == NULL)
+	എങ്കിൽ ((s2 = strdup(s)) == ശൂന്യ)
 		flexfatal (_("memory allocation failure in xstrdup()"));
 
-	return s2;
+	തിരികെ s2;
 }
 
 
 /* cclcmp - compares two characters for use by qsort with '\0' sorting last. */
 
-int cclcmp (const void *a, const void *b)
+പൂർണ്ണസംഖ്യ cclcmp (സ്ഥിരം ശൂന്യം *a, സ്ഥിരം ശൂന്യം *b)
 {
-	if (!*(const unsigned char *) a)
-		return 1;
-	else
-		if (!*(const unsigned char *) b)
-			return - 1;
-		else
-			return *(const unsigned char *) a - *(const unsigned char *) b;
+	എങ്കിൽ (!*(സ്ഥിരം unsigned അക്ഷരം *) a)
+		തിരികെ 1;
+	അല്ലെങ്കിൽ
+		എങ്കിൽ (!*(സ്ഥിരം unsigned അക്ഷരം *) b)
+			തിരികെ - 1;
+		അല്ലെങ്കിൽ
+			തിരികെ *(സ്ഥിരം unsigned അക്ഷരം *) a - *(സ്ഥിരം unsigned അക്ഷരം *) b;
 }
 
 
 /* dataend - finish up a block of data declarations */
 
-void dataend (const char *endit)
+ശൂന്യം dataend (സ്ഥിരം അക്ഷരം *endit)
 {
 	/* short circuit any output */
-	if (gentables) {
+	എങ്കിൽ (gentables) {
 
-		if (datapos > 0)
+		എങ്കിൽ (datapos > 0)
 			dataflush ();
 
 		/* add terminator for initialization; { for vi */
-		if (endit)
+		എങ്കിൽ (endit)
 			outn (endit);
 	}
 	dataline = 0;
@@ -178,14 +178,14 @@ void dataend (const char *endit)
 
 /* dataflush - flush generated data statements */
 
-void dataflush (void)
+ശൂന്യം dataflush (ശൂന്യം)
 {
-	assert (gentables);
+	പ്രതിജ്ഞാ (gentables);
 
-	if (datapos > 0)
+	എങ്കിൽ (datapos > 0)
 		outc ('\n');
 
-	if (++dataline >= NUMDATALINES) {
+	എങ്കിൽ (++dataline >= NUMDATALINES) {
 		/* Put out a blank line so that the table is grouped into
 		 * large blocks that enable the user to find elements easily.
 		 */
@@ -200,32 +200,32 @@ void dataflush (void)
 
 /* flexerror - report an error message and terminate */
 
-void flexerror (const char *msg)
+ശൂന്യം flexerror (സ്ഥിരം അക്ഷരം *സന്ദേശം)
 {
-	fprintf (stderr, "%s: %s\n", program_name, msg);
+	fprintf (stderr, "%s: %s\n", program_name, സന്ദേശം);
 	flexend (1);
 }
 
 
 /* flexfatal - report a fatal error message and terminate */
 
-void flexfatal (const char *msg)
+ശൂന്യം flexfatal (സ്ഥിരം അക്ഷരം *സന്ദേശം)
 {
 	fprintf (stderr, _("%s: fatal internal error, %s\n"),
-		 program_name, msg);
+		 program_name, സന്ദേശം);
 	FLEX_EXIT (1);
 }
 
 
 /* lerr - report an error message */
 
-void lerr (const char *msg, ...)
+ശൂന്യം lerr (സ്ഥിരം അക്ഷരം *സന്ദേശം, ...)
 {
-	char    errmsg[MAXLINE];
+	അക്ഷരം    errmsg[MAXLINE];
 	va_list args;
 
-	va_start(args, msg);
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
+	va_start(args, സന്ദേശം);
+	vsnprintf (errmsg, വലുപ്പം(errmsg), സന്ദേശം, args);
 	va_end(args);
 	flexerror (errmsg);
 }
@@ -233,38 +233,38 @@ void lerr (const char *msg, ...)
 
 /* lerr_fatal - as lerr, but call flexfatal */
 
-void lerr_fatal (const char *msg, ...)
+ശൂന്യം lerr_fatal (സ്ഥിരം അക്ഷരം *സന്ദേശം, ...)
 {
-	char    errmsg[MAXLINE];
+	അക്ഷരം    errmsg[MAXLINE];
 	va_list args;
-	va_start(args, msg);
+	va_start(args, സന്ദേശം);
 
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
+	vsnprintf (errmsg, വലുപ്പം(errmsg), സന്ദേശം, args);
 	va_end(args);
 	flexfatal (errmsg);
 }
 
 
 /* line_directive_out - spit out a "#line" statement or equivalent */
-void line_directive_out (FILE *output_file, char *path, int linenum)
+ശൂന്യം വരി_directive_out (FILE *output_file, അക്ഷരം *path, പൂർണ്ണസംഖ്യ linenum)
 {
-	char	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
-	char    directive[MAXLINE*2], filename[MAXLINE];
-	char   *s1, *s2, *s3;
+	അക്ഷരം	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
+	അക്ഷരം    directive[MAXLINE*2], filename[MAXLINE];
+	അക്ഷരം   *s1, *s2, *s3;
 
-	if (!ctrl.gen_line_dirs)
-		return;
+	എങ്കിൽ (!ctrl.gen_വരി_dirs)
+		തിരികെ;
 
-	s1 = (path != NULL) ? path : "M4_YY_OUTFILE_NAME";
+	s1 = (path != ശൂന്യ) ? path : "M4_YY_OUTFILE_NAME";
 
-	if ((path != NULL) && !s1)
+	എങ്കിൽ ((path != ശൂന്യ) && !s1)
 		s1 = "<stdin>";
     
 	s2 = filename;
-	s3 = &filename[sizeof (filename) - 2];
+	s3 = &filename[വലുപ്പം (filename) - 2];
 
-	while (s2 < s3 && *s1) {
-		if (*s1 == '\\' || *s1 == '"')
+	ആകുമ്പോൾ (s2 < s3 && *s1) {
+		എങ്കിൽ (*s1 == '\\' || *s1 == '"')
 			/* Escape the '\' or '"' */
 			*s2++ = '\\';
 
@@ -273,19 +273,19 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
 
 	*s2 = '\0';
 
-	if (path != NULL)
-		snprintf (directive, sizeof(directive), trace_fmt, linenum, filename);
-	else {
-		snprintf (directive, sizeof(directive), trace_fmt, 0, filename);
+	എങ്കിൽ (path != ശൂന്യ)
+		snprintf (directive, വലുപ്പം(directive), trace_fmt, linenum, filename);
+	അല്ലെങ്കിൽ {
+		snprintf (directive, വലുപ്പം(directive), trace_fmt, 0, filename);
 	}
 
 	/* If output_file is nil then we should put the directive in
 	 * the accumulated actions.
 	 */
-	if (output_file) {
+	എങ്കിൽ (output_file) {
 		fputs (directive, output_file);
 	}
-	else
+	അല്ലെങ്കിൽ
 		add_action (directive);
 }
 
@@ -294,7 +294,7 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
  *               representing where the user's section 1 definitions end
  *		 and the prolog begins
  */
-void mark_defs1 (void)
+ശൂന്യം mark_defs1 (ശൂന്യം)
 {
 	defs1_offset = 0;
 	action_array[action_index++] = '\0';
@@ -306,7 +306,7 @@ void mark_defs1 (void)
 /* mark_prolog - mark the current position in the action array as
  *               representing the end of the action prolog
  */
-void mark_prolog (void)
+ശൂന്യം mark_prolog (ശൂന്യം)
 {
 	action_array[action_index++] = '\0';
 	action_offset = action_index;
@@ -318,27 +318,27 @@ void mark_prolog (void)
  *
  * Generates a data statement initializing the current 2-D array to "value".
  */
-void mk2data (int value)
+ശൂന്യം mk2data (പൂർണ്ണസംഖ്യ മൂല്യം)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	എങ്കിൽ (!gentables)
+		തിരികെ;
 
-	if (datapos >= NUMDATAITEMS) {
+	എങ്കിൽ (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	എങ്കിൽ (datapos == 0)
 		/* Indent. */
 		out ("    ");
 
-	else
+	അല്ലെങ്കിൽ
 	  outc (',');
 
 	++datapos;
 
-	out_dec ("%5d", value);
+	out_dec ("%5d", മൂല്യം);
 }
 
 
@@ -347,73 +347,73 @@ void mk2data (int value)
  * Generates a data statement initializing the current array element to
  * "value".
  */
-void mkdata (int value)
+ശൂന്യം mkdata (പൂർണ്ണസംഖ്യ മൂല്യം)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	എങ്കിൽ (!gentables)
+		തിരികെ;
 
-	if (datapos >= NUMDATAITEMS) {
+	എങ്കിൽ (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	എങ്കിൽ (datapos == 0)
 		/* Indent. */
 		out ("    ");
-	else
+	അല്ലെങ്കിൽ
 		outc (',');
 	++datapos;
 
-	out_dec ("%5d", value);
+	out_dec ("%5d", മൂല്യം);
 }
 
 
 /* myctoi - return the integer represented by a string of digits */
 
-int myctoi (const char *array)
+പൂർണ്ണസംഖ്യ myctoi (സ്ഥിരം അക്ഷരം *array)
 {
-	int     val = 0;
+	പൂർണ്ണസംഖ്യ     val = 0;
 
-	(void) sscanf (array, "%d", &val);
+	(ശൂന്യം) sscanf (array, "%d", &val);
 
-	return val;
+	തിരികെ val;
 }
 
 
 /* myesc - return character corresponding to escape sequence */
 
-unsigned char myesc (unsigned char array[])
+unsigned അക്ഷരം myesc (unsigned അക്ഷരം array[])
 {
-	unsigned char    c, esc_char;
+	unsigned അക്ഷരം    c, esc_char;
 
-	switch (array[1]) {
-	case 'b':
-		return '\b';
-	case 'f':
-		return '\f';
-	case 'n':
-		return '\n';
-	case 'r':
-		return '\r';
-	case 't':
-		return '\t';
-	case 'a':
-		return '\a';
-	case 'v':
-		return '\v';
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
+	തിരഞ്ഞെടുപ്പ് (array[1]) {
+	അവസ്ഥ 'b':
+		തിരികെ '\b';
+	അവസ്ഥ 'f':
+		തിരികെ '\f';
+	അവസ്ഥ 'n':
+		തിരികെ '\n';
+	അവസ്ഥ 'r':
+		തിരികെ '\r';
+	അവസ്ഥ 't':
+		തിരികെ '\t';
+	അവസ്ഥ 'a':
+		തിരികെ '\a';
+	അവസ്ഥ 'v':
+		തിരികെ '\v';
+	അവസ്ഥ '0':
+	അവസ്ഥ '1':
+	അവസ്ഥ '2':
+	അവസ്ഥ '3':
+	അവസ്ഥ '4':
+	അവസ്ഥ '5':
+	അവസ്ഥ '6':
+	അവസ്ഥ '7':
 		{		/* \<octal> */
-			int     sptr = 1;
+			പൂർണ്ണസംഖ്യ     sptr = 1;
 
-			while (sptr <= 3 &&
+			ആകുമ്പോൾ (sptr <= 3 &&
                                array[sptr] >= '0' && array[sptr] <= '7') {
 				++sptr;
 			}
@@ -421,18 +421,18 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 1, NULL, 8);
+			esc_char = (unsigned അക്ഷരം) strtoul (array + 1, ശൂന്യ, 8);
 
 			array[sptr] = c;
 
-			return esc_char;
+			തിരികെ esc_char;
 		}
 
-	case 'x':
+	അവസ്ഥ 'x':
 		{		/* \x<hex> */
-			int     sptr = 2;
+			പൂർണ്ണസംഖ്യ     sptr = 2;
 
-			while (sptr <= 3 && isxdigit (array[sptr])) {
+			ആകുമ്പോൾ (sptr <= 3 && isxdigit (array[sptr])) {
 				/* Don't increment inside loop control
 				 * because if isxdigit() is a macro it might
 				 * expand into multiple increments ...
@@ -443,15 +443,15 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 2, NULL, 16);
+			esc_char = (unsigned അക്ഷരം) strtoul (array + 2, ശൂന്യ, 16);
 
 			array[sptr] = c;
 
-			return esc_char;
+			തിരികെ esc_char;
 		}
 
-	default:
-		return array[1];
+	സ്ഥിരസ്ഥിതി:
+		തിരികെ array[1];
 	}
 }
 
@@ -460,42 +460,42 @@ unsigned char myesc (unsigned char array[])
  *	 generated scanner, keeping track of the line count.
  */
 
-void out (const char *str)
+ശൂന്യം out (സ്ഥിരം അക്ഷരം *str)
 {
 	fputs (str, stdout);
 }
 
-void out_dec (const char *fmt, int n)
+ശൂന്യം out_dec (സ്ഥിരം അക്ഷരം *fmt, പൂർണ്ണസംഖ്യ n)
 {
 	fprintf (stdout, fmt, n);
 }
 
-void out_dec2 (const char *fmt, int n1, int n2)
+ശൂന്യം out_dec2 (സ്ഥിരം അക്ഷരം *fmt, പൂർണ്ണസംഖ്യ n1, പൂർണ്ണസംഖ്യ n2)
 {
 	fprintf (stdout, fmt, n1, n2);
 }
 
-void out_hex (const char *fmt, unsigned int x)
+ശൂന്യം out_hex (സ്ഥിരം അക്ഷരം *fmt, unsigned പൂർണ്ണസംഖ്യ x)
 {
 	fprintf (stdout, fmt, x);
 }
 
-void out_str (const char *fmt, const char str[])
+ശൂന്യം out_str (സ്ഥിരം അക്ഷരം *fmt, സ്ഥിരം അക്ഷരം str[])
 {
 	fprintf (stdout,fmt, str);
 }
 
-void out_str_dec (const char *fmt, const char str[], int n)
+ശൂന്യം out_str_dec (സ്ഥിരം അക്ഷരം *fmt, സ്ഥിരം അക്ഷരം str[], പൂർണ്ണസംഖ്യ n)
 {
 	fprintf (stdout,fmt, str, n);
 }
 
-void outc (int c)
+ശൂന്യം outc (പൂർണ്ണസംഖ്യ c)
 {
 	fputc (c, stdout);
 }
 
-void outn (const char *str)
+ശൂന്യം outn (സ്ഥിരം അക്ഷരം *str)
 {
 	fputs (str,stdout);
     fputc('\n',stdout);
@@ -505,9 +505,9 @@ void outn (const char *str)
  * @param def The m4 symbol to define.
  * @param val The definition; may be NULL.
  */
-void out_m4_define (const char* def, const char* val)
+ശൂന്യം out_m4_define (സ്ഥിരം അക്ഷരം* def, സ്ഥിരം അക്ഷരം* val)
 {
-    const char * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
+    സ്ഥിരം അക്ഷരം * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
     fprintf(stdout, fmt, def, val?val:"");
 }
 
@@ -517,71 +517,71 @@ void out_m4_define (const char* def, const char* val)
  * The returned string is in static storage.
  */
 
-char   *readable_form (int c)
+അക്ഷരം   *readable_form (പൂർണ്ണസംഖ്യ c)
 {
-	static char rform[20];
+	സ്ഥിതം അക്ഷരം rform[20];
 
-	if ((c >= 0 && c < 32) || c >= 127) {
-		switch (c) {
-		case '\b':
-			return "\\b";
-		case '\f':
-			return "\\f";
-		case '\n':
-			return "\\n";
-		case '\r':
-			return "\\r";
-		case '\t':
-			return "\\t";
-		case '\a':
-			return "\\a";
-		case '\v':
-			return "\\v";
-		default:
-			if(env.trace_hex)
-				snprintf (rform, sizeof(rform), "\\x%.2x", (unsigned int) c);
-			else
-				snprintf (rform, sizeof(rform), "\\%.3o", (unsigned int) c);
-			return rform;
+	എങ്കിൽ ((c >= 0 && c < 32) || c >= 127) {
+		തിരഞ്ഞെടുപ്പ് (c) {
+		അവസ്ഥ '\b':
+			തിരികെ "\\b";
+		അവസ്ഥ '\f':
+			തിരികെ "\\f";
+		അവസ്ഥ '\n':
+			തിരികെ "\\n";
+		അവസ്ഥ '\r':
+			തിരികെ "\\r";
+		അവസ്ഥ '\t':
+			തിരികെ "\\t";
+		അവസ്ഥ '\a':
+			തിരികെ "\\a";
+		അവസ്ഥ '\v':
+			തിരികെ "\\v";
+		സ്ഥിരസ്ഥിതി:
+			എങ്കിൽ(env.trace_hex)
+				snprintf (rform, വലുപ്പം(rform), "\\x%.2x", (unsigned പൂർണ്ണസംഖ്യ) c);
+			അല്ലെങ്കിൽ
+				snprintf (rform, വലുപ്പം(rform), "\\%.3o", (unsigned പൂർണ്ണസംഖ്യ) c);
+			തിരികെ rform;
 		}
 	}
 
-	else if (c == ' ')
-		return "' '";
+	അല്ലെങ്കിൽ എങ്കിൽ (c == ' ')
+		തിരികെ "' '";
 
-	else {
-		rform[0] = (char) c;
+	അല്ലെങ്കിൽ {
+		rform[0] = (അക്ഷരം) c;
 		rform[1] = '\0';
 
-		return rform;
+		തിരികെ rform;
 	}
 }
 
 
 /* reallocate_array - increase the size of a dynamic array */
 
-void   *reallocate_array (void *array, int size, size_t element_size)
+ശൂന്യം   *reallocate_array (ശൂന്യം *array, പൂർണ്ണസംഖ്യ size, size_t element_size)
 {
-	void *new_array;
+	ശൂന്യം *new_array;
 #ifdef HAVE_REALLOCARR
 	new_array = array;
-	if (reallocarr(&new_array, (size_t) size, element_size)) {
+	എങ്കിൽ (reallocarr(&new_array, (size_t) size, element_size)) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
 			 * compatibility (for translations): */
 			_("memory allocation failed in allocate_array()"));
 	}
-#else
+#അല്ലെങ്കിൽ
 # ifdef HAVE_REALLOCARRAY
 	new_array = reallocarray(array, (size_t) size, element_size);
-# else
+# അല്ലെങ്കിൽ
 	/* Do manual overflow detection */
-	size_t num_bytes = (size_t) size * element_size;
-	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? NULL :
-		realloc(array, num_bytes);
+	size_t അക്കം_bytes = (size_t) size * element_size;
+	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? ശൂന്യ :
+		realloc(array, അക്കം_bytes);
 # endif
-	if (!new_array) {
+	എങ്കിൽ (!new_array) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
@@ -589,7 +589,7 @@ void   *reallocate_array (void *array, int size, size_t element_size)
 			_("memory allocation failed in allocate_array()"));
 	}
 #endif
-	return new_array;
+	തിരികെ new_array;
 }
 
 
@@ -599,22 +599,22 @@ void   *reallocate_array (void *array, int size, size_t element_size)
  * element_n.  Formats the output with spaces and carriage returns.
  */
 
-void transition_struct_out (int element_v, int element_n)
+ശൂന്യം transition_struct_out (പൂർണ്ണസംഖ്യ element_v, പൂർണ്ണസംഖ്യ element_n)
 {
 
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	എങ്കിൽ (!gentables)
+		തിരികെ;
 
 	out_dec2 ("M4_HOOK_TABLE_OPENER[[%4d]],[[%4d]]M4_HOOK_TABLE_CONTINUE", element_v, element_n);
 	outc ('\n');
 
 	datapos += TRANS_STRUCT_PRINT_LENGTH;
 
-	if (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
+	എങ്കിൽ (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
 		outc ('\n');
 
-		if (++dataline % 10 == 0)
+		എങ്കിൽ (++dataline % 10 == 0)
 			outc ('\n');
 
 		datapos = 0;
@@ -627,52 +627,52 @@ void transition_struct_out (int element_v, int element_n)
  *
  * XXX: this is should go soon
  */
-void   *yy_flex_xmalloc (int size)
+ശൂന്യം   *yy_flex_xmalloc (പൂർണ്ണസംഖ്യ size)
 {
-	void   *result;
+	ശൂന്യം   *result;
 
 	result = malloc((size_t) size);
-	if (!result)
+	എങ്കിൽ (!result)
 		flexfatal (_
 			   ("memory allocation failed in yy_flex_xmalloc()"));
 
-	return result;
+	തിരികെ result;
 }
 
 
 /* Remove all '\n' and '\r' characters, if any, from the end of str.
  * str can be any null-terminated string, or NULL.
  * returns str. */
-char   *chomp (char *str)
+അക്ഷരം   *chomp (അക്ഷരം *str)
 {
-	char   *p = str;
+	അക്ഷരം   *p = str;
 
-	if (!str || !*str)	/* s is null or empty string */
-		return str;
+	എങ്കിൽ (!str || !*str)	/* s is null or empty string */
+		തിരികെ str;
 
 	/* find end of string minus one */
-	while (*p)
+	ആകുമ്പോൾ (*p)
 		++p;
 	--p;
 
 	/* eat newlines */
-	while (p >= str && (*p == '\r' || *p == '\n'))
+	ആകുമ്പോൾ (p >= str && (*p == '\r' || *p == '\n'))
 		*p-- = 0;
-	return str;
+	തിരികെ str;
 }
 
-void comment(const char *txt)
+ശൂന്യം comment(സ്ഥിരം അക്ഷരം *txt)
 {
-	char buf[MAXLINE];
+	അക്ഷരം buf[MAXLINE];
 	bool eol;
 
 	strncpy(buf, txt, MAXLINE-1);
 	eol = buf[strlen(buf)-1] == '\n';
 
-	if (eol)
+	എങ്കിൽ (eol)
 		buf[strlen(buf)-1] = '\0';
 	out_str("M4_HOOK_COMMENT_OPEN [[%s]] M4_HOOK_COMMENT_CLOSE", buf);
-	if (eol)
+	എങ്കിൽ (eol)
 		outc ('\n');
 }
 

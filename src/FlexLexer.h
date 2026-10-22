@@ -48,173 +48,173 @@
 // Never included before - need to define base class.
 #define __FLEX_LEXER_H
 
-#include <iostream>
+#അന്തര്ഭാവ <iostream>
 
-extern "C++" {
+ബാഹ്യ "C++" {
 
-struct yy_buffer_state;
-typedef int yy_state_type;
+ഘടന yy_buffer_state;
+തരനിർവചനം പൂർണ്ണസംഖ്യ yy_state_type;
 
 class FlexLexer
 {
-public:
-  virtual ~FlexLexer()        { }
+പൊതു:
+  മായാ ~FlexLexer()        { }
 
-  const char* YYText() const  { return yytext; }
-  int YYLeng()        const   { return yyleng; }
+  സ്ഥിരം അക്ഷരം* YYText() സ്ഥിരം  { തിരികെ yytext; }
+  പൂർണ്ണസംഖ്യ YYLeng()        സ്ഥിരം   { തിരികെ yyleng; }
 
-  virtual void
+  മായാ ശൂന്യം
   yy_switch_to_buffer( yy_buffer_state* new_buffer ) = 0;
-  virtual yy_buffer_state* yy_create_buffer( std::istream* s, int size ) = 0;
-  virtual yy_buffer_state* yy_create_buffer( std::istream& s, int size ) = 0;
-  virtual void yy_delete_buffer( yy_buffer_state* b ) = 0;
-  virtual void yyrestart( std::istream* s ) = 0;
-  virtual void yyrestart( std::istream& s ) = 0;
+  മായാ yy_buffer_state* yy_create_buffer( std::istream* s, പൂർണ്ണസംഖ്യ size ) = 0;
+  മായാ yy_buffer_state* yy_create_buffer( std::istream& s, പൂർണ്ണസംഖ്യ size ) = 0;
+  മായാ ശൂന്യം yy_delete_buffer( yy_buffer_state* b ) = 0;
+  മായാ ശൂന്യം yyrestart( std::istream* s ) = 0;
+  മായാ ശൂന്യം yyrestart( std::istream& s ) = 0;
 
-  virtual int yylex() = 0;
+  മായാ പൂർണ്ണസംഖ്യ yylex() = 0;
 
   // Call yylex with new input/output sources.
-  int yylex( std::istream& new_in, std::ostream& new_out )
+  പൂർണ്ണസംഖ്യ yylex( std::istream& new_in, std::ostream& new_out )
   {
     switch_streams( new_in, new_out );
-    return yylex();
+    തിരികെ yylex();
   }
 
-  int yylex( std::istream* new_in, std::ostream* new_out = 0)
+  പൂർണ്ണസംഖ്യ yylex( std::istream* new_in, std::ostream* new_out = 0)
   {
     switch_streams( new_in, new_out );
-    return yylex();
+    തിരികെ yylex();
   }
 
   // Switch to new input/output streams.  A nil stream pointer
   // indicates "keep the current one".
-  virtual void switch_streams( std::istream* new_in,
+  മായാ ശൂന്യം switch_streams( std::istream* new_in,
                                std::ostream* new_out ) = 0;
-  virtual void switch_streams( std::istream& new_in,
+  മായാ ശൂന്യം switch_streams( std::istream& new_in,
                                std::ostream& new_out ) = 0;
 
-  int lineno() const          { return yylineno; }
+  പൂർണ്ണസംഖ്യ lineno() സ്ഥിരം          { തിരികെ yylineno; }
 
-  int debug() const           { return yyflexdebug; }
-  void set_debug( int flag )  { yyflexdebug = flag; }
+  പൂർണ്ണസംഖ്യ debug() സ്ഥിരം           { തിരികെ yyflexdebug; }
+  ശൂന്യം set_debug( പൂർണ്ണസംഖ്യ flag )  { yyflexdebug = flag; }
 
-protected:
-  char* yytext;
-  int yyleng;
-  int yylineno;       // only maintained if you use %option yylineno
-  int yyflexdebug;    // only has effect with -d or "%option debug"
+സംരക്ഷിത:
+  അക്ഷരം* yytext;
+  പൂർണ്ണസംഖ്യ yyleng;
+  പൂർണ്ണസംഖ്യ yylineno;       // only maintained if you use %option yylineno
+  പൂർണ്ണസംഖ്യ yyflexdebug;    // only has effect with -d or "%option debug"
 };
 
 }
 #endif // FLEXLEXER_H
 
-#if defined(yyFlexLexer) || ! defined(yyFlexLexerOnce)
+#എങ്കിൽ defined(yyFlexLexer) || ! defined(yyFlexLexerOnce)
 // Either this is the first time through (yyFlexLexerOnce not defined),
 // or this is a repeated include to define a different flavor of
 // yyFlexLexer, as discussed in the flex manual.
 # define yyFlexLexerOnce
 
-extern "C++" {
+ബാഹ്യ "C++" {
 
-class yyFlexLexer : public FlexLexer {
-public:
+class yyFlexLexer : പൊതു FlexLexer {
+പൊതു:
   // arg_yyin and arg_yyout default to the cin and cout, but we
   // only make that assignment when initializing in yylex().
   yyFlexLexer( std::istream& arg_yyin, std::ostream& arg_yyout );
   yyFlexLexer( std::istream* arg_yyin = 0, std::ostream* arg_yyout = 0 );
-private:
-  void ctor_common();
+സ്വകാര്യ:
+  ശൂന്യം ctor_common();
 
-public:
+പൊതു:
 
-  virtual ~yyFlexLexer();
+  മായാ ~yyFlexLexer();
 
-  void yy_switch_to_buffer( yy_buffer_state* new_buffer );
-  yy_buffer_state* yy_create_buffer( std::istream* s, int size );
-  yy_buffer_state* yy_create_buffer( std::istream& s, int size );
-  void yy_delete_buffer( yy_buffer_state* b );
-  void yyrestart( std::istream* s );
-  void yyrestart( std::istream& s );
+  ശൂന്യം yy_switch_to_buffer( yy_buffer_state* new_buffer );
+  yy_buffer_state* yy_create_buffer( std::istream* s, പൂർണ്ണസംഖ്യ size );
+  yy_buffer_state* yy_create_buffer( std::istream& s, പൂർണ്ണസംഖ്യ size );
+  ശൂന്യം yy_delete_buffer( yy_buffer_state* b );
+  ശൂന്യം yyrestart( std::istream* s );
+  ശൂന്യം yyrestart( std::istream& s );
 
-  void yypush_buffer_state( yy_buffer_state* new_buffer );
-  void yypop_buffer_state();
+  ശൂന്യം yypush_buffer_state( yy_buffer_state* new_buffer );
+  ശൂന്യം yypop_buffer_state();
 
-  virtual int yyread(char *buf, size_t);
-  virtual int yylex();
-  virtual void switch_streams( std::istream& new_in, std::ostream& new_out );
-  virtual void switch_streams( std::istream* new_in = 0, std::ostream* new_out = 0 );
-  virtual int yywrap();
+  മായാ പൂർണ്ണസംഖ്യ yyread(അക്ഷരം *buf, size_t);
+  മായാ പൂർണ്ണസംഖ്യ yylex();
+  മായാ ശൂന്യം switch_streams( std::istream& new_in, std::ostream& new_out );
+  മായാ ശൂന്യം switch_streams( std::istream* new_in = 0, std::ostream* new_out = 0 );
+  മായാ പൂർണ്ണസംഖ്യ yywrap();
 
-protected:
-  virtual int LexerInput( char* buf, int max_size );
-  virtual void LexerOutput( const char* buf, int size );
-  virtual void LexerError( const char* msg );
+സംരക്ഷിത:
+  മായാ പൂർണ്ണസംഖ്യ Lexer_നിവേശം( അക്ഷരം* buf, പൂർണ്ണസംഖ്യ max_size );
+  മായാ ശൂന്യം LexerOutput( സ്ഥിരം അക്ഷരം* buf, പൂർണ്ണസംഖ്യ size );
+  മായാ ശൂന്യം LexerError( സ്ഥിരം അക്ഷരം* സന്ദേശം );
 			
-  void yyunput_r( int c, char* buf_ptr );
-  int yyinput();
+  ശൂന്യം yyunput_r( പൂർണ്ണസംഖ്യ c, അക്ഷരം* buf_ptr );
+  പൂർണ്ണസംഖ്യ yyinput();
 
-  void yy_load_buffer_state();
-  void yy_init_buffer( yy_buffer_state* b, std::istream& s );
-  void yy_flush_buffer( yy_buffer_state* b );
+  ശൂന്യം yy_load_buffer_state();
+  ശൂന്യം yy_init_buffer( yy_buffer_state* b, std::istream& s );
+  ശൂന്യം yy_flush_buffer( yy_buffer_state* b );
 
-  int yy_start_stack_ptr;
-  int yy_start_stack_depth;
-  int* yy_start_stack;
+  പൂർണ്ണസംഖ്യ yy_start_അട്ടി_ptr;
+  പൂർണ്ണസംഖ്യ yy_start_അട്ടി_depth;
+  പൂർണ്ണസംഖ്യ* yy_start_അട്ടി;
 
-  void yy_push_state( int new_state );
-  void yy_pop_state();
-  int yy_top_state();
+  ശൂന്യം yy_തള്ളുക_state( പൂർണ്ണസംഖ്യ new_state );
+  ശൂന്യം yy_എടുക്കുക_state();
+  പൂർണ്ണസംഖ്യ yy_മുകൾ_state();
 
   yy_state_type yy_get_previous_state();
   yy_state_type yy_try_NUL_trans( yy_state_type current_state );
-  int yy_get_next_buffer();
+  പൂർണ്ണസംഖ്യ yy_get_next_buffer();
 
   std::istream yyin;  // input source for default LexerInput
   std::ostream yyout; // output sink for default LexerOutput
 
   // yy_hold_char holds the character lost when yytext is formed.
-  char yy_hold_char;
+  അക്ഷരം yy_hold_char;
 
   // Number of characters read into yy_ch_buf.
-  int yy_n_chars;
+  പൂർണ്ണസംഖ്യ yy_n_chars;
 
   // Points to current character in buffer.
-  char* yy_c_buf_p;
+  അക്ഷരം* yy_c_buf_p;
 
-  int yy_init;                // whether we need to initialize
-  int yy_start;               // start state number
+  പൂർണ്ണസംഖ്യ yy_init;                // whether we need to initialize
+  പൂർണ്ണസംഖ്യ yy_start;               // start state number
 
   // Flag which is used to allow yywrap()'s to do buffer switches
   // instead of setting up a fresh yyin.  A bit of a hack ...
-  int yy_did_buffer_switch_on_eof;
+  പൂർണ്ണസംഖ്യ yy_did_buffer_switch_on_eof;
 
 
-  size_t yy_buffer_stack_top; /**< index of top of stack. */
-  size_t yy_buffer_stack_max; /**< capacity of stack. */
-  yy_buffer_state ** yy_buffer_stack; /**< Stack as an array. */
-  void yyensure_buffer_stack(void);
+  size_t yy_buffer_അട്ടി_മുകൾ; /**< index of top of stack. */
+  size_t yy_buffer_അട്ടി_max; /**< capacity of stack. */
+  yy_buffer_state ** yy_buffer_അട്ടി; /**< Stack as an array. */
+  ശൂന്യം yyensure_buffer_അട്ടി(ശൂന്യം);
 
   // The following are not always needed, but may be depending
   // on use of certain flex features (like REJECT or yymore()).
 
   yy_state_type yy_last_accepting_state;
-  char* yy_last_accepting_cpos;
+  അക്ഷരം* yy_last_accepting_cpos;
 
   yy_state_type* yy_state_buf;
   yy_state_type* yy_state_ptr;
   size_t yy_state_buf_max;
 
-  char* yy_full_match;
-  int* yy_full_state;
-  int yy_full_lp;
+  അക്ഷരം* yy_full_match;
+  പൂർണ്ണസംഖ്യ* yy_full_state;
+  പൂർണ്ണസംഖ്യ yy_full_lp;
 
-  int yy_lp;
-  int yy_looking_for_trail_begin;
+  പൂർണ്ണസംഖ്യ yy_lp;
+  പൂർണ്ണസംഖ്യ yy_looking_for_trail_begin;
 
-  int yy_more_flag;
-  int yy_more_len;
-  int yy_more_offset;
-  int yy_prev_more_offset;
+  പൂർണ്ണസംഖ്യ yy_more_flag;
+  പൂർണ്ണസംഖ്യ yy_more_len;
+  പൂർണ്ണസംഖ്യ yy_more_offset;
+  പൂർണ്ണസംഖ്യ yy_prev_more_offset;
 };
 
 }

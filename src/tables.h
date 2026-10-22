@@ -37,15 +37,15 @@
 
 #ifdef __cplusplus
 /* *INDENT-OFF* */
-extern  "C" {
+ബാഹ്യ  "C" {
 /* *INDENT-ON* */
 #endif
 
 /* Tables serialization API declarations. */
-#include "tables_shared.h"
-struct yytbl_writer {
+#അന്തര്ഭാവ "tables_shared.h"
+ഘടന yytbl_writer {
 	FILE   *out;
-	int total_written;
+	പൂർണ്ണസംഖ്യ total_written;
 			    /**< bytes written so far */
 	fpos_t  th_ssize_pos;
 			    /**< position of th_ssize */
@@ -59,19 +59,19 @@ struct yytbl_writer {
  * tablesverify - true if tables-verify option specified
  * gentables - true if we should spit out the normal C tables
  */
-extern bool tablesext, tablesverify,gentables;
-extern char *tablesfilename, *tablesname;
-extern struct yytbl_writer tableswr;
+ബാഹ്യ bool tablesext, tablesverify,gentables;
+ബാഹ്യ അക്ഷരം *tablesfilename, *tablesname;
+ബാഹ്യ ഘടന yytbl_writer tableswr;
 
-int     yytbl_writer_init (struct yytbl_writer *, FILE *);
-int     yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
-			const char *name);
-int     yytbl_data_init (struct yytbl_data *tbl, enum yytbl_id id);
-int     yytbl_data_destroy (struct yytbl_data *td);
-int     yytbl_hdr_fwrite (struct yytbl_writer *wr,
-			  const struct yytbl_hdr *th);
-int     yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td);
-void    yytbl_data_compress (struct yytbl_data *tbl);
+പൂർണ്ണസംഖ്യ     yytbl_writer_init (ഘടന yytbl_writer *, FILE *);
+പൂർണ്ണസംഖ്യ     yytbl_hdr_init (ഘടന yytbl_hdr *th, സ്ഥിരം അക്ഷരം *version_str,
+			സ്ഥിരം അക്ഷരം *name);
+പൂർണ്ണസംഖ്യ     yytbl_data_init (ഘടന yytbl_data *tbl, എണ്ണൽ yytbl_id id);
+പൂർണ്ണസംഖ്യ     yytbl_data_destroy (ഘടന yytbl_data *td);
+പൂർണ്ണസംഖ്യ     yytbl_hdr_fwrite (ഘടന yytbl_writer *wr,
+			  സ്ഥിരം ഘടന yytbl_hdr *th);
+പൂർണ്ണസംഖ്യ     yytbl_data_fwrite (ഘടന yytbl_writer *wr, ഘടന yytbl_data *td);
+ശൂന്യം    yytbl_data_compress (ഘടന yytbl_data *tbl);
 
 
 #ifdef __cplusplus

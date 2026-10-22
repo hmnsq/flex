@@ -31,16 +31,16 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
-#include "tables.h"
+#അന്തര്ഭാവ "flexdef.h"
+#അന്തര്ഭാവ "tables.h"
 
 /* declare functions that have forward references */
 
-static void dump_associated_rules(FILE *, int);
-static void dump_transitions(FILE *, int[]);
-static int  snstods(int[], int, int[], int, int, int *);
-static void sympartition(int[], int, int[], int[]);
-static int  symfollowset(int[], int, int, int[]);
+സ്ഥിതം ശൂന്യം dump_associated_rules(FILE *, പൂർണ്ണസംഖ്യ);
+സ്ഥിതം ശൂന്യം dump_transitions(FILE *, പൂർണ്ണസംഖ്യ[]);
+സ്ഥിതം പൂർണ്ണസംഖ്യ  snstods(പൂർണ്ണസംഖ്യ[], പൂർണ്ണസംഖ്യ, പൂർണ്ണസംഖ്യ[], പൂർണ്ണസംഖ്യ, പൂർണ്ണസംഖ്യ, പൂർണ്ണസംഖ്യ *);
+സ്ഥിതം ശൂന്യം sympartition(പൂർണ്ണസംഖ്യ[], പൂർണ്ണസംഖ്യ, പൂർണ്ണസംഖ്യ[], പൂർണ്ണസംഖ്യ[]);
+സ്ഥിതം പൂർണ്ണസംഖ്യ  symfollowset(പൂർണ്ണസംഖ്യ[], പൂർണ്ണസംഖ്യ, പൂർണ്ണസംഖ്യ, പൂർണ്ണസംഖ്യ[]);
 
 
 /* check_for_backing_up - check a DFA state for backing up
@@ -52,12 +52,12 @@ static int  symfollowset(int[], int, int, int[]);
  * indexed by equivalence class.
  */
 
-static void check_for_backing_up(int ds, int state[])
+സ്ഥിതം ശൂന്യം check_for_backing_up(പൂർണ്ണസംഖ്യ ds, പൂർണ്ണസംഖ്യ state[])
 {
-	if ((reject && !dfaacc[ds].dfaacc_set) || (!reject && !dfaacc[ds].dfaacc_state)) {	/* state is non-accepting */
-		++num_backing_up;
+	എങ്കിൽ ((reject && !dfaacc[ds].dfaacc_set) || (!reject && !dfaacc[ds].dfaacc_state)) {	/* state is non-accepting */
+		++അക്കം_backing_up;
 
-		if (env.backing_up_report) {
+		എങ്കിൽ (env.backing_up_report) {
 			fprintf (ctrl.backing_up_file,
 				 _("State #%d is non-accepting -\n"), ds);
 
@@ -97,31 +97,31 @@ static void check_for_backing_up(int ds, int state[])
  *    accset[1 .. nacc] is the list of accepting numbers for the DFA state.
  */
 
-static void check_trailing_context(int *nfa_states, int num_states, int *accset, int nacc)
+സ്ഥിതം ശൂന്യം check_trailing_context(പൂർണ്ണസംഖ്യ *nfa_states, പൂർണ്ണസംഖ്യ അക്കം_states, പൂർണ്ണസംഖ്യ *accset, പൂർണ്ണസംഖ്യ nacc)
 {
-	int i, j;
+	പൂർണ്ണസംഖ്യ i, j;
 
-	for (i = 1; i <= num_states; ++i) {
-		int     ns = nfa_states[i];
-		int type = state_type[ns];
-		int ar = assoc_rule[ns];
+	വേണ്ടി (i = 1; i <= അക്കം_states; ++i) {
+		പൂർണ്ണസംഖ്യ     ns = nfa_states[i];
+		പൂർണ്ണസംഖ്യ type = state_type[ns];
+		പൂർണ്ണസംഖ്യ ar = assoc_rule[ns];
 
-		if (type == STATE_NORMAL || rule_type[ar] != RULE_VARIABLE) {	/* do nothing */
+		എങ്കിൽ (type == STATE_NORMAL || rule_type[ar] != RULE_VARIABLE) {	/* do nothing */
 		}
 
-		else if (type == STATE_TRAILING_CONTEXT) {
+		അല്ലെങ്കിൽ എങ്കിൽ (type == STATE_TRAILING_CONTEXT) {
 			/* Potential trouble.  Scan set of accepting numbers
 			 * for the one marking the end of the "head".  We
 			 * assume that this looping will be fairly cheap
 			 * since it's rare that an accepting number set
 			 * is large.
 			 */
-			for (j = 1; j <= nacc; ++j)
-				if (accset[j] & YY_TRAILING_HEAD_MASK) {
-					line_warning (_
+			വേണ്ടി (j = 1; j <= nacc; ++j)
+				എങ്കിൽ (accset[j] & YY_TRAILING_HEAD_MASK) {
+					വരി_warning (_
 						      ("dangerous trailing context"),
 						      rule_linenum[ar]);
-					return;
+					തിരികെ;
 				}
 		}
 	}
@@ -135,34 +135,34 @@ static void check_trailing_context(int *nfa_states, int num_states, int *accset,
  * and writes a report to the given file.
  */
 
-static void dump_associated_rules(FILE *file, int ds)
+സ്ഥിതം ശൂന്യം dump_associated_rules(FILE *file, പൂർണ്ണസംഖ്യ ds)
 {
-	int i, j;
-	int num_associated_rules = 0;
-	int rule_set[MAX_ASSOC_RULES + 1];
-	int *dset = dss[ds];
-	int size = dfasiz[ds];
+	പൂർണ്ണസംഖ്യ i, j;
+	പൂർണ്ണസംഖ്യ അക്കം_associated_rules = 0;
+	പൂർണ്ണസംഖ്യ rule_set[MAX_ASSOC_RULES + 1];
+	പൂർണ്ണസംഖ്യ *dset = dss[ds];
+	പൂർണ്ണസംഖ്യ size = dfasiz[ds];
 
-	for (i = 1; i <= size; ++i) {
-		int rule_num = rule_linenum[assoc_rule[dset[i]]];
+	വേണ്ടി (i = 1; i <= size; ++i) {
+		പൂർണ്ണസംഖ്യ rule_അക്കം = rule_linenum[assoc_rule[dset[i]]];
 
-		for (j = 1; j <= num_associated_rules; ++j)
-			if (rule_num == rule_set[j])
-				break;
+		വേണ്ടി (j = 1; j <= അക്കം_associated_rules; ++j)
+			എങ്കിൽ (rule_അക്കം == rule_set[j])
+				നിർത്തുക;
 
-		if (j > num_associated_rules) {	/* new rule */
-			if (num_associated_rules < MAX_ASSOC_RULES)
-				rule_set[++num_associated_rules] =
-					rule_num;
+		എങ്കിൽ (j > അക്കം_associated_rules) {	/* new rule */
+			എങ്കിൽ (അക്കം_associated_rules < MAX_ASSOC_RULES)
+				rule_set[++അക്കം_associated_rules] =
+					rule_അക്കം;
 		}
 	}
 
-	qsort (&rule_set [1], (size_t) num_associated_rules, sizeof (rule_set [1]), intcmp);
+	qsort (&rule_set [1], (size_t) അക്കം_associated_rules, വലുപ്പം (rule_set [1]), intcmp);
 
 	fprintf (file, _(" associated rule line numbers:"));
 
-	for (i = 1; i <= num_associated_rules; ++i) {
-		if (i % 8 == 1)
+	വേണ്ടി (i = 1; i <= അക്കം_associated_rules; ++i) {
+		എങ്കിൽ (i % 8 == 1)
 			putc ('\n', file);
 
 		fprintf (file, "\t%d", rule_set[i]);
@@ -183,12 +183,12 @@ static void dump_associated_rules(FILE *file, int ds)
  * is done to the given file.
  */
 
-static void dump_transitions(FILE *file, int state[])
+സ്ഥിതം ശൂന്യം dump_transitions(FILE *file, പൂർണ്ണസംഖ്യ state[])
 {
-	int i, ec;
-	int out_char_set[CSIZE];
+	പൂർണ്ണസംഖ്യ i, ec;
+	പൂർണ്ണസംഖ്യ out_char_set[CSIZE];
 
-	for (i = 0; i < ctrl.csize; ++i) {
+	വേണ്ടി (i = 0; i < ctrl.csize; ++i) {
 		ec = ABS (ecgroup[i]);
 		out_char_set[i] = state[ec];
 	}
@@ -198,7 +198,7 @@ static void dump_transitions(FILE *file, int state[])
 	list_character_set (file, out_char_set);
 
 	/* now invert the members of the set to get the jam transitions */
-	for (i = 0; i < ctrl.csize; ++i)
+	വേണ്ടി (i = 0; i < ctrl.csize; ++i)
 		out_char_set[i] = !out_char_set[i];
 
 	fprintf (file, _("\n jam-transitions: EOF "));
@@ -229,107 +229,107 @@ static void dump_transitions(FILE *file, int state[])
  *  hashval is the hash value for the dfa corresponding to the state set.
  */
 
-static int *epsclosure(int *t, int *ns_addr, int accset[], int *nacc_addr, int *hv_addr)
+സ്ഥിതം പൂർണ്ണസംഖ്യ *epsclosure(പൂർണ്ണസംഖ്യ *t, പൂർണ്ണസംഖ്യ *ns_addr, പൂർണ്ണസംഖ്യ accset[], പൂർണ്ണസംഖ്യ *nacc_addr, പൂർണ്ണസംഖ്യ *hv_addr)
 {
-	int     stkpos, ns, tsp;
-	int     numstates = *ns_addr, nacc, hashval, transsym, nfaccnum;
-	int     stkend, nstate;
-	static int did_stk_init = false, *stk;
+	പൂർണ്ണസംഖ്യ     stkpos, ns, tsp;
+	പൂർണ്ണസംഖ്യ     numstates = *ns_addr, nacc, hashval, transsym, nfaccnum;
+	പൂർണ്ണസംഖ്യ     stkend, nstate;
+	സ്ഥിതം പൂർണ്ണസംഖ്യ did_stk_init = false, *stk;
 
 #define MARK_STATE(state) \
-do{ trans1[state] = trans1[state] - MARKER_DIFFERENCE;} while(0)
+ചെയ്യുക{ trans1[state] = trans1[state] - MARKER_DIFFERENCE;} ആകുമ്പോൾ(0)
 
 #define IS_MARKED(state) (trans1[state] < 0)
 
 #define UNMARK_STATE(state) \
-do{ trans1[state] = trans1[state] + MARKER_DIFFERENCE;} while(0)
+ചെയ്യുക{ trans1[state] = trans1[state] + MARKER_DIFFERENCE;} ആകുമ്പോൾ(0)
 
 #define CHECK_ACCEPT(state) \
-do{ \
+ചെയ്യുക{ \
 nfaccnum = accptnum[state]; \
-if ( nfaccnum != NIL ) \
+എങ്കിൽ ( nfaccnum != NIL ) \
 accset[++nacc] = nfaccnum; \
-}while(0)
+}ആകുമ്പോൾ(0)
 
 #define DO_REALLOCATION() \
-do { \
+ചെയ്യുക { \
 current_max_dfa_size += MAX_DFA_SIZE_INCREMENT; \
-++num_reallocs; \
+++അക്കം_reallocs; \
 t = reallocate_integer_array( t, current_max_dfa_size ); \
 stk = reallocate_integer_array( stk, current_max_dfa_size ); \
-}while(0) \
+}ആകുമ്പോൾ(0) \
 
-#define PUT_ON_STACK(state) \
-do { \
-if ( ++stkend >= current_max_dfa_size ) \
+#define PUT_ON_അട്ടി(state) \
+ചെയ്യുക { \
+എങ്കിൽ ( ++stkend >= current_max_dfa_size ) \
 DO_REALLOCATION(); \
 stk[stkend] = state; \
 MARK_STATE(state); \
-}while(0)
+}ആകുമ്പോൾ(0)
 
 #define ADD_STATE(state) \
-do { \
-if ( ++numstates >= current_max_dfa_size ) \
+ചെയ്യുക { \
+എങ്കിൽ ( ++numstates >= current_max_dfa_size ) \
 DO_REALLOCATION(); \
 t[numstates] = state; \
 hashval += state; \
-}while(0)
+}ആകുമ്പോൾ(0)
 
-#define STACK_STATE(state) \
-do { \
-PUT_ON_STACK(state); \
+#define അട്ടി_STATE(state) \
+ചെയ്യുക { \
+PUT_ON_അട്ടി(state); \
 CHECK_ACCEPT(state); \
-if ( nfaccnum != NIL || transchar[state] != SYM_EPSILON ) \
+എങ്കിൽ ( nfaccnum != NIL || transchar[state] != SYM_EPSILON ) \
 ADD_STATE(state); \
-}while(0)
+}ആകുമ്പോൾ(0)
 
 
-	if (!did_stk_init) {
+	എങ്കിൽ (!did_stk_init) {
 		stk = allocate_integer_array (current_max_dfa_size);
 		did_stk_init = true;
 	}
 
 	nacc = stkend = hashval = 0;
 
-	for (nstate = 1; nstate <= numstates; ++nstate) {
+	വേണ്ടി (nstate = 1; nstate <= numstates; ++nstate) {
 		ns = t[nstate];
 
 		/* The state could be marked if we've already pushed it onto
 		 * the stack.
 		 */
-		if (!IS_MARKED (ns)) {
-			PUT_ON_STACK (ns);
+		എങ്കിൽ (!IS_MARKED (ns)) {
+			PUT_ON_അട്ടി (ns);
 			CHECK_ACCEPT (ns);
 			hashval += ns;
 		}
 	}
 
-	for (stkpos = 1; stkpos <= stkend; ++stkpos) {
+	വേണ്ടി (stkpos = 1; stkpos <= stkend; ++stkpos) {
 		ns = stk[stkpos];
 		transsym = transchar[ns];
 
-		if (transsym == SYM_EPSILON) {
+		എങ്കിൽ (transsym == SYM_EPSILON) {
 			tsp = trans1[ns] + MARKER_DIFFERENCE;
 
-			if (tsp != NO_TRANSITION) {
-				if (!IS_MARKED (tsp))
-					STACK_STATE (tsp);
+			എങ്കിൽ (tsp != NO_TRANSITION) {
+				എങ്കിൽ (!IS_MARKED (tsp))
+					അട്ടി_STATE (tsp);
 
 				tsp = trans2[ns];
 
-				if (tsp != NO_TRANSITION
+				എങ്കിൽ (tsp != NO_TRANSITION
 				    && !IS_MARKED (tsp))
-					STACK_STATE (tsp);
+					അട്ടി_STATE (tsp);
 			}
 		}
 	}
 
 	/* Clear out "visit" markers. */
 
-	for (stkpos = 1; stkpos <= stkend; ++stkpos) {
-		if (IS_MARKED (stk[stkpos]))
+	വേണ്ടി (stkpos = 1; stkpos <= stkend; ++stkpos) {
+		എങ്കിൽ (IS_MARKED (stk[stkpos]))
 			UNMARK_STATE (stk[stkpos]);
-		else
+		അല്ലെങ്കിൽ
 			flexfatal (_
 				   ("consistency check failed in epsclosure()"));
 	}
@@ -338,17 +338,17 @@ ADD_STATE(state); \
 	*hv_addr = hashval;
 	*nacc_addr = nacc;
 
-	return t;
+	തിരികെ t;
 }
 
 
 /* increase_max_dfas - increase the maximum number of DFAs */
 
-void increase_max_dfas (void)
+ശൂന്യം increase_max_dfas (ശൂന്യം)
 {
 	current_max_dfas += MAX_DFAS_INCREMENT;
 
-	++num_reallocs;
+	++അക്കം_reallocs;
 
 	base = reallocate_integer_array (base, current_max_dfas);
 	def = reallocate_integer_array (def, current_max_dfas);
@@ -357,9 +357,9 @@ void increase_max_dfas (void)
 	dhash = reallocate_integer_array (dhash, current_max_dfas);
 	dss = reallocate_int_ptr_array (dss, current_max_dfas);
 	dfaacc = reallocate_array(dfaacc, current_max_dfas,
-		sizeof(union dfaacc_union));
+		വലുപ്പം(സംഘം dfaacc_union));
 
-	if (nultrans)
+	എങ്കിൽ (nultrans)
 		nultrans =
 			reallocate_integer_array (nultrans,
 						  current_max_dfas);
@@ -375,18 +375,18 @@ void increase_max_dfas (void)
  * In some modes this can be zero.
  */
 
-size_t ntod (void)
+size_t ntod (ശൂന്യം)
 {
-	int    *accset, ds, nacc, newds;
-	int     sym, hashval, numstates, dsize;
-	int     num_full_table_rows=0;	/* used only for -f */
-	int    *nset, *dset;
-	int     targptr, totaltrans, i, comstate, comfreq, targ;
-	int     symlist[CSIZE + 1];
-	int     num_start_states;
-	int     todo_head, todo_next;
+	പൂർണ്ണസംഖ്യ    *accset, ds, nacc, newds;
+	പൂർണ്ണസംഖ്യ     sym, hashval, numstates, dsize;
+	പൂർണ്ണസംഖ്യ     അക്കം_full_table_rows=0;	/* used only for -f */
+	പൂർണ്ണസംഖ്യ    *nset, *dset;
+	പൂർണ്ണസംഖ്യ     targptr, totaltrans, i, comstate, comfreq, targ;
+	പൂർണ്ണസംഖ്യ     symlist[CSIZE + 1];
+	പൂർണ്ണസംഖ്യ     അക്കം_start_states;
+	പൂർണ്ണസംഖ്യ     todo_head, todo_next;
 
-	struct yytbl_data *yynxt_tbl = 0;
+	ഘടന yytbl_data *yynxt_tbl = 0;
 	flex_int32_t *yynxt_data = 0, yynxt_curr = 0;
 
 	/* Note that the following are indexed by *equivalence classes*
@@ -396,13 +396,13 @@ size_t ntod (void)
 	 * equivalence class) these arrays must have room for indices
 	 * from 1 to CSIZE, so their size must be CSIZE + 1.
 	 */
-	int     duplist[CSIZE + 1], state[CSIZE + 1];
-	int     targfreq[CSIZE + 1] = {0}, targstate[CSIZE + 1];
+	പൂർണ്ണസംഖ്യ     duplist[CSIZE + 1], state[CSIZE + 1];
+	പൂർണ്ണസംഖ്യ     targfreq[CSIZE + 1] = {0}, targstate[CSIZE + 1];
 
 	/* accset needs to be large enough to hold all of the rules present
 	 * in the input, *plus* their YY_TRAILING_HEAD_MASK variants.
 	 */
-	accset = allocate_integer_array ((num_rules + 1) * 2);
+	accset = allocate_integer_array ((അക്കം_rules + 1) * 2);
 	nset = allocate_integer_array (current_max_dfa_size);
 
 	/* The "todo" queue is represented by the head, which is the DFA
@@ -413,15 +413,15 @@ size_t ntod (void)
 	 */
 	todo_head = todo_next = 0;
 
-	for (i = 0; i <= ctrl.csize; ++i) {
+	വേണ്ടി (i = 0; i <= ctrl.csize; ++i) {
 		duplist[i] = NIL;
 		symlist[i] = false;
 	}
 
-	for (i = 0; i <= num_rules; ++i)
+	വേണ്ടി (i = 0; i <= അക്കം_rules; ++i)
 		accset[i] = NIL;
 
-	if (env.trace) {
+	എങ്കിൽ (env.trace) {
 		dumpnfa (scset[1]);
 		fputs (_("\n\nDFA Dump:\n\n"), stderr);
 	}
@@ -463,30 +463,30 @@ size_t ntod (void)
 	 * New way: we will only use NUL table for fulltbl, because the
 	 * scanner will use an integer instead of YY_CHAR as noted above
 	 */
-	if (ctrl.fulltbl && ecgroup[0] == numecs && is_power_of_2(numecs))
+	എങ്കിൽ (ctrl.fulltbl && ecgroup[0] == numecs && is_power_of_2(numecs))
 		nultrans = allocate_integer_array (current_max_dfas);
 
-	if (ctrl.fullspd) {
-		for (i = 0; i <= numecs; ++i)
+	എങ്കിൽ (ctrl.fullspd) {
+		വേണ്ടി (i = 0; i <= numecs; ++i)
 			state[i] = 0;
 
 		place_state (state, 0, 0);
 		dfaacc[0].dfaacc_state = 0;
 	}
 
-	else if (ctrl.fulltbl) {
-		if (nultrans)
+	അല്ലെങ്കിൽ എങ്കിൽ (ctrl.fulltbl) {
+		എങ്കിൽ (nultrans)
 			/* We won't be including NUL's transitions in the
 			 * table, so build it for entries from 0 .. numecs - 1.
 			 */
-			num_full_table_rows = numecs;
+			അക്കം_full_table_rows = numecs;
 
-		else
+		അല്ലെങ്കിൽ
 			/* Take into account the fact that we'll be including
 			 * the NUL entries in the transition table.  Build it
 			 * from 0 .. numecs.
 			 */
-			num_full_table_rows = numecs + 1;
+			അക്കം_full_table_rows = numecs + 1;
 
 		/* Begin generating yy_nxt[][]
 		 * This spans the entire LONG function.
@@ -494,33 +494,33 @@ size_t ntod (void)
 		 * So we'll have to realloc() on the way...
 		 * we'll wait until we can calculate yynxt_tbl->td_hilen.
 		 */
-		yynxt_tbl = calloc(1, sizeof (struct yytbl_data));
+		yynxt_tbl = calloc(1, വലുപ്പം (ഘടന yytbl_data));
      
 		yytbl_data_init (yynxt_tbl, YYTD_ID_NXT);
 		yynxt_tbl->td_hilen = 1;
-		yynxt_tbl->td_lolen = (flex_uint32_t) num_full_table_rows;
+		yynxt_tbl->td_lolen = (flex_uint32_t) അക്കം_full_table_rows;
 		yynxt_tbl->td_data = yynxt_data =
 		    calloc(yynxt_tbl->td_lolen *
 			   yynxt_tbl->td_hilen,
-			   sizeof (flex_int32_t));
+			   വലുപ്പം (flex_int32_t));
 		yynxt_curr = 0;
 
-		struct packtype_t *ptype = optimize_pack(0);
+		ഘടന packtype_t *ptype = optimize_pack(0);
 		/* Note: Used when ctrl.fulltbl is on. Alternately defined elsewhere */
 		out_str ("m4_define([[M4_HOOK_NXT_TYPE]], [[%s]])", ptype->name);
-		out_dec ("m4_define([[M4_HOOK_NXT_ROWS]], [[%d]])", num_full_table_rows);
+		out_dec ("m4_define([[M4_HOOK_NXT_ROWS]], [[%d]])", അക്കം_full_table_rows);
 		outn ("m4_define([[M4_HOOK_NXT_BODY]], [[m4_dnl");
 		outn ("M4_HOOK_TABLE_OPENER");
-		if (gentables)
+		എങ്കിൽ (gentables)
 			outn ("M4_HOOK_TABLE_OPENER");
 
 		/* Generate 0 entries for state #0. */
-		for (i = 0; i < num_full_table_rows; ++i) {
+		വേണ്ടി (i = 0; i < അക്കം_full_table_rows; ++i) {
 			mk2data (0);
 			yynxt_data[yynxt_curr++] = 0;
 		}
 
-		if (gentables) {
+		എങ്കിൽ (gentables) {
 			dataflush ();
 			outn ("M4_HOOK_TABLE_CONTINUE");
 		}
@@ -528,51 +528,51 @@ size_t ntod (void)
 
 	/* Create the first states. */
 
-	num_start_states = lastsc * 2;
+	അക്കം_start_states = lastsc * 2;
 
-	for (i = 1; i <= num_start_states; ++i) {
+	വേണ്ടി (i = 1; i <= അക്കം_start_states; ++i) {
 		numstates = 1;
 
 		/* For each start condition, make one state for the case when
 		 * we're at the beginning of the line (the '^' operator) and
 		 * one for the case when we're not.
 		 */
-		if (i % 2 == 1)
+		എങ്കിൽ (i % 2 == 1)
 			nset[numstates] = scset[(i / 2) + 1];
-		else
+		അല്ലെങ്കിൽ
 			nset[numstates] =
 				mkbranch (scbol[i / 2], scset[i / 2]);
 
 		nset = epsclosure (nset, &numstates, accset, &nacc,
 				   &hashval);
 
-		if (snstods (nset, numstates, accset, nacc, hashval, &ds)) {
+		എങ്കിൽ (snstods (nset, numstates, accset, nacc, hashval, &ds)) {
 			numas += nacc;
 			totnst += numstates;
 			++todo_next;
 
-			if (variable_trailing_context_rules && nacc > 0)
+			എങ്കിൽ (variable_trailing_context_rules && nacc > 0)
 				check_trailing_context (nset, numstates,
 							accset, nacc);
 		}
 	}
 
-	if (!ctrl.fullspd) {
-		if (!snstods (nset, 0, accset, 0, 0, &end_of_buffer_state))
+	എങ്കിൽ (!ctrl.fullspd) {
+		എങ്കിൽ (!snstods (nset, 0, accset, 0, 0, &end_of_buffer_state))
 			flexfatal (_
 				   ("could not create unique end-of-buffer state"));
 
 		++numas;
-		++num_start_states;
+		++അക്കം_start_states;
 		++todo_next;
 	}
 
 
-	while (todo_head < todo_next) {
+	ആകുമ്പോൾ (todo_head < todo_next) {
 		targptr = 0;
 		totaltrans = 0;
 
-		for (i = 1; i <= numecs; ++i)
+		വേണ്ടി (i = 1; i <= numecs; ++i)
 			state[i] = 0;
 
 		ds = ++todo_head;
@@ -580,16 +580,16 @@ size_t ntod (void)
 		dset = dss[ds];
 		dsize = dfasiz[ds];
 
-		if (env.trace)
+		എങ്കിൽ (env.trace)
 			fprintf (stderr, _("state # %d:\n"), ds);
 
 		sympartition (dset, dsize, symlist, duplist);
 
-		for (sym = 1; sym <= numecs; ++sym) {
-			if (symlist[sym]) {
+		വേണ്ടി (sym = 1; sym <= numecs; ++sym) {
+			എങ്കിൽ (symlist[sym]) {
 				symlist[sym] = 0;
 
-				if (duplist[sym] == NIL) {
+				എങ്കിൽ (duplist[sym] == NIL) {
 					/* Symbol has unique out-transitions. */
 					numstates =
 						symfollowset (dset, dsize,
@@ -599,7 +599,7 @@ size_t ntod (void)
 							   accset, &nacc,
 							   &hashval);
 
-					if (snstods
+					എങ്കിൽ (snstods
 					    (nset, numstates, accset, nacc,
 					     hashval, &newds)) {
 						totnst = totnst +
@@ -607,7 +607,7 @@ size_t ntod (void)
 						++todo_next;
 						numas += nacc;
 
-						if (variable_trailing_context_rules && nacc > 0)
+						എങ്കിൽ (variable_trailing_context_rules && nacc > 0)
 							check_trailing_context
 								(nset,
 								 numstates,
@@ -617,7 +617,7 @@ size_t ntod (void)
 
 					state[sym] = newds;
 
-					if (env.trace)
+					എങ്കിൽ (env.trace)
 						fprintf (stderr,
 							 "\t%d\t%d\n", sym,
 							 newds);
@@ -627,7 +627,7 @@ size_t ntod (void)
 					++numuniq;
 				}
 
-				else {
+				അല്ലെങ്കിൽ {
 					/* sym's equivalence class has the same
 					 * transitions as duplist(sym)'s
 					 * equivalence class.
@@ -635,7 +635,7 @@ size_t ntod (void)
 					targ = state[duplist[sym]];
 					state[sym] = targ;
 
-					if (env.trace)
+					എങ്കിൽ (env.trace)
 						fprintf (stderr,
 							 "\t%d\t%d\n", sym,
 							 targ);
@@ -645,7 +645,7 @@ size_t ntod (void)
 					 */
 
 					i = 0;
-					while (targstate[++i] != targ) ;
+					ആകുമ്പോൾ (targstate[++i] != targ) ;
 
 					++targfreq[i];
 					++numdup;
@@ -659,15 +659,15 @@ size_t ntod (void)
 
 		numsnpairs += totaltrans;
 
-		if (ds > num_start_states)
+		എങ്കിൽ (ds > അക്കം_start_states)
 			check_for_backing_up (ds, state);
 
-		if (nultrans) {
+		എങ്കിൽ (nultrans) {
 			nultrans[ds] = state[NUL_ec];
 			state[NUL_ec] = 0;	/* remove transition */
 		}
 
-		if (ctrl.fulltbl) {
+		എങ്കിൽ (ctrl.fulltbl) {
 
 			/* Each time we hit here, it's another td_hilen, so we realloc. */
 			yynxt_tbl->td_hilen++;
@@ -675,23 +675,23 @@ size_t ntod (void)
 				realloc (yynxt_data,
 						     yynxt_tbl->td_hilen *
 						     yynxt_tbl->td_lolen *
-						     sizeof (flex_int32_t));
-			if (gentables)
+						     വലുപ്പം (flex_int32_t));
+			എങ്കിൽ (gentables)
 				outn ("M4_HOOK_TABLE_OPENER");
 
 			/* Supply array's 0-element. */
-			if (ds == end_of_buffer_state) {
+			എങ്കിൽ (ds == end_of_buffer_state) {
 				mk2data (-end_of_buffer_state);
 				yynxt_data[yynxt_curr++] =
 					-end_of_buffer_state;
 			}
-			else {
+			അല്ലെങ്കിൽ {
 				mk2data (end_of_buffer_state);
 				yynxt_data[yynxt_curr++] =
 					end_of_buffer_state;
 			}
 
-			for (i = 1; i < num_full_table_rows; ++i) {
+			വേണ്ടി (i = 1; i < അക്കം_full_table_rows; ++i) {
 				/* Jams are marked by negative of state
 				 * number.
 				 */
@@ -700,22 +700,22 @@ size_t ntod (void)
 					state[i] ? state[i] : -ds;
 			}
 
-			if (gentables) {
+			എങ്കിൽ (gentables) {
 				dataflush ();
 				outn ("M4_HOOK_TABLE_CONTINUE");
 			}
 		}
 
-		else if (ctrl.fullspd)
+		അല്ലെങ്കിൽ എങ്കിൽ (ctrl.fullspd)
 			place_state (state, ds, totaltrans);
 
-		else if (ds == end_of_buffer_state)
+		അല്ലെങ്കിൽ എങ്കിൽ (ds == end_of_buffer_state)
 			/* Special case this state to make sure it does what
 			 * it's supposed to, i.e., jam on end-of-buffer.
 			 */
 			stack1 (ds, 0, 0, JAMSTATE);
 
-		else {		/* normal, compressed state */
+		അല്ലെങ്കിൽ {		/* normal, compressed state */
 
 			/* Determine which destination state is the most
 			 * common, and how many transitions to it there are.
@@ -724,8 +724,8 @@ size_t ntod (void)
 			comfreq = 0;
 			comstate = 0;
 
-			for (i = 1; i <= targptr; ++i)
-				if (targfreq[i] > comfreq) {
+			വേണ്ടി (i = 1; i <= targptr; ++i)
+				എങ്കിൽ (targfreq[i] > comfreq) {
 					comfreq = targfreq[i];
 					comstate = targstate[i];
 				}
@@ -734,28 +734,28 @@ size_t ntod (void)
 		}
 	}
 
-	if (ctrl.fulltbl) {
+	എങ്കിൽ (ctrl.fulltbl) {
 		dataend ("M4_HOOK_TABLE_CLOSER");
 		outn("/* body */]])");
-		if (tablesext) {
+		എങ്കിൽ (tablesext) {
 			yytbl_data_compress (yynxt_tbl);
-			if (yytbl_data_fwrite (&tableswr, yynxt_tbl) < 0)
+			എങ്കിൽ (yytbl_data_fwrite (&tableswr, yynxt_tbl) < 0)
 				flexerror (_
 					   ("Could not write yynxt_tbl[][]"));
 		}
-		if (yynxt_tbl) {
+		എങ്കിൽ (yynxt_tbl) {
 			yytbl_data_destroy (yynxt_tbl);
 			yynxt_tbl = 0;
 		}
 	}
 
-	else if (!ctrl.fullspd) {
+	അല്ലെങ്കിൽ എങ്കിൽ (!ctrl.fullspd) {
 		cmptmps ();	/* create compressed template entries */
 
 		/* Create tables for all the states with only one
 		 * out-transition.
 		 */
-		while (onesp > 0) {
+		ആകുമ്പോൾ (onesp > 0) {
 			mk1tbl (onestate[onesp], onesym[onesp],
 				onenext[onesp], onedef[onesp]);
 			--onesp;
@@ -765,10 +765,10 @@ size_t ntod (void)
 	}
 
 
-	free(accset);
-	free(nset);
+	സ്വതന്ത്രം(accset);
+	സ്വതന്ത്രം(nset);
 
-	return (yynxt_tbl != NULL) ? (yynxt_tbl->td_hilen * sizeof(int32_t)) : 0;
+	തിരികെ (yynxt_tbl != ശൂന്യ) ? (yynxt_tbl->td_hilen * വലുപ്പം(int32_t)) : 0;
 }
 
 
@@ -782,45 +782,45 @@ size_t ntod (void)
  * On return, the dfa state number is in newds.
  */
 
-static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval, int *newds_addr)
+സ്ഥിതം പൂർണ്ണസംഖ്യ snstods(പൂർണ്ണസംഖ്യ sns[], പൂർണ്ണസംഖ്യ numstates, പൂർണ്ണസംഖ്യ accset[], പൂർണ്ണസംഖ്യ nacc, പൂർണ്ണസംഖ്യ hashval, പൂർണ്ണസംഖ്യ *newds_addr)
 {
-	int didsort = 0;
-	int i, j;
-	int newds, *oldsns;
+	പൂർണ്ണസംഖ്യ didsort = 0;
+	പൂർണ്ണസംഖ്യ i, j;
+	പൂർണ്ണസംഖ്യ newds, *oldsns;
 
-	for (i = 1; i <= lastdfa; ++i)
-		if (hashval == dhash[i]) {
-			if (numstates == dfasiz[i]) {
+	വേണ്ടി (i = 1; i <= lastdfa; ++i)
+		എങ്കിൽ (hashval == dhash[i]) {
+			എങ്കിൽ (numstates == dfasiz[i]) {
 				oldsns = dss[i];
 
-				if (!didsort) {
+				എങ്കിൽ (!didsort) {
 					/* We sort the states in sns so we
 					 * can compare it to oldsns quickly.
 					 */
-					qsort (&sns [1], (size_t) numstates, sizeof (sns [1]), intcmp);
+					qsort (&sns [1], (size_t) numstates, വലുപ്പം (sns [1]), intcmp);
 					didsort = 1;
 				}
 
-				for (j = 1; j <= numstates; ++j)
-					if (sns[j] != oldsns[j])
-						break;
+				വേണ്ടി (j = 1; j <= numstates; ++j)
+					എങ്കിൽ (sns[j] != oldsns[j])
+						നിർത്തുക;
 
-				if (j > numstates) {
+				എങ്കിൽ (j > numstates) {
 					++dfaeql;
 					*newds_addr = i;
-					return 0;
+					തിരികെ 0;
 				}
 
 				++hshcol;
 			}
 
-			else
+			അല്ലെങ്കിൽ
 				++hshsave;
 		}
 
 	/* Make a new dfa. */
 
-	if (++lastdfa >= current_max_dfas)
+	എങ്കിൽ (++lastdfa >= current_max_dfas)
 		increase_max_dfas ();
 
 	newds = lastdfa;
@@ -831,40 +831,40 @@ static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval
 	 * so that future comparisons with it can be made quickly.
 	 */
 
-	if (!didsort)
-          	qsort (&sns [1], (size_t) numstates, sizeof (sns [1]), intcmp);
+	എങ്കിൽ (!didsort)
+          	qsort (&sns [1], (size_t) numstates, വലുപ്പം (sns [1]), intcmp);
 
-	for (i = 1; i <= numstates; ++i)
+	വേണ്ടി (i = 1; i <= numstates; ++i)
 		dss[newds][i] = sns[i];
 
 	dfasiz[newds] = numstates;
 	dhash[newds] = hashval;
 
-	if (nacc == 0) {
-		if (reject)
-			dfaacc[newds].dfaacc_set = NULL;
-		else
+	എങ്കിൽ (nacc == 0) {
+		എങ്കിൽ (reject)
+			dfaacc[newds].dfaacc_set = ശൂന്യ;
+		അല്ലെങ്കിൽ
 			dfaacc[newds].dfaacc_state = 0;
 
 		accsiz[newds] = 0;
 	}
 
-	else if (reject) {
+	അല്ലെങ്കിൽ എങ്കിൽ (reject) {
 		/* We sort the accepting set in increasing order so the
 		 * disambiguating rule that the first rule listed is considered
 		 * match in the event of ties will work.
 		 */
 
-		qsort (&accset [1], (size_t) nacc, sizeof (accset [1]), intcmp);
+		qsort (&accset [1], (size_t) nacc, വലുപ്പം (accset [1]), intcmp);
 
 		dfaacc[newds].dfaacc_set =
 			allocate_integer_array (nacc + 1);
 
 		/* Save the accepting set for later */
-		for (i = 1; i <= nacc; ++i) {
+		വേണ്ടി (i = 1; i <= nacc; ++i) {
 			dfaacc[newds].dfaacc_set[i] = accset[i];
 
-			if (accset[i] <= num_rules)
+			എങ്കിൽ (accset[i] <= അക്കം_rules)
 				/* Who knows, perhaps a REJECT can yield
 				 * this rule.
 				 */
@@ -874,25 +874,25 @@ static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval
 		accsiz[newds] = nacc;
 	}
 
-	else {
+	അല്ലെങ്കിൽ {
 		/* Find lowest numbered rule so the disambiguating rule
 		 * will work.
 		 */
-		j = num_rules + 1;
+		j = അക്കം_rules + 1;
 
-		for (i = 1; i <= nacc; ++i)
-			if (accset[i] < j)
+		വേണ്ടി (i = 1; i <= nacc; ++i)
+			എങ്കിൽ (accset[i] < j)
 				j = accset[i];
 
 		dfaacc[newds].dfaacc_state = j;
 
-		if (j <= num_rules)
+		എങ്കിൽ (j <= അക്കം_rules)
 			rule_useful[j] = true;
 	}
 
 	*newds_addr = newds;
 
-	return 1;
+	തിരികെ 1;
 }
 
 
@@ -903,73 +903,73 @@ static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval
  *				int transsym, int nset[current_max_dfa_size] );
  */
 
-static int symfollowset(int ds[], int dsize, int transsym, int nset[])
+സ്ഥിതം പൂർണ്ണസംഖ്യ symfollowset(പൂർണ്ണസംഖ്യ ds[], പൂർണ്ണസംഖ്യ dsize, പൂർണ്ണസംഖ്യ transsym, പൂർണ്ണസംഖ്യ nset[])
 {
-	int     ns, tsp, sym, i, j, lenccl, ch, numstates, ccllist;
+	പൂർണ്ണസംഖ്യ     ns, tsp, sym, i, j, lenccl, ch, numstates, ccllist;
 
 	numstates = 0;
 
-	for (i = 1; i <= dsize; ++i) {	/* for each nfa state ns in the state set of ds */
+	വേണ്ടി (i = 1; i <= dsize; ++i) {	/* for each nfa state ns in the state set of ds */
 		ns = ds[i];
 		sym = transchar[ns];
 		tsp = trans1[ns];
 
-		if (sym < 0) {	/* it's a character class */
+		എങ്കിൽ (sym < 0) {	/* it's a character class */
 			sym = -sym;
 			ccllist = cclmap[sym];
 			lenccl = ccllen[sym];
 
-			if (cclng[sym]) {
-				for (j = 0; j < lenccl; ++j) {
+			എങ്കിൽ (cclng[sym]) {
+				വേണ്ടി (j = 0; j < lenccl; ++j) {
 					/* Loop through negated character
 					 * class.
 					 */
 					ch = ccltbl[ccllist + j];
 
-					if (ch == 0)
+					എങ്കിൽ (ch == 0)
 						ch = NUL_ec;
 
-					if (ch > transsym)
+					എങ്കിൽ (ch > transsym)
 						/* Transsym isn't in negated
 						 * ccl.
 						 */
-						break;
+						നിർത്തുക;
 
-					else if (ch == transsym)
+					അല്ലെങ്കിൽ എങ്കിൽ (ch == transsym)
 						/* next 2 */
-						goto bottom;
+						പോകുക bottom;
 				}
 
 				/* Didn't find transsym in ccl. */
 				nset[++numstates] = tsp;
 			}
 
-			else
-				for (j = 0; j < lenccl; ++j) {
+			അല്ലെങ്കിൽ
+				വേണ്ടി (j = 0; j < lenccl; ++j) {
 					ch = ccltbl[ccllist + j];
 
-					if (ch == 0)
+					എങ്കിൽ (ch == 0)
 						ch = NUL_ec;
 
-					if (ch > transsym)
-						break;
-					else if (ch == transsym) {
+					എങ്കിൽ (ch > transsym)
+						നിർത്തുക;
+					അല്ലെങ്കിൽ എങ്കിൽ (ch == transsym) {
 						nset[++numstates] = tsp;
-						break;
+						നിർത്തുക;
 					}
 				}
 		}
 
-		else if (sym == SYM_EPSILON) {	/* do nothing */
+		അല്ലെങ്കിൽ എങ്കിൽ (sym == SYM_EPSILON) {	/* do nothing */
 		}
 
-		else if (ABS (ecgroup[sym]) == transsym)
+		അല്ലെങ്കിൽ എങ്കിൽ (ABS (ecgroup[sym]) == transsym)
 			nset[++numstates] = tsp;
 
 	      bottom:;
 	}
 
-	return numstates;
+	തിരികെ numstates;
 }
 
 
@@ -980,16 +980,16 @@ static int symfollowset(int ds[], int dsize, int transsym, int nset[])
  *			int symlist[numecs], int duplist[numecs] );
  */
 
-static void sympartition(int ds[], int numstates, int symlist[], int duplist[])
+സ്ഥിതം ശൂന്യം sympartition(പൂർണ്ണസംഖ്യ ds[], പൂർണ്ണസംഖ്യ numstates, പൂർണ്ണസംഖ്യ symlist[], പൂർണ്ണസംഖ്യ duplist[])
 {
-	int     tch, i, j, k, ns, dupfwd[CSIZE + 1], lenccl, cclp, ich;
+	പൂർണ്ണസംഖ്യ     tch, i, j, k, ns, dupfwd[CSIZE + 1], lenccl, cclp, ich;
 
 	/* Partitioning is done by creating equivalence classes for those
 	 * characters which have out-transitions from the given state.  Thus
 	 * we are really creating equivalence classes of equivalence classes.
 	 */
 
-	for (i = 1; i <= numecs; ++i) {	/* initialize equivalence class list */
+	വേണ്ടി (i = 1; i <= numecs; ++i) {	/* initialize equivalence class list */
 		duplist[i] = i - 1;
 		dupfwd[i] = i + 1;
 	}
@@ -997,24 +997,24 @@ static void sympartition(int ds[], int numstates, int symlist[], int duplist[])
 	duplist[1] = NIL;
 	dupfwd[numecs] = NIL;
 
-	for (i = 1; i <= numstates; ++i) {
+	വേണ്ടി (i = 1; i <= numstates; ++i) {
 		ns = ds[i];
 		tch = transchar[ns];
 
-		if (tch != SYM_EPSILON) {
-			if (tch < -lastccl || tch >= ctrl.csize) {
+		എങ്കിൽ (tch != SYM_EPSILON) {
+			എങ്കിൽ (tch < -lastccl || tch >= ctrl.csize) {
 				flexfatal (_
 					   ("bad transition character detected in sympartition()"));
 			}
 
-			if (tch >= 0) {	/* character transition */
-				int     ec = ecgroup[tch];
+			എങ്കിൽ (tch >= 0) {	/* character transition */
+				പൂർണ്ണസംഖ്യ     ec = ecgroup[tch];
 
 				mkechar (ec, dupfwd, duplist);
 				symlist[ec] = 1;
 			}
 
-			else {	/* character class */
+			അല്ലെങ്കിൽ {	/* character class */
 				tch = -tch;
 
 				lenccl = ccllen[tch];
@@ -1022,28 +1022,28 @@ static void sympartition(int ds[], int numstates, int symlist[], int duplist[])
 				mkeccl (ccltbl + cclp, lenccl, dupfwd,
 					duplist, numecs, NUL_ec);
 
-				if (cclng[tch]) {
+				എങ്കിൽ (cclng[tch]) {
 					j = 0;
 
-					for (k = 0; k < lenccl; ++k) {
+					വേണ്ടി (k = 0; k < lenccl; ++k) {
 						ich = ccltbl[cclp + k];
 
-						if (ich == 0)
+						എങ്കിൽ (ich == 0)
 							ich = NUL_ec;
 
-						for (++j; j < ich; ++j)
+						വേണ്ടി (++j; j < ich; ++j)
 							symlist[j] = 1;
 					}
 
-					for (++j; j <= numecs; ++j)
+					വേണ്ടി (++j; j <= numecs; ++j)
 						symlist[j] = 1;
 				}
 
-				else
-					for (k = 0; k < lenccl; ++k) {
+				അല്ലെങ്കിൽ
+					വേണ്ടി (k = 0; k < lenccl; ++k) {
 						ich = ccltbl[cclp + k];
 
-						if (ich == 0)
+						എങ്കിൽ (ich == 0)
 							ich = NUL_ec;
 
 						symlist[ich] = 1;

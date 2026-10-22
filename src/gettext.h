@@ -25,25 +25,25 @@
 /* Get declarations of GNU message catalog functions.  */
 # include <libintl.h>
 
-#else
+#അല്ലെങ്കിൽ
 
 /* Disabled NLS.
    The casts to 'const char *' serve the purpose of producing warnings
    for invalid uses of the value returned from these functions.
    On pre-ANSI systems without 'const', the config.h file is supposed to
    contain "#define const".  */
-# define gettext(Msgid) ((const char *) (Msgid))
-# define dgettext(Domainname, Msgid) ((const char *) (Msgid))
-# define dcgettext(Domainname, Msgid, Category) ((const char *) (Msgid))
+# define gettext(Msgid) ((സ്ഥിരം അക്ഷരം *) (Msgid))
+# define dgettext(Domainname, Msgid) ((സ്ഥിരം അക്ഷരം *) (Msgid))
+# define dcgettext(Domainname, Msgid, Category) ((സ്ഥിരം അക്ഷരം *) (Msgid))
 # define ngettext(Msgid1, Msgid2, N) \
-    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
+    ((N) == 1 ? (സ്ഥിരം അക്ഷരം *) (Msgid1) : (സ്ഥിരം അക്ഷരം *) (Msgid2))
 # define dngettext(Domainname, Msgid1, Msgid2, N) \
-    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
+    ((N) == 1 ? (സ്ഥിരം അക്ഷരം *) (Msgid1) : (സ്ഥിരം അക്ഷരം *) (Msgid2))
 # define dcngettext(Domainname, Msgid1, Msgid2, N, Category) \
-    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
-# define textdomain(Domainname) ((const char *) (Domainname))
-# define bindtextdomain(Domainname, Dirname) ((const char *) (Dirname))
-# define bind_textdomain_codeset(Domainname, Codeset) ((const char *) (Codeset))
+    ((N) == 1 ? (സ്ഥിരം അക്ഷരം *) (Msgid1) : (സ്ഥിരം അക്ഷരം *) (Msgid2))
+# define textdomain(Domainname) ((സ്ഥിരം അക്ഷരം *) (Domainname))
+# define bindtextdomain(Domainname, Dirname) ((സ്ഥിരം അക്ഷരം *) (Dirname))
+# define bind_textdomain_codeset(Domainname, Codeset) ((സ്ഥിരം അക്ഷരം *) (Codeset))
 
 #endif
 

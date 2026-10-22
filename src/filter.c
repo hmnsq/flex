@@ -23,15 +23,15 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
-static const char * check_4_gnu_m4 =
+#അന്തര്ഭാവ "flexdef.h"
+സ്ഥിതം സ്ഥിരം അക്ഷരം * check_4_gnu_m4 =
     "m4_dnl ifdef(`__gnu__', ,"
     "`errprint(Flex requires GNU M4. Set the PATH or set the M4 environment variable to its path name.)"
     " m4exit(2)')\n";
 
 
 /** global chain. */
-struct filter *output_chain = NULL;
+ഘടന filter *output_chain = ശൂന്യ;
 
 /* Allocate and initialize an external filter.
  * @param chain the current chain or NULL for new chain
@@ -40,26 +40,26 @@ struct filter *output_chain = NULL;
  *            not including argv[0].
  * @return newest filter in chain
  */
-struct filter *filter_create_ext (struct filter *chain, const char *cmd,
+ഘടന filter *filter_create_ext (ഘടന filter *chain, സ്ഥിരം അക്ഷരം *cmd,
 				  ...)
 {
-	struct filter *f;
-	int     max_args;
-	const char *s;
+	ഘടന filter *f;
+	പൂർണ്ണസംഖ്യ     max_args;
+	സ്ഥിരം അക്ഷരം *s;
 	va_list ap;
 
 	/* allocate and initialize new filter */
-	f = calloc(sizeof(struct filter), 1);
-	if (!f)
+	f = calloc(വലുപ്പം(ഘടന filter), 1);
+	എങ്കിൽ (!f)
 		flexerror(_("calloc failed (f) in filter_create_ext"));
-	f->filter_func = NULL;
-	f->extra = NULL;
-	f->next = NULL;
+	f->filter_func = ശൂന്യ;
+	f->extra = ശൂന്യ;
+	f->next = ശൂന്യ;
 	f->argc = 0;
 
-	if (chain != NULL) {
+	എങ്കിൽ (chain != ശൂന്യ) {
 		/* append f to end of chain */
-		while (chain->next)
+		ആകുമ്പോൾ (chain->next)
 			chain = chain->next;
 		chain->next = f;
 	}
@@ -67,23 +67,23 @@ struct filter *filter_create_ext (struct filter *chain, const char *cmd,
 
 	/* allocate argv, and populate it with the argument list. */
 	max_args = 8;
-	f->argv = malloc(sizeof(char *) * (size_t) (max_args + 1));
-	if (!f->argv)
+	f->argv = malloc(വലുപ്പം(അക്ഷരം *) * (size_t) (max_args + 1));
+	എങ്കിൽ (!f->argv)
 		flexerror(_("malloc failed (f->argv) in filter_create_ext"));
 	f->argv[f->argc++] = cmd;
 
 	va_start (ap, cmd);
-	while ((s = va_arg (ap, const char *)) != NULL) {
-		if (f->argc >= max_args) {
+	ആകുമ്പോൾ ((s = va_arg (ap, സ്ഥിരം അക്ഷരം *)) != ശൂന്യ) {
+		എങ്കിൽ (f->argc >= max_args) {
 			max_args += 8;
-			f->argv = realloc(f->argv, sizeof(char*) * (size_t) (max_args + 1));
+			f->argv = realloc(f->argv, വലുപ്പം(അക്ഷരം*) * (size_t) (max_args + 1));
 		}
 		f->argv[f->argc++] = s;
 	}
-	f->argv[f->argc] = NULL;
+	f->argv[f->argc] = ശൂന്യ;
 
 	va_end (ap);
-	return f;
+	തിരികെ f;
 }
 
 /* Allocate and initialize an internal filter.
@@ -94,50 +94,50 @@ struct filter *filter_create_ext (struct filter *chain, const char *cmd,
  * @param extra optional user-defined data to pass to the filter.
  * @return newest filter in chain
  */
-struct filter *filter_create_int (struct filter *chain,
-				  int (*filter_func) (struct filter *),
-				  void *extra)
+ഘടന filter *filter_create_int (ഘടന filter *chain,
+				  പൂർണ്ണസംഖ്യ (*filter_func) (ഘടന filter *),
+				  ശൂന്യം *extra)
 {
-	struct filter *f;
+	ഘടന filter *f;
 
 	/* allocate and initialize new filter */
-	f = calloc(sizeof(struct filter), 1);
-	if (!f)
+	f = calloc(വലുപ്പം(ഘടന filter), 1);
+	എങ്കിൽ (!f)
 		flexerror(_("calloc failed in filter_create_int"));
-	f->next = NULL;
+	f->next = ശൂന്യ;
 	f->argc = 0;
-	f->argv = NULL;
+	f->argv = ശൂന്യ;
 
 	f->filter_func = filter_func;
 	f->extra = extra;
 
-	if (chain != NULL) {
+	എങ്കിൽ (chain != ശൂന്യ) {
 		/* append f to end of chain */
-		while (chain->next)
+		ആകുമ്പോൾ (chain->next)
 			chain = chain->next;
 		chain->next = f;
 	}
 
-	return f;
+	തിരികെ f;
 }
 
 /** Fork and exec entire filter chain.
  *  @param chain The head of the chain.
  *  @return true on success.
  */
-bool filter_apply_chain (struct filter * chain)
+bool filter_apply_chain (ഘടന filter * chain)
 {
-	int     pid, pipes[2];
+	പൂർണ്ണസംഖ്യ     pid, pipes[2];
 
 
 	/* Tricky recursion, since we want to begin the chain
 	 * at the END. Why? Because we need all the forked processes
 	 * to be children of the main flex process.
 	 */
-	if (chain)
+	എങ്കിൽ (chain)
 		filter_apply_chain (chain->next);
-	else
-		return true;
+	അല്ലെങ്കിൽ
+		തിരികെ true;
 
 	/* Now we are the right-most unprocessed link in the chain.
 	 */
@@ -146,13 +146,13 @@ bool filter_apply_chain (struct filter * chain)
 	fflush (stderr);
 
 
-	if (pipe (pipes) == -1)
+	എങ്കിൽ (pipe (pipes) == -1)
 		flexerror (_("pipe failed"));
 
-	if ((pid = fork ()) == -1)
+	എങ്കിൽ ((pid = fork ()) == -1)
 		flexerror (_("fork failed"));
 
-	if (pid == 0) {
+	എങ്കിൽ (pid == 0) {
 		/* child */
 
         /* We need stdin (the FILE* stdin) to connect to this new pipe.
@@ -163,24 +163,24 @@ bool filter_apply_chain (struct filter * chain)
          */
 		close (pipes[1]);
 		clearerr(stdin);
-		if (dup2 (pipes[0], fileno (stdin)) == -1)
+		എങ്കിൽ (dup2 (pipes[0], fileno (stdin)) == -1)
 			flexfatal (_("dup2(pipes[0],0)"));
 		close (pipes[0]);
 		fseek (stdin, 0, SEEK_CUR);
 		ungetc(' ', stdin); /* still an evil hack, but one that works better */
-		(void)fgetc(stdin); /* on NetBSD than the fseek attempt does */
+		(ശൂന്യം)fgetc(stdin); /* on NetBSD than the fseek attempt does */
 
 		/* run as a filter, either internally or by exec */
-		if (chain->filter_func) {
-			int     r;
+		എങ്കിൽ (chain->filter_func) {
+			പൂർണ്ണസംഖ്യ     r;
 
-			if ((r = chain->filter_func (chain)) == -1)
+			എങ്കിൽ ((r = chain->filter_func (chain)) == -1)
 				flexfatal (_("filter_func failed"));
 			FLEX_EXIT (0);
 		}
-		else {
+		അല്ലെങ്കിൽ {
 			execvp (chain->argv[0],
-				(char **const) (chain->argv));
+				(അക്ഷരം **സ്ഥിരം) (chain->argv));
 			lerr_fatal ( _("exec of %s failed"),
 				     chain->argv[0]);
 		}
@@ -190,12 +190,12 @@ bool filter_apply_chain (struct filter * chain)
 
 	/* Parent */
 	close (pipes[0]);
-	if (dup2 (pipes[1], fileno (stdout)) == -1)
+	എങ്കിൽ (dup2 (pipes[1], fileno (stdout)) == -1)
 		flexfatal (_("dup2(pipes[1],1)"));
 	close (pipes[1]);
 	fseek (stdout, 0, SEEK_CUR);
 
-	return true;
+	തിരികെ true;
 }
 
 /** Truncate the chain to max_len number of filters.
@@ -203,20 +203,20 @@ bool filter_apply_chain (struct filter * chain)
  * @param max_len the maximum length of the chain.
  * @return the resulting length of the chain.
  */
-int filter_truncate (struct filter *chain, int max_len)
+പൂർണ്ണസംഖ്യ filter_truncate (ഘടന filter *chain, പൂർണ്ണസംഖ്യ max_len)
 {
-	int     len = 1;
+	പൂർണ്ണസംഖ്യ     len = 1;
 
-	if (!chain)
-		return 0;
+	എങ്കിൽ (!chain)
+		തിരികെ 0;
 
-	while (chain->next && len < max_len) {
+	ആകുമ്പോൾ (chain->next && len < max_len) {
 		chain = chain->next;
 		++len;
 	}
 
-	chain->next = NULL;
-	return len;
+	chain->next = ശൂന്യ;
+	തിരികെ len;
 }
 
 /** Splits the chain in order to write to a header file.
@@ -224,30 +224,30 @@ int filter_truncate (struct filter *chain, int max_len)
  *  The header file name is in extra.
  *  @return 0 (zero) on success, and -1 on failure.
  */
-int filter_tee_header (struct filter *chain)
+പൂർണ്ണസംഖ്യ filter_tee_header (ഘടന filter *chain)
 {
 	/* This function reads from stdin and writes to both the C file and the
 	 * header file at the same time.
 	 */
 
-	char    buf[512];
-	int     to_cfd = -1;
-	FILE   *to_c = NULL, *to_h = NULL;
+	അക്ഷരം    buf[512];
+	പൂർണ്ണസംഖ്യ     to_cfd = -1;
+	FILE   *to_c = ശൂന്യ, *to_h = ശൂന്യ;
 	bool    write_header;
 
-	write_header = (chain->extra != NULL);
+	write_header = (chain->extra != ശൂന്യ);
 
 	/* Store a copy of the stdout pipe, which is already piped to C file
 	 * through the running chain. Then create a new pipe to the H file as
 	 * stdout, and fork the rest of the chain again.
 	 */
 
-	if ((to_cfd = dup (1)) == -1)
+	എങ്കിൽ ((to_cfd = dup (1)) == -1)
 		flexfatal (_("dup(1) failed"));
 	to_c = fdopen (to_cfd, "w");
 
-	if (write_header) {
-		if (freopen ((char *) chain->extra, "w", stdout) == NULL)
+	എങ്കിൽ (write_header) {
+		എങ്കിൽ (freopen ((അക്ഷരം *) chain->extra, "w", stdout) == ശൂന്യ)
 			flexfatal (_("freopen(headerfilename) failed"));
 
 		filter_apply_chain (chain->next);
@@ -257,7 +257,7 @@ int filter_tee_header (struct filter *chain)
 	/* Now to_c is a pipe to the C branch, and to_h is a pipe to the H branch.
 	 */
 
-	if (write_header) {
+	എങ്കിൽ (write_header) {
 		fputs (check_4_gnu_m4, to_h);
 		fputs ("m4_changecom`'m4_dnl\n", to_h);
 		fputs ("m4_changequote`'m4_dnl\n", to_h);
@@ -266,7 +266,7 @@ int filter_tee_header (struct filter *chain)
 		fputs ("m4_define([[M4_YY_IN_HEADER]],[[]])m4_dnl\n", to_h);
 		fprintf (to_h,
 			 "m4_define( [[M4_YY_OUTFILE_NAME]],[[%s]])m4_dnl\n",
-			 env.headerfilename != NULL ? env.headerfilename : "<stdout>");
+			 env.headerfilename != ശൂന്യ ? env.headerfilename : "<stdout>");
 	}
 
 	fputs (check_4_gnu_m4, to_c);
@@ -275,50 +275,50 @@ int filter_tee_header (struct filter *chain)
 	fputs ("m4_changequote([[,]])[[]]m4_dnl\n", to_c);
 	fputs ("m4_define([[M4_YY_NOOP]])[[]]m4_dnl\n", to_c);
 	fprintf (to_c, "m4_define( [[M4_YY_OUTFILE_NAME]],[[%s]])m4_dnl\n",
-		 env.outfilename != NULL ? env.outfilename : "<stdout>");
+		 env.outfilename != ശൂന്യ ? env.outfilename : "<stdout>");
 
-	while (fgets (buf, sizeof buf, stdin)) {
+	ആകുമ്പോൾ (fgets (buf, വലുപ്പം buf, stdin)) {
 		fputs (buf, to_c);
-		if (write_header)
+		എങ്കിൽ (write_header)
 			fputs (buf, to_h);
 	}
 
-	if (write_header) {
+	എങ്കിൽ (write_header) {
 		fprintf (to_h, "\n");
 
 		/* write a fake line number. It will get fixed by the linedir filter. */
-		if (ctrl.gen_line_dirs)
-			line_directive_out (to_h, NULL, 4000);
+		എങ്കിൽ (ctrl.gen_വരി_dirs)
+			വരി_directive_out (to_h, ശൂന്യ, 4000);
 		fflush (to_h);
-		if (ferror (to_h))
+		എങ്കിൽ (ferror (to_h))
 			lerr (_("error writing output file %s"),
-				(char *) chain->extra);
+				(അക്ഷരം *) chain->extra);
 
-		else if (fclose (to_h))
+		അല്ലെങ്കിൽ എങ്കിൽ (fclose (to_h))
 			lerr (_("error closing output file %s"),
-				(char *) chain->extra);
+				(അക്ഷരം *) chain->extra);
 	}
 
 	fflush (to_c);
-	if (ferror (to_c))
+	എങ്കിൽ (ferror (to_c))
 		lerr (_("error writing output file %s"),
-			env.outfilename != NULL ? env.outfilename : "<stdout>");
+			env.outfilename != ശൂന്യ ? env.outfilename : "<stdout>");
 
-	else if (fclose (to_c))
+	അല്ലെങ്കിൽ എങ്കിൽ (fclose (to_c))
 		lerr (_("error closing output file %s"),
-			env.outfilename != NULL ? env.outfilename : "<stdout>");
+			env.outfilename != ശൂന്യ ? env.outfilename : "<stdout>");
 
-	while (wait (0) > 0) ;
+	ആകുമ്പോൾ (wait (0) > 0) ;
 
 	FLEX_EXIT (0);
-	return 0;
+	തിരികെ 0;
 }
 
-static bool is_blank_line (const char *str)
+സ്ഥിതം bool is_blank_വരി (സ്ഥിരം അക്ഷരം *str)
 {
-	while (isspace(*str))
+	ആകുമ്പോൾ (isspace(*str))
 		str++;
-	return (*str == '\0');
+	തിരികെ (*str == '\0');
 }
 
 /** Adjust the line numbers in the #line directives of the generated scanner.
@@ -327,53 +327,53 @@ static bool is_blank_line (const char *str)
  * not user code. This also happens to be a good place to squeeze multiple
  * blank lines into a single blank line.
  */
-int filter_fix_linedirs (struct filter *chain)
+പൂർണ്ണസംഖ്യ filter_fix_linedirs (ഘടന filter *chain)
 {
-	char   buf[4096];
-	const char *cp;
-	const size_t readsz = sizeof buf;
-	int     lineno = 1;
+	അക്ഷരം   buf[4096];
+	സ്ഥിരം അക്ഷരം *cp;
+	സ്ഥിരം size_t readsz = വലുപ്പം buf;
+	പൂർണ്ണസംഖ്യ     lineno = 1;
 	bool    in_gen = true;	/* in generated code */
 	bool    last_was_blank = false;
 
-	if (!chain)
-		return 0;
+	എങ്കിൽ (!chain)
+		തിരികെ 0;
 
-	while (fgets (buf, (int) readsz, stdin)) {
+	ആകുമ്പോൾ (fgets (buf, (പൂർണ്ണസംഖ്യ) readsz, stdin)) {
 
 		regmatch_t m[10];
 
 		/* Check for directive. Note wired-in assumption:
 		 * field reference 1 is line number, 2 is filename.
 		 */
-		if (ctrl.traceline_re != NULL &&
-		    ctrl.traceline_template != NULL &&
+		എങ്കിൽ (ctrl.traceline_re != ശൂന്യ &&
+		    ctrl.traceline_template != ശൂന്യ &&
 		    regexec (&regex_linedir, buf, 3, m, 0) == 0) {
 
-			char   *fname;
+			അക്ഷരം   *fname;
 
 			/* extract the line number and filename */
 			fname = regmatch_dup (&m[2], buf);
 
-			if (strcmp (fname,
-				env.outfilename != NULL ? env.outfilename : "<stdout>")
+			എങ്കിൽ (strcmp (fname,
+				env.outfilename != ശൂന്യ ? env.outfilename : "<stdout>")
 					== 0
 			 || strcmp (fname,
-			 	env.headerfilename != NULL ? env.headerfilename : "<stdout>")
+			 	env.headerfilename != ശൂന്യ ? env.headerfilename : "<stdout>")
 					== 0) {
 
-				char    *s1, *s2;
-				char	filename[MAXLINE];
+				അക്ഷരം    *s1, *s2;
+				അക്ഷരം	filename[MAXLINE];
 
 				s1 = fname;
 				s2 = filename;
 
-				while ((s2 - filename) < (MAXLINE - 1) && *s1) {
+				ആകുമ്പോൾ ((s2 - filename) < (MAXLINE - 1) && *s1) {
 					/* Escape the backslash */
-					if (*s1 == '\\')
+					എങ്കിൽ (*s1 == '\\')
 						*s2++ = '\\';
 					/* Escape the double quote */
-					if (*s1 == '\"')
+					എങ്കിൽ (*s1 == '\"')
 						*s2++ = '\\';
 					/* Copy the character as usual */
 					*s2++ = *s1++;
@@ -385,26 +385,26 @@ int filter_fix_linedirs (struct filter *chain)
 				in_gen = true;
 				snprintf (buf, readsz, ctrl.traceline_template,
 					  lineno + 1, filename);
-				strncat(buf, "\n", sizeof(buf)-1);
+				strncat(buf, "\n", വലുപ്പം(buf)-1);
 			}
-			else {
+			അല്ലെങ്കിൽ {
 				/* it's a #line directive for code we didn't write */
 				in_gen = false;
 			}
 
-			free (fname);
+			സ്വതന്ത്രം (fname);
 			last_was_blank = false;
 		}
 
 		/* squeeze blank lines from generated code */
-		else if (in_gen && is_blank_line(buf)) {
-			if (last_was_blank)
-				continue;
-			else
+		അല്ലെങ്കിൽ എങ്കിൽ (in_gen && is_blank_വരി(buf)) {
+			എങ്കിൽ (last_was_blank)
+				തുടരുക;
+			അല്ലെങ്കിൽ
 				last_was_blank = true;
 		}
 
-		else {
+		അല്ലെങ്കിൽ {
 			/* it's a line of normal, non-empty code. */
 			last_was_blank = false;
 		}
@@ -413,15 +413,15 @@ int filter_fix_linedirs (struct filter *chain)
 		lineno++;
 	}
 	fflush (stdout);
-	if (ferror (stdout))
+	എങ്കിൽ (ferror (stdout))
 		lerr (_("error writing output file %s"),
-			env.outfilename != NULL ? env.outfilename : "<stdout>");
+			env.outfilename != ശൂന്യ ? env.outfilename : "<stdout>");
 
-	else if (fclose (stdout))
+	അല്ലെങ്കിൽ എങ്കിൽ (fclose (stdout))
 		lerr (_("error closing output file %s"),
-			env.outfilename != NULL ? env.outfilename : "<stdout>");
+			env.outfilename != ശൂന്യ ? env.outfilename : "<stdout>");
 
-	return 0;
+	തിരികെ 0;
 }
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */
