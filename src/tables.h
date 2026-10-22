@@ -32,20 +32,20 @@
  *  PURPOSE.
  */
 
-#ifndef TABLES_H
-#define TABLES_H
+#यदि_अपरिभाषितम् TABLES_H
+#परिभाषय TABLES_H
 
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
 /* *INDENT-OFF* */
-extern  "C" {
+बाह्य  "C" {
 /* *INDENT-ON* */
-#endif
+#यदि_अन्तः
 
 /* Tables serialization API declarations. */
-#include "tables_shared.h"
-struct yytbl_writer {
-	FILE   *out;
-	int total_written;
+#अन्तर्भाव "tables_shared.h"
+संरचना yytbl_writer {
+	FILE   *बहिर्गमनम्;
+	पूर्णाङ्क योग_written;
 			    /**< bytes written so far */
 	fpos_t  th_ssize_pos;
 			    /**< position of th_ssize */
@@ -59,26 +59,26 @@ struct yytbl_writer {
  * tablesverify - true if tables-verify option specified
  * gentables - true if we should spit out the normal C tables
  */
-extern bool tablesext, tablesverify,gentables;
-extern char *tablesfilename, *tablesname;
-extern struct yytbl_writer tableswr;
+बाह्य bool tablesext, tablesverify,gentables;
+बाह्य वर्ण *tablesfilename, *tablesname;
+बाह्य संरचना yytbl_writer tableswr;
 
-int     yytbl_writer_init (struct yytbl_writer *, FILE *);
-int     yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
-			const char *name);
-int     yytbl_data_init (struct yytbl_data *tbl, enum yytbl_id id);
-int     yytbl_data_destroy (struct yytbl_data *td);
-int     yytbl_hdr_fwrite (struct yytbl_writer *wr,
-			  const struct yytbl_hdr *th);
-int     yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td);
-void    yytbl_data_compress (struct yytbl_data *tbl);
+पूर्णाङ्क     yytbl_writer_init (संरचना yytbl_writer *, FILE *);
+पूर्णाङ्क     yytbl_hdr_init (संरचना yytbl_hdr *th, ध्रुव वर्ण *संस्करणम्_str,
+			ध्रुव वर्ण *name);
+पूर्णाङ्क     yytbl_दत्त_init (संरचना yytbl_दत्त *tbl, गणना yytbl_id id);
+पूर्णाङ्क     yytbl_दत्त_destroy (संरचना yytbl_दत्त *td);
+पूर्णाङ्क     yytbl_hdr_fwrite (संरचना yytbl_writer *wr,
+			  ध्रुव संरचना yytbl_hdr *th);
+पूर्णाङ्क     yytbl_दत्त_fwrite (संरचना yytbl_writer *wr, संरचना yytbl_दत्त *td);
+शून्य    yytbl_दत्त_compress (संरचना yytbl_दत्त *tbl);
 
 
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
 /* *INDENT-OFF* */
 }
 /* *INDENT-ON* */
-#endif
-#endif
+#यदि_अन्तः
+#यदि_अन्तः
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */

@@ -34,109 +34,109 @@
 /*  PURPOSE. */
 
 
-#include "flexdef.h"
-#include "version.h"
-#include "options.h"
-#include "tables.h"
-#include "parse.h"
+#अन्तर्भाव "flexdef.h"
+#अन्तर्भाव "version.h"
+#अन्तर्भाव "options.h"
+#अन्तर्भाव "tables.h"
+#अन्तर्भाव "parse.h"
 
-static char flex_version[] = FLEX_VERSION;
+स्थिर वर्ण flex_संस्करणम्[] = FLEX_संस्करणम्;
 
 /* declare functions that have forward references */
 
-void flexinit(int, char **);
-void readin(void);
-void set_up_initial_allocations(void);
+शून्य flexinit(पूर्णाङ्क, वर्ण **);
+शून्य readin(शून्य);
+शून्य समुच्चयः_ऊर्ध्वम्_initial_allocations(शून्य);
 
 /* these globals are all defined and commented in flexdef.h */
 bool    syntaxerror, eofseen;
-int     yymore_used, reject, real_reject, continued_action, in_rule;
-int     datapos, dataline, linenum;
-FILE   *skelfile = NULL;
-int     skel_ind = 0;
-char   *action_array;
-int     action_size, defs1_offset, prolog_offset, action_offset,
-	action_index;
-char   *infilename = NULL;
-char   *extra_type = NULL;
-int     onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
-int     onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
-int     maximum_mns, current_mns, current_max_rules;
-int     num_rules, num_eof_rules, default_rule, lastnfa;
-int    *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
-int    *accptnum, *assoc_rule, *state_type;
-int    *rule_type, *rule_linenum;
-int     current_state_type;
-bool    variable_trailing_context_rules;
-int     numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
-int     protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
-int     numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs,
+पूर्णाङ्क     yymore_प्रयुक्तम्, reject, real_reject, continued_action, अन्तर्_नियमः;
+पूर्णाङ्क     datapos, dataline, linenum;
+FILE   *skelfile = रिक्त;
+पूर्णाङ्क     skel_ind = 0;
+वर्ण   *action_array;
+पूर्णाङ्क     action_आकार, defs1_विस्थापनम्, prolog_विस्थापनम्, action_विस्थापनम्,
+	action_सूचकांक;
+वर्ण   *infilename = रिक्त;
+वर्ण   *extra_type = रिक्त;
+पूर्णाङ्क     onestate[ONE_राशिः_आकार], onesym[ONE_राशिः_आकार];
+पूर्णाङ्क     onenext[ONE_राशिः_आकार], onedef[ONE_राशिः_आकार], onesp;
+पूर्णाङ्क     अधिकतमम्_mns, current_mns, current_max_नियमाः;
+पूर्णाङ्क     अङ्कः_नियमाः, अङ्कः_eof_नियमाः, default_नियमः, lastnfa;
+पूर्णाङ्क    *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
+पूर्णाङ्क    *accptnum, *assoc_नियमः, *state_type;
+पूर्णाङ्क    *नियमः_type, *नियमः_linenum;
+पूर्णाङ्क     current_state_type;
+bool    variable_trailing_context_नियमाः;
+पूर्णाङ्क     numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
+पूर्णाङ्क     protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_आकार];
+पूर्णाङ्क     numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs,
 	tecfwd[CSIZE + 1];
-int     tecbck[CSIZE + 1];
-int     lastsc, *scset, *scbol;
+पूर्णाङ्क     tecbck[CSIZE + 1];
+पूर्णाङ्क     lastsc, *scset, *scbol;
 /* scxclu[] and sceof[] are boolean arrays, but allocated as char
  * arrays for size. */
-char   *scxclu, *sceof;
-int     current_max_scs;
-const char **scname;
-int     current_max_dfa_size, current_max_xpairs;
-int     current_max_template_xpairs, current_max_dfas;
-int     lastdfa, *nxt, *chk, *tnxt;
-int    *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss, *dfasiz;
-union dfaacc_union *dfaacc;
-int    *accsiz, *dhash, numas;
-int     numsnpairs, jambase, jamstate;
-int     lastccl, *cclmap, *ccllen, *cclng, cclreuse;
-int     current_maxccls, current_max_ccl_tbl_size;
-unsigned char   *ccltbl;
-char    nmstr[MAXLINE];
-int     sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
-int     tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
-int     num_backing_up, bol_needed;
-int     end_of_buffer_state;
-char  **input_files;
-int     num_input_files;
+वर्ण   *scxclu, *sceof;
+पूर्णाङ्क     current_max_scs;
+ध्रुव वर्ण **scname;
+पूर्णाङ्क     current_max_dfa_आकार, current_max_xpairs;
+पूर्णाङ्क     current_max_template_xpairs, current_max_dfas;
+पूर्णाङ्क     lastdfa, *nxt, *chk, *tnxt;
+पूर्णाङ्क    *आधारः, *def, *nultrans, NUL_ec, tblend, firstfree, **dss, *dfasiz;
+सङ्घ dfaacc_union *dfaacc;
+पूर्णाङ्क    *accsiz, *dhash, numas;
+पूर्णाङ्क     numsnpairs, jambase, jamstate;
+पूर्णाङ्क     lastccl, *cclmap, *ccllen, *cclng, cclreuse;
+पूर्णाङ्क     current_maxccls, current_max_ccl_tbl_आकार;
+अचिह्नित वर्ण   *ccltbl;
+वर्ण    nmstr[MAXLINE];
+पूर्णाङ्क     sectnum, nummt, hshcol, dfaeql, numeps, eps2, अङ्कः_reallocs, nmval;
+पूर्णाङ्क     tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
+पूर्णाङ्क     अङ्कः_backing_ऊर्ध्वम्, bol_needed;
+पूर्णाङ्क     अन्तः_सम्बन्धि_बफर_state;
+वर्ण  **निवेशः_files;
+पूर्णाङ्क     अङ्कः_निवेशः_files;
 jmp_buf flex_main_jmp_buf;
 /* rule_useful[], rule_has_nl[] and ccl_has_nl[] are boolean arrays,
  * but allocated as char arrays for size. */
-char   *rule_useful, *rule_has_nl, *ccl_has_nl;
-int     nlch = '\n';
+वर्ण   *नियमः_useful, *नियमः_has_nl, *ccl_has_nl;
+पूर्णाङ्क     nlch = '\n';
 
 bool    tablesext, tablesverify, gentables;
-char   *tablesfilename=0,*tablesname=0;
-struct yytbl_writer tableswr;
+वर्ण   *tablesfilename=0,*tablesname=0;
+संरचना yytbl_writer tableswr;
 size_t footprint;
 
-struct ctrl_bundle_t ctrl;
-struct env_bundle_t env;
+संरचना ctrl_bundle_t ctrl;
+संरचना env_bundle_t env;
 
 /* Make sure program_name is initialized so we don't crash if writing
  * out an error message before getting the program name from argv[0].
  */
-char   *program_name = "flex";
+वर्ण   *क्रमादेशः_name = "flex";
 
-static const char outfile_template[] = "lex.%s.%s";
-static const char *backing_name = "lex.backup";
-static const char tablesfile_template[] = "lex.%s.tables";
+स्थिर ध्रुव वर्ण outfile_template[] = "lex.%s.%s";
+स्थिर ध्रुव वर्ण *backing_name = "lex.backup";
+स्थिर ध्रुव वर्ण tablesfile_template[] = "lex.%s.tables";
 
 /* From scan.l */
-extern FILE* yyout;
+बाह्य FILE* yyout;
 
-static char outfile_path[MAXLINE];
-static int outfile_created = 0;
-static int _stdout_closed = 0; /* flag to prevent double-fclose() on stdout. */
-const char *escaped_qstart = "]]M4_YY_NOOP[M4_YY_NOOP[M4_YY_NOOP[[";
-const char *escaped_qend   = "]]M4_YY_NOOP]M4_YY_NOOP]M4_YY_NOOP[[";
+स्थिर वर्ण outfile_मार्गः[MAXLINE];
+स्थिर पूर्णाङ्क outfile_created = 0;
+स्थिर पूर्णाङ्क _stdout_closed = 0; /* flag to prevent double-fclose() on stdout. */
+ध्रुव वर्ण *escaped_qstart = "]]M4_YY_NOOP[M4_YY_NOOP[M4_YY_NOOP[[";
+ध्रुव वर्ण *escaped_qend   = "]]M4_YY_NOOP]M4_YY_NOOP]M4_YY_NOOP[[";
 
 /* For debugging. The max number of filters to apply to skeleton. */
-static int preproc_level = 1000;
+स्थिर पूर्णाङ्क preproc_level = 1000;
 
-int flex_main (int argc, char *argv[]);
+पूर्णाङ्क flex_main (पूर्णाङ्क argc, वर्ण *argv[]);
 
-int flex_main (int argc, char *argv[])
+पूर्णाङ्क flex_main (पूर्णाङ्क argc, वर्ण *argv[])
 {
-	int     i, exit_status, child_status;
-	int	did_eof_rule = false;
+	पूर्णाङ्क     i, exit_स्थितिः, child_स्थितिः;
+	पूर्णाङ्क	did_eof_नियमः = false;
 
 	/* Set a longjmp target. Yes, I know it's a hack, but it gets worse: The
 	 * return value of setjmp, if non-zero, is the desired exit code PLUS ONE.
@@ -145,23 +145,23 @@ int flex_main (int argc, char *argv[])
 	 * specify a value of 0 to longjmp. FLEX_EXIT(n) should be used instead of
 	 * exit(n);
 	 */
-	exit_status = setjmp (flex_main_jmp_buf);
-	if (exit_status){
-		if (stdout && !_stdout_closed && !ferror(stdout)){
+	exit_स्थितिः = setjmp (flex_main_jmp_buf);
+	यदि (exit_स्थितिः){
+		यदि (stdout && !_stdout_closed && !ferror(stdout)){
 			fflush(stdout);
 			fclose(stdout);
 		}
-		while (wait(&child_status) > 0){
-			if (!WIFEXITED (child_status)
-			    || WEXITSTATUS (child_status) != 0){
+		यावत् (प्रतीक्षस्व(&child_स्थितिः) > 0){
+			यदि (!WIFEXITED (child_स्थितिः)
+			    || WEXITSTATUS (child_स्थितिः) != 0){
 				/* report an error of a child
 				 */
-				if( exit_status <= 1 )
-					exit_status = 2;
+				यदि( exit_स्थितिः <= 1 )
+					exit_स्थितिः = 2;
 
 			}
 		}
-		return exit_status - 1;
+		प्रत्यागम exit_स्थितिः - 1;
 	}
 
 	flexinit (argc, argv);
@@ -170,47 +170,47 @@ int flex_main (int argc, char *argv[])
 	skelout (true);		/* %% [1.0] DFA */
 	footprint += ntod ();
 
-	for (i = 1; i <= num_rules; ++i)
-		if (!rule_useful[i] && i != default_rule)
-			line_warning (_("rule cannot be matched"),
-				      rule_linenum[i]);
+	प्रति (i = 1; i <= अङ्कः_नियमाः; ++i)
+		यदि (!नियमः_useful[i] && i != default_नियमः)
+			पङ्क्तिः_warning (_("rule cannot be matched"),
+				      नियमः_linenum[i]);
 
-	if (ctrl.spprdflt && !reject && rule_useful[default_rule])
-		line_warning (_
+	यदि (ctrl.spprdflt && !reject && नियमः_useful[default_नियमः])
+		पङ्क्तिः_warning (_
 			      ("-s option given but default rule can be matched"),
-			      rule_linenum[default_rule]);
+			      नियमः_linenum[default_नियमः]);
 
 	comment("START of m4 controls\n");
 
 	// mode switches for yy_trans_info specification
 	// nultrans
-	if (nultrans)
+	यदि (nultrans)
 		visible_define ( "M4_MODE_NULTRANS");
-	else {
+	अन्यथा {
 		visible_define ( "M4_MODE_NO_NULTRANS");
-		if (ctrl.fulltbl)
+		यदि (ctrl.fulltbl)
 		    visible_define ( "M4_MODE_NULTRANS_FULLTBL");
-		else
+		अन्यथा
 		    visible_define ( "M4_MODE_NO_NULTRANS_FULLTBL");
-		if (ctrl.fullspd)
+		यदि (ctrl.fullspd)
 		    visible_define ( "M4_MODE_NULTRANS_FULLSPD");
-		else
+		अन्यथा
 		    visible_define ( "M4_MODE_NO_NULTRANS_FULLSPD");
 	}
 	
 	comment("END of m4 controls\n");
-	out ("\n");
+	बहिर्गमनम् ("\n");
 
 	comment("START of Flex-generated definitions\n");
-	out_str_dec ("M4_HOOK_CONST_DEFINE_UINT(%s, %d)", "YY_NUM_RULES", num_rules);
-	out_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_END_OF_BUFFER", num_rules + 1);
-	out_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_JAMBASE", jambase);
-	out_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_JAMSTATE", jamstate);
-	out_str_dec ("M4_HOOK_CONST_DEFINE_BYTE(%s, %d)", "YY_NUL_EC", NUL_ec);
+	बहिर्गमनम्_str_dec ("M4_HOOK_CONST_DEFINE_UINT(%s, %d)", "YY_NUM_RULES", अङ्कः_नियमाः);
+	बहिर्गमनम्_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_END_OF_BUFFER", अङ्कः_नियमाः + 1);
+	बहिर्गमनम्_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_JAMBASE", jambase);
+	बहिर्गमनम्_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_JAMSTATE", jamstate);
+	बहिर्गमनम्_str_dec ("M4_HOOK_CONST_DEFINE_BYTE(%s, %d)", "YY_NUL_EC", NUL_ec);
 	/* Need to define the transet type as a size large
 	 * enough to hold the biggest offset.
 	 */
-	out_str ("M4_HOOK_SET_OFFSET_TYPE(%s)", optimize_pack(tblend + numecs + 1)->name);
+	बहिर्गमनम्_str ("M4_HOOK_SET_OFFSET_TYPE(%s)", optimize_pack(tblend + numecs + 1)->name);
 	comment("END of Flex-generated definitions\n");
 
 	skelout (true);		/* %% [2.0] - tables get dumped here */
@@ -220,52 +220,52 @@ int flex_main (int argc, char *argv[])
 
 	skelout (true);		/* %% [3.0] - mode-dependent static declarations get dumped here */
 
-	out (&action_array[defs1_offset]);
+	बहिर्गमनम् (&action_array[defs1_विस्थापनम्]);
 
-	line_directive_out (stdout, NULL, linenum);
+	पङ्क्तिः_directive_बहिर्गमनम् (stdout, रिक्त, linenum);
 
 	skelout (true);		/* %% [4.0] - various random yylex internals get dumped here */
 
 	/* Copy prolog to output file. */
-	out (&action_array[prolog_offset]);
+	बहिर्गमनम् (&action_array[prolog_विस्थापनम्]);
 
-	line_directive_out (stdout, NULL, linenum);
+	पङ्क्तिः_directive_बहिर्गमनम् (stdout, रिक्त, linenum);
 
 	skelout (true);		/* %% [5.0] - main loop of matching-engine code gets dumped here */
 
 	/* Copy actions to output file. */
-	out (&action_array[action_offset]);
+	बहिर्गमनम् (&action_array[action_विस्थापनम्]);
 
-	line_directive_out (stdout, NULL, linenum);
+	पङ्क्तिः_directive_बहिर्गमनम् (stdout, रिक्त, linenum);
 
 	/* generate cases for any missing EOF rules */
-	for (i = 1; i <= lastsc; ++i)
-		if (!sceof[i]) {
-			out_str ("M4_HOOK_EOF_STATE_CASE_ARM(%s)", scname[i]);
+	प्रति (i = 1; i <= lastsc; ++i)
+		यदि (!sceof[i]) {
+			बहिर्गमनम्_str ("M4_HOOK_EOF_STATE_CASE_ARM(%s)", scname[i]);
 			outc('\n');
-			out ("M4_HOOK_EOF_STATE_CASE_FALLTHROUGH");
+			बहिर्गमनम् ("M4_HOOK_EOF_STATE_CASE_FALLTHROUGH");
 			outc('\n');
-			did_eof_rule = true;
+			did_eof_नियमः = true;
 		}
 
-	if (did_eof_rule) {
-		out ("M4_HOOK_EOF_STATE_CASE_TERMINATE");
+	यदि (did_eof_नियमः) {
+		बहिर्गमनम् ("M4_HOOK_EOF_STATE_CASE_TERMINATE");
 	}
 
 	skelout (true);
 
 	/* Copy remainder of input to output. */
 
-	line_directive_out (stdout, infilename, linenum);
+	पङ्क्तिः_directive_बहिर्गमनम् (stdout, infilename, linenum);
 
-	if (sectnum == 3) {
-		OUT_BEGIN_CODE ();
-                if (!ctrl.no_section3_escape)
+	यदि (sectnum == 3) {
+		बहिर्गमनम्_BEGIN_संहिता ();
+                यदि (!ctrl.no_section3_escape)
                    fputs("[[", stdout);
-		(void) flexscan ();	/* copy remainder of input to output */
-                if (!ctrl.no_section3_escape)
+		(शून्य) flexscan ();	/* copy remainder of input to output */
+                यदि (!ctrl.no_section3_escape)
                    fputs("]]", stdout);
-		OUT_END_CODE ();
+		बहिर्गमनम्_अन्तः_संहिता ();
 	}
 
 	/* Note, flexend does not return.  It exits with its argument
@@ -273,39 +273,39 @@ int flex_main (int argc, char *argv[])
 	 */
 	flexend (0);
 
-	return 0;		/* keep compilers/lint happy */
+	प्रत्यागम 0;		/* keep compilers/lint happy */
 }
 
 /* Wrapper around flex_main, so flex_main can be built as a library. */
-int main (int argc, char *argv[])
+पूर्णाङ्क मुख्यम् (पूर्णाङ्क argc, वर्ण *argv[])
 {
-#if defined(ENABLE_NLS) && ENABLE_NLS
-#if HAVE_LOCALE_H
+#यदि defined(ENABLE_NLS) && ENABLE_NLS
+#यदि HAVE_LOCALE_H
 	setlocale (LC_MESSAGES, "");
         setlocale (LC_CTYPE, "");
 	textdomain (PACKAGE);
 	bindtextdomain (PACKAGE, LOCALEDIR);
-#endif
-#endif
+#यदि_अन्तः
+#यदि_अन्तः
 
-	return flex_main (argc, argv);
+	प्रत्यागम flex_main (argc, argv);
 }
 
 /* Set up the output filter chain. */
 
-void initialize_output_filters(void)
+शून्य initialize_output_filters(शून्य)
 {
-	const char * m4 = NULL;
+	ध्रुव वर्ण * m4 = रिक्त;
 
-	output_chain = filter_create_int(NULL, filter_tee_header, env.headerfilename);
-	if ( !(m4 = getenv("M4"))) {
+	output_chain = filter_create_int(रिक्त, filter_tee_शीर्षकम्, env.headerfilename);
+	यदि ( !(m4 = getenv("M4"))) {
 		m4 = M4;
 	}
-	filter_create_ext(output_chain, m4, "-P", (char *) 0);
-	filter_create_int(output_chain, filter_fix_linedirs, NULL);
+	filter_create_ext(output_chain, m4, "-P", (वर्ण *) 0);
+	filter_create_int(output_chain, filter_fix_linedirs, रिक्त);
 
 	/* For debugging, only run the requested number of filters. */
-	if (preproc_level > 0) {
+	यदि (preproc_level > 0) {
 		filter_truncate(output_chain, preproc_level);
 		filter_apply_chain(output_chain);
 	}
@@ -314,18 +314,18 @@ void initialize_output_filters(void)
 
 /* check_options - check user-specified options */
 
-void check_options (void)
+शून्य check_options (शून्य)
 {
-	int     i;
+	पूर्णाङ्क     i;
 
-	if (ctrl.lex_compat) {
-		if (ctrl.C_plus_plus)
+	यदि (ctrl.lex_compat) {
+		यदि (ctrl.C_plus_plus)
 			flexerror (_("Can't use -+ with -l option"));
 
-		if (ctrl.fulltbl || ctrl.fullspd)
+		यदि (ctrl.fulltbl || ctrl.fullspd)
 			flexerror (_("Can't use -f or -F with -l option"));
 
-		if (ctrl.reentrant || ctrl.bison_bridge_lval)
+		यदि (ctrl.reentrant || ctrl.bison_bridge_lval)
 			flexerror (_
 				   ("Can't use --ctrl.reentrant or --bison-bridge with -l option"));
 
@@ -335,68 +335,68 @@ void check_options (void)
 	}
 
 
-#if 0
+#यदि 0
 	/* This makes no sense whatsoever. I'm removing it. */
-	if (ctrl.do_yylineno)
+	यदि (ctrl.do_yylineno)
 		/* This should really be "maintain_backup_tables = true" */
-		ctrl.reject_really_used = true;
-#endif
+		ctrl.reject_really_प्रयुक्तम् = true;
+#यदि_अन्तः
 
-	if (ctrl.csize == trit_unspecified) {
-		if ((ctrl.fulltbl || ctrl.fullspd) && !ctrl.useecs)
+	यदि (ctrl.csize == trit_unspecified) {
+		यदि ((ctrl.fulltbl || ctrl.fullspd) && !ctrl.useecs)
 			ctrl.csize = DEFAULT_CSIZE;
-		else
+		अन्यथा
 			ctrl.csize = CSIZE;
 	}
 
-	if (ctrl.interactive == trit_unspecified) {
-		if (ctrl.fulltbl || ctrl.fullspd)
+	यदि (ctrl.interactive == trit_unspecified) {
+		यदि (ctrl.fulltbl || ctrl.fullspd)
 			ctrl.interactive = trit_false;
-		else
+		अन्यथा
 			ctrl.interactive = trit_true;
 	}
 
-	if (ctrl.fulltbl || ctrl.fullspd) {
-		if (ctrl.usemecs)
+	यदि (ctrl.fulltbl || ctrl.fullspd) {
+		यदि (ctrl.usemecs)
 			flexerror (_
 				   ("-Cf/-CF and -Cm don't make sense together"));
 
-		if (ctrl.interactive != trit_false)
+		यदि (ctrl.interactive != trit_false)
 			flexerror (_("-Cf/-CF and -I are incompatible"));
 
-		if (ctrl.lex_compat)
+		यदि (ctrl.lex_compat)
 			flexerror (_
 				   ("-Cf/-CF are incompatible with lex-compatibility mode"));
 
 
-		if (ctrl.fulltbl && ctrl.fullspd)
+		यदि (ctrl.fulltbl && ctrl.fullspd)
 			flexerror (_
 				   ("-Cf and -CF are mutually exclusive"));
 	}
 
-	if (ctrl.C_plus_plus && ctrl.fullspd)
+	यदि (ctrl.C_plus_plus && ctrl.fullspd)
 		flexerror (_("Can't use -+ with -CF option"));
 
-	if (ctrl.C_plus_plus && ctrl.yytext_is_array) {
+	यदि (ctrl.C_plus_plus && ctrl.yytext_is_array) {
 		lwarn (_("%array incompatible with -+ option"));
 		ctrl.yytext_is_array = false;
 	}
 
-	if (ctrl.C_plus_plus && (ctrl.reentrant))
+	यदि (ctrl.C_plus_plus && (ctrl.reentrant))
 		flexerror (_("Options -+ and --reentrant are mutually exclusive."));
 
-	if (ctrl.C_plus_plus && ctrl.bison_bridge_lval)
+	यदि (ctrl.C_plus_plus && ctrl.bison_bridge_lval)
 		flexerror (_("bison bridge not supported for the C++ scanner."));
 
 
-	if (ctrl.useecs) {		/* Set up doubly-linked equivalence classes. */
+	यदि (ctrl.useecs) {		/* Set up doubly-linked equivalence classes. */
 
 		/* We loop all the way up to ctrl.csize, since ecgroup[ctrl.csize] is
 		 * the position used for NUL characters.
 		 */
 		ecgroup[1] = NIL;
 
-		for (i = 2; i <= ctrl.csize; ++i) {
+		प्रति (i = 2; i <= ctrl.csize; ++i) {
 			ecgroup[i] = i - 1;
 			nextecm[i - 1] = i;
 		}
@@ -404,27 +404,27 @@ void check_options (void)
 		nextecm[ctrl.csize] = NIL;
 	}
 
-	else {
+	अन्यथा {
 		/* Put everything in its own equivalence class. */
-		for (i = 1; i <= ctrl.csize; ++i) {
+		प्रति (i = 1; i <= ctrl.csize; ++i) {
 			ecgroup[i] = i;
 			nextecm[i] = BAD_SUBSCRIPT;	/* to catch errors */
 		}
 	}
 
-	if (!env.use_stdout) {
-		FILE   *prev_stdout;
+	यदि (!env.use_stdout) {
+		FILE   *पूर्व_stdout;
 
-		if (!env.did_outfilename) {
-			snprintf (outfile_path, sizeof(outfile_path), outfile_template,
-				  ctrl.prefix, suffix());
+		यदि (!env.did_outfilename) {
+			snprintf (outfile_मार्गः, परिमाण(outfile_मार्गः), outfile_template,
+				  ctrl.उपसर्गः, suffix());
 
-			env.outfilename = outfile_path;
+			env.outfilename = outfile_मार्गः;
 		}
 
-		prev_stdout = freopen (env.outfilename, "w+", stdout);
+		पूर्व_stdout = freopen (env.outfilename, "w+", stdout);
 
-		if (prev_stdout == NULL)
+		यदि (पूर्व_stdout == रिक्त)
 			lerr (_("could not create %s"), env.outfilename);
 
 		outfile_created = 1;
@@ -437,143 +437,143 @@ void check_options (void)
  *    This routine does not return.
  */
 
-void flexend (int exit_status)
+शून्य flexend (पूर्णाङ्क exit_स्थितिः)
 {
-	static int called_before = -1;	/* prevent infinite recursion. */
-	int     tblsiz;
+	स्थिर पूर्णाङ्क called_before = -1;	/* prevent infinite recursion. */
+	पूर्णाङ्क     tblsiz;
 
-	if (++called_before)
-		FLEX_EXIT (exit_status);
+	यदि (++called_before)
+		FLEX_EXIT (exit_स्थितिः);
 
-	if (ctrl.yyclass != NULL && !ctrl.C_plus_plus)
+	यदि (ctrl.yyclass != रिक्त && !ctrl.C_plus_plus)
 		flexerror (_("%option yyclass only meaningful for C++ scanners"));
 
-	if (skelfile != NULL) {
-		if (ferror (skelfile))
+	यदि (skelfile != रिक्त) {
+		यदि (ferror (skelfile))
 			lerr (_("input error reading skeleton file %s"),
 				env.skelname);
 
-		else if (fclose (skelfile))
+		अन्यथा यदि (fclose (skelfile))
 			lerr (_("error closing skeleton file %s"),
 				env.skelname);
 	}
 
-	if (exit_status != 0 && outfile_created) {
-		if (ferror (stdout))
+	यदि (exit_स्थितिः != 0 && outfile_created) {
+		यदि (ferror (stdout))
 			lerr (_("error writing output file %s"),
 				env.outfilename);
 
-		else if ((_stdout_closed = 1) && fclose (stdout))
+		अन्यथा यदि ((_stdout_closed = 1) && fclose (stdout))
 			lerr (_("error closing output file %s"),
 				env.outfilename);
 
-		else if (unlink (env.outfilename))
+		अन्यथा यदि (unlink (env.outfilename))
 			lerr (_("error deleting output file %s"),
 				env.outfilename);
 	}
 
 
-	if (env.backing_up_report && ctrl.backing_up_file) {
-		if (num_backing_up == 0)
-			fprintf (ctrl.backing_up_file, _("No backing up.\n"));
-		else if (ctrl.fullspd || ctrl.fulltbl)
-			fprintf (ctrl.backing_up_file,
+	यदि (env.backing_ऊर्ध्वम्_report && ctrl.backing_ऊर्ध्वम्_file) {
+		यदि (अङ्कः_backing_ऊर्ध्वम् == 0)
+			fprintf (ctrl.backing_ऊर्ध्वम्_file, _("No backing up.\n"));
+		अन्यथा यदि (ctrl.fullspd || ctrl.fulltbl)
+			fprintf (ctrl.backing_ऊर्ध्वम्_file,
 				 _
 				 ("%d backing up (non-accepting) states.\n"),
-				 num_backing_up);
-		else
-			fprintf (ctrl.backing_up_file,
+				 अङ्कः_backing_ऊर्ध्वम्);
+		अन्यथा
+			fprintf (ctrl.backing_ऊर्ध्वम्_file,
 				 _("Compressed tables always back up.\n"));
 
-		if (ferror (ctrl.backing_up_file))
+		यदि (ferror (ctrl.backing_ऊर्ध्वम्_file))
 			lerr (_("error writing backup file %s"),
 				backing_name);
 
-		else if (fclose (ctrl.backing_up_file))
+		अन्यथा यदि (fclose (ctrl.backing_ऊर्ध्वम्_file))
 			lerr (_("error closing backup file %s"),
 				backing_name);
 	}
 
-	if (env.printstats) {
+	यदि (env.printstats) {
 		fprintf (stderr, _("%s version %s usage statistics:\n"),
-			 program_name, flex_version);
+			 क्रमादेशः_name, flex_संस्करणम्);
 
 		fprintf (stderr, _("  scanner options: -"));
 
-		if (ctrl.C_plus_plus)
+		यदि (ctrl.C_plus_plus)
 			putc ('+', stderr);
-		if (env.backing_up_report)
+		यदि (env.backing_ऊर्ध्वम्_report)
 			putc ('b', stderr);
-		if (ctrl.ddebug)
+		यदि (ctrl.ddebug)
 			putc ('d', stderr);
-		if (sf_case_ins())
+		यदि (sf_case_ins())
 			putc ('i', stderr);
-		if (ctrl.lex_compat)
+		यदि (ctrl.lex_compat)
 			putc ('l', stderr);
-		if (ctrl.posix_compat)
+		यदि (ctrl.posix_compat)
 			putc ('X', stderr);
-		if (env.performance_hint > 0)
+		यदि (env.performance_hint > 0)
 			putc ('p', stderr);
-		if (env.performance_hint > 1)
+		यदि (env.performance_hint > 1)
 			putc ('p', stderr);
-		if (ctrl.spprdflt)
+		यदि (ctrl.spprdflt)
 			putc ('s', stderr);
-		if (ctrl.reentrant)
+		यदि (ctrl.reentrant)
 			fputs ("--reentrant", stderr);
-        if (ctrl.bison_bridge_lval)
+        यदि (ctrl.bison_bridge_lval)
             fputs ("--bison-bridge", stderr);
-        if (ctrl.bison_bridge_lloc)
+        यदि (ctrl.bison_bridge_lloc)
             fputs ("--bison-locations", stderr);
-		if (env.use_stdout)
+		यदि (env.use_stdout)
 			putc ('t', stderr);
-		if (env.printstats)
+		यदि (env.printstats)
 			putc ('v', stderr);	/* always true! */
-		if (env.nowarn)
+		यदि (env.nowarn)
 			putc ('w', stderr);
-		if (ctrl.interactive == trit_false)
+		यदि (ctrl.interactive == trit_false)
 			putc ('B', stderr);
-		if (ctrl.interactive == trit_true)
+		यदि (ctrl.interactive == trit_true)
 			putc ('I', stderr);
-		if (!ctrl.gen_line_dirs)
+		यदि (!ctrl.gen_पङ्क्तिः_dirs)
 			putc ('L', stderr);
-		if (env.trace)
+		यदि (env.trace)
 			putc ('T', stderr);
 
-		if (ctrl.csize == trit_unspecified)
+		यदि (ctrl.csize == trit_unspecified)
 			/* We encountered an error fairly early on, so ctrl.csize
 			 * never got specified.  Define it now, to prevent
 			 * bogus table sizes being written out below.
 			 */
 			ctrl.csize = 256;
 
-		if (ctrl.csize == 128)
+		यदि (ctrl.csize == 128)
 			putc ('7', stderr);
-		else
+		अन्यथा
 			putc ('8', stderr);
 
 		fprintf (stderr, " -C");
 
-		if (ctrl.long_align)
+		यदि (ctrl.long_align)
 			putc ('a', stderr);
-		if (ctrl.fulltbl)
+		यदि (ctrl.fulltbl)
 			putc ('f', stderr);
-		if (ctrl.fullspd)
+		यदि (ctrl.fullspd)
 			putc ('F', stderr);
-		if (ctrl.useecs)
+		यदि (ctrl.useecs)
 			putc ('e', stderr);
-		if (ctrl.usemecs)
+		यदि (ctrl.usemecs)
 			putc ('m', stderr);
-		if (ctrl.use_read)
+		यदि (ctrl.use_read)
 			putc ('r', stderr);
 
-		if (env.did_outfilename)
+		यदि (env.did_outfilename)
 			fprintf (stderr, " -o%s", env.outfilename);
 
-		if (env.skelname != NULL)
+		यदि (env.skelname != रिक्त)
 			fprintf (stderr, " -S%s", env.skelname);
 
-		if (strcmp (ctrl.prefix, "yy"))
-			fprintf (stderr, " -P%s", ctrl.prefix);
+		यदि (वाक्यं_तुलय (ctrl.उपसर्गः, "yy"))
+			fprintf (stderr, " -P%s", ctrl.उपसर्गः);
 
 		putc ('\n', stderr);
 
@@ -582,22 +582,22 @@ void flexend (int exit_status)
 		fprintf (stderr, _("  %d/%d DFA states (%d words)\n"),
 			 lastdfa, current_max_dfas, totnst);
 		fprintf (stderr, _("  %d rules\n"),
-			 num_rules + num_eof_rules -
+			 अङ्कः_नियमाः + अङ्कः_eof_नियमाः -
 			 1 /* - 1 for def. rule */ );
 
-		if (num_backing_up == 0)
+		यदि (अङ्कः_backing_ऊर्ध्वम् == 0)
 			fprintf (stderr, _("  No backing up\n"));
-		else if (ctrl.fullspd || ctrl.fulltbl)
+		अन्यथा यदि (ctrl.fullspd || ctrl.fulltbl)
 			fprintf (stderr,
 				 _
 				 ("  %d backing-up (non-accepting) states\n"),
-				 num_backing_up);
-		else
+				 अङ्कः_backing_ऊर्ध्वम्);
+		अन्यथा
 			fprintf (stderr,
 				 _
 				 ("  Compressed tables always back-up\n"));
 
-		if (bol_needed)
+		यदि (bol_needed)
 			fprintf (stderr,
 				 _("  Beginning-of-line patterns used\n"));
 
@@ -608,15 +608,15 @@ void flexend (int exit_status)
 			 ("  %d epsilon states, %d double epsilon states\n"),
 			 numeps, eps2);
 
-		if (lastccl == 0)
+		यदि (lastccl == 0)
 			fprintf (stderr, _("  no character classes\n"));
-		else
+		अन्यथा
 			fprintf (stderr,
 				 _
 				 ("  %d/%d character classes needed %d/%d words of storage, %d reused\n"),
 				 lastccl, current_maxccls,
 				 cclmap[lastccl] + ccllen[lastccl],
-				 current_max_ccl_tbl_size, cclreuse);
+				 current_max_ccl_tbl_आकार, cclreuse);
 
 		fprintf (stderr, _("  %d state/nextstate pairs created\n"),
 			 numsnpairs);
@@ -624,13 +624,13 @@ void flexend (int exit_status)
 			 _("  %d/%d unique/duplicate transitions\n"),
 			 numuniq, numdup);
 
-		if (ctrl.fulltbl) {
+		यदि (ctrl.fulltbl) {
 			tblsiz = lastdfa * numecs;
 			fprintf (stderr, _("  %d table entries\n"),
 				 tblsiz);
 		}
 
-		else {
+		अन्यथा {
 			tblsiz = 2 * (lastdfa + numtemps) + 2 * tblend;
 
 			fprintf (stderr,
@@ -655,7 +655,7 @@ void flexend (int exit_status)
 				 numtemps, tmpuses);
 		}
 
-		if (ctrl.useecs) {
+		यदि (ctrl.useecs) {
 			tblsiz = tblsiz + ctrl.csize;
 			fprintf (stderr,
 				 _
@@ -663,7 +663,7 @@ void flexend (int exit_status)
 				 numecs, ctrl.csize);
 		}
 
-		if (ctrl.usemecs) {
+		यदि (ctrl.usemecs) {
 			tblsiz = tblsiz + numecs;
 			fprintf (stderr,
 				 _
@@ -676,507 +676,507 @@ void flexend (int exit_status)
 			 ("  %d (%d saved) hash collisions, %d DFAs equal\n"),
 			 hshcol, hshsave, dfaeql);
 		fprintf (stderr, _("  %d sets of reallocations needed\n"),
-			 num_reallocs);
+			 अङ्कः_reallocs);
 		fprintf (stderr, _("  %d total table entries needed\n"),
 			 tblsiz);
 	}
 
-	FLEX_EXIT (exit_status);
+	FLEX_EXIT (exit_स्थितिः);
 }
 
 
 /* flexinit - initialize flex */
 
-void flexinit (int argc, char **argv)
+शून्य flexinit (पूर्णाङ्क argc, वर्ण **argv)
 {
-	int     i, sawcmpflag, rv, optind;
-	char   *arg;
+	पूर्णाङ्क     i, sawcmpflag, rv, optind;
+	वर्ण   *arg;
 	scanopt_t sopt;
 
-	memset(&ctrl, '\0', sizeof(ctrl));
+	स्मृतिं_पूरय(&ctrl, '\0', परिमाण(ctrl));
 	syntaxerror = false;
-	yymore_used = continued_action = false;
-	in_rule = reject = false;
-	ctrl.yymore_really_used = ctrl.reject_really_used = trit_unspecified;
+	yymore_प्रयुक्तम् = continued_action = false;
+	अन्तर्_नियमः = reject = false;
+	ctrl.yymore_really_प्रयुक्तम् = ctrl.reject_really_प्रयुक्तम् = trit_unspecified;
 
 	ctrl.do_main = trit_unspecified;
 	ctrl.interactive = ctrl.csize = trit_unspecified;
-	ctrl.do_yywrap = ctrl.gen_line_dirs = ctrl.usemecs = ctrl.useecs = true;
+	ctrl.do_yywrap = ctrl.gen_पङ्क्तिः_dirs = ctrl.usemecs = ctrl.useecs = true;
 	ctrl.reentrant = ctrl.bison_bridge_lval = ctrl.bison_bridge_lloc = false;
 	env.performance_hint = 0;
-	ctrl.prefix = "yy";
+	ctrl.उपसर्गः = "yy";
 	ctrl.rewrite = false;
 	ctrl.yylmax = BUFSIZ;
 
 	tablesext = tablesverify = false;
 	gentables = true;
-	tablesfilename = tablesname = NULL;
+	tablesfilename = tablesname = रिक्त;
 
 	sawcmpflag = false;
 	
 	/* Initialize dynamic array for holding the rule actions. */
-	action_size = 2048;	/* default size of action array in bytes */
-	action_array = allocate_character_array (action_size);
-	defs1_offset = prolog_offset = action_offset = action_index = 0;
+	action_आकार = 2048;	/* default size of action array in bytes */
+	action_array = allocate_character_array (action_आकार);
+	defs1_विस्थापनम् = prolog_विस्थापनम् = action_विस्थापनम् = action_सूचकांक = 0;
 	action_array[0] = '\0';
 
 	/* Initialize any buffers. */
-	buf_init (&userdef_buf, sizeof (char));	/* one long string */
-	buf_init (&top_buf, sizeof (char));	    /* one long string */
+	buf_init (&userdef_buf, परिमाण (वर्ण));	/* one long string */
+	buf_init (&शिखरम्_buf, परिमाण (वर्ण));	    /* one long string */
 
 	sf_init ();
 
 	/* Enable C++ if program name ends with '+'. */
-	program_name = argv[0];
+	क्रमादेशः_name = argv[0];
 
-	if (program_name != NULL &&
-	    program_name[strlen (program_name) - 1] == '+')
+	यदि (क्रमादेशः_name != रिक्त &&
+	    क्रमादेशः_name[वाक्यदैर्घ्यम् (क्रमादेशः_name) - 1] == '+')
 		ctrl.C_plus_plus = true;
 
 	/* read flags */
 	sopt = scanopt_init (flexopts, argc, argv, 0);
-	if (!sopt) {
+	यदि (!sopt) {
 		/* This will only happen when flexopts array is altered. */
 		fprintf (stderr,
 			 _("Internal error. flexopts are malformed.\n"));
 		FLEX_EXIT (1);
 	}
 
-	while ((rv = scanopt (sopt, &arg, &optind)) != 0) {
+	यावत् ((rv = scanopt (sopt, &arg, &optind)) != 0) {
 
-		if (rv < 0) {
+		यदि (rv < 0) {
 			/* Scanopt has already printed an option-specific error message. */
 			fprintf (stderr,
 				 _
 				 ("Try `%s --help' for more information.\n"),
-				 program_name);
+				 क्रमादेशः_name);
 			FLEX_EXIT (1);
 		}
 
-		switch ((enum flexopt_flag_t) rv) {
-		    case OPT_CPLUSPLUS:
+		विकल्प ((गणना flexopt_flag_t) rv) {
+		    पक्ष OPT_CPLUSPLUS:
 			ctrl.C_plus_plus = true;
-			break;
+			भङ्ग;
 
-		    case OPT_BATCH:
+		    पक्ष OPT_BATCH:
 			ctrl.interactive = trit_false;
-			break;
+			भङ्ग;
 
-		    case OPT_BACKUP:
-			env.backing_up_report = trit_true;
-			break;
+		    पक्ष OPT_BACKUP:
+			env.backing_ऊर्ध्वम्_report = trit_true;
+			भङ्ग;
 
-		    case OPT_BACKUP_FILE:
-			env.backing_up_report = true;
+		    पक्ष OPT_BACKUP_FILE:
+			env.backing_ऊर्ध्वम्_report = true;
                         backing_name = arg;
-			break;
+			भङ्ग;
 
-		    case OPT_DONOTHING:
-			break;
+		    पक्ष OPT_DONOTHING:
+			भङ्ग;
 
-		    case OPT_COMPRESSION:
-			if (!sawcmpflag) {
+		    पक्ष OPT_COMPRESSION:
+			यदि (!sawcmpflag) {
 				ctrl.useecs = false;
 				ctrl.usemecs = false;
 				ctrl.fulltbl = false;
 				sawcmpflag = true;
 			}
 
-			for (i = 0; arg && arg[i] != '\0'; i++)
-				switch (arg[i]) {
-				    case 'a':
+			प्रति (i = 0; arg && arg[i] != '\0'; i++)
+				विकल्प (arg[i]) {
+				    पक्ष 'a':
 					ctrl.long_align = true;
-					break;
+					भङ्ग;
 
-				    case 'e':
+				    पक्ष 'e':
 					ctrl.useecs = true;
-					break;
+					भङ्ग;
 
-				    case 'F':
+				    पक्ष 'F':
 					ctrl.fullspd = true;
-					break;
+					भङ्ग;
 
-				    case 'f':
+				    पक्ष 'f':
 					ctrl.fulltbl = true;
-					break;
+					भङ्ग;
 
-				    case 'm':
+				    पक्ष 'm':
 					ctrl.usemecs = true;
-					break;
+					भङ्ग;
 
-				    case 'r':
+				    पक्ष 'r':
 					ctrl.use_read = true;
-					break;
+					भङ्ग;
 
-				    default:
+				    स्वभाव:
 					lerr (_
 					      ("unknown -C option '%c'"),
 					      arg[i]);
-					break;
+					भङ्ग;
 				}
-			break;
+			भङ्ग;
 
-		    case OPT_DEBUG:
+		    पक्ष OPT_DEBUG:
 			ctrl.ddebug = true;
-			break;
+			भङ्ग;
 
-		    case OPT_NO_DEBUG:
+		    पक्ष OPT_NO_DEBUG:
 			ctrl.ddebug = false;
-			break;
+			भङ्ग;
 
-		    case OPT_FULL:
+		    पक्ष OPT_पूर्णम्:
 			ctrl.useecs = ctrl.usemecs = false;
 			ctrl.use_read = ctrl.fulltbl = true;
-			break;
+			भङ्ग;
 
-		    case OPT_FAST:
+		    पक्ष OPT_FAST:
 			ctrl.useecs = ctrl.usemecs = false;
 			ctrl.use_read = ctrl.fullspd = true;
-			break;
+			भङ्ग;
 
-		    case OPT_HELP:
+		    पक्ष OPT_HELP:
 			usage ();
 			FLEX_EXIT (0);
 
-		    case OPT_INTERACTIVE:
+		    पक्ष OPT_INTERACTIVE:
 			ctrl.interactive = true;
-			break;
+			भङ्ग;
 
-		    case OPT_CASE_INSENSITIVE:
-			sf_set_case_ins(true);
-			break;
+		    पक्ष OPT_CASE_INSENSITIVE:
+			sf_समुच्चयः_case_ins(true);
+			भङ्ग;
 
-		    case OPT_LEX_COMPAT:
+		    पक्ष OPT_LEX_COMPAT:
 			ctrl.lex_compat = true;
-			break;
+			भङ्ग;
 
-		    case OPT_POSIX_COMPAT:
+		    पक्ष OPT_POSIX_COMPAT:
 			ctrl.posix_compat = true;
-			break;
+			भङ्ग;
 
-		    case OPT_PREPROC_LEVEL:
-			preproc_level = (int) strtol(arg,NULL,0);
-			break;
+		    पक्ष OPT_PREPROC_LEVEL:
+			preproc_level = (पूर्णाङ्क) strtol(arg,रिक्त,0);
+			भङ्ग;
 
-		    case OPT_MAIN:
+		    पक्ष OPT_MAIN:
 			ctrl.do_yywrap = false;
 			ctrl.do_main = trit_true;
-			break;
+			भङ्ग;
 
-		    case OPT_NO_MAIN:
+		    पक्ष OPT_NO_MAIN:
 			ctrl.do_main = trit_false;
-			break;
+			भङ्ग;
 
-		    case OPT_NO_LINE:
-			ctrl.gen_line_dirs = false;
-			break;
+		    पक्ष OPT_NO_पङ्क्तिः:
+			ctrl.gen_पङ्क्तिः_dirs = false;
+			भङ्ग;
 
-		    case OPT_OUTFILE:
+		    पक्ष OPT_OUTFILE:
 			env.outfilename = arg;
 			env.did_outfilename = 1;
-			break;
+			भङ्ग;
 
-		    case OPT_PREFIX:
-			ctrl.prefix = arg;
-			break;
+		    पक्ष OPT_उपसर्गः:
+			ctrl.उपसर्गः = arg;
+			भङ्ग;
 
-		    case OPT_PERF_REPORT:
+		    पक्ष OPT_PERF_REPORT:
 			++env.performance_hint;
-			break;
+			भङ्ग;
 
-		    case OPT_BISON_BRIDGE:
+		    पक्ष OPT_BISON_BRIDGE:
 			ctrl.bison_bridge_lval = true;
-			break;
+			भङ्ग;
 
-		    case OPT_BISON_BRIDGE_LOCATIONS:
+		    पक्ष OPT_BISON_BRIDGE_LOCATIONS:
 			ctrl.bison_bridge_lval = ctrl.bison_bridge_lloc = true;
-			break;
+			भङ्ग;
 
-		    case OPT_REENTRANT:
+		    पक्ष OPT_REENTRANT:
 			ctrl.reentrant = true;
-			break;
+			भङ्ग;
 
-		    case OPT_NO_REENTRANT:
+		    पक्ष OPT_NO_REENTRANT:
 			ctrl.reentrant = false;
-			break;
+			भङ्ग;
 
-		    case OPT_SKEL:
+		    पक्ष OPT_SKEL:
 			env.skelname = arg;
-			break;
+			भङ्ग;
 
-		    case OPT_DEFAULT:
+		    पक्ष OPT_DEFAULT:
 			ctrl.spprdflt = false;
-			break;
+			भङ्ग;
 
-		    case OPT_NO_DEFAULT:
+		    पक्ष OPT_NO_DEFAULT:
 			ctrl.spprdflt = true;
-			break;
+			भङ्ग;
 
-		    case OPT_STDOUT:
+		    पक्ष OPT_STDOUT:
 			env.use_stdout = true;
-			break;
+			भङ्ग;
 
-		    case OPT_NO_UNISTD_H:
+		    पक्ष OPT_NO_UNISTD_H:
 			ctrl.no_unistd = true;
-			break;
+			भङ्ग;
 
-		    case OPT_TABLES_FILE:
+		    पक्ष OPT_TABLES_FILE:
 			tablesext = true;
 			tablesfilename = arg;
-			break;
+			भङ्ग;
 
-		    case OPT_TABLES_VERIFY:
+		    पक्ष OPT_TABLES_VERIFY:
 			tablesverify = true;
-			break;
+			भङ्ग;
 
-		    case OPT_TRACE:
+		    पक्ष OPT_TRACE:
 			env.trace = true;
-			break;
+			भङ्ग;
 
-		    case OPT_VERBOSE:
+		    पक्ष OPT_VERBOSE:
 			env.printstats = true;
-			break;
+			भङ्ग;
 
-		    case OPT_VERSION:
-			printf ("%s %s\n", (ctrl.C_plus_plus ? "flex++" : "flex"), flex_version);
+		    पक्ष OPT_संस्करणम्:
+			प्रारूप_लिख ("%s %s\n", (ctrl.C_plus_plus ? "flex++" : "flex"), flex_संस्करणम्);
 			FLEX_EXIT (0);
 
-		    case OPT_WARN:
+		    पक्ष OPT_WARN:
 			env.nowarn = false;
-			break;
+			भङ्ग;
 
-		    case OPT_NO_WARN:
+		    पक्ष OPT_NO_WARN:
 			env.nowarn = true;
-			break;
+			भङ्ग;
 
-		    case OPT_7BIT:
+		    पक्ष OPT_7BIT:
 			ctrl.csize = 128;
-			break;
+			भङ्ग;
 
-		    case OPT_8BIT:
+		    पक्ष OPT_8BIT:
 			ctrl.csize = CSIZE;
-			break;
+			भङ्ग;
 
-		    case OPT_ALIGN:
+		    पक्ष OPT_ALIGN:
 			ctrl.long_align = true;
-			break;
+			भङ्ग;
 
-		    case OPT_NO_ALIGN:
+		    पक्ष OPT_NO_ALIGN:
 			ctrl.long_align = false;
-			break;
+			भङ्ग;
 
-		    case OPT_ALWAYS_INTERACTIVE:
+		    पक्ष OPT_ALWAYS_INTERACTIVE:
 			ctrl.always_interactive = true;
-			break;
+			भङ्ग;
 
-		    case OPT_NEVER_INTERACTIVE:
+		    पक्ष OPT_NEVER_INTERACTIVE:
 			ctrl.never_interactive = true;
-			break;
+			भङ्ग;
 
-		    case OPT_ARRAY:
+		    पक्ष OPT_ARRAY:
 			ctrl.yytext_is_array = true;
-			break;
+			भङ्ग;
 
-		    case OPT_POINTER:
+		    पक्ष OPT_POINTER:
 			ctrl.yytext_is_array = false;
-			break;
+			भङ्ग;
 
-		    case OPT_ECS:
+		    पक्ष OPT_ECS:
 			ctrl.useecs = true;
-			break;
+			भङ्ग;
 
-		    case OPT_NO_ECS:
+		    पक्ष OPT_NO_ECS:
 			ctrl.useecs = false;
-			break;
+			भङ्ग;
 
-		    case OPT_EMIT:
+		    पक्ष OPT_EMIT:
 			ctrl.emit = arg;
-			break;
+			भङ्ग;
 
-		    case OPT_HEADER_FILE:
+		    पक्ष OPT_शीर्षकम्_FILE:
 			env.headerfilename = arg;
-			break;
+			भङ्ग;
 
-		    case OPT_META_ECS:
+		    पक्ष OPT_META_ECS:
 			ctrl.usemecs = true;
-			break;
+			भङ्ग;
 
-		    case OPT_NO_META_ECS:
+		    पक्ष OPT_NO_META_ECS:
 			ctrl.usemecs = false;
-			break;
+			भङ्ग;
 
-		    case OPT_PREPROCDEFINE:
+		    पक्ष OPT_PREPROCDEFINE:
 		    {
 			    /* arg is "symbol" or "symbol=definition". */
-			    char   *def;
-			    char buf2[4096];
+			    वर्ण   *def;
+			    वर्ण buf2[4096];
 
-			    for (def = arg;
+			    प्रति (def = arg;
 				 *def != '\0' && *def != '='; ++def)
-				    continue;
-			    if (*def == '\0')
+				    अनुवर्त;
+			    यदि (*def == '\0')
 				    def = "1";
 
-			    snprintf(buf2, sizeof(buf2), "M4_HOOK_CONST_DEFINE_UNKNOWN(%s, %s)", arg, def);
+			    snprintf(buf2, परिमाण(buf2), "M4_HOOK_CONST_DEFINE_UNKNOWN(%s, %s)", arg, def);
 			    buf_strappend (&userdef_buf, buf2);
 		    }
-		    break;
+		    भङ्ग;
 
-		    case OPT_READ:
+		    पक्ष OPT_READ:
 			ctrl.use_read = true;
-			break;
+			भङ्ग;
 
-		    case OPT_STACK:
-			ctrl.stack_used = true;
-			break;
+		    पक्ष OPT_राशिः:
+			ctrl.राशिः_प्रयुक्तम् = true;
+			भङ्ग;
 
-		    case OPT_STDINIT:
+		    पक्ष OPT_STDINIT:
 			ctrl.do_stdinit = true;
-			break;
+			भङ्ग;
 
-		    case OPT_NO_STDINIT:
+		    पक्ष OPT_NO_STDINIT:
 			ctrl.do_stdinit = false;
-			break;
+			भङ्ग;
 
-		    case OPT_YYCLASS:
+		    पक्ष OPT_YYCLASS:
 			ctrl.yyclass = arg;
-			break;
+			भङ्ग;
 
-		    case OPT_YYLINENO:
+		    पक्ष OPT_YYLINENO:
 			ctrl.do_yylineno = true;
-			break;
+			भङ्ग;
 
-		    case OPT_NO_YYLINENO:
+		    पक्ष OPT_NO_YYLINENO:
 			ctrl.do_yylineno = false;
-			break;
+			भङ्ग;
 
-		    case OPT_YYWRAP:
+		    पक्ष OPT_YYWRAP:
 			ctrl.do_yywrap = true;
-			break;
+			भङ्ग;
 
-		    case OPT_NO_YYWRAP:
+		    पक्ष OPT_NO_YYWRAP:
 			ctrl.do_yywrap = false;
-			break;
+			भङ्ग;
 
-		    case OPT_YYMORE:
-			ctrl.yymore_really_used = true;
-			break;
+		    पक्ष OPT_YYMORE:
+			ctrl.yymore_really_प्रयुक्तम् = true;
+			भङ्ग;
 
-		    case OPT_NO_YYMORE:
-			ctrl.yymore_really_used = false;
-			break;
+		    पक्ष OPT_NO_YYMORE:
+			ctrl.yymore_really_प्रयुक्तम् = false;
+			भङ्ग;
 
-		    case OPT_REJECT:
-			ctrl.reject_really_used = true;
-			break;
+		    पक्ष OPT_REJECT:
+			ctrl.reject_really_प्रयुक्तम् = true;
+			भङ्ग;
 
-		    case OPT_NO_REJECT:
-			ctrl.reject_really_used = false;
-			break;
+		    पक्ष OPT_NO_REJECT:
+			ctrl.reject_really_प्रयुक्तम् = false;
+			भङ्ग;
 
-		    case OPT_NO_YY_PUSH_STATE:
-			ctrl.no_yy_push_state = true;
-			break;
-		    case OPT_NO_YY_POP_STATE:
-			ctrl.no_yy_pop_state = true;
-			break;
-		    case OPT_NO_YY_TOP_STATE:
-			ctrl.no_yy_top_state = true;
-			break;
-		    case OPT_NO_YYINPUT:
+		    पक्ष OPT_NO_YY_प्रक्षिप_STATE:
+			ctrl.no_yy_प्रक्षिप_state = true;
+			भङ्ग;
+		    पक्ष OPT_NO_YY_निष्कासय_STATE:
+			ctrl.no_yy_निष्कासय_state = true;
+			भङ्ग;
+		    पक्ष OPT_NO_YY_शिखरम्_STATE:
+			ctrl.no_yy_शिखरम्_state = true;
+			भङ्ग;
+		    पक्ष OPT_NO_YYINPUT:
 			ctrl.no_yyinput = true;
-			break;
-		    case OPT_NO_YYUNPUT:
+			भङ्ग;
+		    पक्ष OPT_NO_YYUNPUT:
 			ctrl.no_yyunput = true;
-			break;
-		    case OPT_NO_YY_SCAN_BUFFER:
-			ctrl.no_yy_scan_buffer = true;
-			break;
-		    case OPT_NO_YY_SCAN_BYTES:
-			ctrl.no_yy_scan_bytes = true;
-			break;
-		    case OPT_NO_YY_SCAN_STRING:
-			ctrl.no_yy_scan_string = true;
-			break;
-		    case OPT_NO_YYGET_EXTRA:
+			भङ्ग;
+		    पक्ष OPT_NO_YY_अवलोकनम्_बफर:
+			ctrl.no_yy_अवलोकनम्_बफर = true;
+			भङ्ग;
+		    पक्ष OPT_NO_YY_अवलोकनम्_अष्टकानि:
+			ctrl.no_yy_अवलोकनम्_अष्टकानि = true;
+			भङ्ग;
+		    पक्ष OPT_NO_YY_अवलोकनम्_STRING:
+			ctrl.no_yy_अवलोकनम्_string = true;
+			भङ्ग;
+		    पक्ष OPT_NO_YYGET_EXTRA:
 			ctrl.no_yyget_extra = true;
-			break;
-		    case OPT_NO_YYSET_EXTRA:
+			भङ्ग;
+		    पक्ष OPT_NO_YYSET_EXTRA:
 			ctrl.no_yyset_extra = true;
-			break;
-		    case OPT_NO_YYGET_LENG:
+			भङ्ग;
+		    पक्ष OPT_NO_YYGET_LENG:
 			ctrl.no_yyget_leng = true;
-			break;
-		    case OPT_NO_YYGET_TEXT:
+			भङ्ग;
+		    पक्ष OPT_NO_YYGET_TEXT:
 			ctrl.no_yyget_text = true;
-			break;
-		    case OPT_NO_YYGET_LINENO:
+			भङ्ग;
+		    पक्ष OPT_NO_YYGET_LINENO:
 			ctrl.no_yyget_lineno = true;
-			break;
-		    case OPT_NO_YYSET_LINENO:
+			भङ्ग;
+		    पक्ष OPT_NO_YYSET_LINENO:
 			ctrl.no_yyset_lineno = true;
-			break;
-		    case OPT_NO_YYGET_COLUMN:
+			भङ्ग;
+		    पक्ष OPT_NO_YYGET_COLUMN:
 			ctrl.no_yyget_column = true;
-			break;
-		    case OPT_NO_YYSET_COLUMN:
+			भङ्ग;
+		    पक्ष OPT_NO_YYSET_COLUMN:
 			ctrl.no_yyset_column = true;
-			break;
-		    case OPT_NO_YYGET_IN:
-			ctrl.no_yyget_in = true;
-			break;
-		    case OPT_NO_YYSET_IN:
-			ctrl.no_yyset_in = true;
-			break;
-		    case OPT_NO_YYGET_OUT:
-			ctrl.no_yyget_out = true;
-			break;
-		    case OPT_NO_YYSET_OUT:
-			ctrl.no_yyset_out = true;
-			break;
-		    case OPT_NO_YYGET_LVAL:
+			भङ्ग;
+		    पक्ष OPT_NO_YYGET_अन्तर्:
+			ctrl.no_yyget_अन्तर् = true;
+			भङ्ग;
+		    पक्ष OPT_NO_YYSET_अन्तर्:
+			ctrl.no_yyset_अन्तर् = true;
+			भङ्ग;
+		    पक्ष OPT_NO_YYGET_बहिर्गमनम्:
+			ctrl.no_yyget_बहिर्गमनम् = true;
+			भङ्ग;
+		    पक्ष OPT_NO_YYSET_बहिर्गमनम्:
+			ctrl.no_yyset_बहिर्गमनम् = true;
+			भङ्ग;
+		    पक्ष OPT_NO_YYGET_LVAL:
 			ctrl.no_yyget_lval = true;
-			break;
-		    case OPT_NO_YYSET_LVAL:
+			भङ्ग;
+		    पक्ष OPT_NO_YYSET_LVAL:
 			ctrl.no_yyset_lval = true;
-			break;
-		    case OPT_NO_YYGET_LLOC:
+			भङ्ग;
+		    पक्ष OPT_NO_YYGET_LLOC:
 			ctrl.no_yyget_lloc = true;
-			break;
-		    case OPT_NO_YYSET_LLOC:
+			भङ्ग;
+		    पक्ष OPT_NO_YYSET_LLOC:
 			ctrl.no_yyset_lloc = true;
-			break;
-		    case OPT_NO_YYGET_DEBUG:
+			भङ्ग;
+		    पक्ष OPT_NO_YYGET_DEBUG:
 			ctrl.no_get_debug = true;
-			break;
-		    case OPT_NO_YYSET_DEBUG:
-			ctrl.no_set_debug = true;
-			break;
+			भङ्ग;
+		    पक्ष OPT_NO_YYSET_DEBUG:
+			ctrl.no_समुच्चयः_debug = true;
+			भङ्ग;
 
-		    case OPT_HEX:
+		    पक्ष OPT_HEX:
 			env.trace_hex = true;
-                        break;
-		    case OPT_NO_SECT3_ESCAPE:
+                        भङ्ग;
+		    पक्ष OPT_NO_SECT3_ESCAPE:
                         ctrl.no_section3_escape = true;
-                        break;
+                        भङ्ग;
 		}		/* switch */
 	}			/* while scanopt() */
 
 	scanopt_destroy (sopt);
 
-	num_input_files = argc - optind;
-	input_files = argv + optind;
-	set_input_file (num_input_files > 0 ? input_files[0] : NULL);
+	अङ्कः_निवेशः_files = argc - optind;
+	निवेशः_files = argv + optind;
+	समुच्चयः_निवेशः_file (अङ्कः_निवेशः_files > 0 ? निवेशः_files[0] : रिक्त);
 
 	lastccl = lastsc = lastdfa = lastnfa = 0;
-	num_rules = num_eof_rules = default_rule = 0;
+	अङ्कः_नियमाः = अङ्कः_eof_नियमाः = default_नियमः = 0;
 	numas = numsnpairs = tmpuses = 0;
-	numecs = numeps = eps2 = num_reallocs = hshcol = dfaeql = totnst =
+	numecs = numeps = eps2 = अङ्कः_reallocs = hshcol = dfaeql = totnst =
 	    0;
 	numuniq = numdup = hshsave = datapos = dataline = 0;
 	eofseen = false;
-	num_backing_up = onesp = numprots = 0;
-	variable_trailing_context_rules = bol_needed = false;
+	अङ्कः_backing_ऊर्ध्वम् = onesp = numprots = 0;
+	variable_trailing_context_नियमाः = bol_needed = false;
 
 	linenum = sectnum = 1;
 	firstprot = NIL;
@@ -1186,24 +1186,24 @@ void flexinit (int argc, char **argv)
 	 */
 	lastprot = 1;
 
-	set_up_initial_allocations ();
+	समुच्चयः_ऊर्ध्वम्_initial_allocations ();
 }
 
 
 /* readin - read in the rules section of the input file(s) */
 
-void readin (void)
+शून्य readin (शून्य)
 {
-	char buf[256];
+	वर्ण buf[256];
 
-	line_directive_out(NULL, infilename, linenum);
+	पङ्क्तिः_directive_बहिर्गमनम्(रिक्त, infilename, linenum);
 
-	if (yyparse ()) {
-		pinpoint_message (_("fatal parse error"));
+	यदि (yyparse ()) {
+		pinpoint_सन्देशः (_("fatal parse error"));
 		flexend (1);
 	}
 
-	if (syntaxerror)
+	यदि (syntaxerror)
 		flexend (1);
 
 	/* On --emit, -e, or change backends This is where backend
@@ -1218,50 +1218,50 @@ void readin (void)
 
 	yyout = stdout;
 
-	if (tablesext)
+	यदि (tablesext)
 		gentables = false;
 
-	if (tablesverify)
+	यदि (tablesverify)
 		/* force generation of C tables. */
 		gentables = true;
 
 
-	if (tablesext) {
+	यदि (tablesext) {
 		FILE   *tablesout;
-		struct yytbl_hdr hdr;
-		char   *pname = 0;
+		संरचना yytbl_hdr hdr;
+		वर्ण   *pname = 0;
 		size_t  nbytes = 0;
 
-		if (!tablesfilename) {
-			nbytes = strlen (ctrl.prefix) + strlen (tablesfile_template) + 2;
-			tablesfilename = pname = calloc(nbytes, 1);
-			snprintf (pname, nbytes, tablesfile_template, ctrl.prefix);
+		यदि (!tablesfilename) {
+			nbytes = वाक्यदैर्घ्यम् (ctrl.उपसर्गः) + वाक्यदैर्घ्यम् (tablesfile_template) + 2;
+			tablesfilename = pname = शून्यस्मृतिं_देहि(nbytes, 1);
+			snprintf (pname, nbytes, tablesfile_template, ctrl.उपसर्गः);
 		}
 
-		if ((tablesout = fopen (tablesfilename, "w")) == NULL)
+		यदि ((tablesout = fopen (tablesfilename, "w")) == रिक्त)
 			lerr (_("could not create %s"), tablesfilename);
-		free(pname);
+		मुक्त(pname);
 		tablesfilename = 0;
 
 		yytbl_writer_init (&tableswr, tablesout);
 
-		nbytes = strlen (ctrl.prefix) + strlen ("tables") + 2;
-		tablesname = calloc(nbytes, 1);
-		snprintf (tablesname, nbytes, "%stables", ctrl.prefix);
-		yytbl_hdr_init (&hdr, flex_version, tablesname);
+		nbytes = वाक्यदैर्घ्यम् (ctrl.उपसर्गः) + वाक्यदैर्घ्यम् ("tables") + 2;
+		tablesname = शून्यस्मृतिं_देहि(nbytes, 1);
+		snprintf (tablesname, nbytes, "%stables", ctrl.उपसर्गः);
+		yytbl_hdr_init (&hdr, flex_संस्करणम्, tablesname);
 
-		if (yytbl_hdr_fwrite (&tableswr, &hdr) <= 0)
+		यदि (yytbl_hdr_fwrite (&tableswr, &hdr) <= 0)
 			flexerror (_("could not write tables header"));
 	}
 
-	if (env.skelname && (skelfile = fopen (env.skelname, "r")) == NULL)
+	यदि (env.skelname && (skelfile = fopen (env.skelname, "r")) == रिक्त)
 		lerr (_("can't open skeleton file %s"), env.skelname);
 
-	if (strchr(ctrl.prefix, '[') || strchr(ctrl.prefix, ']'))
+	यदि (strchr(ctrl.उपसर्गः, '[') || strchr(ctrl.उपसर्गः, ']'))
 		flexerror(_("Prefix cannot include '[' or ']'"));
 
-	if (env.did_outfilename)
-		line_directive_out (stdout, NULL, linenum);
+	यदि (env.did_outfilename)
+		पङ्क्तिः_directive_बहिर्गमनम् (stdout, रिक्त, linenum);
 
 	/* This is where we begin writing to the file. */
 
@@ -1270,36 +1270,36 @@ void readin (void)
 	comment("A lexical scanner generated by flex\n");
 
 	/* Dump the %top code. */
-	if( top_buf.elts)
-		outn((char*) top_buf.elts);
+	यदि( शिखरम्_buf.elts)
+		outn((वर्ण*) शिखरम्_buf.elts);
 
 	/* Place a bogus line directive, it will be fixed in the filter. */
-	line_directive_out(NULL, NULL, 0);
+	पङ्क्तिः_directive_बहिर्गमनम्(रिक्त, रिक्त, 0);
 
 	/* User may want to set the scanner prototype */
-	if (ctrl.yydecl != NULL) {
-		out_str ("M4_HOOK_SET_YY_DECL(%s)\n", ctrl.yydecl);
+	यदि (ctrl.yydecl != रिक्त) {
+		बहिर्गमनम्_str ("M4_HOOK_SET_YY_DECL(%s)\n", ctrl.yydecl);
 	}
 
-	if (ctrl.userinit != NULL) {
-		out_str ("M4_HOOK_SET_USERINIT(%s)\n", ctrl.userinit);
+	यदि (ctrl.userinit != रिक्त) {
+		बहिर्गमनम्_str ("M4_HOOK_SET_USERINIT(%s)\n", ctrl.userinit);
 	}
-	if (ctrl.preaction != NULL) {
-		out_str ("M4_HOOK_SET_PREACTION(%s)\n", ctrl.preaction);
+	यदि (ctrl.preaction != रिक्त) {
+		बहिर्गमनम्_str ("M4_HOOK_SET_PREACTION(%s)\n", ctrl.preaction);
 	}
-	if (ctrl.postaction != NULL) {
-		out_str ("M4_HOOK_SET_POSTACTION(%s)\n", ctrl.postaction);
+	यदि (ctrl.postaction != रिक्त) {
+		बहिर्गमनम्_str ("M4_HOOK_SET_POSTACTION(%s)\n", ctrl.postaction);
 	}
 
 	/* This has to be a straight textual substitution rather
 	 * than a constant declaration because in C a const is
 	 * not const enough to be a static array bound.
 	 */
-	out_dec ("m4_define([[YYLMAX]], [[%d]])\n", ctrl.yylmax);
+	बहिर्गमनम्_dec ("m4_define([[YYLMAX]], [[%d]])\n", ctrl.yylmax);
 
 	/* Dump the user defined preproc directives. */
-	if (userdef_buf.elts)
-		outn ((char *) (userdef_buf.elts));
+	यदि (userdef_buf.elts)
+		outn ((वर्ण *) (userdef_buf.elts));
 
 	/* If the user explicitly requested posix compatibility by specifying the
 	 * posix-compat option, then we check for conflicting options. However, if
@@ -1310,7 +1310,7 @@ void readin (void)
 	 * Note: The posix option was added to flex to provide the posix behavior
 	 * of the repeat operator in regular expressions, e.g., `ab{3}'
 	 */
-	if (ctrl.posix_compat) {
+	यदि (ctrl.posix_compat) {
 		/* TODO: This is where we try to make flex behave according to
 		 * POSIX, *and* check for conflicting ctrl. How far should we go
 		 * with this? Should we disable all the neat-o flex features?
@@ -1318,33 +1318,33 @@ void readin (void)
 		/* Update: Estes says no, since other flex features don't violate posix. */
 	}
 
-	if (getenv ("POSIXLY_CORRECT")) {
+	यदि (getenv ("POSIXLY_CORRECT")) {
 		ctrl.posix_compat = true;
 	}
 
-	if (env.backing_up_report) {
-		ctrl.backing_up_file = fopen (backing_name, "w");
-		if (ctrl.backing_up_file == NULL)
+	यदि (env.backing_ऊर्ध्वम्_report) {
+		ctrl.backing_ऊर्ध्वम्_file = fopen (backing_name, "w");
+		यदि (ctrl.backing_ऊर्ध्वम्_file == रिक्त)
 			lerr (_
 				("could not create backing-up info file %s"),
 				backing_name);
 	}
 
-	else
-		ctrl.backing_up_file = NULL;
+	अन्यथा
+		ctrl.backing_ऊर्ध्वम्_file = रिक्त;
 
-	if (ctrl.yymore_really_used == true)
-		yymore_used = true;
-	else if (ctrl.yymore_really_used == false)
-		yymore_used = false;
+	यदि (ctrl.yymore_really_प्रयुक्तम् == true)
+		yymore_प्रयुक्तम् = true;
+	अन्यथा यदि (ctrl.yymore_really_प्रयुक्तम् == false)
+		yymore_प्रयुक्तम् = false;
 
-	if (ctrl.reject_really_used == true)
+	यदि (ctrl.reject_really_प्रयुक्तम् == true)
 		reject = true;
-	else if (ctrl.reject_really_used == false)
+	अन्यथा यदि (ctrl.reject_really_प्रयुक्तम् == false)
 		reject = false;
 
-	if (env.performance_hint > 0) {
-		if (ctrl.lex_compat) {
+	यदि (env.performance_hint > 0) {
+		यदि (ctrl.lex_compat) {
 			fprintf (stderr,
 				 _
 				 ("-l AT&T lex compatibility option entails a large performance penalty\n"));
@@ -1353,337 +1353,337 @@ void readin (void)
 				 (" and may be the actual source of other reported performance penalties\n"));
 		}
 
-		else if (ctrl.do_yylineno) {
+		अन्यथा यदि (ctrl.do_yylineno) {
 			fprintf (stderr,
 				 _
 				 ("%%option yylineno entails a performance penalty ONLY on rules that can match newline characters\n"));
 		}
 
-		if (env.performance_hint > 1) {
-			if (ctrl.interactive == trit_true)
+		यदि (env.performance_hint > 1) {
+			यदि (ctrl.interactive == trit_true)
 				fprintf (stderr,
 					 _
 					 ("-I (interactive) entails a minor performance penalty\n"));
 
-			if (yymore_used)
+			यदि (yymore_प्रयुक्तम्)
 				fprintf (stderr,
 					 _
 					 ("yymore() entails a minor performance penalty\n"));
 		}
 
-		if (reject)
+		यदि (reject)
 			fprintf (stderr,
 				 _
 				 ("REJECT entails a large performance penalty\n"));
 
-		if (variable_trailing_context_rules)
+		यदि (variable_trailing_context_नियमाः)
 			fprintf (stderr,
 				 _
 				 ("Variable trailing context rules entail a large performance penalty\n"));
 	}
 
-	if (reject)
+	यदि (reject)
 		real_reject = true;
 
-	if (variable_trailing_context_rules)
+	यदि (variable_trailing_context_नियमाः)
 		reject = true;
 
-	if ((ctrl.fulltbl || ctrl.fullspd) && reject) {
-		if (real_reject)
+	यदि ((ctrl.fulltbl || ctrl.fullspd) && reject) {
+		यदि (real_reject)
 			flexerror (_
 				   ("REJECT cannot be used with -f or -F"));
-		else if (ctrl.do_yylineno)
+		अन्यथा यदि (ctrl.do_yylineno)
 			flexerror (_
 				   ("%option yylineno cannot be used with REJECT"));
-		else
+		अन्यथा
 			flexerror (_
 				   ("variable trailing context rules cannot be used with -f or -F"));
 	}
 
-	if (ctrl.useecs)
+	यदि (ctrl.useecs)
 		numecs = cre8ecs (nextecm, ecgroup, ctrl.csize);
-	else
+	अन्यथा
 		numecs = ctrl.csize;
 
 	/* Now map the equivalence class for NUL to its expected place. */
 	ecgroup[0] = ecgroup[ctrl.csize];
 	NUL_ec = ABS (ecgroup[0]);
 
-	if (ctrl.useecs)
+	यदि (ctrl.useecs)
 		ccl2ecl ();
 
 	// These are used to conditionalize code in the lex skeleton
 	// that historically used to be generated by C code in flex
 	// itself; by shoving all this stuff out to the skeleton file
 	// we make it easier to retarget the code generation.
-	snprintf(buf, sizeof(buf), "Target: %s\n", ctrl.backend_name);
+	snprintf(buf, परिमाण(buf), "Target: %s\n", ctrl.backend_name);
 	comment(buf);
 	comment("START of m4 controls\n");
 
 	/* Define the start condition macros. */
 	{
-		struct Buf tmpbuf;
-		int i;
-		buf_init(&tmpbuf, sizeof(char));
-		for (i = 1; i <= lastsc; i++) {
-			char *str, *fmt = "M4_HOOK_CONST_DEFINE_STATE(%s, %d)";
+		संरचना Buf tmpbuf;
+		पूर्णाङ्क i;
+		buf_init(&tmpbuf, परिमाण(वर्ण));
+		प्रति (i = 1; i <= lastsc; i++) {
+			वर्ण *str, *fmt = "M4_HOOK_CONST_DEFINE_STATE(%s, %d)";
 			size_t strsz;
 
-			strsz = strlen(fmt) + strlen(scname[i]) + (size_t)(1 + ceil (log10(i))) + 2;
-			str = malloc(strsz);
-			if (!str)
+			strsz = वाक्यदैर्घ्यम्(fmt) + वाक्यदैर्घ्यम्(scname[i]) + (size_t)(1 + ceil (log10(i))) + 2;
+			str = स्मृतिं_देहि(strsz);
+			यदि (!str)
 				flexfatal(_("allocation of macro definition failed"));
 			snprintf(str, strsz, fmt, scname[i], i - 1);
 			buf_strappend(&tmpbuf, str);
-			free(str);
+			मुक्त(str);
 		}
 		// FIXME: Not dumped visibly because we plan to do away with the indirection
-		out_m4_define("M4_YY_SC_DEFS", tmpbuf.elts);
+		बहिर्गमनम्_m4_define("M4_YY_SC_DEFS", tmpbuf.elts);
 		buf_destroy(&tmpbuf);
 	}
 
-	if (ctrl.bison_bridge_lval)
+	यदि (ctrl.bison_bridge_lval)
 		visible_define("M4_YY_BISON_LVAL");
 
-	if (ctrl.bison_bridge_lloc)
+	यदि (ctrl.bison_bridge_lloc)
 		visible_define("<M4_YY_BISON_LLOC>");
 
-	if (extra_type != NULL)
+	यदि (extra_type != रिक्त)
 		visible_define_str ("M4_MODE_EXTRA_TYPE", extra_type);
 
 	/* always generate the tablesverify flag. */
 	visible_define_str ("M4_YY_TABLES_VERIFY", tablesverify ? "1" : "0");
 
-	if (ctrl.reentrant) {
+	यदि (ctrl.reentrant) {
 		visible_define ("M4_YY_REENTRANT");
-		if (ctrl.yytext_is_array)
+		यदि (ctrl.yytext_is_array)
 			visible_define ("M4_MODE_REENTRANT_TEXT_IS_ARRAY");
 	}
 
-	if (ctrl.do_main == trit_true)
+	यदि (ctrl.do_main == trit_true)
 		visible_define_str ( "YY_MAIN", "1");
-	else if (ctrl.do_main == trit_false)
+	अन्यथा यदि (ctrl.do_main == trit_false)
 		visible_define_str ( "YY_MAIN", "0");
 
-	if (ctrl.do_stdinit)
+	यदि (ctrl.do_stdinit)
 		visible_define ( "M4_MODE_DO_STDINIT");
-	else
+	अन्यथा
 		visible_define ( "M4_MODE_NO_DO_STDINIT");
 
 	// mode switches for YY_DO_BEFORE_ACTION code generation
-	if (ctrl.yytext_is_array)
+	यदि (ctrl.yytext_is_array)
 		visible_define ( "M4_MODE_YYTEXT_IS_ARRAY");
-	else
+	अन्यथा
 		visible_define ( "M4_MODE_NO_YYTEXT_IS_ARRAY");
-	if (yymore_used)
+	यदि (yymore_प्रयुक्तम्)
 		visible_define ( "M4_MODE_YYMORE_USED");
-	else
+	अन्यथा
 		visible_define ( "M4_MODE_NO_YYMORE_USED");
 
-	if (ctrl.fullspd)
+	यदि (ctrl.fullspd)
 		visible_define ( "M4_MODE_REAL_FULLSPD");
-	else
+	अन्यथा
 		visible_define ( "M4_MODE_NO_REAL_FULLSPD");
 
-	if (ctrl.fulltbl)
+	यदि (ctrl.fulltbl)
 		visible_define ( "M4_MODE_REAL_FULLTBL");
-	else
+	अन्यथा
 		visible_define ( "M4_MODE_NO_REAL_FULLTBL");
 
 	// niode switches for YYINPUT code generation
-	if (ctrl.use_read)
+	यदि (ctrl.use_read)
 		visible_define ( "M4_MODE_CPP_USE_READ");
-	else
+	अन्यथा
 		visible_define ( "M4_MODE_NO_CPP_USE_READ");
 
 	// mode switches for next-action code
-	if (variable_trailing_context_rules) {
+	यदि (variable_trailing_context_नियमाः) {
 		visible_define ( "M4_MODE_VARIABLE_TRAILING_CONTEXT_RULES");
-	} else {
+	} अन्यथा {
 		visible_define ( "M4_MODE_NO_VARIABLE_TRAILING_CONTEXT_RULES");
 	}
-	if (real_reject)
+	यदि (real_reject)
 		visible_define ( "M4_MODE_REAL_REJECT");
-	if (ctrl.reject_really_used)
+	यदि (ctrl.reject_really_प्रयुक्तम्)
 		visible_define ( "M4_MODE_FIND_ACTION_REJECT_REALLY_USED");
-	if (reject)
+	यदि (reject)
 		visible_define ( "M4_MODE_USES_REJECT");
-	else
+	अन्यथा
 		visible_define ( "M4_MODE_NO_USES_REJECT");
 
 	// mode switches for computing next compressed state
-	if (ctrl.usemecs)
+	यदि (ctrl.usemecs)
 		visible_define ( "M4_MODE_USEMECS");
 
 	// mode switches for find-action code
-	if (ctrl.fullspd)
+	यदि (ctrl.fullspd)
 		visible_define ( "M4_MODE_FULLSPD");
-	else if (ctrl.fulltbl)
+	अन्यथा यदि (ctrl.fulltbl)
 	    visible_define ( "M4_MODE_FIND_ACTION_FULLTBL");
-	else if (reject)
+	अन्यथा यदि (reject)
 	    visible_define ( "M4_MODE_FIND_ACTION_REJECT");
-	else
+	अन्यथा
 	    visible_define ( "M4_MODE_FIND_ACTION_COMPRESSED");
 
 	// mode switches for backup generation and gen_start_state
-	if (!ctrl.fullspd)
+	यदि (!ctrl.fullspd)
 		visible_define ( "M4_MODE_NO_FULLSPD");
-	if (bol_needed)
+	यदि (bol_needed)
 		visible_define ( "M4_MODE_BOL_NEEDED");
-	else
+	अन्यथा
 		visible_define ( "M4_MODE_NO_BOL_NEEDED");
 
 	// yylineno
-	if (ctrl.do_yylineno)
+	यदि (ctrl.do_yylineno)
 		visible_define ( "M4_MODE_YYLINENO");
 
 	// Equivalence classes
-	if (ctrl.useecs)
+	यदि (ctrl.useecs)
 		visible_define ( "M4_MODE_USEECS");
-	else
+	अन्यथा
 		visible_define ( "M4_MODE_NO_USEECS");
 
 	// mode switches for getting next action
-	if (gentables)
+	यदि (gentables)
 		visible_define ( "M4_MODE_GENTABLES");
-	else
+	अन्यथा
 		visible_define ( "M4_MODE_NO_GENTABLES");
-	if (ctrl.interactive == trit_true)
+	यदि (ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_INTERACTIVE");
-	else
+	अन्यथा
 		visible_define ( "M4_MODE_NO_INTERACTIVE");
-	if (!(ctrl.fullspd || ctrl.fulltbl))
+	यदि (!(ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NO_FULLSPD_OR_FULLTBL");
-	if (reject || ctrl.interactive == trit_true)
+	यदि (reject || ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_FIND_ACTION_REJECT_OR_INTERACTIVE");
 
-	if (ctrl.yyclass != NULL) {
+	यदि (ctrl.yyclass != रिक्त) {
 		visible_define ( "M4_MODE_YYCLASS");
-		out_m4_define("M4_YY_CLASS_NAME", ctrl.yyclass);
+		बहिर्गमनम्_m4_define("M4_YY_CLASS_NAME", ctrl.yyclass);
 	}
 
-	if (ctrl.ddebug)
+	यदि (ctrl.ddebug)
 		visible_define ( "M4_MODE_DEBUG");
 
-	if (ctrl.lex_compat)
+	यदि (ctrl.lex_compat)
 		visible_define ( "M4_MODE_OPTIONS.LEX_COMPAT");
 
-	if (ctrl.do_yywrap)
+	यदि (ctrl.do_yywrap)
 		visible_define ( "M4_MODE_YYWRAP");
-	else
+	अन्यथा
 		visible_define ( "M4_MODE_NO_YYWRAP");
 
-	if (ctrl.interactive == trit_true)
+	यदि (ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_INTERACTIVE");
 
-	if (ctrl.noyyread)
+	यदि (ctrl.noyyread)
 		visible_define("M4_MODE_USER_YYREAD");
 
-	if (is_default_backend()) {
-		if (ctrl.C_plus_plus) {
+	यदि (is_default_backend()) {
+		यदि (ctrl.C_plus_plus) {
 			visible_define ( "M4_MODE_CXX_ONLY");
-		} else {
+		} अन्यथा {
 			visible_define ( "M4_MODE_C_ONLY");
 		}
 	}
 
-	if (tablesext)
+	यदि (tablesext)
 		visible_define ( "M4_MODE_TABLESEXT");
-	if (ctrl.prefix != NULL)
-	    visible_define_str ( "M4_MODE_PREFIX", ctrl.prefix);
+	यदि (ctrl.उपसर्गः != रिक्त)
+	    visible_define_str ( "M4_MODE_PREFIX", ctrl.उपसर्गः);
 
-	if (ctrl.no_yyinput)
+	यदि (ctrl.no_yyinput)
 		visible_define("M4_MODE_NO_YYINPUT");
 
-	if (ctrl.bufsize != 0)
+	यदि (ctrl.bufsize != 0)
 	    visible_define_int("M4_MODE_YY_BUFSIZE", ctrl.bufsize);
 
-	if (ctrl.yyterminate != NULL)
+	यदि (ctrl.yyterminate != रिक्त)
 	    visible_define_str("M4_MODE_YYTERMINATE", ctrl.yyterminate);
 	
-	if (ctrl.no_yypanic)
+	यदि (ctrl.no_yypanic)
 		visible_define("M4_YY_NO_YYPANIC");
-	if (ctrl.no_yy_push_state)
+	यदि (ctrl.no_yy_प्रक्षिप_state)
 		visible_define("M4_YY_NO_PUSH_STATE");
-	if (ctrl.no_yy_pop_state)
+	यदि (ctrl.no_yy_निष्कासय_state)
 		visible_define("M4_YY_NO_POP_STATE");
-	if (ctrl.no_yy_top_state)
+	यदि (ctrl.no_yy_शिखरम्_state)
 		visible_define("M4_YY_NO_TOP_STATE");
-	if (ctrl.no_yyunput)
+	यदि (ctrl.no_yyunput)
 		visible_define("M4_YY_NO_YYUNPUT");
-	if (ctrl.no_yy_scan_buffer)
+	यदि (ctrl.no_yy_अवलोकनम्_बफर)
 		visible_define("M4_YY_NO_SCAN_BUFFER");
-	if (ctrl.no_yy_scan_bytes)
+	यदि (ctrl.no_yy_अवलोकनम्_अष्टकानि)
 		visible_define("M4_YY_NO_SCAN_BYTES");
-	if (ctrl.no_yy_scan_string)
+	यदि (ctrl.no_yy_अवलोकनम्_string)
 		visible_define("M4_YY_NO_SCAN_STRING");
-	if (ctrl.no_yyget_extra)
+	यदि (ctrl.no_yyget_extra)
 		visible_define("M4_YY_NO_GET_EXTRA");
-	if (ctrl.no_yyset_extra)
+	यदि (ctrl.no_yyset_extra)
 		visible_define("M4_YY_NO_SET_EXTRA");
-	if (ctrl.no_yyget_leng)
+	यदि (ctrl.no_yyget_leng)
 		visible_define("M4_YY_NO_GET_LENG");
-	if (ctrl.no_yyget_text)
+	यदि (ctrl.no_yyget_text)
 		visible_define("M4_YY_NO_GET_TEXT");
-	if (ctrl.no_yyget_lineno)
+	यदि (ctrl.no_yyget_lineno)
 		visible_define("M4_YY_NO_GET_LINENO");
-	if (ctrl.no_yyset_lineno)
+	यदि (ctrl.no_yyset_lineno)
 		visible_define("M4_YY_NO_SET_LINENO");
-	if (ctrl.no_yyget_column)
+	यदि (ctrl.no_yyget_column)
 		visible_define("M4_YY_NO_GET_COLUMN");
-	if (ctrl.no_yyset_column)
+	यदि (ctrl.no_yyset_column)
 		visible_define("M4_YY_NO_SET_COLUMN");
-	if (ctrl.no_yyget_in)
+	यदि (ctrl.no_yyget_अन्तर्)
 		visible_define("M4_YY_NO_GET_IN");
-	if (ctrl.no_yyset_in)
+	यदि (ctrl.no_yyset_अन्तर्)
 		visible_define("M4_YY_NO_SET_IN");
-	if (ctrl.no_yyget_out)
+	यदि (ctrl.no_yyget_बहिर्गमनम्)
 		visible_define("M4_YY_NO_GET_OUT");
-	if (ctrl.no_yyset_out)
+	यदि (ctrl.no_yyset_बहिर्गमनम्)
 		visible_define("M4_YY_NO_SET_OUT");
-	if (ctrl.no_yyget_lval)
+	यदि (ctrl.no_yyget_lval)
 		visible_define("M4_YY_NO_GET_LVAL");
-	if (ctrl.no_yyset_lval)
+	यदि (ctrl.no_yyset_lval)
 		visible_define("M4_YY_NO_SET_LVAL");
-	if (ctrl.no_yyget_lloc)
+	यदि (ctrl.no_yyget_lloc)
 		visible_define("M4_YY_NO_GET_LLOC");
-	if (ctrl.no_yyset_lloc)
+	यदि (ctrl.no_yyset_lloc)
 		visible_define("M4_YY_NO_SET_LLOC");
-	if (ctrl.no_flex_alloc)
+	यदि (ctrl.no_flex_alloc)
 		visible_define("M4_YY_NO_FLEX_ALLOC");
-	if (ctrl.no_flex_realloc)
+	यदि (ctrl.no_flex_realloc)
 		visible_define("M4_YY_NO_FLEX_REALLOC");
-	if (ctrl.no_flex_free)
+	यदि (ctrl.no_flex_free)
 		visible_define("M4_YY_NO_FLEX_FREE");
-	if (ctrl.no_get_debug)
+	यदि (ctrl.no_get_debug)
 		visible_define("M4_YY_NO_GET_DEBUG");
-	if (ctrl.no_set_debug)
+	यदि (ctrl.no_समुच्चयः_debug)
 		visible_define("M4_YY_NO_SET_DEBUG");
 
-	if (ctrl.no_unistd)
+	यदि (ctrl.no_unistd)
 		visible_define("M4_YY_NO_UNISTD_H");
 
-	if (ctrl.always_interactive)
+	यदि (ctrl.always_interactive)
 		visible_define("M4_YY_ALWAYS_INTERACTIVE");
-	if (ctrl.never_interactive)
+	यदि (ctrl.never_interactive)
 		visible_define("M4_YY_NEVER_INTERACTIVE");
-	if (ctrl.stack_used)
+	यदि (ctrl.राशिः_प्रयुक्तम्)
 		visible_define("M4_YY_STACK_USED");
 
-	if (ctrl.rewrite)
+	यदि (ctrl.rewrite)
 		visible_define ( "M4_MODE_REWRITE");
-	else
+	अन्यथा
 		visible_define ( "M4_MODE_NO_REWRITE");
 
 	comment("END of m4 controls\n");
-	out ("\n");
+	बहिर्गमनम् ("\n");
 }
 
 /* set_up_initial_allocations - allocate memory for internal tables */
 
-void set_up_initial_allocations (void)
+शून्य समुच्चयः_ऊर्ध्वम्_initial_allocations (शून्य)
 {
-	maximum_mns = (ctrl.long_align ? MAXIMUM_MNS_LONG : MAXIMUM_MNS);
+	अधिकतमम्_mns = (ctrl.long_align ? अधिकतमम्_MNS_LONG : अधिकतमम्_MNS);
 	current_mns = INITIAL_MNS;
 	firstst = allocate_integer_array (current_mns);
 	lastst = allocate_integer_array (current_mns);
@@ -1692,32 +1692,32 @@ void set_up_initial_allocations (void)
 	trans1 = allocate_integer_array (current_mns);
 	trans2 = allocate_integer_array (current_mns);
 	accptnum = allocate_integer_array (current_mns);
-	assoc_rule = allocate_integer_array (current_mns);
+	assoc_नियमः = allocate_integer_array (current_mns);
 	state_type = allocate_integer_array (current_mns);
 
-	current_max_rules = INITIAL_MAX_RULES;
-	rule_type = allocate_integer_array (current_max_rules);
-	rule_linenum = allocate_integer_array (current_max_rules);
-	rule_useful = allocate_array(current_max_rules, sizeof(char));
-	rule_has_nl = allocate_array(current_max_rules, sizeof(char));
+	current_max_नियमाः = INITIAL_MAX_नियमाः;
+	नियमः_type = allocate_integer_array (current_max_नियमाः);
+	नियमः_linenum = allocate_integer_array (current_max_नियमाः);
+	नियमः_useful = allocate_array(current_max_नियमाः, परिमाण(वर्ण));
+	नियमः_has_nl = allocate_array(current_max_नियमाः, परिमाण(वर्ण));
 
 	current_max_scs = INITIAL_MAX_SCS;
 	scset = allocate_integer_array (current_max_scs);
 	scbol = allocate_integer_array (current_max_scs);
-	scxclu = allocate_array(current_max_scs, sizeof(char));
-	sceof = allocate_array(current_max_scs, sizeof(char));
+	scxclu = allocate_array(current_max_scs, परिमाण(वर्ण));
+	sceof = allocate_array(current_max_scs, परिमाण(वर्ण));
 	scname = allocate_char_ptr_array (current_max_scs);
 
 	current_maxccls = INITIAL_MAX_CCLS;
 	cclmap = allocate_integer_array (current_maxccls);
 	ccllen = allocate_integer_array (current_maxccls);
 	cclng = allocate_integer_array (current_maxccls);
-	ccl_has_nl = allocate_array(current_maxccls, sizeof(char));
+	ccl_has_nl = allocate_array(current_maxccls, परिमाण(वर्ण));
 
-	current_max_ccl_tbl_size = INITIAL_MAX_CCL_TBL_SIZE;
-	ccltbl = allocate_Character_array (current_max_ccl_tbl_size);
+	current_max_ccl_tbl_आकार = INITIAL_MAX_CCL_TBL_आकार;
+	ccltbl = allocate_Character_array (current_max_ccl_tbl_आकार);
 
-	current_max_dfa_size = INITIAL_MAX_DFA_SIZE;
+	current_max_dfa_आकार = INITIAL_MAX_DFA_आकार;
 
 	current_max_xpairs = INITIAL_MAX_XPAIRS;
 	nxt = allocate_integer_array (current_max_xpairs);
@@ -1727,30 +1727,30 @@ void set_up_initial_allocations (void)
 	tnxt = allocate_integer_array (current_max_template_xpairs);
 
 	current_max_dfas = INITIAL_MAX_DFAS;
-	base = allocate_integer_array (current_max_dfas);
+	आधारः = allocate_integer_array (current_max_dfas);
 	def = allocate_integer_array (current_max_dfas);
 	dfasiz = allocate_integer_array (current_max_dfas);
 	accsiz = allocate_integer_array (current_max_dfas);
 	dhash = allocate_integer_array (current_max_dfas);
 	dss = allocate_int_ptr_array (current_max_dfas);
 	dfaacc = allocate_array(current_max_dfas,
-		sizeof(union dfaacc_union));
+		परिमाण(सङ्घ dfaacc_union));
 
-	nultrans = NULL;
+	nultrans = रिक्त;
 }
 
 
-void usage (void)
+शून्य usage (शून्य)
 {
 	FILE   *f = stdout;
 
-	if (!env.did_outfilename) {
-		snprintf (outfile_path, sizeof(outfile_path), outfile_template,
-			  ctrl.prefix, suffix());
-		env.outfilename = outfile_path;
+	यदि (!env.did_outfilename) {
+		snprintf (outfile_मार्गः, परिमाण(outfile_मार्गः), outfile_template,
+			  ctrl.उपसर्गः, suffix());
+		env.outfilename = outfile_मार्गः;
 	}
 
-	fprintf (f, _("Usage: %s [OPTIONS] [FILE]...\n"), program_name);
+	fprintf (f, _("Usage: %s [OPTIONS] [FILE]...\n"), क्रमादेशः_name);
 	fprintf (f,
 		 _
 		 ("Generates programs that perform pattern-matching on text.\n"
@@ -1808,6 +1808,6 @@ void usage (void)
 		  "  -?\n"
 		  "  -h, --help              produce this help message\n"
 		  "  -V, --version           report %s version\n"),
-		 backing_name, "flex", outfile_path, "flex");
+		 backing_name, "flex", outfile_मार्गः, "flex");
 
 }

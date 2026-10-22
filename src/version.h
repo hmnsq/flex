@@ -1,1 +1,1 @@
-#define FLEX_VERSION VERSION
+#परिभाषय FLEX_संस्करणम् संस्करणम्

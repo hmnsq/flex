@@ -33,32 +33,32 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
-#include "tables.h"
+#अन्तर्भाव "flexdef.h"
+#अन्तर्भाव "tables.h"
 
 /* These typedefs are only used for computing footprint sizes,
  * You need to make sure they match reality in the skeleton file to
  * get accurate numbers, but they don't otherwise matter.
  */
-typedef char YY_CHAR;
-struct yy_trans_info {int32_t yy_verify; int32_t yy_nxt;};
+प्रकारनिर्देश वर्ण YY_CHAR;
+संरचना yy_trans_info {int32_t yy_verify; int32_t yy_nxt;};
 
 /* declare functions that have forward references */
 
-static void genecs(void);
+स्थिर शून्य genecs(शून्य);
 
-struct packtype_t *optimize_pack(size_t sz)
+संरचना packtype_t *optimize_pack(size_t sz)
 {
 	/* FIXME: There's a 32-bit assumption lurking here */
-	static struct packtype_t out;
-	if (sz == 0) {
-		out.name  = ctrl.long_align ? "M4_HOOK_INT32" : "M4_HOOK_INT16";
-		out.width = ctrl.long_align ? 32 : 16;
-	} else {
-		out.name = (ctrl.long_align || sz >= INT16_MAX) ? "M4_HOOK_INT32" : "M4_HOOK_INT16";
-		out.width = (ctrl.long_align || sz >= INT16_MAX) ? 32 : 16;
+	स्थिर संरचना packtype_t बहिर्गमनम्;
+	यदि (sz == 0) {
+		बहिर्गमनम्.name  = ctrl.long_align ? "M4_HOOK_INT32" : "M4_HOOK_INT16";
+		बहिर्गमनम्.विस्तारः = ctrl.long_align ? 32 : 16;
+	} अन्यथा {
+		बहिर्गमनम्.name = (ctrl.long_align || sz >= INT16_MAX) ? "M4_HOOK_INT32" : "M4_HOOK_INT16";
+		बहिर्गमनम्.विस्तारः = (ctrl.long_align || sz >= INT16_MAX) ? 32 : 16;
 	}
-	return &out;
+	प्रत्यागम &बहिर्गमनम्;
 }
 
 /* Almost everything is done in terms of arrays starting at 1, so provide
@@ -70,45 +70,45 @@ struct packtype_t *optimize_pack(size_t sz)
 /** Make the table for possible eol matches.
  *  @return the newly allocated rule_can_match_eol table
  */
-static struct yytbl_data *mkeoltbl (void)
+स्थिर संरचना yytbl_दत्त *mkeoltbl (शून्य)
 {
-	int     i;
+	पूर्णाङ्क     i;
 	flex_int8_t *tdata = 0;
-	struct yytbl_data *tbl;
+	संरचना yytbl_दत्त *tbl;
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_RULE_CAN_MATCH_EOL);
+	tbl = शून्यस्मृतिं_देहि(1, परिमाण (संरचना yytbl_दत्त));
+	yytbl_दत्त_init (tbl, YYTD_ID_नियमः_CAN_मेलनम्_EOL);
 	tbl->td_flags = YYTD_DATA8;
-	tbl->td_lolen = (flex_uint32_t) (num_rules + 1);
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen, sizeof (flex_int8_t));
+	tbl->td_lolen = (flex_uint32_t) (अङ्कः_नियमाः + 1);
+	tbl->td_दत्त = tdata =
+		शून्यस्मृतिं_देहि(tbl->td_lolen, परिमाण (flex_int8_t));
 
-	for (i = 1; i <= num_rules; i++)
-		tdata[i] = rule_has_nl[i] ? 1 : 0;
+	प्रति (i = 1; i <= अङ्कः_नियमाः; i++)
+		tdata[i] = नियमः_has_nl[i] ? 1 : 0;
 
-	return tbl;
+	प्रत्यागम tbl;
 }
 
 /* Generate the table for possible eol matches. */
-static void geneoltbl (void)
+स्थिर शून्य geneoltbl (शून्य)
 {
-	int     i;
-	struct packtype_t *ptype = optimize_pack(num_rules);
+	पूर्णाङ्क     i;
+	संरचना packtype_t *ptype = optimize_pack(अङ्कः_नियमाः);
 
 	outn ("m4_ifdef( [[M4_MODE_YYLINENO]],[[");
-	out_str ("m4_define([[M4_HOOK_EOLTABLE_TYPE]], [[%s]])\n", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_EOLTABLE_SIZE]], [[%d]])", num_rules + 1);
+	बहिर्गमनम्_str ("m4_define([[M4_HOOK_EOLTABLE_TYPE]], [[%s]])\n", ptype->name);
+	बहिर्गमनम्_dec ("m4_define([[M4_HOOK_EOLTABLE_SIZE]], [[%d]])", अङ्कः_नियमाः + 1);
 	outn ("m4_define([[M4_HOOK_EOLTABLE_BODY]], [[m4_dnl");
 
-	if (gentables) {
-		for (i = 1; i <= num_rules; i++) {
-			out_dec ("%d, ", rule_has_nl[i] ? 1 : 0);
+	यदि (gentables) {
+		प्रति (i = 1; i <= अङ्कः_नियमाः; i++) {
+			बहिर्गमनम्_dec ("%d, ", नियमः_has_nl[i] ? 1 : 0);
 			/* format nicely, 20 numbers per line. */
-			if ((i % 20) == 19)
-				out ("\n    ");
+			यदि ((i % 20) == 19)
+				बहिर्गमनम् ("\n    ");
 		}
 	}
-	footprint += num_rules * ptype->width;
+	footprint += अङ्कः_नियमाः * ptype->विस्तारः;
 	outn ("]])");
 	outn ("]])");
 }
@@ -121,24 +121,24 @@ static void geneoltbl (void)
  * @return the newly allocated trans table
  */
 
-static struct yytbl_data *mkctbl (void)
+स्थिर संरचना yytbl_दत्त *mkctbl (शून्य)
 {
-	int i;
-	struct yytbl_data *tbl = 0;
+	पूर्णाङ्क i;
+	संरचना yytbl_दत्त *tbl = 0;
 	flex_int32_t *tdata = 0, curr = 0;
-	int     end_of_buffer_action = num_rules + 1;
+	पूर्णाङ्क     अन्तः_सम्बन्धि_बफर_action = अङ्कः_नियमाः + 1;
 
-	struct packtype_t *ptype = optimize_pack(tblend + 2 + 1);
-	out_str ("m4_define([[M4_HOOK_MKCTBL_TYPE]], [[%s]])", ptype->name);
+	संरचना packtype_t *ptype = optimize_pack(tblend + 2 + 1);
+	बहिर्गमनम्_str ("m4_define([[M4_HOOK_MKCTBL_TYPE]], [[%s]])", ptype->name);
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_TRANSITION);
+	tbl = शून्यस्मृतिं_देहि(1, परिमाण (संरचना yytbl_दत्त));
+	yytbl_दत्त_init (tbl, YYTD_ID_TRANSITION);
 	tbl->td_flags = YYTD_DATA32 | YYTD_STRUCT;
 	tbl->td_hilen = 0;
 	tbl->td_lolen = (flex_uint32_t) (tblend + 2 + 1);	/* number of structs */
 
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen * 2, sizeof (flex_int32_t));
+	tbl->td_दत्त = tdata =
+		शून्यस्मृतिं_देहि(tbl->td_lolen * 2, परिमाण (flex_int32_t));
 
 	/* We want the transition to be represented as the offset to the
 	 * next state, not the actual state number, which is what it currently
@@ -158,14 +158,14 @@ static struct yytbl_data *mkctbl (void)
 	 * there's room for jam entries for other characters.
 	 */
 
-	while (tblend + 2 >= current_max_xpairs)
+	यावत् (tblend + 2 >= current_max_xpairs)
 		expand_nxt_chk ();
 
-	while (lastdfa + 1 >= current_max_dfas)
+	यावत् (lastdfa + 1 >= current_max_dfas)
 		increase_max_dfas ();
 
-	base[lastdfa + 1] = tblend + 2;
-	nxt[tblend + 1] = end_of_buffer_action;
+	आधारः[lastdfa + 1] = tblend + 2;
+	nxt[tblend + 1] = अन्तः_सम्बन्धि_बफर_action;
 	chk[tblend + 1] = numecs + 1;
 	chk[tblend + 2] = 1;	/* anything but EOB */
 
@@ -175,34 +175,34 @@ static struct yytbl_data *mkctbl (void)
 	/* Make sure every state has an end-of-buffer transition and an
 	 * action #.
 	 */
-	for (i = 0; i <= lastdfa; ++i) {
-		int     anum = dfaacc[i].dfaacc_state;
-		int     offset = base[i];
+	प्रति (i = 0; i <= lastdfa; ++i) {
+		पूर्णाङ्क     anum = dfaacc[i].dfaacc_state;
+		पूर्णाङ्क     विस्थापनम् = आधारः[i];
 
-		chk[offset] = EOB_POSITION;
-		chk[offset - 1] = ACTION_POSITION;
-		nxt[offset - 1] = anum;	/* action number */
+		chk[विस्थापनम्] = EOB_POSITION;
+		chk[विस्थापनम् - 1] = ACTION_POSITION;
+		nxt[विस्थापनम् - 1] = anum;	/* action number */
 	}
 
-	for (i = 0; i <= tblend; ++i) {
-		if (chk[i] == EOB_POSITION) {
+	प्रति (i = 0; i <= tblend; ++i) {
+		यदि (chk[i] == EOB_POSITION) {
 			tdata[curr++] = 0;
-			tdata[curr++] = base[lastdfa + 1] - i;
+			tdata[curr++] = आधारः[lastdfa + 1] - i;
 		}
 
-		else if (chk[i] == ACTION_POSITION) {
+		अन्यथा यदि (chk[i] == ACTION_POSITION) {
 			tdata[curr++] = 0;
 			tdata[curr++] = nxt[i];
 		}
 
-		else if (chk[i] > numecs || chk[i] == 0) {
+		अन्यथा यदि (chk[i] > numecs || chk[i] == 0) {
 			tdata[curr++] = 0;
 			tdata[curr++] = 0;
 		}
-		else {		/* verify, transition */
+		अन्यथा {		/* verify, transition */
 
 			tdata[curr++] = chk[i];
-			tdata[curr++] = base[nxt[i]] - (i - chk[i]);
+			tdata[curr++] = आधारः[nxt[i]] - (i - chk[i]);
 		}
 	}
 
@@ -213,45 +213,45 @@ static struct yytbl_data *mkctbl (void)
 	tdata[curr++] = chk[tblend + 2];
 	tdata[curr++] = nxt[tblend + 2];
 
-	return tbl;
+	प्रत्यागम tbl;
 }
 
 
 /** Make start_state_list table.
  *  @return the newly allocated start_state_list table
  */
-static struct yytbl_data *mkssltbl (void)
+स्थिर संरचना yytbl_दत्त *mkssltbl (शून्य)
 {
-	struct yytbl_data *tbl = 0;
+	संरचना yytbl_दत्त *tbl = 0;
 	flex_int32_t *tdata = 0;
 	flex_int32_t i;
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_START_STATE_LIST);
+	tbl = शून्यस्मृतिं_देहि(1, परिमाण (संरचना yytbl_दत्त));
+	yytbl_दत्त_init (tbl, YYTD_ID_START_STATE_LIST);
 	tbl->td_flags = YYTD_DATA32 | YYTD_PTRANS;
 	tbl->td_hilen = 0;
 	tbl->td_lolen = (flex_uint32_t) (lastsc * 2 + 1);
 
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen, sizeof (flex_int32_t));
+	tbl->td_दत्त = tdata =
+		शून्यस्मृतिं_देहि(tbl->td_lolen, परिमाण (flex_int32_t));
 
-	for (i = 0; i <= lastsc * 2; ++i)
-		tdata[i] = base[i];
+	प्रति (i = 0; i <= lastsc * 2; ++i)
+		tdata[i] = आधारः[i];
 
-	return tbl;
+	प्रत्यागम tbl;
 }
 
 
 
 /* genctbl - generates full speed compressed transition table */
 
-static void genctbl(void)
+स्थिर शून्य genctbl(शून्य)
 {
-	int i;
-	int     end_of_buffer_action = num_rules + 1;
+	पूर्णाङ्क i;
+	पूर्णाङ्क     अन्तः_सम्बन्धि_बफर_action = अङ्कः_नियमाः + 1;
 
 	/* Table of verify for transition and offset to next state. */
-	out_dec ("m4_define([[M4_HOOK_TRANSTABLE_SIZE]], [[%d]])", tblend + 2 + 1);
+	बहिर्गमनम्_dec ("m4_define([[M4_HOOK_TRANSTABLE_SIZE]], [[%d]])", tblend + 2 + 1);
 	outn ("m4_define([[M4_HOOK_TRANSTABLE_BODY]], [[m4_dnl");
 
 	/* We want the transition to be represented as the offset to the
@@ -272,14 +272,14 @@ static void genctbl(void)
 	 * there's room for jam entries for other characters.
 	 */
 
-	while (tblend + 2 >= current_max_xpairs)
+	यावत् (tblend + 2 >= current_max_xpairs)
 		expand_nxt_chk ();
 
-	while (lastdfa + 1 >= current_max_dfas)
+	यावत् (lastdfa + 1 >= current_max_dfas)
 		increase_max_dfas ();
 
-	base[lastdfa + 1] = tblend + 2;
-	nxt[tblend + 1] = end_of_buffer_action;
+	आधारः[lastdfa + 1] = tblend + 2;
+	nxt[tblend + 1] = अन्तः_सम्बन्धि_बफर_action;
 	chk[tblend + 1] = numecs + 1;
 	chk[tblend + 2] = 1;	/* anything but EOB */
 
@@ -289,107 +289,107 @@ static void genctbl(void)
 	/* Make sure every state has an end-of-buffer transition and an
 	 * action #.
 	 */
-	for (i = 0; i <= lastdfa; ++i) {
-		int     anum = dfaacc[i].dfaacc_state;
-		int     offset = base[i];
+	प्रति (i = 0; i <= lastdfa; ++i) {
+		पूर्णाङ्क     anum = dfaacc[i].dfaacc_state;
+		पूर्णाङ्क     विस्थापनम् = आधारः[i];
 
-		chk[offset] = EOB_POSITION;
-		chk[offset - 1] = ACTION_POSITION;
-		nxt[offset - 1] = anum;	/* action number */
+		chk[विस्थापनम्] = EOB_POSITION;
+		chk[विस्थापनम् - 1] = ACTION_POSITION;
+		nxt[विस्थापनम् - 1] = anum;	/* action number */
 	}
 
-	for (i = 0; i <= tblend; ++i) {
-		if (chk[i] == EOB_POSITION)
-			transition_struct_out (0, base[lastdfa + 1] - i);
+	प्रति (i = 0; i <= tblend; ++i) {
+		यदि (chk[i] == EOB_POSITION)
+			transition_struct_बहिर्गमनम् (0, आधारः[lastdfa + 1] - i);
 
-		else if (chk[i] == ACTION_POSITION)
-			transition_struct_out (0, nxt[i]);
+		अन्यथा यदि (chk[i] == ACTION_POSITION)
+			transition_struct_बहिर्गमनम् (0, nxt[i]);
 
-		else if (chk[i] > numecs || chk[i] == 0)
-			transition_struct_out (0, 0);	/* unused slot */
+		अन्यथा यदि (chk[i] > numecs || chk[i] == 0)
+			transition_struct_बहिर्गमनम् (0, 0);	/* unused slot */
 
-		else		/* verify, transition */
-			transition_struct_out (chk[i],
-					       base[nxt[i]] - (i -
+		अन्यथा		/* verify, transition */
+			transition_struct_बहिर्गमनम् (chk[i],
+					       आधारः[nxt[i]] - (i -
 							       chk[i]));
 	}
 
 
 	/* Here's the final, end-of-buffer state. */
-	transition_struct_out (chk[tblend + 1], nxt[tblend + 1]);
-	transition_struct_out (chk[tblend + 2], nxt[tblend + 2]);
+	transition_struct_बहिर्गमनम् (chk[tblend + 1], nxt[tblend + 1]);
+	transition_struct_बहिर्गमनम् (chk[tblend + 2], nxt[tblend + 2]);
 
 	outn ("]])");
-	footprint += sizeof(struct yy_trans_info) * (tblend + 2 + 1);
+	footprint += परिमाण(संरचना yy_trans_info) * (tblend + 2 + 1);
 
-	out_dec ("m4_define([[M4_HOOK_STARTTABLE_SIZE]], [[%d]])", lastsc * 2 + 1);
-	if (gentables) {
+	बहिर्गमनम्_dec ("m4_define([[M4_HOOK_STARTTABLE_SIZE]], [[%d]])", lastsc * 2 + 1);
+	यदि (gentables) {
 		outn ("m4_define([[M4_HOOK_STARTTABLE_BODY]], [[m4_dnl");
-		for (i = 0; i <= lastsc * 2; ++i)
-			out_dec ("M4_HOOK_STATE_ENTRY_FORMAT(%d)", base[i]);
+		प्रति (i = 0; i <= lastsc * 2; ++i)
+			बहिर्गमनम्_dec ("M4_HOOK_STATE_ENTRY_FORMAT(%d)", आधारः[i]);
 
-		dataend (NULL);
+		dataend (रिक्त);
 		outn("]])");
-		footprint +=  sizeof(struct yy_trans_info *) * (lastsc * 2 + 1);
+		footprint +=  परिमाण(संरचना yy_trans_info *) * (lastsc * 2 + 1);
 	}
 
-	if (ctrl.useecs)
+	यदि (ctrl.useecs)
 		genecs ();
 }
 
 
 /* mkecstbl - Make equivalence-class tables.  */
 
-static struct yytbl_data *mkecstbl (void)
+स्थिर संरचना yytbl_दत्त *mkecstbl (शून्य)
 {
-	int i;
-	struct yytbl_data *tbl = 0;
+	पूर्णाङ्क i;
+	संरचना yytbl_दत्त *tbl = 0;
 	flex_int32_t *tdata = 0;
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_EC);
+	tbl = शून्यस्मृतिं_देहि(1, परिमाण (संरचना yytbl_दत्त));
+	yytbl_दत्त_init (tbl, YYTD_ID_EC);
 	tbl->td_flags |= YYTD_DATA32;
 	tbl->td_hilen = 0;
 	tbl->td_lolen = (flex_uint32_t) ctrl.csize;
 
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen, sizeof (flex_int32_t));
+	tbl->td_दत्त = tdata =
+		शून्यस्मृतिं_देहि(tbl->td_lolen, परिमाण (flex_int32_t));
 
-	for (i = 1; i < ctrl.csize; ++i) {
+	प्रति (i = 1; i < ctrl.csize; ++i) {
 		ecgroup[i] = ABS (ecgroup[i]);
 		tdata[i] = ecgroup[i];
 	}
 
-	return tbl;
+	प्रत्यागम tbl;
 }
 
 /* Generate equivalence-class tables. */
 
-static void genecs(void)
+स्थिर शून्य genecs(शून्य)
 {
-	int ch, row;
-	int     numrows;
+	पूर्णाङ्क ch, row;
+	पूर्णाङ्क     numrows;
 
-	out_dec ("m4_define([[M4_HOOK_ECSTABLE_SIZE]], [[%d]])", ctrl.csize);
+	बहिर्गमनम्_dec ("m4_define([[M4_HOOK_ECSTABLE_SIZE]], [[%d]])", ctrl.csize);
 	outn ("m4_define([[M4_HOOK_ECSTABLE_BODY]], [[m4_dnl");
 
-	for (ch = 1; ch < ctrl.csize; ++ch) {
+	प्रति (ch = 1; ch < ctrl.csize; ++ch) {
 		ecgroup[ch] = ABS (ecgroup[ch]);
 		mkdata (ecgroup[ch]);
 	}
 
-	dataend (NULL);
+	dataend (रिक्त);
 	outn("]])");
-	footprint += sizeof(YY_CHAR) * ctrl.csize;
+	footprint += परिमाण(YY_CHAR) * ctrl.csize;
 
-	if (env.trace) {
+	यदि (env.trace) {
 		fputs (_("\n\nEquivalence Classes:\n\n"), stderr);
 
 		/* Print in 8 columns */
 		numrows = ctrl.csize / 8;
 
-		for (row = 0; row < numrows; ++row) {
-			for (ch = row; ch < ctrl.csize; ch += numrows) {
+		प्रति (row = 0; row < numrows; ++row) {
+			प्रति (ch = row; ch < ctrl.csize; ch += numrows) {
 				fprintf (stderr, "%4s = %-2d",
 					 readable_form (ch), ecgroup[ch]);
 
@@ -405,68 +405,68 @@ static void genecs(void)
  * you should call mkecstbl() after this.
  */
 
-static struct yytbl_data *mkftbl(void)
+स्थिर संरचना yytbl_दत्त *mkftbl(शून्य)
 {
-	int i;
-	int     end_of_buffer_action = num_rules + 1;
-	struct yytbl_data *tbl;
+	पूर्णाङ्क i;
+	पूर्णाङ्क     अन्तः_सम्बन्धि_बफर_action = अङ्कः_नियमाः + 1;
+	संरचना yytbl_दत्त *tbl;
 	flex_int32_t *tdata = 0;
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_ACCEPT);
+	tbl = शून्यस्मृतिं_देहि(1, परिमाण (संरचना yytbl_दत्त));
+	yytbl_दत्त_init (tbl, YYTD_ID_ACCEPT);
 	tbl->td_flags |= YYTD_DATA32;
 	tbl->td_hilen = 0;	/* it's a one-dimensional array */
 	tbl->td_lolen = (flex_uint32_t) (lastdfa + 1);
 
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen, sizeof (flex_int32_t));
+	tbl->td_दत्त = tdata =
+		शून्यस्मृतिं_देहि(tbl->td_lolen, परिमाण (flex_int32_t));
 
-	dfaacc[end_of_buffer_state].dfaacc_state = end_of_buffer_action;
+	dfaacc[अन्तः_सम्बन्धि_बफर_state].dfaacc_state = अन्तः_सम्बन्धि_बफर_action;
 
-	for (i = 1; i <= lastdfa; ++i) {
-		int anum = dfaacc[i].dfaacc_state;
+	प्रति (i = 1; i <= lastdfa; ++i) {
+		पूर्णाङ्क anum = dfaacc[i].dfaacc_state;
 
 		tdata[i] = anum;
 
-		if (env.trace && anum)
+		यदि (env.trace && anum)
 			fprintf (stderr, _("state # %d accepts: [%d]\n"),
 				 i, anum);
 	}
 
-	return tbl;
+	प्रत्यागम tbl;
 }
 
 
 /* genftbl - generate full transition table */
 
-static void genftbl(void)
+स्थिर शून्य genftbl(शून्य)
 {
-	int i;
-	int     end_of_buffer_action = num_rules + 1;
-	struct packtype_t *ptype = optimize_pack(num_rules + 1);
+	पूर्णाङ्क i;
+	पूर्णाङ्क     अन्तः_सम्बन्धि_बफर_action = अङ्कः_नियमाः + 1;
+	संरचना packtype_t *ptype = optimize_pack(अङ्कः_नियमाः + 1);
 
-	dfaacc[end_of_buffer_state].dfaacc_state = end_of_buffer_action;
+	dfaacc[अन्तः_सम्बन्धि_बफर_state].dfaacc_state = अन्तः_सम्बन्धि_बफर_action;
 
 	outn ("m4_define([[M4_HOOK_NEED_ACCEPT]], 1)");
-	out_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_ACCEPT_SIZE]], [[%d]])", lastdfa + 1);
+	बहिर्गमनम्_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
+	बहिर्गमनम्_dec ("m4_define([[M4_HOOK_ACCEPT_SIZE]], [[%d]])", lastdfa + 1);
 	outn ("m4_define([[M4_HOOK_ACCEPT_BODY]], [[m4_dnl");
 
-	for (i = 1; i <= lastdfa; ++i) {
-		int anum = dfaacc[i].dfaacc_state;
+	प्रति (i = 1; i <= lastdfa; ++i) {
+		पूर्णाङ्क anum = dfaacc[i].dfaacc_state;
 
 		mkdata (anum);
 
-		if (env.trace && anum)
+		यदि (env.trace && anum)
 			fprintf (stderr, _("state # %d accepts: [%d]\n"),
 				 i, anum);
 	}
 
-	dataend (NULL);
+	dataend (रिक्त);
 	outn("]])");
-	footprint += (lastdfa + 1) * ptype->width;
+	footprint += (lastdfa + 1) * ptype->विस्तारः;
 
-	if (ctrl.useecs)
+	यदि (ctrl.useecs)
 		genecs ();
 
 	/* Don't have to dump the actual full table entries - they were
@@ -476,16 +476,16 @@ static void genftbl(void)
 
 /* gentabs - generate data statements for the transition tables */
 
-static void gentabs(void)
+स्थिर शून्य gentabs(शून्य)
 {
-	int     sz, i, j, k, *accset, nacc, *acc_array, total_states;
-	int     end_of_buffer_action = num_rules + 1;
-	struct yytbl_data *yyacc_tbl = 0, *yymeta_tbl = 0, *yybase_tbl = 0,
+	पूर्णाङ्क     sz, i, j, k, *accset, nacc, *acc_array, योग_अवस्थाः;
+	पूर्णाङ्क     अन्तः_सम्बन्धि_बफर_action = अङ्कः_नियमाः + 1;
+	संरचना yytbl_दत्त *yyacc_tbl = 0, *yymeta_tbl = 0, *yybase_tbl = 0,
 	    *yydef_tbl = 0, *yynxt_tbl = 0, *yychk_tbl = 0, *yyacclist_tbl=0;
-	flex_int32_t *yyacc_data = 0, *yybase_data = 0, *yydef_data = 0,
-	    *yynxt_data = 0, *yychk_data = 0, *yyacclist_data=0;
+	flex_int32_t *yyacc_दत्त = 0, *yybase_दत्त = 0, *yydef_दत्त = 0,
+	    *yynxt_दत्त = 0, *yychk_दत्त = 0, *yyacclist_दत्त=0;
 	flex_int32_t yybase_curr = 0, yyacclist_curr=0,yyacc_curr=0;
-	struct packtype_t *ptype;
+	संरचना packtype_t *ptype;
 
 	acc_array = allocate_integer_array (current_max_dfas);
 	nummt = 0;
@@ -495,81 +495,81 @@ static void gentabs(void)
 	 * In order to recover the previous state, we effectively need
 	 * to keep backing-up information.
 	 */
-	++num_backing_up;
+	++अङ्कः_backing_ऊर्ध्वम्;
 
-	if (reject) {
+	यदि (reject) {
 		/* Write out accepting list and pointer list.
 
 		 * First we generate the "yy_acclist" array.  In the process,
 		 * we compute the indices that will go into the "yy_accept"
 		 * array, and save the indices in the dfaacc array.
 		 */
-		int     EOB_accepting_list[2];
+		पूर्णाङ्क     EOB_accepting_list[2];
 
 		/* Set up accepting structures for the End Of Buffer state. */
 		EOB_accepting_list[0] = 0;
-		EOB_accepting_list[1] = end_of_buffer_action;
-		accsiz[end_of_buffer_state] = 1;
-		dfaacc[end_of_buffer_state].dfaacc_set =
+		EOB_accepting_list[1] = अन्तः_सम्बन्धि_बफर_action;
+		accsiz[अन्तः_सम्बन्धि_बफर_state] = 1;
+		dfaacc[अन्तः_सम्बन्धि_बफर_state].dfaacc_समुच्चयः =
 		    EOB_accepting_list;
 
 		sz = MAX (numas, 1) + 1;
 		ptype = optimize_pack(sz);
-		out_str ("m4_define([[M4_HOOK_ACCLIST_TYPE]], [[%s]])", ptype->name);
-		out_dec ("m4_define([[M4_HOOK_ACCLIST_SIZE]], [[%d]])", sz);
+		बहिर्गमनम्_str ("m4_define([[M4_HOOK_ACCLIST_TYPE]], [[%s]])", ptype->name);
+		बहिर्गमनम्_dec ("m4_define([[M4_HOOK_ACCLIST_SIZE]], [[%d]])", sz);
 		outn ("m4_define([[M4_HOOK_ACCLIST_BODY]], [[m4_dnl");
 
-		yyacclist_tbl = calloc(1,sizeof(struct yytbl_data));
-		yytbl_data_init (yyacclist_tbl, YYTD_ID_ACCLIST);
+		yyacclist_tbl = शून्यस्मृतिं_देहि(1,परिमाण(संरचना yytbl_दत्त));
+		yytbl_दत्त_init (yyacclist_tbl, YYTD_ID_ACCLIST);
 		yyacclist_tbl->td_lolen  = (flex_uint32_t) (MAX(numas,1) + 1);
-		yyacclist_tbl->td_data = yyacclist_data =
-		    calloc(yyacclist_tbl->td_lolen, sizeof (flex_int32_t));
+		yyacclist_tbl->td_दत्त = yyacclist_दत्त =
+		    शून्यस्मृतिं_देहि(yyacclist_tbl->td_lolen, परिमाण (flex_int32_t));
 		yyacclist_curr = 1;
 
 		j = 1;		/* index into "yy_acclist" array */
 
-		for (i = 1; i <= lastdfa; ++i) {
+		प्रति (i = 1; i <= lastdfa; ++i) {
 			acc_array[i] = j;
 
-			if (accsiz[i] != 0) {
-				accset = dfaacc[i].dfaacc_set;
+			यदि (accsiz[i] != 0) {
+				accset = dfaacc[i].dfaacc_समुच्चयः;
 				nacc = accsiz[i];
 
-				if (env.trace)
+				यदि (env.trace)
 					fprintf (stderr,
 						 _("state # %d accepts: "),
 						 i);
 
-				for (k = 1; k <= nacc; ++k) {
-					int     accnum = accset[k];
+				प्रति (k = 1; k <= nacc; ++k) {
+					पूर्णाङ्क     accnum = accset[k];
 
 					++j;
 
-					if (variable_trailing_context_rules
+					यदि (variable_trailing_context_नियमाः
 					    && !(accnum &
-						 YY_TRAILING_HEAD_MASK)
+						 YY_TRAILING_शीर्ष_आवरणम्)
 					    && accnum > 0
-					    && accnum <= num_rules
-					    && rule_type[accnum] ==
-					    RULE_VARIABLE) {
+					    && accnum <= अङ्कः_नियमाः
+					    && नियमः_type[accnum] ==
+					    नियमः_VARIABLE) {
 						/* Special hack to flag
 						 * accepting number as part
 						 * of trailing context rule.
 						 */
-						accnum |= YY_TRAILING_MASK;
+						accnum |= YY_TRAILING_आवरणम्;
 					}
 
 					mkdata (accnum);
-					yyacclist_data[yyacclist_curr++] = accnum;
+					yyacclist_दत्त[yyacclist_curr++] = accnum;
 
-					if (env.trace) {
+					यदि (env.trace) {
 						fprintf (stderr, "[%d]",
 							 accset[k]);
 
-						if (k < nacc)
+						यदि (k < nacc)
 							fputs (", ",
 							       stderr);
-						else
+						अन्यथा
 							putc ('\n',
 							      stderr);
 					}
@@ -580,23 +580,23 @@ static void gentabs(void)
 		/* add accepting number for the "jam" state */
 		acc_array[i] = j;
 
-		dataend (NULL);
+		dataend (रिक्त);
 		outn("]])");
-		footprint += sz * ptype->width;
-		if (tablesext) {
-			yytbl_data_compress (yyacclist_tbl);
-			if (yytbl_data_fwrite (&tableswr, yyacclist_tbl) < 0)
+		footprint += sz * ptype->विस्तारः;
+		यदि (tablesext) {
+			yytbl_दत्त_compress (yyacclist_tbl);
+			यदि (yytbl_दत्त_fwrite (&tableswr, yyacclist_tbl) < 0)
 				flexerror (_("Could not write yyacclist_tbl"));
-			yytbl_data_destroy (yyacclist_tbl);
-			yyacclist_tbl = NULL;
+			yytbl_दत्त_destroy (yyacclist_tbl);
+			yyacclist_tbl = रिक्त;
 		}
 	}
 
-	else {
-		dfaacc[end_of_buffer_state].dfaacc_state =
-		    end_of_buffer_action;
+	अन्यथा {
+		dfaacc[अन्तः_सम्बन्धि_बफर_state].dfaacc_state =
+		    अन्तः_सम्बन्धि_बफर_action;
 
-		for (i = 1; i <= lastdfa; ++i)
+		प्रति (i = 1; i <= lastdfa; ++i)
 			acc_array[i] = dfaacc[i].dfaacc_state;
 
 		/* add accepting number for jam state */
@@ -615,7 +615,7 @@ static void gentabs(void)
 	 */
 	sz = lastdfa + 2;
 
-	if (reject)
+	यदि (reject)
 		/* We put a "cap" on the table associating lists of accepting
 		 * numbers with state numbers.  This is needed because we tell
 		 * where the end of an accepting list is by looking at where
@@ -626,193 +626,193 @@ static void gentabs(void)
 	/* Note that this table is alternately defined if ctrl.fulltbl */
 	ptype = optimize_pack(sz);
 	outn ("m4_define([[M4_HOOK_NEED_ACCEPT]], 1)");
-	out_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_ACCEPT_SIZE]], [[%d]])", sz);
+	बहिर्गमनम्_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
+	बहिर्गमनम्_dec ("m4_define([[M4_HOOK_ACCEPT_SIZE]], [[%d]])", sz);
 	outn ("m4_define([[M4_HOOK_ACCEPT_BODY]], [[m4_dnl");
 
-	yyacc_tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (yyacc_tbl, YYTD_ID_ACCEPT);
+	yyacc_tbl = शून्यस्मृतिं_देहि(1, परिमाण (संरचना yytbl_दत्त));
+	yytbl_दत्त_init (yyacc_tbl, YYTD_ID_ACCEPT);
 	yyacc_tbl->td_lolen = (flex_uint32_t) sz;
-	yyacc_tbl->td_data = yyacc_data =
-	    calloc(yyacc_tbl->td_lolen, sizeof (flex_int32_t));
+	yyacc_tbl->td_दत्त = yyacc_दत्त =
+	    शून्यस्मृतिं_देहि(yyacc_tbl->td_lolen, परिमाण (flex_int32_t));
 	yyacc_curr=1;
 
-	for (i = 1; i <= lastdfa; ++i) {
+	प्रति (i = 1; i <= lastdfa; ++i) {
 		mkdata (acc_array[i]);
-		yyacc_data[yyacc_curr++] = acc_array[i];
+		yyacc_दत्त[yyacc_curr++] = acc_array[i];
 
-		if (!reject && env.trace && acc_array[i])
+		यदि (!reject && env.trace && acc_array[i])
 			fprintf (stderr, _("state # %d accepts: [%d]\n"),
 				 i, acc_array[i]);
 	}
 
 	/* Add entry for "jam" state. */
 	mkdata (acc_array[i]);
-	yyacc_data[yyacc_curr++] = acc_array[i];
+	yyacc_दत्त[yyacc_curr++] = acc_array[i];
 
-	if (reject) {
+	यदि (reject) {
 		/* Add "cap" for the list. */
 		mkdata (acc_array[i]);
-		yyacc_data[yyacc_curr++] = acc_array[i];
+		yyacc_दत्त[yyacc_curr++] = acc_array[i];
 	}
 
-	dataend (NULL);
+	dataend (रिक्त);
 	outn ("]])");
-	footprint += sz * ptype->width;
+	footprint += sz * ptype->विस्तारः;
 
-	if (tablesext) {
-		yytbl_data_compress (yyacc_tbl);
-		if (yytbl_data_fwrite (&tableswr, yyacc_tbl) < 0)
+	यदि (tablesext) {
+		yytbl_दत्त_compress (yyacc_tbl);
+		यदि (yytbl_दत्त_fwrite (&tableswr, yyacc_tbl) < 0)
 			flexerror (_("Could not write yyacc_tbl"));
 	}
-	yytbl_data_destroy (yyacc_tbl);
-	yyacc_tbl = NULL;
+	yytbl_दत्त_destroy (yyacc_tbl);
+	yyacc_tbl = रिक्त;
 	/* End generating yy_accept */
 
-	if (ctrl.useecs) {
+	यदि (ctrl.useecs) {
 
 		genecs ();
-		if (tablesext) {
-			struct yytbl_data *tbl;
+		यदि (tablesext) {
+			संरचना yytbl_दत्त *tbl;
 
 			tbl = mkecstbl ();
-			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			yytbl_दत्त_compress (tbl);
+			यदि (yytbl_दत्त_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ecstbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_दत्त_destroy (tbl);
 			tbl = 0;
 		}
 	}
 
-	if (ctrl.usemecs) {
+	यदि (ctrl.usemecs) {
 		/* Begin generating yy_meta */
 		/* Write out meta-equivalence classes (used to index
 		 * templates with).
 		 */
-		flex_int32_t *yymecs_data = 0;
-		yymeta_tbl = calloc(1, sizeof (struct yytbl_data));
-		yytbl_data_init (yymeta_tbl, YYTD_ID_META);
+		flex_int32_t *yymecs_दत्त = 0;
+		yymeta_tbl = शून्यस्मृतिं_देहि(1, परिमाण (संरचना yytbl_दत्त));
+		yytbl_दत्त_init (yymeta_tbl, YYTD_ID_META);
 		yymeta_tbl->td_lolen = (flex_uint32_t) (numecs + 1);
-		yymeta_tbl->td_data = yymecs_data =
-		    calloc(yymeta_tbl->td_lolen,
-			   sizeof (flex_int32_t));
+		yymeta_tbl->td_दत्त = yymecs_दत्त =
+		    शून्यस्मृतिं_देहि(yymeta_tbl->td_lolen,
+			   परिमाण (flex_int32_t));
 
-		if (env.trace)
+		यदि (env.trace)
 			fputs (_("\n\nMeta-Equivalence Classes:\n"),
 			       stderr);
-		out_dec ("m4_define([[M4_HOOK_MECSTABLE_SIZE]], [[%d]])", numecs+1);
+		बहिर्गमनम्_dec ("m4_define([[M4_HOOK_MECSTABLE_SIZE]], [[%d]])", numecs+1);
 		outn ("m4_define([[M4_HOOK_MECSTABLE_BODY]], [[m4_dnl");
  	
-		for (i = 1; i <= numecs; ++i) {
-			if (env.trace)
+		प्रति (i = 1; i <= numecs; ++i) {
+			यदि (env.trace)
 				fprintf (stderr, "%d = %d\n",
 					 i, ABS (tecbck[i]));
 
 			mkdata (ABS (tecbck[i]));
-			yymecs_data[i] = ABS (tecbck[i]);
+			yymecs_दत्त[i] = ABS (tecbck[i]);
 		}
 
-		dataend (NULL);
+		dataend (रिक्त);
 		outn ("]])");
-		footprint += sizeof(YY_CHAR) * (numecs + 1);
-		if (tablesext) {
-			yytbl_data_compress (yymeta_tbl);
-			if (yytbl_data_fwrite (&tableswr, yymeta_tbl) < 0)
+		footprint += परिमाण(YY_CHAR) * (numecs + 1);
+		यदि (tablesext) {
+			yytbl_दत्त_compress (yymeta_tbl);
+			यदि (yytbl_दत्त_fwrite (&tableswr, yymeta_tbl) < 0)
 				flexerror (_("Could not write yymeta_tbl"));
 		}
-		yytbl_data_destroy (yymeta_tbl);
-		yymeta_tbl = NULL;
+		yytbl_दत्त_destroy (yymeta_tbl);
+		yymeta_tbl = रिक्त;
 		/* End generating yy_meta */
 	}
 
-	total_states = lastdfa + numtemps;
+	योग_अवस्थाः = lastdfa + numtemps;
 
 	/* Begin generating yy_base */
-	sz = total_states + 1;
+	sz = योग_अवस्थाः + 1;
 	ptype = optimize_pack(sz);
-	out_str ("m4_define([[M4_HOOK_BASE_TYPE]], [[%s]])", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_BASE_SIZE]], [[%d]])", sz);
+	बहिर्गमनम्_str ("m4_define([[M4_HOOK_BASE_TYPE]], [[%s]])", ptype->name);
+	बहिर्गमनम्_dec ("m4_define([[M4_HOOK_BASE_SIZE]], [[%d]])", sz);
 	outn ("m4_define([[M4_HOOK_BASE_BODY]], [[m4_dnl");
 
-	yybase_tbl = calloc (1, sizeof (struct yytbl_data));
-	yytbl_data_init (yybase_tbl, YYTD_ID_BASE);
-	yybase_tbl->td_lolen = (flex_uint32_t) (total_states + 1);
-	yybase_tbl->td_data = yybase_data =
-	    calloc(yybase_tbl->td_lolen,
-		   sizeof (flex_int32_t));
+	yybase_tbl = शून्यस्मृतिं_देहि (1, परिमाण (संरचना yytbl_दत्त));
+	yytbl_दत्त_init (yybase_tbl, YYTD_ID_आधारः);
+	yybase_tbl->td_lolen = (flex_uint32_t) (योग_अवस्थाः + 1);
+	yybase_tbl->td_दत्त = yybase_दत्त =
+	    शून्यस्मृतिं_देहि(yybase_tbl->td_lolen,
+		   परिमाण (flex_int32_t));
 	yybase_curr = 1;
 
-	for (i = 1; i <= lastdfa; ++i) {
-		int d = def[i];
+	प्रति (i = 1; i <= lastdfa; ++i) {
+		पूर्णाङ्क d = def[i];
 
-		if (base[i] == JAMSTATE)
-			base[i] = jambase;
+		यदि (आधारः[i] == JAMSTATE)
+			आधारः[i] = jambase;
 
-		if (d == JAMSTATE)
+		यदि (d == JAMSTATE)
 			def[i] = jamstate;
 
-		else if (d < 0) {
+		अन्यथा यदि (d < 0) {
 			/* Template reference. */
 			++tmpuses;
 			def[i] = lastdfa - d + 1;
 		}
 
-		mkdata (base[i]);
-		yybase_data[yybase_curr++] = base[i];
+		mkdata (आधारः[i]);
+		yybase_दत्त[yybase_curr++] = आधारः[i];
 	}
 
 	/* Generate jam state's base index. */
-	mkdata (base[i]);
-	yybase_data[yybase_curr++] = base[i];
+	mkdata (आधारः[i]);
+	yybase_दत्त[yybase_curr++] = आधारः[i];
 
-	for (++i /* skip jam state */ ; i <= total_states; ++i) {
-		mkdata (base[i]);
-		yybase_data[yybase_curr++] = base[i];
+	प्रति (++i /* skip jam state */ ; i <= योग_अवस्थाः; ++i) {
+		mkdata (आधारः[i]);
+		yybase_दत्त[yybase_curr++] = आधारः[i];
 		def[i] = jamstate;
 	}
 
-	dataend (NULL);
+	dataend (रिक्त);
 	outn ("]])");
-	footprint += sz * ptype->width;
+	footprint += sz * ptype->विस्तारः;
 
-	if (tablesext) {
-		yytbl_data_compress (yybase_tbl);
-		if (yytbl_data_fwrite (&tableswr, yybase_tbl) < 0)
+	यदि (tablesext) {
+		yytbl_दत्त_compress (yybase_tbl);
+		यदि (yytbl_दत्त_fwrite (&tableswr, yybase_tbl) < 0)
 			flexerror (_("Could not write yybase_tbl"));
 	}
-	yytbl_data_destroy (yybase_tbl);
-	yybase_tbl = NULL;
+	yytbl_दत्त_destroy (yybase_tbl);
+	yybase_tbl = रिक्त;
 	/* End generating yy_base */
 
 
 	/* Begin generating yy_def */
-	ptype = optimize_pack(total_states + 1);
-	out_str ("m4_define([[M4_HOOK_DEF_TYPE]], [[%s]])", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_DEF_SIZE]], [[%d]])", total_states + 1);
+	ptype = optimize_pack(योग_अवस्थाः + 1);
+	बहिर्गमनम्_str ("m4_define([[M4_HOOK_DEF_TYPE]], [[%s]])", ptype->name);
+	बहिर्गमनम्_dec ("m4_define([[M4_HOOK_DEF_SIZE]], [[%d]])", योग_अवस्थाः + 1);
 	outn ("m4_define([[M4_HOOK_DEF_BODY]], [[m4_dnl");
 
-	yydef_tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (yydef_tbl, YYTD_ID_DEF);
-	yydef_tbl->td_lolen = (flex_uint32_t)(total_states + 1);
-	yydef_tbl->td_data = yydef_data =
-	    calloc(yydef_tbl->td_lolen, sizeof (flex_int32_t));
+	yydef_tbl = शून्यस्मृतिं_देहि(1, परिमाण (संरचना yytbl_दत्त));
+	yytbl_दत्त_init (yydef_tbl, YYTD_ID_DEF);
+	yydef_tbl->td_lolen = (flex_uint32_t)(योग_अवस्थाः + 1);
+	yydef_tbl->td_दत्त = yydef_दत्त =
+	    शून्यस्मृतिं_देहि(yydef_tbl->td_lolen, परिमाण (flex_int32_t));
 
-	for (i = 1; i <= total_states; ++i) {
+	प्रति (i = 1; i <= योग_अवस्थाः; ++i) {
 		mkdata (def[i]);
-		yydef_data[i] = def[i];
+		yydef_दत्त[i] = def[i];
 	}
 
-	dataend (NULL);
+	dataend (रिक्त);
 	outn ("]])");
-	footprint += (total_states + 1) * ptype->width;
+	footprint += (योग_अवस्थाः + 1) * ptype->विस्तारः;
 
-	if (tablesext) {
-		yytbl_data_compress (yydef_tbl);
-		if (yytbl_data_fwrite (&tableswr, yydef_tbl) < 0)
+	यदि (tablesext) {
+		yytbl_दत्त_compress (yydef_tbl);
+		यदि (yytbl_दत्त_fwrite (&tableswr, yydef_tbl) < 0)
 			flexerror (_("Could not write yydef_tbl"));
 	}
-	yytbl_data_destroy (yydef_tbl);
-	yydef_tbl = NULL;
+	yytbl_दत्त_destroy (yydef_tbl);
+	yydef_tbl = रिक्त;
 	/* End generating yy_def */
 
 
@@ -820,99 +820,99 @@ static void gentabs(void)
 	/* Note: Used when !ctrl.fulltbl && !ctrl.fullspd).
 	 * (Alternately defined when ctrl.fullspd)
 	 */
-	out_str ("m4_define([[M4_HOOK_YYNXT_TYPE]], [[%s]])", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_YYNXT_SIZE]], [[%d]])", tblend + 1);
+	बहिर्गमनम्_str ("m4_define([[M4_HOOK_YYNXT_TYPE]], [[%s]])", ptype->name);
+	बहिर्गमनम्_dec ("m4_define([[M4_HOOK_YYNXT_SIZE]], [[%d]])", tblend + 1);
 	outn ("m4_define([[M4_HOOK_YYNXT_BODY]], [[m4_dnl");
 
-	yynxt_tbl = calloc (1, sizeof (struct yytbl_data));
-	yytbl_data_init (yynxt_tbl, YYTD_ID_NXT);
+	yynxt_tbl = शून्यस्मृतिं_देहि (1, परिमाण (संरचना yytbl_दत्त));
+	yytbl_दत्त_init (yynxt_tbl, YYTD_ID_NXT);
 	yynxt_tbl->td_lolen = (flex_uint32_t) (tblend + 1);
-	yynxt_tbl->td_data = yynxt_data =
-	    calloc (yynxt_tbl->td_lolen, sizeof (flex_int32_t));
+	yynxt_tbl->td_दत्त = yynxt_दत्त =
+	    शून्यस्मृतिं_देहि (yynxt_tbl->td_lolen, परिमाण (flex_int32_t));
 
-	for (i = 1; i <= tblend; ++i) {
+	प्रति (i = 1; i <= tblend; ++i) {
 		/* Note, the order of the following test is important.
 		 * If chk[i] is 0, then nxt[i] is undefined.
 		 */
-		if (chk[i] == 0 || nxt[i] == 0)
+		यदि (chk[i] == 0 || nxt[i] == 0)
 			nxt[i] = jamstate;	/* new state is the JAM state */
 
 		mkdata (nxt[i]);
-		yynxt_data[i] = nxt[i];
+		yynxt_दत्त[i] = nxt[i];
 	}
 
-	dataend (NULL);
+	dataend (रिक्त);
 	outn("]])");
-	footprint += ptype->width * (tblend + 1);
+	footprint += ptype->विस्तारः * (tblend + 1);
 
-	if (tablesext) {
-		yytbl_data_compress (yynxt_tbl);
-		if (yytbl_data_fwrite (&tableswr, yynxt_tbl) < 0)
+	यदि (tablesext) {
+		yytbl_दत्त_compress (yynxt_tbl);
+		यदि (yytbl_दत्त_fwrite (&tableswr, yynxt_tbl) < 0)
 			flexerror (_("Could not write yynxt_tbl"));
 	}
-	yytbl_data_destroy (yynxt_tbl);
-	yynxt_tbl = NULL;
+	yytbl_दत्त_destroy (yynxt_tbl);
+	yynxt_tbl = रिक्त;
 	/* End generating yy_nxt */
 
 	/* Begin generating yy_chk */
 	ptype = optimize_pack(tblend + 1);
-	out_str ("m4_define([[M4_HOOK_CHK_TYPE]], [[%s]])", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_CHK_SIZE]], [[%d]])", tblend + 1);
+	बहिर्गमनम्_str ("m4_define([[M4_HOOK_CHK_TYPE]], [[%s]])", ptype->name);
+	बहिर्गमनम्_dec ("m4_define([[M4_HOOK_CHK_SIZE]], [[%d]])", tblend + 1);
 	outn ("m4_define([[M4_HOOK_CHK_BODY]], [[m4_dnl");
 	
-	yychk_tbl = calloc (1, sizeof (struct yytbl_data));
-	yytbl_data_init (yychk_tbl, YYTD_ID_CHK);
+	yychk_tbl = शून्यस्मृतिं_देहि (1, परिमाण (संरचना yytbl_दत्त));
+	yytbl_दत्त_init (yychk_tbl, YYTD_ID_CHK);
 	yychk_tbl->td_lolen = (flex_uint32_t) (tblend + 1);
-	yychk_tbl->td_data = yychk_data =
-	    calloc(yychk_tbl->td_lolen, sizeof (flex_int32_t));
+	yychk_tbl->td_दत्त = yychk_दत्त =
+	    शून्यस्मृतिं_देहि(yychk_tbl->td_lolen, परिमाण (flex_int32_t));
 
-	for (i = 1; i <= tblend; ++i) {
-		if (chk[i] == 0)
+	प्रति (i = 1; i <= tblend; ++i) {
+		यदि (chk[i] == 0)
 			++nummt;
 
 		mkdata (chk[i]);
-		yychk_data[i] = chk[i];
+		yychk_दत्त[i] = chk[i];
 	}
 
-	dataend (NULL);
+	dataend (रिक्त);
 	outn ("]])");
-	footprint += ptype->width * (tblend + 1);
+	footprint += ptype->विस्तारः * (tblend + 1);
 
-	if (tablesext) {
-		yytbl_data_compress (yychk_tbl);
-		if (yytbl_data_fwrite (&tableswr, yychk_tbl) < 0)
+	यदि (tablesext) {
+		yytbl_दत्त_compress (yychk_tbl);
+		यदि (yytbl_दत्त_fwrite (&tableswr, yychk_tbl) < 0)
 			flexerror (_("Could not write yychk_tbl"));
 	}
-	yytbl_data_destroy (yychk_tbl);
-	yychk_tbl = NULL;
+	yytbl_दत्त_destroy (yychk_tbl);
+	yychk_tbl = रिक्त;
 	/* End generating yy_chk */
 
-	free(acc_array);
+	मुक्त(acc_array);
 }
 
 
-void visible_define (const char *symname)
+शून्य visible_define (ध्रुव वर्ण *symname)
 {
-	out_m4_define(symname, NULL);
+	बहिर्गमनम्_m4_define(symname, रिक्त);
 	comment(symname);
 	outc ('\n');
 }
 
-void visible_define_str (const char *symname, const char *val)
+शून्य visible_define_str (ध्रुव वर्ण *symname, ध्रुव वर्ण *val)
 {
-	char buf[128];
-	out_m4_define(symname, val);
-	snprintf(buf, sizeof(buf), "%s = %s", symname, val);
+	वर्ण buf[128];
+	बहिर्गमनम्_m4_define(symname, val);
+	snprintf(buf, परिमाण(buf), "%s = %s", symname, val);
 	comment(buf);
 	outc ('\n');
 }
 
-void visible_define_int (const char *symname, const int val)
+शून्य visible_define_int (ध्रुव वर्ण *symname, ध्रुव पूर्णाङ्क val)
 {
-	char nbuf[24], buf[128];
-	snprintf(nbuf, sizeof(nbuf), "%d", val);
-	out_m4_define(symname, nbuf);
-	snprintf(buf, sizeof(buf), "%s = %d", symname, val);
+	वर्ण nbuf[24], buf[128];
+	snprintf(nbuf, परिमाण(nbuf), "%d", val);
+	बहिर्गमनम्_m4_define(symname, nbuf);
+	snprintf(buf, परिमाण(buf), "%s = %d", symname, val);
 	comment(buf);
 	outc ('\n');
 }
@@ -920,83 +920,83 @@ void visible_define_int (const char *symname, const int val)
 /* make_tables - generate transition tables
  */
 
-void make_tables (void)
+शून्य make_tables (शून्य)
 {
-	char buf[128];
-	int i;
-	struct yytbl_data *yynultrans_tbl = NULL;
+	वर्ण buf[128];
+	पूर्णाङ्क i;
+	संरचना yytbl_दत्त *yynultrans_tbl = रिक्त;
 
 	/* This is where we REALLY begin generating the tables. */
 
-	if (ctrl.fullspd) {
+	यदि (ctrl.fullspd) {
 		genctbl ();
-		if (tablesext) {
-			struct yytbl_data *tbl;
+		यदि (tablesext) {
+			संरचना yytbl_दत्त *tbl;
 
 			tbl = mkctbl ();
-			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			yytbl_दत्त_compress (tbl);
+			यदि (yytbl_दत्त_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ftbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_दत्त_destroy (tbl);
 
 			tbl = mkssltbl ();
-			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			yytbl_दत्त_compress (tbl);
+			यदि (yytbl_दत्त_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ssltbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_दत्त_destroy (tbl);
 			tbl = 0;
 
-			if (ctrl.useecs) {
+			यदि (ctrl.useecs) {
 				tbl = mkecstbl ();
-				yytbl_data_compress (tbl);
-				if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+				yytbl_दत्त_compress (tbl);
+				यदि (yytbl_दत्त_fwrite (&tableswr, tbl) < 0)
 					flexerror (_
 						   ("Could not write ecstbl"));
-				yytbl_data_destroy (tbl);
+				yytbl_दत्त_destroy (tbl);
 				tbl = 0;
 			}
 		}
 	}
-	else if (ctrl.fulltbl) {
+	अन्यथा यदि (ctrl.fulltbl) {
 		genftbl ();
-		if (tablesext) {
-			struct yytbl_data *tbl;
+		यदि (tablesext) {
+			संरचना yytbl_दत्त *tbl;
 
 			/* Alternately defined if !ctrl.ffullspd && !ctrl.fulltbl */
-			struct packtype_t *ptype;
+			संरचना packtype_t *ptype;
 			tbl = mkftbl ();
-			yytbl_data_compress (tbl);
+			yytbl_दत्त_compress (tbl);
 			ptype = optimize_pack(tbl->td_lolen);
-			out_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			बहिर्गमनम्_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
+			यदि (yytbl_दत्त_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ftbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_दत्त_destroy (tbl);
 			tbl = 0;
 
-			if (ctrl.useecs) {
+			यदि (ctrl.useecs) {
 				tbl = mkecstbl ();
-				yytbl_data_compress (tbl);
-				if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+				yytbl_दत्त_compress (tbl);
+				यदि (yytbl_दत्त_fwrite (&tableswr, tbl) < 0)
 					flexerror (_
 						   ("Could not write ecstbl"));
-				yytbl_data_destroy (tbl);
+				yytbl_दत्त_destroy (tbl);
 				tbl = 0;
 			}
 		}
 	}
-	else {
+	अन्यथा {
 		gentabs ();
 	}
 
-	snprintf(buf, sizeof(buf), "footprint: %ld bytes\n", footprint);
+	snprintf(buf, परिमाण(buf), "footprint: %ld bytes\n", footprint);
 	comment(buf);
-	snprintf(buf, sizeof(buf), "tblend: %d\n", tblend);
+	snprintf(buf, परिमाण(buf), "tblend: %d\n", tblend);
 	comment(buf);
-	snprintf(buf, sizeof(buf), "numecs: %d\n", numecs);
+	snprintf(buf, परिमाण(buf), "numecs: %d\n", numecs);
 	comment(buf);
-	snprintf(buf, sizeof(buf), "num_rules: %d\n", num_rules);
+	snprintf(buf, परिमाण(buf), "num_rules: %d\n", अङ्कः_नियमाः);
 	comment(buf);
-	snprintf(buf, sizeof(buf), "lastdfa: %d\n", lastdfa);
+	snprintf(buf, परिमाण(buf), "lastdfa: %d\n", lastdfa);
 	comment(buf);
 	outc ('\n');
 	
@@ -1005,98 +1005,98 @@ void make_tables (void)
 
 	comment("m4 controls begin\n");
 
-	if (num_backing_up > 0)
+	यदि (अङ्कः_backing_ऊर्ध्वम् > 0)
 		visible_define ( "M4_MODE_HAS_BACKING_UP");
 
 	// These are used for NUL transitions
-	if ((num_backing_up > 0 && !reject) && (!nultrans || ctrl.fullspd || ctrl.fulltbl))
+	यदि ((अङ्कः_backing_ऊर्ध्वम् > 0 && !reject) && (!nultrans || ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NEED_YY_CP");
-	if ((num_backing_up > 0 && !reject) && (ctrl.fullspd || ctrl.fulltbl))
+	यदि ((अङ्कः_backing_ऊर्ध्वम् > 0 && !reject) && (ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NULTRANS_WRAP");
 
 	comment("m4 controls end\n");
-	out ("\n");
+	बहिर्गमनम् ("\n");
 
-	if (ctrl.do_yylineno) {
+	यदि (ctrl.do_yylineno) {
 
 		geneoltbl ();
 
-		if (tablesext) {
-			struct yytbl_data *tbl;
+		यदि (tablesext) {
+			संरचना yytbl_दत्त *tbl;
 
 			tbl = mkeoltbl ();
-			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			yytbl_दत्त_compress (tbl);
+			यदि (yytbl_दत्त_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write eoltbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_दत्त_destroy (tbl);
 			tbl = 0;
 		}
 	}
 
-	if (nultrans) {
-		flex_int32_t *yynultrans_data = 0;
+	यदि (nultrans) {
+		flex_int32_t *yynultrans_दत्त = 0;
 
 		/* Begin generating yy_NUL_trans */
-		out_str ("m4_define([[M4_HOOK_NULTRANS_TYPE]], [[%s]])", (ctrl.fullspd) ? "struct yy_trans_info*" : "M4_HOOK_INT32");
-		out_dec ("m4_define([[M4_HOOK_NULTRANS_SIZE]], [[%d]])", lastdfa + 1);
+		बहिर्गमनम्_str ("m4_define([[M4_HOOK_NULTRANS_TYPE]], [[%s]])", (ctrl.fullspd) ? "struct yy_trans_info*" : "M4_HOOK_INT32");
+		बहिर्गमनम्_dec ("m4_define([[M4_HOOK_NULTRANS_SIZE]], [[%d]])", lastdfa + 1);
 		outn ("m4_define([[M4_HOOK_NULTRANS_BODY]], [[m4_dnl");
 
-		yynultrans_tbl = calloc(1, sizeof (struct yytbl_data));
-		yytbl_data_init (yynultrans_tbl, YYTD_ID_NUL_TRANS);
+		yynultrans_tbl = शून्यस्मृतिं_देहि(1, परिमाण (संरचना yytbl_दत्त));
+		yytbl_दत्त_init (yynultrans_tbl, YYTD_ID_NUL_TRANS);
 		// Performance kludge for C. Gives a small improvement
 		// in table loading time.
-		if (ctrl.fullspd && ctrl.have_state_entry_format)
+		यदि (ctrl.fullspd && ctrl.have_state_प्रविष्टिः_format)
 			yynultrans_tbl->td_flags |= YYTD_PTRANS;
 		yynultrans_tbl->td_lolen = (flex_uint32_t) (lastdfa + 1);
-		yynultrans_tbl->td_data = yynultrans_data =
-		    calloc(yynultrans_tbl->td_lolen,
-			   sizeof (flex_int32_t));
+		yynultrans_tbl->td_दत्त = yynultrans_दत्त =
+		    शून्यस्मृतिं_देहि(yynultrans_tbl->td_lolen,
+			   परिमाण (flex_int32_t));
 
-		for (i = 1; i <= lastdfa; ++i) {
-			if ((yynultrans_tbl->td_flags & YYTD_PTRANS) != 0) {
+		प्रति (i = 1; i <= lastdfa; ++i) {
+			यदि ((yynultrans_tbl->td_flags & YYTD_PTRANS) != 0) {
 				// Only works in very C-like languages  
-				out_dec ("    &yy_transition[%d],\n",
-					 base[i]);
-				yynultrans_data[i] = base[i];
+				बहिर्गमनम्_dec ("    &yy_transition[%d],\n",
+					 आधारः[i]);
+				yynultrans_दत्त[i] = आधारः[i];
 			}
-			else {
+			अन्यथा {
 				// This will work anywhere
 				mkdata (nultrans[i]);
-				yynultrans_data[i] = nultrans[i];
+				yynultrans_दत्त[i] = nultrans[i];
 			}
 		}
 
-		dataend (NULL);
+		dataend (रिक्त);
 		outn("]])");
-		footprint += (lastdfa + 1) * (ctrl.fullspd ? sizeof(struct yy_trans_info *) : sizeof(int32_t));
-		if (tablesext) {
-			yytbl_data_compress (yynultrans_tbl);
-			if (yytbl_data_fwrite (&tableswr, yynultrans_tbl) <
+		footprint += (lastdfa + 1) * (ctrl.fullspd ? परिमाण(संरचना yy_trans_info *) : परिमाण(int32_t));
+		यदि (tablesext) {
+			yytbl_दत्त_compress (yynultrans_tbl);
+			यदि (yytbl_दत्त_fwrite (&tableswr, yynultrans_tbl) <
 			    0)
 				flexerror (_
 					   ("Could not write yynultrans_tbl"));
 		}
 
-		if (yynultrans_tbl != NULL) {
-			yytbl_data_destroy (yynultrans_tbl);
-			yynultrans_tbl = NULL;
+		यदि (yynultrans_tbl != रिक्त) {
+			yytbl_दत्त_destroy (yynultrans_tbl);
+			yynultrans_tbl = रिक्त;
 		}
 
 		/* End generating yy_NUL_trans */
 	}
 
-	if (ctrl.ddebug) {		/* Spit out table mapping rules to line numbers. */
+	यदि (ctrl.ddebug) {		/* Spit out table mapping rules to line numbers. */
 		/* Policy choice: we don't include this space
 		 * in the table metering.
 		 */
-		struct packtype_t *ptype = optimize_pack(num_rules);
-		out_str ("m4_define([[M4_HOOK_DEBUGTABLE_TYPE]], [[%s]])", ptype->name);
-		out_dec ("m4_define([[M4_HOOK_DEBUGTABLE_SIZE]], [[%d]])", num_rules);
+		संरचना packtype_t *ptype = optimize_pack(अङ्कः_नियमाः);
+		बहिर्गमनम्_str ("m4_define([[M4_HOOK_DEBUGTABLE_TYPE]], [[%s]])", ptype->name);
+		बहिर्गमनम्_dec ("m4_define([[M4_HOOK_DEBUGTABLE_SIZE]], [[%d]])", अङ्कः_नियमाः);
 		outn ("m4_define([[M4_HOOK_DEBUGTABLE_BODY]], [[m4_dnl");
 
-		for (i = 1; i < num_rules; ++i)
-			mkdata (rule_linenum[i]);
-		dataend (NULL);
+		प्रति (i = 1; i < अङ्कः_नियमाः; ++i)
+			mkdata (नियमः_linenum[i]);
+		dataend (रिक्त);
 		outn("]])");
 	}
 }

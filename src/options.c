@@ -33,7 +33,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "options.h"
+#अन्तर्भाव "options.h"
 
 /* Be sure to synchronize these options with those defined in "ctrl.h",
  * the giant switch() statement in "main.c", and the %option processing in
@@ -113,11 +113,11 @@ optspec_t flexopts[] = {
 	,
 	{"--fast", OPT_FAST, 0}
 	,			/* Same as -CFr. */
-	{"-f", OPT_FULL, 0}
+	{"-f", OPT_पूर्णम्, 0}
 	,
-	{"--full", OPT_FULL, 0}
+	{"--full", OPT_पूर्णम्, 0}
 	,			/* Same as -Cfr. */
-	{"--header-file[=FILE]", OPT_HEADER_FILE, 0}
+	{"--header-file[=FILE]", OPT_शीर्षकम्_FILE, 0}
 	,
 	{"-?", OPT_HELP, 0}
 	,
@@ -141,9 +141,9 @@ optspec_t flexopts[] = {
 	,			/* Maximal compatibility with POSIX lex. */
         {"--preproc=NUM", OPT_PREPROC_LEVEL, 0}
         ,
-	{"-L", OPT_NO_LINE, 0}
+	{"-L", OPT_NO_पङ्क्तिः, 0}
 	,			/* Suppress #line directives in scanner. */
-	{"--noline", OPT_NO_LINE, 0}
+	{"--noline", OPT_NO_पङ्क्तिः, 0}
 	,			/* Suppress #line directives in scanner. */
 	{"--main", OPT_MAIN, 0}
 	,			/* use built-in main() function. */
@@ -165,9 +165,9 @@ optspec_t flexopts[] = {
 	,			/* Generate performance report to stderr. */
 	{"--pointer", OPT_POINTER, 0}
 	,
-	{"-P PREFIX", OPT_PREFIX, 0}
+	{"-P PREFIX", OPT_उपसर्गः, 0}
 	,
-	{"--prefix=PREFIX", OPT_PREFIX, 0}
+	{"--prefix=PREFIX", OPT_उपसर्गः, 0}
 	,			/* Use PREFIX (default is yy) */
 	{"-Dmacro", OPT_PREPROCDEFINE, 0}
 	,			/* Define a preprocessor symbol. */
@@ -187,7 +187,7 @@ optspec_t flexopts[] = {
 	,
 	{"--skel=FILE", OPT_SKEL, 0}
 	,			/* Use skeleton from FILE */
-	{"--stack", OPT_STACK, 0}
+	{"--stack", OPT_राशिः, 0}
 	,
 	{"--stdinit", OPT_STDINIT, 0}
 	,
@@ -211,9 +211,9 @@ optspec_t flexopts[] = {
 	,
 	{"--verbose", OPT_VERBOSE, 0}
 	,			/* Write summary of scanner statistics to stdout. */
-	{"-V", OPT_VERSION, 0}
+	{"-V", OPT_संस्करणम्, 0}
 	,
-	{"--version", OPT_VERSION, 0}
+	{"--version", OPT_संस्करणम्, 0}
 	,			/* Report flex version. */
 	{"--warn", OPT_WARN, 0}
 	,
@@ -245,17 +245,17 @@ optspec_t flexopts[] = {
 	,
 	{"--noyyunput", OPT_NO_YYUNPUT, 0}
 	,
-	{"--noyy_push_state", OPT_NO_YY_PUSH_STATE, 0}
+	{"--noyy_push_state", OPT_NO_YY_प्रक्षिप_STATE, 0}
 	,
-	{"--noyy_pop_state", OPT_NO_YY_POP_STATE, 0}
+	{"--noyy_pop_state", OPT_NO_YY_निष्कासय_STATE, 0}
 	,
-	{"--noyy_top_state", OPT_NO_YY_TOP_STATE, 0}
+	{"--noyy_top_state", OPT_NO_YY_शिखरम्_STATE, 0}
 	,
-	{"--noyy_scan_buffer", OPT_NO_YY_SCAN_BUFFER, 0}
+	{"--noyy_scan_buffer", OPT_NO_YY_अवलोकनम्_बफर, 0}
 	,
-	{"--noyy_scan_bytes", OPT_NO_YY_SCAN_BYTES, 0}
+	{"--noyy_scan_bytes", OPT_NO_YY_अवलोकनम्_अष्टकानि, 0}
 	,
-	{"--noyy_scan_string", OPT_NO_YY_SCAN_STRING, 0}
+	{"--noyy_scan_string", OPT_NO_YY_अवलोकनम्_STRING, 0}
 	,
 	{"--noyyget_extra", OPT_NO_YYGET_EXTRA, 0}
 	,
@@ -273,13 +273,13 @@ optspec_t flexopts[] = {
 	,
 	{"--noyyset_column", OPT_NO_YYSET_COLUMN, 0}
 	,
-	{"--noyyget_in", OPT_NO_YYGET_IN, 0}
+	{"--noyyget_in", OPT_NO_YYGET_अन्तर्, 0}
 	,
-	{"--noyyset_in", OPT_NO_YYSET_IN, 0}
+	{"--noyyset_in", OPT_NO_YYSET_अन्तर्, 0}
 	,
-	{"--noyyget_out", OPT_NO_YYGET_OUT, 0}
+	{"--noyyget_out", OPT_NO_YYGET_बहिर्गमनम्, 0}
 	,
-	{"--noyyset_out", OPT_NO_YYSET_OUT, 0}
+	{"--noyyset_out", OPT_NO_YYSET_बहिर्गमनम्, 0}
 	,
 	{"--noyyget_lval", OPT_NO_YYGET_LVAL, 0}
 	,
