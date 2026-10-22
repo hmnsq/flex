@@ -37,15 +37,15 @@
 
 #ifdef __cplusplus
 /* *INDENT-OFF* */
-extern  "C" {
+ବାହ୍ୟ  "C" {
 /* *INDENT-ON* */
 #endif
 
 /* Tables serialization API declarations. */
-#include "tables_shared.h"
-struct yytbl_writer {
+#ଅନ୍ତର୍ଭାଵ "tables_shared.h"
+ସଂରଚନା yytbl_writer {
 	FILE   *out;
-	int total_written;
+	ପୂର୍ଣ୍ଣସଂଖ୍ୟା total_written;
 			    /**< bytes written so far */
 	fpos_t  th_ssize_pos;
 			    /**< position of th_ssize */
@@ -59,19 +59,19 @@ struct yytbl_writer {
  * tablesverify - true if tables-verify option specified
  * gentables - true if we should spit out the normal C tables
  */
-extern bool tablesext, tablesverify,gentables;
-extern char *tablesfilename, *tablesname;
-extern struct yytbl_writer tableswr;
+ବାହ୍ୟ bool tablesext, tablesverify,gentables;
+ବାହ୍ୟ ଅକ୍ଷର *tablesfilename, *tablesname;
+ବାହ୍ୟ ସଂରଚନା yytbl_writer tableswr;
 
-int     yytbl_writer_init (struct yytbl_writer *, FILE *);
-int     yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
-			const char *name);
-int     yytbl_data_init (struct yytbl_data *tbl, enum yytbl_id id);
-int     yytbl_data_destroy (struct yytbl_data *td);
-int     yytbl_hdr_fwrite (struct yytbl_writer *wr,
-			  const struct yytbl_hdr *th);
-int     yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td);
-void    yytbl_data_compress (struct yytbl_data *tbl);
+ପୂର୍ଣ୍ଣସଂଖ୍ୟା     yytbl_writer_init (ସଂରଚନା yytbl_writer *, FILE *);
+ପୂର୍ଣ୍ଣସଂଖ୍ୟା     yytbl_hdr_init (ସଂରଚନା yytbl_hdr *th, ଅଚଳ ଅକ୍ଷର *version_str,
+			ଅଚଳ ଅକ୍ଷର *name);
+ପୂର୍ଣ୍ଣସଂଖ୍ୟା     yytbl_data_init (ସଂରଚନା yytbl_data *tbl, ଗଣନା yytbl_id id);
+ପୂର୍ଣ୍ଣସଂଖ୍ୟା     yytbl_data_destroy (ସଂରଚନା yytbl_data *td);
+ପୂର୍ଣ୍ଣସଂଖ୍ୟା     yytbl_hdr_fwrite (ସଂରଚନା yytbl_writer *wr,
+			  ଅଚଳ ସଂରଚନା yytbl_hdr *th);
+ପୂର୍ଣ୍ଣସଂଖ୍ୟା     yytbl_data_fwrite (ସଂରଚନା yytbl_writer *wr, ସଂରଚନା yytbl_data *td);
+ଶୂନ୍ୟ    yytbl_data_compress (ସଂରଚନା yytbl_data *tbl);
 
 
 #ifdef __cplusplus
