@@ -33,30 +33,30 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#ضمن "flexdef.h"
 
 /* return true if the chr is in the ccl. Takes negation into account. */
-static bool
-ccl_contains (const int cclp, const int ch)
+ساكن bool
+ccl_contains (ثابت صحيح cclp, ثابت صحيح ch)
 {
-	int     ind, len, i;
+	صحيح     ind, len, i;
 
 	len = ccllen[cclp];
 	ind = cclmap[cclp];
 
-	for (i = 0; i < len; ++i)
-		if (ccltbl[ind + i] == ch)
-			return !cclng[cclp];
+	لكل (i = 0; i < len; ++i)
+		إذا (ccltbl[ind + i] == ch)
+			أرجع !cclng[cclp];
 
-    return cclng[cclp];
+    أرجع cclng[cclp];
 }
 
 
 /* ccladd - add a single character to a ccl */
 
-void ccladd (int cclp, int ch)
+فراغ ccladd (صحيح cclp, صحيح ch)
 {
-	int     ind, len, newpos, i;
+	صحيح     ind, len, newpos, i;
 
 	check_char (ch);
 
@@ -65,12 +65,12 @@ void ccladd (int cclp, int ch)
 
 	/* check to see if the character is already in the ccl */
 
-	for (i = 0; i < len; ++i)
-		if (ccltbl[ind + i] == ch)
-			return;
+	لكل (i = 0; i < len; ++i)
+		إذا (ccltbl[ind + i] == ch)
+			أرجع;
 
 	/* mark newlines */
-	if (ch == nlch)
+	إذا (ch == nlch)
 		ccl_has_nl[cclp] = true;
 
 	newpos = ind + len;
@@ -78,42 +78,42 @@ void ccladd (int cclp, int ch)
 	/* For a non-last cclp, expanding the set will overflow and overwrite a
 	 * char in the next cclp.
 	 * FIXME: Need another allocation scheme for ccl's. */
-	if (cclp != lastccl) {
+	إذا (cclp != lastccl) {
 		flexfatal(_("internal error: trying to add a char to a non-last ccl.\n"));
 	}
 
-	if (newpos >= current_max_ccl_tbl_size) {
+	إذا (newpos >= current_max_ccl_tbl_size) {
 		current_max_ccl_tbl_size += MAX_CCL_TBL_SIZE_INCREMENT;
 
-		++num_reallocs;
+		++لمب_reallocs;
 
 		ccltbl = reallocate_Character_array (ccltbl,
 						     current_max_ccl_tbl_size);
 	}
 
 	ccllen[cclp] = len + 1;
-	ccltbl[newpos] = (unsigned char) ch;
+	ccltbl[newpos] = (unsigned حرف) ch;
 }
 
 /* dump_cclp - same thing as list_character_set, but for cclps.  */
 
-static void    dump_cclp (FILE* file, int cclp)
+ساكن فراغ    dump_cclp (FILE* file, صحيح cclp)
 {
-	int i;
+	صحيح i;
 
 	putc ('[', file);
 
-	for (i = 0; i < ctrl.csize; ++i) {
-		if (ccl_contains(cclp, i)){
-			int start_char = i;
+	لكل (i = 0; i < ctrl.csize; ++i) {
+		إذا (ccl_contains(cclp, i)){
+			صحيح start_char = i;
 
 			putc (' ', file);
 
 			fputs (readable_form (i), file);
 
-			while (++i < ctrl.csize && ccl_contains(cclp,i)) ;
+			طالما (++i < ctrl.csize && ccl_contains(cclp,i)) ;
 
-			if (i - 1 > start_char)
+			إذا (i - 1 > start_char)
 				/* this was a run */
 				fprintf (file, "-%s",
 					 readable_form (i - 1));
@@ -128,10 +128,10 @@ static void    dump_cclp (FILE* file, int cclp)
 
 
 /* ccl_set_diff - create a new ccl as the set difference of the two given ccls. */
-int
-ccl_set_diff (int a, int b)
+صحيح
+ccl_set_diff (صحيح a, صحيح b)
 {
-    int  d, ch;
+    صحيح  d, ch;
 
     /* create new class  */
     d = cclinit();
@@ -140,12 +140,12 @@ ccl_set_diff (int a, int b)
      * adding each char in a that is not in b.
      * (This could be O(n^2), but n is small and bounded.)
      */
-	for ( ch = 0; ch < ctrl.csize; ++ch )
-        if (ccl_contains (a, ch) && !ccl_contains(b, ch))
+	لكل ( ch = 0; ch < ctrl.csize; ++ch )
+        إذا (ccl_contains (a, ch) && !ccl_contains(b, ch))
             ccladd (d, ch);
 
     /* debug */
-    if (0){
+    إذا (0){
         fprintf(stderr, "ccl_set_diff (");
             fprintf(stderr, "\n    ");
             dump_cclp (stderr, a);
@@ -155,28 +155,28 @@ ccl_set_diff (int a, int b)
             dump_cclp (stderr, d);
         fprintf(stderr, "\n)\n");
     }
-    return d;
+    أرجع d;
 }
 
 /* ccl_set_union - create a new ccl as the set union of the two given ccls. */
-int
-ccl_set_union (int a, int b)
+صحيح
+ccl_set_union (صحيح a, صحيح b)
 {
-    int  d, i;
+    صحيح  d, i;
 
     /* create new class  */
     d = cclinit();
 
     /* Add all of a */
-    for (i = 0; i < ccllen[a]; ++i)
+    لكل (i = 0; i < ccllen[a]; ++i)
 		ccladd (d, ccltbl[cclmap[a] + i]);
 
     /* Add all of b */
-    for (i = 0; i < ccllen[b]; ++i)
+    لكل (i = 0; i < ccllen[b]; ++i)
 		ccladd (d, ccltbl[cclmap[b] + i]);
 
     /* debug */
-    if (0){
+    إذا (0){
         fprintf(stderr, "ccl_set_union (%d + %d = %d", a, b, d);
             fprintf(stderr, "\n    ");
             dump_cclp (stderr, a);
@@ -186,32 +186,32 @@ ccl_set_union (int a, int b)
             dump_cclp (stderr, d);
         fprintf(stderr, "\n)\n");
     }
-    return d;
+    أرجع d;
 }
 
 
 /* cclinit - return an empty ccl */
 
-int     cclinit (void)
+صحيح     cclinit (فراغ)
 {
-	if (++lastccl >= current_maxccls) {
+	إذا (++lastccl >= current_maxccls) {
 		current_maxccls += MAX_CCLS_INCREMENT;
 
-		++num_reallocs;
+		++لمب_reallocs;
 
 		cclmap =
 			reallocate_integer_array (cclmap, current_maxccls);
 		ccllen =
 			reallocate_integer_array (ccllen, current_maxccls);
 		cclng = reallocate_integer_array (cclng, current_maxccls);
-		ccl_has_nl = reallocate_array(ccl_has_nl, current_maxccls, sizeof(char));
+		ccl_has_nl = reallocate_array(ccl_has_nl, current_maxccls, حجم(حرف));
 	}
 
-	if (lastccl == 1)
+	إذا (lastccl == 1)
 		/* we're making the first ccl */
 		cclmap[lastccl] = 0;
 
-	else
+	وإلا
 		/* The new pointer is just past the end of the last ccl.
 		 * Since the cclmap points to the \first/ character of a
 		 * ccl, adding the length of the ccl to the cclmap pointer
@@ -224,13 +224,13 @@ int     cclinit (void)
 	cclng[lastccl] = 0;	/* ccl's start out life un-negated */
 	ccl_has_nl[lastccl] = false;
 
-	return lastccl;
+	أرجع lastccl;
 }
 
 
 /* cclnegate - negate the given ccl */
 
-void    cclnegate (int cclp)
+فراغ    cclnegate (صحيح cclp)
 {
 	cclng[cclp] = 1;
 	ccl_has_nl[cclp] = !ccl_has_nl[cclp];
@@ -244,23 +244,23 @@ void    cclnegate (int cclp)
  * has a non-zero value in the cset array.
  */
 
-void    list_character_set (FILE *file, int cset[])
+فراغ    list_character_set (FILE *file, صحيح cset[])
 {
-	int i;
+	صحيح i;
 
 	putc ('[', file);
 
-	for (i = 0; i < ctrl.csize; ++i) {
-		if (cset[i]) {
-			int start_char = i;
+	لكل (i = 0; i < ctrl.csize; ++i) {
+		إذا (cset[i]) {
+			صحيح start_char = i;
 
 			putc (' ', file);
 
 			fputs (readable_form (i), file);
 
-			while (++i < ctrl.csize && cset[i]) ;
+			طالما (++i < ctrl.csize && cset[i]) ;
 
-			if (i - 1 > start_char)
+			إذا (i - 1 > start_char)
 				/* this was a run */
 				fprintf (file, "-%s",
 					 readable_form (i - 1));
@@ -283,30 +283,30 @@ void    list_character_set (FILE *file, int cset[])
  * @param c2 the upper end of the range
  * @return true if [c1-c2] is not ambiguous for a caseless scanner.
  */
-bool range_covers_case (int c1, int c2)
+bool range_covers_case (صحيح c1, صحيح c2)
 {
-	int     i, o;
+	صحيح     i, o;
 
-	for (i = c1; i <= c2; i++) {
-		if (has_case (i)) {
+	لكل (i = c1; i <= c2; i++) {
+		إذا (has_case (i)) {
 			o = reverse_case (i);
-			if (o < c1 || c2 < o)
-				return false;
+			إذا (o < c1 || c2 < o)
+				أرجع false;
 		}
 	}
-	return true;
+	أرجع true;
 }
 
 /** Reverse the case of a character, if possible.
  * @return c if case-reversal does not apply.
  */
-int reverse_case (int c)
+صحيح reverse_case (صحيح c)
 {
-	return isupper (c) ? tolower (c) : (islower (c) ? toupper (c) : c);
+	أرجع isupper (c) ? tolower (c) : (islower (c) ? toupper (c) : c);
 }
 
 /** Return true if c is uppercase or lowercase. */
-bool has_case (int c)
+bool has_case (صحيح c)
 {
-	return (isupper (c) || islower (c)) ? true : false;
+	أرجع (isupper (c) || islower (c)) ? true : false;
 }
