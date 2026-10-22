@@ -48,44 +48,44 @@
  */
 
 /* global buffers. */
-struct Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
-struct Buf top_buf;             /**< contains %top code. String buffer. */
+sa_nracanaa Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
+sa_nracanaa Buf top_buf;             /**< contains %top code. String buffer. */
 
 /* Append a "%s" formatted string to a string buffer */
-struct Buf *buf_prints (struct Buf *buf, const char *fmt, const char *s)
+sa_nracanaa Buf *buf_prints (sa_nracanaa Buf *buf, const var_na *fmt, const var_na *s)
 {
-	char   *t;
+	var_na   *t;
 	size_t tsz;
 
 	tsz = strlen(fmt) + strlen(s) + 1;
 	t = malloc(tsz);
-	if (!t)
+	གལ་སྲིད (!t)
 	    flexfatal (_("Allocation of buffer to print string failed"));
 	snprintf (t, tsz, fmt, s);
 	buf = buf_strappend (buf, t);
 	free(t);
-	return buf;
+	ལོག buf;
 }
 
 /* Appends n characters in str to buf. */
-struct Buf *buf_strnappend (struct Buf *buf, const char *str, int n)
+sa_nracanaa Buf *buf_strnappend (sa_nracanaa Buf *buf, const var_na *str, ཧྲིལ n)
 {
 	buf_append (buf, str, n + 1);
 
 	/* "undo" the '\0' character that buf_append() already copied. */
 	buf->nelts--;
 
-	return buf;
+	ལོག buf;
 }
 
 /* Appends characters in str to buf. */
-struct Buf *buf_strappend (struct Buf *buf, const char *str)
+sa_nracanaa Buf *buf_strappend (sa_nracanaa Buf *buf, const var_na *str)
 {
-	return buf_strnappend (buf, str, (int) strlen (str));
+	ལོག buf_strnappend (buf, str, (ཧྲིལ) strlen (str));
 }
 
 /* create buf with 0 elements, each of size elem_size. */
-void buf_init (struct Buf *buf, size_t elem_size)
+void buf_init (sa_nracanaa Buf *buf, size_t elem_size)
 {
 	buf->elts = NULL;
 	buf->nelts = 0;
@@ -94,9 +94,9 @@ void buf_init (struct Buf *buf, size_t elem_size)
 }
 
 /* frees memory */
-void buf_destroy (struct Buf *buf)
+void buf_destroy (sa_nracanaa Buf *buf)
 {
-	if (buf) {
+	གལ་སྲིད (buf) {
 		free(buf->elts);
 		buf->elts = NULL;
 	}
@@ -109,43 +109,43 @@ void buf_destroy (struct Buf *buf)
  * We grow by mod(512) boundaries.
  */
 
-struct Buf *buf_append (struct Buf *buf, const void *ptr, int n_elem)
+sa_nracanaa Buf *buf_append (sa_nracanaa Buf *buf, const void *ptr, ཧྲིལ n_elem)
 {
-	int     n_alloc = 0;
+	ཧྲིལ     n_alloc = 0;
 
-	if (!ptr || n_elem == 0)
-		return buf;
+	གལ་སྲིད (!ptr || n_elem == 0)
+		ལོག buf;
 
 	/* May need to alloc more. */
-	if (n_elem + buf->nelts > buf->nmax) {
+	གལ་སྲིད (n_elem + buf->nelts > buf->nmax) {
 
 		/* exact count needed... */
 		n_alloc = n_elem + buf->nelts;
 
 		/* ...plus some extra */
-		if ((((size_t) n_alloc * buf->elt_size) % 512) != 0
+		གལ་སྲིད ((((size_t) n_alloc * buf->elt_size) % 512) != 0
 		    && buf->elt_size < 512)
-			n_alloc += (int)
+			n_alloc += (ཧྲིལ)
 				((512 -
 				 (((size_t) n_alloc * buf->elt_size) % 512)) /
 				buf->elt_size);
 
-		if (!buf->elts)
+		གལ་སྲིད (!buf->elts)
 			buf->elts =
-				allocate_array ((int) n_alloc, buf->elt_size);
-		else
+				allocate_array ((ཧྲིལ) n_alloc, buf->elt_size);
+		དེ་མིན
 			buf->elts =
-				reallocate_array (buf->elts, (int) n_alloc,
+				reallocate_array (buf->elts, (ཧྲིལ) n_alloc,
 						  buf->elt_size);
 
 		buf->nmax = n_alloc;
 	}
 
-	memcpy ((char *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
+	memcpy ((var_na *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
 		(size_t) n_elem * buf->elt_size);
 	buf->nelts += n_elem;
 
-	return buf;
+	ལོག buf;
 }
 
 /* vim:set tabstop=8 softtabstop=4 shiftwidth=4: */
