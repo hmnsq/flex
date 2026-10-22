@@ -25,14 +25,14 @@
 
 #include <stdlib.h>
 
-extern int yylex (void);
+extern puur_naa_nka yylex (void);
 
-int     main (int argc, char *argv[])
+puur_naa_nka     main (puur_naa_nka argc, var_na *argv[])
 {
 	(void)argc;
 	(void)argv;
 
-	while (yylex () != 0) ;
+	ᰀᰬ (yylex () != 0) ;
 
 	exit(0);
 }
