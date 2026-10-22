@@ -44,179 +44,179 @@
 //      #include <FlexLexer.h>
 //      ...
 
-#ifndef __FLEX_LEXER_H
+#నిర్వచితం_కాకపోతే __FLEX_LEXER_H
 // Never included before - need to define base class.
-#define __FLEX_LEXER_H
+#నిర్వచించు __FLEX_LEXER_H
 
-#include <iostream>
+#అన్తర్భావ <iostream>
 
-extern "C++" {
+బాహ్య "C++" {
 
-struct yy_buffer_state;
-typedef int yy_state_type;
+నిర్మాణం yy_బఫరు_state;
+రకనిర్వచనం పూర్ణాంకం yy_state_type;
 
 class FlexLexer
 {
-public:
-  virtual ~FlexLexer()        { }
+బహిరంగ:
+  మాయా ~FlexLexer()        { }
 
-  const char* YYText() const  { return yytext; }
-  int YYLeng()        const   { return yyleng; }
+  స్థిరరాశి అక్షరం* YYText() స్థిరరాశి  { తిరిగి yytext; }
+  పూర్ణాంకం YYLeng()        స్థిరరాశి   { తిరిగి yyleng; }
 
-  virtual void
-  yy_switch_to_buffer( yy_buffer_state* new_buffer ) = 0;
-  virtual yy_buffer_state* yy_create_buffer( std::istream* s, int size ) = 0;
-  virtual yy_buffer_state* yy_create_buffer( std::istream& s, int size ) = 0;
-  virtual void yy_delete_buffer( yy_buffer_state* b ) = 0;
-  virtual void yyrestart( std::istream* s ) = 0;
-  virtual void yyrestart( std::istream& s ) = 0;
+  మాయా శూన్య
+  yy_switch_గమ్యం_బఫరు( yy_బఫరు_state* new_బఫరు ) = 0;
+  మాయా yy_బఫరు_state* yy_create_బఫరు( std::istream* s, పూర్ణాంకం కొలత ) = 0;
+  మాయా yy_బఫరు_state* yy_create_బఫరు( std::istream& s, పూర్ణాంకం కొలత ) = 0;
+  మాయా శూన్య yy_delete_బఫరు( yy_బఫరు_state* b ) = 0;
+  మాయా శూన్య yyrestart( std::istream* s ) = 0;
+  మాయా శూన్య yyrestart( std::istream& s ) = 0;
 
-  virtual int yylex() = 0;
+  మాయా పూర్ణాంకం yylex() = 0;
 
   // Call yylex with new input/output sources.
-  int yylex( std::istream& new_in, std::ostream& new_out )
+  పూర్ణాంకం yylex( std::istream& new_లోపల, std::ostream& new_బహిర్గతం )
   {
-    switch_streams( new_in, new_out );
-    return yylex();
+    switch_streams( new_లోపల, new_బహిర్గతం );
+    తిరిగి yylex();
   }
 
-  int yylex( std::istream* new_in, std::ostream* new_out = 0)
+  పూర్ణాంకం yylex( std::istream* new_లోపల, std::ostream* new_బహిర్గతం = 0)
   {
-    switch_streams( new_in, new_out );
-    return yylex();
+    switch_streams( new_లోపల, new_బహిర్గతం );
+    తిరిగి yylex();
   }
 
   // Switch to new input/output streams.  A nil stream pointer
   // indicates "keep the current one".
-  virtual void switch_streams( std::istream* new_in,
-                               std::ostream* new_out ) = 0;
-  virtual void switch_streams( std::istream& new_in,
-                               std::ostream& new_out ) = 0;
+  మాయా శూన్య switch_streams( std::istream* new_లోపల,
+                               std::ostream* new_బహిర్గతం ) = 0;
+  మాయా శూన్య switch_streams( std::istream& new_లోపల,
+                               std::ostream& new_బహిర్గతం ) = 0;
 
-  int lineno() const          { return yylineno; }
+  పూర్ణాంకం lineno() స్థిరరాశి          { తిరిగి yylineno; }
 
-  int debug() const           { return yyflexdebug; }
-  void set_debug( int flag )  { yyflexdebug = flag; }
+  పూర్ణాంకం debug() స్థిరరాశి           { తిరిగి yyflexdebug; }
+  శూన్య సమితి_debug( పూర్ణాంకం flag )  { yyflexdebug = flag; }
 
-protected:
-  char* yytext;
-  int yyleng;
-  int yylineno;       // only maintained if you use %option yylineno
-  int yyflexdebug;    // only has effect with -d or "%option debug"
+రక్షిత:
+  అక్షరం* yytext;
+  పూర్ణాంకం yyleng;
+  పూర్ణాంకం yylineno;       // only maintained if you use %option yylineno
+  పూర్ణాంకం yyflexdebug;    // only has effect with -d or "%option debug"
 };
 
 }
-#endif // FLEXLEXER_H
+#అయితే_ముగింపు // FLEXLEXER_H
 
-#if defined(yyFlexLexer) || ! defined(yyFlexLexerOnce)
+#ఒకవేళ defined(yyFlexLexer) || ! defined(yyFlexLexerOnce)
 // Either this is the first time through (yyFlexLexerOnce not defined),
 // or this is a repeated include to define a different flavor of
 // yyFlexLexer, as discussed in the flex manual.
 # define yyFlexLexerOnce
 
-extern "C++" {
+బాహ్య "C++" {
 
-class yyFlexLexer : public FlexLexer {
-public:
+class yyFlexLexer : బహిరంగ FlexLexer {
+బహిరంగ:
   // arg_yyin and arg_yyout default to the cin and cout, but we
   // only make that assignment when initializing in yylex().
   yyFlexLexer( std::istream& arg_yyin, std::ostream& arg_yyout );
   yyFlexLexer( std::istream* arg_yyin = 0, std::ostream* arg_yyout = 0 );
-private:
-  void ctor_common();
+అంతరంగ:
+  శూన్య ctor_common();
 
-public:
+బహిరంగ:
 
-  virtual ~yyFlexLexer();
+  మాయా ~yyFlexLexer();
 
-  void yy_switch_to_buffer( yy_buffer_state* new_buffer );
-  yy_buffer_state* yy_create_buffer( std::istream* s, int size );
-  yy_buffer_state* yy_create_buffer( std::istream& s, int size );
-  void yy_delete_buffer( yy_buffer_state* b );
-  void yyrestart( std::istream* s );
-  void yyrestart( std::istream& s );
+  శూన్య yy_switch_గమ్యం_బఫరు( yy_బఫరు_state* new_బఫరు );
+  yy_బఫరు_state* yy_create_బఫరు( std::istream* s, పూర్ణాంకం కొలత );
+  yy_బఫరు_state* yy_create_బఫరు( std::istream& s, పూర్ణాంకం కొలత );
+  శూన్య yy_delete_బఫరు( yy_బఫరు_state* b );
+  శూన్య yyrestart( std::istream* s );
+  శూన్య yyrestart( std::istream& s );
 
-  void yypush_buffer_state( yy_buffer_state* new_buffer );
-  void yypop_buffer_state();
+  శూన్య yypush_బఫరు_state( yy_బఫరు_state* new_బఫరు );
+  శూన్య yypop_బఫరు_state();
 
-  virtual int yyread(char *buf, size_t);
-  virtual int yylex();
-  virtual void switch_streams( std::istream& new_in, std::ostream& new_out );
-  virtual void switch_streams( std::istream* new_in = 0, std::ostream* new_out = 0 );
-  virtual int yywrap();
+  మాయా పూర్ణాంకం yyread(అక్షరం *buf, size_t);
+  మాయా పూర్ణాంకం yylex();
+  మాయా శూన్య switch_streams( std::istream& new_లోపల, std::ostream& new_బహిర్గతం );
+  మాయా శూన్య switch_streams( std::istream* new_లోపల = 0, std::ostream* new_బహిర్గతం = 0 );
+  మాయా పూర్ణాంకం yywrap();
 
-protected:
-  virtual int LexerInput( char* buf, int max_size );
-  virtual void LexerOutput( const char* buf, int size );
-  virtual void LexerError( const char* msg );
+రక్షిత:
+  మాయా పూర్ణాంకం Lexer_ఆదానం( అక్షరం* buf, పూర్ణాంకం max_కొలత );
+  మాయా శూన్య LexerOutput( స్థిరరాశి అక్షరం* buf, పూర్ణాంకం కొలత );
+  మాయా శూన్య LexerError( స్థిరరాశి అక్షరం* సందేశం );
 			
-  void yyunput_r( int c, char* buf_ptr );
-  int yyinput();
+  శూన్య yyunput_r( పూర్ణాంకం c, అక్షరం* buf_ptr );
+  పూర్ణాంకం yyinput();
 
-  void yy_load_buffer_state();
-  void yy_init_buffer( yy_buffer_state* b, std::istream& s );
-  void yy_flush_buffer( yy_buffer_state* b );
+  శూన్య yy_ఎక్కించు_బఫరు_state();
+  శూన్య yy_init_బఫరు( yy_బఫరు_state* b, std::istream& s );
+  శూన్య yy_flush_బఫరు( yy_బఫరు_state* b );
 
-  int yy_start_stack_ptr;
-  int yy_start_stack_depth;
-  int* yy_start_stack;
+  పూర్ణాంకం yy_ప్రారంభం_దొంతర_ptr;
+  పూర్ణాంకం yy_ప్రారంభం_దొంతర_లోతు;
+  పూర్ణాంకం* yy_ప్రారంభం_దొంతర;
 
-  void yy_push_state( int new_state );
-  void yy_pop_state();
-  int yy_top_state();
+  శూన్య yy_నెట్టు_state( పూర్ణాంకం new_state );
+  శూన్య yy_తీయి_state();
+  పూర్ణాంకం yy_శిఖరం_state();
 
-  yy_state_type yy_get_previous_state();
+  yy_state_type yy_get_మునుపటి_state();
   yy_state_type yy_try_NUL_trans( yy_state_type current_state );
-  int yy_get_next_buffer();
+  పూర్ణాంకం yy_get_తదుపరి_బఫరు();
 
   std::istream yyin;  // input source for default LexerInput
   std::ostream yyout; // output sink for default LexerOutput
 
   // yy_hold_char holds the character lost when yytext is formed.
-  char yy_hold_char;
+  అక్షరం yy_hold_char;
 
   // Number of characters read into yy_ch_buf.
-  int yy_n_chars;
+  పూర్ణాంకం yy_n_chars;
 
   // Points to current character in buffer.
-  char* yy_c_buf_p;
+  అక్షరం* yy_c_buf_p;
 
-  int yy_init;                // whether we need to initialize
-  int yy_start;               // start state number
+  పూర్ణాంకం yy_init;                // whether we need to initialize
+  పూర్ణాంకం yy_ప్రారంభం;               // start state number
 
   // Flag which is used to allow yywrap()'s to do buffer switches
   // instead of setting up a fresh yyin.  A bit of a hack ...
-  int yy_did_buffer_switch_on_eof;
+  పూర్ణాంకం yy_did_బఫరు_switch_on_eof;
 
 
-  size_t yy_buffer_stack_top; /**< index of top of stack. */
-  size_t yy_buffer_stack_max; /**< capacity of stack. */
-  yy_buffer_state ** yy_buffer_stack; /**< Stack as an array. */
-  void yyensure_buffer_stack(void);
+  size_t yy_బఫరు_దొంతర_శిఖరం; /**< index of top of stack. */
+  size_t yy_బఫరు_దొంతర_max; /**< capacity of stack. */
+  yy_బఫరు_state ** yy_బఫరు_దొంతర; /**< Stack as an array. */
+  శూన్య yyensure_బఫరు_దొంతర(శూన్య);
 
   // The following are not always needed, but may be depending
   // on use of certain flex features (like REJECT or yymore()).
 
-  yy_state_type yy_last_accepting_state;
-  char* yy_last_accepting_cpos;
+  yy_state_type yy_చివరి_accepting_state;
+  అక్షరం* yy_చివరి_accepting_cpos;
 
   yy_state_type* yy_state_buf;
   yy_state_type* yy_state_ptr;
   size_t yy_state_buf_max;
 
-  char* yy_full_match;
-  int* yy_full_state;
-  int yy_full_lp;
+  అక్షరం* yy_నిండిన_సరిపోలిక;
+  పూర్ణాంకం* yy_నిండిన_state;
+  పూర్ణాంకం yy_నిండిన_lp;
 
-  int yy_lp;
-  int yy_looking_for_trail_begin;
+  పూర్ణాంకం yy_lp;
+  పూర్ణాంకం yy_looking_for_trail_begin;
 
-  int yy_more_flag;
-  int yy_more_len;
-  int yy_more_offset;
-  int yy_prev_more_offset;
+  పూర్ణాంకం yy_మరిన్ని_flag;
+  పూర్ణాంకం yy_మరిన్ని_len;
+  పూర్ణాంకం yy_మరిన్ని_స్థానభ్రంశం;
+  పూర్ణాంకం yy_prev_మరిన్ని_స్థానభ్రంశం;
 };
 
 }
 
-#endif // yyFlexLexer || ! yyFlexLexerOnce
+#అయితే_ముగింపు // yyFlexLexer || ! yyFlexLexerOnce

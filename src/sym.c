@@ -33,7 +33,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#అన్తర్భావ "flexdef.h"
 
 /* Variables for symbol tables:
  * sctbl - start-condition symbol table
@@ -41,30 +41,30 @@
  * ccltab - character class text symbol table
  */
 
-struct hash_entry {
-	struct hash_entry *next;
-	char   *name;
-	char   *str_val;
-	int     int_val;
+నిర్మాణం hash_నమోదు {
+	నిర్మాణం hash_నమోదు *తదుపరి;
+	అక్షరం   *name;
+	అక్షరం   *str_val;
+	పూర్ణాంకం     int_val;
 };
 
-typedef struct hash_entry **hash_table;
+రకనిర్వచనం నిర్మాణం hash_నమోదు **hash_పట్టిక;
 
-#define NAME_TABLE_HASH_SIZE 101
-#define START_COND_HASH_SIZE 101
-#define CCL_HASH_SIZE 101
+#నిర్వచించు NAME_పట్టిక_HASH_కొలత 101
+#నిర్వచించు ప్రారంభం_COND_HASH_కొలత 101
+#నిర్వచించు CCL_HASH_కొలత 101
 
-static struct hash_entry *ndtbl[NAME_TABLE_HASH_SIZE] = {NULL};
-static struct hash_entry *sctbl[START_COND_HASH_SIZE] = {NULL};
-static struct hash_entry *ccltab[CCL_HASH_SIZE] = {NULL};
+స్థిర నిర్మాణం hash_నమోదు *ndtbl[NAME_పట్టిక_HASH_కొలత] = {ఖాళీ};
+స్థిర నిర్మాణం hash_నమోదు *sctbl[ప్రారంభం_COND_HASH_కొలత] = {ఖాళీ};
+స్థిర నిర్మాణం hash_నమోదు *ccltab[CCL_HASH_కొలత] = {ఖాళీ};
 
 
 /* declare functions that have forward references */
 
-static int addsym(const char *, const char *, int, hash_table, size_t);
-static struct hash_entry *findsym (const char *sym, hash_table table,
-				   size_t table_size);
-static size_t hashfunct(const char *, size_t);
+స్థిర పూర్ణాంకం addsym(స్థిరరాశి అక్షరం *, స్థిరరాశి అక్షరం *, పూర్ణాంకం, hash_పట్టిక, size_t);
+స్థిర నిర్మాణం hash_నమోదు *findsym (స్థిరరాశి అక్షరం *sym, hash_పట్టిక పట్టిక,
+				   size_t పట్టిక_కొలత);
+స్థిర size_t hashfunct(స్థిరరాశి అక్షరం *, size_t);
 
 
 /* addsym - add symbol and definitions to symbol table
@@ -72,50 +72,50 @@ static size_t hashfunct(const char *, size_t);
  * -1 is returned if the symbol already exists, and the change not made.
  */
 
-static int addsym (const char *sym, const char *str_def, int int_def, hash_table table, size_t table_size)
+స్థిర పూర్ణాంకం addsym (స్థిరరాశి అక్షరం *sym, స్థిరరాశి అక్షరం *str_def, పూర్ణాంకం int_def, hash_పట్టిక పట్టిక, size_t పట్టిక_కొలత)
 {
-	size_t hash_val = hashfunct (sym, table_size);
-	struct hash_entry *sym_entry = table[hash_val];
-	struct hash_entry *new_entry;
+	size_t hash_val = hashfunct (sym, పట్టిక_కొలత);
+	నిర్మాణం hash_నమోదు *sym_నమోదు = పట్టిక[hash_val];
+	నిర్మాణం hash_నమోదు *new_నమోదు;
 
-	while (sym_entry) {
-		if (!strcmp (sym, sym_entry->name)) {	/* entry already exists */
-			return -1;
+	అయితే (sym_నమోదు) {
+		ఒకవేళ (!strcmp (sym, sym_నమోదు->name)) {	/* entry already exists */
+			తిరిగి -1;
 		}
 
-		sym_entry = sym_entry->next;
+		sym_నమోదు = sym_నమోదు->తదుపరి;
 	}
 
 	/* create new entry */
-	new_entry = malloc(sizeof(struct hash_entry));
+	new_నమోదు = జ్ఞాపకం_ఇవ్వు(పరిమాణం(నిర్మాణం hash_నమోదు));
 
-	if (new_entry == NULL)
+	ఒకవేళ (new_నమోదు == ఖాళీ)
 		flexfatal (_("symbol table memory allocation failed"));
 
-	new_entry->next = table[hash_val];
-	new_entry->name = xstrdup(sym);
-	if (str_def == NULL) {
-		new_entry->str_val = NULL;
-	} else {
-		new_entry->str_val = xstrdup(str_def);
+	new_నమోదు->తదుపరి = పట్టిక[hash_val];
+	new_నమోదు->name = xstrdup(sym);
+	ఒకవేళ (str_def == ఖాళీ) {
+		new_నమోదు->str_val = ఖాళీ;
+	} లేకపోతే {
+		new_నమోదు->str_val = xstrdup(str_def);
 	}
-	new_entry->int_val = int_def;
+	new_నమోదు->int_val = int_def;
 
-	table[hash_val] = new_entry;
+	పట్టిక[hash_val] = new_నమోదు;
 
-	return 0;
+	తిరిగి 0;
 }
 
 
 /* cclinstal - save the text of a character class */
 
-void    cclinstal (char ccltxt[], int cclnum)
+శూన్య    cclinstal (అక్షరం ccltxt[], పూర్ణాంకం cclnum)
 {
 	/* We don't bother checking the return status because we are not
 	 * called unless the symbol is new.
 	 */
 
-	(void) addsym(ccltxt, NULL, cclnum, ccltab, CCL_HASH_SIZE);
+	(శూన్య) addsym(ccltxt, ఖాళీ, cclnum, ccltab, CCL_HASH_కొలత);
 }
 
 
@@ -124,35 +124,35 @@ void    cclinstal (char ccltxt[], int cclnum)
  * Returns 0 if there's no CCL associated with the text.
  */
 
-int     ccllookup (char ccltxt[])
+పూర్ణాంకం     ccllookup (అక్షరం ccltxt[])
 {
-	return findsym (ccltxt, ccltab, CCL_HASH_SIZE)->int_val;
+	తిరిగి findsym (ccltxt, ccltab, CCL_HASH_కొలత)->int_val;
 }
 
 
 /* findsym - find symbol in symbol table */
 
-static struct hash_entry *findsym (const char *sym, hash_table table, size_t table_size)
+స్థిర నిర్మాణం hash_నమోదు *findsym (స్థిరరాశి అక్షరం *sym, hash_పట్టిక పట్టిక, size_t పట్టిక_కొలత)
 {
-	static struct hash_entry empty_entry = {
-		NULL, NULL, NULL, 0,
+	స్థిర నిర్మాణం hash_నమోదు ఖాళీలు_నమోదు = {
+		ఖాళీ, ఖాళీ, ఖాళీ, 0,
 	};
-	struct hash_entry *sym_entry =
+	నిర్మాణం hash_నమోదు *sym_నమోదు =
 
-		table[hashfunct (sym, table_size)];
+		పట్టిక[hashfunct (sym, పట్టిక_కొలత)];
 
-	while (sym_entry) {
-		if (!strcmp (sym, sym_entry->name))
-			return sym_entry;
-		sym_entry = sym_entry->next;
+	అయితే (sym_నమోదు) {
+		ఒకవేళ (!strcmp (sym, sym_నమోదు->name))
+			తిరిగి sym_నమోదు;
+		sym_నమోదు = sym_నమోదు->తదుపరి;
 	}
 
-	return &empty_entry;
+	తిరిగి &ఖాళీలు_నమోదు;
 }
 
 /* hashfunct - compute the hash value for "str" and hash size "hash_size" */
 
-static size_t hashfunct (const char *str, size_t hash_size)
+స్థిర size_t hashfunct (స్థిరరాశి అక్షరం *str, size_t hash_కొలత)
 {
 	size_t hashval;
 	size_t locstr;
@@ -160,20 +160,20 @@ static size_t hashfunct (const char *str, size_t hash_size)
 	hashval = 0;
 	locstr = 0;
 
-	while (str[locstr] != '\0') {
-		hashval = (hashval << 1) + (unsigned char) str[locstr++];
-		hashval %= hash_size;
+	అయితే (str[locstr] != '\0') {
+		hashval = (hashval << 1) + (గుర్తులేని అక్షరం) str[locstr++];
+		hashval %= hash_కొలత;
 	}
 
-	return hashval;
+	తిరిగి hashval;
 }
 
 
 /* ndinstal - install a name definition */
 
-void    ndinstal (const char *name, char definition[])
+శూన్య    ndinstal (స్థిరరాశి అక్షరం *name, అక్షరం definition[])
 {
-	if (addsym(name, definition, 0, ndtbl, NAME_TABLE_HASH_SIZE)) {
+	ఒకవేళ (addsym(name, definition, 0, ndtbl, NAME_పట్టిక_HASH_కొలత)) {
 		synerr (_("name defined twice"));
 	}
 }
@@ -184,42 +184,42 @@ void    ndinstal (const char *name, char definition[])
  * Returns a nil pointer if the name definition does not exist.
  */
 
-char   *ndlookup (const char *nd)
+అక్షరం   *ndlookup (స్థిరరాశి అక్షరం *nd)
 {
-	return findsym (nd, ndtbl, NAME_TABLE_HASH_SIZE)->str_val;
+	తిరిగి findsym (nd, ndtbl, NAME_పట్టిక_HASH_కొలత)->str_val;
 }
 
 
 /* scextend - increase the maximum number of start conditions */
 
-void    scextend (void)
+శూన్య    scextend (శూన్య)
 {
 	current_max_scs += MAX_SCS_INCREMENT;
 
-	++num_reallocs;
+	++అంకె_reallocs;
 
 	scset = reallocate_integer_array (scset, current_max_scs);
 	scbol = reallocate_integer_array (scbol, current_max_scs);
 	scxclu = reallocate_array(scxclu, current_max_scs,
-		sizeof(char));
-	sceof = reallocate_array(sceof, current_max_scs, sizeof(char));
+		పరిమాణం(అక్షరం));
+	sceof = reallocate_array(sceof, current_max_scs, పరిమాణం(అక్షరం));
 	scname = reallocate_char_ptr_array (scname, current_max_scs);
 }
 
 
 /* scinstal - make a start condition */
 
-void    scinstal (const char *str, bool sc_is_exclusive)
+శూన్య    scinstal (స్థిరరాశి అక్షరం *str, bool sc_is_exclusive)
 {
 
-	if (++lastsc >= current_max_scs)
+	ఒకవేళ (++lastsc >= current_max_scs)
 		scextend ();
 
-	if (addsym(str, NULL, lastsc, sctbl, START_COND_HASH_SIZE)) {
-		format_pinpoint_message (
+	ఒకవేళ (addsym(str, ఖాళీ, lastsc, sctbl, ప్రారంభం_COND_HASH_కొలత)) {
+		format_pinpoint_సందేశం (
 			_("start condition %s declared twice"), str);
 	}
-	scname[lastsc] = sctbl[hashfunct(str, START_COND_HASH_SIZE)]->name;
+	scname[lastsc] = sctbl[hashfunct(str, ప్రారంభం_COND_HASH_కొలత)]->name;
 
 	scset[lastsc] = mkstate (SYM_EPSILON);
 	scbol[lastsc] = mkstate (SYM_EPSILON);
@@ -233,7 +233,7 @@ void    scinstal (const char *str, bool sc_is_exclusive)
  * Returns 0 if no such start condition.
  */
 
-int     sclookup (const char *str)
+పూర్ణాంకం     sclookup (స్థిరరాశి అక్షరం *str)
 {
-	return findsym (str, sctbl, START_COND_HASH_SIZE)->int_val;
+	తిరిగి findsym (str, sctbl, ప్రారంభం_COND_HASH_కొలత)->int_val;
 }

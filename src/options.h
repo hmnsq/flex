@@ -31,17 +31,17 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#ifndef OPTIONS_H
-#define OPTIONS_H
-#include "scanopt.h"
+#నిర్వచితం_కాకపోతే OPTIONS_H
+#నిర్వచించు OPTIONS_H
+#అన్తర్భావ "scanopt.h"
 
-extern optspec_t flexopts[];
+బాహ్య optspec_t flexopts[];
 
-enum flexopt_flag_t {
+గణన flexopt_flag_t {
 	/* Use positive integers only, since they are return codes for scanopt.
 	 * Order is not important. */
-	OPT_7BIT = 1,
-	OPT_8BIT,
+	OPT_7_బిట్టు = 1,
+	OPT_8_బిట్టు,
 	OPT_ALIGN,
 	OPT_ALWAYS_INTERACTIVE,
 	OPT_ARRAY,
@@ -59,8 +59,8 @@ enum flexopt_flag_t {
 	OPT_ECS,
 	OPT_EMIT,
 	OPT_FAST,
-	OPT_FULL,
-	OPT_HEADER_FILE,
+	OPT_నిండిన,
+	OPT_శీర్షిక_FILE,
 	OPT_HELP,
 	OPT_HEX,
 	OPT_INTERACTIVE,
@@ -73,7 +73,7 @@ enum flexopt_flag_t {
 	OPT_NO_DEBUG,
 	OPT_NO_DEFAULT,
 	OPT_NO_ECS,
-	OPT_NO_LINE,
+	OPT_NO_పంక్తి,
 	OPT_NO_MAIN,
 	OPT_NO_META_ECS,
 	OPT_NO_REENTRANT,
@@ -83,43 +83,43 @@ enum flexopt_flag_t {
 	OPT_NO_YYUNPUT,
 	OPT_NO_WARN,
 	OPT_NO_YYGET_EXTRA,
-	OPT_NO_YYGET_IN,
+	OPT_NO_YYGET_లోపల,
 	OPT_NO_YYGET_LENG,
 	OPT_NO_YYGET_LINENO,
-	OPT_NO_YYGET_COLUMN,
+	OPT_NO_YYGET_స్తంభం,
 	OPT_NO_YYGET_LLOC,
 	OPT_NO_YYGET_LVAL,
-	OPT_NO_YYGET_OUT,
+	OPT_NO_YYGET_బహిర్గతం,
 	OPT_NO_YYGET_DEBUG,
-	OPT_NO_YYGET_TEXT,
+	OPT_NO_YYGET_పాఠ్యం,
 	OPT_NO_YYLINENO,
 	OPT_NO_YYMORE,
 	OPT_NO_YYSET_EXTRA,
-	OPT_NO_YYSET_IN,
+	OPT_NO_YYSET_లోపల,
 	OPT_NO_YYSET_LINENO,
-	OPT_NO_YYSET_COLUMN,
+	OPT_NO_YYSET_స్తంభం,
 	OPT_NO_YYSET_LLOC,
 	OPT_NO_YYSET_LVAL,
-	OPT_NO_YYSET_OUT,
+	OPT_NO_YYSET_బహిర్గతం,
 	OPT_NO_YYSET_DEBUG,
 	OPT_NO_YYWRAP,
-	OPT_NO_YY_POP_STATE,
-	OPT_NO_YY_PUSH_STATE,
-	OPT_NO_YY_SCAN_BUFFER,
-	OPT_NO_YY_SCAN_BYTES,
-	OPT_NO_YY_SCAN_STRING,
-	OPT_NO_YY_TOP_STATE,
+	OPT_NO_YY_తీయి_STATE,
+	OPT_NO_YY_నెట్టు_STATE,
+	OPT_NO_YY_పరిశీలన_బఫరు,
+	OPT_NO_YY_పరిశీలన_బైట్లు,
+	OPT_NO_YY_పరిశీలన_STRING,
+	OPT_NO_YY_శిఖరం_STATE,
 	OPT_OUTFILE,
 	OPT_PERF_REPORT,
-	OPT_POINTER,
-	OPT_PREFIX,
+	OPT_సూచిక,
+	OPT_ఉపసర్గ,
 	OPT_PREPROCDEFINE,
 	OPT_PREPROC_LEVEL,
 	OPT_READ,
 	OPT_REENTRANT,
 	OPT_REJECT,
 	OPT_SKEL,
-	OPT_STACK,
+	OPT_దొంతర,
 	OPT_STDINIT,
 	OPT_STDOUT,
 	OPT_TABLES_FILE,
@@ -127,7 +127,7 @@ enum flexopt_flag_t {
 	OPT_TRACE,
 	OPT_NO_UNISTD_H,
 	OPT_VERBOSE,
-	OPT_VERSION,
+	OPT_సంస్కరణ,
 	OPT_WARN,
 	OPT_YYCLASS,
 	OPT_YYLINENO,
@@ -136,6 +136,6 @@ enum flexopt_flag_t {
         OPT_NO_SECT3_ESCAPE,
 };
 
-#endif
+#అయితే_ముగింపు
 
 /* vim:set tabstop=8 softtabstop=4 shiftwidth=4 textwidth=0: */

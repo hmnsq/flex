@@ -32,121 +32,121 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#ifndef FLEXDEF_H
-#define FLEXDEF_H 1
+#నిర్వచితం_కాకపోతే FLEXDEF_H
+#నిర్వచించు FLEXDEF_H 1
 
-#ifndef USE_CONFIG_FOR_BUILD
+#నిర్వచితం_కాకపోతే USE_CONFIG_FOR_BUILD
 # ifdef HAVE_CONFIG_H
-#include <config.h>
+#అన్తర్భావ <config.h>
 # endif
-#else
-#include <config_for_build.h>
-#endif
+#లేకపోతే
+#అన్తర్భావ <config_for_build.h>
+#అయితే_ముగింపు
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <setjmp.h>
-#include <ctype.h>
-#include <string.h>
-#include <math.h>
+#అన్తర్భావ <stdio.h>
+#అన్తర్భావ <stdlib.h>
+#అన్తర్భావ <stdarg.h>
+#అన్తర్భావ <setjmp.h>
+#అన్తర్భావ <ctype.h>
+#అన్తర్భావ <string.h>
+#అన్తర్భావ <math.h>
 
-#ifdef HAVE_ASSERT_H
-#include <assert.h>
-#else
-#define assert(Pred)
-#endif
+#నిర్వచితమైతే HAVE_ASSERT_H
+#అన్తర్భావ <assert.h>
+#లేకపోతే
+#నిర్వచించు ప్రతిజ్ఞా(Pred)
+#అయితే_ముగింపు
 
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
-#endif
+#నిర్వచితమైతే HAVE_LIMITS_H
+#అన్తర్భావ <limits.h>
+#అయితే_ముగింపు
 /* Required: dup() and dup2() in <unistd.h> */
-#include <unistd.h>
-#ifdef HAVE_NETINET_IN_H
-#include <netinet/in.h>
-#endif
-#ifdef HAVE_SYS_PARAMS_H
-#include <sys/params.h>
-#endif
+#అన్తర్భావ <unistd.h>
+#నిర్వచితమైతే HAVE_NETINET_లోపల_H
+#అన్తర్భావ <netinet/in.h>
+#అయితే_ముగింపు
+#నిర్వచితమైతే HAVE_SYS_PARAMS_H
+#అన్తర్భావ <sys/params.h>
+#అయితే_ముగింపు
 /* Required: wait() in <sys/wait.h> */
-#include <sys/wait.h>
-#ifdef HAVE_STDBOOL_H
-#include <stdbool.h>
-#elif !defined(__cplusplus) && (!defined(__STDC_VERSION__) || \
+#అన్తర్భావ <sys/wait.h>
+#నిర్వచితమైతే HAVE_STDBOOL_H
+#అన్తర్భావ <stdbool.h>
+#లేదావేళ !defined(__cplusplus) && (!defined(__STDC_VERSION__) || \
       __STDC_VERSION__ < 202311L)
 # ifdef HAVE__BOOL
 #  define bool _Bool
-# else
-#  define bool int
+# లేకపోతే
+#  define bool పూర్ణాంకం
 # endif
 # define false 0
 # define true 1
-#endif
-#include <stdarg.h>
+#అయితే_ముగింపు
+#అన్తర్భావ <stdarg.h>
 /* Required: regcomp(), regexec() and regerror() in <regex.h> */
-#include <regex.h>
+#అన్తర్భావ <regex.h>
 /* Required: strcasecmp() in <strings.h> */
-#include <strings.h>
-#include "flexint.h"
+#అన్తర్భావ <strings.h>
+#అన్తర్భావ "flexint.h"
 
 /* We use gettext. So, when we write strings which should be translated, we
  * mark them with _()
  */
-#if defined(ENABLE_NLS) && ENABLE_NLS
-#ifdef HAVE_LOCALE_H
-#include <locale.h>
-#endif /* HAVE_LOCALE_H */
-#include "gettext.h"
-#define _(String) gettext (String)
-#else
-#define _(STRING) STRING
-#endif /* ENABLE_NLS */
+#ఒకవేళ defined(ENABLE_NLS) && ENABLE_NLS
+#నిర్వచితమైతే HAVE_LOCALE_H
+#అన్తర్భావ <locale.h>
+#అయితే_ముగింపు /* HAVE_LOCALE_H */
+#అన్తర్భావ "gettext.h"
+#నిర్వచించు _(String) gettext (String)
+#లేకపోతే
+#నిర్వచించు _(STRING) STRING
+#అయితే_ముగింపు /* ENABLE_NLS */
 
 /* Always be prepared to generate an 8-bit scanner. */
-#define CSIZE 256
+#నిర్వచించు CSIZE 256
 
 /* Size of input alphabet - should be size of ASCII set. */
-#ifndef DEFAULT_CSIZE
-#define DEFAULT_CSIZE 128
-#endif
+#నిర్వచితం_కాకపోతే DEFAULT_CSIZE
+#నిర్వచించు DEFAULT_CSIZE 128
+#అయితే_ముగింపు
 
 /* Maximum line length we'll have to deal with. */
-#define MAXLINE 2048
+#నిర్వచించు MAXLINE 2048
 
-#ifndef MIN
-#define MIN(x,y) ((x) < (y) ? (x) : (y))
-#endif
-#ifndef MAX
-#define MAX(x,y) ((x) > (y) ? (x) : (y))
-#endif
-#ifndef ABS
-#define ABS(x) ((x) < 0 ? -(x) : (x))
-#endif
+#నిర్వచితం_కాకపోతే MIN
+#నిర్వచించు MIN(x,y) ((x) < (y) ? (x) : (y))
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే MAX
+#నిర్వచించు MAX(x,y) ((x) > (y) ? (x) : (y))
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే ABS
+#నిర్వచించు ABS(x) ((x) < 0 ? -(x) : (x))
+#అయితే_ముగింపు
 
 /* Whether an integer is a power of two */
-#define is_power_of_2(n) ((n) > 0 && ((n) & ((n) - 1)) == 0)
+#నిర్వచించు is_power_యొక్క_2(n) ((n) > 0 && ((n) & ((n) - 1)) == 0)
 
 /* Special chk[] values marking the slots taking by end-of-buffer and action
  * numbers.
  */
-#define EOB_POSITION -1
-#define ACTION_POSITION -2
+#నిర్వచించు EOB_POSITION -1
+#నిర్వచించు ACTION_POSITION -2
 
 /* Number of data items per line for -f output. */
-#define NUMDATAITEMS 10
+#నిర్వచించు NUMDATAITEMS 10
 
 /* Number of lines of data in -f output before inserting a blank line for
  * readability.
  */
-#define NUMDATALINES 10
+#నిర్వచించు NUMDATALINES 10
 
 /* transition_struct_out() definitions. */
-#define TRANS_STRUCT_PRINT_LENGTH 14
+#నిర్వచించు TRANS_STRUCT_PRINT_నిడివి 14
 
 /* Returns true if an nfa state has an epsilon out-transition slot
  * that can be used.  This definition is currently not used.
  */
-#define FREE_EPSILON(state) \
+#నిర్వచించు FREE_EPSILON(state) \
 	(transchar[state] == SYM_EPSILON && \
 	 trans2[state] == NO_TRANSITION && \
 	 finalst[state] != state)
@@ -154,7 +154,7 @@
 /* Returns true if an nfa state has an epsilon out-transition character
  * and both slots are free
  */
-#define SUPER_FREE_EPSILON(state) \
+#నిర్వచించు SUPER_FREE_EPSILON(state) \
 	(transchar[state] == SYM_EPSILON && \
 	 trans1[state] == NO_TRANSITION) \
 
@@ -162,8 +162,8 @@
  * big because if there's a lot of rules, the initial state will have a
  * huge epsilon closure.
  */
-#define INITIAL_MAX_DFA_SIZE 750
-#define MAX_DFA_SIZE_INCREMENT 750
+#నిర్వచించు INITIAL_MAX_DFA_కొలత 750
+#నిర్వచించు MAX_DFA_కొలత_INCREMENT 750
 
 
 /* A note on the following masks.  They are used to mark accepting numbers
@@ -175,69 +175,69 @@
  */
 
 /* Mask to mark a trailing context accepting number. */
-#define YY_TRAILING_MASK 0x2000
+#నిర్వచించు YY_TRAILING_ముసుగు 0x2000
 
 /* Mask to mark the accepting number of the "head" of a trailing context
  * rule.
  */
-#define YY_TRAILING_HEAD_MASK 0x4000
+#నిర్వచించు YY_TRAILING_తల_ముసుగు 0x4000
 
 /* Maximum number of rules, as outlined in the above note. */
-#define MAX_RULE (YY_TRAILING_MASK - 1)
+#నిర్వచించు MAX_నియమం (YY_TRAILING_ముసుగు - 1)
 
 
 /* NIL must be 0.  If not, its special meaning when making equivalence classes
  * (it marks the representative of a given e.c.) will be unidentifiable.
  */
-#define NIL 0
+#నిర్వచించు NIL 0
 
-#define JAM -1			/* to mark a missing DFA transition */
-#define NO_TRANSITION NIL
-#define UNIQUE -1		/* marks a symbol as an e.c. representative */
-#define INFINITE_REPEAT -1		/* for x{5,} constructions */
+#నిర్వచించు JAM -1			/* to mark a missing DFA transition */
+#నిర్వచించు NO_TRANSITION NIL
+#నిర్వచించు UNIQUE -1		/* marks a symbol as an e.c. representative */
+#నిర్వచించు INFINITE_REPEAT -1		/* for x{5,} constructions */
 
-#define INITIAL_MAX_CCLS 100	/* max number of unique character classes */
-#define MAX_CCLS_INCREMENT 100
+#నిర్వచించు INITIAL_MAX_CCLS 100	/* max number of unique character classes */
+#నిర్వచించు MAX_CCLS_INCREMENT 100
 
 /* Size of table holding members of character classes. */
-#define INITIAL_MAX_CCL_TBL_SIZE 500
-#define MAX_CCL_TBL_SIZE_INCREMENT 250
+#నిర్వచించు INITIAL_MAX_CCL_TBL_కొలత 500
+#నిర్వచించు MAX_CCL_TBL_కొలత_INCREMENT 250
 
-#define INITIAL_MAX_RULES 100	/* default maximum number of rules */
-#define MAX_RULES_INCREMENT 100
+#నిర్వచించు INITIAL_MAX_నియమాలు 100	/* default maximum number of rules */
+#నిర్వచించు MAX_నియమాలు_INCREMENT 100
 
-#define INITIAL_MNS 2000	/* default maximum number of nfa states */
-#define MNS_INCREMENT 1000	/* amount to bump above by if it's not enough */
+#నిర్వచించు INITIAL_MNS 2000	/* default maximum number of nfa states */
+#నిర్వచించు MNS_INCREMENT 1000	/* amount to bump above by if it's not enough */
 
-#define INITIAL_MAX_DFAS 1000	/* default maximum number of dfa states */
-#define MAX_DFAS_INCREMENT 1000
+#నిర్వచించు INITIAL_MAX_DFAS 1000	/* default maximum number of dfa states */
+#నిర్వచించు MAX_DFAS_INCREMENT 1000
 
-#define JAMSTATE -32766		/* marks a reference to the state that always jams */
+#నిర్వచించు JAMSTATE -32766		/* marks a reference to the state that always jams */
 
 /* Maximum number of NFA states. */
-#define MAXIMUM_MNS 31999
-#define MAXIMUM_MNS_LONG 1999999999
+#నిర్వచించు గరిష్ఠ_MNS 31999
+#నిర్వచించు గరిష్ఠ_MNS_LONG 1999999999
 
 /* Enough so that if it's subtracted from an NFA state number, the result
  * is guaranteed to be negative.
  */
-#define MARKER_DIFFERENCE (maximum_mns+2)
+#నిర్వచించు MARKER_DIFFERENCE (గరిష్ఠ_mns+2)
 
 /* Maximum number of nxt/chk pairs for non-templates. */
-#define INITIAL_MAX_XPAIRS 2000
-#define MAX_XPAIRS_INCREMENT 2000
+#నిర్వచించు INITIAL_MAX_XPAIRS 2000
+#నిర్వచించు MAX_XPAIRS_INCREMENT 2000
 
 /* Maximum number of nxt/chk pairs needed for templates. */
-#define INITIAL_MAX_TEMPLATE_XPAIRS 2500
-#define MAX_TEMPLATE_XPAIRS_INCREMENT 2500
+#నిర్వచించు INITIAL_MAX_TEMPLATE_XPAIRS 2500
+#నిర్వచించు MAX_TEMPLATE_XPAIRS_INCREMENT 2500
 
-#define SYM_EPSILON (CSIZE + 1)	/* to mark transitions on the symbol epsilon */
+#నిర్వచించు SYM_EPSILON (CSIZE + 1)	/* to mark transitions on the symbol epsilon */
 
-#define INITIAL_MAX_SCS 40	/* maximum number of start conditions */
-#define MAX_SCS_INCREMENT 40	/* amount to bump by if it's not enough */
+#నిర్వచించు INITIAL_MAX_SCS 40	/* maximum number of start conditions */
+#నిర్వచించు MAX_SCS_INCREMENT 40	/* amount to bump by if it's not enough */
 
-#define ONE_STACK_SIZE 500	/* stack of states with only one out-transition */
-#define SAME_TRANS -1		/* transition is the same as "default" entry for state */
+#నిర్వచించు ONE_దొంతర_కొలత 500	/* stack of states with only one out-transition */
+#నిర్వచించు SAME_TRANS -1		/* transition is the same as "default" entry for state */
 
 /* The following percentages are used to tune table compression:
 
@@ -245,7 +245,7 @@
  * number of equivalence classes in order to be considered for table
  * compaction by using protos.
  */
-#define PROTO_SIZE_PERCENTAGE 15
+#నిర్వచించు PROTO_కొలత_PERCENTAGE 15
 
 /* The percentage the number of homogeneous out-transitions of a state
  * must be of the number of total out-transitions of the state in order
@@ -253,63 +253,63 @@
  * template of the most common out-transition instead of with the first
  * proto in the proto queue.
  */
-#define CHECK_COM_PERCENTAGE 50
+#నిర్వచించు CHECK_COM_PERCENTAGE 50
 
 /* The percentage the number of differences between a state's transition
  * table and the proto it was first compared with must be of the total
  * number of out-transitions of the state in order to keep the first
  * proto as a good match and not search any further.
  */
-#define FIRST_MATCH_DIFF_PERCENTAGE 10
+#నిర్వచించు మొదటి_సరిపోలిక_DIFF_PERCENTAGE 10
 
 /* The percentage the number of differences between a state's transition
  * table and the most similar proto must be of the state's total number
  * of out-transitions to use the proto as an acceptable close match.
  */
-#define ACCEPTABLE_DIFF_PERCENTAGE 50
+#నిర్వచించు ACCEPTABLE_DIFF_PERCENTAGE 50
 
 /* The percentage the number of homogeneous out-transitions of a state
  * must be of the number of total out-transitions of the state in order
  * to consider making a template from the state.
  */
-#define TEMPLATE_SAME_PERCENTAGE 60
+#నిర్వచించు TEMPLATE_SAME_PERCENTAGE 60
 
 /* The percentage the number of differences between a state's transition
  * table and the most similar proto must be of the state's total number
  * of out-transitions to create a new proto from the state.
  */
-#define NEW_PROTO_DIFF_PERCENTAGE 20
+#నిర్వచించు NEW_PROTO_DIFF_PERCENTAGE 20
 
 /* The percentage the total number of out-transitions of a state must be
  * of the number of equivalence classes in order to consider trying to
  * fit the transition table into "holes" inside the nxt/chk table.
  */
-#define INTERIOR_FIT_PERCENTAGE 15
+#నిర్వచించు INTERIOR_FIT_PERCENTAGE 15
 
 /* Size of region set aside to cache the complete transition table of
  * protos on the proto queue to enable quick comparisons.
  */
-#define PROT_SAVE_SIZE 2000
+#నిర్వచించు PROT_SAVE_కొలత 2000
 
-#define MSP 50			/* maximum number of saved protos (protos on the proto queue) */
+#నిర్వచించు MSP 50			/* maximum number of saved protos (protos on the proto queue) */
 
 /* Maximum number of out-transitions a state can have that we'll rummage
  * around through the interior of the internal fast table looking for a
  * spot for it.
  */
-#define MAX_XTIONS_FULL_INTERIOR_FIT 4
+#నిర్వచించు MAX_XTIONS_నిండిన_INTERIOR_FIT 4
 
 /* Maximum number of rules which will be reported as being associated
  * with a DFA state.
  */
-#define MAX_ASSOC_RULES 100
+#నిర్వచించు MAX_ASSOC_నియమాలు 100
 
 /* Number that, if used to subscript an array, has a good chance of producing
  * an error; should be small enough to fit into a short.
  */
-#define BAD_SUBSCRIPT -32767
+#నిర్వచించు BAD_SUBSCRIPT -32767
 
-typedef enum trit_t {
+రకనిర్వచనం గణన trit_t {
 	trit_unspecified = -1,
 	trit_false = 0,
 	trit_true = 1,
@@ -319,14 +319,14 @@ typedef enum trit_t {
  * twice for each option, instead a single struct can be declared and externed.
  * If it's in this structure, it has a corresponding m4 symbol.
  */
-struct ctrl_bundle_t {
+నిర్మాణం ctrl_bundle_t {
 	bool always_interactive;// always use character-by-character input
-	FILE *backing_up_file;	// file to summarize backing-up states to 
+	FILE *backing_పైకి_file;	// file to summarize backing-up states to 
 	bool bison_bridge_lval;	// (--bison-bridge), bison pure calling convention. 
 	bool bison_bridge_lloc;	// (--bison-locations), bison yylloc.
 	size_t bufsize;		// input buffer size
 	bool C_plus_plus;	// (-+ flag) generate a C++ scanner class 
-	int csize;		// size of character set for the scanner 
+	పూర్ణాంకం csize;		// size of character set for the scanner 
 				// 128 for 7-bit chars and 256 for 8-bit 
 	bool ddebug;		// (-d) make a "debug" scanner 
 	trit do_main;		// generate main part to make lexer standalone.
@@ -336,7 +336,7 @@ struct ctrl_bundle_t {
 				// If false, EOF treated as "no more files" 
 	bool fullspd;		// (-F flag) use Jacobson method of table representation 
 	bool fulltbl;		// (-Cf flag) don't compress the DFA state table 
- 	bool gen_line_dirs;	// (no -L flag) generate #line directives 
+ 	bool gen_పంక్తి_dirs;	// (no -L flag) generate #line directives 
 	trit interactive;	// (-I) generate an interactive scanner
 	bool never_interactive;	// always use buffered input, don't check for tty.
 	bool lex_compat;	// (-l), maximize compatibility with AT&T lex 
@@ -344,51 +344,51 @@ struct ctrl_bundle_t {
 	bool no_yyinput;	// suppress use of yyinput()
 	bool no_unistd;		// suppress inclusion of unistd.h
 	bool posix_compat;	// (-X) maximize compatibility with POSIX lex 
-	char *prefix;		// prefix for externally visible names, default "yy" 
-	trit reject_really_used;// Force generation of support code for reject operation
+	అక్షరం *ఉపసర్గ;		// prefix for externally visible names, default "yy" 
+	trit reject_really_వాడిన;// Force generation of support code for reject operation
 	bool reentrant;		// if true (-R), generate a reentrant C scanner
 	bool rewrite;		// Appl;y magic rewre rles to special fumctions 
-	bool stack_used;	// Enable use of start-condition stacks
+	bool దొంతర_వాడిన;	// Enable use of start-condition stacks
 	bool no_section3_escape;// True if the undocumented option --unsafe-no-m4-sect3-escape was passed
 	bool spprdflt;		// (-s) suppress the default rule
 	bool useecs;		// (-Ce flag) use equivalence classes 
 	bool usemecs;		// (-Cm flag), use meta-equivalence classes 
 	bool use_read;		// (-f, -F, or -Cr) use read() for scanner input 
        				// otherwise, use fread(). 
-	char *yyclass;		// yyFlexLexer subclass to use for YY_DECL
-	char *yydecl;		// user-specified prototype for yylex.
-	int yylmax;		// Maximum buffer length if %array
-	trit yymore_really_used;// Force geberation of support code for yymore
+	అక్షరం *yyclass;		// yyFlexLexer subclass to use for YY_DECL
+	అక్షరం *yydecl;		// user-specified prototype for yylex.
+	పూర్ణాంకం yylmax;		// Maximum buffer length if %array
+	trit yymore_really_వాడిన;// Force geberation of support code for yymore
 	bool yytext_is_array;	// if true (i.e., %array directive), then declare
 				// yytext as array instead of a character pointer.
 				// Nice and inefficient.
 	bool noyyread;		// User supplied a yyread function, don't generate default
-	char *userinit;		// Code fragment to be inserted before scanning
-	char *preaction;	// Code fragment to be inserted before each action
-	char *postaction;	// Code fragment to be inserted after each action
-	char *emit;		// Specify target language to emit.
-	char *yyterminate;	// Set a non-default termination hook.
+	అక్షరం *userinit;		// Code fragment to be inserted before scanning
+	అక్షరం *preaction;	// Code fragment to be inserted before each action
+	అక్షరం *postaction;	// Code fragment to be inserted after each action
+	అక్షరం *emit;		// Specify target language to emit.
+	అక్షరం *yyterminate;	// Set a non-default termination hook.
 	bool no_yypanic;	// if true, no not generate default yypanic function
  	// flags corresponding to the huge mass of --no-yy options
-	bool no_yy_push_state;
-	bool no_yy_pop_state;
-	bool no_yy_top_state;
+	bool no_yy_నెట్టు_state;
+	bool no_yy_తీయి_state;
+	bool no_yy_శిఖరం_state;
 	bool no_yyunput;
-	bool no_yy_scan_buffer;
-	bool no_yy_scan_bytes;
-	bool no_yy_scan_string;
+	bool no_yy_పరిశీలన_బఫరు;
+	bool no_yy_పరిశీలన_బైట్లు;
+	bool no_yy_పరిశీలన_string;
 	bool no_yyget_extra;
 	bool no_yyset_extra;
 	bool no_yyget_leng;
-	bool no_yyget_text;
+	bool no_yyget_పాఠ్యం;
 	bool no_yyget_lineno;
 	bool no_yyset_lineno;
-	bool no_yyget_column;
-	bool no_yyset_column;
-	bool no_yyget_in;
-	bool no_yyset_in;
-	bool no_yyget_out;
-	bool no_yyset_out;
+	bool no_yyget_స్తంభం;
+	bool no_yyset_స్తంభం;
+	bool no_yyget_లోపల;
+	bool no_yyset_లోపల;
+	bool no_yyget_బహిర్గతం;
+	bool no_yyset_బహిర్గతం;
 	bool no_yyget_lval;
 	bool no_yyset_lval;
 	bool no_yyget_lloc;
@@ -397,31 +397,31 @@ struct ctrl_bundle_t {
 	bool no_flex_realloc;
 	bool no_flex_free;
 	bool no_get_debug;
-	bool no_set_debug;
+	bool no_సమితి_debug;
 	// Properties read from the skeleton
-	const char *backend_name;	// What the back end tells you its name is
-	const char *traceline_re;	// Regular expression for recognizing tracelines */
-	const char *traceline_template;	// templare for emitting trace lines */
-	bool have_state_entry_format;	// Do we know how to make a state entry address?
+	స్థిరరాశి అక్షరం *backend_name;	// What the back end tells you its name is
+	స్థిరరాశి అక్షరం *traceline_re;	// Regular expression for recognizing tracelines */
+	స్థిరరాశి అక్షరం *traceline_template;	// templare for emitting trace lines */
+	bool have_state_నమోదు_format;	// Do we know how to make a state entry address?
 };
 
 /* Environment variables.  These control the lexer operation, but do
  * not have corresponding m4 symbols and do not affect the behavior of
  * the generated parser.
  */
-struct env_bundle_t {
-	bool backing_up_report;	// (-b flag), generate "lex.backup" file 
+నిర్మాణం env_bundle_t {
+	bool backing_పైకి_report;	// (-b flag), generate "lex.backup" file 
 				// listing backing-up states
 	bool did_outfilename;	// whether outfilename was explicitly set
-	char *headerfilename;	// name of the .h file to generate
+	అక్షరం *headerfilename;	// name of the .h file to generate
 	bool nowarn;		// (-w) do not generate warnings 
-	int performance_hint;	// if > 0 (i.e., -p flag), generate a report 
+	పూర్ణాంకం performance_hint;	// if > 0 (i.e., -p flag), generate a report 
 				// relating to scanner performance; 
 				// if > 1 (-p -p), report 
  				// on minor performance problems, too.
-	char *outfilename;	// output file name
+	అక్షరం *outfilename;	// output file name
 	bool printstats;	// (-v) dump statistics
-	char *skelname;		// name of skeleton for code generation
+	అక్షరం *skelname;		// name of skeleton for code generation
 	FILE *skelfile;		// the skeleton file'd descriptor
 	bool trace;		// (-T) env.trace processing 
 	bool trace_hex; 	// use hex in trace/debug outputs not octal
@@ -429,13 +429,13 @@ struct env_bundle_t {
 };
 
 /* Name and byte-width information on a type for code-generation purposes. */
-struct packtype_t {
-	char *name;
-	size_t width;
+నిర్మాణం packtype_t {
+	అక్షరం *name;
+	size_t వెడల్పు;
 };
 
-extern struct ctrl_bundle_t ctrl;
-extern struct env_bundle_t env;
+బాహ్య నిర్మాణం ctrl_bundle_t ctrl;
+బాహ్య నిర్మాణం env_bundle_t env;
 
 /* Declarations for global variables. */
 
@@ -455,8 +455,8 @@ extern struct env_bundle_t env;
  * reject_really_used - same for REJECT
   */
 
-extern bool syntaxerror, eofseen;
-extern int yymore_used, reject, real_reject, continued_action, in_rule;
+బాహ్య bool syntaxerror, eofseen;
+బాహ్య పూర్ణాంకం yymore_వాడిన, reject, real_reject, continued_action, లోపల_నియమం;
 
 /* Variables used in the flex input routines:
  * datapos - characters on current output line
@@ -482,17 +482,17 @@ extern int yymore_used, reject, real_reject, continued_action, in_rule;
  * always_interactive - if true, generate an interactive scanner
  */
 
-extern int datapos, dataline, linenum;
-extern int skel_ind;
-extern char *infilename;
-extern char *extra_type;
-extern char **input_files;
-extern int num_input_files;
-extern char *program_name;
+బాహ్య పూర్ణాంకం datapos, dataline, linenum;
+బాహ్య పూర్ణాంకం skel_ind;
+బాహ్య అక్షరం *infilename;
+బాహ్య అక్షరం *extra_type;
+బాహ్య అక్షరం **ఆదానం_files;
+బాహ్య పూర్ణాంకం అంకె_ఆదానం_files;
+బాహ్య అక్షరం *కార్యక్రమం_name;
 
-extern char *action_array;
-extern int action_size;
-extern int defs1_offset, prolog_offset, action_offset, action_index;
+బాహ్య అక్షరం *action_array;
+బాహ్య పూర్ణాంకం action_కొలత;
+బాహ్య పూర్ణాంకం defs1_స్థానభ్రంశం, prolog_స్థానభ్రంశం, action_స్థానభ్రంశం, action_సూచీ;
 
 
 /* Variables for stack of states having only one out-transition:
@@ -503,8 +503,8 @@ extern int defs1_offset, prolog_offset, action_offset, action_index;
  * onesp - stack pointer
  */
 
-extern int onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
-extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
+బాహ్య పూర్ణాంకం onestate[ONE_దొంతర_కొలత], onesym[ONE_దొంతర_కొలత];
+బాహ్య పూర్ణాంకం onenext[ONE_దొంతర_కొలత], onedef[ONE_దొంతర_కొలత], onesp;
 
 
 /* Variables for nfa machine data:
@@ -541,36 +541,36 @@ extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
  * footprint - total size of tables, in bytes.
  */
 
-extern int maximum_mns, current_mns, current_max_rules;
-extern int num_rules, num_eof_rules, default_rule, lastnfa;
-extern int *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
-extern int *accptnum, *assoc_rule, *state_type;
-extern int *rule_type, *rule_linenum;
+బాహ్య పూర్ణాంకం గరిష్ఠ_mns, current_mns, current_max_నియమాలు;
+బాహ్య పూర్ణాంకం అంకె_నియమాలు, అంకె_eof_నియమాలు, default_నియమం, lastnfa;
+బాహ్య పూర్ణాంకం *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
+బాహ్య పూర్ణాంకం *accptnum, *assoc_నియమం, *state_type;
+బాహ్య పూర్ణాంకం *నియమం_type, *నియమం_linenum;
 /* rule_useful[], rule_has_nl[] and ccl_has_nl[] are boolean arrays,
  * but allocated as char arrays for size. */
-extern char *rule_useful, *rule_has_nl, *ccl_has_nl;
-extern int nlch;
-extern size_t footprint;
+బాహ్య అక్షరం *నియమం_useful, *నియమం_has_nl, *ccl_has_nl;
+బాహ్య పూర్ణాంకం nlch;
+బాహ్య size_t footprint;
 
 
 /* Different types of states; values are useful as masks, as well, for
  * routines like check_trailing_context().
  */
-#define STATE_NORMAL 0x1
-#define STATE_TRAILING_CONTEXT 0x2
+#నిర్వచించు STATE_సాధారణ 0x1
+#నిర్వచించు STATE_TRAILING_CONTEXT 0x2
 
 /* Global holding current type of state we're making. */
 
-extern int current_state_type;
+బాహ్య పూర్ణాంకం current_state_type;
 
 /* Different types of rules. */
-#define RULE_NORMAL 0
-#define RULE_VARIABLE 1
+#నిర్వచించు నియమం_సాధారణ 0
+#నిర్వచించు నియమం_VARIABLE 1
 
 /* True if the input rules include a rule with both variable-length head
  * and trailing context, false otherwise.
  */
-extern bool variable_trailing_context_rules;
+బాహ్య bool variable_trailing_context_నియమాలు;
 
 
 /* Variables for protos:
@@ -585,8 +585,8 @@ extern bool variable_trailing_context_rules;
  * protsave contains the entire state array for protos
  */
 
-extern int numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
-extern int protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
+బాహ్య పూర్ణాంకం numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
+బాహ్య పూర్ణాంకం protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_కొలత];
 
 
 /* Variables for managing equivalence classes:
@@ -604,14 +604,14 @@ extern int protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
  * for the NUL character.  Later we'll move this information into
  * the 0th element.
  */
-extern int numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs;
+బాహ్య పూర్ణాంకం numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs;
 
 /* Meta-equivalence classes are indexed starting at 1, so it's possible
  * that they will require positions from 1 .. CSIZE, i.e., CSIZE + 1
  * slots total (since the arrays are 0-based).  nextecm[] and ecgroup[]
  * don't require the extra position since they're indexed from 1 .. CSIZE - 1.
  */
-extern int tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
+బాహ్య పూర్ణాంకం tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
 
 
 /* Variables for start conditions:
@@ -624,12 +624,12 @@ extern int tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
  * scname - start condition name
  */
 
-extern int lastsc, *scset, *scbol;
+బాహ్య పూర్ణాంకం lastsc, *scset, *scbol;
 /* scxclu[] and sceof[] are boolean arrays, but allocated as char
  * arrays for size. */
-extern char *scxclu, *sceof;
-extern int current_max_scs;
-extern const char **scname;
+బాహ్య అక్షరం *scxclu, *sceof;
+బాహ్య పూర్ణాంకం current_max_scs;
+బాహ్య స్థిరరాశి అక్షరం **scname;
 
 
 /* Variables for dfa machine data:
@@ -662,18 +662,18 @@ extern const char **scname;
  * end_of_buffer_state - end-of-buffer dfa state number
  */
 
-extern int current_max_dfa_size, current_max_xpairs;
-extern int current_max_template_xpairs, current_max_dfas;
-extern int lastdfa, *nxt, *chk, *tnxt;
-extern int *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss,
+బాహ్య పూర్ణాంకం current_max_dfa_కొలత, current_max_xpairs;
+బాహ్య పూర్ణాంకం current_max_template_xpairs, current_max_dfas;
+బాహ్య పూర్ణాంకం lastdfa, *nxt, *chk, *tnxt;
+బాహ్య పూర్ణాంకం *పునాది, *def, *nultrans, NUL_ec, tblend, firstfree, **dss,
 	*dfasiz;
-extern union dfaacc_union {
-	int    *dfaacc_set;
-	int     dfaacc_state;
+బాహ్య సంఘం dfaacc_union {
+	పూర్ణాంకం    *dfaacc_సమితి;
+	పూర్ణాంకం     dfaacc_state;
 }      *dfaacc;
-extern int *accsiz, *dhash, numas;
-extern int numsnpairs, jambase, jamstate;
-extern int end_of_buffer_state;
+బాహ్య పూర్ణాంకం *accsiz, *dhash, numas;
+బాహ్య పూర్ణాంకం numsnpairs, jambase, jamstate;
+బాహ్య పూర్ణాంకం చివర_యొక్క_బఫరు_state;
 
 /* Variables for ccl information:
  * lastccl - ccl index of the last created ccl
@@ -687,9 +687,9 @@ extern int end_of_buffer_state;
  * ccltbl - holds the characters in each ccl - indexed by cclmap
  */
 
-extern int lastccl, *cclmap, *ccllen, *cclng, cclreuse;
-extern int current_maxccls, current_max_ccl_tbl_size;
-extern unsigned char *ccltbl;
+బాహ్య పూర్ణాంకం lastccl, *cclmap, *ccllen, *cclng, cclreuse;
+బాహ్య పూర్ణాంకం current_maxccls, current_max_ccl_tbl_కొలత;
+బాహ్య గుర్తులేని అక్షరం *ccltbl;
 
 
 /* Variables for miscellaneous information:
@@ -713,43 +713,43 @@ extern unsigned char *ccltbl;
  * bol_needed - whether scanner needs beginning-of-line recognition
  */
 
-extern char nmstr[MAXLINE];
-extern int sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
-extern int tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
-extern int num_backing_up, bol_needed;
+బాహ్య అక్షరం nmstr[MAXLINE];
+బాహ్య పూర్ణాంకం sectnum, nummt, hshcol, dfaeql, numeps, eps2, అంకె_reallocs, nmval;
+బాహ్య పూర్ణాంకం tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
+బాహ్య పూర్ణాంకం అంకె_backing_పైకి, bol_needed;
 
-void   *allocate_array(int, size_t);
-void   *reallocate_array(void *, int, size_t);
+శూన్య   *allocate_array(పూర్ణాంకం, size_t);
+శూన్య   *reallocate_array(శూన్య *, పూర్ణాంకం, size_t);
 
-#define allocate_integer_array(size) \
-	allocate_array(size, sizeof(int))
+#నిర్వచించు allocate_integer_array(కొలత) \
+	allocate_array(కొలత, పరిమాణం(పూర్ణాంకం))
 
-#define reallocate_integer_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(int))
+#నిర్వచించు reallocate_integer_array(array,కొలత) \
+	reallocate_array((శూన్య *) array, కొలత, పరిమాణం(పూర్ణాంకం))
 
-#define allocate_int_ptr_array(size) \
-	allocate_array(size, sizeof(int *))
+#నిర్వచించు allocate_int_ptr_array(కొలత) \
+	allocate_array(కొలత, పరిమాణం(పూర్ణాంకం *))
 
-#define allocate_char_ptr_array(size) \
-	allocate_array(size, sizeof(char *))
+#నిర్వచించు allocate_char_ptr_array(కొలత) \
+	allocate_array(కొలత, పరిమాణం(అక్షరం *))
 
-#define reallocate_int_ptr_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(int *))
+#నిర్వచించు reallocate_int_ptr_array(array,కొలత) \
+	reallocate_array((శూన్య *) array, కొలత, పరిమాణం(పూర్ణాంకం *))
 
-#define reallocate_char_ptr_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(char *))
+#నిర్వచించు reallocate_char_ptr_array(array,కొలత) \
+	reallocate_array((శూన్య *) array, కొలత, పరిమాణం(అక్షరం *))
 
-#define allocate_character_array(size) \
-	allocate_array( size, sizeof(char))
+#నిర్వచించు allocate_character_array(కొలత) \
+	allocate_array( కొలత, పరిమాణం(అక్షరం))
 
-#define reallocate_character_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(char))
+#నిర్వచించు reallocate_character_array(array,కొలత) \
+	reallocate_array((శూన్య *) array, కొలత, పరిమాణం(అక్షరం))
 
-#define allocate_Character_array(size) \
-	allocate_array(size, sizeof(unsigned char))
+#నిర్వచించు allocate_Character_array(కొలత) \
+	allocate_array(కొలత, పరిమాణం(గుర్తులేని అక్షరం))
 
-#define reallocate_Character_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(unsigned char))
+#నిర్వచించు reallocate_Character_array(array,కొలత) \
+	reallocate_array((శూన్య *) array, కొలత, పరిమాణం(గుర్తులేని అక్షరం))
 
 
 /* External functions that are cross-referenced among the flex source files. */
@@ -757,381 +757,381 @@ void   *reallocate_array(void *, int, size_t);
 
 /* from file ccl.c */
 
-extern void ccladd(int, int);	/* add a single character to a ccl */
-extern int cclinit(void);	/* make an empty ccl */
-extern void cclnegate(int);	/* negate a ccl */
-extern int ccl_set_diff (int a, int b); /* set difference of two ccls. */
-extern int ccl_set_union (int a, int b); /* set union of two ccls. */
+బాహ్య శూన్య ccladd(పూర్ణాంకం, పూర్ణాంకం);	/* add a single character to a ccl */
+బాహ్య పూర్ణాంకం cclinit(శూన్య);	/* make an empty ccl */
+బాహ్య శూన్య cclnegate(పూర్ణాంకం);	/* negate a ccl */
+బాహ్య పూర్ణాంకం ccl_సమితి_diff (పూర్ణాంకం a, పూర్ణాంకం b); /* set difference of two ccls. */
+బాహ్య పూర్ణాంకం ccl_సమితి_union (పూర్ణాంకం a, పూర్ణాంకం b); /* set union of two ccls. */
 
 /* List the members of a set of characters in CCL form. */
-extern void list_character_set(FILE *, int[]);
+బాహ్య శూన్య list_character_సమితి(FILE *, పూర్ణాంకం[]);
 
 
 /* from file dfa.c */
 
 /* Increase the maximum number of dfas. */
-extern void increase_max_dfas(void);
+బాహ్య శూన్య increase_max_dfas(శూన్య);
 
-extern size_t ntod(void);	/* convert a ndfa to a dfa */
+బాహ్య size_t ntod(శూన్య);	/* convert a ndfa to a dfa */
 
 
 /* from file ecs.c */
 
 /* Convert character classes to set of equivalence classes. */
-extern void ccl2ecl(void);
+బాహ్య శూన్య ccl2ecl(శూన్య);
 
 /* Associate equivalence class numbers with class members. */
-extern int cre8ecs(int[], int[], int);
+బాహ్య పూర్ణాంకం cre8ecs(పూర్ణాంకం[], పూర్ణాంకం[], పూర్ణాంకం);
 
 /* Update equivalence classes based on character class transitions. */
-extern void mkeccl(unsigned char[], int, int[], int[], int, int);
+బాహ్య శూన్య mkeccl(గుర్తులేని అక్షరం[], పూర్ణాంకం, పూర్ణాంకం[], పూర్ణాంకం[], పూర్ణాంకం, పూర్ణాంకం);
 
 /* Create equivalence class for single character. */
-extern void mkechar(int, int[], int[]);
+బాహ్య శూన్య mkechar(పూర్ణాంకం, పూర్ణాంకం[], పూర్ణాంకం[]);
 
 
 /* from file gen.c */
 
 /* Set a conditional amd make it visible in generated code */
-extern void visible_define (const char *);
+బాహ్య శూన్య visible_define (స్థిరరాశి అక్షరం *);
 
 /* And again, with an explicit value part. */
-extern void visible_define_str (const char *, const char *);
+బాహ్య శూన్య visible_define_str (స్థిరరాశి అక్షరం *, స్థిరరాశి అక్షరం *);
 
 /* This time the value part is an int */
-extern void visible_define_int (const char *, const int);
+బాహ్య శూన్య visible_define_int (స్థిరరాశి అక్షరం *, స్థిరరాశి పూర్ణాంకం);
 
 /* generate transition tables */
-extern void make_tables(void);
+బాహ్య శూన్య make_tables(శూన్య);
 
 /* Select a type for optimal packing */
-struct packtype_t *optimize_pack(size_t);
+నిర్మాణం packtype_t *optimize_pack(size_t);
 
 /* from file main.c */
 
-extern void check_options(void);
-extern void flexend(int);
-extern void usage(void);
+బాహ్య శూన్య check_options(శూన్య);
+బాహ్య శూన్య flexend(పూర్ణాంకం);
+బాహ్య శూన్య usage(శూన్య);
 
 
 /* from file misc.c */
 
 /* Add the given text to the stored actions. */
-extern void add_action(const char *new_text);
+బాహ్య శూన్య కూడు_action(స్థిరరాశి అక్షరం *new_పాఠ్యం);
 
 /* True if a string is all lower case. */
-extern int all_lower(char *);
+బాహ్య పూర్ణాంకం all_క్రింది(అక్షరం *);
 
 /* True if a string is all upper case. */
-extern int all_upper(char *);
+బాహ్య పూర్ణాంకం all_పై(అక్షరం *);
 
 /* Compare two integers for use by qsort. */
-extern int intcmp(const void *, const void *);
+బాహ్య పూర్ణాంకం intcmp(స్థిరరాశి శూన్య *, స్థిరరాశి శూన్య *);
 
 /* Check a character to make sure it's in the expected range. */
-extern void check_char(int c);
+బాహ్య శూన్య check_char(పూర్ణాంకం c);
 
 /* Replace upper-case letter to lower-case. */
-extern unsigned char clower(int);
+బాహ్య గుర్తులేని అక్షరం clower(పూర్ణాంకం);
 
 /* strdup() that fails fatally on allocation failures. */
-extern char *xstrdup(const char *);
+బాహ్య అక్షరం *xstrdup(స్థిరరాశి అక్షరం *);
 
 /* Compare two characters for use by qsort with '\0' sorting last. */
-extern int cclcmp(const void *, const void *);
+బాహ్య పూర్ణాంకం cclcmp(స్థిరరాశి శూన్య *, స్థిరరాశి శూన్య *);
 
 /* Finish up a block of data declarations. */
-extern void dataend(const char *);
+బాహ్య శూన్య dataend(స్థిరరాశి అక్షరం *);
 
 /* Flush generated data statements. */
-extern void dataflush(void);
+బాహ్య శూన్య dataflush(శూన్య);
 
 /* Report an error message and terminate. */
-extern void flexerror(const char *);
+బాహ్య శూన్య flexerror(స్థిరరాశి అక్షరం *);
 
 /* Report a fatal error message and terminate. */
-extern void flexfatal(const char *);
+బాహ్య శూన్య flexfatal(స్థిరరాశి అక్షరం *);
 
 /* Report a fatal error with a pinpoint, and terminate */
-#ifdef HAVE_DECL___FUNC__
-#define flex_die(msg) \
-    do{ \
+#నిర్వచితమైతే HAVE_DECL___FUNC__
+#నిర్వచించు flex_die(సందేశం) \
+    చేయి{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d (%s): %s\n"),\
-                program_name, __FILE__, (int)__LINE__,\
-                __func__,msg);\
+                కార్యక్రమం_name, __FILE__, (పూర్ణాంకం)__LINE__,\
+                __func__,సందేశం);\
         FLEX_EXIT(1);\
-    }while(0)
-#else /* ! HAVE_DECL___FUNC__ */
-#define flex_die(msg) \
-    do{ \
+    }అయితే(0)
+#లేకపోతే /* ! HAVE_DECL___FUNC__ */
+#నిర్వచించు flex_die(సందేశం) \
+    చేయి{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d %s\n"),\
-                program_name, __FILE__, (int)__LINE__,\
-                msg);\
+                కార్యక్రమం_name, __FILE__, (పూర్ణాంకం)__LINE__,\
+                సందేశం);\
         FLEX_EXIT(1);\
-    }while(0)
-#endif /* ! HAVE_DECL___func__ */
+    }అయితే(0)
+#అయితే_ముగింపు /* ! HAVE_DECL___func__ */
 
 /* Report an error message formatted  */
-extern void lerr(const char *, ...)
-#if defined(__GNUC__) && __GNUC__ >= 3
+బాహ్య శూన్య lerr(స్థిరరాశి అక్షరం *, ...)
+#ఒకవేళ defined(__GNUC__) && __GNUC__ >= 3
     __attribute__((__format__(__printf__, 1, 2)))
-#endif
+#అయితే_ముగింపు
 ;
 
 /* Like lerr, but also exit after displaying message. */
-extern void lerr_fatal(const char *, ...)
-#if defined(__GNUC__) && __GNUC__ >= 3
+బాహ్య శూన్య lerr_fatal(స్థిరరాశి అక్షరం *, ...)
+#ఒకవేళ defined(__GNUC__) && __GNUC__ >= 3
     __attribute__((__format__(__printf__, 1, 2)))
-#endif
+#అయితే_ముగింపు
 ;
 
 /* Spit out a "#line" statement. */
-extern void line_directive_out(FILE *, char *, int);
+బాహ్య శూన్య పంక్తి_directive_బహిర్గతం(FILE *, అక్షరం *, పూర్ణాంకం);
 
 /* Mark the current position in the action array as the end of the section 1
  * user defs.
  */
-extern void mark_defs1(void);
+బాహ్య శూన్య mark_defs1(శూన్య);
 
 /* Mark the current position in the action array as the end of the prolog. */
-extern void mark_prolog(void);
+బాహ్య శూన్య mark_prolog(శూన్య);
 
 /* Generate a data statement for a two-dimensional array. */
-extern void mk2data(int);
+బాహ్య శూన్య mk2data(పూర్ణాంకం);
 
-extern void mkdata(int);	/* generate a data statement */
+బాహ్య శూన్య mkdata(పూర్ణాంకం);	/* generate a data statement */
 
 /* Return the integer represented by a string of digits. */
-extern int myctoi(const char *);
+బాహ్య పూర్ణాంకం myctoi(స్థిరరాశి అక్షరం *);
 
 /* Return character corresponding to escape sequence. */
-extern unsigned char myesc(unsigned char[]);
+బాహ్య గుర్తులేని అక్షరం myesc(గుర్తులేని అక్షరం[]);
 
 /* Output a (possibly-formatted) string to the generated scanner. */
-extern void out(const char *);
-extern void out_dec(const char *, int);
-extern void out_dec2(const char *, int, int);
-extern void out_hex(const char *, unsigned int);
-extern void out_str(const char *, const char *);
-extern void out_str_dec(const char *, const char *, int);
-extern void outc(int);
-extern void outn(const char *);
-extern void out_m4_define(const char* def, const char* val);
+బాహ్య శూన్య బహిర్గతం(స్థిరరాశి అక్షరం *);
+బాహ్య శూన్య బహిర్గతం_dec(స్థిరరాశి అక్షరం *, పూర్ణాంకం);
+బాహ్య శూన్య బహిర్గతం_dec2(స్థిరరాశి అక్షరం *, పూర్ణాంకం, పూర్ణాంకం);
+బాహ్య శూన్య బహిర్గతం_hex(స్థిరరాశి అక్షరం *, గుర్తులేని పూర్ణాంకం);
+బాహ్య శూన్య బహిర్గతం_str(స్థిరరాశి అక్షరం *, స్థిరరాశి అక్షరం *);
+బాహ్య శూన్య బహిర్గతం_str_dec(స్థిరరాశి అక్షరం *, స్థిరరాశి అక్షరం *, పూర్ణాంకం);
+బాహ్య శూన్య outc(పూర్ణాంకం);
+బాహ్య శూన్య outn(స్థిరరాశి అక్షరం *);
+బాహ్య శూన్య బహిర్గతం_m4_define(స్థిరరాశి అక్షరం* def, స్థిరరాశి అక్షరం* val);
 
 /* Return a printable version of the given character, which might be
  * 8-bit.
  */
-extern char *readable_form(int);
+బాహ్య అక్షరం *readable_form(పూర్ణాంకం);
 
 /* Output a yy_trans_info structure. */
-extern void transition_struct_out(int, int);
+బాహ్య శూన్య transition_struct_బహిర్గతం(పూర్ణాంకం, పూర్ణాంకం);
 
 /* Only needed when using certain broken versions of bison to build parse.c. */
-extern void *yy_flex_xmalloc(int);
+బాహ్య శూన్య *yy_flex_xmalloc(పూర్ణాంకం);
 
 
 /* from file nfa.c */
 
 /* Add an accepting state to a machine. */
-extern void add_accept(int, int);
+బాహ్య శూన్య కూడు_accept(పూర్ణాంకం, పూర్ణాంకం);
 
 /* Make a given number of copies of a singleton machine. */
-extern int copysingl(int, int);
+బాహ్య పూర్ణాంకం copysingl(పూర్ణాంకం, పూర్ణాంకం);
 
 /* Debugging routine to write out an nfa. */
-extern void dumpnfa(int);
+బాహ్య శూన్య dumpnfa(పూర్ణాంకం);
 
 /* Finish up the processing for a rule. */
-extern void finish_rule(int, bool, int, int, int);
+బాహ్య శూన్య ముగింపు_నియమం(పూర్ణాంకం, bool, పూర్ణాంకం, పూర్ణాంకం, పూర్ణాంకం);
 
 /* Connect two machines together. */
-extern int link_machines(int, int);
+బాహ్య పూర్ణాంకం link_machines(పూర్ణాంకం, పూర్ణాంకం);
 
 /* Mark each "beginning" state in a machine as being a "normal" (i.e.,
  * not trailing context associated) state.
  */
-extern void mark_beginning_as_normal(int);
+బాహ్య శూన్య mark_beginning_as_సాధారణ(పూర్ణాంకం);
 
 /* Make a machine that branches to two machines. */
-extern int mkbranch(int, int);
+బాహ్య పూర్ణాంకం mkbranch(పూర్ణాంకం, పూర్ణాంకం);
 
-extern int mkclos(int);	/* convert a machine into a closure */
-extern int mkopt(int);	/* make a machine optional */
+బాహ్య పూర్ణాంకం mkclos(పూర్ణాంకం);	/* convert a machine into a closure */
+బాహ్య పూర్ణాంకం mkopt(పూర్ణాంకం);	/* make a machine optional */
 
 /* Make a machine that matches either one of two machines. */
-extern int mkor(int, int);
+బాహ్య పూర్ణాంకం mkor(పూర్ణాంకం, పూర్ణాంకం);
 
 /* Convert a machine into a positive closure. */
-extern int mkposcl(int);
+బాహ్య పూర్ణాంకం mkposcl(పూర్ణాంకం);
 
-extern int mkrep(int, int, int);	/* make a replicated machine */
+బాహ్య పూర్ణాంకం mkrep(పూర్ణాంకం, పూర్ణాంకం, పూర్ణాంకం);	/* make a replicated machine */
 
 /* Create a state with a transition on a given symbol. */
-extern int mkstate(int);
+బాహ్య పూర్ణాంకం mkstate(పూర్ణాంకం);
 
-extern void new_rule(void);	/* initialize for a new rule */
+బాహ్య శూన్య new_నియమం(శూన్య);	/* initialize for a new rule */
 
 
 /* from file parse.y */
 
 /* Build the "<<EOF>>" action for the active start conditions. */
-extern void build_eof_action(void);
+బాహ్య శూన్య build_eof_action(శూన్య);
 
 /* Write out a message formatted with one string, pinpointing its location. */
-extern void format_pinpoint_message(const char *, const char *);
+బాహ్య శూన్య format_pinpoint_సందేశం(స్థిరరాశి అక్షరం *, స్థిరరాశి అక్షరం *);
 
 /* Write out a message, pinpointing its location. */
-extern void pinpoint_message(const char *);
+బాహ్య శూన్య pinpoint_సందేశం(స్థిరరాశి అక్షరం *);
 
 /* Write out a warning, pinpointing it at the given line. */
-extern void line_warning(const char *, int);
+బాహ్య శూన్య పంక్తి_warning(స్థిరరాశి అక్షరం *, పూర్ణాంకం);
 
 /* Write out a message, pinpointing it at the given line. */
-extern void line_pinpoint(const char *, int);
+బాహ్య శూన్య పంక్తి_pinpoint(స్థిరరాశి అక్షరం *, పూర్ణాంకం);
 
 /* Report a formatted syntax error. */
-extern void format_synerr(const char *, const char *);
-extern void synerr(const char *);	/* report a syntax error */
-extern void format_warn(const char *, const char *);
-extern void lwarn(const char *);	/* report a warning */
-extern void yyerror(const char *);	/* report a parse error */
-extern int yyparse(void);		/* the YACC parser */
+బాహ్య శూన్య format_synerr(స్థిరరాశి అక్షరం *, స్థిరరాశి అక్షరం *);
+బాహ్య శూన్య synerr(స్థిరరాశి అక్షరం *);	/* report a syntax error */
+బాహ్య శూన్య format_warn(స్థిరరాశి అక్షరం *, స్థిరరాశి అక్షరం *);
+బాహ్య శూన్య lwarn(స్థిరరాశి అక్షరం *);	/* report a warning */
+బాహ్య శూన్య yyerror(స్థిరరాశి అక్షరం *);	/* report a parse error */
+బాహ్య పూర్ణాంకం yyparse(శూన్య);		/* the YACC parser */
 
 /* Ship a comment to the generated output */
-extern void comment(const char *);
+బాహ్య శూన్య comment(స్థిరరాశి అక్షరం *);
 
 /* from file scan.l */
 
 /* The Flex-generated scanner for flex. */
-extern int flexscan(void);
+బాహ్య పూర్ణాంకం flexscan(శూన్య);
 
 /* Open the given file (if NULL, stdin) for scanning. */
-extern void set_input_file(char *);
+బాహ్య శూన్య సమితి_ఆదానం_file(అక్షరం *);
 
 /* from file skeletons.c */
 
 /* return the correct file suffix for the selected back end */
-const char *suffix (void);
+స్థిరరాశి అక్షరం *suffix (శూన్య);
 
 /* Mine a text-valued property out of the skeleton file */
-extern const char *skel_property(const char *);
+బాహ్య స్థిరరాశి అక్షరం *skel_property(స్థిరరాశి అక్షరం *);
 
 /* Is the default back end selected?*/
-extern bool is_default_backend(void);
+బాహ్య bool is_default_backend(శూన్య);
 
 /* Select a backend by name */
-extern void backend_by_name(const char *);
+బాహ్య శూన్య backend_by_name(స్థిరరాశి అక్షరం *);
 
 /* Write out one section of the skeleton file. */
-extern void skelout(bool);
+బాహ్య శూన్య skelout(bool);
 
 /* from file sym.c */
 
 /* Save the text of a character class. */
-extern void cclinstal(char[], int);
+బాహ్య శూన్య cclinstal(అక్షరం[], పూర్ణాంకం);
 
 /* Lookup the number associated with character class. */
-extern int ccllookup(char[]);
+బాహ్య పూర్ణాంకం ccllookup(అక్షరం[]);
 
-extern void ndinstal(const char *, char[]);	/* install a name definition */
-extern char *ndlookup(const char *);	/* lookup a name definition */
+బాహ్య శూన్య ndinstal(స్థిరరాశి అక్షరం *, అక్షరం[]);	/* install a name definition */
+బాహ్య అక్షరం *ndlookup(స్థిరరాశి అక్షరం *);	/* lookup a name definition */
 
 /* Increase maximum number of SC's. */
-extern void scextend(void);
-extern void scinstal(const char *, bool);	/* make a start condition */
+బాహ్య శూన్య scextend(శూన్య);
+బాహ్య శూన్య scinstal(స్థిరరాశి అక్షరం *, bool);	/* make a start condition */
 
 /* Lookup the number associated with a start condition. */
-extern int sclookup(const char *);
+బాహ్య పూర్ణాంకం sclookup(స్థిరరాశి అక్షరం *);
 
 /* Supply context argument for a function if required */
-extern void context_call(char *);
+బాహ్య శూన్య context_call(అక్షరం *);
 
 /* from file tblcmp.c */
 
 /* Build table entries for dfa state. */
-extern void bldtbl(int[], int, int, int, int);
+బాహ్య శూన్య bldtbl(పూర్ణాంకం[], పూర్ణాంకం, పూర్ణాంకం, పూర్ణాంకం, పూర్ణాంకం);
 
-extern void cmptmps(void);	/* compress template table entries */
-extern void expand_nxt_chk(void);	/* increase nxt/chk arrays */
+బాహ్య శూన్య cmptmps(శూన్య);	/* compress template table entries */
+బాహ్య శూన్య expand_nxt_chk(శూన్య);	/* increase nxt/chk arrays */
 
 /* Finds a space in the table for a state to be placed. */
-extern int find_table_space(int *, int);
-extern void inittbl(void);	/* initialize transition tables */
+బాహ్య పూర్ణాంకం కనుగొను_పట్టిక_space(పూర్ణాంకం *, పూర్ణాంకం);
+బాహ్య శూన్య inittbl(శూన్య);	/* initialize transition tables */
 
 /* Make the default, "jam" table entries. */
-extern void mkdeftbl(void);
+బాహ్య శూన్య mkdeftbl(శూన్య);
 
 /* Create table entries for a state (or state fragment) which has
  * only one out-transition.
  */
-extern void mk1tbl(int, int, int, int);
+బాహ్య శూన్య mk1tbl(పూర్ణాంకం, పూర్ణాంకం, పూర్ణాంకం, పూర్ణాంకం);
 
 /* Place a state into full speed transition table. */
-extern void place_state(int *, int, int);
+బాహ్య శూన్య ఉంచు_state(పూర్ణాంకం *, పూర్ణాంకం, పూర్ణాంకం);
 
 /* Save states with only one out-transition to be processed later. */
-extern void stack1(int, int, int, int);
+బాహ్య శూన్య stack1(పూర్ణాంకం, పూర్ణాంకం, పూర్ణాంకం, పూర్ణాంకం);
 
 
 /* from file yylex.c */
 
-extern int yylex(void);
+బాహ్య పూర్ణాంకం yylex(శూన్య);
 
 /* A growable array. See buf.c. */
-struct Buf {
-	void   *elts;		/* elements. */
-	int     nelts;		/* number of elements. */
-	size_t  elt_size;	/* in bytes. */
-	int     nmax;		/* max capacity of elements. */
+నిర్మాణం Buf {
+	శూన్య   *elts;		/* elements. */
+	పూర్ణాంకం     nelts;		/* number of elements. */
+	size_t  elt_కొలత;	/* in bytes. */
+	పూర్ణాంకం     nmax;		/* max capacity of elements. */
 };
 
-extern void buf_init(struct Buf * buf, size_t elem_size);
-extern void buf_destroy(struct Buf * buf);
-extern struct Buf *buf_append(struct Buf * buf, const void *ptr, int n_elem);
-extern struct Buf *buf_strappend(struct Buf *, const char *str);
-extern struct Buf *buf_strnappend(struct Buf *, const char *str, int nchars);
-extern struct Buf *buf_prints(struct Buf *buf, const char *fmt, const char* s);
+బాహ్య శూన్య buf_init(నిర్మాణం Buf * buf, size_t elem_కొలత);
+బాహ్య శూన్య buf_destroy(నిర్మాణం Buf * buf);
+బాహ్య నిర్మాణం Buf *buf_append(నిర్మాణం Buf * buf, స్థిరరాశి శూన్య *ptr, పూర్ణాంకం n_elem);
+బాహ్య నిర్మాణం Buf *buf_strappend(నిర్మాణం Buf *, స్థిరరాశి అక్షరం *str);
+బాహ్య నిర్మాణం Buf *buf_strnappend(నిర్మాణం Buf *, స్థిరరాశి అక్షరం *str, పూర్ణాంకం nchars);
+బాహ్య నిర్మాణం Buf *buf_prints(నిర్మాణం Buf *buf, స్థిరరాశి అక్షరం *fmt, స్థిరరాశి అక్షరం* s);
 
-extern struct Buf userdef_buf; /* a string buffer for #define's generated by user-options on cmd line. */
-extern struct Buf top_buf;     /* contains %top code. String buffer. */
+బాహ్య నిర్మాణం Buf userdef_buf; /* a string buffer for #define's generated by user-options on cmd line. */
+బాహ్య నిర్మాణం Buf శిఖరం_buf;     /* contains %top code. String buffer. */
 
 /* For blocking out code from the header file. */
-#define OUT_BEGIN_CODE() outn("m4_ifdef( [[M4_YY_IN_HEADER]],,[[m4_dnl")
-#define OUT_END_CODE()   outn("]])")
+#నిర్వచించు బహిర్గతం_BEGIN_సంకేతం() outn("m4_ifdef( [[M4_YY_IN_HEADER]],,[[m4_dnl")
+#నిర్వచించు బహిర్గతం_చివర_సంకేతం()   outn("]])")
 
 /* For setjmp/longjmp (instead of calling exit(2)). Linkage in main.c */
-extern jmp_buf flex_main_jmp_buf;
+బాహ్య jmp_buf flex_main_jmp_buf;
 
-#define FLEX_EXIT(status) longjmp(flex_main_jmp_buf,(status)+1)
+#నిర్వచించు FLEX_EXIT(స్థితి_2) longjmp(flex_main_jmp_buf,(స్థితి_2)+1)
 
 /* Removes all \n and \r chars from tail of str. returns str. */
-extern char *chomp (char *str);
+బాహ్య అక్షరం *chomp (అక్షరం *str);
 
 /* ctype functions forced to return boolean */
-#define b_isalnum(c) (isalnum(c)?true:false)
-#define b_isalpha(c) (isalpha(c)?true:false)
-#define b_isascii(c) (isascii(c)?true:false)
-#define b_isblank(c) (isblank(c)?true:false)
-#define b_iscntrl(c) (iscntrl(c)?true:false)
-#define b_isdigit(c) (isdigit(c)?true:false)
-#define b_isgraph(c) (isgraph(c)?true:false)
-#define b_islower(c) (islower(c)?true:false)
-#define b_isprint(c) (isprint(c)?true:false)
-#define b_ispunct(c) (ispunct(c)?true:false)
-#define b_isspace(c) (isspace(c)?true:false)
-#define b_isupper(c) (isupper(c)?true:false)
-#define b_isxdigit(c) (isxdigit(c)?true:false)
+#నిర్వచించు b_isalnum(c) (అక్షరమా_అంకెనా(c)?true:false)
+#నిర్వచించు b_isalpha(c) (అక్షరమా(c)?true:false)
+#నిర్వచించు b_isascii(c) (isascii(c)?true:false)
+#నిర్వచించు b_isblank(c) (isblank(c)?true:false)
+#నిర్వచించు b_iscntrl(c) (iscntrl(c)?true:false)
+#నిర్వచించు b_isdigit(c) (అంకెనా(c)?true:false)
+#నిర్వచించు b_isgraph(c) (isgraph(c)?true:false)
+#నిర్వచించు b_islower(c) (islower(c)?true:false)
+#నిర్వచించు b_isprint(c) (isprint(c)?true:false)
+#నిర్వచించు b_ispunct(c) (ispunct(c)?true:false)
+#నిర్వచించు b_isspace(c) (ఖాళీనా(c)?true:false)
+#నిర్వచించు b_isupper(c) (isupper(c)?true:false)
+#నిర్వచించు b_isxdigit(c) (isxdigit(c)?true:false)
 
 /* return true if char is uppercase or lowercase. */
-bool has_case(int c);
+bool has_case(పూర్ణాంకం c);
 
 /* Change case of character if possible. */
-int reverse_case(int c);
+పూర్ణాంకం తిరగేయి_case(పూర్ణాంకం c);
 
 /* return false if [c1-c2] is ambiguous for a caseless scanner. */
-bool range_covers_case (int c1, int c2);
+bool range_covers_case (పూర్ణాంకం c1, పూర్ణాంకం c2);
 
 /*
  *  From "filter.c"
@@ -1141,56 +1141,56 @@ bool range_covers_case (int c1, int c2);
  *  The filter may be external, such as "sed", or it
  *  may be internal, as a function call.
  */
-struct filter {
-    int    (*filter_func)(struct filter*); /**< internal filter function */
-    void * extra;         /**< extra data passed to filter_func */
-	int     argc;         /**< arg count */
-	const char ** argv;   /**< arg vector, \0-terminated */
-    struct filter * next; /**< next filter or NULL */
+నిర్మాణం filter {
+    పూర్ణాంకం    (*filter_func)(నిర్మాణం filter*); /**< internal filter function */
+    శూన్య * extra;         /**< extra data passed to filter_func */
+	పూర్ణాంకం     argc;         /**< arg count */
+	స్థిరరాశి అక్షరం ** argv;   /**< arg vector, \0-terminated */
+    నిర్మాణం filter * తదుపరి; /**< next filter or NULL */
 };
 
 /* output filter chain */
-extern struct filter * output_chain;
-extern struct filter *filter_create_ext (struct filter * chain, const char *cmd, ...);
-struct filter *filter_create_int(struct filter *chain,
-				  int (*filter_func) (struct filter *),
-                  void *extra);
-extern bool filter_apply_chain(struct filter * chain);
-extern int filter_truncate(struct filter * chain, int max_len);
-extern int filter_tee_header(struct filter *chain);
-extern int filter_fix_linedirs(struct filter *chain);
+బాహ్య నిర్మాణం filter * output_chain;
+బాహ్య నిర్మాణం filter *filter_create_ext (నిర్మాణం filter * chain, స్థిరరాశి అక్షరం *cmd, ...);
+నిర్మాణం filter *filter_create_int(నిర్మాణం filter *chain,
+				  పూర్ణాంకం (*filter_func) (నిర్మాణం filter *),
+                  శూన్య *extra);
+బాహ్య bool filter_apply_chain(నిర్మాణం filter * chain);
+బాహ్య పూర్ణాంకం filter_truncate(నిర్మాణం filter * chain, పూర్ణాంకం max_len);
+బాహ్య పూర్ణాంకం filter_tee_శీర్షిక(నిర్మాణం filter *chain);
+బాహ్య పూర్ణాంకం filter_fix_linedirs(నిర్మాణం filter *chain);
 
 
 /*
  * From "regex.c"
  */
 
-extern regex_t regex_linedir;
-bool flex_init_regex(const char *);
-void flex_regcomp(regex_t *preg, const char *regex, int cflags);
-char   *regmatch_dup (regmatch_t * m, const char *src);
-char   *regmatch_cpy (regmatch_t * m, char *dest, const char *src);
-int regmatch_len (regmatch_t * m);
-int regmatch_strtol (regmatch_t * m, const char *src, char **endptr, int base);
-bool regmatch_empty (regmatch_t * m);
+బాహ్య regex_t regex_linedir;
+bool flex_init_regex(స్థిరరాశి అక్షరం *);
+శూన్య flex_regcomp(regex_t *preg, స్థిరరాశి అక్షరం *regex, పూర్ణాంకం cflags);
+అక్షరం   *regmatch_dup (regmatch_t * m, స్థిరరాశి అక్షరం *src);
+అక్షరం   *regmatch_cpy (regmatch_t * m, అక్షరం *dest, స్థిరరాశి అక్షరం *src);
+పూర్ణాంకం regmatch_len (regmatch_t * m);
+పూర్ణాంకం regmatch_strtol (regmatch_t * m, స్థిరరాశి అక్షరం *src, అక్షరం **endptr, పూర్ణాంకం పునాది);
+bool regmatch_ఖాళీలు (regmatch_t * m);
 
 /* From "scanflags.h" */
-typedef unsigned int scanflags_t;
-extern scanflags_t* _sf_stk;
-extern size_t _sf_top_ix, _sf_max; /**< stack of scanner flags. */
-#define _SF_CASE_INS   ((scanflags_t) 0x0001)
-#define _SF_DOT_ALL    ((scanflags_t) 0x0002)
-#define _SF_SKIP_WS    ((scanflags_t) 0x0004)
-#define sf_top()           (_sf_stk[_sf_top_ix])
-#define sf_case_ins()      (sf_top() & _SF_CASE_INS)
-#define sf_dot_all()       (sf_top() & _SF_DOT_ALL)
-#define sf_skip_ws()       (sf_top() & _SF_SKIP_WS)
-#define sf_set_case_ins(X)      ((X) ? (sf_top() |= _SF_CASE_INS) : (sf_top() &= ~_SF_CASE_INS))
-#define sf_set_dot_all(X)       ((X) ? (sf_top() |= _SF_DOT_ALL)  : (sf_top() &= ~_SF_DOT_ALL))
-#define sf_set_skip_ws(X)       ((X) ? (sf_top() |= _SF_SKIP_WS)  : (sf_top() &= ~_SF_SKIP_WS))
-extern void sf_init(void);
-extern void sf_push(void);
-extern void sf_pop(void);
+రకనిర్వచనం గుర్తులేని పూర్ణాంకం scanflags_t;
+బాహ్య scanflags_t* _sf_stk;
+బాహ్య size_t sf_శిఖరం_ix, _sf_max; /**< stack of scanner flags. */
+#నిర్వచించు _SF_CASE_INS   ((scanflags_t) 0x0001)
+#నిర్వచించు _SF_DOT_ALL    ((scanflags_t) 0x0002)
+#నిర్వచించు _SF_SKIP_WS    ((scanflags_t) 0x0004)
+#నిర్వచించు sf_శిఖరం()           (_sf_stk[sf_శిఖరం_ix])
+#నిర్వచించు sf_case_ins()      (sf_శిఖరం() & _SF_CASE_INS)
+#నిర్వచించు sf_dot_all()       (sf_శిఖరం() & _SF_DOT_ALL)
+#నిర్వచించు sf_skip_ws()       (sf_శిఖరం() & _SF_SKIP_WS)
+#నిర్వచించు sf_సమితి_case_ins(X)      ((X) ? (sf_శిఖరం() |= _SF_CASE_INS) : (sf_శిఖరం() &= ~_SF_CASE_INS))
+#నిర్వచించు sf_సమితి_dot_all(X)       ((X) ? (sf_శిఖరం() |= _SF_DOT_ALL)  : (sf_శిఖరం() &= ~_SF_DOT_ALL))
+#నిర్వచించు sf_సమితి_skip_ws(X)       ((X) ? (sf_శిఖరం() |= _SF_SKIP_WS)  : (sf_శిఖరం() &= ~_SF_SKIP_WS))
+బాహ్య శూన్య sf_init(శూన్య);
+బాహ్య శూన్య sf_నెట్టు(శూన్య);
+బాహ్య శూన్య sf_తీయి(శూన్య);
 
 
-#endif /* not defined FLEXDEF_H */
+#అయితే_ముగింపు /* not defined FLEXDEF_H */

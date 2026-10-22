@@ -32,20 +32,20 @@
  *  PURPOSE.
  */
 
-#ifndef TABLES_H
-#define TABLES_H
+#నిర్వచితం_కాకపోతే TABLES_H
+#నిర్వచించు TABLES_H
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 /* *INDENT-OFF* */
-extern  "C" {
+బాహ్య  "C" {
 /* *INDENT-ON* */
-#endif
+#అయితే_ముగింపు
 
 /* Tables serialization API declarations. */
-#include "tables_shared.h"
-struct yytbl_writer {
-	FILE   *out;
-	int total_written;
+#అన్తర్భావ "tables_shared.h"
+నిర్మాణం yytbl_writer {
+	FILE   *బహిర్గతం;
+	పూర్ణాంకం మొత్తం_written;
 			    /**< bytes written so far */
 	fpos_t  th_ssize_pos;
 			    /**< position of th_ssize */
@@ -59,26 +59,26 @@ struct yytbl_writer {
  * tablesverify - true if tables-verify option specified
  * gentables - true if we should spit out the normal C tables
  */
-extern bool tablesext, tablesverify,gentables;
-extern char *tablesfilename, *tablesname;
-extern struct yytbl_writer tableswr;
+బాహ్య bool tablesext, tablesverify,gentables;
+బాహ్య అక్షరం *tablesfilename, *tablesname;
+బాహ్య నిర్మాణం yytbl_writer tableswr;
 
-int     yytbl_writer_init (struct yytbl_writer *, FILE *);
-int     yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
-			const char *name);
-int     yytbl_data_init (struct yytbl_data *tbl, enum yytbl_id id);
-int     yytbl_data_destroy (struct yytbl_data *td);
-int     yytbl_hdr_fwrite (struct yytbl_writer *wr,
-			  const struct yytbl_hdr *th);
-int     yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td);
-void    yytbl_data_compress (struct yytbl_data *tbl);
+పూర్ణాంకం     yytbl_writer_init (నిర్మాణం yytbl_writer *, FILE *);
+పూర్ణాంకం     yytbl_hdr_init (నిర్మాణం yytbl_hdr *th, స్థిరరాశి అక్షరం *సంస్కరణ_str,
+			స్థిరరాశి అక్షరం *name);
+పూర్ణాంకం     yytbl_దత్తాంశం_init (నిర్మాణం yytbl_దత్తాంశం *tbl, గణన yytbl_id id);
+పూర్ణాంకం     yytbl_దత్తాంశం_destroy (నిర్మాణం yytbl_దత్తాంశం *td);
+పూర్ణాంకం     yytbl_hdr_fwrite (నిర్మాణం yytbl_writer *wr,
+			  స్థిరరాశి నిర్మాణం yytbl_hdr *th);
+పూర్ణాంకం     yytbl_దత్తాంశం_fwrite (నిర్మాణం yytbl_writer *wr, నిర్మాణం yytbl_దత్తాంశం *td);
+శూన్య    yytbl_దత్తాంశం_compress (నిర్మాణం yytbl_దత్తాంశం *tbl);
 
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 /* *INDENT-OFF* */
 }
 /* *INDENT-ON* */
-#endif
-#endif
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */

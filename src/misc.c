@@ -32,76 +32,76 @@
 /*  IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED */
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
-#include "flexdef.h"
-#include "tables.h"
+#అన్తర్భావ "flexdef.h"
+#అన్తర్భావ "tables.h"
 
 /* Append "new_text" to the running buffer. */
-void add_action (const char *new_text)
+శూన్య కూడు_action (స్థిరరాశి అక్షరం *new_పాఠ్యం)
 {
-	int     len = (int) strlen (new_text);
+	పూర్ణాంకం     len = (పూర్ణాంకం) అక్షరశ్రేణి_పొడవు (new_పాఠ్యం);
 
-	while (len + action_index >= action_size - 10 /* slop */ ) {
+	అయితే (len + action_సూచీ >= action_కొలత - 10 /* slop */ ) {
 
-		if (action_size > INT_MAX / 2)
+		ఒకవేళ (action_కొలత > గరిష్ఠ_పూర్ణాంకం / 2)
 			/* Increase just a little, to try to avoid overflow
 			 * on 16-bit machines.
 			 */
-			action_size += action_size / 8;
-		else
-			action_size = action_size * 2;
+			action_కొలత += action_కొలత / 8;
+		లేకపోతే
+			action_కొలత = action_కొలత * 2;
 
 		action_array =
 			reallocate_character_array (action_array,
-						    action_size);
+						    action_కొలత);
 	}
 
-	strcpy (&action_array[action_index], new_text);
+	strcpy (&action_array[action_సూచీ], new_పాఠ్యం);
 
-	action_index += len;
+	action_సూచీ += len;
 }
 
 
 /* allocate_array - allocate memory for an integer array of the given size */
 
-void   *allocate_array (int size, size_t element_size)
+శూన్య   *allocate_array (పూర్ణాంకం కొలత, size_t element_కొలత)
 {
-	return reallocate_array(NULL, size, element_size);
+	తిరిగి reallocate_array(ఖాళీ, కొలత, element_కొలత);
 }
 
 
 /* all_lower - true if a string is all lower-case */
 
-int all_lower (char *str)
+పూర్ణాంకం all_క్రింది (అక్షరం *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !islower ((unsigned char) * str))
-			return 0;
+	అయితే (*str) {
+		ఒకవేళ (!isascii ((గుర్తులేని అక్షరం) * str) || !islower ((గుర్తులేని అక్షరం) * str))
+			తిరిగి 0;
 		++str;
 	}
 
-	return 1;
+	తిరిగి 1;
 }
 
 
 /* all_upper - true if a string is all upper-case */
 
-int all_upper (char *str)
+పూర్ణాంకం all_పై (అక్షరం *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !isupper ((unsigned char) * str))
-			return 0;
+	అయితే (*str) {
+		ఒకవేళ (!isascii ((గుర్తులేని అక్షరం) * str) || !isupper ((గుర్తులేని అక్షరం) * str))
+			తిరిగి 0;
 		++str;
 	}
 
-	return 1;
+	తిరిగి 1;
 }
 
 
 /* intcmp - compares two integers for use by qsort. */
 
-int intcmp (const void *a, const void *b)
+పూర్ణాంకం intcmp (స్థిరరాశి శూన్య *a, స్థిరరాశి శూన్య *b)
 {
-  return *(const int *) a - *(const int *) b;
+  తిరిగి *(స్థిరరాశి పూర్ణాంకం *) a - *(స్థిరరాశి పూర్ణాంకం *) b;
 }
 
 
@@ -110,13 +110,13 @@ int intcmp (const void *a, const void *b)
  *		and exits.
  */
 
-void check_char (int c)
+శూన్య check_char (పూర్ణాంకం c)
 {
-	if (c >= CSIZE)
+	ఒకవేళ (c >= CSIZE)
 		lerr (_("bad character '%s' detected in check_char()"),
 			readable_form (c));
 
-	if (c >= ctrl.csize)
+	ఒకవేళ (c >= ctrl.csize)
 		lerr (_
 			("scanner requires -8 flag to use the character %s"),
 			readable_form (c));
@@ -126,49 +126,49 @@ void check_char (int c)
 
 /* clower - replace upper-case letter to lower-case */
 
-unsigned char clower (int c)
+గుర్తులేని అక్షరం clower (పూర్ణాంకం c)
 {
-	return (unsigned char) ((isascii (c) && isupper (c)) ? tolower (c) : c);
+	తిరిగి (గుర్తులేని అక్షరం) ((isascii (c) && isupper (c)) ? tolower (c) : c);
 }
 
 
-char *xstrdup(const char *s)
+అక్షరం *xstrdup(స్థిరరాశి అక్షరం *s)
 {
-	char *s2;
+	అక్షరం *s2;
 
-	if ((s2 = strdup(s)) == NULL)
+	ఒకవేళ ((s2 = strdup(s)) == ఖాళీ)
 		flexfatal (_("memory allocation failure in xstrdup()"));
 
-	return s2;
+	తిరిగి s2;
 }
 
 
 /* cclcmp - compares two characters for use by qsort with '\0' sorting last. */
 
-int cclcmp (const void *a, const void *b)
+పూర్ణాంకం cclcmp (స్థిరరాశి శూన్య *a, స్థిరరాశి శూన్య *b)
 {
-	if (!*(const unsigned char *) a)
-		return 1;
-	else
-		if (!*(const unsigned char *) b)
-			return - 1;
-		else
-			return *(const unsigned char *) a - *(const unsigned char *) b;
+	ఒకవేళ (!*(స్థిరరాశి గుర్తులేని అక్షరం *) a)
+		తిరిగి 1;
+	లేకపోతే
+		ఒకవేళ (!*(స్థిరరాశి గుర్తులేని అక్షరం *) b)
+			తిరిగి - 1;
+		లేకపోతే
+			తిరిగి *(స్థిరరాశి గుర్తులేని అక్షరం *) a - *(స్థిరరాశి గుర్తులేని అక్షరం *) b;
 }
 
 
 /* dataend - finish up a block of data declarations */
 
-void dataend (const char *endit)
+శూన్య dataend (స్థిరరాశి అక్షరం *endit)
 {
 	/* short circuit any output */
-	if (gentables) {
+	ఒకవేళ (gentables) {
 
-		if (datapos > 0)
+		ఒకవేళ (datapos > 0)
 			dataflush ();
 
 		/* add terminator for initialization; { for vi */
-		if (endit)
+		ఒకవేళ (endit)
 			outn (endit);
 	}
 	dataline = 0;
@@ -178,14 +178,14 @@ void dataend (const char *endit)
 
 /* dataflush - flush generated data statements */
 
-void dataflush (void)
+శూన్య dataflush (శూన్య)
 {
-	assert (gentables);
+	ప్రతిజ్ఞా (gentables);
 
-	if (datapos > 0)
+	ఒకవేళ (datapos > 0)
 		outc ('\n');
 
-	if (++dataline >= NUMDATALINES) {
+	ఒకవేళ (++dataline >= NUMDATALINES) {
 		/* Put out a blank line so that the table is grouped into
 		 * large blocks that enable the user to find elements easily.
 		 */
@@ -200,71 +200,71 @@ void dataflush (void)
 
 /* flexerror - report an error message and terminate */
 
-void flexerror (const char *msg)
+శూన్య flexerror (స్థిరరాశి అక్షరం *సందేశం)
 {
-	fprintf (stderr, "%s: %s\n", program_name, msg);
+	fprintf (stderr, "%s: %s\n", కార్యక్రమం_name, సందేశం);
 	flexend (1);
 }
 
 
 /* flexfatal - report a fatal error message and terminate */
 
-void flexfatal (const char *msg)
+శూన్య flexfatal (స్థిరరాశి అక్షరం *సందేశం)
 {
 	fprintf (stderr, _("%s: fatal internal error, %s\n"),
-		 program_name, msg);
+		 కార్యక్రమం_name, సందేశం);
 	FLEX_EXIT (1);
 }
 
 
 /* lerr - report an error message */
 
-void lerr (const char *msg, ...)
+శూన్య lerr (స్థిరరాశి అక్షరం *సందేశం, ...)
 {
-	char    errmsg[MAXLINE];
-	va_list args;
+	అక్షరం    errmsg[MAXLINE];
+	va_list వాదనలు;
 
-	va_start(args, msg);
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
-	va_end(args);
+	va_ప్రారంభం(వాదనలు, సందేశం);
+	vsnprintf (errmsg, పరిమాణం(errmsg), సందేశం, వాదనలు);
+	va_చివర(వాదనలు);
 	flexerror (errmsg);
 }
 
 
 /* lerr_fatal - as lerr, but call flexfatal */
 
-void lerr_fatal (const char *msg, ...)
+శూన్య lerr_fatal (స్థిరరాశి అక్షరం *సందేశం, ...)
 {
-	char    errmsg[MAXLINE];
-	va_list args;
-	va_start(args, msg);
+	అక్షరం    errmsg[MAXLINE];
+	va_list వాదనలు;
+	va_ప్రారంభం(వాదనలు, సందేశం);
 
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
-	va_end(args);
+	vsnprintf (errmsg, పరిమాణం(errmsg), సందేశం, వాదనలు);
+	va_చివర(వాదనలు);
 	flexfatal (errmsg);
 }
 
 
 /* line_directive_out - spit out a "#line" statement or equivalent */
-void line_directive_out (FILE *output_file, char *path, int linenum)
+శూన్య పంక్తి_directive_బహిర్గతం (FILE *output_file, అక్షరం *మార్గం, పూర్ణాంకం linenum)
 {
-	char	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
-	char    directive[MAXLINE*2], filename[MAXLINE];
-	char   *s1, *s2, *s3;
+	అక్షరం	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
+	అక్షరం    directive[MAXLINE*2], filename[MAXLINE];
+	అక్షరం   *s1, *s2, *s3;
 
-	if (!ctrl.gen_line_dirs)
-		return;
+	ఒకవేళ (!ctrl.gen_పంక్తి_dirs)
+		తిరిగి;
 
-	s1 = (path != NULL) ? path : "M4_YY_OUTFILE_NAME";
+	s1 = (మార్గం != ఖాళీ) ? మార్గం : "M4_YY_OUTFILE_NAME";
 
-	if ((path != NULL) && !s1)
+	ఒకవేళ ((మార్గం != ఖాళీ) && !s1)
 		s1 = "<stdin>";
     
 	s2 = filename;
-	s3 = &filename[sizeof (filename) - 2];
+	s3 = &filename[పరిమాణం (filename) - 2];
 
-	while (s2 < s3 && *s1) {
-		if (*s1 == '\\' || *s1 == '"')
+	అయితే (s2 < s3 && *s1) {
+		ఒకవేళ (*s1 == '\\' || *s1 == '"')
 			/* Escape the '\' or '"' */
 			*s2++ = '\\';
 
@@ -273,20 +273,20 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
 
 	*s2 = '\0';
 
-	if (path != NULL)
-		snprintf (directive, sizeof(directive), trace_fmt, linenum, filename);
-	else {
-		snprintf (directive, sizeof(directive), trace_fmt, 0, filename);
+	ఒకవేళ (మార్గం != ఖాళీ)
+		snprintf (directive, పరిమాణం(directive), trace_fmt, linenum, filename);
+	లేకపోతే {
+		snprintf (directive, పరిమాణం(directive), trace_fmt, 0, filename);
 	}
 
 	/* If output_file is nil then we should put the directive in
 	 * the accumulated actions.
 	 */
-	if (output_file) {
+	ఒకవేళ (output_file) {
 		fputs (directive, output_file);
 	}
-	else
-		add_action (directive);
+	లేకపోతే
+		కూడు_action (directive);
 }
 
 
@@ -294,23 +294,23 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
  *               representing where the user's section 1 definitions end
  *		 and the prolog begins
  */
-void mark_defs1 (void)
+శూన్య mark_defs1 (శూన్య)
 {
-	defs1_offset = 0;
-	action_array[action_index++] = '\0';
-	action_offset = prolog_offset = action_index;
-	action_array[action_index] = '\0';
+	defs1_స్థానభ్రంశం = 0;
+	action_array[action_సూచీ++] = '\0';
+	action_స్థానభ్రంశం = prolog_స్థానభ్రంశం = action_సూచీ;
+	action_array[action_సూచీ] = '\0';
 }
 
 
 /* mark_prolog - mark the current position in the action array as
  *               representing the end of the action prolog
  */
-void mark_prolog (void)
+శూన్య mark_prolog (శూన్య)
 {
-	action_array[action_index++] = '\0';
-	action_offset = action_index;
-	action_array[action_index] = '\0';
+	action_array[action_సూచీ++] = '\0';
+	action_స్థానభ్రంశం = action_సూచీ;
+	action_array[action_సూచీ] = '\0';
 }
 
 
@@ -318,27 +318,27 @@ void mark_prolog (void)
  *
  * Generates a data statement initializing the current 2-D array to "value".
  */
-void mk2data (int value)
+శూన్య mk2data (పూర్ణాంకం విలువ)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	ఒకవేళ (!gentables)
+		తిరిగి;
 
-	if (datapos >= NUMDATAITEMS) {
+	ఒకవేళ (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	ఒకవేళ (datapos == 0)
 		/* Indent. */
-		out ("    ");
+		బహిర్గతం ("    ");
 
-	else
+	లేకపోతే
 	  outc (',');
 
 	++datapos;
 
-	out_dec ("%5d", value);
+	బహిర్గతం_dec ("%5d", విలువ);
 }
 
 
@@ -347,73 +347,73 @@ void mk2data (int value)
  * Generates a data statement initializing the current array element to
  * "value".
  */
-void mkdata (int value)
+శూన్య mkdata (పూర్ణాంకం విలువ)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	ఒకవేళ (!gentables)
+		తిరిగి;
 
-	if (datapos >= NUMDATAITEMS) {
+	ఒకవేళ (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	ఒకవేళ (datapos == 0)
 		/* Indent. */
-		out ("    ");
-	else
+		బహిర్గతం ("    ");
+	లేకపోతే
 		outc (',');
 	++datapos;
 
-	out_dec ("%5d", value);
+	బహిర్గతం_dec ("%5d", విలువ);
 }
 
 
 /* myctoi - return the integer represented by a string of digits */
 
-int myctoi (const char *array)
+పూర్ణాంకం myctoi (స్థిరరాశి అక్షరం *array)
 {
-	int     val = 0;
+	పూర్ణాంకం     val = 0;
 
-	(void) sscanf (array, "%d", &val);
+	(శూన్య) అక్షరశ్రేణి_చదువు (array, "%d", &val);
 
-	return val;
+	తిరిగి val;
 }
 
 
 /* myesc - return character corresponding to escape sequence */
 
-unsigned char myesc (unsigned char array[])
+గుర్తులేని అక్షరం myesc (గుర్తులేని అక్షరం array[])
 {
-	unsigned char    c, esc_char;
+	గుర్తులేని అక్షరం    c, esc_char;
 
-	switch (array[1]) {
-	case 'b':
-		return '\b';
-	case 'f':
-		return '\f';
-	case 'n':
-		return '\n';
-	case 'r':
-		return '\r';
-	case 't':
-		return '\t';
-	case 'a':
-		return '\a';
-	case 'v':
-		return '\v';
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
+	ఎంపిక (array[1]) {
+	స్థితి 'b':
+		తిరిగి '\b';
+	స్థితి 'f':
+		తిరిగి '\f';
+	స్థితి 'n':
+		తిరిగి '\n';
+	స్థితి 'r':
+		తిరిగి '\r';
+	స్థితి 't':
+		తిరిగి '\t';
+	స్థితి 'a':
+		తిరిగి '\a';
+	స్థితి 'v':
+		తిరిగి '\v';
+	స్థితి '0':
+	స్థితి '1':
+	స్థితి '2':
+	స్థితి '3':
+	స్థితి '4':
+	స్థితి '5':
+	స్థితి '6':
+	స్థితి '7':
 		{		/* \<octal> */
-			int     sptr = 1;
+			పూర్ణాంకం     sptr = 1;
 
-			while (sptr <= 3 &&
+			అయితే (sptr <= 3 &&
                                array[sptr] >= '0' && array[sptr] <= '7') {
 				++sptr;
 			}
@@ -421,18 +421,18 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 1, NULL, 8);
+			esc_char = (గుర్తులేని అక్షరం) strtoul (array + 1, ఖాళీ, 8);
 
 			array[sptr] = c;
 
-			return esc_char;
+			తిరిగి esc_char;
 		}
 
-	case 'x':
+	స్థితి 'x':
 		{		/* \x<hex> */
-			int     sptr = 2;
+			పూర్ణాంకం     sptr = 2;
 
-			while (sptr <= 3 && isxdigit (array[sptr])) {
+			అయితే (sptr <= 3 && isxdigit (array[sptr])) {
 				/* Don't increment inside loop control
 				 * because if isxdigit() is a macro it might
 				 * expand into multiple increments ...
@@ -443,15 +443,15 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 2, NULL, 16);
+			esc_char = (గుర్తులేని అక్షరం) strtoul (array + 2, ఖాళీ, 16);
 
 			array[sptr] = c;
 
-			return esc_char;
+			తిరిగి esc_char;
 		}
 
-	default:
-		return array[1];
+	అప్రమేయ:
+		తిరిగి array[1];
 	}
 }
 
@@ -460,42 +460,42 @@ unsigned char myesc (unsigned char array[])
  *	 generated scanner, keeping track of the line count.
  */
 
-void out (const char *str)
+శూన్య బహిర్గతం (స్థిరరాశి అక్షరం *str)
 {
 	fputs (str, stdout);
 }
 
-void out_dec (const char *fmt, int n)
+శూన్య బహిర్గతం_dec (స్థిరరాశి అక్షరం *fmt, పూర్ణాంకం n)
 {
 	fprintf (stdout, fmt, n);
 }
 
-void out_dec2 (const char *fmt, int n1, int n2)
+శూన్య బహిర్గతం_dec2 (స్థిరరాశి అక్షరం *fmt, పూర్ణాంకం n1, పూర్ణాంకం n2)
 {
 	fprintf (stdout, fmt, n1, n2);
 }
 
-void out_hex (const char *fmt, unsigned int x)
+శూన్య బహిర్గతం_hex (స్థిరరాశి అక్షరం *fmt, గుర్తులేని పూర్ణాంకం x)
 {
 	fprintf (stdout, fmt, x);
 }
 
-void out_str (const char *fmt, const char str[])
+శూన్య బహిర్గతం_str (స్థిరరాశి అక్షరం *fmt, స్థిరరాశి అక్షరం str[])
 {
 	fprintf (stdout,fmt, str);
 }
 
-void out_str_dec (const char *fmt, const char str[], int n)
+శూన్య బహిర్గతం_str_dec (స్థిరరాశి అక్షరం *fmt, స్థిరరాశి అక్షరం str[], పూర్ణాంకం n)
 {
 	fprintf (stdout,fmt, str, n);
 }
 
-void outc (int c)
+శూన్య outc (పూర్ణాంకం c)
 {
 	fputc (c, stdout);
 }
 
-void outn (const char *str)
+శూన్య outn (స్థిరరాశి అక్షరం *str)
 {
 	fputs (str,stdout);
     fputc('\n',stdout);
@@ -505,9 +505,9 @@ void outn (const char *str)
  * @param def The m4 symbol to define.
  * @param val The definition; may be NULL.
  */
-void out_m4_define (const char* def, const char* val)
+శూన్య బహిర్గతం_m4_define (స్థిరరాశి అక్షరం* def, స్థిరరాశి అక్షరం* val)
 {
-    const char * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
+    స్థిరరాశి అక్షరం * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
     fprintf(stdout, fmt, def, val?val:"");
 }
 
@@ -517,79 +517,79 @@ void out_m4_define (const char* def, const char* val)
  * The returned string is in static storage.
  */
 
-char   *readable_form (int c)
+అక్షరం   *readable_form (పూర్ణాంకం c)
 {
-	static char rform[20];
+	స్థిర అక్షరం rform[20];
 
-	if ((c >= 0 && c < 32) || c >= 127) {
-		switch (c) {
-		case '\b':
-			return "\\b";
-		case '\f':
-			return "\\f";
-		case '\n':
-			return "\\n";
-		case '\r':
-			return "\\r";
-		case '\t':
-			return "\\t";
-		case '\a':
-			return "\\a";
-		case '\v':
-			return "\\v";
-		default:
-			if(env.trace_hex)
-				snprintf (rform, sizeof(rform), "\\x%.2x", (unsigned int) c);
-			else
-				snprintf (rform, sizeof(rform), "\\%.3o", (unsigned int) c);
-			return rform;
+	ఒకవేళ ((c >= 0 && c < 32) || c >= 127) {
+		ఎంపిక (c) {
+		స్థితి '\b':
+			తిరిగి "\\b";
+		స్థితి '\f':
+			తిరిగి "\\f";
+		స్థితి '\n':
+			తిరిగి "\\n";
+		స్థితి '\r':
+			తిరిగి "\\r";
+		స్థితి '\t':
+			తిరిగి "\\t";
+		స్థితి '\a':
+			తిరిగి "\\a";
+		స్థితి '\v':
+			తిరిగి "\\v";
+		అప్రమేయ:
+			ఒకవేళ(env.trace_hex)
+				snprintf (rform, పరిమాణం(rform), "\\x%.2x", (గుర్తులేని పూర్ణాంకం) c);
+			లేకపోతే
+				snprintf (rform, పరిమాణం(rform), "\\%.3o", (గుర్తులేని పూర్ణాంకం) c);
+			తిరిగి rform;
 		}
 	}
 
-	else if (c == ' ')
-		return "' '";
+	లేకపోతే ఒకవేళ (c == ' ')
+		తిరిగి "' '";
 
-	else {
-		rform[0] = (char) c;
+	లేకపోతే {
+		rform[0] = (అక్షరం) c;
 		rform[1] = '\0';
 
-		return rform;
+		తిరిగి rform;
 	}
 }
 
 
 /* reallocate_array - increase the size of a dynamic array */
 
-void   *reallocate_array (void *array, int size, size_t element_size)
+శూన్య   *reallocate_array (శూన్య *array, పూర్ణాంకం కొలత, size_t element_కొలత)
 {
-	void *new_array;
-#ifdef HAVE_REALLOCARR
+	శూన్య *new_array;
+#నిర్వచితమైతే HAVE_REALLOCARR
 	new_array = array;
-	if (reallocarr(&new_array, (size_t) size, element_size)) {
+	ఒకవేళ (reallocarr(&new_array, (size_t) కొలత, element_కొలత)) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
 			 * compatibility (for translations): */
 			_("memory allocation failed in allocate_array()"));
 	}
-#else
+#లేకపోతే
 # ifdef HAVE_REALLOCARRAY
-	new_array = reallocarray(array, (size_t) size, element_size);
-# else
+	new_array = reallocarray(array, (size_t) కొలత, element_కొలత);
+# లేకపోతే
 	/* Do manual overflow detection */
-	size_t num_bytes = (size_t) size * element_size;
-	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? NULL :
-		realloc(array, num_bytes);
+	size_t అంకె_బైట్లు = (size_t) కొలత * element_కొలత;
+	new_array = (కొలత && కొలత_MAX / (size_t) కొలత < element_కొలత) ? ఖాళీ :
+		realloc(array, అంకె_బైట్లు);
 # endif
-	if (!new_array) {
+	ఒకవేళ (!new_array) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
 			 * compatibility (for translations): */
 			_("memory allocation failed in allocate_array()"));
 	}
-#endif
-	return new_array;
+#అయితే_ముగింపు
+	తిరిగి new_array;
 }
 
 
@@ -599,22 +599,22 @@ void   *reallocate_array (void *array, int size, size_t element_size)
  * element_n.  Formats the output with spaces and carriage returns.
  */
 
-void transition_struct_out (int element_v, int element_n)
+శూన్య transition_struct_బహిర్గతం (పూర్ణాంకం element_v, పూర్ణాంకం element_n)
 {
 
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	ఒకవేళ (!gentables)
+		తిరిగి;
 
-	out_dec2 ("M4_HOOK_TABLE_OPENER[[%4d]],[[%4d]]M4_HOOK_TABLE_CONTINUE", element_v, element_n);
+	బహిర్గతం_dec2 ("M4_HOOK_TABLE_OPENER[[%4d]],[[%4d]]M4_HOOK_TABLE_CONTINUE", element_v, element_n);
 	outc ('\n');
 
-	datapos += TRANS_STRUCT_PRINT_LENGTH;
+	datapos += TRANS_STRUCT_PRINT_నిడివి;
 
-	if (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
+	ఒకవేళ (datapos >= 79 - TRANS_STRUCT_PRINT_నిడివి) {
 		outc ('\n');
 
-		if (++dataline % 10 == 0)
+		ఒకవేళ (++dataline % 10 == 0)
 			outc ('\n');
 
 		datapos = 0;
@@ -627,52 +627,52 @@ void transition_struct_out (int element_v, int element_n)
  *
  * XXX: this is should go soon
  */
-void   *yy_flex_xmalloc (int size)
+శూన్య   *yy_flex_xmalloc (పూర్ణాంకం కొలత)
 {
-	void   *result;
+	శూన్య   *ఫలితం;
 
-	result = malloc((size_t) size);
-	if (!result)
+	ఫలితం = జ్ఞాపకం_ఇవ్వు((size_t) కొలత);
+	ఒకవేళ (!ఫలితం)
 		flexfatal (_
 			   ("memory allocation failed in yy_flex_xmalloc()"));
 
-	return result;
+	తిరిగి ఫలితం;
 }
 
 
 /* Remove all '\n' and '\r' characters, if any, from the end of str.
  * str can be any null-terminated string, or NULL.
  * returns str. */
-char   *chomp (char *str)
+అక్షరం   *chomp (అక్షరం *str)
 {
-	char   *p = str;
+	అక్షరం   *p = str;
 
-	if (!str || !*str)	/* s is null or empty string */
-		return str;
+	ఒకవేళ (!str || !*str)	/* s is null or empty string */
+		తిరిగి str;
 
 	/* find end of string minus one */
-	while (*p)
+	అయితే (*p)
 		++p;
 	--p;
 
 	/* eat newlines */
-	while (p >= str && (*p == '\r' || *p == '\n'))
+	అయితే (p >= str && (*p == '\r' || *p == '\n'))
 		*p-- = 0;
-	return str;
+	తిరిగి str;
 }
 
-void comment(const char *txt)
+శూన్య comment(స్థిరరాశి అక్షరం *txt)
 {
-	char buf[MAXLINE];
+	అక్షరం buf[MAXLINE];
 	bool eol;
 
 	strncpy(buf, txt, MAXLINE-1);
-	eol = buf[strlen(buf)-1] == '\n';
+	eol = buf[అక్షరశ్రేణి_పొడవు(buf)-1] == '\n';
 
-	if (eol)
-		buf[strlen(buf)-1] = '\0';
-	out_str("M4_HOOK_COMMENT_OPEN [[%s]] M4_HOOK_COMMENT_CLOSE", buf);
-	if (eol)
+	ఒకవేళ (eol)
+		buf[అక్షరశ్రేణి_పొడవు(buf)-1] = '\0';
+	బహిర్గతం_str("M4_HOOK_COMMENT_OPEN [[%s]] M4_HOOK_COMMENT_CLOSE", buf);
+	ఒకవేళ (eol)
 		outc ('\n');
 }
 

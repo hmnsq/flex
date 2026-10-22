@@ -1,1 +1,1 @@
-#define FLEX_VERSION VERSION
+#నిర్వచించు FLEX_సంస్కరణ సంస్కరణ

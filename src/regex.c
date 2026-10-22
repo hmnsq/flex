@@ -23,7 +23,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#అన్తర్భావ "flexdef.h"
 
 
 regex_t regex_linedir; /**< matches line directives */
@@ -32,11 +32,11 @@ regex_t regex_linedir; /**< matches line directives */
 /** Initialize the regular expressions.
  * @return true upon success.
  */
-bool flex_init_regex(const char *traceline_re)
+bool flex_init_regex(స్థిరరాశి అక్షరం *traceline_re)
 {
-	if (traceline_re != NULL)
+	ఒకవేళ (traceline_re != ఖాళీ)
 		flex_regcomp(&regex_linedir, traceline_re, REG_EXTENDED);
-	return true;
+	తిరిగి true;
 }
 
 /** Compiles a regular expression or dies trying.
@@ -44,19 +44,19 @@ bool flex_init_regex(const char *traceline_re)
  * @param regex Same as for regcomp().
  * @param cflags Same as for regcomp().
  */
-void flex_regcomp(regex_t *preg, const char *regex, int cflags)
+శూన్య flex_regcomp(regex_t *preg, స్థిరరాశి అక్షరం *regex, పూర్ణాంకం cflags)
 {
-	int err;
+	పూర్ణాంకం err;
 
-	memset (preg, 0, sizeof (regex_t));
+	memset (preg, 0, పరిమాణం (regex_t));
 
-	if ((err = regcomp (preg, regex, cflags)) != 0) {
-		const size_t errbuf_sz = 200;
-		char *errbuf;
-		int n;
+	ఒకవేళ ((err = regcomp (preg, regex, cflags)) != 0) {
+		స్థిరరాశి size_t errbuf_sz = 200;
+		అక్షరం *errbuf;
+		పూర్ణాంకం n;
 
-		errbuf = malloc(errbuf_sz * sizeof(char));
-		if (!errbuf)
+		errbuf = జ్ఞాపకం_ఇవ్వు(errbuf_sz * పరిమాణం(అక్షరం));
+		ఒకవేళ (!errbuf)
 			flexfatal(_("Unable to allocate buffer to report regcomp"));
 		n = snprintf(errbuf, errbuf_sz, "regcomp for \"%s\" failed: ", regex);
 		regerror(err, preg, errbuf+n, errbuf_sz-(size_t)n);
@@ -70,20 +70,20 @@ void flex_regcomp(regex_t *preg, const char *regex, int cflags)
  * @param src The source string that was passed to regexec().
  * @return The allocated string.
  */
-char   *regmatch_dup (regmatch_t * m, const char *src)
+అక్షరం   *regmatch_dup (regmatch_t * m, స్థిరరాశి అక్షరం *src)
 {
-	char   *str;
+	అక్షరం   *str;
 	size_t  len;
 
-	if (m == NULL || m->rm_so < 0 || m->rm_eo < m->rm_so)
-		return NULL;
+	ఒకవేళ (m == ఖాళీ || m->rm_so < 0 || m->rm_eo < m->rm_so)
+		తిరిగి ఖాళీ;
 	len = (size_t) (m->rm_eo - m->rm_so);
-	str = malloc((len + 1) * sizeof(char));
-	if (!str)
+	str = జ్ఞాపకం_ఇవ్వు((len + 1) * పరిమాణం(అక్షరం));
+	ఒకవేళ (!str)
 		flexfatal(_("Unable to allocate a copy of the match"));
 	strncpy (str, src + m->rm_so, len);
 	str[len] = 0;
-	return str;
+	తిరిగి str;
 }
 
 /** Copy the match.
@@ -92,29 +92,29 @@ char   *regmatch_dup (regmatch_t * m, const char *src)
  * @param src The source string that was passed to regexec().
  * @return dest
  */
-char   *regmatch_cpy (regmatch_t * m, char *dest, const char *src)
+అక్షరం   *regmatch_cpy (regmatch_t * m, అక్షరం *dest, స్థిరరాశి అక్షరం *src)
 {
-	if (m == NULL || m->rm_so < 0) {
-		if (dest)
+	ఒకవేళ (m == ఖాళీ || m->rm_so < 0) {
+		ఒకవేళ (dest)
 			dest[0] = '\0';
-		return dest;
+		తిరిగి dest;
 	}
 
 	snprintf (dest, (size_t) regmatch_len(m), "%s", src + m->rm_so);
-	return dest;
+	తిరిగి dest;
 }
 
 /** Get the length in characters of the match.
  * @param m A match as returned by regexec().
  * @return The length of the match.
  */
-int regmatch_len (regmatch_t * m)
+పూర్ణాంకం regmatch_len (regmatch_t * m)
 {
-	if (m == NULL || m->rm_so < 0) {
-		return 0;
+	ఒకవేళ (m == ఖాళీ || m->rm_so < 0) {
+		తిరిగి 0;
 	}
 
-	return m->rm_eo - m->rm_so;
+	తిరిగి m->rm_eo - m->rm_so;
 }
 
 
@@ -126,29 +126,29 @@ int regmatch_len (regmatch_t * m)
  * @param base   Same as the third argument to strtol().
  * @return The converted integer or error (Return value is the same as for strtol()).
  */
-int regmatch_strtol (regmatch_t * m, const char *src, char **endptr,
-		     int base)
+పూర్ణాంకం regmatch_strtol (regmatch_t * m, స్థిరరాశి అక్షరం *src, అక్షరం **endptr,
+		     పూర్ణాంకం పునాది)
 {
-	int     n = 0;
+	పూర్ణాంకం     n = 0;
 
-#define bufsz 20
-	char    buf[bufsz];
-	char   *s;
+#నిర్వచించు bufsz 20
+	అక్షరం    buf[bufsz];
+	అక్షరం   *s;
 
-	if (m == NULL || m->rm_so < 0)
-		return 0;
+	ఒకవేళ (m == ఖాళీ || m->rm_so < 0)
+		తిరిగి 0;
 
-	if (regmatch_len (m) < bufsz)
+	ఒకవేళ (regmatch_len (m) < bufsz)
 		s = regmatch_cpy (m, buf, src);
-	else
+	లేకపోతే
 		s = regmatch_dup (m, src);
 
-	n = (int) strtol (s, endptr, base);
+	n = (పూర్ణాంకం) strtol (s, endptr, పునాది);
 
-	if (s != buf)
-		free (s);
+	ఒకవేళ (s != buf)
+		విడుదల (s);
 
-	return n;
+	తిరిగి n;
 }
 
 /** Check for empty or non-existent match.
@@ -156,9 +156,9 @@ int regmatch_strtol (regmatch_t * m, const char *src, char **endptr,
  * @return false if match length is non-zero.
  * Note that reg_empty returns true even if match did not occur at all.
  */
-bool regmatch_empty (regmatch_t * m)
+bool regmatch_ఖాళీలు (regmatch_t * m)
 {
-	return (m == NULL || m->rm_so < 0 || m->rm_so == m->rm_eo);
+	తిరిగి (m == ఖాళీ || m->rm_so < 0 || m->rm_so == m->rm_eo);
 }
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */

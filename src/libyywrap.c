@@ -23,9 +23,9 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-int     yywrap (void);
+పూర్ణాంకం     yywrap (శూన్య);
 
-int     yywrap (void)
+పూర్ణాంకం     yywrap (శూన్య)
 {
-	return 1;
+	తిరిగి 1;
 }

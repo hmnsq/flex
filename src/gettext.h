@@ -16,36 +16,36 @@
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
    USA.  */
 
-#ifndef _LIBGETTEXT_H
-#define _LIBGETTEXT_H 1
+#నిర్వచితం_కాకపోతే _LIBGETTEXT_H
+#నిర్వచించు _LIBGETTEXT_H 1
 
 /* NLS can be disabled through the configure --disable-nls option.  */
-#ifdef ENABLE_NLS
+#నిర్వచితమైతే ENABLE_NLS
 
 /* Get declarations of GNU message catalog functions.  */
 # include <libintl.h>
 
-#else
+#లేకపోతే
 
 /* Disabled NLS.
    The casts to 'const char *' serve the purpose of producing warnings
    for invalid uses of the value returned from these functions.
    On pre-ANSI systems without 'const', the config.h file is supposed to
    contain "#define const".  */
-# define gettext(Msgid) ((const char *) (Msgid))
-# define dgettext(Domainname, Msgid) ((const char *) (Msgid))
-# define dcgettext(Domainname, Msgid, Category) ((const char *) (Msgid))
+# define gettext(Msgid) ((స్థిరరాశి అక్షరం *) (Msgid))
+# define dgettext(Domainname, Msgid) ((స్థిరరాశి అక్షరం *) (Msgid))
+# define dcgettext(Domainname, Msgid, Category) ((స్థిరరాశి అక్షరం *) (Msgid))
 # define ngettext(Msgid1, Msgid2, N) \
-    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
+    ((N) == 1 ? (స్థిరరాశి అక్షరం *) (Msgid1) : (స్థిరరాశి అక్షరం *) (Msgid2))
 # define dngettext(Domainname, Msgid1, Msgid2, N) \
-    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
+    ((N) == 1 ? (స్థిరరాశి అక్షరం *) (Msgid1) : (స్థిరరాశి అక్షరం *) (Msgid2))
 # define dcngettext(Domainname, Msgid1, Msgid2, N, Category) \
-    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
-# define textdomain(Domainname) ((const char *) (Domainname))
-# define bindtextdomain(Domainname, Dirname) ((const char *) (Dirname))
-# define bind_textdomain_codeset(Domainname, Codeset) ((const char *) (Codeset))
+    ((N) == 1 ? (స్థిరరాశి అక్షరం *) (Msgid1) : (స్థిరరాశి అక్షరం *) (Msgid2))
+# define textdomain(Domainname) ((స్థిరరాశి అక్షరం *) (Domainname))
+# define bindtextdomain(Domainname, Dirname) ((స్థిరరాశి అక్షరం *) (Dirname))
+# define bind_textdomain_codeset(Domainname, Codeset) ((స్థిరరాశి అక్షరం *) (Codeset))
 
-#endif
+#అయితే_ముగింపు
 
 /* A pseudo function call that serves as a marker for the automated
    extraction of messages, but does not call gettext().  The run-time
@@ -54,6 +54,6 @@
    and other string expressions won't work.
    The macro's expansion is not parenthesized, so that it is suitable as
    initializer for static 'char[]' or 'const char[]' variables.  */
-#define gettext_noop(String) String
+#నిర్వచించు gettext_noop(String) String
 
-#endif /* _LIBGETTEXT_H */
+#అయితే_ముగింపు /* _LIBGETTEXT_H */

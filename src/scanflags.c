@@ -33,42 +33,42 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#అన్తర్భావ "flexdef.h"
 
-scanflags_t* _sf_stk = NULL;
-size_t _sf_top_ix=0, _sf_max=0;
+scanflags_t* _sf_stk = ఖాళీ;
+size_t sf_శిఖరం_ix=0, _sf_max=0;
 
-void
-sf_push (void)
+శూన్య
+sf_నెట్టు (శూన్య)
 {
-    if (_sf_top_ix + 1 >= _sf_max) {
+    ఒకవేళ (sf_శిఖరం_ix + 1 >= _sf_max) {
         _sf_max += 32;
-        _sf_stk = realloc(_sf_stk, sizeof(scanflags_t) * _sf_max);
+        _sf_stk = realloc(_sf_stk, పరిమాణం(scanflags_t) * _sf_max);
     }
 
     // copy the top element
-    _sf_stk[_sf_top_ix + 1] = _sf_stk[_sf_top_ix];
-    ++_sf_top_ix;
+    _sf_stk[sf_శిఖరం_ix + 1] = _sf_stk[sf_శిఖరం_ix];
+    ++sf_శిఖరం_ix;
 }
 
-void
-sf_pop (void)
+శూన్య
+sf_తీయి (శూన్య)
 {
-    assert(_sf_top_ix > 0);
-    --_sf_top_ix;
+    ప్రతిజ్ఞా(sf_శిఖరం_ix > 0);
+    --sf_శిఖరం_ix;
 }
 
 /* one-time initialization. Should be called before any sf_ functions. */
-void
-sf_init (void)
+శూన్య
+sf_init (శూన్య)
 {
-    assert(_sf_stk == NULL);
+    ప్రతిజ్ఞా(_sf_stk == ఖాళీ);
     _sf_max = 32;
-    _sf_top_ix = 0;
-    _sf_stk = malloc(sizeof(scanflags_t) * _sf_max);
-    if (!_sf_stk)
-        lerr_fatal(_("Unable to allocate %zu of stack"), sizeof(scanflags_t));
-    _sf_stk[_sf_top_ix] = 0;
+    sf_శిఖరం_ix = 0;
+    _sf_stk = జ్ఞాపకం_ఇవ్వు(పరిమాణం(scanflags_t) * _sf_max);
+    ఒకవేళ (!_sf_stk)
+        lerr_fatal(_("Unable to allocate %zu of stack"), పరిమాణం(scanflags_t));
+    _sf_stk[sf_శిఖరం_ix] = 0;
 }
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */

@@ -33,183 +33,183 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include <ctype.h>
-#include "flexdef.h"
-#include "parse.h"
+#అన్తర్భావ <ctype.h>
+#అన్తర్భావ "flexdef.h"
+#అన్తర్భావ "parse.h"
 
 
 /* yylex - scan for a regular expression token */
-extern char *yytext;
-extern FILE *yyout;
+బాహ్య అక్షరం *yytext;
+బాహ్య FILE *yyout;
 bool no_section3_escape = false;
-int     yylex (void)
+పూర్ణాంకం     yylex (శూన్య)
 {
-	int     toktype;
-	static int beglin = false;
+	పూర్ణాంకం     toktype;
+	స్థిర పూర్ణాంకం beglin = false;
 
-	if (eofseen) {
+	ఒకవేళ (eofseen) {
 		toktype = EOF;
-        } else {
+        } లేకపోతే {
 		toktype = flexscan ();
         }
-	if (toktype == EOF || toktype == 0) {
+	ఒకవేళ (toktype == EOF || toktype == 0) {
 		eofseen = true;
 
-		if (sectnum == 1) {
+		ఒకవేళ (sectnum == 1) {
 			synerr (_("premature EOF"));
 			sectnum = 2;
 			toktype = SECTEND;
 		}
 
-		else
+		లేకపోతే
 			toktype = 0;
 	}
 
-	if (env.trace) {
-		if (beglin) {
-			fprintf (stderr, "%d\t", num_rules + 1);
+	ఒకవేళ (env.trace) {
+		ఒకవేళ (beglin) {
+			fprintf (stderr, "%d\t", అంకె_నియమాలు + 1);
 			beglin = 0;
 		}
 
-		switch (toktype) {
-		case '<':
-		case '>':
-		case '^':
-		case '$':
-		case '"':
-		case '[':
-		case ']':
-		case '{':
-		case '}':
-		case '|':
-		case '(':
-		case ')':
-		case '-':
-		case '/':
-		case '\\':
-		case '?':
-		case '.':
-		case '*':
-		case '+':
-		case ',':
-			(void) putc (toktype, stderr);
-			break;
+		ఎంపిక (toktype) {
+		స్థితి '<':
+		స్థితి '>':
+		స్థితి '^':
+		స్థితి '$':
+		స్థితి '"':
+		స్థితి '[':
+		స్థితి ']':
+		స్థితి '{':
+		స్థితి '}':
+		స్థితి '|':
+		స్థితి '(':
+		స్థితి ')':
+		స్థితి '-':
+		స్థితి '/':
+		స్థితి '\\':
+		స్థితి '?':
+		స్థితి '.':
+		స్థితి '*':
+		స్థితి '+':
+		స్థితి ',':
+			(శూన్య) putc (toktype, stderr);
+			ఆపు;
 
-		case '\n':
-			(void) putc ('\n', stderr);
+		స్థితి '\n':
+			(శూన్య) putc ('\n', stderr);
 
-			if (sectnum == 2)
+			ఒకవేళ (sectnum == 2)
 				beglin = 1;
 
-			break;
+			ఆపు;
 
-		case SCDECL:
+		స్థితి SCDECL:
 			fputs ("%s", stderr);
-			break;
+			ఆపు;
 
-		case XSCDECL:
+		స్థితి XSCDECL:
 			fputs ("%x", stderr);
-			break;
+			ఆపు;
 
-		case SECTEND:
+		స్థితి SECTEND:
 			fputs ("%%\n", stderr);
 
 			/* We set beglin to be true so we'll start
 			 * writing out numbers as we echo rules.
 			 * flexscan() has already assigned sectnum.
 			 */
-			if (sectnum == 2)
+			ఒకవేళ (sectnum == 2)
 				beglin = 1;
 
-			break;
+			ఆపు;
 
-		case NAME:
+		స్థితి NAME:
 			fprintf (stderr, "'%s'", nmstr);
-			break;
+			ఆపు;
 
-		case CHAR:
-			switch (yylval) {
-			case '<':
-			case '>':
-			case '^':
-			case '$':
-			case '"':
-			case '[':
-			case ']':
-			case '{':
-			case '}':
-			case '|':
-			case '(':
-			case ')':
-			case '-':
-			case '/':
-			case '\\':
-			case '?':
-			case '.':
-			case '*':
-			case '+':
-			case ',':
+		స్థితి CHAR:
+			ఎంపిక (yylval) {
+			స్థితి '<':
+			స్థితి '>':
+			స్థితి '^':
+			స్థితి '$':
+			స్థితి '"':
+			స్థితి '[':
+			స్థితి ']':
+			స్థితి '{':
+			స్థితి '}':
+			స్థితి '|':
+			స్థితి '(':
+			స్థితి ')':
+			స్థితి '-':
+			స్థితి '/':
+			స్థితి '\\':
+			స్థితి '?':
+			స్థితి '.':
+			స్థితి '*':
+			స్థితి '+':
+			స్థితి ',':
 				fprintf (stderr, "\\%c", yylval);
-				break;
+				ఆపు;
 
-			default:
-				if (!isascii (yylval) || !isprint (yylval)) {
-					if(env.trace_hex)
-						fprintf (stderr, "\\x%02x", (unsigned int) yylval);
-					else
-						fprintf (stderr, "\\%.3o", (unsigned int) yylval);
-				} else
-					(void) putc (yylval, stderr);
-				break;
+			అప్రమేయ:
+				ఒకవేళ (!isascii (yylval) || !isprint (yylval)) {
+					ఒకవేళ(env.trace_hex)
+						fprintf (stderr, "\\x%02x", (గుర్తులేని పూర్ణాంకం) yylval);
+					లేకపోతే
+						fprintf (stderr, "\\%.3o", (గుర్తులేని పూర్ణాంకం) yylval);
+				} లేకపోతే
+					(శూన్య) putc (yylval, stderr);
+				ఆపు;
 			}
 
-			break;
+			ఆపు;
 
-		case NUMBER:
+		స్థితి సంఖ్య:
 			fprintf (stderr, "%d", yylval);
-			break;
+			ఆపు;
 
-		case PREVCCL:
+		స్థితి PREVCCL:
 			fprintf (stderr, "[%d]", yylval);
-			break;
+			ఆపు;
 
-		case EOF_OP:
+		స్థితి EOF_OP:
 			fprintf (stderr, "<<EOF>>");
-			break;
+			ఆపు;
 
-		case TOK_OPTION:
+		స్థితి TOK_OPTION:
 			fprintf (stderr, "%s ", yytext);
-			break;
+			ఆపు;
 
-		case TOK_OUTFILE:
-		case TOK_PREFIX:
-		case CCE_ALNUM:
-		case CCE_ALPHA:
-		case CCE_BLANK:
-		case CCE_CNTRL:
-		case CCE_DIGIT:
-		case CCE_GRAPH:
-		case CCE_LOWER:
-		case CCE_PRINT:
-		case CCE_PUNCT:
-		case CCE_SPACE:
-		case CCE_UPPER:
-		case CCE_XDIGIT:
+		స్థితి TOK_OUTFILE:
+		స్థితి TOK_ఉపసర్గ:
+		స్థితి CCE_ALNUM:
+		స్థితి CCE_ALPHA:
+		స్థితి CCE_BLANK:
+		స్థితి CCE_CNTRL:
+		స్థితి CCE_DIGIT:
+		స్థితి CCE_లేఖాచిత్రం:
+		స్థితి CCE_క్రింది:
+		స్థితి CCE_PRINT:
+		స్థితి CCE_PUNCT:
+		స్థితి CCE_SPACE:
+		స్థితి CCE_పై:
+		స్థితి CCE_XDIGIT:
 			fprintf (stderr, "%s", yytext);
-			break;
+			ఆపు;
 
-		case 0:
+		స్థితి 0:
 			fprintf (stderr, _("End Marker\n"));
-			break;
+			ఆపు;
 
-		default:
+		అప్రమేయ:
 			fprintf (stderr,
 				 _
 				 ("*Something Weird* - tok: %d val: %d\n"),
 				 toktype, yylval);
-			break;
+			ఆపు;
 		}
 	}
 
-	return toktype;
+	తిరిగి toktype;
 }

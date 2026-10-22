@@ -34,23 +34,23 @@
 /*  PURPOSE. */
 
 
-#include "flexdef.h"
-#include "tables.h"
+#అన్తర్భావ "flexdef.h"
+#అన్తర్భావ "tables.h"
 
 /* START digested skeletons */
 
-const char *cpp_skel[] = {
-#include "cpp-flex.h"
+స్థిరరాశి అక్షరం *cpp_skel[] = {
+#అన్తర్భావ "cpp-flex.h"
     0,
 };
 
-const char *c99_skel[] = {
-#include "c99-flex.h"
+స్థిరరాశి అక్షరం *c99_skel[] = {
+#అన్తర్భావ "c99-flex.h"
     0,
 };
 
-const char *go_skel[] = {
-#include "go-flex.h"
+స్థిరరాశి అక్షరం *go_skel[] = {
+#అన్తర్భావ "go-flex.h"
     0,
 };
 
@@ -61,59 +61,59 @@ const char *go_skel[] = {
  * array, it prevents us from getting lost in a maze of
  * twisty array reference levels, all different.
  */
-struct flex_backend_t {
-	const char **skel;		// Digested skeleton file
+నిర్మాణం flex_backend_t {
+	స్థిరరాశి అక్షరం **skel;		// Digested skeleton file
 };
 
-static struct flex_backend_t backends[] = {
+స్థిర నిర్మాణం flex_backend_t backends[] = {
     {.skel=cpp_skel},
     {.skel=c99_skel},
     {.skel=go_skel},
-    {NULL}
+    {ఖాళీ}
 };
 
-static struct flex_backend_t *backend = &backends[0];
+స్థిర నిర్మాణం flex_backend_t *backend = &backends[0];
 
 /* Functions for querying skeleton properties. */
 
-bool is_default_backend(void)
+bool is_default_backend(శూన్య)
 {
-    return backend == &backends[0];
+    తిరిగి backend == &backends[0];
 }
 
 /* Search for a string in the skeleton prolog, where macros are defined.
  */
-static bool boneseeker(const char *bone)
+స్థిర bool boneseeker(స్థిరరాశి అక్షరం *bone)
 {
-	int i;
+	పూర్ణాంకం i;
 
-	for (i = 0; backend->skel[i] != NULL; i++) {
-		const char *line = backend->skel[i];
-		if (strstr(line, bone) != NULL)
-			return true;
-		else if (strncmp(line, "%%", 2) == 0)
-			break;
+	కొరకు (i = 0; backend->skel[i] != ఖాళీ; i++) {
+		స్థిరరాశి అక్షరం *పంక్తి = backend->skel[i];
+		ఒకవేళ (అక్షరశ్రేణి_శోధన(పంక్తి, bone) != ఖాళీ)
+			తిరిగి true;
+		లేకపోతే ఒకవేళ (అక్షరశ్రేణి_పోలిక(పంక్తి, "%%", 2) == 0)
+			ఆపు;
 	}
-	return false;
+	తిరిగి false;
 }
 
-void backend_by_name(const char *name)
+శూన్య backend_by_name(స్థిరరాశి అక్షరం *name)
 {
-	const char *prefix_property;
-	if (name != NULL) {
-		if (strcmp(name, "nr") == 0) {
+	స్థిరరాశి అక్షరం *ఉపసర్గ_property;
+	ఒకవేళ (name != ఖాళీ) {
+		ఒకవేళ (strcmp(name, "nr") == 0) {
 			backend = &backends[0];
 			ctrl.reentrant = false;
-			goto backend_ok;
+			వెళ్ళు backend_ok;
 		}
-		if (strcmp(name, "r") == 0) {
+		ఒకవేళ (strcmp(name, "r") == 0) {
 			backend = &backends[0];
 			ctrl.reentrant = true;
-			goto backend_ok;
+			వెళ్ళు backend_ok;
 		}
-		for (backend = &backends[0]; backend->skel != NULL; backend++) {
-			if (strcasecmp(skel_property("M4_PROPERTY_BACKEND_NAME"), name) == 0)
-				goto backend_ok;
+		కొరకు (backend = &backends[0]; backend->skel != ఖాళీ; backend++) {
+			ఒకవేళ (strcasecmp(skel_property("M4_PROPERTY_BACKEND_NAME"), name) == 0)
+				వెళ్ళు backend_ok;
 		}
 		flexerror(_("no such back end"));
 	}
@@ -122,85 +122,85 @@ void backend_by_name(const char *name)
 	ctrl.backend_name = xstrdup(skel_property("M4_PROPERTY_BACKEND_NAME"));
 	ctrl.traceline_re = xstrdup(skel_property("M4_PROPERTY_TRACE_LINE_REGEXP"));
 	ctrl.traceline_template = xstrdup(skel_property("M4_PROPERTY_TRACE_LINE_TEMPLATE"));
-	ctrl.have_state_entry_format = boneseeker("m4_define([[M4_HOOK_STATE_ENTRY_FORMAT]]");
-	prefix_property = skel_property("M4_PROPERTY_PREFIX");
-	if (prefix_property != NULL)
-		ctrl.prefix = xstrdup(prefix_property);
+	ctrl.have_state_నమోదు_format = boneseeker("m4_define([[M4_HOOK_STATE_ENTRY_FORMAT]]");
+	ఉపసర్గ_property = skel_property("M4_PROPERTY_PREFIX");
+	ఒకవేళ (ఉపసర్గ_property != ఖాళీ)
+		ctrl.ఉపసర్గ = xstrdup(ఉపసర్గ_property);
 	flex_init_regex(ctrl.traceline_re);
 }
 
-const char *suffix (void)
+స్థిరరాశి అక్షరం *suffix (శూన్య)
 {
-	const char   *suffix;
+	స్థిరరాశి అక్షరం   *suffix;
 
-	if (is_default_backend()) {
-		if (ctrl.C_plus_plus)
+	ఒకవేళ (is_default_backend()) {
+		ఒకవేళ (ctrl.C_plus_plus)
 			suffix = "cc";
-		else
+		లేకపోతే
 			suffix = "c";
-	} else {
+	} లేకపోతే {
 		suffix = skel_property("M4_PROPERTY_SOURCE_SUFFIX");
 	}
 	
-	return suffix;
+	తిరిగి suffix;
 }
 
 /* Search for a m4 define of the property key, retrieve the value.  The
  * definition must be single-line.  Don't call this a second time before
  * stashing away the previous return, we cheat with static buffers.
  */
-const char *skel_property(const char *propname)
+స్థిరరాశి అక్షరం *skel_property(స్థిరరాశి అక్షరం *propname)
 {
-	int i;
-	static char name[256], value[256], *np, *vp;;
-	const char *cp;
+	పూర్ణాంకం i;
+	స్థిర అక్షరం name[256], విలువ[256], *np, *vp;;
+	స్థిరరాశి అక్షరం *cp;
 
-	for (i = 0; backend->skel[i] != NULL; i++) {
-		const char *line = backend->skel[i];
-		if (line[0] == '\0')
-			continue;
+	కొరకు (i = 0; backend->skel[i] != ఖాళీ; i++) {
+		స్థిరరాశి అక్షరం *పంక్తి = backend->skel[i];
+		ఒకవేళ (పంక్తి[0] == '\0')
+			కొనసాగు;
 		/* only scan before first skell breakpoint */
-		if (strncmp(line, "%%", 2) == 0)
-			break;
+		ఒకవేళ (అక్షరశ్రేణి_పోలిక(పంక్తి, "%%", 2) == 0)
+			ఆపు;
 		/* ignore anything that's not a definition */
-		if (strncmp(line, "m4_define(", 10) != 0)
-			continue;
+		ఒకవేళ (అక్షరశ్రేణి_పోలిక(పంక్తి, "m4_define(", 10) != 0)
+			కొనసాగు;
 		/* skip space and quotes before macro name */
-		for (cp = line + 10; isspace(*cp) || *cp == '['; *cp++)
-			continue;
+		కొరకు (cp = పంక్తి + 10; ఖాళీనా(*cp) || *cp == '['; *cp++)
+			కొనసాగు;
 		/* copy up to following ] into the name buffer */
 		np = name;
-		while (*cp != ']' && *cp != '\0' && (np < name + sizeof(name)-1)) {
+		అయితే (*cp != ']' && *cp != '\0' && (np < name + పరిమాణం(name)-1)) {
 			*np++ = *cp++;
 		}
 		*np = '\0';
 		/* check for valid and matching name */
-		if (*cp == ']') {
-			if (strcmp(name, propname) != 0)
-				continue; /* try next line */
-		} else {
+		ఒకవేళ (*cp == ']') {
+			ఒకవేళ (strcmp(name, propname) != 0)
+				కొనసాగు; /* try next line */
+		} లేకపోతే {
 			flexerror(_("unterminated or too long property name"));
-			continue;
+			కొనసాగు;
 		}
 		/* skip to the property value */
-		while (*cp != '\0' && (*cp == ']' || isspace(*cp) || *cp == ','))
+		అయితే (*cp != '\0' && (*cp == ']' || ఖాళీనా(*cp) || *cp == ','))
 			cp++;
-		while (*cp == '[')
+		అయితే (*cp == '[')
 			cp++;
-		if (*cp == '\0')
+		ఒకవేళ (*cp == '\0')
 			flexerror(_("garbled property line"));
 		/* extract the value */
-		vp = value;
-		while (*cp != '\0' && vp < value + sizeof(value) - 1 && (cp[0] != ']' || cp[1] != ']'))
+		vp = విలువ;
+		అయితే (*cp != '\0' && vp < విలువ + పరిమాణం(విలువ) - 1 && (cp[0] != ']' || cp[1] != ']'))
 			*vp++ = *cp++;
-		if (*cp == ']') {
+		ఒకవేళ (*cp == ']') {
 			*vp = '\0';
-			return value;
-		} else {
+			తిరిగి విలువ;
+		} లేకపోతే {
 			flexerror(_("unterminated or too long property value"));
 		}
 	}
-	return NULL;
+	తిరిగి ఖాళీ;
 }
 
 /* skelout - write out one section of the skeleton file
@@ -209,49 +209,49 @@ const char *skel_property(const char *propname)
  *    Copies skelfile or skel array to stdout until a line beginning with
  *    "%%" or EOF is found.
  */
-void skelout (bool announce)
+శూన్య skelout (bool announce)
 {
-	char    buf_storage[MAXLINE];
-	char   *buf = buf_storage;
+	అక్షరం    buf_storage[MAXLINE];
+	అక్షరం   *buf = buf_storage;
 	bool   do_copy = true;
 
 	/* Loop pulling lines either from the skelfile, if we're using
 	 * one, or from the selected back end's skel[] array.
 	 */
-	while (env.skelfile != NULL ?
-	       (fgets (buf, MAXLINE, env.skelfile) != NULL) :
-	       ((buf = (char *) backend->skel[skel_ind++]) != 0)) {
+	అయితే (env.skelfile != ఖాళీ ?
+	       (fgets (buf, MAXLINE, env.skelfile) != ఖాళీ) :
+	       ((buf = (అక్షరం *) backend->skel[skel_ind++]) != 0)) {
 
-		if (env.skelfile != NULL)
+		ఒకవేళ (env.skelfile != ఖాళీ)
 			chomp (buf);
 
 		/* copy from skel array */
-		if (buf[0] == '%') {	/* control line */
+		ఒకవేళ (buf[0] == '%') {	/* control line */
 			/* print the control line as a comment. */
-			if (ctrl.ddebug && buf[1] != '#') {
+			ఒకవేళ (ctrl.ddebug && buf[1] != '#') {
 			    comment(buf);
 			    outc ('\n');
 			}
-			if (buf[1] == '#') {
+			ఒకవేళ (buf[1] == '#') {
 				/* %# indicates comment line to be ignored */
 			} 
-			else if (buf[1] == '%') {
+			లేకపోతే ఒకవేళ (buf[1] == '%') {
 				/* %% is a break point for skelout() */
-				if (announce) {
+				ఒకవేళ (announce) {
 					comment(buf);
 					outc ('\n');
 				}
-				return;
+				తిరిగి;
 			}
-			else {
+			లేకపోతే {
 				flexfatal (_("bad line in skeleton file"));
 			}
 		}
 
-		else if (do_copy) 
+		లేకపోతే ఒకవేళ (do_copy) 
 			outn (buf);
 	}			/* end while */
 }
 
 
-/* end */
+/*చివర*/
