@@ -32,22 +32,22 @@
 /*  IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED */
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
-#include "flexdef.h"
-#include "tables.h"
+#অন্তর্ভাৱ "flexdef.h"
+#অন্তর্ভাৱ "tables.h"
 
 /* Append "new_text" to the running buffer. */
-void add_action (const char *new_text)
+শূন্য add_action (ধ্রুৱ ৱর্ণ *new_text)
 {
-	int     len = (int) strlen (new_text);
+	পূর্ণাঙ্ক     len = (পূর্ণাঙ্ক) strlen (new_text);
 
-	while (len + action_index >= action_size - 10 /* slop */ ) {
+	যেতিয়ালৈ (len + action_index >= action_size - 10 /* slop */ ) {
 
-		if (action_size > INT_MAX / 2)
+		যদি (action_size > INT_MAX / 2)
 			/* Increase just a little, to try to avoid overflow
 			 * on 16-bit machines.
 			 */
 			action_size += action_size / 8;
-		else
+		অন্যথা
 			action_size = action_size * 2;
 
 		action_array =
@@ -63,45 +63,45 @@ void add_action (const char *new_text)
 
 /* allocate_array - allocate memory for an integer array of the given size */
 
-void   *allocate_array (int size, size_t element_size)
+শূন্য   *allocate_array (পূর্ণাঙ্ক size, size_t element_size)
 {
-	return reallocate_array(NULL, size, element_size);
+	ঘূৰাই reallocate_array(রিক্ত, size, element_size);
 }
 
 
 /* all_lower - true if a string is all lower-case */
 
-int all_lower (char *str)
+পূর্ণাঙ্ক all_lower (ৱর্ণ *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !islower ((unsigned char) * str))
-			return 0;
+	যেতিয়ালৈ (*str) {
+		যদি (!isascii ((unsigned ৱর্ণ) * str) || !islower ((unsigned ৱর্ণ) * str))
+			ঘূৰাই 0;
 		++str;
 	}
 
-	return 1;
+	ঘূৰাই 1;
 }
 
 
 /* all_upper - true if a string is all upper-case */
 
-int all_upper (char *str)
+পূর্ণাঙ্ক all_upper (ৱর্ণ *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !isupper ((unsigned char) * str))
-			return 0;
+	যেতিয়ালৈ (*str) {
+		যদি (!isascii ((unsigned ৱর্ণ) * str) || !isupper ((unsigned ৱর্ণ) * str))
+			ঘূৰাই 0;
 		++str;
 	}
 
-	return 1;
+	ঘূৰাই 1;
 }
 
 
 /* intcmp - compares two integers for use by qsort. */
 
-int intcmp (const void *a, const void *b)
+পূর্ণাঙ্ক intcmp (ধ্রুৱ শূন্য *a, ধ্রুৱ শূন্য *b)
 {
-  return *(const int *) a - *(const int *) b;
+  ঘূৰাই *(ধ্রুৱ পূর্ণাঙ্ক *) a - *(ধ্রুৱ পূর্ণাঙ্ক *) b;
 }
 
 
@@ -110,13 +110,13 @@ int intcmp (const void *a, const void *b)
  *		and exits.
  */
 
-void check_char (int c)
+শূন্য check_char (পূর্ণাঙ্ক c)
 {
-	if (c >= CSIZE)
+	যদি (c >= CSIZE)
 		lerr (_("bad character '%s' detected in check_char()"),
 			readable_form (c));
 
-	if (c >= ctrl.csize)
+	যদি (c >= ctrl.csize)
 		lerr (_
 			("scanner requires -8 flag to use the character %s"),
 			readable_form (c));
@@ -126,49 +126,49 @@ void check_char (int c)
 
 /* clower - replace upper-case letter to lower-case */
 
-unsigned char clower (int c)
+unsigned ৱর্ণ clower (পূর্ণাঙ্ক c)
 {
-	return (unsigned char) ((isascii (c) && isupper (c)) ? tolower (c) : c);
+	ঘূৰাই (unsigned ৱর্ণ) ((isascii (c) && isupper (c)) ? tolower (c) : c);
 }
 
 
-char *xstrdup(const char *s)
+ৱর্ণ *xstrdup(ধ্রুৱ ৱর্ণ *s)
 {
-	char *s2;
+	ৱর্ণ *s2;
 
-	if ((s2 = strdup(s)) == NULL)
+	যদি ((s2 = strdup(s)) == রিক্ত)
 		flexfatal (_("memory allocation failure in xstrdup()"));
 
-	return s2;
+	ঘূৰাই s2;
 }
 
 
 /* cclcmp - compares two characters for use by qsort with '\0' sorting last. */
 
-int cclcmp (const void *a, const void *b)
+পূর্ণাঙ্ক cclcmp (ধ্রুৱ শূন্য *a, ধ্রুৱ শূন্য *b)
 {
-	if (!*(const unsigned char *) a)
-		return 1;
-	else
-		if (!*(const unsigned char *) b)
-			return - 1;
-		else
-			return *(const unsigned char *) a - *(const unsigned char *) b;
+	যদি (!*(ধ্রুৱ unsigned ৱর্ণ *) a)
+		ঘূৰাই 1;
+	অন্যথা
+		যদি (!*(ধ্রুৱ unsigned ৱর্ণ *) b)
+			ঘূৰাই - 1;
+		অন্যথা
+			ঘূৰাই *(ধ্রুৱ unsigned ৱর্ণ *) a - *(ধ্রুৱ unsigned ৱর্ণ *) b;
 }
 
 
 /* dataend - finish up a block of data declarations */
 
-void dataend (const char *endit)
+শূন্য dataend (ধ্রুৱ ৱর্ণ *endit)
 {
 	/* short circuit any output */
-	if (gentables) {
+	যদি (gentables) {
 
-		if (datapos > 0)
+		যদি (datapos > 0)
 			dataflush ();
 
 		/* add terminator for initialization; { for vi */
-		if (endit)
+		যদি (endit)
 			outn (endit);
 	}
 	dataline = 0;
@@ -178,14 +178,14 @@ void dataend (const char *endit)
 
 /* dataflush - flush generated data statements */
 
-void dataflush (void)
+শূন্য dataflush (শূন্য)
 {
-	assert (gentables);
+	প্রতিজ্ঞা (gentables);
 
-	if (datapos > 0)
+	যদি (datapos > 0)
 		outc ('\n');
 
-	if (++dataline >= NUMDATALINES) {
+	যদি (++dataline >= NUMDATALINES) {
 		/* Put out a blank line so that the table is grouped into
 		 * large blocks that enable the user to find elements easily.
 		 */
@@ -200,32 +200,32 @@ void dataflush (void)
 
 /* flexerror - report an error message and terminate */
 
-void flexerror (const char *msg)
+শূন্য flexerror (ধ্রুৱ ৱর্ণ *বাৰ্তা)
 {
-	fprintf (stderr, "%s: %s\n", program_name, msg);
+	fprintf (stderr, "%s: %s\n", program_name, বাৰ্তা);
 	flexend (1);
 }
 
 
 /* flexfatal - report a fatal error message and terminate */
 
-void flexfatal (const char *msg)
+শূন্য flexfatal (ধ্রুৱ ৱর্ণ *বাৰ্তা)
 {
 	fprintf (stderr, _("%s: fatal internal error, %s\n"),
-		 program_name, msg);
+		 program_name, বাৰ্তা);
 	FLEX_EXIT (1);
 }
 
 
 /* lerr - report an error message */
 
-void lerr (const char *msg, ...)
+শূন্য lerr (ধ্রুৱ ৱর্ণ *বাৰ্তা, ...)
 {
-	char    errmsg[MAXLINE];
+	ৱর্ণ    errmsg[MAXLINE];
 	va_list args;
 
-	va_start(args, msg);
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
+	va_start(args, বাৰ্তা);
+	vsnprintf (errmsg, পরিমাণ(errmsg), বাৰ্তা, args);
 	va_end(args);
 	flexerror (errmsg);
 }
@@ -233,38 +233,38 @@ void lerr (const char *msg, ...)
 
 /* lerr_fatal - as lerr, but call flexfatal */
 
-void lerr_fatal (const char *msg, ...)
+শূন্য lerr_fatal (ধ্রুৱ ৱর্ণ *বাৰ্তা, ...)
 {
-	char    errmsg[MAXLINE];
+	ৱর্ণ    errmsg[MAXLINE];
 	va_list args;
-	va_start(args, msg);
+	va_start(args, বাৰ্তা);
 
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
+	vsnprintf (errmsg, পরিমাণ(errmsg), বাৰ্তা, args);
 	va_end(args);
 	flexfatal (errmsg);
 }
 
 
 /* line_directive_out - spit out a "#line" statement or equivalent */
-void line_directive_out (FILE *output_file, char *path, int linenum)
+শূন্য সাৰি_directive_out (FILE *output_file, ৱর্ণ *path, পূর্ণাঙ্ক linenum)
 {
-	char	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
-	char    directive[MAXLINE*2], filename[MAXLINE];
-	char   *s1, *s2, *s3;
+	ৱর্ণ	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
+	ৱর্ণ    directive[MAXLINE*2], filename[MAXLINE];
+	ৱর্ণ   *s1, *s2, *s3;
 
-	if (!ctrl.gen_line_dirs)
-		return;
+	যদি (!ctrl.gen_সাৰি_dirs)
+		ঘূৰাই;
 
-	s1 = (path != NULL) ? path : "M4_YY_OUTFILE_NAME";
+	s1 = (path != রিক্ত) ? path : "M4_YY_OUTFILE_NAME";
 
-	if ((path != NULL) && !s1)
+	যদি ((path != রিক্ত) && !s1)
 		s1 = "<stdin>";
     
 	s2 = filename;
-	s3 = &filename[sizeof (filename) - 2];
+	s3 = &filename[পরিমাণ (filename) - 2];
 
-	while (s2 < s3 && *s1) {
-		if (*s1 == '\\' || *s1 == '"')
+	যেতিয়ালৈ (s2 < s3 && *s1) {
+		যদি (*s1 == '\\' || *s1 == '"')
 			/* Escape the '\' or '"' */
 			*s2++ = '\\';
 
@@ -273,19 +273,19 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
 
 	*s2 = '\0';
 
-	if (path != NULL)
-		snprintf (directive, sizeof(directive), trace_fmt, linenum, filename);
-	else {
-		snprintf (directive, sizeof(directive), trace_fmt, 0, filename);
+	যদি (path != রিক্ত)
+		snprintf (directive, পরিমাণ(directive), trace_fmt, linenum, filename);
+	অন্যথা {
+		snprintf (directive, পরিমাণ(directive), trace_fmt, 0, filename);
 	}
 
 	/* If output_file is nil then we should put the directive in
 	 * the accumulated actions.
 	 */
-	if (output_file) {
+	যদি (output_file) {
 		fputs (directive, output_file);
 	}
-	else
+	অন্যথা
 		add_action (directive);
 }
 
@@ -294,7 +294,7 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
  *               representing where the user's section 1 definitions end
  *		 and the prolog begins
  */
-void mark_defs1 (void)
+শূন্য mark_defs1 (শূন্য)
 {
 	defs1_offset = 0;
 	action_array[action_index++] = '\0';
@@ -306,7 +306,7 @@ void mark_defs1 (void)
 /* mark_prolog - mark the current position in the action array as
  *               representing the end of the action prolog
  */
-void mark_prolog (void)
+শূন্য mark_prolog (শূন্য)
 {
 	action_array[action_index++] = '\0';
 	action_offset = action_index;
@@ -318,27 +318,27 @@ void mark_prolog (void)
  *
  * Generates a data statement initializing the current 2-D array to "value".
  */
-void mk2data (int value)
+শূন্য mk2data (পূর্ণাঙ্ক মান)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	যদি (!gentables)
+		ঘূৰাই;
 
-	if (datapos >= NUMDATAITEMS) {
+	যদি (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	যদি (datapos == 0)
 		/* Indent. */
 		out ("    ");
 
-	else
+	অন্যথা
 	  outc (',');
 
 	++datapos;
 
-	out_dec ("%5d", value);
+	out_dec ("%5d", মান);
 }
 
 
@@ -347,73 +347,73 @@ void mk2data (int value)
  * Generates a data statement initializing the current array element to
  * "value".
  */
-void mkdata (int value)
+শূন্য mkdata (পূর্ণাঙ্ক মান)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	যদি (!gentables)
+		ঘূৰাই;
 
-	if (datapos >= NUMDATAITEMS) {
+	যদি (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	যদি (datapos == 0)
 		/* Indent. */
 		out ("    ");
-	else
+	অন্যথা
 		outc (',');
 	++datapos;
 
-	out_dec ("%5d", value);
+	out_dec ("%5d", মান);
 }
 
 
 /* myctoi - return the integer represented by a string of digits */
 
-int myctoi (const char *array)
+পূর্ণাঙ্ক myctoi (ধ্রুৱ ৱর্ণ *array)
 {
-	int     val = 0;
+	পূর্ণাঙ্ক     val = 0;
 
-	(void) sscanf (array, "%d", &val);
+	(শূন্য) sscanf (array, "%d", &val);
 
-	return val;
+	ঘূৰাই val;
 }
 
 
 /* myesc - return character corresponding to escape sequence */
 
-unsigned char myesc (unsigned char array[])
+unsigned ৱর্ণ myesc (unsigned ৱর্ণ array[])
 {
-	unsigned char    c, esc_char;
+	unsigned ৱর্ণ    c, esc_char;
 
-	switch (array[1]) {
-	case 'b':
-		return '\b';
-	case 'f':
-		return '\f';
-	case 'n':
-		return '\n';
-	case 'r':
-		return '\r';
-	case 't':
-		return '\t';
-	case 'a':
-		return '\a';
-	case 'v':
-		return '\v';
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
+	ৱিকল্প (array[1]) {
+	পক্ষ 'b':
+		ঘূৰাই '\b';
+	পক্ষ 'f':
+		ঘূৰাই '\f';
+	পক্ষ 'n':
+		ঘূৰাই '\n';
+	পক্ষ 'r':
+		ঘূৰাই '\r';
+	পক্ষ 't':
+		ঘূৰাই '\t';
+	পক্ষ 'a':
+		ঘূৰাই '\a';
+	পক্ষ 'v':
+		ঘূৰাই '\v';
+	পক্ষ '0':
+	পক্ষ '1':
+	পক্ষ '2':
+	পক্ষ '3':
+	পক্ষ '4':
+	পক্ষ '5':
+	পক্ষ '6':
+	পক্ষ '7':
 		{		/* \<octal> */
-			int     sptr = 1;
+			পূর্ণাঙ্ক     sptr = 1;
 
-			while (sptr <= 3 &&
+			যেতিয়ালৈ (sptr <= 3 &&
                                array[sptr] >= '0' && array[sptr] <= '7') {
 				++sptr;
 			}
@@ -421,18 +421,18 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 1, NULL, 8);
+			esc_char = (unsigned ৱর্ণ) strtoul (array + 1, রিক্ত, 8);
 
 			array[sptr] = c;
 
-			return esc_char;
+			ঘূৰাই esc_char;
 		}
 
-	case 'x':
+	পক্ষ 'x':
 		{		/* \x<hex> */
-			int     sptr = 2;
+			পূর্ণাঙ্ক     sptr = 2;
 
-			while (sptr <= 3 && isxdigit (array[sptr])) {
+			যেতিয়ালৈ (sptr <= 3 && isxdigit (array[sptr])) {
 				/* Don't increment inside loop control
 				 * because if isxdigit() is a macro it might
 				 * expand into multiple increments ...
@@ -443,15 +443,15 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 2, NULL, 16);
+			esc_char = (unsigned ৱর্ণ) strtoul (array + 2, রিক্ত, 16);
 
 			array[sptr] = c;
 
-			return esc_char;
+			ঘূৰাই esc_char;
 		}
 
-	default:
-		return array[1];
+	স্ৱভাৱ:
+		ঘূৰাই array[1];
 	}
 }
 
@@ -460,42 +460,42 @@ unsigned char myesc (unsigned char array[])
  *	 generated scanner, keeping track of the line count.
  */
 
-void out (const char *str)
+শূন্য out (ধ্রুৱ ৱর্ণ *str)
 {
 	fputs (str, stdout);
 }
 
-void out_dec (const char *fmt, int n)
+শূন্য out_dec (ধ্রুৱ ৱর্ণ *fmt, পূর্ণাঙ্ক n)
 {
 	fprintf (stdout, fmt, n);
 }
 
-void out_dec2 (const char *fmt, int n1, int n2)
+শূন্য out_dec2 (ধ্রুৱ ৱর্ণ *fmt, পূর্ণাঙ্ক n1, পূর্ণাঙ্ক n2)
 {
 	fprintf (stdout, fmt, n1, n2);
 }
 
-void out_hex (const char *fmt, unsigned int x)
+শূন্য out_hex (ধ্রুৱ ৱর্ণ *fmt, unsigned পূর্ণাঙ্ক x)
 {
 	fprintf (stdout, fmt, x);
 }
 
-void out_str (const char *fmt, const char str[])
+শূন্য out_str (ধ্রুৱ ৱর্ণ *fmt, ধ্রুৱ ৱর্ণ str[])
 {
 	fprintf (stdout,fmt, str);
 }
 
-void out_str_dec (const char *fmt, const char str[], int n)
+শূন্য out_str_dec (ধ্রুৱ ৱর্ণ *fmt, ধ্রুৱ ৱর্ণ str[], পূর্ণাঙ্ক n)
 {
 	fprintf (stdout,fmt, str, n);
 }
 
-void outc (int c)
+শূন্য outc (পূর্ণাঙ্ক c)
 {
 	fputc (c, stdout);
 }
 
-void outn (const char *str)
+শূন্য outn (ধ্রুৱ ৱর্ণ *str)
 {
 	fputs (str,stdout);
     fputc('\n',stdout);
@@ -505,9 +505,9 @@ void outn (const char *str)
  * @param def The m4 symbol to define.
  * @param val The definition; may be NULL.
  */
-void out_m4_define (const char* def, const char* val)
+শূন্য out_m4_define (ধ্রুৱ ৱর্ণ* def, ধ্রুৱ ৱর্ণ* val)
 {
-    const char * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
+    ধ্রুৱ ৱর্ণ * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
     fprintf(stdout, fmt, def, val?val:"");
 }
 
@@ -517,71 +517,71 @@ void out_m4_define (const char* def, const char* val)
  * The returned string is in static storage.
  */
 
-char   *readable_form (int c)
+ৱর্ণ   *readable_form (পূর্ণাঙ্ক c)
 {
-	static char rform[20];
+	স্থির ৱর্ণ rform[20];
 
-	if ((c >= 0 && c < 32) || c >= 127) {
-		switch (c) {
-		case '\b':
-			return "\\b";
-		case '\f':
-			return "\\f";
-		case '\n':
-			return "\\n";
-		case '\r':
-			return "\\r";
-		case '\t':
-			return "\\t";
-		case '\a':
-			return "\\a";
-		case '\v':
-			return "\\v";
-		default:
-			if(env.trace_hex)
-				snprintf (rform, sizeof(rform), "\\x%.2x", (unsigned int) c);
-			else
-				snprintf (rform, sizeof(rform), "\\%.3o", (unsigned int) c);
-			return rform;
+	যদি ((c >= 0 && c < 32) || c >= 127) {
+		ৱিকল্প (c) {
+		পক্ষ '\b':
+			ঘূৰাই "\\b";
+		পক্ষ '\f':
+			ঘূৰাই "\\f";
+		পক্ষ '\n':
+			ঘূৰাই "\\n";
+		পক্ষ '\r':
+			ঘূৰাই "\\r";
+		পক্ষ '\t':
+			ঘূৰাই "\\t";
+		পক্ষ '\a':
+			ঘূৰাই "\\a";
+		পক্ষ '\v':
+			ঘূৰাই "\\v";
+		স্ৱভাৱ:
+			যদি(env.trace_hex)
+				snprintf (rform, পরিমাণ(rform), "\\x%.2x", (unsigned পূর্ণাঙ্ক) c);
+			অন্যথা
+				snprintf (rform, পরিমাণ(rform), "\\%.3o", (unsigned পূর্ণাঙ্ক) c);
+			ঘূৰাই rform;
 		}
 	}
 
-	else if (c == ' ')
-		return "' '";
+	অন্যথা যদি (c == ' ')
+		ঘূৰাই "' '";
 
-	else {
-		rform[0] = (char) c;
+	অন্যথা {
+		rform[0] = (ৱর্ণ) c;
 		rform[1] = '\0';
 
-		return rform;
+		ঘূৰাই rform;
 	}
 }
 
 
 /* reallocate_array - increase the size of a dynamic array */
 
-void   *reallocate_array (void *array, int size, size_t element_size)
+শূন্য   *reallocate_array (শূন্য *array, পূর্ণাঙ্ক size, size_t element_size)
 {
-	void *new_array;
+	শূন্য *new_array;
 #ifdef HAVE_REALLOCARR
 	new_array = array;
-	if (reallocarr(&new_array, (size_t) size, element_size)) {
+	যদি (reallocarr(&new_array, (size_t) size, element_size)) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
 			 * compatibility (for translations): */
 			_("memory allocation failed in allocate_array()"));
 	}
-#else
+#অন্যথা
 # ifdef HAVE_REALLOCARRAY
 	new_array = reallocarray(array, (size_t) size, element_size);
-# else
+# অন্যথা
 	/* Do manual overflow detection */
-	size_t num_bytes = (size_t) size * element_size;
-	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? NULL :
-		realloc(array, num_bytes);
+	size_t অঙ্ক_bytes = (size_t) size * element_size;
+	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? রিক্ত :
+		realloc(array, অঙ্ক_bytes);
 # endif
-	if (!new_array) {
+	যদি (!new_array) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
@@ -589,7 +589,7 @@ void   *reallocate_array (void *array, int size, size_t element_size)
 			_("memory allocation failed in allocate_array()"));
 	}
 #endif
-	return new_array;
+	ঘূৰাই new_array;
 }
 
 
@@ -599,22 +599,22 @@ void   *reallocate_array (void *array, int size, size_t element_size)
  * element_n.  Formats the output with spaces and carriage returns.
  */
 
-void transition_struct_out (int element_v, int element_n)
+শূন্য transition_struct_out (পূর্ণাঙ্ক element_v, পূর্ণাঙ্ক element_n)
 {
 
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	যদি (!gentables)
+		ঘূৰাই;
 
 	out_dec2 ("M4_HOOK_TABLE_OPENER[[%4d]],[[%4d]]M4_HOOK_TABLE_CONTINUE", element_v, element_n);
 	outc ('\n');
 
 	datapos += TRANS_STRUCT_PRINT_LENGTH;
 
-	if (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
+	যদি (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
 		outc ('\n');
 
-		if (++dataline % 10 == 0)
+		যদি (++dataline % 10 == 0)
 			outc ('\n');
 
 		datapos = 0;
@@ -627,52 +627,52 @@ void transition_struct_out (int element_v, int element_n)
  *
  * XXX: this is should go soon
  */
-void   *yy_flex_xmalloc (int size)
+শূন্য   *yy_flex_xmalloc (পূর্ণাঙ্ক size)
 {
-	void   *result;
+	শূন্য   *result;
 
 	result = malloc((size_t) size);
-	if (!result)
+	যদি (!result)
 		flexfatal (_
 			   ("memory allocation failed in yy_flex_xmalloc()"));
 
-	return result;
+	ঘূৰাই result;
 }
 
 
 /* Remove all '\n' and '\r' characters, if any, from the end of str.
  * str can be any null-terminated string, or NULL.
  * returns str. */
-char   *chomp (char *str)
+ৱর্ণ   *chomp (ৱর্ণ *str)
 {
-	char   *p = str;
+	ৱর্ণ   *p = str;
 
-	if (!str || !*str)	/* s is null or empty string */
-		return str;
+	যদি (!str || !*str)	/* s is null or empty string */
+		ঘূৰাই str;
 
 	/* find end of string minus one */
-	while (*p)
+	যেতিয়ালৈ (*p)
 		++p;
 	--p;
 
 	/* eat newlines */
-	while (p >= str && (*p == '\r' || *p == '\n'))
+	যেতিয়ালৈ (p >= str && (*p == '\r' || *p == '\n'))
 		*p-- = 0;
-	return str;
+	ঘূৰাই str;
 }
 
-void comment(const char *txt)
+শূন্য comment(ধ্রুৱ ৱর্ণ *txt)
 {
-	char buf[MAXLINE];
+	ৱর্ণ buf[MAXLINE];
 	bool eol;
 
 	strncpy(buf, txt, MAXLINE-1);
 	eol = buf[strlen(buf)-1] == '\n';
 
-	if (eol)
+	যদি (eol)
 		buf[strlen(buf)-1] = '\0';
 	out_str("M4_HOOK_COMMENT_OPEN [[%s]] M4_HOOK_COMMENT_CLOSE", buf);
-	if (eol)
+	যদি (eol)
 		outc ('\n');
 }
 
