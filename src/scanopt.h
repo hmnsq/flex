@@ -47,7 +47,7 @@
 #ifdef __cplusplus
 extern  "C" {
 #endif
-/* Error codes. */ enum scanopt_err_t {
+/* Error codes. */ ga_nanaa scanopt_err_t {
 		SCANOPT_ERR_OPT_UNRECOGNIZED = -1,	/* Unrecognized option. */
 		SCANOPT_ERR_OPT_AMBIGUOUS = -2,	/* It matched more than one option name. */
 		SCANOPT_ERR_ARG_NOT_FOUND = -3,	/* The required arg was not found. */
@@ -56,17 +56,17 @@ extern  "C" {
 
 
 /* flags passed to scanopt_init */
-	enum scanopt_flag_t {
+	ga_nanaa scanopt_flag_t {
 		SCANOPT_NO_ERR_MSG = 0x01	/* Suppress printing to stderr. */
 	};
 
 /* Specification for a single option. */
-	struct optspec_t {
-		const char *opt_fmt;	/* e.g., "--foo=FILE", "-f FILE", "-n [NUM]" */
-		int     r_val;	/* Value to be returned by scanopt_ex(). */
-		const char *desc;	/* Brief description of this option, or NULL. */
+	sa_nracanaa optspec_t {
+		const var_na *opt_fmt;	/* e.g., "--foo=FILE", "-f FILE", "-n [NUM]" */
+		ကိန်းပြည့်     r_val;	/* Value to be returned by scanopt_ex(). */
+		const var_na *desc;	/* Brief description of this option, or NULL. */
 	};
-	typedef struct optspec_t optspec_t;
+	typedef sa_nracanaa optspec_t optspec_t;
 
 
 /* Used internally by scanopt() to maintain state. */
@@ -82,12 +82,12 @@ extern  "C" {
  *   flags   - Control behavior.
  * Return:  A malloc'd pointer .
  */
-	scanopt_t *scanopt_init (const optspec_t * options, int argc,
-				 char **argv, int flags);
+	scanopt_t *scanopt_init (const optspec_t * options, ကိန်းပြည့် argc,
+				 var_na **argv, ကိန်းပြည့် flags);
 
 /* Frees memory used by scanner.
  * Always returns 0. */
-	int scanopt_destroy (scanopt_t * scanner);
+	ကိန်းပြည့် scanopt_destroy (scanopt_t * scanner);
 
 #ifndef NO_SCANOPT_USAGE
 /* Prints a usage message based on contents of optlist.
@@ -97,7 +97,7 @@ extern  "C" {
  *   usage    - Text to be prepended to option list. May be NULL.
  * Return:  Always returns 0 (zero).
  */
-	int scanopt_usage (scanopt_t * scanner, FILE * fp, const char *usage);
+	ကိန်းပြည့် scanopt_usage (scanopt_t * scanner, FILE * fp, const var_na *usage);
 #endif
 
 /* Scans command-line options in argv[].
@@ -114,7 +114,7 @@ extern  "C" {
  *          < 0 on error (return value is an error code).
  *
  */
-	int scanopt (scanopt_t * scanner, char **optarg, int *optindex);
+	ကိန်းပြည့် scanopt (scanopt_t * scanner, var_na **optarg, ကိန်းပြည့် *optindex);
 
 #ifdef __cplusplus
 }

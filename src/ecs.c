@@ -40,9 +40,9 @@
 
 void    ccl2ecl (void)
 {
-	int     i, ich, newlen, cclp, ccls, cclmec;
+	ကိန်းပြည့်     i, ich, newlen, cclp, ccls, cclmec;
 
-	for (i = 1; i <= lastccl; ++i) {
+	အတွက် (i = 1; i <= lastccl; ++i) {
 		/* We loop through each character class, and for each character
 		 * in the class, add the character's equivalence class to the
 		 * new "character" class we are creating.  Thus when we are all
@@ -53,13 +53,13 @@ void    ccl2ecl (void)
 		newlen = 0;
 		cclp = cclmap[i];
 
-		for (ccls = 0; ccls < ccllen[i]; ++ccls) {
+		အတွက် (ccls = 0; ccls < ccllen[i]; ++ccls) {
 			ich = ccltbl[cclp + ccls];
 			cclmec = ecgroup[ich];
 
-			if (cclmec > 0) {
+			အကယ်၍ (cclmec > 0) {
 				/* Note: range 1..256 is mapped to 1..255,0 */
-				ccltbl[cclp + newlen] = (unsigned char) cclmec;
+				ccltbl[cclp + newlen] = (unsigned var_na) cclmec;
 				++newlen;
 			}
 		}
@@ -77,9 +77,9 @@ void    ccl2ecl (void)
  * Returned is the number of classes.
  */
 
-int     cre8ecs (int fwd[], int bck[], int num)
+ကိန်းပြည့်     cre8ecs (ကိန်းပြည့် fwd[], ကိန်းပြည့် bck[], ကိန်းပြည့် num)
 {
-	int     i, j, numcl;
+	ကိန်းပြည့်     i, j, numcl;
 
 	numcl = 0;
 
@@ -88,14 +88,14 @@ int     cre8ecs (int fwd[], int bck[], int num)
 	 * is positive, then x is the representative of its equivalence
 	 * class.
 	 */
-	for (i = 1; i <= num; ++i)
-		if (bck[i] == NIL) {
+	အတွက် (i = 1; i <= num; ++i)
+		အကယ်၍ (bck[i] == NIL) {
 			bck[i] = ++numcl;
-			for (j = fwd[i]; j != NIL; j = fwd[j])
+			အတွက် (j = fwd[i]; j != NIL; j = fwd[j])
 				bck[j] = -numcl;
 		}
 
-	return numcl;
+	ပြန်ပေး numcl;
 }
 
 
@@ -114,11 +114,11 @@ int     cre8ecs (int fwd[], int bck[], int num)
  * NUL_mapping is the value which NUL (0) should be mapped to.
  */
 
-void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsiz, int NUL_mapping)
+void    mkeccl (unsigned var_na ccls[], ကိန်းပြည့် lenccl, ကိန်းပြည့် fwd[], ကိန်းပြည့် bck[], ကိန်းပြည့် llsiz, ကိန်းပြည့် NUL_mapping)
 {
-	int     cclp, oldec, newec;
-	int     cclm, i, j;
-	static unsigned char cclflags[CSIZE];	/* initialized to all '\0' */
+	ကိန်းပြည့်     cclp, oldec, newec;
+	ကိန်းပြည့်     cclm, i, j;
+	static unsigned var_na cclflags[CSIZE];	/* initialized to all '\0' */
 
 	/* Note that it doesn't matter whether or not the character class is
 	 * negated.  The same results will be obtained in either case.
@@ -126,10 +126,10 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 	cclp = 0;
 
-	while (cclp < lenccl) {
+	နေစဉ် (cclp < lenccl) {
 		cclm = ccls[cclp];
 
-		if (NUL_mapping && cclm == 0)
+		အကယ်၍ (NUL_mapping && cclm == 0)
 			cclm = NUL_mapping;
 
 		oldec = bck[cclm];
@@ -137,19 +137,19 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 		j = cclp + 1;
 
-		for (i = fwd[cclm]; i != NIL && i <= llsiz; i = fwd[i]) {	/* look for the symbol in the character class */
-			for (; j < lenccl; ++j) {
-				int ccl_char;
+		အတွက် (i = fwd[cclm]; i != NIL && i <= llsiz; i = fwd[i]) {	/* look for the symbol in the character class */
+			အတွက် (; j < lenccl; ++j) {
+				ကိန်းပြည့် ccl_char;
 
-				if (NUL_mapping && ccls[j] == 0)
+				အကယ်၍ (NUL_mapping && ccls[j] == 0)
 					ccl_char = NUL_mapping;
-				else
+				မဟုတ်ပါက
 					ccl_char = ccls[j];
 
-				if (ccl_char > i)
-					break;
+				အကယ်၍ (ccl_char > i)
+					bha_nga;
 
-				if (ccl_char == i && !cclflags[j]) {
+				အကယ်၍ (ccl_char == i && !cclflags[j]) {
 					/* We found an old companion of cclm
 					 * in the ccl.  Link it into the new
 					 * equivalence class and flag it as
@@ -174,7 +174,7 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 			bck[i] = oldec;
 
-			if (oldec != NIL)
+			အကယ်၍ (oldec != NIL)
 				fwd[oldec] = i;
 
 			oldec = i;
@@ -182,7 +182,7 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 		      next_pt:;
 		}
 
-		if (bck[cclm] != NIL || oldec != bck[cclm]) {
+		အကယ်၍ (bck[cclm] != NIL || oldec != bck[cclm]) {
 			bck[cclm] = NIL;
 			fwd[oldec] = NIL;
 		}
@@ -191,7 +191,7 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 		/* Find next ccl member to process. */
 
-		for (++cclp; cclp < lenccl && cclflags[cclp]; ++cclp) {
+		အတွက် (++cclp; cclp < lenccl && cclflags[cclp]; ++cclp) {
 			/* Reset "doesn't need processing" flag. */
 			cclflags[cclp] = 0;
 		}
@@ -201,16 +201,16 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 /* mkechar - create equivalence class for single character */
 
-void    mkechar (int tch, int fwd[], int bck[])
+void    mkechar (ကိန်းပြည့် tch, ကိန်းပြည့် fwd[], ကိန်းပြည့် bck[])
 {
 	/* If until now the character has been a proper subset of
 	 * an equivalence class, break it away to create a new ec
 	 */
 
-	if (fwd[tch] != NIL)
+	အကယ်၍ (fwd[tch] != NIL)
 		bck[fwd[tch]] = bck[tch];
 
-	if (bck[tch] != NIL)
+	အကယ်၍ (bck[tch] != NIL)
 		fwd[bck[tch]] = fwd[tch];
 
 	fwd[tch] = NIL;

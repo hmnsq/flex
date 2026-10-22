@@ -25,14 +25,14 @@
 
 #include <stdlib.h>
 
-extern int yylex (void);
+extern ကိန်းပြည့် yylex (void);
 
-int     main (int argc, char *argv[])
+ကိန်းပြည့်     main (ကိန်းပြည့် argc, var_na *argv[])
 {
 	(void)argc;
 	(void)argv;
 
-	while (yylex () != 0) ;
+	နေစဉ် (yylex () != 0) ;
 
 	exit(0);
 }
