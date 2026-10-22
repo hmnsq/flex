@@ -1,54 +1,54 @@
 /* flex integer type definitions */
 
-#ifndef FLEXINT_H
-#define FLEXINT_H
+#جيڪڏهن_وصف_نه_ٿيل FLEXINT_H
+#وصف_ڪريو FLEXINT_H
 
 /* C++ systems might need __STDC_LIMIT_MACROS defined before including
  * <stdint.h>, if you want the limit (max/min) macros for int types.
  */
-#ifndef __STDC_LIMIT_MACROS
-#define __STDC_LIMIT_MACROS 1
-#endif
+#جيڪڏهن_وصف_نه_ٿيل __STDC_LIMIT_MACROS
+#وصف_ڪريو __STDC_LIMIT_MACROS 1
+#جيڪڏهن_پورو
 
 /* "flexint_shared.h" will be included also in skeleton. It will include
  * <inttypes.h> (if available) and define flex's integral types.
  */
-#include "flexint_shared.h"
+#ضمن "flexint_shared.h"
 
 /* Limits of integral types. */
-#ifndef INT8_MIN
-#define INT8_MIN               (-128)
-#endif
-#ifndef INT16_MIN
-#define INT16_MIN              (-32767-1)
-#endif
-#ifndef INT32_MIN
-#define INT32_MIN              (-2147483647-1)
-#endif
-#ifndef INT8_MAX
-#define INT8_MAX               (127)
-#endif
-#ifndef INT16_MAX
-#define INT16_MAX              (32767)
-#endif
-#ifndef INT32_MAX
-#define INT32_MAX              (2147483647)
-#endif
-#ifndef UINT8_MAX
-#define UINT8_MAX              (255U)
-#endif
-#ifndef UINT16_MAX
-#define UINT16_MAX             (65535U)
-#endif
-#ifndef UINT32_MAX
-#define UINT32_MAX             (4294967295U)
-#endif
+#جيڪڏهن_وصف_نه_ٿيل INT8_MIN
+#وصف_ڪريو INT8_MIN               (-128)
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل INT16_MIN
+#وصف_ڪريو INT16_MIN              (-32767-1)
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل INT32_MIN
+#وصف_ڪريو INT32_MIN              (-2147483647-1)
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل INT8_MAX
+#وصف_ڪريو INT8_MAX               (127)
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل INT16_MAX
+#وصف_ڪريو INT16_MAX              (32767)
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل INT32_MAX
+#وصف_ڪريو INT32_MAX              (2147483647)
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل UINT8_MAX
+#وصف_ڪريو UINT8_MAX              (255U)
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل UINT16_MAX
+#وصف_ڪريو UINT16_MAX             (65535U)
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل UINT32_MAX
+#وصف_ڪريو UINT32_MAX             (4294967295U)
+#جيڪڏهن_پورو
 
-#ifndef INT_MAX
-#define INT_MAX                ((int)(~0U)>>1)
-#endif
-#ifndef SIZE_MAX
-#define SIZE_MAX               (~(size_t)0)
-#endif
+#جيڪڏهن_وصف_نه_ٿيل وڌ_کان_وڌ_عدد
+#وصف_ڪريو وڌ_کان_وڌ_عدد                ((صحيح)(~0U)>>1)
+#جيڪڏهن_پورو
+#جيڪڏهن_وصف_نه_ٿيل سائيز_MAX
+#وصف_ڪريو سائيز_MAX               (~(size_t)0)
+#جيڪڏهن_پورو
 
-#endif /* ! FLEXINT_H */
+#جيڪڏهن_پورو /* ! FLEXINT_H */

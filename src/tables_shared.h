@@ -1,4 +1,4 @@
-#ifdef FLEX_SCANNER
+#جيڪڏهن_وصف_ٿيل FLEX_SCANNER
 /*
 dnl  tables_shared.h - tables serialization header
 dnl
@@ -37,14 +37,14 @@ dnl
 dnl  This file is meant to be included in both the skeleton and the actual
 dnl  flex code (hence the name "_shared").
 */
-#ifndef yyskel_static
-#define yyskel_static static
-#endif
-#else
-#ifndef yyskel_static
-#define yyskel_static
-#endif
-#endif
+#جيڪڏهن_وصف_نه_ٿيل yyskel_static
+#وصف_ڪريو yyskel_static ساكن
+#جيڪڏهن_پورو
+#وإلا
+#جيڪڏهن_وصف_نه_ٿيل yyskel_static
+#وصف_ڪريو yyskel_static
+#جيڪڏهن_پورو
+#جيڪڏهن_پورو
 
 /* Structures and prototypes for serializing flex tables.  The
  * binary format is documented in the manual.
@@ -59,32 +59,32 @@ dnl  flex code (hence the name "_shared").
  */
 
 /** Magic number for serialized format. */
-#ifndef YYTBL_MAGIC
-#define YYTBL_MAGIC 0xF13C57B1
-#endif
+#جيڪڏهن_وصف_نه_ٿيل YYTBL_MAGIC
+#وصف_ڪريو YYTBL_MAGIC 0xF13C57B1
+#جيڪڏهن_پورو
 
-#ifndef YYTABLES_TYPES
-#define YYTABLES_TYPES
+#جيڪڏهن_وصف_نه_ٿيل YYTABLES_TYPES
+#وصف_ڪريو YYTABLES_TYPES
 /** Possible values for td_id field. Each one corresponds to a
  *  scanner table of the same name.
  */
-enum yytbl_id {
+تعداد yytbl_id {
 	YYTD_ID_ACCEPT = 0x01,		/**< 1-dim ints */
-	YYTD_ID_BASE = 0x02,		/**< 1-dim ints */
+	YYTD_ID_بنياد = 0x02,		/**< 1-dim ints */
 	YYTD_ID_CHK = 0x03,		/**< 1-dim ints */
 	YYTD_ID_DEF = 0x04,		/**< 1-dim ints */
 	YYTD_ID_EC = 0x05,		/**< 1-dim ints */
 	YYTD_ID_META = 0x06,		/**< 1-dim ints */
 	YYTD_ID_NUL_TRANS = 0x07,	/**< 1-dim ints, maybe indices */
 	YYTD_ID_NXT = 0x08,		/**< may be 2 dimensional ints */
-	YYTD_ID_RULE_CAN_MATCH_EOL = 0x09, /**< 1-dim ints */
-	YYTD_ID_START_STATE_LIST = 0x0A,	/**< 1-dim indices into trans tbl  */
+	YYTD_ID_قاعدو_CAN_ميلاپ_EOL = 0x09, /**< 1-dim ints */
+	YYTD_ID_شروعات_STATE_LIST = 0x0A,	/**< 1-dim indices into trans tbl  */
 	YYTD_ID_TRANSITION = 0x0B,	/**< structs */
 	YYTD_ID_ACCLIST = 0x0C		/**< 1-dim ints */
 };
 
 /** bit flags for t_flags field of struct yytbl_data */
-enum yytbl_flags {
+تعداد yytbl_flags {
 	/* These first three are mutually exclusive */
 	YYTD_DATA8 = 0x01,   /**< data is an array of type flex_int8_t */
 	YYTD_DATA16 = 0x02,  /**< data is an array of type flex_int16_t */
@@ -98,41 +98,41 @@ enum yytbl_flags {
 };
 
 /* The serialized tables header. */
-struct yytbl_hdr {
+بنية yytbl_hdr {
 	flex_uint32_t th_magic;  /**< Must be 0xF13C57B1 (comes from "Flex Table") */
 	flex_uint32_t th_hsize;  /**< Size of this header in bytes. */
 	flex_uint32_t th_ssize;  /**< Size of this dataset, in bytes, including header. */
 	flex_uint16_t th_flags;  /**< Currently unused, must be 0 */
-	char   *th_version; /**< Flex version string. NUL terminated. */
-	char   *th_name;    /**< The name of this table set. NUL terminated. */
+	حرف   *th_نسخو; /**< Flex version string. NUL terminated. */
+	حرف   *th_name;    /**< The name of this table set. NUL terminated. */
 };
 
 /** A single serialized table */
-struct yytbl_data {
+بنية yytbl_معلومات {
 	flex_uint16_t td_id;      /**< enum yytbl_id table identifier */
 	flex_uint16_t td_flags;   /**< how to interpret this data */
 	flex_uint32_t td_hilen;   /**< num elements in highest dimension array */
 	flex_uint32_t td_lolen;   /**< num elements in lowest dimension array */
-	void   *td_data;     /**< table data */
+	فراغ   *td_معلومات;     /**< table data */
 };
-#endif
+#جيڪڏهن_پورو
 
 /** Extract corresponding data size_t from td_flags */
-#ifndef YYTDFLAGS2BYTES
-#define YYTDFLAGS2BYTES(td_flags)\
+#جيڪڏهن_وصف_نه_ٿيل YYTDFLAGS2_بائيٽون
+#وصف_ڪريو YYTDFLAGS2_بائيٽون(td_flags)\
         (((td_flags) & YYTD_DATA8)\
-            ? sizeof(flex_int8_t)\
+            ? حجم(flex_int8_t)\
             :(((td_flags) & YYTD_DATA16)\
-                ? sizeof(flex_int16_t)\
-                :sizeof(flex_int32_t)))
-#endif
+                ? حجم(flex_int16_t)\
+                :حجم(flex_int32_t)))
+#جيڪڏهن_پورو
 
-#ifdef FLEX_SCANNER
-m4_ifdef( [[M4_YY_NOT_IN_HEADER]],[[
-#endif
-yyskel_static flex_int32_t yytbl_calc_total_len (const struct yytbl_data *tbl);
-#ifdef FLEX_SCANNER
+#جيڪڏهن_وصف_ٿيل FLEX_SCANNER
+m4_ifdef( [[M4_YY_NOT_اندريون_سرو]],[[
+#جيڪڏهن_پورو
+yyskel_static flex_int32_t yytbl_calc_ڪل_len (ثابت بنية yytbl_معلومات *tbl);
+#جيڪڏهن_وصف_ٿيل FLEX_SCANNER
 ]])
-#endif
+#جيڪڏهن_پورو
 
 /* vim:set noexpandtab cindent tabstop=8 softtabstop=0 shiftwidth=8 textwidth=0: */

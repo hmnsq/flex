@@ -33,7 +33,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "options.h"
+#ضمن "options.h"
 
 /* Be sure to synchronize these options with those defined in "ctrl.h",
  * the giant switch() statement in "main.c", and the %option processing in
@@ -44,13 +44,13 @@
 /* The command-line options, passed to scanopt_init() */
 optspec_t flexopts[] = {
 
-	{"-7", OPT_7BIT, 0}
+	{"-7", OPT_7_ٻٽو_انگ, 0}
 	,
-	{"--7bit", OPT_7BIT, 0}
+	{"--7bit", OPT_7_ٻٽو_انگ, 0}
 	,			/* Generate 7-bit scanner. */
-	{"-8", OPT_8BIT, 0}
+	{"-8", OPT_8_ٻٽو_انگ, 0}
 	,
-	{"--8bit", OPT_8BIT, 0}
+	{"--8bit", OPT_8_ٻٽو_انگ, 0}
 	,			/* Generate 8-bit scanner. */
 	{"--align", OPT_ALIGN, 0}
 	,			/* Trade off larger tables for better memory alignment. */
@@ -113,11 +113,11 @@ optspec_t flexopts[] = {
 	,
 	{"--fast", OPT_FAST, 0}
 	,			/* Same as -CFr. */
-	{"-f", OPT_FULL, 0}
+	{"-f", OPT_ڀريل, 0}
 	,
-	{"--full", OPT_FULL, 0}
+	{"--full", OPT_ڀريل, 0}
 	,			/* Same as -Cfr. */
-	{"--header-file[=FILE]", OPT_HEADER_FILE, 0}
+	{"--header-file[=FILE]", OPT_سرو_FILE, 0}
 	,
 	{"-?", OPT_HELP, 0}
 	,
@@ -141,9 +141,9 @@ optspec_t flexopts[] = {
 	,			/* Maximal compatibility with POSIX lex. */
         {"--preproc=NUM", OPT_PREPROC_LEVEL, 0}
         ,
-	{"-L", OPT_NO_LINE, 0}
+	{"-L", OPT_NO_سٽ, 0}
 	,			/* Suppress #line directives in scanner. */
-	{"--noline", OPT_NO_LINE, 0}
+	{"--noline", OPT_NO_سٽ, 0}
 	,			/* Suppress #line directives in scanner. */
 	{"--main", OPT_MAIN, 0}
 	,			/* use built-in main() function. */
@@ -163,11 +163,11 @@ optspec_t flexopts[] = {
 	,
 	{"--perf-report", OPT_PERF_REPORT, 0}
 	,			/* Generate performance report to stderr. */
-	{"--pointer", OPT_POINTER, 0}
+	{"--pointer", OPT_اشارو, 0}
 	,
-	{"-P PREFIX", OPT_PREFIX, 0}
+	{"-P PREFIX", OPT_اڳياڙي, 0}
 	,
-	{"--prefix=PREFIX", OPT_PREFIX, 0}
+	{"--prefix=PREFIX", OPT_اڳياڙي, 0}
 	,			/* Use PREFIX (default is yy) */
 	{"-Dmacro", OPT_PREPROCDEFINE, 0}
 	,			/* Define a preprocessor symbol. */
@@ -187,7 +187,7 @@ optspec_t flexopts[] = {
 	,
 	{"--skel=FILE", OPT_SKEL, 0}
 	,			/* Use skeleton from FILE */
-	{"--stack", OPT_STACK, 0}
+	{"--stack", OPT_ڍير, 0}
 	,
 	{"--stdinit", OPT_STDINIT, 0}
 	,
@@ -211,9 +211,9 @@ optspec_t flexopts[] = {
 	,
 	{"--verbose", OPT_VERBOSE, 0}
 	,			/* Write summary of scanner statistics to stdout. */
-	{"-V", OPT_VERSION, 0}
+	{"-V", OPT_نسخو, 0}
 	,
-	{"--version", OPT_VERSION, 0}
+	{"--version", OPT_نسخو, 0}
 	,			/* Report flex version. */
 	{"--warn", OPT_WARN, 0}
 	,
@@ -245,17 +245,17 @@ optspec_t flexopts[] = {
 	,
 	{"--noyyunput", OPT_NO_YYUNPUT, 0}
 	,
-	{"--noyy_push_state", OPT_NO_YY_PUSH_STATE, 0}
+	{"--noyy_push_state", OPT_NO_YY_ڌڪو_STATE, 0}
 	,
-	{"--noyy_pop_state", OPT_NO_YY_POP_STATE, 0}
+	{"--noyy_pop_state", OPT_NO_YY_ڪڍو_STATE, 0}
 	,
-	{"--noyy_top_state", OPT_NO_YY_TOP_STATE, 0}
+	{"--noyy_top_state", OPT_NO_YY_چوٽي_STATE, 0}
 	,
-	{"--noyy_scan_buffer", OPT_NO_YY_SCAN_BUFFER, 0}
+	{"--noyy_scan_buffer", OPT_NO_YY_جاچ_بفر, 0}
 	,
-	{"--noyy_scan_bytes", OPT_NO_YY_SCAN_BYTES, 0}
+	{"--noyy_scan_bytes", OPT_NO_YY_جاچ_بائيٽون, 0}
 	,
-	{"--noyy_scan_string", OPT_NO_YY_SCAN_STRING, 0}
+	{"--noyy_scan_string", OPT_NO_YY_جاچ_STRING, 0}
 	,
 	{"--noyyget_extra", OPT_NO_YYGET_EXTRA, 0}
 	,
@@ -263,23 +263,23 @@ optspec_t flexopts[] = {
 	,
 	{"--noyyget_leng", OPT_NO_YYGET_LENG, 0}
 	,
-	{"--noyyget_text", OPT_NO_YYGET_TEXT, 0}
+	{"--noyyget_text", OPT_NO_YYGET_متن, 0}
 	,
 	{"--noyyget_lineno", OPT_NO_YYGET_LINENO, 0}
 	,
 	{"--noyyset_lineno", OPT_NO_YYSET_LINENO, 0}
 	,
-	{"--noyyget_column", OPT_NO_YYGET_COLUMN, 0}
+	{"--noyyget_column", OPT_NO_YYGET_ڪالم, 0}
 	,
-	{"--noyyset_column", OPT_NO_YYSET_COLUMN, 0}
+	{"--noyyset_column", OPT_NO_YYSET_ڪالم, 0}
 	,
-	{"--noyyget_in", OPT_NO_YYGET_IN, 0}
+	{"--noyyget_in", OPT_NO_YYGET_اندريون, 0}
 	,
-	{"--noyyset_in", OPT_NO_YYSET_IN, 0}
+	{"--noyyset_in", OPT_NO_YYSET_اندريون, 0}
 	,
-	{"--noyyget_out", OPT_NO_YYGET_OUT, 0}
+	{"--noyyget_out", OPT_NO_YYGET_ٻاهريون, 0}
 	,
-	{"--noyyset_out", OPT_NO_YYSET_OUT, 0}
+	{"--noyyset_out", OPT_NO_YYSET_ٻاهريون, 0}
 	,
 	{"--noyyget_lval", OPT_NO_YYGET_LVAL, 0}
 	,

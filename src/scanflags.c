@@ -33,42 +33,42 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#ضمن "flexdef.h"
 
-scanflags_t* _sf_stk = NULL;
-size_t _sf_top_ix=0, _sf_max=0;
+scanflags_t* _sf_stk = عدم;
+size_t sf_چوٽي_ix=0, _sf_max=0;
 
-void
-sf_push (void)
+فراغ
+sf_ڌڪو (فراغ)
 {
-    if (_sf_top_ix + 1 >= _sf_max) {
+    إذا (sf_چوٽي_ix + 1 >= _sf_max) {
         _sf_max += 32;
-        _sf_stk = realloc(_sf_stk, sizeof(scanflags_t) * _sf_max);
+        _sf_stk = realloc(_sf_stk, حجم(scanflags_t) * _sf_max);
     }
 
     // copy the top element
-    _sf_stk[_sf_top_ix + 1] = _sf_stk[_sf_top_ix];
-    ++_sf_top_ix;
+    _sf_stk[sf_چوٽي_ix + 1] = _sf_stk[sf_چوٽي_ix];
+    ++sf_چوٽي_ix;
 }
 
-void
-sf_pop (void)
+فراغ
+sf_ڪڍو (فراغ)
 {
-    assert(_sf_top_ix > 0);
-    --_sf_top_ix;
+    أكد(sf_چوٽي_ix > 0);
+    --sf_چوٽي_ix;
 }
 
 /* one-time initialization. Should be called before any sf_ functions. */
-void
-sf_init (void)
+فراغ
+sf_init (فراغ)
 {
-    assert(_sf_stk == NULL);
+    أكد(_sf_stk == عدم);
     _sf_max = 32;
-    _sf_top_ix = 0;
-    _sf_stk = malloc(sizeof(scanflags_t) * _sf_max);
-    if (!_sf_stk)
-        lerr_fatal(_("Unable to allocate %zu of stack"), sizeof(scanflags_t));
-    _sf_stk[_sf_top_ix] = 0;
+    sf_چوٽي_ix = 0;
+    _sf_stk = يادگيري_ڏيو(حجم(scanflags_t) * _sf_max);
+    إذا (!_sf_stk)
+        lerr_fatal(_("Unable to allocate %zu of stack"), حجم(scanflags_t));
+    _sf_stk[sf_چوٽي_ix] = 0;
 }
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */

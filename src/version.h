@@ -1,1 +1,1 @@
-#define FLEX_VERSION VERSION
+#وصف_ڪريو FLEX_نسخو نسخو

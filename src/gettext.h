@@ -16,36 +16,36 @@
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
    USA.  */
 
-#ifndef _LIBGETTEXT_H
-#define _LIBGETTEXT_H 1
+#جيڪڏهن_وصف_نه_ٿيل _LIBGETTEXT_H
+#وصف_ڪريو _LIBGETTEXT_H 1
 
 /* NLS can be disabled through the configure --disable-nls option.  */
-#ifdef ENABLE_NLS
+#جيڪڏهن_وصف_ٿيل ENABLE_NLS
 
 /* Get declarations of GNU message catalog functions.  */
 # include <libintl.h>
 
-#else
+#وإلا
 
 /* Disabled NLS.
    The casts to 'const char *' serve the purpose of producing warnings
    for invalid uses of the value returned from these functions.
    On pre-ANSI systems without 'const', the config.h file is supposed to
    contain "#define const".  */
-# define gettext(Msgid) ((const char *) (Msgid))
-# define dgettext(Domainname, Msgid) ((const char *) (Msgid))
-# define dcgettext(Domainname, Msgid, Category) ((const char *) (Msgid))
+# define gettext(Msgid) ((ثابت حرف *) (Msgid))
+# define dgettext(Domainname, Msgid) ((ثابت حرف *) (Msgid))
+# define dcgettext(Domainname, Msgid, Category) ((ثابت حرف *) (Msgid))
 # define ngettext(Msgid1, Msgid2, N) \
-    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
+    ((N) == 1 ? (ثابت حرف *) (Msgid1) : (ثابت حرف *) (Msgid2))
 # define dngettext(Domainname, Msgid1, Msgid2, N) \
-    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
+    ((N) == 1 ? (ثابت حرف *) (Msgid1) : (ثابت حرف *) (Msgid2))
 # define dcngettext(Domainname, Msgid1, Msgid2, N, Category) \
-    ((N) == 1 ? (const char *) (Msgid1) : (const char *) (Msgid2))
-# define textdomain(Domainname) ((const char *) (Domainname))
-# define bindtextdomain(Domainname, Dirname) ((const char *) (Dirname))
-# define bind_textdomain_codeset(Domainname, Codeset) ((const char *) (Codeset))
+    ((N) == 1 ? (ثابت حرف *) (Msgid1) : (ثابت حرف *) (Msgid2))
+# define textdomain(Domainname) ((ثابت حرف *) (Domainname))
+# define bindtextdomain(Domainname, Dirname) ((ثابت حرف *) (Dirname))
+# define bind_textdomain_codeset(Domainname, Codeset) ((ثابت حرف *) (Codeset))
 
-#endif
+#جيڪڏهن_پورو
 
 /* A pseudo function call that serves as a marker for the automated
    extraction of messages, but does not call gettext().  The run-time
@@ -54,6 +54,6 @@
    and other string expressions won't work.
    The macro's expansion is not parenthesized, so that it is suitable as
    initializer for static 'char[]' or 'const char[]' variables.  */
-#define gettext_noop(String) String
+#وصف_ڪريو gettext_noop(String) String
 
-#endif /* _LIBGETTEXT_H */
+#جيڪڏهن_پورو /* _LIBGETTEXT_H */
