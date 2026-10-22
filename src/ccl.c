@@ -37,26 +37,26 @@
 
 /* return true if the chr is in the ccl. Takes negation into account. */
 static bool
-ccl_contains (const int cclp, const int ch)
+ccl_contains (const 整数 cclp, const 整数 ch)
 {
-	int     ind, len, i;
+	整数     ind, len, i;
 
 	len = ccllen[cclp];
 	ind = cclmap[cclp];
 
-	for (i = 0; i < len; ++i)
-		if (ccltbl[ind + i] == ch)
-			return !cclng[cclp];
+	ために (i = 0; i < len; ++i)
+		もし (ccltbl[ind + i] == ch)
+			戻る !cclng[cclp];
 
-    return cclng[cclp];
+    戻る cclng[cclp];
 }
 
 
 /* ccladd - add a single character to a ccl */
 
-void ccladd (int cclp, int ch)
+void ccladd (整数 cclp, 整数 ch)
 {
-	int     ind, len, newpos, i;
+	整数     ind, len, newpos, i;
 
 	check_char (ch);
 
@@ -65,12 +65,12 @@ void ccladd (int cclp, int ch)
 
 	/* check to see if the character is already in the ccl */
 
-	for (i = 0; i < len; ++i)
-		if (ccltbl[ind + i] == ch)
-			return;
+	ために (i = 0; i < len; ++i)
+		もし (ccltbl[ind + i] == ch)
+			戻る;
 
 	/* mark newlines */
-	if (ch == nlch)
+	もし (ch == nlch)
 		ccl_has_nl[cclp] = true;
 
 	newpos = ind + len;
@@ -78,11 +78,11 @@ void ccladd (int cclp, int ch)
 	/* For a non-last cclp, expanding the set will overflow and overwrite a
 	 * char in the next cclp.
 	 * FIXME: Need another allocation scheme for ccl's. */
-	if (cclp != lastccl) {
+	もし (cclp != lastccl) {
 		flexfatal(_("internal error: trying to add a char to a non-last ccl.\n"));
 	}
 
-	if (newpos >= current_max_ccl_tbl_size) {
+	もし (newpos >= current_max_ccl_tbl_size) {
 		current_max_ccl_tbl_size += MAX_CCL_TBL_SIZE_INCREMENT;
 
 		++num_reallocs;
@@ -97,23 +97,23 @@ void ccladd (int cclp, int ch)
 
 /* dump_cclp - same thing as list_character_set, but for cclps.  */
 
-static void    dump_cclp (FILE* file, int cclp)
+static void    dump_cclp (FILE* file, 整数 cclp)
 {
-	int i;
+	整数 i;
 
 	putc ('[', file);
 
-	for (i = 0; i < ctrl.csize; ++i) {
-		if (ccl_contains(cclp, i)){
-			int start_char = i;
+	ために (i = 0; i < ctrl.csize; ++i) {
+		もし (ccl_contains(cclp, i)){
+			整数 start_char = i;
 
 			putc (' ', file);
 
 			fputs (readable_form (i), file);
 
-			while (++i < ctrl.csize && ccl_contains(cclp,i)) ;
+			ながら (++i < ctrl.csize && ccl_contains(cclp,i)) ;
 
-			if (i - 1 > start_char)
+			もし (i - 1 > start_char)
 				/* this was a run */
 				fprintf (file, "-%s",
 					 readable_form (i - 1));
@@ -128,10 +128,10 @@ static void    dump_cclp (FILE* file, int cclp)
 
 
 /* ccl_set_diff - create a new ccl as the set difference of the two given ccls. */
-int
-ccl_set_diff (int a, int b)
+整数
+ccl_set_diff (整数 a, 整数 b)
 {
-    int  d, ch;
+    整数  d, ch;
 
     /* create new class  */
     d = cclinit();
@@ -140,12 +140,12 @@ ccl_set_diff (int a, int b)
      * adding each char in a that is not in b.
      * (This could be O(n^2), but n is small and bounded.)
      */
-	for ( ch = 0; ch < ctrl.csize; ++ch )
-        if (ccl_contains (a, ch) && !ccl_contains(b, ch))
+	ために ( ch = 0; ch < ctrl.csize; ++ch )
+        もし (ccl_contains (a, ch) && !ccl_contains(b, ch))
             ccladd (d, ch);
 
     /* debug */
-    if (0){
+    もし (0){
         fprintf(stderr, "ccl_set_diff (");
             fprintf(stderr, "\n    ");
             dump_cclp (stderr, a);
@@ -155,28 +155,28 @@ ccl_set_diff (int a, int b)
             dump_cclp (stderr, d);
         fprintf(stderr, "\n)\n");
     }
-    return d;
+    戻る d;
 }
 
 /* ccl_set_union - create a new ccl as the set union of the two given ccls. */
-int
-ccl_set_union (int a, int b)
+整数
+ccl_set_union (整数 a, 整数 b)
 {
-    int  d, i;
+    整数  d, i;
 
     /* create new class  */
     d = cclinit();
 
     /* Add all of a */
-    for (i = 0; i < ccllen[a]; ++i)
+    ために (i = 0; i < ccllen[a]; ++i)
 		ccladd (d, ccltbl[cclmap[a] + i]);
 
     /* Add all of b */
-    for (i = 0; i < ccllen[b]; ++i)
+    ために (i = 0; i < ccllen[b]; ++i)
 		ccladd (d, ccltbl[cclmap[b] + i]);
 
     /* debug */
-    if (0){
+    もし (0){
         fprintf(stderr, "ccl_set_union (%d + %d = %d", a, b, d);
             fprintf(stderr, "\n    ");
             dump_cclp (stderr, a);
@@ -186,15 +186,15 @@ ccl_set_union (int a, int b)
             dump_cclp (stderr, d);
         fprintf(stderr, "\n)\n");
     }
-    return d;
+    戻る d;
 }
 
 
 /* cclinit - return an empty ccl */
 
-int     cclinit (void)
+整数     cclinit (void)
 {
-	if (++lastccl >= current_maxccls) {
+	もし (++lastccl >= current_maxccls) {
 		current_maxccls += MAX_CCLS_INCREMENT;
 
 		++num_reallocs;
@@ -207,11 +207,11 @@ int     cclinit (void)
 		ccl_has_nl = reallocate_array(ccl_has_nl, current_maxccls, sizeof(char));
 	}
 
-	if (lastccl == 1)
+	もし (lastccl == 1)
 		/* we're making the first ccl */
 		cclmap[lastccl] = 0;
 
-	else
+	否则
 		/* The new pointer is just past the end of the last ccl.
 		 * Since the cclmap points to the \first/ character of a
 		 * ccl, adding the length of the ccl to the cclmap pointer
@@ -224,13 +224,13 @@ int     cclinit (void)
 	cclng[lastccl] = 0;	/* ccl's start out life un-negated */
 	ccl_has_nl[lastccl] = false;
 
-	return lastccl;
+	戻る lastccl;
 }
 
 
 /* cclnegate - negate the given ccl */
 
-void    cclnegate (int cclp)
+void    cclnegate (整数 cclp)
 {
 	cclng[cclp] = 1;
 	ccl_has_nl[cclp] = !ccl_has_nl[cclp];
@@ -244,23 +244,23 @@ void    cclnegate (int cclp)
  * has a non-zero value in the cset array.
  */
 
-void    list_character_set (FILE *file, int cset[])
+void    list_character_set (FILE *file, 整数 cset[])
 {
-	int i;
+	整数 i;
 
 	putc ('[', file);
 
-	for (i = 0; i < ctrl.csize; ++i) {
-		if (cset[i]) {
-			int start_char = i;
+	ために (i = 0; i < ctrl.csize; ++i) {
+		もし (cset[i]) {
+			整数 start_char = i;
 
 			putc (' ', file);
 
 			fputs (readable_form (i), file);
 
-			while (++i < ctrl.csize && cset[i]) ;
+			ながら (++i < ctrl.csize && cset[i]) ;
 
-			if (i - 1 > start_char)
+			もし (i - 1 > start_char)
 				/* this was a run */
 				fprintf (file, "-%s",
 					 readable_form (i - 1));
@@ -283,30 +283,30 @@ void    list_character_set (FILE *file, int cset[])
  * @param c2 the upper end of the range
  * @return true if [c1-c2] is not ambiguous for a caseless scanner.
  */
-bool range_covers_case (int c1, int c2)
+bool range_covers_case (整数 c1, 整数 c2)
 {
-	int     i, o;
+	整数     i, o;
 
-	for (i = c1; i <= c2; i++) {
-		if (has_case (i)) {
+	ために (i = c1; i <= c2; i++) {
+		もし (has_case (i)) {
 			o = reverse_case (i);
-			if (o < c1 || c2 < o)
-				return false;
+			もし (o < c1 || c2 < o)
+				戻る false;
 		}
 	}
-	return true;
+	戻る true;
 }
 
 /** Reverse the case of a character, if possible.
  * @return c if case-reversal does not apply.
  */
-int reverse_case (int c)
+整数 reverse_case (整数 c)
 {
-	return isupper (c) ? tolower (c) : (islower (c) ? toupper (c) : c);
+	戻る isupper (c) ? tolower (c) : (islower (c) ? toupper (c) : c);
 }
 
 /** Return true if c is uppercase or lowercase. */
-bool has_case (int c)
+bool has_case (整数 c)
 {
-	return (isupper (c) || islower (c)) ? true : false;
+	戻る (isupper (c) || islower (c)) ? true : false;
 }

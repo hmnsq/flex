@@ -25,7 +25,7 @@
 /* Get declarations of GNU message catalog functions.  */
 # include <libintl.h>
 
-#else
+#否则
 
 /* Disabled NLS.
    The casts to 'const char *' serve the purpose of producing warnings

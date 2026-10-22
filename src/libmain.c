@@ -25,14 +25,14 @@
 
 #include <stdlib.h>
 
-extern int yylex (void);
+extern 整数 yylex (void);
 
-int     main (int argc, char *argv[])
+整数     メインページ (整数 argc, char *argv[])
 {
 	(void)argc;
 	(void)argv;
 
-	while (yylex () != 0) ;
+	ながら (yylex () != 0) ;
 
 	exit(0);
 }

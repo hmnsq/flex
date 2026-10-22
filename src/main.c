@@ -44,63 +44,63 @@ static char flex_version[] = FLEX_VERSION;
 
 /* declare functions that have forward references */
 
-void flexinit(int, char **);
+void flexinit(整数, char **);
 void readin(void);
 void set_up_initial_allocations(void);
 
 /* these globals are all defined and commented in flexdef.h */
 bool    syntaxerror, eofseen;
-int     yymore_used, reject, real_reject, continued_action, in_rule;
-int     datapos, dataline, linenum;
+整数     yymore_used, reject, real_reject, continued_action, in_rule;
+整数     datapos, dataline, linenum;
 FILE   *skelfile = NULL;
-int     skel_ind = 0;
+整数     skel_ind = 0;
 char   *action_array;
-int     action_size, defs1_offset, prolog_offset, action_offset,
+整数     action_size, defs1_offset, prolog_offset, action_offset,
 	action_index;
 char   *infilename = NULL;
 char   *extra_type = NULL;
-int     onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
-int     onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
-int     maximum_mns, current_mns, current_max_rules;
-int     num_rules, num_eof_rules, default_rule, lastnfa;
-int    *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
-int    *accptnum, *assoc_rule, *state_type;
-int    *rule_type, *rule_linenum;
-int     current_state_type;
+整数     onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
+整数     onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
+整数     maximum_mns, current_mns, current_max_rules;
+整数     num_rules, num_eof_rules, default_rule, lastnfa;
+整数    *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
+整数    *accptnum, *assoc_rule, *state_type;
+整数    *rule_type, *rule_linenum;
+整数     current_state_type;
 bool    variable_trailing_context_rules;
-int     numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
-int     protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
-int     numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs,
+整数     numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
+整数     protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
+整数     numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs,
 	tecfwd[CSIZE + 1];
-int     tecbck[CSIZE + 1];
-int     lastsc, *scset, *scbol;
+整数     tecbck[CSIZE + 1];
+整数     lastsc, *scset, *scbol;
 /* scxclu[] and sceof[] are boolean arrays, but allocated as char
  * arrays for size. */
 char   *scxclu, *sceof;
-int     current_max_scs;
+整数     current_max_scs;
 const char **scname;
-int     current_max_dfa_size, current_max_xpairs;
-int     current_max_template_xpairs, current_max_dfas;
-int     lastdfa, *nxt, *chk, *tnxt;
-int    *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss, *dfasiz;
+整数     current_max_dfa_size, current_max_xpairs;
+整数     current_max_template_xpairs, current_max_dfas;
+整数     lastdfa, *nxt, *chk, *tnxt;
+整数    *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss, *dfasiz;
 union dfaacc_union *dfaacc;
-int    *accsiz, *dhash, numas;
-int     numsnpairs, jambase, jamstate;
-int     lastccl, *cclmap, *ccllen, *cclng, cclreuse;
-int     current_maxccls, current_max_ccl_tbl_size;
+整数    *accsiz, *dhash, numas;
+整数     numsnpairs, jambase, jamstate;
+整数     lastccl, *cclmap, *ccllen, *cclng, cclreuse;
+整数     current_maxccls, current_max_ccl_tbl_size;
 unsigned char   *ccltbl;
 char    nmstr[MAXLINE];
-int     sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
-int     tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
-int     num_backing_up, bol_needed;
-int     end_of_buffer_state;
+整数     sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
+整数     tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
+整数     num_backing_up, bol_needed;
+整数     end_of_buffer_state;
 char  **input_files;
-int     num_input_files;
+整数     num_input_files;
 jmp_buf flex_main_jmp_buf;
 /* rule_useful[], rule_has_nl[] and ccl_has_nl[] are boolean arrays,
  * but allocated as char arrays for size. */
 char   *rule_useful, *rule_has_nl, *ccl_has_nl;
-int     nlch = '\n';
+整数     nlch = '\n';
 
 bool    tablesext, tablesverify, gentables;
 char   *tablesfilename=0,*tablesname=0;
@@ -123,20 +123,20 @@ static const char tablesfile_template[] = "lex.%s.tables";
 extern FILE* yyout;
 
 static char outfile_path[MAXLINE];
-static int outfile_created = 0;
-static int _stdout_closed = 0; /* flag to prevent double-fclose() on stdout. */
+static 整数 outfile_created = 0;
+static 整数 _stdout_closed = 0; /* flag to prevent double-fclose() on stdout. */
 const char *escaped_qstart = "]]M4_YY_NOOP[M4_YY_NOOP[M4_YY_NOOP[[";
 const char *escaped_qend   = "]]M4_YY_NOOP]M4_YY_NOOP]M4_YY_NOOP[[";
 
 /* For debugging. The max number of filters to apply to skeleton. */
-static int preproc_level = 1000;
+static 整数 preproc_level = 1000;
 
-int flex_main (int argc, char *argv[]);
+整数 flex_main (整数 argc, char *argv[]);
 
-int flex_main (int argc, char *argv[])
+整数 flex_main (整数 argc, char *argv[])
 {
-	int     i, exit_status, child_status;
-	int	did_eof_rule = false;
+	整数     i, exit_status, child_status;
+	整数	did_eof_rule = false;
 
 	/* Set a longjmp target. Yes, I know it's a hack, but it gets worse: The
 	 * return value of setjmp, if non-zero, is the desired exit code PLUS ONE.
@@ -146,22 +146,22 @@ int flex_main (int argc, char *argv[])
 	 * exit(n);
 	 */
 	exit_status = setjmp (flex_main_jmp_buf);
-	if (exit_status){
-		if (stdout && !_stdout_closed && !ferror(stdout)){
+	もし (exit_status){
+		もし (stdout && !_stdout_closed && !ferror(stdout)){
 			fflush(stdout);
 			fclose(stdout);
 		}
-		while (wait(&child_status) > 0){
-			if (!WIFEXITED (child_status)
+		ながら (wait(&child_status) > 0){
+			もし (!WIFEXITED (child_status)
 			    || WEXITSTATUS (child_status) != 0){
 				/* report an error of a child
 				 */
-				if( exit_status <= 1 )
+				もし( exit_status <= 1 )
 					exit_status = 2;
 
 			}
 		}
-		return exit_status - 1;
+		戻る exit_status - 1;
 	}
 
 	flexinit (argc, argv);
@@ -170,12 +170,12 @@ int flex_main (int argc, char *argv[])
 	skelout (true);		/* %% [1.0] DFA */
 	footprint += ntod ();
 
-	for (i = 1; i <= num_rules; ++i)
-		if (!rule_useful[i] && i != default_rule)
+	ために (i = 1; i <= num_rules; ++i)
+		もし (!rule_useful[i] && i != default_rule)
 			line_warning (_("rule cannot be matched"),
 				      rule_linenum[i]);
 
-	if (ctrl.spprdflt && !reject && rule_useful[default_rule])
+	もし (ctrl.spprdflt && !reject && rule_useful[default_rule])
 		line_warning (_
 			      ("-s option given but default rule can be matched"),
 			      rule_linenum[default_rule]);
@@ -184,17 +184,17 @@ int flex_main (int argc, char *argv[])
 
 	// mode switches for yy_trans_info specification
 	// nultrans
-	if (nultrans)
+	もし (nultrans)
 		visible_define ( "M4_MODE_NULTRANS");
-	else {
+	否则 {
 		visible_define ( "M4_MODE_NO_NULTRANS");
-		if (ctrl.fulltbl)
+		もし (ctrl.fulltbl)
 		    visible_define ( "M4_MODE_NULTRANS_FULLTBL");
-		else
+		否则
 		    visible_define ( "M4_MODE_NO_NULTRANS_FULLTBL");
-		if (ctrl.fullspd)
+		もし (ctrl.fullspd)
 		    visible_define ( "M4_MODE_NULTRANS_FULLSPD");
-		else
+		否则
 		    visible_define ( "M4_MODE_NO_NULTRANS_FULLSPD");
 	}
 	
@@ -239,8 +239,8 @@ int flex_main (int argc, char *argv[])
 	line_directive_out (stdout, NULL, linenum);
 
 	/* generate cases for any missing EOF rules */
-	for (i = 1; i <= lastsc; ++i)
-		if (!sceof[i]) {
+	ために (i = 1; i <= lastsc; ++i)
+		もし (!sceof[i]) {
 			out_str ("M4_HOOK_EOF_STATE_CASE_ARM(%s)", scname[i]);
 			outc('\n');
 			out ("M4_HOOK_EOF_STATE_CASE_FALLTHROUGH");
@@ -248,7 +248,7 @@ int flex_main (int argc, char *argv[])
 			did_eof_rule = true;
 		}
 
-	if (did_eof_rule) {
+	もし (did_eof_rule) {
 		out ("M4_HOOK_EOF_STATE_CASE_TERMINATE");
 	}
 
@@ -258,12 +258,12 @@ int flex_main (int argc, char *argv[])
 
 	line_directive_out (stdout, infilename, linenum);
 
-	if (sectnum == 3) {
+	もし (sectnum == 3) {
 		OUT_BEGIN_CODE ();
-                if (!ctrl.no_section3_escape)
+                もし (!ctrl.no_section3_escape)
                    fputs("[[", stdout);
 		(void) flexscan ();	/* copy remainder of input to output */
-                if (!ctrl.no_section3_escape)
+                もし (!ctrl.no_section3_escape)
                    fputs("]]", stdout);
 		OUT_END_CODE ();
 	}
@@ -273,14 +273,14 @@ int flex_main (int argc, char *argv[])
 	 */
 	flexend (0);
 
-	return 0;		/* keep compilers/lint happy */
+	戻る 0;		/* keep compilers/lint happy */
 }
 
 /* Wrapper around flex_main, so flex_main can be built as a library. */
-int main (int argc, char *argv[])
+整数 メインページ (整数 argc, char *argv[])
 {
-#if defined(ENABLE_NLS) && ENABLE_NLS
-#if HAVE_LOCALE_H
+#もし defined(ENABLE_NLS) && ENABLE_NLS
+#もし HAVE_LOCALE_H
 	setlocale (LC_MESSAGES, "");
         setlocale (LC_CTYPE, "");
 	textdomain (PACKAGE);
@@ -288,7 +288,7 @@ int main (int argc, char *argv[])
 #endif
 #endif
 
-	return flex_main (argc, argv);
+	戻る flex_main (argc, argv);
 }
 
 /* Set up the output filter chain. */
@@ -298,14 +298,14 @@ void initialize_output_filters(void)
 	const char * m4 = NULL;
 
 	output_chain = filter_create_int(NULL, filter_tee_header, env.headerfilename);
-	if ( !(m4 = getenv("M4"))) {
+	もし ( !(m4 = getenv("M4"))) {
 		m4 = M4;
 	}
 	filter_create_ext(output_chain, m4, "-P", (char *) 0);
 	filter_create_int(output_chain, filter_fix_linedirs, NULL);
 
 	/* For debugging, only run the requested number of filters. */
-	if (preproc_level > 0) {
+	もし (preproc_level > 0) {
 		filter_truncate(output_chain, preproc_level);
 		filter_apply_chain(output_chain);
 	}
@@ -316,16 +316,16 @@ void initialize_output_filters(void)
 
 void check_options (void)
 {
-	int     i;
+	整数     i;
 
-	if (ctrl.lex_compat) {
-		if (ctrl.C_plus_plus)
+	もし (ctrl.lex_compat) {
+		もし (ctrl.C_plus_plus)
 			flexerror (_("Can't use -+ with -l option"));
 
-		if (ctrl.fulltbl || ctrl.fullspd)
+		もし (ctrl.fulltbl || ctrl.fullspd)
 			flexerror (_("Can't use -f or -F with -l option"));
 
-		if (ctrl.reentrant || ctrl.bison_bridge_lval)
+		もし (ctrl.reentrant || ctrl.bison_bridge_lval)
 			flexerror (_
 				   ("Can't use --ctrl.reentrant or --bison-bridge with -l option"));
 
@@ -335,68 +335,68 @@ void check_options (void)
 	}
 
 
-#if 0
+#もし 0
 	/* This makes no sense whatsoever. I'm removing it. */
-	if (ctrl.do_yylineno)
+	もし (ctrl.do_yylineno)
 		/* This should really be "maintain_backup_tables = true" */
 		ctrl.reject_really_used = true;
 #endif
 
-	if (ctrl.csize == trit_unspecified) {
-		if ((ctrl.fulltbl || ctrl.fullspd) && !ctrl.useecs)
+	もし (ctrl.csize == trit_unspecified) {
+		もし ((ctrl.fulltbl || ctrl.fullspd) && !ctrl.useecs)
 			ctrl.csize = DEFAULT_CSIZE;
-		else
+		否则
 			ctrl.csize = CSIZE;
 	}
 
-	if (ctrl.interactive == trit_unspecified) {
-		if (ctrl.fulltbl || ctrl.fullspd)
+	もし (ctrl.interactive == trit_unspecified) {
+		もし (ctrl.fulltbl || ctrl.fullspd)
 			ctrl.interactive = trit_false;
-		else
+		否则
 			ctrl.interactive = trit_true;
 	}
 
-	if (ctrl.fulltbl || ctrl.fullspd) {
-		if (ctrl.usemecs)
+	もし (ctrl.fulltbl || ctrl.fullspd) {
+		もし (ctrl.usemecs)
 			flexerror (_
 				   ("-Cf/-CF and -Cm don't make sense together"));
 
-		if (ctrl.interactive != trit_false)
+		もし (ctrl.interactive != trit_false)
 			flexerror (_("-Cf/-CF and -I are incompatible"));
 
-		if (ctrl.lex_compat)
+		もし (ctrl.lex_compat)
 			flexerror (_
 				   ("-Cf/-CF are incompatible with lex-compatibility mode"));
 
 
-		if (ctrl.fulltbl && ctrl.fullspd)
+		もし (ctrl.fulltbl && ctrl.fullspd)
 			flexerror (_
 				   ("-Cf and -CF are mutually exclusive"));
 	}
 
-	if (ctrl.C_plus_plus && ctrl.fullspd)
+	もし (ctrl.C_plus_plus && ctrl.fullspd)
 		flexerror (_("Can't use -+ with -CF option"));
 
-	if (ctrl.C_plus_plus && ctrl.yytext_is_array) {
+	もし (ctrl.C_plus_plus && ctrl.yytext_is_array) {
 		lwarn (_("%array incompatible with -+ option"));
 		ctrl.yytext_is_array = false;
 	}
 
-	if (ctrl.C_plus_plus && (ctrl.reentrant))
+	もし (ctrl.C_plus_plus && (ctrl.reentrant))
 		flexerror (_("Options -+ and --reentrant are mutually exclusive."));
 
-	if (ctrl.C_plus_plus && ctrl.bison_bridge_lval)
+	もし (ctrl.C_plus_plus && ctrl.bison_bridge_lval)
 		flexerror (_("bison bridge not supported for the C++ scanner."));
 
 
-	if (ctrl.useecs) {		/* Set up doubly-linked equivalence classes. */
+	もし (ctrl.useecs) {		/* Set up doubly-linked equivalence classes. */
 
 		/* We loop all the way up to ctrl.csize, since ecgroup[ctrl.csize] is
 		 * the position used for NUL characters.
 		 */
 		ecgroup[1] = NIL;
 
-		for (i = 2; i <= ctrl.csize; ++i) {
+		ために (i = 2; i <= ctrl.csize; ++i) {
 			ecgroup[i] = i - 1;
 			nextecm[i - 1] = i;
 		}
@@ -404,18 +404,18 @@ void check_options (void)
 		nextecm[ctrl.csize] = NIL;
 	}
 
-	else {
+	否则 {
 		/* Put everything in its own equivalence class. */
-		for (i = 1; i <= ctrl.csize; ++i) {
+		ために (i = 1; i <= ctrl.csize; ++i) {
 			ecgroup[i] = i;
 			nextecm[i] = BAD_SUBSCRIPT;	/* to catch errors */
 		}
 	}
 
-	if (!env.use_stdout) {
+	もし (!env.use_stdout) {
 		FILE   *prev_stdout;
 
-		if (!env.did_outfilename) {
+		もし (!env.did_outfilename) {
 			snprintf (outfile_path, sizeof(outfile_path), outfile_template,
 				  ctrl.prefix, suffix());
 
@@ -424,7 +424,7 @@ void check_options (void)
 
 		prev_stdout = freopen (env.outfilename, "w+", stdout);
 
-		if (prev_stdout == NULL)
+		もし (prev_stdout == NULL)
 			lerr (_("could not create %s"), env.outfilename);
 
 		outfile_created = 1;
@@ -437,142 +437,142 @@ void check_options (void)
  *    This routine does not return.
  */
 
-void flexend (int exit_status)
+void flexend (整数 exit_status)
 {
-	static int called_before = -1;	/* prevent infinite recursion. */
-	int     tblsiz;
+	static 整数 called_before = -1;	/* prevent infinite recursion. */
+	整数     tblsiz;
 
-	if (++called_before)
+	もし (++called_before)
 		FLEX_EXIT (exit_status);
 
-	if (ctrl.yyclass != NULL && !ctrl.C_plus_plus)
+	もし (ctrl.yyclass != NULL && !ctrl.C_plus_plus)
 		flexerror (_("%option yyclass only meaningful for C++ scanners"));
 
-	if (skelfile != NULL) {
-		if (ferror (skelfile))
+	もし (skelfile != NULL) {
+		もし (ferror (skelfile))
 			lerr (_("input error reading skeleton file %s"),
 				env.skelname);
 
-		else if (fclose (skelfile))
+		否则 もし (fclose (skelfile))
 			lerr (_("error closing skeleton file %s"),
 				env.skelname);
 	}
 
-	if (exit_status != 0 && outfile_created) {
-		if (ferror (stdout))
+	もし (exit_status != 0 && outfile_created) {
+		もし (ferror (stdout))
 			lerr (_("error writing output file %s"),
 				env.outfilename);
 
-		else if ((_stdout_closed = 1) && fclose (stdout))
+		否则 もし ((_stdout_closed = 1) && fclose (stdout))
 			lerr (_("error closing output file %s"),
 				env.outfilename);
 
-		else if (unlink (env.outfilename))
+		否则 もし (unlink (env.outfilename))
 			lerr (_("error deleting output file %s"),
 				env.outfilename);
 	}
 
 
-	if (env.backing_up_report && ctrl.backing_up_file) {
-		if (num_backing_up == 0)
+	もし (env.backing_up_report && ctrl.backing_up_file) {
+		もし (num_backing_up == 0)
 			fprintf (ctrl.backing_up_file, _("No backing up.\n"));
-		else if (ctrl.fullspd || ctrl.fulltbl)
+		否则 もし (ctrl.fullspd || ctrl.fulltbl)
 			fprintf (ctrl.backing_up_file,
 				 _
 				 ("%d backing up (non-accepting) states.\n"),
 				 num_backing_up);
-		else
+		否则
 			fprintf (ctrl.backing_up_file,
 				 _("Compressed tables always back up.\n"));
 
-		if (ferror (ctrl.backing_up_file))
+		もし (ferror (ctrl.backing_up_file))
 			lerr (_("error writing backup file %s"),
 				backing_name);
 
-		else if (fclose (ctrl.backing_up_file))
+		否则 もし (fclose (ctrl.backing_up_file))
 			lerr (_("error closing backup file %s"),
 				backing_name);
 	}
 
-	if (env.printstats) {
+	もし (env.printstats) {
 		fprintf (stderr, _("%s version %s usage statistics:\n"),
 			 program_name, flex_version);
 
 		fprintf (stderr, _("  scanner options: -"));
 
-		if (ctrl.C_plus_plus)
+		もし (ctrl.C_plus_plus)
 			putc ('+', stderr);
-		if (env.backing_up_report)
+		もし (env.backing_up_report)
 			putc ('b', stderr);
-		if (ctrl.ddebug)
+		もし (ctrl.ddebug)
 			putc ('d', stderr);
-		if (sf_case_ins())
+		もし (sf_case_ins())
 			putc ('i', stderr);
-		if (ctrl.lex_compat)
+		もし (ctrl.lex_compat)
 			putc ('l', stderr);
-		if (ctrl.posix_compat)
+		もし (ctrl.posix_compat)
 			putc ('X', stderr);
-		if (env.performance_hint > 0)
+		もし (env.performance_hint > 0)
 			putc ('p', stderr);
-		if (env.performance_hint > 1)
+		もし (env.performance_hint > 1)
 			putc ('p', stderr);
-		if (ctrl.spprdflt)
+		もし (ctrl.spprdflt)
 			putc ('s', stderr);
-		if (ctrl.reentrant)
+		もし (ctrl.reentrant)
 			fputs ("--reentrant", stderr);
-        if (ctrl.bison_bridge_lval)
+        もし (ctrl.bison_bridge_lval)
             fputs ("--bison-bridge", stderr);
-        if (ctrl.bison_bridge_lloc)
+        もし (ctrl.bison_bridge_lloc)
             fputs ("--bison-locations", stderr);
-		if (env.use_stdout)
+		もし (env.use_stdout)
 			putc ('t', stderr);
-		if (env.printstats)
+		もし (env.printstats)
 			putc ('v', stderr);	/* always true! */
-		if (env.nowarn)
+		もし (env.nowarn)
 			putc ('w', stderr);
-		if (ctrl.interactive == trit_false)
+		もし (ctrl.interactive == trit_false)
 			putc ('B', stderr);
-		if (ctrl.interactive == trit_true)
+		もし (ctrl.interactive == trit_true)
 			putc ('I', stderr);
-		if (!ctrl.gen_line_dirs)
+		もし (!ctrl.gen_line_dirs)
 			putc ('L', stderr);
-		if (env.trace)
+		もし (env.trace)
 			putc ('T', stderr);
 
-		if (ctrl.csize == trit_unspecified)
+		もし (ctrl.csize == trit_unspecified)
 			/* We encountered an error fairly early on, so ctrl.csize
 			 * never got specified.  Define it now, to prevent
 			 * bogus table sizes being written out below.
 			 */
 			ctrl.csize = 256;
 
-		if (ctrl.csize == 128)
+		もし (ctrl.csize == 128)
 			putc ('7', stderr);
-		else
+		否则
 			putc ('8', stderr);
 
 		fprintf (stderr, " -C");
 
-		if (ctrl.long_align)
+		もし (ctrl.long_align)
 			putc ('a', stderr);
-		if (ctrl.fulltbl)
+		もし (ctrl.fulltbl)
 			putc ('f', stderr);
-		if (ctrl.fullspd)
+		もし (ctrl.fullspd)
 			putc ('F', stderr);
-		if (ctrl.useecs)
+		もし (ctrl.useecs)
 			putc ('e', stderr);
-		if (ctrl.usemecs)
+		もし (ctrl.usemecs)
 			putc ('m', stderr);
-		if (ctrl.use_read)
+		もし (ctrl.use_read)
 			putc ('r', stderr);
 
-		if (env.did_outfilename)
+		もし (env.did_outfilename)
 			fprintf (stderr, " -o%s", env.outfilename);
 
-		if (env.skelname != NULL)
+		もし (env.skelname != NULL)
 			fprintf (stderr, " -S%s", env.skelname);
 
-		if (strcmp (ctrl.prefix, "yy"))
+		もし (strcmp (ctrl.prefix, "yy"))
 			fprintf (stderr, " -P%s", ctrl.prefix);
 
 		putc ('\n', stderr);
@@ -585,19 +585,19 @@ void flexend (int exit_status)
 			 num_rules + num_eof_rules -
 			 1 /* - 1 for def. rule */ );
 
-		if (num_backing_up == 0)
+		もし (num_backing_up == 0)
 			fprintf (stderr, _("  No backing up\n"));
-		else if (ctrl.fullspd || ctrl.fulltbl)
+		否则 もし (ctrl.fullspd || ctrl.fulltbl)
 			fprintf (stderr,
 				 _
 				 ("  %d backing-up (non-accepting) states\n"),
 				 num_backing_up);
-		else
+		否则
 			fprintf (stderr,
 				 _
 				 ("  Compressed tables always back-up\n"));
 
-		if (bol_needed)
+		もし (bol_needed)
 			fprintf (stderr,
 				 _("  Beginning-of-line patterns used\n"));
 
@@ -608,9 +608,9 @@ void flexend (int exit_status)
 			 ("  %d epsilon states, %d double epsilon states\n"),
 			 numeps, eps2);
 
-		if (lastccl == 0)
+		もし (lastccl == 0)
 			fprintf (stderr, _("  no character classes\n"));
-		else
+		否则
 			fprintf (stderr,
 				 _
 				 ("  %d/%d character classes needed %d/%d words of storage, %d reused\n"),
@@ -624,13 +624,13 @@ void flexend (int exit_status)
 			 _("  %d/%d unique/duplicate transitions\n"),
 			 numuniq, numdup);
 
-		if (ctrl.fulltbl) {
+		もし (ctrl.fulltbl) {
 			tblsiz = lastdfa * numecs;
 			fprintf (stderr, _("  %d table entries\n"),
 				 tblsiz);
 		}
 
-		else {
+		否则 {
 			tblsiz = 2 * (lastdfa + numtemps) + 2 * tblend;
 
 			fprintf (stderr,
@@ -655,7 +655,7 @@ void flexend (int exit_status)
 				 numtemps, tmpuses);
 		}
 
-		if (ctrl.useecs) {
+		もし (ctrl.useecs) {
 			tblsiz = tblsiz + ctrl.csize;
 			fprintf (stderr,
 				 _
@@ -663,7 +663,7 @@ void flexend (int exit_status)
 				 numecs, ctrl.csize);
 		}
 
-		if (ctrl.usemecs) {
+		もし (ctrl.usemecs) {
 			tblsiz = tblsiz + numecs;
 			fprintf (stderr,
 				 _
@@ -687,9 +687,9 @@ void flexend (int exit_status)
 
 /* flexinit - initialize flex */
 
-void flexinit (int argc, char **argv)
+void flexinit (整数 argc, char **argv)
 {
-	int     i, sawcmpflag, rv, optind;
+	整数     i, sawcmpflag, rv, optind;
 	char   *arg;
 	scanopt_t sopt;
 
@@ -729,22 +729,22 @@ void flexinit (int argc, char **argv)
 	/* Enable C++ if program name ends with '+'. */
 	program_name = argv[0];
 
-	if (program_name != NULL &&
+	もし (program_name != NULL &&
 	    program_name[strlen (program_name) - 1] == '+')
 		ctrl.C_plus_plus = true;
 
 	/* read flags */
 	sopt = scanopt_init (flexopts, argc, argv, 0);
-	if (!sopt) {
+	もし (!sopt) {
 		/* This will only happen when flexopts array is altered. */
 		fprintf (stderr,
 			 _("Internal error. flexopts are malformed.\n"));
 		FLEX_EXIT (1);
 	}
 
-	while ((rv = scanopt (sopt, &arg, &optind)) != 0) {
+	ながら ((rv = scanopt (sopt, &arg, &optind)) != 0) {
 
-		if (rv < 0) {
+		もし (rv < 0) {
 			/* Scanopt has already printed an option-specific error message. */
 			fprintf (stderr,
 				 _
@@ -775,14 +775,14 @@ void flexinit (int argc, char **argv)
 			break;
 
 		    case OPT_COMPRESSION:
-			if (!sawcmpflag) {
+			もし (!sawcmpflag) {
 				ctrl.useecs = false;
 				ctrl.usemecs = false;
 				ctrl.fulltbl = false;
 				sawcmpflag = true;
 			}
 
-			for (i = 0; arg && arg[i] != '\0'; i++)
+			ために (i = 0; arg && arg[i] != '\0'; i++)
 				switch (arg[i]) {
 				    case 'a':
 					ctrl.long_align = true;
@@ -855,7 +855,7 @@ void flexinit (int argc, char **argv)
 			break;
 
 		    case OPT_PREPROC_LEVEL:
-			preproc_level = (int) strtol(arg,NULL,0);
+			preproc_level = (整数) strtol(arg,NULL,0);
 			break;
 
 		    case OPT_MAIN:
@@ -1011,10 +1011,10 @@ void flexinit (int argc, char **argv)
 			    char   *def;
 			    char buf2[4096];
 
-			    for (def = arg;
+			    ために (def = arg;
 				 *def != '\0' && *def != '='; ++def)
 				    continue;
-			    if (*def == '\0')
+			    もし (*def == '\0')
 				    def = "1";
 
 			    snprintf(buf2, sizeof(buf2), "M4_HOOK_CONST_DEFINE_UNKNOWN(%s, %s)", arg, def);
@@ -1198,12 +1198,12 @@ void readin (void)
 
 	line_directive_out(NULL, infilename, linenum);
 
-	if (yyparse ()) {
+	もし (yyparse ()) {
 		pinpoint_message (_("fatal parse error"));
 		flexend (1);
 	}
 
-	if (syntaxerror)
+	もし (syntaxerror)
 		flexend (1);
 
 	/* On --emit, -e, or change backends This is where backend
@@ -1218,27 +1218,27 @@ void readin (void)
 
 	yyout = stdout;
 
-	if (tablesext)
+	もし (tablesext)
 		gentables = false;
 
-	if (tablesverify)
+	もし (tablesverify)
 		/* force generation of C tables. */
 		gentables = true;
 
 
-	if (tablesext) {
+	もし (tablesext) {
 		FILE   *tablesout;
 		struct yytbl_hdr hdr;
 		char   *pname = 0;
 		size_t  nbytes = 0;
 
-		if (!tablesfilename) {
+		もし (!tablesfilename) {
 			nbytes = strlen (ctrl.prefix) + strlen (tablesfile_template) + 2;
 			tablesfilename = pname = calloc(nbytes, 1);
 			snprintf (pname, nbytes, tablesfile_template, ctrl.prefix);
 		}
 
-		if ((tablesout = fopen (tablesfilename, "w")) == NULL)
+		もし ((tablesout = fopen (tablesfilename, "w")) == NULL)
 			lerr (_("could not create %s"), tablesfilename);
 		free(pname);
 		tablesfilename = 0;
@@ -1250,17 +1250,17 @@ void readin (void)
 		snprintf (tablesname, nbytes, "%stables", ctrl.prefix);
 		yytbl_hdr_init (&hdr, flex_version, tablesname);
 
-		if (yytbl_hdr_fwrite (&tableswr, &hdr) <= 0)
+		もし (yytbl_hdr_fwrite (&tableswr, &hdr) <= 0)
 			flexerror (_("could not write tables header"));
 	}
 
-	if (env.skelname && (skelfile = fopen (env.skelname, "r")) == NULL)
+	もし (env.skelname && (skelfile = fopen (env.skelname, "r")) == NULL)
 		lerr (_("can't open skeleton file %s"), env.skelname);
 
-	if (strchr(ctrl.prefix, '[') || strchr(ctrl.prefix, ']'))
+	もし (strchr(ctrl.prefix, '[') || strchr(ctrl.prefix, ']'))
 		flexerror(_("Prefix cannot include '[' or ']'"));
 
-	if (env.did_outfilename)
+	もし (env.did_outfilename)
 		line_directive_out (stdout, NULL, linenum);
 
 	/* This is where we begin writing to the file. */
@@ -1270,24 +1270,24 @@ void readin (void)
 	comment("A lexical scanner generated by flex\n");
 
 	/* Dump the %top code. */
-	if( top_buf.elts)
+	もし( top_buf.elts)
 		outn((char*) top_buf.elts);
 
 	/* Place a bogus line directive, it will be fixed in the filter. */
 	line_directive_out(NULL, NULL, 0);
 
 	/* User may want to set the scanner prototype */
-	if (ctrl.yydecl != NULL) {
+	もし (ctrl.yydecl != NULL) {
 		out_str ("M4_HOOK_SET_YY_DECL(%s)\n", ctrl.yydecl);
 	}
 
-	if (ctrl.userinit != NULL) {
+	もし (ctrl.userinit != NULL) {
 		out_str ("M4_HOOK_SET_USERINIT(%s)\n", ctrl.userinit);
 	}
-	if (ctrl.preaction != NULL) {
+	もし (ctrl.preaction != NULL) {
 		out_str ("M4_HOOK_SET_PREACTION(%s)\n", ctrl.preaction);
 	}
-	if (ctrl.postaction != NULL) {
+	もし (ctrl.postaction != NULL) {
 		out_str ("M4_HOOK_SET_POSTACTION(%s)\n", ctrl.postaction);
 	}
 
@@ -1298,7 +1298,7 @@ void readin (void)
 	out_dec ("m4_define([[YYLMAX]], [[%d]])\n", ctrl.yylmax);
 
 	/* Dump the user defined preproc directives. */
-	if (userdef_buf.elts)
+	もし (userdef_buf.elts)
 		outn ((char *) (userdef_buf.elts));
 
 	/* If the user explicitly requested posix compatibility by specifying the
@@ -1310,7 +1310,7 @@ void readin (void)
 	 * Note: The posix option was added to flex to provide the posix behavior
 	 * of the repeat operator in regular expressions, e.g., `ab{3}'
 	 */
-	if (ctrl.posix_compat) {
+	もし (ctrl.posix_compat) {
 		/* TODO: This is where we try to make flex behave according to
 		 * POSIX, *and* check for conflicting ctrl. How far should we go
 		 * with this? Should we disable all the neat-o flex features?
@@ -1318,33 +1318,33 @@ void readin (void)
 		/* Update: Estes says no, since other flex features don't violate posix. */
 	}
 
-	if (getenv ("POSIXLY_CORRECT")) {
+	もし (getenv ("POSIXLY_CORRECT")) {
 		ctrl.posix_compat = true;
 	}
 
-	if (env.backing_up_report) {
+	もし (env.backing_up_report) {
 		ctrl.backing_up_file = fopen (backing_name, "w");
-		if (ctrl.backing_up_file == NULL)
+		もし (ctrl.backing_up_file == NULL)
 			lerr (_
 				("could not create backing-up info file %s"),
 				backing_name);
 	}
 
-	else
+	否则
 		ctrl.backing_up_file = NULL;
 
-	if (ctrl.yymore_really_used == true)
+	もし (ctrl.yymore_really_used == true)
 		yymore_used = true;
-	else if (ctrl.yymore_really_used == false)
+	否则 もし (ctrl.yymore_really_used == false)
 		yymore_used = false;
 
-	if (ctrl.reject_really_used == true)
+	もし (ctrl.reject_really_used == true)
 		reject = true;
-	else if (ctrl.reject_really_used == false)
+	否则 もし (ctrl.reject_really_used == false)
 		reject = false;
 
-	if (env.performance_hint > 0) {
-		if (ctrl.lex_compat) {
+	もし (env.performance_hint > 0) {
+		もし (ctrl.lex_compat) {
 			fprintf (stderr,
 				 _
 				 ("-l AT&T lex compatibility option entails a large performance penalty\n"));
@@ -1353,63 +1353,63 @@ void readin (void)
 				 (" and may be the actual source of other reported performance penalties\n"));
 		}
 
-		else if (ctrl.do_yylineno) {
+		否则 もし (ctrl.do_yylineno) {
 			fprintf (stderr,
 				 _
 				 ("%%option yylineno entails a performance penalty ONLY on rules that can match newline characters\n"));
 		}
 
-		if (env.performance_hint > 1) {
-			if (ctrl.interactive == trit_true)
+		もし (env.performance_hint > 1) {
+			もし (ctrl.interactive == trit_true)
 				fprintf (stderr,
 					 _
 					 ("-I (interactive) entails a minor performance penalty\n"));
 
-			if (yymore_used)
+			もし (yymore_used)
 				fprintf (stderr,
 					 _
 					 ("yymore() entails a minor performance penalty\n"));
 		}
 
-		if (reject)
+		もし (reject)
 			fprintf (stderr,
 				 _
 				 ("REJECT entails a large performance penalty\n"));
 
-		if (variable_trailing_context_rules)
+		もし (variable_trailing_context_rules)
 			fprintf (stderr,
 				 _
 				 ("Variable trailing context rules entail a large performance penalty\n"));
 	}
 
-	if (reject)
+	もし (reject)
 		real_reject = true;
 
-	if (variable_trailing_context_rules)
+	もし (variable_trailing_context_rules)
 		reject = true;
 
-	if ((ctrl.fulltbl || ctrl.fullspd) && reject) {
-		if (real_reject)
+	もし ((ctrl.fulltbl || ctrl.fullspd) && reject) {
+		もし (real_reject)
 			flexerror (_
 				   ("REJECT cannot be used with -f or -F"));
-		else if (ctrl.do_yylineno)
+		否则 もし (ctrl.do_yylineno)
 			flexerror (_
 				   ("%option yylineno cannot be used with REJECT"));
-		else
+		否则
 			flexerror (_
 				   ("variable trailing context rules cannot be used with -f or -F"));
 	}
 
-	if (ctrl.useecs)
+	もし (ctrl.useecs)
 		numecs = cre8ecs (nextecm, ecgroup, ctrl.csize);
-	else
+	否则
 		numecs = ctrl.csize;
 
 	/* Now map the equivalence class for NUL to its expected place. */
 	ecgroup[0] = ecgroup[ctrl.csize];
 	NUL_ec = ABS (ecgroup[0]);
 
-	if (ctrl.useecs)
+	もし (ctrl.useecs)
 		ccl2ecl ();
 
 	// These are used to conditionalize code in the lex skeleton
@@ -1423,15 +1423,15 @@ void readin (void)
 	/* Define the start condition macros. */
 	{
 		struct Buf tmpbuf;
-		int i;
+		整数 i;
 		buf_init(&tmpbuf, sizeof(char));
-		for (i = 1; i <= lastsc; i++) {
+		ために (i = 1; i <= lastsc; i++) {
 			char *str, *fmt = "M4_HOOK_CONST_DEFINE_STATE(%s, %d)";
 			size_t strsz;
 
 			strsz = strlen(fmt) + strlen(scname[i]) + (size_t)(1 + ceil (log10(i))) + 2;
 			str = malloc(strsz);
-			if (!str)
+			もし (!str)
 				flexfatal(_("allocation of macro definition failed"));
 			snprintf(str, strsz, fmt, scname[i], i - 1);
 			buf_strappend(&tmpbuf, str);
@@ -1442,237 +1442,237 @@ void readin (void)
 		buf_destroy(&tmpbuf);
 	}
 
-	if (ctrl.bison_bridge_lval)
+	もし (ctrl.bison_bridge_lval)
 		visible_define("M4_YY_BISON_LVAL");
 
-	if (ctrl.bison_bridge_lloc)
+	もし (ctrl.bison_bridge_lloc)
 		visible_define("<M4_YY_BISON_LLOC>");
 
-	if (extra_type != NULL)
+	もし (extra_type != NULL)
 		visible_define_str ("M4_MODE_EXTRA_TYPE", extra_type);
 
 	/* always generate the tablesverify flag. */
 	visible_define_str ("M4_YY_TABLES_VERIFY", tablesverify ? "1" : "0");
 
-	if (ctrl.reentrant) {
+	もし (ctrl.reentrant) {
 		visible_define ("M4_YY_REENTRANT");
-		if (ctrl.yytext_is_array)
+		もし (ctrl.yytext_is_array)
 			visible_define ("M4_MODE_REENTRANT_TEXT_IS_ARRAY");
 	}
 
-	if (ctrl.do_main == trit_true)
+	もし (ctrl.do_main == trit_true)
 		visible_define_str ( "YY_MAIN", "1");
-	else if (ctrl.do_main == trit_false)
+	否则 もし (ctrl.do_main == trit_false)
 		visible_define_str ( "YY_MAIN", "0");
 
-	if (ctrl.do_stdinit)
+	もし (ctrl.do_stdinit)
 		visible_define ( "M4_MODE_DO_STDINIT");
-	else
+	否则
 		visible_define ( "M4_MODE_NO_DO_STDINIT");
 
 	// mode switches for YY_DO_BEFORE_ACTION code generation
-	if (ctrl.yytext_is_array)
+	もし (ctrl.yytext_is_array)
 		visible_define ( "M4_MODE_YYTEXT_IS_ARRAY");
-	else
+	否则
 		visible_define ( "M4_MODE_NO_YYTEXT_IS_ARRAY");
-	if (yymore_used)
+	もし (yymore_used)
 		visible_define ( "M4_MODE_YYMORE_USED");
-	else
+	否则
 		visible_define ( "M4_MODE_NO_YYMORE_USED");
 
-	if (ctrl.fullspd)
+	もし (ctrl.fullspd)
 		visible_define ( "M4_MODE_REAL_FULLSPD");
-	else
+	否则
 		visible_define ( "M4_MODE_NO_REAL_FULLSPD");
 
-	if (ctrl.fulltbl)
+	もし (ctrl.fulltbl)
 		visible_define ( "M4_MODE_REAL_FULLTBL");
-	else
+	否则
 		visible_define ( "M4_MODE_NO_REAL_FULLTBL");
 
 	// niode switches for YYINPUT code generation
-	if (ctrl.use_read)
+	もし (ctrl.use_read)
 		visible_define ( "M4_MODE_CPP_USE_READ");
-	else
+	否则
 		visible_define ( "M4_MODE_NO_CPP_USE_READ");
 
 	// mode switches for next-action code
-	if (variable_trailing_context_rules) {
+	もし (variable_trailing_context_rules) {
 		visible_define ( "M4_MODE_VARIABLE_TRAILING_CONTEXT_RULES");
-	} else {
+	} 否则 {
 		visible_define ( "M4_MODE_NO_VARIABLE_TRAILING_CONTEXT_RULES");
 	}
-	if (real_reject)
+	もし (real_reject)
 		visible_define ( "M4_MODE_REAL_REJECT");
-	if (ctrl.reject_really_used)
+	もし (ctrl.reject_really_used)
 		visible_define ( "M4_MODE_FIND_ACTION_REJECT_REALLY_USED");
-	if (reject)
+	もし (reject)
 		visible_define ( "M4_MODE_USES_REJECT");
-	else
+	否则
 		visible_define ( "M4_MODE_NO_USES_REJECT");
 
 	// mode switches for computing next compressed state
-	if (ctrl.usemecs)
+	もし (ctrl.usemecs)
 		visible_define ( "M4_MODE_USEMECS");
 
 	// mode switches for find-action code
-	if (ctrl.fullspd)
+	もし (ctrl.fullspd)
 		visible_define ( "M4_MODE_FULLSPD");
-	else if (ctrl.fulltbl)
+	否则 もし (ctrl.fulltbl)
 	    visible_define ( "M4_MODE_FIND_ACTION_FULLTBL");
-	else if (reject)
+	否则 もし (reject)
 	    visible_define ( "M4_MODE_FIND_ACTION_REJECT");
-	else
+	否则
 	    visible_define ( "M4_MODE_FIND_ACTION_COMPRESSED");
 
 	// mode switches for backup generation and gen_start_state
-	if (!ctrl.fullspd)
+	もし (!ctrl.fullspd)
 		visible_define ( "M4_MODE_NO_FULLSPD");
-	if (bol_needed)
+	もし (bol_needed)
 		visible_define ( "M4_MODE_BOL_NEEDED");
-	else
+	否则
 		visible_define ( "M4_MODE_NO_BOL_NEEDED");
 
 	// yylineno
-	if (ctrl.do_yylineno)
+	もし (ctrl.do_yylineno)
 		visible_define ( "M4_MODE_YYLINENO");
 
 	// Equivalence classes
-	if (ctrl.useecs)
+	もし (ctrl.useecs)
 		visible_define ( "M4_MODE_USEECS");
-	else
+	否则
 		visible_define ( "M4_MODE_NO_USEECS");
 
 	// mode switches for getting next action
-	if (gentables)
+	もし (gentables)
 		visible_define ( "M4_MODE_GENTABLES");
-	else
+	否则
 		visible_define ( "M4_MODE_NO_GENTABLES");
-	if (ctrl.interactive == trit_true)
+	もし (ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_INTERACTIVE");
-	else
+	否则
 		visible_define ( "M4_MODE_NO_INTERACTIVE");
-	if (!(ctrl.fullspd || ctrl.fulltbl))
+	もし (!(ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NO_FULLSPD_OR_FULLTBL");
-	if (reject || ctrl.interactive == trit_true)
+	もし (reject || ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_FIND_ACTION_REJECT_OR_INTERACTIVE");
 
-	if (ctrl.yyclass != NULL) {
+	もし (ctrl.yyclass != NULL) {
 		visible_define ( "M4_MODE_YYCLASS");
 		out_m4_define("M4_YY_CLASS_NAME", ctrl.yyclass);
 	}
 
-	if (ctrl.ddebug)
+	もし (ctrl.ddebug)
 		visible_define ( "M4_MODE_DEBUG");
 
-	if (ctrl.lex_compat)
+	もし (ctrl.lex_compat)
 		visible_define ( "M4_MODE_OPTIONS.LEX_COMPAT");
 
-	if (ctrl.do_yywrap)
+	もし (ctrl.do_yywrap)
 		visible_define ( "M4_MODE_YYWRAP");
-	else
+	否则
 		visible_define ( "M4_MODE_NO_YYWRAP");
 
-	if (ctrl.interactive == trit_true)
+	もし (ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_INTERACTIVE");
 
-	if (ctrl.noyyread)
+	もし (ctrl.noyyread)
 		visible_define("M4_MODE_USER_YYREAD");
 
-	if (is_default_backend()) {
-		if (ctrl.C_plus_plus) {
+	もし (is_default_backend()) {
+		もし (ctrl.C_plus_plus) {
 			visible_define ( "M4_MODE_CXX_ONLY");
-		} else {
+		} 否则 {
 			visible_define ( "M4_MODE_C_ONLY");
 		}
 	}
 
-	if (tablesext)
+	もし (tablesext)
 		visible_define ( "M4_MODE_TABLESEXT");
-	if (ctrl.prefix != NULL)
+	もし (ctrl.prefix != NULL)
 	    visible_define_str ( "M4_MODE_PREFIX", ctrl.prefix);
 
-	if (ctrl.no_yyinput)
+	もし (ctrl.no_yyinput)
 		visible_define("M4_MODE_NO_YYINPUT");
 
-	if (ctrl.bufsize != 0)
+	もし (ctrl.bufsize != 0)
 	    visible_define_int("M4_MODE_YY_BUFSIZE", ctrl.bufsize);
 
-	if (ctrl.yyterminate != NULL)
+	もし (ctrl.yyterminate != NULL)
 	    visible_define_str("M4_MODE_YYTERMINATE", ctrl.yyterminate);
 	
-	if (ctrl.no_yypanic)
+	もし (ctrl.no_yypanic)
 		visible_define("M4_YY_NO_YYPANIC");
-	if (ctrl.no_yy_push_state)
+	もし (ctrl.no_yy_push_state)
 		visible_define("M4_YY_NO_PUSH_STATE");
-	if (ctrl.no_yy_pop_state)
+	もし (ctrl.no_yy_pop_state)
 		visible_define("M4_YY_NO_POP_STATE");
-	if (ctrl.no_yy_top_state)
+	もし (ctrl.no_yy_top_state)
 		visible_define("M4_YY_NO_TOP_STATE");
-	if (ctrl.no_yyunput)
+	もし (ctrl.no_yyunput)
 		visible_define("M4_YY_NO_YYUNPUT");
-	if (ctrl.no_yy_scan_buffer)
+	もし (ctrl.no_yy_scan_buffer)
 		visible_define("M4_YY_NO_SCAN_BUFFER");
-	if (ctrl.no_yy_scan_bytes)
+	もし (ctrl.no_yy_scan_bytes)
 		visible_define("M4_YY_NO_SCAN_BYTES");
-	if (ctrl.no_yy_scan_string)
+	もし (ctrl.no_yy_scan_string)
 		visible_define("M4_YY_NO_SCAN_STRING");
-	if (ctrl.no_yyget_extra)
+	もし (ctrl.no_yyget_extra)
 		visible_define("M4_YY_NO_GET_EXTRA");
-	if (ctrl.no_yyset_extra)
+	もし (ctrl.no_yyset_extra)
 		visible_define("M4_YY_NO_SET_EXTRA");
-	if (ctrl.no_yyget_leng)
+	もし (ctrl.no_yyget_leng)
 		visible_define("M4_YY_NO_GET_LENG");
-	if (ctrl.no_yyget_text)
+	もし (ctrl.no_yyget_text)
 		visible_define("M4_YY_NO_GET_TEXT");
-	if (ctrl.no_yyget_lineno)
+	もし (ctrl.no_yyget_lineno)
 		visible_define("M4_YY_NO_GET_LINENO");
-	if (ctrl.no_yyset_lineno)
+	もし (ctrl.no_yyset_lineno)
 		visible_define("M4_YY_NO_SET_LINENO");
-	if (ctrl.no_yyget_column)
+	もし (ctrl.no_yyget_column)
 		visible_define("M4_YY_NO_GET_COLUMN");
-	if (ctrl.no_yyset_column)
+	もし (ctrl.no_yyset_column)
 		visible_define("M4_YY_NO_SET_COLUMN");
-	if (ctrl.no_yyget_in)
+	もし (ctrl.no_yyget_in)
 		visible_define("M4_YY_NO_GET_IN");
-	if (ctrl.no_yyset_in)
+	もし (ctrl.no_yyset_in)
 		visible_define("M4_YY_NO_SET_IN");
-	if (ctrl.no_yyget_out)
+	もし (ctrl.no_yyget_out)
 		visible_define("M4_YY_NO_GET_OUT");
-	if (ctrl.no_yyset_out)
+	もし (ctrl.no_yyset_out)
 		visible_define("M4_YY_NO_SET_OUT");
-	if (ctrl.no_yyget_lval)
+	もし (ctrl.no_yyget_lval)
 		visible_define("M4_YY_NO_GET_LVAL");
-	if (ctrl.no_yyset_lval)
+	もし (ctrl.no_yyset_lval)
 		visible_define("M4_YY_NO_SET_LVAL");
-	if (ctrl.no_yyget_lloc)
+	もし (ctrl.no_yyget_lloc)
 		visible_define("M4_YY_NO_GET_LLOC");
-	if (ctrl.no_yyset_lloc)
+	もし (ctrl.no_yyset_lloc)
 		visible_define("M4_YY_NO_SET_LLOC");
-	if (ctrl.no_flex_alloc)
+	もし (ctrl.no_flex_alloc)
 		visible_define("M4_YY_NO_FLEX_ALLOC");
-	if (ctrl.no_flex_realloc)
+	もし (ctrl.no_flex_realloc)
 		visible_define("M4_YY_NO_FLEX_REALLOC");
-	if (ctrl.no_flex_free)
+	もし (ctrl.no_flex_free)
 		visible_define("M4_YY_NO_FLEX_FREE");
-	if (ctrl.no_get_debug)
+	もし (ctrl.no_get_debug)
 		visible_define("M4_YY_NO_GET_DEBUG");
-	if (ctrl.no_set_debug)
+	もし (ctrl.no_set_debug)
 		visible_define("M4_YY_NO_SET_DEBUG");
 
-	if (ctrl.no_unistd)
+	もし (ctrl.no_unistd)
 		visible_define("M4_YY_NO_UNISTD_H");
 
-	if (ctrl.always_interactive)
+	もし (ctrl.always_interactive)
 		visible_define("M4_YY_ALWAYS_INTERACTIVE");
-	if (ctrl.never_interactive)
+	もし (ctrl.never_interactive)
 		visible_define("M4_YY_NEVER_INTERACTIVE");
-	if (ctrl.stack_used)
+	もし (ctrl.stack_used)
 		visible_define("M4_YY_STACK_USED");
 
-	if (ctrl.rewrite)
+	もし (ctrl.rewrite)
 		visible_define ( "M4_MODE_REWRITE");
-	else
+	否则
 		visible_define ( "M4_MODE_NO_REWRITE");
 
 	comment("END of m4 controls\n");
@@ -1744,7 +1744,7 @@ void usage (void)
 {
 	FILE   *f = stdout;
 
-	if (!env.did_outfilename) {
+	もし (!env.did_outfilename) {
 		snprintf (outfile_path, sizeof(outfile_path), outfile_template,
 			  ctrl.prefix, suffix());
 		env.outfilename = outfile_path;

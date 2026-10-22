@@ -59,29 +59,29 @@ struct Buf *buf_prints (struct Buf *buf, const char *fmt, const char *s)
 
 	tsz = strlen(fmt) + strlen(s) + 1;
 	t = malloc(tsz);
-	if (!t)
+	もし (!t)
 	    flexfatal (_("Allocation of buffer to print string failed"));
 	snprintf (t, tsz, fmt, s);
 	buf = buf_strappend (buf, t);
 	free(t);
-	return buf;
+	戻る buf;
 }
 
 /* Appends n characters in str to buf. */
-struct Buf *buf_strnappend (struct Buf *buf, const char *str, int n)
+struct Buf *buf_strnappend (struct Buf *buf, const char *str, 整数 n)
 {
 	buf_append (buf, str, n + 1);
 
 	/* "undo" the '\0' character that buf_append() already copied. */
 	buf->nelts--;
 
-	return buf;
+	戻る buf;
 }
 
 /* Appends characters in str to buf. */
 struct Buf *buf_strappend (struct Buf *buf, const char *str)
 {
-	return buf_strnappend (buf, str, (int) strlen (str));
+	戻る buf_strnappend (buf, str, (整数) strlen (str));
 }
 
 /* create buf with 0 elements, each of size elem_size. */
@@ -96,7 +96,7 @@ void buf_init (struct Buf *buf, size_t elem_size)
 /* frees memory */
 void buf_destroy (struct Buf *buf)
 {
-	if (buf) {
+	もし (buf) {
 		free(buf->elts);
 		buf->elts = NULL;
 	}
@@ -109,33 +109,33 @@ void buf_destroy (struct Buf *buf)
  * We grow by mod(512) boundaries.
  */
 
-struct Buf *buf_append (struct Buf *buf, const void *ptr, int n_elem)
+struct Buf *buf_append (struct Buf *buf, const void *ptr, 整数 n_elem)
 {
-	int     n_alloc = 0;
+	整数     n_alloc = 0;
 
-	if (!ptr || n_elem == 0)
-		return buf;
+	もし (!ptr || n_elem == 0)
+		戻る buf;
 
 	/* May need to alloc more. */
-	if (n_elem + buf->nelts > buf->nmax) {
+	もし (n_elem + buf->nelts > buf->nmax) {
 
 		/* exact count needed... */
 		n_alloc = n_elem + buf->nelts;
 
 		/* ...plus some extra */
-		if ((((size_t) n_alloc * buf->elt_size) % 512) != 0
+		もし ((((size_t) n_alloc * buf->elt_size) % 512) != 0
 		    && buf->elt_size < 512)
-			n_alloc += (int)
+			n_alloc += (整数)
 				((512 -
 				 (((size_t) n_alloc * buf->elt_size) % 512)) /
 				buf->elt_size);
 
-		if (!buf->elts)
+		もし (!buf->elts)
 			buf->elts =
-				allocate_array ((int) n_alloc, buf->elt_size);
-		else
+				allocate_array ((整数) n_alloc, buf->elt_size);
+		否则
 			buf->elts =
-				reallocate_array (buf->elts, (int) n_alloc,
+				reallocate_array (buf->elts, (整数) n_alloc,
 						  buf->elt_size);
 
 		buf->nmax = n_alloc;
@@ -145,7 +145,7 @@ struct Buf *buf_append (struct Buf *buf, const void *ptr, int n_elem)
 		(size_t) n_elem * buf->elt_size);
 	buf->nelts += n_elem;
 
-	return buf;
+	戻る buf;
 }
 
 /* vim:set tabstop=8 softtabstop=4 shiftwidth=4: */
