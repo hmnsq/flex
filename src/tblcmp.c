@@ -38,11 +38,11 @@
 
 /* declarations for functions that have forward references */
 
-void mkentry(int *, int, int, int, int);
-void mkprot(int[], int, int);
-void mktemplate(int[], int, int);
-void mv2front(int);
-int tbldiff(int[], int, int[]);
+void mkentry(ចំនួនគត់ *, ចំនួនគត់, ចំនួនគត់, ចំនួនគត់, ចំនួនគត់);
+void mkprot(ចំនួនគត់[], ចំនួនគត់, ចំនួនគត់);
+void mktemplate(ចំនួនគត់[], ចំនួនគត់, ចំនួនគត់);
+void mv2front(ចំនួនគត់);
+ចំនួនគត់ tbldiff(ចំនួនគត់[], ចំនួនគត់, ចំនួនគត់[]);
 
 
 /* bldtbl - build table entries for dfa state
@@ -80,10 +80,10 @@ int tbldiff(int[], int, int[]);
  * cost only one difference.
  */
 
-void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int comfreq)
+void    bldtbl (ចំនួនគត់ state[], ចំនួនគត់ statenum, ចំនួនគត់ totaltrans, ចំនួនគត់ comstate, ចំនួនគត់ comfreq)
 {
-	int     extptr, extrct[2][CSIZE + 1];
-	int     mindiff, minprot, i, d;
+	ចំនួនគត់     extptr, extrct[2][CSIZE + 1];
+	ចំនួនគត់     mindiff, minprot, i, d;
 
 	/* If extptr is 0 then the first array of extrct holds the result
 	 * of the "best difference" to date, which is those transitions
@@ -101,32 +101,32 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 	 * compact its tables.
 	 */
 
-	if ((totaltrans * 100) < (numecs * PROTO_SIZE_PERCENTAGE))
+	ប្រសិនបើ ((totaltrans * 100) < (numecs * PROTO_SIZE_PERCENTAGE))
 		mkentry (state, numecs, statenum, JAMSTATE, totaltrans);
 
-	else {
+	បើមិនដូច្នេះ {
 		/* "checkcom" is true if we should only check "state" against
 		 * protos which have the same "comstate" value.
 		 */
-		int     checkcom =
+		ចំនួនគត់     checkcom =
 
 			comfreq * 100 > totaltrans * CHECK_COM_PERCENTAGE;
 
 		minprot = firstprot;
 		mindiff = totaltrans;
 
-		if (checkcom) {
+		ប្រសិនបើ (checkcom) {
 			/* Find first proto which has the same "comstate". */
-			for (i = firstprot; i != NIL; i = protnext[i])
-				if (protcomst[i] == comstate) {
+			សម្រាប់ (i = firstprot; i != NIL; i = protnext[i])
+				ប្រសិនបើ (protcomst[i] == comstate) {
 					minprot = i;
 					mindiff = tbldiff (state, minprot,
 							   extrct[extptr]);
-					break;
+					bha_nga;
 				}
 		}
 
-		else {
+		បើមិនដូច្នេះ {
 			/* Since we've decided that the most common destination
 			 * out of "state" does not occur with a high enough
 			 * frequency, we set the "comstate" to zero, assuring
@@ -135,7 +135,7 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 			 */
 			comstate = 0;
 
-			if (firstprot != NIL) {
+			ប្រសិនបើ (firstprot != NIL) {
 				minprot = firstprot;
 				mindiff = tbldiff (state, minprot,
 						   extrct[extptr]);
@@ -148,14 +148,14 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 		 * to see if we have any other reasonable matches.
 		 */
 
-		if (mindiff * 100 >
+		ប្រសិនបើ (mindiff * 100 >
 		    totaltrans * FIRST_MATCH_DIFF_PERCENTAGE) {
 			/* Not a good enough match.  Scan the rest of the
 			 * protos.
 			 */
-			for (i = minprot; i != NIL; i = protnext[i]) {
+			សម្រាប់ (i = minprot; i != NIL; i = protnext[i]) {
 				d = tbldiff (state, i, extrct[1 - extptr]);
-				if (d < mindiff) {
+				ប្រសិនបើ (d < mindiff) {
 					extptr = 1 - extptr;
 					mindiff = d;
 					minprot = i;
@@ -167,26 +167,26 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 		 * enough to the state we want to match to be usable.
 		 */
 
-		if (mindiff * 100 >
+		ប្រសិនបើ (mindiff * 100 >
 		    totaltrans * ACCEPTABLE_DIFF_PERCENTAGE) {
 			/* No good.  If the state is homogeneous enough,
 			 * we make a template out of it.  Otherwise, we
 			 * make a proto.
 			 */
 
-			if (comfreq * 100 >=
+			ប្រសិនបើ (comfreq * 100 >=
 			    totaltrans * TEMPLATE_SAME_PERCENTAGE)
 					mktemplate (state, statenum,
 						    comstate);
 
-			else {
+			បើមិនដូច្នេះ {
 				mkprot (state, statenum, comstate);
 				mkentry (state, numecs, statenum,
 					 JAMSTATE, totaltrans);
 			}
 		}
 
-		else {		/* use the proto */
+		បើមិនដូច្នេះ {		/* use the proto */
 			mkentry (extrct[extptr], numecs, statenum,
 				 prottbl[minprot], mindiff);
 
@@ -194,7 +194,7 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 			 * proto we built it from, make it, too, a proto.
 			 */
 
-			if (mindiff * 100 >=
+			ប្រសិនបើ (mindiff * 100 >=
 			    totaltrans * NEW_PROTO_DIFF_PERCENTAGE)
 					mkprot (state, statenum, comstate);
 
@@ -224,51 +224,51 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 
 void    cmptmps (void)
 {
-	int tmpstorage[CSIZE + 1];
-	int *tmp = tmpstorage, i, j;
-	int totaltrans, trans;
+	ចំនួនគត់ tmpstorage[CSIZE + 1];
+	ចំនួនគត់ *tmp = tmpstorage, i, j;
+	ចំនួនគត់ totaltrans, trans;
 
 	peakpairs = numtemps * numecs + tblend;
 
-	if (ctrl.usemecs) {
+	ប្រសិនបើ (ctrl.usemecs) {
 		/* Create equivalence classes based on data gathered on
 		 * template transitions.
 		 */
 		nummecs = cre8ecs (tecfwd, tecbck, numecs);
 	}
 
-	else
+	បើមិនដូច្នេះ
 		nummecs = numecs;
 
-	while (lastdfa + numtemps + 1 >= current_max_dfas)
+	ខណៈពេល (lastdfa + numtemps + 1 >= current_max_dfas)
 		increase_max_dfas ();
 
 	/* Loop through each template. */
 
-	for (i = 1; i <= numtemps; ++i) {
+	សម្រាប់ (i = 1; i <= numtemps; ++i) {
 		/* Number of non-jam transitions out of this template. */
 		totaltrans = 0;
 
-		for (j = 1; j <= numecs; ++j) {
+		សម្រាប់ (j = 1; j <= numecs; ++j) {
 			trans = tnxt[numecs * i + j];
 
-			if (ctrl.usemecs) {
+			ប្រសិនបើ (ctrl.usemecs) {
 				/* The absolute value of tecbck is the
 				 * meta-equivalence class of a given
 				 * equivalence class, as set up by cre8ecs().
 				 */
-				if (tecbck[j] > 0) {
+				ប្រសិនបើ (tecbck[j] > 0) {
 					tmp[tecbck[j]] = trans;
 
-					if (trans > 0)
+					ប្រសិនបើ (trans > 0)
 						++totaltrans;
 				}
 			}
 
-			else {
+			បើមិនដូច្នេះ {
 				tmp[j] = trans;
 
-				if (trans > 0)
+				ប្រសិនបើ (trans > 0)
 					++totaltrans;
 			}
 		}
@@ -292,7 +292,7 @@ void    cmptmps (void)
 
 void    expand_nxt_chk (void)
 {
-	int old_max = current_max_xpairs;
+	ចំនួនគត់ old_max = current_max_xpairs;
 
 	current_max_xpairs += MAX_XPAIRS_INCREMENT;
 
@@ -301,7 +301,7 @@ void    expand_nxt_chk (void)
 	nxt = reallocate_integer_array (nxt, current_max_xpairs);
 	chk = reallocate_integer_array (chk, current_max_xpairs);
 
-	memset(chk + old_max, 0, MAX_XPAIRS_INCREMENT * sizeof(int));
+	memset(chk + old_max, 0, MAX_XPAIRS_INCREMENT * parimaa_na(ចំនួនគត់));
 }
 
 
@@ -324,24 +324,24 @@ void    expand_nxt_chk (void)
  * and an action number will be added in [-1].
  */
 
-int     find_table_space (int *state, int numtrans)
+ចំនួនគត់     find_table_space (ចំនួនគត់ *state, ចំនួនគត់ numtrans)
 {
 	/* Firstfree is the position of the first possible occurrence of two
 	 * consecutive unused records in the chk and nxt arrays.
 	 */
-	int i;
-	int *state_ptr, *chk_ptr;
-	int *ptr_to_last_entry_in_state;
+	ចំនួនគត់ i;
+	ចំនួនគត់ *state_ptr, *chk_ptr;
+	ចំនួនគត់ *ptr_to_last_entry_in_state;
 
 	/* If there are too many out-transitions, put the state at the end of
 	 * nxt and chk.
 	 */
-	if (numtrans > MAX_XTIONS_FULL_INTERIOR_FIT) {
+	ប្រសិនបើ (numtrans > MAX_XTIONS_FULL_INTERIOR_FIT) {
 		/* If table is empty, return the first available spot in
 		 * chk/nxt, which should be 1.
 		 */
-		if (tblend < 2)
-			return 1;
+		ប្រសិនបើ (tblend < 2)
+			ត្រឡប់ 1;
 
 		/* Start searching for table space near the end of
 		 * chk/nxt arrays.
@@ -349,28 +349,28 @@ int     find_table_space (int *state, int numtrans)
 		i = tblend - numecs;
 	}
 
-	else
+	បើមិនដូច្នេះ
 		/* Start searching for table space from the beginning
 		 * (skipping only the elements which will definitely not
 		 * hold the new state).
 		 */
 		i = firstfree;
 
-	while (1) {		/* loops until a space is found */
-		while (i + numecs >= current_max_xpairs)
+	ខណៈពេល (1) {		/* loops until a space is found */
+		ខណៈពេល (i + numecs >= current_max_xpairs)
 			expand_nxt_chk ();
 
 		/* Loops until space for end-of-buffer and action number
 		 * are found.
 		 */
-		while (1) {
+		ខណៈពេល (1) {
 			/* Check for action number space. */
-			if (chk[i - 1] == 0) {
+			ប្រសិនបើ (chk[i - 1] == 0) {
 				/* Check for end-of-buffer space. */
-				if (chk[i] == 0)
-					break;
+				ប្រសិនបើ (chk[i] == 0)
+					bha_nga;
 
-				else
+				បើមិនដូច្នេះ
 					/* Since i != 0, there is no use
 					 * checking to see if (++i) - 1 == 0,
 					 * because that's the same as i == 0,
@@ -379,17 +379,17 @@ int     find_table_space (int *state, int numtrans)
 					i += 2;
 			}
 
-			else
+			បើមិនដូច្នេះ
 				++i;
 
-			while (i + numecs >= current_max_xpairs)
+			ខណៈពេល (i + numecs >= current_max_xpairs)
 				expand_nxt_chk ();
 		}
 
 		/* If we started search from the beginning, store the new
 		 * firstfree for the next call of find_table_space().
 		 */
-		if (numtrans <= MAX_XTIONS_FULL_INTERIOR_FIT)
+		ប្រសិនបើ (numtrans <= MAX_XTIONS_FULL_INTERIOR_FIT)
 			firstfree = i + 1;
 
 		/* Check to see if all elements in chk (and therefore nxt)
@@ -399,15 +399,15 @@ int     find_table_space (int *state, int numtrans)
 		state_ptr = &state[1];
 		ptr_to_last_entry_in_state = &chk[i + numecs + 1];
 
-		for (chk_ptr = &chk[i + 1];
+		សម្រាប់ (chk_ptr = &chk[i + 1];
 		     chk_ptr != ptr_to_last_entry_in_state; ++chk_ptr)
-			if (*(state_ptr++) != 0 && *chk_ptr != 0)
-				break;
+			ប្រសិនបើ (*(state_ptr++) != 0 && *chk_ptr != 0)
+				bha_nga;
 
-		if (chk_ptr == ptr_to_last_entry_in_state)
-			return i;
+		ប្រសិនបើ (chk_ptr == ptr_to_last_entry_in_state)
+			ត្រឡប់ i;
 
-		else
+		បើមិនដូច្នេះ
 			++i;
 	}
 }
@@ -420,15 +420,15 @@ int     find_table_space (int *state, int numtrans)
  */
 void    inittbl (void)
 {
-	int i;
+	ចំនួនគត់ i;
 
-	memset(chk, 0, (size_t) current_max_xpairs * sizeof(int));
+	memset(chk, 0, (size_t) current_max_xpairs * parimaa_na(ចំនួនគត់));
 
 	tblend = 0;
 	firstfree = tblend + 1;
 	numtemps = 0;
 
-	if (ctrl.usemecs) {
+	ប្រសិនបើ (ctrl.usemecs) {
 		/* Set up doubly-linked meta-equivalence classes; these
 		 * are sets of equivalence classes which all have identical
 		 * transitions out of TEMPLATES.
@@ -436,7 +436,7 @@ void    inittbl (void)
 
 		tecbck[1] = NIL;
 
-		for (i = 2; i <= numecs; ++i) {
+		សម្រាប់ (i = 2; i <= numecs; ++i) {
 			tecbck[i] = i - 1;
 			tecfwd[i - 1] = i;
 		}
@@ -450,20 +450,20 @@ void    inittbl (void)
 
 void    mkdeftbl (void)
 {
-	int     i;
+	ចំនួនគត់     i;
 
 	jamstate = lastdfa + 1;
 
 	++tblend;		/* room for transition on end-of-buffer character */
 
-	while (tblend + numecs >= current_max_xpairs)
+	ខណៈពេល (tblend + numecs >= current_max_xpairs)
 		expand_nxt_chk ();
 
 	/* Add in default end-of-buffer transition. */
 	nxt[tblend] = end_of_buffer_state;
 	chk[tblend] = jamstate;
 
-	for (i = 1; i <= numecs; ++i) {
+	សម្រាប់ (i = 1; i <= numecs; ++i) {
 		nxt[tblend + i] = 0;
 		chk[tblend + i] = jamstate;
 	}
@@ -497,40 +497,40 @@ void    mkdeftbl (void)
  * state array.
  */
 
-void    mkentry (int *state, int numchars, int statenum, int deflink,
-		 int totaltrans)
+void    mkentry (ចំនួនគត់ *state, ចំនួនគត់ numchars, ចំនួនគត់ statenum, ចំនួនគត់ deflink,
+		 ចំនួនគត់ totaltrans)
 {
-	int minec, maxec, i, baseaddr;
-	int tblbase, tbllast;
+	ចំនួនគត់ minec, maxec, i, baseaddr;
+	ចំនួនគត់ tblbase, tbllast;
 
-	if (totaltrans == 0) {	/* there are no out-transitions */
-		if (deflink == JAMSTATE)
+	ប្រសិនបើ (totaltrans == 0) {	/* there are no out-transitions */
+		ប្រសិនបើ (deflink == JAMSTATE)
 			base[statenum] = JAMSTATE;
-		else
+		បើមិនដូច្នេះ
 			base[statenum] = 0;
 
 		def[statenum] = deflink;
-		return;
+		ត្រឡប់;
 	}
 
-	for (minec = 1; minec <= numchars; ++minec) {
-		if (state[minec] != SAME_TRANS)
-			if (state[minec] != 0 || deflink != JAMSTATE)
-				break;
+	សម្រាប់ (minec = 1; minec <= numchars; ++minec) {
+		ប្រសិនបើ (state[minec] != SAME_TRANS)
+			ប្រសិនបើ (state[minec] != 0 || deflink != JAMSTATE)
+				bha_nga;
 	}
 
-	if (totaltrans == 1) {
+	ប្រសិនបើ (totaltrans == 1) {
 		/* There's only one out-transition.  Save it for later to fill
 		 * in holes in the tables.
 		 */
 		stack1 (statenum, minec, state[minec], deflink);
-		return;
+		ត្រឡប់;
 	}
 
-	for (maxec = numchars; maxec > 0; --maxec) {
-		if (state[maxec] != SAME_TRANS)
-			if (state[maxec] != 0 || deflink != JAMSTATE)
-				break;
+	សម្រាប់ (maxec = numchars; maxec > 0; --maxec) {
+		ប្រសិនបើ (state[maxec] != SAME_TRANS)
+			ប្រសិនបើ (state[maxec] != 0 || deflink != JAMSTATE)
+				bha_nga;
 	}
 
 	/* Whether we try to fit the state table in the middle of the table
@@ -543,29 +543,29 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
 	 */
 
 	/* Find the first transition of state that we need to worry about. */
-	if (totaltrans * 100 <= numchars * INTERIOR_FIT_PERCENTAGE) {
+	ប្រសិនបើ (totaltrans * 100 <= numchars * INTERIOR_FIT_PERCENTAGE) {
 		/* Attempt to squeeze it into the middle of the tables. */
 		baseaddr = firstfree;
 
-		while (baseaddr < minec) {
+		ខណៈពេល (baseaddr < minec) {
 			/* Using baseaddr would result in a negative base
 			 * address below; find the next free slot.
 			 */
-			for (++baseaddr; chk[baseaddr] != 0; ++baseaddr) ;
+			សម្រាប់ (++baseaddr; chk[baseaddr] != 0; ++baseaddr) ;
 		}
 
-		while (baseaddr + maxec - minec + 1 >= current_max_xpairs)
+		ខណៈពេល (baseaddr + maxec - minec + 1 >= current_max_xpairs)
 			expand_nxt_chk ();
 
-		for (i = minec; i <= maxec; ++i)
-			if (state[i] != SAME_TRANS &&
+		សម្រាប់ (i = minec; i <= maxec; ++i)
+			ប្រសិនបើ (state[i] != SAME_TRANS &&
 			    (state[i] != 0 || deflink != JAMSTATE) &&
 			    chk[baseaddr + i - minec] != 0) {	/* baseaddr unsuitable - find another */
-				for (++baseaddr;
+				សម្រាប់ (++baseaddr;
 				     baseaddr < current_max_xpairs &&
 				     chk[baseaddr] != 0; ++baseaddr) ;
 
-				while (baseaddr + maxec - minec + 1 >=
+				ខណៈពេល (baseaddr + maxec - minec + 1 >=
 				       current_max_xpairs)
 						expand_nxt_chk ();
 
@@ -577,7 +577,7 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
 			}
 	}
 
-	else {
+	បើមិនដូច្នេះ {
 		/* Ensure that the base address we eventually generate is
 		 * non-negative.
 		 */
@@ -587,22 +587,22 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
 	tblbase = baseaddr - minec;
 	tbllast = tblbase + maxec;
 
-	while (tbllast + 1 >= current_max_xpairs)
+	ខណៈពេល (tbllast + 1 >= current_max_xpairs)
 		expand_nxt_chk ();
 
 	base[statenum] = tblbase;
 	def[statenum] = deflink;
 
-	for (i = minec; i <= maxec; ++i)
-		if (state[i] != SAME_TRANS)
-			if (state[i] != 0 || deflink != JAMSTATE) {
+	សម្រាប់ (i = minec; i <= maxec; ++i)
+		ប្រសិនបើ (state[i] != SAME_TRANS)
+			ប្រសិនបើ (state[i] != 0 || deflink != JAMSTATE) {
 				nxt[tblbase + i] = state[i];
 				chk[tblbase + i] = statenum;
 			}
 
-	if (baseaddr == firstfree)
+	ប្រសិនបើ (baseaddr == firstfree)
 		/* Find next free slot in tables. */
-		for (++firstfree; chk[firstfree] != 0; ++firstfree) ;
+		សម្រាប់ (++firstfree; chk[firstfree] != 0; ++firstfree) ;
 
 	tblend = MAX (tblend, tbllast);
 }
@@ -612,13 +612,13 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
  *            has only one out-transition
  */
 
-void    mk1tbl (int state, int sym, int onenxt, int onedef)
+void    mk1tbl (ចំនួនគត់ state, ចំនួនគត់ sym, ចំនួនគត់ onenxt, ចំនួនគត់ onedef)
 {
-	if (firstfree < sym)
+	ប្រសិនបើ (firstfree < sym)
 		firstfree = sym;
 
-	while (chk[firstfree] != 0)
-		if (++firstfree >= current_max_xpairs)
+	ខណៈពេល (chk[firstfree] != 0)
+		ប្រសិនបើ (++firstfree >= current_max_xpairs)
 			expand_nxt_chk ();
 
 	base[state] = firstfree - sym;
@@ -626,10 +626,10 @@ void    mk1tbl (int state, int sym, int onenxt, int onedef)
 	chk[firstfree] = state;
 	nxt[firstfree] = onenxt;
 
-	if (firstfree > tblend) {
+	ប្រសិនបើ (firstfree > tblend) {
 		tblend = firstfree++;
 
-		if (firstfree >= current_max_xpairs)
+		ប្រសិនបើ (firstfree >= current_max_xpairs)
 			expand_nxt_chk ();
 	}
 }
@@ -637,11 +637,11 @@ void    mk1tbl (int state, int sym, int onenxt, int onedef)
 
 /* mkprot - create new proto entry */
 
-void    mkprot (int state[], int statenum, int comstate)
+void    mkprot (ចំនួនគត់ state[], ចំនួនគត់ statenum, ចំនួនគត់ comstate)
 {
-	int     i, slot, tblbase;
+	ចំនួនគត់     i, slot, tblbase;
 
-	if (++numprots >= MSP || numecs * numprots >= PROT_SAVE_SIZE) {
+	ប្រសិនបើ (++numprots >= MSP || numecs * numprots >= PROT_SAVE_SIZE) {
 		/* Gotta make room for the new proto by dropping last entry in
 		 * the queue.
 		 */
@@ -650,12 +650,12 @@ void    mkprot (int state[], int statenum, int comstate)
 		protnext[lastprot] = NIL;
 	}
 
-	else
+	បើមិនដូច្នេះ
 		slot = numprots;
 
 	protnext[slot] = firstprot;
 
-	if (firstprot != NIL)
+	ប្រសិនបើ (firstprot != NIL)
 		protprev[firstprot] = slot;
 
 	firstprot = slot;
@@ -665,7 +665,7 @@ void    mkprot (int state[], int statenum, int comstate)
 	/* Copy state into save area so it can be compared with rapidly. */
 	tblbase = numecs * (slot - 1);
 
-	for (i = 1; i <= numecs; ++i)
+	សម្រាប់ (i = 1; i <= numecs; ++i)
 		protsave[tblbase + i] = state[i];
 }
 
@@ -674,11 +674,11 @@ void    mkprot (int state[], int statenum, int comstate)
  *              to it
  */
 
-void    mktemplate (int state[], int statenum, int comstate)
+void    mktemplate (ចំនួនគត់ state[], ចំនួនគត់ statenum, ចំនួនគត់ comstate)
 {
-	int     i, numdiff, tmpbase, tmp[CSIZE + 1];
-	unsigned char    transset[CSIZE + 1];
-	int     tsptr;
+	ចំនួនគត់     i, numdiff, tmpbase, tmp[CSIZE + 1];
+	unsigned var_na    transset[CSIZE + 1];
+	ចំនួនគត់     tsptr;
 
 	++numtemps;
 
@@ -691,7 +691,7 @@ void    mktemplate (int state[], int statenum, int comstate)
 
 	tmpbase = numtemps * numecs;
 
-	if (tmpbase + numecs >= current_max_template_xpairs) {
+	ប្រសិនបើ (tmpbase + numecs >= current_max_template_xpairs) {
 		current_max_template_xpairs +=
 			MAX_TEMPLATE_XPAIRS_INCREMENT;
 
@@ -701,16 +701,16 @@ void    mktemplate (int state[], int statenum, int comstate)
 						 current_max_template_xpairs);
 	}
 
-	for (i = 1; i <= numecs; ++i)
-		if (state[i] == 0)
+	សម្រាប់ (i = 1; i <= numecs; ++i)
+		ប្រសិនបើ (state[i] == 0)
 			tnxt[tmpbase + i] = 0;
-		else {
+		បើមិនដូច្នេះ {
 			/* Note: range 1..256 is mapped to 1..255,0 */
-			transset[tsptr++] = (unsigned char) i;
+			transset[tsptr++] = (unsigned var_na) i;
 			tnxt[tmpbase + i] = comstate;
 		}
 
-	if (ctrl.usemecs)
+	ប្រសិនបើ (ctrl.usemecs)
 		mkeccl (transset, tsptr, tecfwd, tecbck, numecs, 0);
 
 	mkprot (tnxt + tmpbase, -numtemps, comstate);
@@ -726,15 +726,15 @@ void    mktemplate (int state[], int statenum, int comstate)
 
 /* mv2front - move proto queue element to front of queue */
 
-void    mv2front (int qelm)
+void    mv2front (ចំនួនគត់ qelm)
 {
-	if (firstprot != qelm) {
-		if (qelm == lastprot)
+	ប្រសិនបើ (firstprot != qelm) {
+		ប្រសិនបើ (qelm == lastprot)
 			lastprot = protprev[lastprot];
 
 		protnext[protprev[qelm]] = protnext[qelm];
 
-		if (protnext[qelm] != NIL)
+		ប្រសិនបើ (protnext[qelm] != NIL)
 			protprev[protnext[qelm]] = protprev[qelm];
 
 		protprev[qelm] = NIL;
@@ -752,11 +752,11 @@ void    mv2front (int qelm)
  * Transnum is the number of out-transitions for the state.
  */
 
-void    place_state (int *state, int statenum, int transnum)
+void    place_state (ចំនួនគត់ *state, ចំនួនគត់ statenum, ចំនួនគត់ transnum)
 {
-	int i;
-	int *state_ptr;
-	int position = find_table_space (state, transnum);
+	ចំនួនគត់ i;
+	ចំនួនគត់ *state_ptr;
+	ចំនួនគត់ position = find_table_space (state, transnum);
 
 	/* "base" is the table of start positions. */
 	base[statenum] = position;
@@ -776,13 +776,13 @@ void    place_state (int *state, int statenum, int transnum)
 	/* Place the state into chk and nxt. */
 	state_ptr = &state[1];
 
-	for (i = 1; i <= numecs; ++i, ++state_ptr)
-		if (*state_ptr != 0) {
+	សម្រាប់ (i = 1; i <= numecs; ++i, ++state_ptr)
+		ប្រសិនបើ (*state_ptr != 0) {
 			chk[position + i] = i;
 			nxt[position + i] = *state_ptr;
 		}
 
-	if (position + numecs > tblend)
+	ប្រសិនបើ (position + numecs > tblend)
 		tblend = position + numecs;
 }
 
@@ -794,12 +794,12 @@ void    place_state (int *state, int statenum, int transnum)
  * no room, we process the sucker right now.
  */
 
-void    stack1 (int statenum, int sym, int nextstate, int deflink)
+void    stack1 (ចំនួនគត់ statenum, ចំនួនគត់ sym, ចំនួនគត់ nextstate, ចំនួនគត់ deflink)
 {
-	if (onesp >= ONE_STACK_SIZE - 1)
+	ប្រសិនបើ (onesp >= ONE_STACK_SIZE - 1)
 		mk1tbl (statenum, sym, nextstate, deflink);
 
-	else {
+	បើមិនដូច្នេះ {
 		++onesp;
 		onestate[onesp] = statenum;
 		onesym[onesp] = sym;
@@ -823,21 +823,21 @@ void    stack1 (int statenum, int sym, int nextstate, int deflink)
  * number is "numecs" minus the number of "SAME_TRANS" entries in "ext".
  */
 
-int     tbldiff (int state[], int pr, int ext[])
+ចំនួនគត់     tbldiff (ចំនួនគត់ state[], ចំនួនគត់ pr, ចំនួនគត់ ext[])
 {
-	int i, *sp = state, *ep = ext, *protp;
-	int numdiff = 0;
+	ចំនួនគត់ i, *sp = state, *ep = ext, *protp;
+	ចំនួនគត់ numdiff = 0;
 
 	protp = &protsave[numecs * (pr - 1)];
 
-	for (i = numecs; i > 0; --i) {
-		if (*++protp == *++sp)
+	សម្រាប់ (i = numecs; i > 0; --i) {
+		ប្រសិនបើ (*++protp == *++sp)
 			*++ep = SAME_TRANS;
-		else {
+		បើមិនដូច្នេះ {
 			*++ep = *sp;
 			++numdiff;
 		}
 	}
 
-	return numdiff;
+	ត្រឡប់ numdiff;
 }

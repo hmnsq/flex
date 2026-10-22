@@ -40,103 +40,103 @@
 #include "tables.h"
 #include "parse.h"
 
-static char flex_version[] = FLEX_VERSION;
+static var_na flex_version[] = FLEX_VERSION;
 
 /* declare functions that have forward references */
 
-void flexinit(int, char **);
+void flexinit(ចំនួនគត់, var_na **);
 void readin(void);
 void set_up_initial_allocations(void);
 
 /* these globals are all defined and commented in flexdef.h */
 bool    syntaxerror, eofseen;
-int     yymore_used, reject, real_reject, continued_action, in_rule;
-int     datapos, dataline, linenum;
+ចំនួនគត់     yymore_used, reject, real_reject, continued_action, in_rule;
+ចំនួនគត់     datapos, dataline, linenum;
 FILE   *skelfile = NULL;
-int     skel_ind = 0;
-char   *action_array;
-int     action_size, defs1_offset, prolog_offset, action_offset,
+ចំនួនគត់     skel_ind = 0;
+var_na   *action_array;
+ចំនួនគត់     action_size, defs1_offset, prolog_offset, action_offset,
 	action_index;
-char   *infilename = NULL;
-char   *extra_type = NULL;
-int     onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
-int     onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
-int     maximum_mns, current_mns, current_max_rules;
-int     num_rules, num_eof_rules, default_rule, lastnfa;
-int    *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
-int    *accptnum, *assoc_rule, *state_type;
-int    *rule_type, *rule_linenum;
-int     current_state_type;
+var_na   *infilename = NULL;
+var_na   *extra_type = NULL;
+ចំនួនគត់     onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
+ចំនួនគត់     onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
+ចំនួនគត់     maximum_mns, current_mns, current_max_rules;
+ចំនួនគត់     num_rules, num_eof_rules, default_rule, lastnfa;
+ចំនួនគត់    *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
+ចំនួនគត់    *accptnum, *assoc_rule, *state_type;
+ចំនួនគត់    *rule_type, *rule_linenum;
+ចំនួនគត់     current_state_type;
 bool    variable_trailing_context_rules;
-int     numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
-int     protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
-int     numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs,
+ចំនួនគត់     numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
+ចំនួនគត់     protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
+ចំនួនគត់     numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs,
 	tecfwd[CSIZE + 1];
-int     tecbck[CSIZE + 1];
-int     lastsc, *scset, *scbol;
+ចំនួនគត់     tecbck[CSIZE + 1];
+ចំនួនគត់     lastsc, *scset, *scbol;
 /* scxclu[] and sceof[] are boolean arrays, but allocated as char
  * arrays for size. */
-char   *scxclu, *sceof;
-int     current_max_scs;
-const char **scname;
-int     current_max_dfa_size, current_max_xpairs;
-int     current_max_template_xpairs, current_max_dfas;
-int     lastdfa, *nxt, *chk, *tnxt;
-int    *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss, *dfasiz;
-union dfaacc_union *dfaacc;
-int    *accsiz, *dhash, numas;
-int     numsnpairs, jambase, jamstate;
-int     lastccl, *cclmap, *ccllen, *cclng, cclreuse;
-int     current_maxccls, current_max_ccl_tbl_size;
-unsigned char   *ccltbl;
-char    nmstr[MAXLINE];
-int     sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
-int     tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
-int     num_backing_up, bol_needed;
-int     end_of_buffer_state;
-char  **input_files;
-int     num_input_files;
+var_na   *scxclu, *sceof;
+ចំនួនគត់     current_max_scs;
+const var_na **scname;
+ចំនួនគត់     current_max_dfa_size, current_max_xpairs;
+ចំនួនគត់     current_max_template_xpairs, current_max_dfas;
+ចំនួនគត់     lastdfa, *nxt, *chk, *tnxt;
+ចំនួនគត់    *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss, *dfasiz;
+sa_ngha dfaacc_union *dfaacc;
+ចំនួនគត់    *accsiz, *dhash, numas;
+ចំនួនគត់     numsnpairs, jambase, jamstate;
+ចំនួនគត់     lastccl, *cclmap, *ccllen, *cclng, cclreuse;
+ចំនួនគត់     current_maxccls, current_max_ccl_tbl_size;
+unsigned var_na   *ccltbl;
+var_na    nmstr[MAXLINE];
+ចំនួនគត់     sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
+ចំនួនគត់     tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
+ចំនួនគត់     num_backing_up, bol_needed;
+ចំនួនគត់     end_of_buffer_state;
+var_na  **input_files;
+ចំនួនគត់     num_input_files;
 jmp_buf flex_main_jmp_buf;
 /* rule_useful[], rule_has_nl[] and ccl_has_nl[] are boolean arrays,
  * but allocated as char arrays for size. */
-char   *rule_useful, *rule_has_nl, *ccl_has_nl;
-int     nlch = '\n';
+var_na   *rule_useful, *rule_has_nl, *ccl_has_nl;
+ចំនួនគត់     nlch = '\n';
 
 bool    tablesext, tablesverify, gentables;
-char   *tablesfilename=0,*tablesname=0;
-struct yytbl_writer tableswr;
+var_na   *tablesfilename=0,*tablesname=0;
+sa_nracanaa yytbl_writer tableswr;
 size_t footprint;
 
-struct ctrl_bundle_t ctrl;
-struct env_bundle_t env;
+sa_nracanaa ctrl_bundle_t ctrl;
+sa_nracanaa env_bundle_t env;
 
 /* Make sure program_name is initialized so we don't crash if writing
  * out an error message before getting the program name from argv[0].
  */
-char   *program_name = "flex";
+var_na   *program_name = "flex";
 
-static const char outfile_template[] = "lex.%s.%s";
-static const char *backing_name = "lex.backup";
-static const char tablesfile_template[] = "lex.%s.tables";
+static const var_na outfile_template[] = "lex.%s.%s";
+static const var_na *backing_name = "lex.backup";
+static const var_na tablesfile_template[] = "lex.%s.tables";
 
 /* From scan.l */
 extern FILE* yyout;
 
-static char outfile_path[MAXLINE];
-static int outfile_created = 0;
-static int _stdout_closed = 0; /* flag to prevent double-fclose() on stdout. */
-const char *escaped_qstart = "]]M4_YY_NOOP[M4_YY_NOOP[M4_YY_NOOP[[";
-const char *escaped_qend   = "]]M4_YY_NOOP]M4_YY_NOOP]M4_YY_NOOP[[";
+static var_na outfile_path[MAXLINE];
+static ចំនួនគត់ outfile_created = 0;
+static ចំនួនគត់ _stdout_closed = 0; /* flag to prevent double-fclose() on stdout. */
+const var_na *escaped_qstart = "]]M4_YY_NOOP[M4_YY_NOOP[M4_YY_NOOP[[";
+const var_na *escaped_qend   = "]]M4_YY_NOOP]M4_YY_NOOP]M4_YY_NOOP[[";
 
 /* For debugging. The max number of filters to apply to skeleton. */
-static int preproc_level = 1000;
+static ចំនួនគត់ preproc_level = 1000;
 
-int flex_main (int argc, char *argv[]);
+ចំនួនគត់ flex_main (ចំនួនគត់ argc, var_na *argv[]);
 
-int flex_main (int argc, char *argv[])
+ចំនួនគត់ flex_main (ចំនួនគត់ argc, var_na *argv[])
 {
-	int     i, exit_status, child_status;
-	int	did_eof_rule = false;
+	ចំនួនគត់     i, exit_status, child_status;
+	ចំនួនគត់	did_eof_rule = false;
 
 	/* Set a longjmp target. Yes, I know it's a hack, but it gets worse: The
 	 * return value of setjmp, if non-zero, is the desired exit code PLUS ONE.
@@ -146,22 +146,22 @@ int flex_main (int argc, char *argv[])
 	 * exit(n);
 	 */
 	exit_status = setjmp (flex_main_jmp_buf);
-	if (exit_status){
-		if (stdout && !_stdout_closed && !ferror(stdout)){
+	ប្រសិនបើ (exit_status){
+		ប្រសិនបើ (stdout && !_stdout_closed && !ferror(stdout)){
 			fflush(stdout);
 			fclose(stdout);
 		}
-		while (wait(&child_status) > 0){
-			if (!WIFEXITED (child_status)
+		ខណៈពេល (wait(&child_status) > 0){
+			ប្រសិនបើ (!WIFEXITED (child_status)
 			    || WEXITSTATUS (child_status) != 0){
 				/* report an error of a child
 				 */
-				if( exit_status <= 1 )
+				ប្រសិនបើ( exit_status <= 1 )
 					exit_status = 2;
 
 			}
 		}
-		return exit_status - 1;
+		ត្រឡប់ exit_status - 1;
 	}
 
 	flexinit (argc, argv);
@@ -170,12 +170,12 @@ int flex_main (int argc, char *argv[])
 	skelout (true);		/* %% [1.0] DFA */
 	footprint += ntod ();
 
-	for (i = 1; i <= num_rules; ++i)
-		if (!rule_useful[i] && i != default_rule)
+	សម្រាប់ (i = 1; i <= num_rules; ++i)
+		ប្រសិនបើ (!rule_useful[i] && i != default_rule)
 			line_warning (_("rule cannot be matched"),
 				      rule_linenum[i]);
 
-	if (ctrl.spprdflt && !reject && rule_useful[default_rule])
+	ប្រសិនបើ (ctrl.spprdflt && !reject && rule_useful[default_rule])
 		line_warning (_
 			      ("-s option given but default rule can be matched"),
 			      rule_linenum[default_rule]);
@@ -184,17 +184,17 @@ int flex_main (int argc, char *argv[])
 
 	// mode switches for yy_trans_info specification
 	// nultrans
-	if (nultrans)
+	ប្រសិនបើ (nultrans)
 		visible_define ( "M4_MODE_NULTRANS");
-	else {
+	បើមិនដូច្នេះ {
 		visible_define ( "M4_MODE_NO_NULTRANS");
-		if (ctrl.fulltbl)
+		ប្រសិនបើ (ctrl.fulltbl)
 		    visible_define ( "M4_MODE_NULTRANS_FULLTBL");
-		else
+		បើមិនដូច្នេះ
 		    visible_define ( "M4_MODE_NO_NULTRANS_FULLTBL");
-		if (ctrl.fullspd)
+		ប្រសិនបើ (ctrl.fullspd)
 		    visible_define ( "M4_MODE_NULTRANS_FULLSPD");
-		else
+		បើមិនដូច្នេះ
 		    visible_define ( "M4_MODE_NO_NULTRANS_FULLSPD");
 	}
 	
@@ -239,8 +239,8 @@ int flex_main (int argc, char *argv[])
 	line_directive_out (stdout, NULL, linenum);
 
 	/* generate cases for any missing EOF rules */
-	for (i = 1; i <= lastsc; ++i)
-		if (!sceof[i]) {
+	សម្រាប់ (i = 1; i <= lastsc; ++i)
+		ប្រសិនបើ (!sceof[i]) {
 			out_str ("M4_HOOK_EOF_STATE_CASE_ARM(%s)", scname[i]);
 			outc('\n');
 			out ("M4_HOOK_EOF_STATE_CASE_FALLTHROUGH");
@@ -248,7 +248,7 @@ int flex_main (int argc, char *argv[])
 			did_eof_rule = true;
 		}
 
-	if (did_eof_rule) {
+	ប្រសិនបើ (did_eof_rule) {
 		out ("M4_HOOK_EOF_STATE_CASE_TERMINATE");
 	}
 
@@ -258,12 +258,12 @@ int flex_main (int argc, char *argv[])
 
 	line_directive_out (stdout, infilename, linenum);
 
-	if (sectnum == 3) {
+	ប្រសិនបើ (sectnum == 3) {
 		OUT_BEGIN_CODE ();
-                if (!ctrl.no_section3_escape)
+                ប្រសិនបើ (!ctrl.no_section3_escape)
                    fputs("[[", stdout);
 		(void) flexscan ();	/* copy remainder of input to output */
-                if (!ctrl.no_section3_escape)
+                ប្រសិនបើ (!ctrl.no_section3_escape)
                    fputs("]]", stdout);
 		OUT_END_CODE ();
 	}
@@ -273,14 +273,14 @@ int flex_main (int argc, char *argv[])
 	 */
 	flexend (0);
 
-	return 0;		/* keep compilers/lint happy */
+	ត្រឡប់ 0;		/* keep compilers/lint happy */
 }
 
 /* Wrapper around flex_main, so flex_main can be built as a library. */
-int main (int argc, char *argv[])
+ចំនួនគត់ main (ចំនួនគត់ argc, var_na *argv[])
 {
-#if defined(ENABLE_NLS) && ENABLE_NLS
-#if HAVE_LOCALE_H
+#ប្រសិនបើ defined(ENABLE_NLS) && ENABLE_NLS
+#ប្រសិនបើ HAVE_LOCALE_H
 	setlocale (LC_MESSAGES, "");
         setlocale (LC_CTYPE, "");
 	textdomain (PACKAGE);
@@ -288,24 +288,24 @@ int main (int argc, char *argv[])
 #endif
 #endif
 
-	return flex_main (argc, argv);
+	ត្រឡប់ flex_main (argc, argv);
 }
 
 /* Set up the output filter chain. */
 
 void initialize_output_filters(void)
 {
-	const char * m4 = NULL;
+	const var_na * m4 = NULL;
 
 	output_chain = filter_create_int(NULL, filter_tee_header, env.headerfilename);
-	if ( !(m4 = getenv("M4"))) {
+	ប្រសិនបើ ( !(m4 = getenv("M4"))) {
 		m4 = M4;
 	}
-	filter_create_ext(output_chain, m4, "-P", (char *) 0);
+	filter_create_ext(output_chain, m4, "-P", (var_na *) 0);
 	filter_create_int(output_chain, filter_fix_linedirs, NULL);
 
 	/* For debugging, only run the requested number of filters. */
-	if (preproc_level > 0) {
+	ប្រសិនបើ (preproc_level > 0) {
 		filter_truncate(output_chain, preproc_level);
 		filter_apply_chain(output_chain);
 	}
@@ -316,16 +316,16 @@ void initialize_output_filters(void)
 
 void check_options (void)
 {
-	int     i;
+	ចំនួនគត់     i;
 
-	if (ctrl.lex_compat) {
-		if (ctrl.C_plus_plus)
+	ប្រសិនបើ (ctrl.lex_compat) {
+		ប្រសិនបើ (ctrl.C_plus_plus)
 			flexerror (_("Can't use -+ with -l option"));
 
-		if (ctrl.fulltbl || ctrl.fullspd)
+		ប្រសិនបើ (ctrl.fulltbl || ctrl.fullspd)
 			flexerror (_("Can't use -f or -F with -l option"));
 
-		if (ctrl.reentrant || ctrl.bison_bridge_lval)
+		ប្រសិនបើ (ctrl.reentrant || ctrl.bison_bridge_lval)
 			flexerror (_
 				   ("Can't use --ctrl.reentrant or --bison-bridge with -l option"));
 
@@ -335,68 +335,68 @@ void check_options (void)
 	}
 
 
-#if 0
+#ប្រសិនបើ 0
 	/* This makes no sense whatsoever. I'm removing it. */
-	if (ctrl.do_yylineno)
+	ប្រសិនបើ (ctrl.do_yylineno)
 		/* This should really be "maintain_backup_tables = true" */
 		ctrl.reject_really_used = true;
 #endif
 
-	if (ctrl.csize == trit_unspecified) {
-		if ((ctrl.fulltbl || ctrl.fullspd) && !ctrl.useecs)
+	ប្រសិនបើ (ctrl.csize == trit_unspecified) {
+		ប្រសិនបើ ((ctrl.fulltbl || ctrl.fullspd) && !ctrl.useecs)
 			ctrl.csize = DEFAULT_CSIZE;
-		else
+		បើមិនដូច្នេះ
 			ctrl.csize = CSIZE;
 	}
 
-	if (ctrl.interactive == trit_unspecified) {
-		if (ctrl.fulltbl || ctrl.fullspd)
+	ប្រសិនបើ (ctrl.interactive == trit_unspecified) {
+		ប្រសិនបើ (ctrl.fulltbl || ctrl.fullspd)
 			ctrl.interactive = trit_false;
-		else
+		បើមិនដូច្នេះ
 			ctrl.interactive = trit_true;
 	}
 
-	if (ctrl.fulltbl || ctrl.fullspd) {
-		if (ctrl.usemecs)
+	ប្រសិនបើ (ctrl.fulltbl || ctrl.fullspd) {
+		ប្រសិនបើ (ctrl.usemecs)
 			flexerror (_
 				   ("-Cf/-CF and -Cm don't make sense together"));
 
-		if (ctrl.interactive != trit_false)
+		ប្រសិនបើ (ctrl.interactive != trit_false)
 			flexerror (_("-Cf/-CF and -I are incompatible"));
 
-		if (ctrl.lex_compat)
+		ប្រសិនបើ (ctrl.lex_compat)
 			flexerror (_
 				   ("-Cf/-CF are incompatible with lex-compatibility mode"));
 
 
-		if (ctrl.fulltbl && ctrl.fullspd)
+		ប្រសិនបើ (ctrl.fulltbl && ctrl.fullspd)
 			flexerror (_
 				   ("-Cf and -CF are mutually exclusive"));
 	}
 
-	if (ctrl.C_plus_plus && ctrl.fullspd)
+	ប្រសិនបើ (ctrl.C_plus_plus && ctrl.fullspd)
 		flexerror (_("Can't use -+ with -CF option"));
 
-	if (ctrl.C_plus_plus && ctrl.yytext_is_array) {
+	ប្រសិនបើ (ctrl.C_plus_plus && ctrl.yytext_is_array) {
 		lwarn (_("%array incompatible with -+ option"));
 		ctrl.yytext_is_array = false;
 	}
 
-	if (ctrl.C_plus_plus && (ctrl.reentrant))
+	ប្រសិនបើ (ctrl.C_plus_plus && (ctrl.reentrant))
 		flexerror (_("Options -+ and --reentrant are mutually exclusive."));
 
-	if (ctrl.C_plus_plus && ctrl.bison_bridge_lval)
+	ប្រសិនបើ (ctrl.C_plus_plus && ctrl.bison_bridge_lval)
 		flexerror (_("bison bridge not supported for the C++ scanner."));
 
 
-	if (ctrl.useecs) {		/* Set up doubly-linked equivalence classes. */
+	ប្រសិនបើ (ctrl.useecs) {		/* Set up doubly-linked equivalence classes. */
 
 		/* We loop all the way up to ctrl.csize, since ecgroup[ctrl.csize] is
 		 * the position used for NUL characters.
 		 */
 		ecgroup[1] = NIL;
 
-		for (i = 2; i <= ctrl.csize; ++i) {
+		សម្រាប់ (i = 2; i <= ctrl.csize; ++i) {
 			ecgroup[i] = i - 1;
 			nextecm[i - 1] = i;
 		}
@@ -404,19 +404,19 @@ void check_options (void)
 		nextecm[ctrl.csize] = NIL;
 	}
 
-	else {
+	បើមិនដូច្នេះ {
 		/* Put everything in its own equivalence class. */
-		for (i = 1; i <= ctrl.csize; ++i) {
+		សម្រាប់ (i = 1; i <= ctrl.csize; ++i) {
 			ecgroup[i] = i;
 			nextecm[i] = BAD_SUBSCRIPT;	/* to catch errors */
 		}
 	}
 
-	if (!env.use_stdout) {
+	ប្រសិនបើ (!env.use_stdout) {
 		FILE   *prev_stdout;
 
-		if (!env.did_outfilename) {
-			snprintf (outfile_path, sizeof(outfile_path), outfile_template,
+		ប្រសិនបើ (!env.did_outfilename) {
+			snprintf (outfile_path, parimaa_na(outfile_path), outfile_template,
 				  ctrl.prefix, suffix());
 
 			env.outfilename = outfile_path;
@@ -424,7 +424,7 @@ void check_options (void)
 
 		prev_stdout = freopen (env.outfilename, "w+", stdout);
 
-		if (prev_stdout == NULL)
+		ប្រសិនបើ (prev_stdout == NULL)
 			lerr (_("could not create %s"), env.outfilename);
 
 		outfile_created = 1;
@@ -437,142 +437,142 @@ void check_options (void)
  *    This routine does not return.
  */
 
-void flexend (int exit_status)
+void flexend (ចំនួនគត់ exit_status)
 {
-	static int called_before = -1;	/* prevent infinite recursion. */
-	int     tblsiz;
+	static ចំនួនគត់ called_before = -1;	/* prevent infinite recursion. */
+	ចំនួនគត់     tblsiz;
 
-	if (++called_before)
+	ប្រសិនបើ (++called_before)
 		FLEX_EXIT (exit_status);
 
-	if (ctrl.yyclass != NULL && !ctrl.C_plus_plus)
+	ប្រសិនបើ (ctrl.yyclass != NULL && !ctrl.C_plus_plus)
 		flexerror (_("%option yyclass only meaningful for C++ scanners"));
 
-	if (skelfile != NULL) {
-		if (ferror (skelfile))
+	ប្រសិនបើ (skelfile != NULL) {
+		ប្រសិនបើ (ferror (skelfile))
 			lerr (_("input error reading skeleton file %s"),
 				env.skelname);
 
-		else if (fclose (skelfile))
+		បើមិនដូច្នេះ ប្រសិនបើ (fclose (skelfile))
 			lerr (_("error closing skeleton file %s"),
 				env.skelname);
 	}
 
-	if (exit_status != 0 && outfile_created) {
-		if (ferror (stdout))
+	ប្រសិនបើ (exit_status != 0 && outfile_created) {
+		ប្រសិនបើ (ferror (stdout))
 			lerr (_("error writing output file %s"),
 				env.outfilename);
 
-		else if ((_stdout_closed = 1) && fclose (stdout))
+		បើមិនដូច្នេះ ប្រសិនបើ ((_stdout_closed = 1) && fclose (stdout))
 			lerr (_("error closing output file %s"),
 				env.outfilename);
 
-		else if (unlink (env.outfilename))
+		បើមិនដូច្នេះ ប្រសិនបើ (unlink (env.outfilename))
 			lerr (_("error deleting output file %s"),
 				env.outfilename);
 	}
 
 
-	if (env.backing_up_report && ctrl.backing_up_file) {
-		if (num_backing_up == 0)
+	ប្រសិនបើ (env.backing_up_report && ctrl.backing_up_file) {
+		ប្រសិនបើ (num_backing_up == 0)
 			fprintf (ctrl.backing_up_file, _("No backing up.\n"));
-		else if (ctrl.fullspd || ctrl.fulltbl)
+		បើមិនដូច្នេះ ប្រសិនបើ (ctrl.fullspd || ctrl.fulltbl)
 			fprintf (ctrl.backing_up_file,
 				 _
 				 ("%d backing up (non-accepting) states.\n"),
 				 num_backing_up);
-		else
+		បើមិនដូច្នេះ
 			fprintf (ctrl.backing_up_file,
 				 _("Compressed tables always back up.\n"));
 
-		if (ferror (ctrl.backing_up_file))
+		ប្រសិនបើ (ferror (ctrl.backing_up_file))
 			lerr (_("error writing backup file %s"),
 				backing_name);
 
-		else if (fclose (ctrl.backing_up_file))
+		បើមិនដូច្នេះ ប្រសិនបើ (fclose (ctrl.backing_up_file))
 			lerr (_("error closing backup file %s"),
 				backing_name);
 	}
 
-	if (env.printstats) {
+	ប្រសិនបើ (env.printstats) {
 		fprintf (stderr, _("%s version %s usage statistics:\n"),
 			 program_name, flex_version);
 
 		fprintf (stderr, _("  scanner options: -"));
 
-		if (ctrl.C_plus_plus)
+		ប្រសិនបើ (ctrl.C_plus_plus)
 			putc ('+', stderr);
-		if (env.backing_up_report)
+		ប្រសិនបើ (env.backing_up_report)
 			putc ('b', stderr);
-		if (ctrl.ddebug)
+		ប្រសិនបើ (ctrl.ddebug)
 			putc ('d', stderr);
-		if (sf_case_ins())
+		ប្រសិនបើ (sf_case_ins())
 			putc ('i', stderr);
-		if (ctrl.lex_compat)
+		ប្រសិនបើ (ctrl.lex_compat)
 			putc ('l', stderr);
-		if (ctrl.posix_compat)
+		ប្រសិនបើ (ctrl.posix_compat)
 			putc ('X', stderr);
-		if (env.performance_hint > 0)
+		ប្រសិនបើ (env.performance_hint > 0)
 			putc ('p', stderr);
-		if (env.performance_hint > 1)
+		ប្រសិនបើ (env.performance_hint > 1)
 			putc ('p', stderr);
-		if (ctrl.spprdflt)
+		ប្រសិនបើ (ctrl.spprdflt)
 			putc ('s', stderr);
-		if (ctrl.reentrant)
+		ប្រសិនបើ (ctrl.reentrant)
 			fputs ("--reentrant", stderr);
-        if (ctrl.bison_bridge_lval)
+        ប្រសិនបើ (ctrl.bison_bridge_lval)
             fputs ("--bison-bridge", stderr);
-        if (ctrl.bison_bridge_lloc)
+        ប្រសិនបើ (ctrl.bison_bridge_lloc)
             fputs ("--bison-locations", stderr);
-		if (env.use_stdout)
+		ប្រសិនបើ (env.use_stdout)
 			putc ('t', stderr);
-		if (env.printstats)
+		ប្រសិនបើ (env.printstats)
 			putc ('v', stderr);	/* always true! */
-		if (env.nowarn)
+		ប្រសិនបើ (env.nowarn)
 			putc ('w', stderr);
-		if (ctrl.interactive == trit_false)
+		ប្រសិនបើ (ctrl.interactive == trit_false)
 			putc ('B', stderr);
-		if (ctrl.interactive == trit_true)
+		ប្រសិនបើ (ctrl.interactive == trit_true)
 			putc ('I', stderr);
-		if (!ctrl.gen_line_dirs)
+		ប្រសិនបើ (!ctrl.gen_line_dirs)
 			putc ('L', stderr);
-		if (env.trace)
+		ប្រសិនបើ (env.trace)
 			putc ('T', stderr);
 
-		if (ctrl.csize == trit_unspecified)
+		ប្រសិនបើ (ctrl.csize == trit_unspecified)
 			/* We encountered an error fairly early on, so ctrl.csize
 			 * never got specified.  Define it now, to prevent
 			 * bogus table sizes being written out below.
 			 */
 			ctrl.csize = 256;
 
-		if (ctrl.csize == 128)
+		ប្រសិនបើ (ctrl.csize == 128)
 			putc ('7', stderr);
-		else
+		បើមិនដូច្នេះ
 			putc ('8', stderr);
 
 		fprintf (stderr, " -C");
 
-		if (ctrl.long_align)
+		ប្រសិនបើ (ctrl.long_align)
 			putc ('a', stderr);
-		if (ctrl.fulltbl)
+		ប្រសិនបើ (ctrl.fulltbl)
 			putc ('f', stderr);
-		if (ctrl.fullspd)
+		ប្រសិនបើ (ctrl.fullspd)
 			putc ('F', stderr);
-		if (ctrl.useecs)
+		ប្រសិនបើ (ctrl.useecs)
 			putc ('e', stderr);
-		if (ctrl.usemecs)
+		ប្រសិនបើ (ctrl.usemecs)
 			putc ('m', stderr);
-		if (ctrl.use_read)
+		ប្រសិនបើ (ctrl.use_read)
 			putc ('r', stderr);
 
-		if (env.did_outfilename)
+		ប្រសិនបើ (env.did_outfilename)
 			fprintf (stderr, " -o%s", env.outfilename);
 
-		if (env.skelname != NULL)
+		ប្រសិនបើ (env.skelname != NULL)
 			fprintf (stderr, " -S%s", env.skelname);
 
-		if (strcmp (ctrl.prefix, "yy"))
+		ប្រសិនបើ (strcmp (ctrl.prefix, "yy"))
 			fprintf (stderr, " -P%s", ctrl.prefix);
 
 		putc ('\n', stderr);
@@ -585,19 +585,19 @@ void flexend (int exit_status)
 			 num_rules + num_eof_rules -
 			 1 /* - 1 for def. rule */ );
 
-		if (num_backing_up == 0)
+		ប្រសិនបើ (num_backing_up == 0)
 			fprintf (stderr, _("  No backing up\n"));
-		else if (ctrl.fullspd || ctrl.fulltbl)
+		បើមិនដូច្នេះ ប្រសិនបើ (ctrl.fullspd || ctrl.fulltbl)
 			fprintf (stderr,
 				 _
 				 ("  %d backing-up (non-accepting) states\n"),
 				 num_backing_up);
-		else
+		បើមិនដូច្នេះ
 			fprintf (stderr,
 				 _
 				 ("  Compressed tables always back-up\n"));
 
-		if (bol_needed)
+		ប្រសិនបើ (bol_needed)
 			fprintf (stderr,
 				 _("  Beginning-of-line patterns used\n"));
 
@@ -608,9 +608,9 @@ void flexend (int exit_status)
 			 ("  %d epsilon states, %d double epsilon states\n"),
 			 numeps, eps2);
 
-		if (lastccl == 0)
+		ប្រសិនបើ (lastccl == 0)
 			fprintf (stderr, _("  no character classes\n"));
-		else
+		បើមិនដូច្នេះ
 			fprintf (stderr,
 				 _
 				 ("  %d/%d character classes needed %d/%d words of storage, %d reused\n"),
@@ -624,13 +624,13 @@ void flexend (int exit_status)
 			 _("  %d/%d unique/duplicate transitions\n"),
 			 numuniq, numdup);
 
-		if (ctrl.fulltbl) {
+		ប្រសិនបើ (ctrl.fulltbl) {
 			tblsiz = lastdfa * numecs;
 			fprintf (stderr, _("  %d table entries\n"),
 				 tblsiz);
 		}
 
-		else {
+		បើមិនដូច្នេះ {
 			tblsiz = 2 * (lastdfa + numtemps) + 2 * tblend;
 
 			fprintf (stderr,
@@ -655,7 +655,7 @@ void flexend (int exit_status)
 				 numtemps, tmpuses);
 		}
 
-		if (ctrl.useecs) {
+		ប្រសិនបើ (ctrl.useecs) {
 			tblsiz = tblsiz + ctrl.csize;
 			fprintf (stderr,
 				 _
@@ -663,7 +663,7 @@ void flexend (int exit_status)
 				 numecs, ctrl.csize);
 		}
 
-		if (ctrl.usemecs) {
+		ប្រសិនបើ (ctrl.usemecs) {
 			tblsiz = tblsiz + numecs;
 			fprintf (stderr,
 				 _
@@ -687,13 +687,13 @@ void flexend (int exit_status)
 
 /* flexinit - initialize flex */
 
-void flexinit (int argc, char **argv)
+void flexinit (ចំនួនគត់ argc, var_na **argv)
 {
-	int     i, sawcmpflag, rv, optind;
-	char   *arg;
+	ចំនួនគត់     i, sawcmpflag, rv, optind;
+	var_na   *arg;
 	scanopt_t sopt;
 
-	memset(&ctrl, '\0', sizeof(ctrl));
+	memset(&ctrl, '\0', parimaa_na(ctrl));
 	syntaxerror = false;
 	yymore_used = continued_action = false;
 	in_rule = reject = false;
@@ -721,30 +721,30 @@ void flexinit (int argc, char **argv)
 	action_array[0] = '\0';
 
 	/* Initialize any buffers. */
-	buf_init (&userdef_buf, sizeof (char));	/* one long string */
-	buf_init (&top_buf, sizeof (char));	    /* one long string */
+	buf_init (&userdef_buf, parimaa_na (var_na));	/* one long string */
+	buf_init (&top_buf, parimaa_na (var_na));	    /* one long string */
 
 	sf_init ();
 
 	/* Enable C++ if program name ends with '+'. */
 	program_name = argv[0];
 
-	if (program_name != NULL &&
+	ប្រសិនបើ (program_name != NULL &&
 	    program_name[strlen (program_name) - 1] == '+')
 		ctrl.C_plus_plus = true;
 
 	/* read flags */
 	sopt = scanopt_init (flexopts, argc, argv, 0);
-	if (!sopt) {
+	ប្រសិនបើ (!sopt) {
 		/* This will only happen when flexopts array is altered. */
 		fprintf (stderr,
 			 _("Internal error. flexopts are malformed.\n"));
 		FLEX_EXIT (1);
 	}
 
-	while ((rv = scanopt (sopt, &arg, &optind)) != 0) {
+	ខណៈពេល ((rv = scanopt (sopt, &arg, &optind)) != 0) {
 
-		if (rv < 0) {
+		ប្រសិនបើ (rv < 0) {
 			/* Scanopt has already printed an option-specific error message. */
 			fprintf (stderr,
 				 _
@@ -753,412 +753,412 @@ void flexinit (int argc, char **argv)
 			FLEX_EXIT (1);
 		}
 
-		switch ((enum flexopt_flag_t) rv) {
-		    case OPT_CPLUSPLUS:
+		switch ((ga_nanaa flexopt_flag_t) rv) {
+		    pak_sa OPT_CPLUSPLUS:
 			ctrl.C_plus_plus = true;
-			break;
+			bha_nga;
 
-		    case OPT_BATCH:
+		    pak_sa OPT_BATCH:
 			ctrl.interactive = trit_false;
-			break;
+			bha_nga;
 
-		    case OPT_BACKUP:
+		    pak_sa OPT_BACKUP:
 			env.backing_up_report = trit_true;
-			break;
+			bha_nga;
 
-		    case OPT_BACKUP_FILE:
+		    pak_sa OPT_BACKUP_FILE:
 			env.backing_up_report = true;
                         backing_name = arg;
-			break;
+			bha_nga;
 
-		    case OPT_DONOTHING:
-			break;
+		    pak_sa OPT_DONOTHING:
+			bha_nga;
 
-		    case OPT_COMPRESSION:
-			if (!sawcmpflag) {
+		    pak_sa OPT_COMPRESSION:
+			ប្រសិនបើ (!sawcmpflag) {
 				ctrl.useecs = false;
 				ctrl.usemecs = false;
 				ctrl.fulltbl = false;
 				sawcmpflag = true;
 			}
 
-			for (i = 0; arg && arg[i] != '\0'; i++)
+			សម្រាប់ (i = 0; arg && arg[i] != '\0'; i++)
 				switch (arg[i]) {
-				    case 'a':
+				    pak_sa 'a':
 					ctrl.long_align = true;
-					break;
+					bha_nga;
 
-				    case 'e':
+				    pak_sa 'e':
 					ctrl.useecs = true;
-					break;
+					bha_nga;
 
-				    case 'F':
+				    pak_sa 'F':
 					ctrl.fullspd = true;
-					break;
+					bha_nga;
 
-				    case 'f':
+				    pak_sa 'f':
 					ctrl.fulltbl = true;
-					break;
+					bha_nga;
 
-				    case 'm':
+				    pak_sa 'm':
 					ctrl.usemecs = true;
-					break;
+					bha_nga;
 
-				    case 'r':
+				    pak_sa 'r':
 					ctrl.use_read = true;
-					break;
+					bha_nga;
 
 				    default:
 					lerr (_
 					      ("unknown -C option '%c'"),
 					      arg[i]);
-					break;
+					bha_nga;
 				}
-			break;
+			bha_nga;
 
-		    case OPT_DEBUG:
+		    pak_sa OPT_DEBUG:
 			ctrl.ddebug = true;
-			break;
+			bha_nga;
 
-		    case OPT_NO_DEBUG:
+		    pak_sa OPT_NO_DEBUG:
 			ctrl.ddebug = false;
-			break;
+			bha_nga;
 
-		    case OPT_FULL:
+		    pak_sa OPT_FULL:
 			ctrl.useecs = ctrl.usemecs = false;
 			ctrl.use_read = ctrl.fulltbl = true;
-			break;
+			bha_nga;
 
-		    case OPT_FAST:
+		    pak_sa OPT_FAST:
 			ctrl.useecs = ctrl.usemecs = false;
 			ctrl.use_read = ctrl.fullspd = true;
-			break;
+			bha_nga;
 
-		    case OPT_HELP:
+		    pak_sa OPT_HELP:
 			usage ();
 			FLEX_EXIT (0);
 
-		    case OPT_INTERACTIVE:
+		    pak_sa OPT_INTERACTIVE:
 			ctrl.interactive = true;
-			break;
+			bha_nga;
 
-		    case OPT_CASE_INSENSITIVE:
+		    pak_sa OPT_CASE_INSENSITIVE:
 			sf_set_case_ins(true);
-			break;
+			bha_nga;
 
-		    case OPT_LEX_COMPAT:
+		    pak_sa OPT_LEX_COMPAT:
 			ctrl.lex_compat = true;
-			break;
+			bha_nga;
 
-		    case OPT_POSIX_COMPAT:
+		    pak_sa OPT_POSIX_COMPAT:
 			ctrl.posix_compat = true;
-			break;
+			bha_nga;
 
-		    case OPT_PREPROC_LEVEL:
-			preproc_level = (int) strtol(arg,NULL,0);
-			break;
+		    pak_sa OPT_PREPROC_LEVEL:
+			preproc_level = (ចំនួនគត់) strtol(arg,NULL,0);
+			bha_nga;
 
-		    case OPT_MAIN:
+		    pak_sa OPT_MAIN:
 			ctrl.do_yywrap = false;
 			ctrl.do_main = trit_true;
-			break;
+			bha_nga;
 
-		    case OPT_NO_MAIN:
+		    pak_sa OPT_NO_MAIN:
 			ctrl.do_main = trit_false;
-			break;
+			bha_nga;
 
-		    case OPT_NO_LINE:
+		    pak_sa OPT_NO_LINE:
 			ctrl.gen_line_dirs = false;
-			break;
+			bha_nga;
 
-		    case OPT_OUTFILE:
+		    pak_sa OPT_OUTFILE:
 			env.outfilename = arg;
 			env.did_outfilename = 1;
-			break;
+			bha_nga;
 
-		    case OPT_PREFIX:
+		    pak_sa OPT_PREFIX:
 			ctrl.prefix = arg;
-			break;
+			bha_nga;
 
-		    case OPT_PERF_REPORT:
+		    pak_sa OPT_PERF_REPORT:
 			++env.performance_hint;
-			break;
+			bha_nga;
 
-		    case OPT_BISON_BRIDGE:
+		    pak_sa OPT_BISON_BRIDGE:
 			ctrl.bison_bridge_lval = true;
-			break;
+			bha_nga;
 
-		    case OPT_BISON_BRIDGE_LOCATIONS:
+		    pak_sa OPT_BISON_BRIDGE_LOCATIONS:
 			ctrl.bison_bridge_lval = ctrl.bison_bridge_lloc = true;
-			break;
+			bha_nga;
 
-		    case OPT_REENTRANT:
+		    pak_sa OPT_REENTRANT:
 			ctrl.reentrant = true;
-			break;
+			bha_nga;
 
-		    case OPT_NO_REENTRANT:
+		    pak_sa OPT_NO_REENTRANT:
 			ctrl.reentrant = false;
-			break;
+			bha_nga;
 
-		    case OPT_SKEL:
+		    pak_sa OPT_SKEL:
 			env.skelname = arg;
-			break;
+			bha_nga;
 
-		    case OPT_DEFAULT:
+		    pak_sa OPT_DEFAULT:
 			ctrl.spprdflt = false;
-			break;
+			bha_nga;
 
-		    case OPT_NO_DEFAULT:
+		    pak_sa OPT_NO_DEFAULT:
 			ctrl.spprdflt = true;
-			break;
+			bha_nga;
 
-		    case OPT_STDOUT:
+		    pak_sa OPT_STDOUT:
 			env.use_stdout = true;
-			break;
+			bha_nga;
 
-		    case OPT_NO_UNISTD_H:
+		    pak_sa OPT_NO_UNISTD_H:
 			ctrl.no_unistd = true;
-			break;
+			bha_nga;
 
-		    case OPT_TABLES_FILE:
+		    pak_sa OPT_TABLES_FILE:
 			tablesext = true;
 			tablesfilename = arg;
-			break;
+			bha_nga;
 
-		    case OPT_TABLES_VERIFY:
+		    pak_sa OPT_TABLES_VERIFY:
 			tablesverify = true;
-			break;
+			bha_nga;
 
-		    case OPT_TRACE:
+		    pak_sa OPT_TRACE:
 			env.trace = true;
-			break;
+			bha_nga;
 
-		    case OPT_VERBOSE:
+		    pak_sa OPT_VERBOSE:
 			env.printstats = true;
-			break;
+			bha_nga;
 
-		    case OPT_VERSION:
+		    pak_sa OPT_VERSION:
 			printf ("%s %s\n", (ctrl.C_plus_plus ? "flex++" : "flex"), flex_version);
 			FLEX_EXIT (0);
 
-		    case OPT_WARN:
+		    pak_sa OPT_WARN:
 			env.nowarn = false;
-			break;
+			bha_nga;
 
-		    case OPT_NO_WARN:
+		    pak_sa OPT_NO_WARN:
 			env.nowarn = true;
-			break;
+			bha_nga;
 
-		    case OPT_7BIT:
+		    pak_sa OPT_7BIT:
 			ctrl.csize = 128;
-			break;
+			bha_nga;
 
-		    case OPT_8BIT:
+		    pak_sa OPT_8BIT:
 			ctrl.csize = CSIZE;
-			break;
+			bha_nga;
 
-		    case OPT_ALIGN:
+		    pak_sa OPT_ALIGN:
 			ctrl.long_align = true;
-			break;
+			bha_nga;
 
-		    case OPT_NO_ALIGN:
+		    pak_sa OPT_NO_ALIGN:
 			ctrl.long_align = false;
-			break;
+			bha_nga;
 
-		    case OPT_ALWAYS_INTERACTIVE:
+		    pak_sa OPT_ALWAYS_INTERACTIVE:
 			ctrl.always_interactive = true;
-			break;
+			bha_nga;
 
-		    case OPT_NEVER_INTERACTIVE:
+		    pak_sa OPT_NEVER_INTERACTIVE:
 			ctrl.never_interactive = true;
-			break;
+			bha_nga;
 
-		    case OPT_ARRAY:
+		    pak_sa OPT_ARRAY:
 			ctrl.yytext_is_array = true;
-			break;
+			bha_nga;
 
-		    case OPT_POINTER:
+		    pak_sa OPT_POINTER:
 			ctrl.yytext_is_array = false;
-			break;
+			bha_nga;
 
-		    case OPT_ECS:
+		    pak_sa OPT_ECS:
 			ctrl.useecs = true;
-			break;
+			bha_nga;
 
-		    case OPT_NO_ECS:
+		    pak_sa OPT_NO_ECS:
 			ctrl.useecs = false;
-			break;
+			bha_nga;
 
-		    case OPT_EMIT:
+		    pak_sa OPT_EMIT:
 			ctrl.emit = arg;
-			break;
+			bha_nga;
 
-		    case OPT_HEADER_FILE:
+		    pak_sa OPT_HEADER_FILE:
 			env.headerfilename = arg;
-			break;
+			bha_nga;
 
-		    case OPT_META_ECS:
+		    pak_sa OPT_META_ECS:
 			ctrl.usemecs = true;
-			break;
+			bha_nga;
 
-		    case OPT_NO_META_ECS:
+		    pak_sa OPT_NO_META_ECS:
 			ctrl.usemecs = false;
-			break;
+			bha_nga;
 
-		    case OPT_PREPROCDEFINE:
+		    pak_sa OPT_PREPROCDEFINE:
 		    {
 			    /* arg is "symbol" or "symbol=definition". */
-			    char   *def;
-			    char buf2[4096];
+			    var_na   *def;
+			    var_na buf2[4096];
 
-			    for (def = arg;
+			    សម្រាប់ (def = arg;
 				 *def != '\0' && *def != '='; ++def)
 				    continue;
-			    if (*def == '\0')
+			    ប្រសិនបើ (*def == '\0')
 				    def = "1";
 
-			    snprintf(buf2, sizeof(buf2), "M4_HOOK_CONST_DEFINE_UNKNOWN(%s, %s)", arg, def);
+			    snprintf(buf2, parimaa_na(buf2), "M4_HOOK_CONST_DEFINE_UNKNOWN(%s, %s)", arg, def);
 			    buf_strappend (&userdef_buf, buf2);
 		    }
-		    break;
+		    bha_nga;
 
-		    case OPT_READ:
+		    pak_sa OPT_READ:
 			ctrl.use_read = true;
-			break;
+			bha_nga;
 
-		    case OPT_STACK:
+		    pak_sa OPT_STACK:
 			ctrl.stack_used = true;
-			break;
+			bha_nga;
 
-		    case OPT_STDINIT:
+		    pak_sa OPT_STDINIT:
 			ctrl.do_stdinit = true;
-			break;
+			bha_nga;
 
-		    case OPT_NO_STDINIT:
+		    pak_sa OPT_NO_STDINIT:
 			ctrl.do_stdinit = false;
-			break;
+			bha_nga;
 
-		    case OPT_YYCLASS:
+		    pak_sa OPT_YYCLASS:
 			ctrl.yyclass = arg;
-			break;
+			bha_nga;
 
-		    case OPT_YYLINENO:
+		    pak_sa OPT_YYLINENO:
 			ctrl.do_yylineno = true;
-			break;
+			bha_nga;
 
-		    case OPT_NO_YYLINENO:
+		    pak_sa OPT_NO_YYLINENO:
 			ctrl.do_yylineno = false;
-			break;
+			bha_nga;
 
-		    case OPT_YYWRAP:
+		    pak_sa OPT_YYWRAP:
 			ctrl.do_yywrap = true;
-			break;
+			bha_nga;
 
-		    case OPT_NO_YYWRAP:
+		    pak_sa OPT_NO_YYWRAP:
 			ctrl.do_yywrap = false;
-			break;
+			bha_nga;
 
-		    case OPT_YYMORE:
+		    pak_sa OPT_YYMORE:
 			ctrl.yymore_really_used = true;
-			break;
+			bha_nga;
 
-		    case OPT_NO_YYMORE:
+		    pak_sa OPT_NO_YYMORE:
 			ctrl.yymore_really_used = false;
-			break;
+			bha_nga;
 
-		    case OPT_REJECT:
+		    pak_sa OPT_REJECT:
 			ctrl.reject_really_used = true;
-			break;
+			bha_nga;
 
-		    case OPT_NO_REJECT:
+		    pak_sa OPT_NO_REJECT:
 			ctrl.reject_really_used = false;
-			break;
+			bha_nga;
 
-		    case OPT_NO_YY_PUSH_STATE:
+		    pak_sa OPT_NO_YY_PUSH_STATE:
 			ctrl.no_yy_push_state = true;
-			break;
-		    case OPT_NO_YY_POP_STATE:
+			bha_nga;
+		    pak_sa OPT_NO_YY_POP_STATE:
 			ctrl.no_yy_pop_state = true;
-			break;
-		    case OPT_NO_YY_TOP_STATE:
+			bha_nga;
+		    pak_sa OPT_NO_YY_TOP_STATE:
 			ctrl.no_yy_top_state = true;
-			break;
-		    case OPT_NO_YYINPUT:
+			bha_nga;
+		    pak_sa OPT_NO_YYINPUT:
 			ctrl.no_yyinput = true;
-			break;
-		    case OPT_NO_YYUNPUT:
+			bha_nga;
+		    pak_sa OPT_NO_YYUNPUT:
 			ctrl.no_yyunput = true;
-			break;
-		    case OPT_NO_YY_SCAN_BUFFER:
+			bha_nga;
+		    pak_sa OPT_NO_YY_SCAN_BUFFER:
 			ctrl.no_yy_scan_buffer = true;
-			break;
-		    case OPT_NO_YY_SCAN_BYTES:
+			bha_nga;
+		    pak_sa OPT_NO_YY_SCAN_BYTES:
 			ctrl.no_yy_scan_bytes = true;
-			break;
-		    case OPT_NO_YY_SCAN_STRING:
+			bha_nga;
+		    pak_sa OPT_NO_YY_SCAN_STRING:
 			ctrl.no_yy_scan_string = true;
-			break;
-		    case OPT_NO_YYGET_EXTRA:
+			bha_nga;
+		    pak_sa OPT_NO_YYGET_EXTRA:
 			ctrl.no_yyget_extra = true;
-			break;
-		    case OPT_NO_YYSET_EXTRA:
+			bha_nga;
+		    pak_sa OPT_NO_YYSET_EXTRA:
 			ctrl.no_yyset_extra = true;
-			break;
-		    case OPT_NO_YYGET_LENG:
+			bha_nga;
+		    pak_sa OPT_NO_YYGET_LENG:
 			ctrl.no_yyget_leng = true;
-			break;
-		    case OPT_NO_YYGET_TEXT:
+			bha_nga;
+		    pak_sa OPT_NO_YYGET_TEXT:
 			ctrl.no_yyget_text = true;
-			break;
-		    case OPT_NO_YYGET_LINENO:
+			bha_nga;
+		    pak_sa OPT_NO_YYGET_LINENO:
 			ctrl.no_yyget_lineno = true;
-			break;
-		    case OPT_NO_YYSET_LINENO:
+			bha_nga;
+		    pak_sa OPT_NO_YYSET_LINENO:
 			ctrl.no_yyset_lineno = true;
-			break;
-		    case OPT_NO_YYGET_COLUMN:
+			bha_nga;
+		    pak_sa OPT_NO_YYGET_COLUMN:
 			ctrl.no_yyget_column = true;
-			break;
-		    case OPT_NO_YYSET_COLUMN:
+			bha_nga;
+		    pak_sa OPT_NO_YYSET_COLUMN:
 			ctrl.no_yyset_column = true;
-			break;
-		    case OPT_NO_YYGET_IN:
+			bha_nga;
+		    pak_sa OPT_NO_YYGET_IN:
 			ctrl.no_yyget_in = true;
-			break;
-		    case OPT_NO_YYSET_IN:
+			bha_nga;
+		    pak_sa OPT_NO_YYSET_IN:
 			ctrl.no_yyset_in = true;
-			break;
-		    case OPT_NO_YYGET_OUT:
+			bha_nga;
+		    pak_sa OPT_NO_YYGET_OUT:
 			ctrl.no_yyget_out = true;
-			break;
-		    case OPT_NO_YYSET_OUT:
+			bha_nga;
+		    pak_sa OPT_NO_YYSET_OUT:
 			ctrl.no_yyset_out = true;
-			break;
-		    case OPT_NO_YYGET_LVAL:
+			bha_nga;
+		    pak_sa OPT_NO_YYGET_LVAL:
 			ctrl.no_yyget_lval = true;
-			break;
-		    case OPT_NO_YYSET_LVAL:
+			bha_nga;
+		    pak_sa OPT_NO_YYSET_LVAL:
 			ctrl.no_yyset_lval = true;
-			break;
-		    case OPT_NO_YYGET_LLOC:
+			bha_nga;
+		    pak_sa OPT_NO_YYGET_LLOC:
 			ctrl.no_yyget_lloc = true;
-			break;
-		    case OPT_NO_YYSET_LLOC:
+			bha_nga;
+		    pak_sa OPT_NO_YYSET_LLOC:
 			ctrl.no_yyset_lloc = true;
-			break;
-		    case OPT_NO_YYGET_DEBUG:
+			bha_nga;
+		    pak_sa OPT_NO_YYGET_DEBUG:
 			ctrl.no_get_debug = true;
-			break;
-		    case OPT_NO_YYSET_DEBUG:
+			bha_nga;
+		    pak_sa OPT_NO_YYSET_DEBUG:
 			ctrl.no_set_debug = true;
-			break;
+			bha_nga;
 
-		    case OPT_HEX:
+		    pak_sa OPT_HEX:
 			env.trace_hex = true;
-                        break;
-		    case OPT_NO_SECT3_ESCAPE:
+                        bha_nga;
+		    pak_sa OPT_NO_SECT3_ESCAPE:
                         ctrl.no_section3_escape = true;
-                        break;
+                        bha_nga;
 		}		/* switch */
 	}			/* while scanopt() */
 
@@ -1194,16 +1194,16 @@ void flexinit (int argc, char **argv)
 
 void readin (void)
 {
-	char buf[256];
+	var_na buf[256];
 
 	line_directive_out(NULL, infilename, linenum);
 
-	if (yyparse ()) {
+	ប្រសិនបើ (yyparse ()) {
 		pinpoint_message (_("fatal parse error"));
 		flexend (1);
 	}
 
-	if (syntaxerror)
+	ប្រសិនបើ (syntaxerror)
 		flexend (1);
 
 	/* On --emit, -e, or change backends This is where backend
@@ -1218,27 +1218,27 @@ void readin (void)
 
 	yyout = stdout;
 
-	if (tablesext)
+	ប្រសិនបើ (tablesext)
 		gentables = false;
 
-	if (tablesverify)
+	ប្រសិនបើ (tablesverify)
 		/* force generation of C tables. */
 		gentables = true;
 
 
-	if (tablesext) {
+	ប្រសិនបើ (tablesext) {
 		FILE   *tablesout;
-		struct yytbl_hdr hdr;
-		char   *pname = 0;
+		sa_nracanaa yytbl_hdr hdr;
+		var_na   *pname = 0;
 		size_t  nbytes = 0;
 
-		if (!tablesfilename) {
+		ប្រសិនបើ (!tablesfilename) {
 			nbytes = strlen (ctrl.prefix) + strlen (tablesfile_template) + 2;
 			tablesfilename = pname = calloc(nbytes, 1);
 			snprintf (pname, nbytes, tablesfile_template, ctrl.prefix);
 		}
 
-		if ((tablesout = fopen (tablesfilename, "w")) == NULL)
+		ប្រសិនបើ ((tablesout = fopen (tablesfilename, "w")) == NULL)
 			lerr (_("could not create %s"), tablesfilename);
 		free(pname);
 		tablesfilename = 0;
@@ -1250,17 +1250,17 @@ void readin (void)
 		snprintf (tablesname, nbytes, "%stables", ctrl.prefix);
 		yytbl_hdr_init (&hdr, flex_version, tablesname);
 
-		if (yytbl_hdr_fwrite (&tableswr, &hdr) <= 0)
+		ប្រសិនបើ (yytbl_hdr_fwrite (&tableswr, &hdr) <= 0)
 			flexerror (_("could not write tables header"));
 	}
 
-	if (env.skelname && (skelfile = fopen (env.skelname, "r")) == NULL)
+	ប្រសិនបើ (env.skelname && (skelfile = fopen (env.skelname, "r")) == NULL)
 		lerr (_("can't open skeleton file %s"), env.skelname);
 
-	if (strchr(ctrl.prefix, '[') || strchr(ctrl.prefix, ']'))
+	ប្រសិនបើ (strchr(ctrl.prefix, '[') || strchr(ctrl.prefix, ']'))
 		flexerror(_("Prefix cannot include '[' or ']'"));
 
-	if (env.did_outfilename)
+	ប្រសិនបើ (env.did_outfilename)
 		line_directive_out (stdout, NULL, linenum);
 
 	/* This is where we begin writing to the file. */
@@ -1270,24 +1270,24 @@ void readin (void)
 	comment("A lexical scanner generated by flex\n");
 
 	/* Dump the %top code. */
-	if( top_buf.elts)
-		outn((char*) top_buf.elts);
+	ប្រសិនបើ( top_buf.elts)
+		outn((var_na*) top_buf.elts);
 
 	/* Place a bogus line directive, it will be fixed in the filter. */
 	line_directive_out(NULL, NULL, 0);
 
 	/* User may want to set the scanner prototype */
-	if (ctrl.yydecl != NULL) {
+	ប្រសិនបើ (ctrl.yydecl != NULL) {
 		out_str ("M4_HOOK_SET_YY_DECL(%s)\n", ctrl.yydecl);
 	}
 
-	if (ctrl.userinit != NULL) {
+	ប្រសិនបើ (ctrl.userinit != NULL) {
 		out_str ("M4_HOOK_SET_USERINIT(%s)\n", ctrl.userinit);
 	}
-	if (ctrl.preaction != NULL) {
+	ប្រសិនបើ (ctrl.preaction != NULL) {
 		out_str ("M4_HOOK_SET_PREACTION(%s)\n", ctrl.preaction);
 	}
-	if (ctrl.postaction != NULL) {
+	ប្រសិនបើ (ctrl.postaction != NULL) {
 		out_str ("M4_HOOK_SET_POSTACTION(%s)\n", ctrl.postaction);
 	}
 
@@ -1298,8 +1298,8 @@ void readin (void)
 	out_dec ("m4_define([[YYLMAX]], [[%d]])\n", ctrl.yylmax);
 
 	/* Dump the user defined preproc directives. */
-	if (userdef_buf.elts)
-		outn ((char *) (userdef_buf.elts));
+	ប្រសិនបើ (userdef_buf.elts)
+		outn ((var_na *) (userdef_buf.elts));
 
 	/* If the user explicitly requested posix compatibility by specifying the
 	 * posix-compat option, then we check for conflicting options. However, if
@@ -1310,7 +1310,7 @@ void readin (void)
 	 * Note: The posix option was added to flex to provide the posix behavior
 	 * of the repeat operator in regular expressions, e.g., `ab{3}'
 	 */
-	if (ctrl.posix_compat) {
+	ប្រសិនបើ (ctrl.posix_compat) {
 		/* TODO: This is where we try to make flex behave according to
 		 * POSIX, *and* check for conflicting ctrl. How far should we go
 		 * with this? Should we disable all the neat-o flex features?
@@ -1318,33 +1318,33 @@ void readin (void)
 		/* Update: Estes says no, since other flex features don't violate posix. */
 	}
 
-	if (getenv ("POSIXLY_CORRECT")) {
+	ប្រសិនបើ (getenv ("POSIXLY_CORRECT")) {
 		ctrl.posix_compat = true;
 	}
 
-	if (env.backing_up_report) {
+	ប្រសិនបើ (env.backing_up_report) {
 		ctrl.backing_up_file = fopen (backing_name, "w");
-		if (ctrl.backing_up_file == NULL)
+		ប្រសិនបើ (ctrl.backing_up_file == NULL)
 			lerr (_
 				("could not create backing-up info file %s"),
 				backing_name);
 	}
 
-	else
+	បើមិនដូច្នេះ
 		ctrl.backing_up_file = NULL;
 
-	if (ctrl.yymore_really_used == true)
+	ប្រសិនបើ (ctrl.yymore_really_used == true)
 		yymore_used = true;
-	else if (ctrl.yymore_really_used == false)
+	បើមិនដូច្នេះ ប្រសិនបើ (ctrl.yymore_really_used == false)
 		yymore_used = false;
 
-	if (ctrl.reject_really_used == true)
+	ប្រសិនបើ (ctrl.reject_really_used == true)
 		reject = true;
-	else if (ctrl.reject_really_used == false)
+	បើមិនដូច្នេះ ប្រសិនបើ (ctrl.reject_really_used == false)
 		reject = false;
 
-	if (env.performance_hint > 0) {
-		if (ctrl.lex_compat) {
+	ប្រសិនបើ (env.performance_hint > 0) {
+		ប្រសិនបើ (ctrl.lex_compat) {
 			fprintf (stderr,
 				 _
 				 ("-l AT&T lex compatibility option entails a large performance penalty\n"));
@@ -1353,85 +1353,85 @@ void readin (void)
 				 (" and may be the actual source of other reported performance penalties\n"));
 		}
 
-		else if (ctrl.do_yylineno) {
+		បើមិនដូច្នេះ ប្រសិនបើ (ctrl.do_yylineno) {
 			fprintf (stderr,
 				 _
 				 ("%%option yylineno entails a performance penalty ONLY on rules that can match newline characters\n"));
 		}
 
-		if (env.performance_hint > 1) {
-			if (ctrl.interactive == trit_true)
+		ប្រសិនបើ (env.performance_hint > 1) {
+			ប្រសិនបើ (ctrl.interactive == trit_true)
 				fprintf (stderr,
 					 _
 					 ("-I (interactive) entails a minor performance penalty\n"));
 
-			if (yymore_used)
+			ប្រសិនបើ (yymore_used)
 				fprintf (stderr,
 					 _
 					 ("yymore() entails a minor performance penalty\n"));
 		}
 
-		if (reject)
+		ប្រសិនបើ (reject)
 			fprintf (stderr,
 				 _
 				 ("REJECT entails a large performance penalty\n"));
 
-		if (variable_trailing_context_rules)
+		ប្រសិនបើ (variable_trailing_context_rules)
 			fprintf (stderr,
 				 _
 				 ("Variable trailing context rules entail a large performance penalty\n"));
 	}
 
-	if (reject)
+	ប្រសិនបើ (reject)
 		real_reject = true;
 
-	if (variable_trailing_context_rules)
+	ប្រសិនបើ (variable_trailing_context_rules)
 		reject = true;
 
-	if ((ctrl.fulltbl || ctrl.fullspd) && reject) {
-		if (real_reject)
+	ប្រសិនបើ ((ctrl.fulltbl || ctrl.fullspd) && reject) {
+		ប្រសិនបើ (real_reject)
 			flexerror (_
 				   ("REJECT cannot be used with -f or -F"));
-		else if (ctrl.do_yylineno)
+		បើមិនដូច្នេះ ប្រសិនបើ (ctrl.do_yylineno)
 			flexerror (_
 				   ("%option yylineno cannot be used with REJECT"));
-		else
+		បើមិនដូច្នេះ
 			flexerror (_
 				   ("variable trailing context rules cannot be used with -f or -F"));
 	}
 
-	if (ctrl.useecs)
+	ប្រសិនបើ (ctrl.useecs)
 		numecs = cre8ecs (nextecm, ecgroup, ctrl.csize);
-	else
+	បើមិនដូច្នេះ
 		numecs = ctrl.csize;
 
 	/* Now map the equivalence class for NUL to its expected place. */
 	ecgroup[0] = ecgroup[ctrl.csize];
 	NUL_ec = ABS (ecgroup[0]);
 
-	if (ctrl.useecs)
+	ប្រសិនបើ (ctrl.useecs)
 		ccl2ecl ();
 
 	// These are used to conditionalize code in the lex skeleton
 	// that historically used to be generated by C code in flex
 	// itself; by shoving all this stuff out to the skeleton file
 	// we make it easier to retarget the code generation.
-	snprintf(buf, sizeof(buf), "Target: %s\n", ctrl.backend_name);
+	snprintf(buf, parimaa_na(buf), "Target: %s\n", ctrl.backend_name);
 	comment(buf);
 	comment("START of m4 controls\n");
 
 	/* Define the start condition macros. */
 	{
-		struct Buf tmpbuf;
-		int i;
-		buf_init(&tmpbuf, sizeof(char));
-		for (i = 1; i <= lastsc; i++) {
-			char *str, *fmt = "M4_HOOK_CONST_DEFINE_STATE(%s, %d)";
+		sa_nracanaa Buf tmpbuf;
+		ចំនួនគត់ i;
+		buf_init(&tmpbuf, parimaa_na(var_na));
+		សម្រាប់ (i = 1; i <= lastsc; i++) {
+			var_na *str, *fmt = "M4_HOOK_CONST_DEFINE_STATE(%s, %d)";
 			size_t strsz;
 
 			strsz = strlen(fmt) + strlen(scname[i]) + (size_t)(1 + ceil (log10(i))) + 2;
 			str = malloc(strsz);
-			if (!str)
+			ប្រសិនបើ (!str)
 				flexfatal(_("allocation of macro definition failed"));
 			snprintf(str, strsz, fmt, scname[i], i - 1);
 			buf_strappend(&tmpbuf, str);
@@ -1442,237 +1442,237 @@ void readin (void)
 		buf_destroy(&tmpbuf);
 	}
 
-	if (ctrl.bison_bridge_lval)
+	ប្រសិនបើ (ctrl.bison_bridge_lval)
 		visible_define("M4_YY_BISON_LVAL");
 
-	if (ctrl.bison_bridge_lloc)
+	ប្រសិនបើ (ctrl.bison_bridge_lloc)
 		visible_define("<M4_YY_BISON_LLOC>");
 
-	if (extra_type != NULL)
+	ប្រសិនបើ (extra_type != NULL)
 		visible_define_str ("M4_MODE_EXTRA_TYPE", extra_type);
 
 	/* always generate the tablesverify flag. */
 	visible_define_str ("M4_YY_TABLES_VERIFY", tablesverify ? "1" : "0");
 
-	if (ctrl.reentrant) {
+	ប្រសិនបើ (ctrl.reentrant) {
 		visible_define ("M4_YY_REENTRANT");
-		if (ctrl.yytext_is_array)
+		ប្រសិនបើ (ctrl.yytext_is_array)
 			visible_define ("M4_MODE_REENTRANT_TEXT_IS_ARRAY");
 	}
 
-	if (ctrl.do_main == trit_true)
+	ប្រសិនបើ (ctrl.do_main == trit_true)
 		visible_define_str ( "YY_MAIN", "1");
-	else if (ctrl.do_main == trit_false)
+	បើមិនដូច្នេះ ប្រសិនបើ (ctrl.do_main == trit_false)
 		visible_define_str ( "YY_MAIN", "0");
 
-	if (ctrl.do_stdinit)
+	ប្រសិនបើ (ctrl.do_stdinit)
 		visible_define ( "M4_MODE_DO_STDINIT");
-	else
+	បើមិនដូច្នេះ
 		visible_define ( "M4_MODE_NO_DO_STDINIT");
 
 	// mode switches for YY_DO_BEFORE_ACTION code generation
-	if (ctrl.yytext_is_array)
+	ប្រសិនបើ (ctrl.yytext_is_array)
 		visible_define ( "M4_MODE_YYTEXT_IS_ARRAY");
-	else
+	បើមិនដូច្នេះ
 		visible_define ( "M4_MODE_NO_YYTEXT_IS_ARRAY");
-	if (yymore_used)
+	ប្រសិនបើ (yymore_used)
 		visible_define ( "M4_MODE_YYMORE_USED");
-	else
+	បើមិនដូច្នេះ
 		visible_define ( "M4_MODE_NO_YYMORE_USED");
 
-	if (ctrl.fullspd)
+	ប្រសិនបើ (ctrl.fullspd)
 		visible_define ( "M4_MODE_REAL_FULLSPD");
-	else
+	បើមិនដូច្នេះ
 		visible_define ( "M4_MODE_NO_REAL_FULLSPD");
 
-	if (ctrl.fulltbl)
+	ប្រសិនបើ (ctrl.fulltbl)
 		visible_define ( "M4_MODE_REAL_FULLTBL");
-	else
+	បើមិនដូច្នេះ
 		visible_define ( "M4_MODE_NO_REAL_FULLTBL");
 
 	// niode switches for YYINPUT code generation
-	if (ctrl.use_read)
+	ប្រសិនបើ (ctrl.use_read)
 		visible_define ( "M4_MODE_CPP_USE_READ");
-	else
+	បើមិនដូច្នេះ
 		visible_define ( "M4_MODE_NO_CPP_USE_READ");
 
 	// mode switches for next-action code
-	if (variable_trailing_context_rules) {
+	ប្រសិនបើ (variable_trailing_context_rules) {
 		visible_define ( "M4_MODE_VARIABLE_TRAILING_CONTEXT_RULES");
-	} else {
+	} បើមិនដូច្នេះ {
 		visible_define ( "M4_MODE_NO_VARIABLE_TRAILING_CONTEXT_RULES");
 	}
-	if (real_reject)
+	ប្រសិនបើ (real_reject)
 		visible_define ( "M4_MODE_REAL_REJECT");
-	if (ctrl.reject_really_used)
+	ប្រសិនបើ (ctrl.reject_really_used)
 		visible_define ( "M4_MODE_FIND_ACTION_REJECT_REALLY_USED");
-	if (reject)
+	ប្រសិនបើ (reject)
 		visible_define ( "M4_MODE_USES_REJECT");
-	else
+	បើមិនដូច្នេះ
 		visible_define ( "M4_MODE_NO_USES_REJECT");
 
 	// mode switches for computing next compressed state
-	if (ctrl.usemecs)
+	ប្រសិនបើ (ctrl.usemecs)
 		visible_define ( "M4_MODE_USEMECS");
 
 	// mode switches for find-action code
-	if (ctrl.fullspd)
+	ប្រសិនបើ (ctrl.fullspd)
 		visible_define ( "M4_MODE_FULLSPD");
-	else if (ctrl.fulltbl)
+	បើមិនដូច្នេះ ប្រសិនបើ (ctrl.fulltbl)
 	    visible_define ( "M4_MODE_FIND_ACTION_FULLTBL");
-	else if (reject)
+	បើមិនដូច្នេះ ប្រសិនបើ (reject)
 	    visible_define ( "M4_MODE_FIND_ACTION_REJECT");
-	else
+	បើមិនដូច្នេះ
 	    visible_define ( "M4_MODE_FIND_ACTION_COMPRESSED");
 
 	// mode switches for backup generation and gen_start_state
-	if (!ctrl.fullspd)
+	ប្រសិនបើ (!ctrl.fullspd)
 		visible_define ( "M4_MODE_NO_FULLSPD");
-	if (bol_needed)
+	ប្រសិនបើ (bol_needed)
 		visible_define ( "M4_MODE_BOL_NEEDED");
-	else
+	បើមិនដូច្នេះ
 		visible_define ( "M4_MODE_NO_BOL_NEEDED");
 
 	// yylineno
-	if (ctrl.do_yylineno)
+	ប្រសិនបើ (ctrl.do_yylineno)
 		visible_define ( "M4_MODE_YYLINENO");
 
 	// Equivalence classes
-	if (ctrl.useecs)
+	ប្រសិនបើ (ctrl.useecs)
 		visible_define ( "M4_MODE_USEECS");
-	else
+	បើមិនដូច្នេះ
 		visible_define ( "M4_MODE_NO_USEECS");
 
 	// mode switches for getting next action
-	if (gentables)
+	ប្រសិនបើ (gentables)
 		visible_define ( "M4_MODE_GENTABLES");
-	else
+	បើមិនដូច្នេះ
 		visible_define ( "M4_MODE_NO_GENTABLES");
-	if (ctrl.interactive == trit_true)
+	ប្រសិនបើ (ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_INTERACTIVE");
-	else
+	បើមិនដូច្នេះ
 		visible_define ( "M4_MODE_NO_INTERACTIVE");
-	if (!(ctrl.fullspd || ctrl.fulltbl))
+	ប្រសិនបើ (!(ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NO_FULLSPD_OR_FULLTBL");
-	if (reject || ctrl.interactive == trit_true)
+	ប្រសិនបើ (reject || ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_FIND_ACTION_REJECT_OR_INTERACTIVE");
 
-	if (ctrl.yyclass != NULL) {
+	ប្រសិនបើ (ctrl.yyclass != NULL) {
 		visible_define ( "M4_MODE_YYCLASS");
 		out_m4_define("M4_YY_CLASS_NAME", ctrl.yyclass);
 	}
 
-	if (ctrl.ddebug)
+	ប្រសិនបើ (ctrl.ddebug)
 		visible_define ( "M4_MODE_DEBUG");
 
-	if (ctrl.lex_compat)
+	ប្រសិនបើ (ctrl.lex_compat)
 		visible_define ( "M4_MODE_OPTIONS.LEX_COMPAT");
 
-	if (ctrl.do_yywrap)
+	ប្រសិនបើ (ctrl.do_yywrap)
 		visible_define ( "M4_MODE_YYWRAP");
-	else
+	បើមិនដូច្នេះ
 		visible_define ( "M4_MODE_NO_YYWRAP");
 
-	if (ctrl.interactive == trit_true)
+	ប្រសិនបើ (ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_INTERACTIVE");
 
-	if (ctrl.noyyread)
+	ប្រសិនបើ (ctrl.noyyread)
 		visible_define("M4_MODE_USER_YYREAD");
 
-	if (is_default_backend()) {
-		if (ctrl.C_plus_plus) {
+	ប្រសិនបើ (is_default_backend()) {
+		ប្រសិនបើ (ctrl.C_plus_plus) {
 			visible_define ( "M4_MODE_CXX_ONLY");
-		} else {
+		} បើមិនដូច្នេះ {
 			visible_define ( "M4_MODE_C_ONLY");
 		}
 	}
 
-	if (tablesext)
+	ប្រសិនបើ (tablesext)
 		visible_define ( "M4_MODE_TABLESEXT");
-	if (ctrl.prefix != NULL)
+	ប្រសិនបើ (ctrl.prefix != NULL)
 	    visible_define_str ( "M4_MODE_PREFIX", ctrl.prefix);
 
-	if (ctrl.no_yyinput)
+	ប្រសិនបើ (ctrl.no_yyinput)
 		visible_define("M4_MODE_NO_YYINPUT");
 
-	if (ctrl.bufsize != 0)
+	ប្រសិនបើ (ctrl.bufsize != 0)
 	    visible_define_int("M4_MODE_YY_BUFSIZE", ctrl.bufsize);
 
-	if (ctrl.yyterminate != NULL)
+	ប្រសិនបើ (ctrl.yyterminate != NULL)
 	    visible_define_str("M4_MODE_YYTERMINATE", ctrl.yyterminate);
 	
-	if (ctrl.no_yypanic)
+	ប្រសិនបើ (ctrl.no_yypanic)
 		visible_define("M4_YY_NO_YYPANIC");
-	if (ctrl.no_yy_push_state)
+	ប្រសិនបើ (ctrl.no_yy_push_state)
 		visible_define("M4_YY_NO_PUSH_STATE");
-	if (ctrl.no_yy_pop_state)
+	ប្រសិនបើ (ctrl.no_yy_pop_state)
 		visible_define("M4_YY_NO_POP_STATE");
-	if (ctrl.no_yy_top_state)
+	ប្រសិនបើ (ctrl.no_yy_top_state)
 		visible_define("M4_YY_NO_TOP_STATE");
-	if (ctrl.no_yyunput)
+	ប្រសិនបើ (ctrl.no_yyunput)
 		visible_define("M4_YY_NO_YYUNPUT");
-	if (ctrl.no_yy_scan_buffer)
+	ប្រសិនបើ (ctrl.no_yy_scan_buffer)
 		visible_define("M4_YY_NO_SCAN_BUFFER");
-	if (ctrl.no_yy_scan_bytes)
+	ប្រសិនបើ (ctrl.no_yy_scan_bytes)
 		visible_define("M4_YY_NO_SCAN_BYTES");
-	if (ctrl.no_yy_scan_string)
+	ប្រសិនបើ (ctrl.no_yy_scan_string)
 		visible_define("M4_YY_NO_SCAN_STRING");
-	if (ctrl.no_yyget_extra)
+	ប្រសិនបើ (ctrl.no_yyget_extra)
 		visible_define("M4_YY_NO_GET_EXTRA");
-	if (ctrl.no_yyset_extra)
+	ប្រសិនបើ (ctrl.no_yyset_extra)
 		visible_define("M4_YY_NO_SET_EXTRA");
-	if (ctrl.no_yyget_leng)
+	ប្រសិនបើ (ctrl.no_yyget_leng)
 		visible_define("M4_YY_NO_GET_LENG");
-	if (ctrl.no_yyget_text)
+	ប្រសិនបើ (ctrl.no_yyget_text)
 		visible_define("M4_YY_NO_GET_TEXT");
-	if (ctrl.no_yyget_lineno)
+	ប្រសិនបើ (ctrl.no_yyget_lineno)
 		visible_define("M4_YY_NO_GET_LINENO");
-	if (ctrl.no_yyset_lineno)
+	ប្រសិនបើ (ctrl.no_yyset_lineno)
 		visible_define("M4_YY_NO_SET_LINENO");
-	if (ctrl.no_yyget_column)
+	ប្រសិនបើ (ctrl.no_yyget_column)
 		visible_define("M4_YY_NO_GET_COLUMN");
-	if (ctrl.no_yyset_column)
+	ប្រសិនបើ (ctrl.no_yyset_column)
 		visible_define("M4_YY_NO_SET_COLUMN");
-	if (ctrl.no_yyget_in)
+	ប្រសិនបើ (ctrl.no_yyget_in)
 		visible_define("M4_YY_NO_GET_IN");
-	if (ctrl.no_yyset_in)
+	ប្រសិនបើ (ctrl.no_yyset_in)
 		visible_define("M4_YY_NO_SET_IN");
-	if (ctrl.no_yyget_out)
+	ប្រសិនបើ (ctrl.no_yyget_out)
 		visible_define("M4_YY_NO_GET_OUT");
-	if (ctrl.no_yyset_out)
+	ប្រសិនបើ (ctrl.no_yyset_out)
 		visible_define("M4_YY_NO_SET_OUT");
-	if (ctrl.no_yyget_lval)
+	ប្រសិនបើ (ctrl.no_yyget_lval)
 		visible_define("M4_YY_NO_GET_LVAL");
-	if (ctrl.no_yyset_lval)
+	ប្រសិនបើ (ctrl.no_yyset_lval)
 		visible_define("M4_YY_NO_SET_LVAL");
-	if (ctrl.no_yyget_lloc)
+	ប្រសិនបើ (ctrl.no_yyget_lloc)
 		visible_define("M4_YY_NO_GET_LLOC");
-	if (ctrl.no_yyset_lloc)
+	ប្រសិនបើ (ctrl.no_yyset_lloc)
 		visible_define("M4_YY_NO_SET_LLOC");
-	if (ctrl.no_flex_alloc)
+	ប្រសិនបើ (ctrl.no_flex_alloc)
 		visible_define("M4_YY_NO_FLEX_ALLOC");
-	if (ctrl.no_flex_realloc)
+	ប្រសិនបើ (ctrl.no_flex_realloc)
 		visible_define("M4_YY_NO_FLEX_REALLOC");
-	if (ctrl.no_flex_free)
+	ប្រសិនបើ (ctrl.no_flex_free)
 		visible_define("M4_YY_NO_FLEX_FREE");
-	if (ctrl.no_get_debug)
+	ប្រសិនបើ (ctrl.no_get_debug)
 		visible_define("M4_YY_NO_GET_DEBUG");
-	if (ctrl.no_set_debug)
+	ប្រសិនបើ (ctrl.no_set_debug)
 		visible_define("M4_YY_NO_SET_DEBUG");
 
-	if (ctrl.no_unistd)
+	ប្រសិនបើ (ctrl.no_unistd)
 		visible_define("M4_YY_NO_UNISTD_H");
 
-	if (ctrl.always_interactive)
+	ប្រសិនបើ (ctrl.always_interactive)
 		visible_define("M4_YY_ALWAYS_INTERACTIVE");
-	if (ctrl.never_interactive)
+	ប្រសិនបើ (ctrl.never_interactive)
 		visible_define("M4_YY_NEVER_INTERACTIVE");
-	if (ctrl.stack_used)
+	ប្រសិនបើ (ctrl.stack_used)
 		visible_define("M4_YY_STACK_USED");
 
-	if (ctrl.rewrite)
+	ប្រសិនបើ (ctrl.rewrite)
 		visible_define ( "M4_MODE_REWRITE");
-	else
+	បើមិនដូច្នេះ
 		visible_define ( "M4_MODE_NO_REWRITE");
 
 	comment("END of m4 controls\n");
@@ -1698,21 +1698,21 @@ void set_up_initial_allocations (void)
 	current_max_rules = INITIAL_MAX_RULES;
 	rule_type = allocate_integer_array (current_max_rules);
 	rule_linenum = allocate_integer_array (current_max_rules);
-	rule_useful = allocate_array(current_max_rules, sizeof(char));
-	rule_has_nl = allocate_array(current_max_rules, sizeof(char));
+	rule_useful = allocate_array(current_max_rules, parimaa_na(var_na));
+	rule_has_nl = allocate_array(current_max_rules, parimaa_na(var_na));
 
 	current_max_scs = INITIAL_MAX_SCS;
 	scset = allocate_integer_array (current_max_scs);
 	scbol = allocate_integer_array (current_max_scs);
-	scxclu = allocate_array(current_max_scs, sizeof(char));
-	sceof = allocate_array(current_max_scs, sizeof(char));
+	scxclu = allocate_array(current_max_scs, parimaa_na(var_na));
+	sceof = allocate_array(current_max_scs, parimaa_na(var_na));
 	scname = allocate_char_ptr_array (current_max_scs);
 
 	current_maxccls = INITIAL_MAX_CCLS;
 	cclmap = allocate_integer_array (current_maxccls);
 	ccllen = allocate_integer_array (current_maxccls);
 	cclng = allocate_integer_array (current_maxccls);
-	ccl_has_nl = allocate_array(current_maxccls, sizeof(char));
+	ccl_has_nl = allocate_array(current_maxccls, parimaa_na(var_na));
 
 	current_max_ccl_tbl_size = INITIAL_MAX_CCL_TBL_SIZE;
 	ccltbl = allocate_Character_array (current_max_ccl_tbl_size);
@@ -1734,7 +1734,7 @@ void set_up_initial_allocations (void)
 	dhash = allocate_integer_array (current_max_dfas);
 	dss = allocate_int_ptr_array (current_max_dfas);
 	dfaacc = allocate_array(current_max_dfas,
-		sizeof(union dfaacc_union));
+		parimaa_na(sa_ngha dfaacc_union));
 
 	nultrans = NULL;
 }
@@ -1744,8 +1744,8 @@ void usage (void)
 {
 	FILE   *f = stdout;
 
-	if (!env.did_outfilename) {
-		snprintf (outfile_path, sizeof(outfile_path), outfile_template,
+	ប្រសិនបើ (!env.did_outfilename) {
+		snprintf (outfile_path, parimaa_na(outfile_path), outfile_template,
 			  ctrl.prefix, suffix());
 		env.outfilename = outfile_path;
 	}
