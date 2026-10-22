@@ -37,68 +37,68 @@
 
 #ifndef USE_CONFIG_FOR_BUILD
 # ifdef HAVE_CONFIG_H
-#include <config.h>
+#شامل <config.h>
 # endif
-#else
-#include <config_for_build.h>
+#وگرنه
+#شامل <config_for_build.h>
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <setjmp.h>
-#include <ctype.h>
-#include <string.h>
-#include <math.h>
+#شامل <stdio.h>
+#شامل <stdlib.h>
+#شامل <stdarg.h>
+#شامل <setjmp.h>
+#شامل <ctype.h>
+#شامل <string.h>
+#شامل <math.h>
 
 #ifdef HAVE_ASSERT_H
-#include <assert.h>
-#else
-#define assert(Pred)
+#شامل <assert.h>
+#وگرنه
+#define أكد(Pred)
 #endif
 
 #ifdef HAVE_LIMITS_H
-#include <limits.h>
+#شامل <limits.h>
 #endif
 /* Required: dup() and dup2() in <unistd.h> */
-#include <unistd.h>
+#شامل <unistd.h>
 #ifdef HAVE_NETINET_IN_H
-#include <netinet/in.h>
+#شامل <netinet/in.h>
 #endif
 #ifdef HAVE_SYS_PARAMS_H
-#include <sys/params.h>
+#شامل <sys/params.h>
 #endif
 /* Required: wait() in <sys/wait.h> */
-#include <sys/wait.h>
+#شامل <sys/wait.h>
 #ifdef HAVE_STDBOOL_H
-#include <stdbool.h>
-#elif !defined(__cplusplus) && (!defined(__STDC_VERSION__) || \
+#شامل <stdbool.h>
+#وگرنهاگر !defined(__cplusplus) && (!defined(__STDC_VERSION__) || \
       __STDC_VERSION__ < 202311L)
 # ifdef HAVE__BOOL
 #  define bool _Bool
-# else
-#  define bool int
+# وگرنه
+#  define bool صحیح
 # endif
 # define false 0
 # define true 1
 #endif
-#include <stdarg.h>
+#شامل <stdarg.h>
 /* Required: regcomp(), regexec() and regerror() in <regex.h> */
-#include <regex.h>
+#شامل <regex.h>
 /* Required: strcasecmp() in <strings.h> */
-#include <strings.h>
-#include "flexint.h"
+#شامل <strings.h>
+#شامل "flexint.h"
 
 /* We use gettext. So, when we write strings which should be translated, we
  * mark them with _()
  */
-#if defined(ENABLE_NLS) && ENABLE_NLS
+#اگر defined(ENABLE_NLS) && ENABLE_NLS
 #ifdef HAVE_LOCALE_H
-#include <locale.h>
+#شامل <locale.h>
 #endif /* HAVE_LOCALE_H */
-#include "gettext.h"
+#شامل "gettext.h"
 #define _(String) gettext (String)
-#else
+#وگرنه
 #define _(STRING) STRING
 #endif /* ENABLE_NLS */
 
@@ -236,7 +236,7 @@
 #define INITIAL_MAX_SCS 40	/* maximum number of start conditions */
 #define MAX_SCS_INCREMENT 40	/* amount to bump by if it's not enough */
 
-#define ONE_STACK_SIZE 500	/* stack of states with only one out-transition */
+#define ONE_پشته_SIZE 500	/* stack of states with only one out-transition */
 #define SAME_TRANS -1		/* transition is the same as "default" entry for state */
 
 /* The following percentages are used to tune table compression:
@@ -309,7 +309,7 @@
  */
 #define BAD_SUBSCRIPT -32767
 
-typedef enum trit_t {
+تعریفنوع شمارش trit_t {
 	trit_unspecified = -1,
 	trit_false = 0,
 	trit_true = 1,
@@ -319,14 +319,14 @@ typedef enum trit_t {
  * twice for each option, instead a single struct can be declared and externed.
  * If it's in this structure, it has a corresponding m4 symbol.
  */
-struct ctrl_bundle_t {
+ساختار ctrl_bundle_t {
 	bool always_interactive;// always use character-by-character input
 	FILE *backing_up_file;	// file to summarize backing-up states to 
 	bool bison_bridge_lval;	// (--bison-bridge), bison pure calling convention. 
 	bool bison_bridge_lloc;	// (--bison-locations), bison yylloc.
 	size_t bufsize;		// input buffer size
 	bool C_plus_plus;	// (-+ flag) generate a C++ scanner class 
-	int csize;		// size of character set for the scanner 
+	صحیح csize;		// size of character set for the scanner 
 				// 128 for 7-bit chars and 256 for 8-bit 
 	bool ddebug;		// (-d) make a "debug" scanner 
 	trit do_main;		// generate main part to make lexer standalone.
@@ -336,7 +336,7 @@ struct ctrl_bundle_t {
 				// If false, EOF treated as "no more files" 
 	bool fullspd;		// (-F flag) use Jacobson method of table representation 
 	bool fulltbl;		// (-Cf flag) don't compress the DFA state table 
- 	bool gen_line_dirs;	// (no -L flag) generate #line directives 
+ 	bool gen_سطر_dirs;	// (no -L flag) generate #line directives 
 	trit interactive;	// (-I) generate an interactive scanner
 	bool never_interactive;	// always use buffered input, don't check for tty.
 	bool lex_compat;	// (-l), maximize compatibility with AT&T lex 
@@ -344,35 +344,35 @@ struct ctrl_bundle_t {
 	bool no_yyinput;	// suppress use of yyinput()
 	bool no_unistd;		// suppress inclusion of unistd.h
 	bool posix_compat;	// (-X) maximize compatibility with POSIX lex 
-	char *prefix;		// prefix for externally visible names, default "yy" 
+	نویسه *prefix;		// prefix for externally visible names, default "yy" 
 	trit reject_really_used;// Force generation of support code for reject operation
 	bool reentrant;		// if true (-R), generate a reentrant C scanner
 	bool rewrite;		// Appl;y magic rewre rles to special fumctions 
-	bool stack_used;	// Enable use of start-condition stacks
+	bool پشته_used;	// Enable use of start-condition stacks
 	bool no_section3_escape;// True if the undocumented option --unsafe-no-m4-sect3-escape was passed
 	bool spprdflt;		// (-s) suppress the default rule
 	bool useecs;		// (-Ce flag) use equivalence classes 
 	bool usemecs;		// (-Cm flag), use meta-equivalence classes 
 	bool use_read;		// (-f, -F, or -Cr) use read() for scanner input 
        				// otherwise, use fread(). 
-	char *yyclass;		// yyFlexLexer subclass to use for YY_DECL
-	char *yydecl;		// user-specified prototype for yylex.
-	int yylmax;		// Maximum buffer length if %array
+	نویسه *yyclass;		// yyFlexLexer subclass to use for YY_DECL
+	نویسه *yydecl;		// user-specified prototype for yylex.
+	صحیح yylmax;		// Maximum buffer length if %array
 	trit yymore_really_used;// Force geberation of support code for yymore
 	bool yytext_is_array;	// if true (i.e., %array directive), then declare
 				// yytext as array instead of a character pointer.
 				// Nice and inefficient.
 	bool noyyread;		// User supplied a yyread function, don't generate default
-	char *userinit;		// Code fragment to be inserted before scanning
-	char *preaction;	// Code fragment to be inserted before each action
-	char *postaction;	// Code fragment to be inserted after each action
-	char *emit;		// Specify target language to emit.
-	char *yyterminate;	// Set a non-default termination hook.
+	نویسه *userinit;		// Code fragment to be inserted before scanning
+	نویسه *preaction;	// Code fragment to be inserted before each action
+	نویسه *postaction;	// Code fragment to be inserted after each action
+	نویسه *emit;		// Specify target language to emit.
+	نویسه *yyterminate;	// Set a non-default termination hook.
 	bool no_yypanic;	// if true, no not generate default yypanic function
  	// flags corresponding to the huge mass of --no-yy options
-	bool no_yy_push_state;
-	bool no_yy_pop_state;
-	bool no_yy_top_state;
+	bool no_yy_افزودن_state;
+	bool no_yy_برداشت_state;
+	bool no_yy_بالاترین_state;
 	bool no_yyunput;
 	bool no_yy_scan_buffer;
 	bool no_yy_scan_bytes;
@@ -399,9 +399,9 @@ struct ctrl_bundle_t {
 	bool no_get_debug;
 	bool no_set_debug;
 	// Properties read from the skeleton
-	const char *backend_name;	// What the back end tells you its name is
-	const char *traceline_re;	// Regular expression for recognizing tracelines */
-	const char *traceline_template;	// templare for emitting trace lines */
+	ثابت نویسه *backend_name;	// What the back end tells you its name is
+	ثابت نویسه *traceline_re;	// Regular expression for recognizing tracelines */
+	ثابت نویسه *traceline_template;	// templare for emitting trace lines */
 	bool have_state_entry_format;	// Do we know how to make a state entry address?
 };
 
@@ -409,19 +409,19 @@ struct ctrl_bundle_t {
  * not have corresponding m4 symbols and do not affect the behavior of
  * the generated parser.
  */
-struct env_bundle_t {
+ساختار env_bundle_t {
 	bool backing_up_report;	// (-b flag), generate "lex.backup" file 
 				// listing backing-up states
 	bool did_outfilename;	// whether outfilename was explicitly set
-	char *headerfilename;	// name of the .h file to generate
+	نویسه *headerfilename;	// name of the .h file to generate
 	bool nowarn;		// (-w) do not generate warnings 
-	int performance_hint;	// if > 0 (i.e., -p flag), generate a report 
+	صحیح performance_hint;	// if > 0 (i.e., -p flag), generate a report 
 				// relating to scanner performance; 
 				// if > 1 (-p -p), report 
  				// on minor performance problems, too.
-	char *outfilename;	// output file name
+	نویسه *outfilename;	// output file name
 	bool printstats;	// (-v) dump statistics
-	char *skelname;		// name of skeleton for code generation
+	نویسه *skelname;		// name of skeleton for code generation
 	FILE *skelfile;		// the skeleton file'd descriptor
 	bool trace;		// (-T) env.trace processing 
 	bool trace_hex; 	// use hex in trace/debug outputs not octal
@@ -429,13 +429,13 @@ struct env_bundle_t {
 };
 
 /* Name and byte-width information on a type for code-generation purposes. */
-struct packtype_t {
-	char *name;
+ساختار packtype_t {
+	نویسه *name;
 	size_t width;
 };
 
-extern struct ctrl_bundle_t ctrl;
-extern struct env_bundle_t env;
+بیرونی ساختار ctrl_bundle_t ctrl;
+بیرونی ساختار env_bundle_t env;
 
 /* Declarations for global variables. */
 
@@ -455,8 +455,8 @@ extern struct env_bundle_t env;
  * reject_really_used - same for REJECT
   */
 
-extern bool syntaxerror, eofseen;
-extern int yymore_used, reject, real_reject, continued_action, in_rule;
+بیرونی bool syntaxerror, eofseen;
+بیرونی صحیح yymore_used, reject, real_reject, continued_action, in_rule;
 
 /* Variables used in the flex input routines:
  * datapos - characters on current output line
@@ -482,17 +482,17 @@ extern int yymore_used, reject, real_reject, continued_action, in_rule;
  * always_interactive - if true, generate an interactive scanner
  */
 
-extern int datapos, dataline, linenum;
-extern int skel_ind;
-extern char *infilename;
-extern char *extra_type;
-extern char **input_files;
-extern int num_input_files;
-extern char *program_name;
+بیرونی صحیح datapos, dataline, linenum;
+بیرونی صحیح skel_ind;
+بیرونی نویسه *infilename;
+بیرونی نویسه *extra_type;
+بیرونی نویسه **درون_داد_files;
+بیرونی صحیح رقم_درون_داد_files;
+بیرونی نویسه *program_name;
 
-extern char *action_array;
-extern int action_size;
-extern int defs1_offset, prolog_offset, action_offset, action_index;
+بیرونی نویسه *action_array;
+بیرونی صحیح action_size;
+بیرونی صحیح defs1_offset, prolog_offset, action_offset, action_index;
 
 
 /* Variables for stack of states having only one out-transition:
@@ -503,8 +503,8 @@ extern int defs1_offset, prolog_offset, action_offset, action_index;
  * onesp - stack pointer
  */
 
-extern int onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
-extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
+بیرونی صحیح onestate[ONE_پشته_SIZE], onesym[ONE_پشته_SIZE];
+بیرونی صحیح onenext[ONE_پشته_SIZE], onedef[ONE_پشته_SIZE], onesp;
 
 
 /* Variables for nfa machine data:
@@ -541,16 +541,16 @@ extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
  * footprint - total size of tables, in bytes.
  */
 
-extern int maximum_mns, current_mns, current_max_rules;
-extern int num_rules, num_eof_rules, default_rule, lastnfa;
-extern int *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
-extern int *accptnum, *assoc_rule, *state_type;
-extern int *rule_type, *rule_linenum;
+بیرونی صحیح maximum_mns, current_mns, current_max_rules;
+بیرونی صحیح رقم_rules, رقم_eof_rules, default_rule, lastnfa;
+بیرونی صحیح *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
+بیرونی صحیح *accptnum, *assoc_rule, *state_type;
+بیرونی صحیح *rule_type, *rule_linenum;
 /* rule_useful[], rule_has_nl[] and ccl_has_nl[] are boolean arrays,
  * but allocated as char arrays for size. */
-extern char *rule_useful, *rule_has_nl, *ccl_has_nl;
-extern int nlch;
-extern size_t footprint;
+بیرونی نویسه *rule_useful, *rule_has_nl, *ccl_has_nl;
+بیرونی صحیح nlch;
+بیرونی size_t footprint;
 
 
 /* Different types of states; values are useful as masks, as well, for
@@ -561,7 +561,7 @@ extern size_t footprint;
 
 /* Global holding current type of state we're making. */
 
-extern int current_state_type;
+بیرونی صحیح current_state_type;
 
 /* Different types of rules. */
 #define RULE_NORMAL 0
@@ -570,7 +570,7 @@ extern int current_state_type;
 /* True if the input rules include a rule with both variable-length head
  * and trailing context, false otherwise.
  */
-extern bool variable_trailing_context_rules;
+بیرونی bool variable_trailing_context_rules;
 
 
 /* Variables for protos:
@@ -585,8 +585,8 @@ extern bool variable_trailing_context_rules;
  * protsave contains the entire state array for protos
  */
 
-extern int numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
-extern int protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
+بیرونی صحیح numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
+بیرونی صحیح protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
 
 
 /* Variables for managing equivalence classes:
@@ -604,14 +604,14 @@ extern int protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
  * for the NUL character.  Later we'll move this information into
  * the 0th element.
  */
-extern int numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs;
+بیرونی صحیح numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs;
 
 /* Meta-equivalence classes are indexed starting at 1, so it's possible
  * that they will require positions from 1 .. CSIZE, i.e., CSIZE + 1
  * slots total (since the arrays are 0-based).  nextecm[] and ecgroup[]
  * don't require the extra position since they're indexed from 1 .. CSIZE - 1.
  */
-extern int tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
+بیرونی صحیح tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
 
 
 /* Variables for start conditions:
@@ -624,12 +624,12 @@ extern int tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
  * scname - start condition name
  */
 
-extern int lastsc, *scset, *scbol;
+بیرونی صحیح lastsc, *scset, *scbol;
 /* scxclu[] and sceof[] are boolean arrays, but allocated as char
  * arrays for size. */
-extern char *scxclu, *sceof;
-extern int current_max_scs;
-extern const char **scname;
+بیرونی نویسه *scxclu, *sceof;
+بیرونی صحیح current_max_scs;
+بیرونی ثابت نویسه **scname;
 
 
 /* Variables for dfa machine data:
@@ -662,18 +662,18 @@ extern const char **scname;
  * end_of_buffer_state - end-of-buffer dfa state number
  */
 
-extern int current_max_dfa_size, current_max_xpairs;
-extern int current_max_template_xpairs, current_max_dfas;
-extern int lastdfa, *nxt, *chk, *tnxt;
-extern int *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss,
+بیرونی صحیح current_max_dfa_size, current_max_xpairs;
+بیرونی صحیح current_max_template_xpairs, current_max_dfas;
+بیرونی صحیح lastdfa, *nxt, *chk, *tnxt;
+بیرونی صحیح *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss,
 	*dfasiz;
-extern union dfaacc_union {
-	int    *dfaacc_set;
-	int     dfaacc_state;
+بیرونی اجتماع dfaacc_union {
+	صحیح    *dfaacc_set;
+	صحیح     dfaacc_state;
 }      *dfaacc;
-extern int *accsiz, *dhash, numas;
-extern int numsnpairs, jambase, jamstate;
-extern int end_of_buffer_state;
+بیرونی صحیح *accsiz, *dhash, numas;
+بیرونی صحیح numsnpairs, jambase, jamstate;
+بیرونی صحیح end_of_buffer_state;
 
 /* Variables for ccl information:
  * lastccl - ccl index of the last created ccl
@@ -687,9 +687,9 @@ extern int end_of_buffer_state;
  * ccltbl - holds the characters in each ccl - indexed by cclmap
  */
 
-extern int lastccl, *cclmap, *ccllen, *cclng, cclreuse;
-extern int current_maxccls, current_max_ccl_tbl_size;
-extern unsigned char *ccltbl;
+بیرونی صحیح lastccl, *cclmap, *ccllen, *cclng, cclreuse;
+بیرونی صحیح current_maxccls, current_max_ccl_tbl_size;
+بیرونی unsigned نویسه *ccltbl;
 
 
 /* Variables for miscellaneous information:
@@ -713,43 +713,43 @@ extern unsigned char *ccltbl;
  * bol_needed - whether scanner needs beginning-of-line recognition
  */
 
-extern char nmstr[MAXLINE];
-extern int sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
-extern int tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
-extern int num_backing_up, bol_needed;
+بیرونی نویسه nmstr[MAXLINE];
+بیرونی صحیح sectnum, nummt, hshcol, dfaeql, numeps, eps2, رقم_reallocs, nmval;
+بیرونی صحیح tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
+بیرونی صحیح رقم_backing_up, bol_needed;
 
-void   *allocate_array(int, size_t);
-void   *reallocate_array(void *, int, size_t);
+تهی   *allocate_array(صحیح, size_t);
+تهی   *reallocate_array(تهی *, صحیح, size_t);
 
 #define allocate_integer_array(size) \
-	allocate_array(size, sizeof(int))
+	allocate_array(size, اندازه(صحیح))
 
 #define reallocate_integer_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(int))
+	reallocate_array((تهی *) array, size, اندازه(صحیح))
 
 #define allocate_int_ptr_array(size) \
-	allocate_array(size, sizeof(int *))
+	allocate_array(size, اندازه(صحیح *))
 
 #define allocate_char_ptr_array(size) \
-	allocate_array(size, sizeof(char *))
+	allocate_array(size, اندازه(نویسه *))
 
 #define reallocate_int_ptr_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(int *))
+	reallocate_array((تهی *) array, size, اندازه(صحیح *))
 
 #define reallocate_char_ptr_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(char *))
+	reallocate_array((تهی *) array, size, اندازه(نویسه *))
 
 #define allocate_character_array(size) \
-	allocate_array( size, sizeof(char))
+	allocate_array( size, اندازه(نویسه))
 
 #define reallocate_character_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(char))
+	reallocate_array((تهی *) array, size, اندازه(نویسه))
 
 #define allocate_Character_array(size) \
-	allocate_array(size, sizeof(unsigned char))
+	allocate_array(size, اندازه(unsigned نویسه))
 
 #define reallocate_Character_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(unsigned char))
+	reallocate_array((تهی *) array, size, اندازه(unsigned نویسه))
 
 
 /* External functions that are cross-referenced among the flex source files. */
@@ -757,357 +757,357 @@ void   *reallocate_array(void *, int, size_t);
 
 /* from file ccl.c */
 
-extern void ccladd(int, int);	/* add a single character to a ccl */
-extern int cclinit(void);	/* make an empty ccl */
-extern void cclnegate(int);	/* negate a ccl */
-extern int ccl_set_diff (int a, int b); /* set difference of two ccls. */
-extern int ccl_set_union (int a, int b); /* set union of two ccls. */
+بیرونی تهی ccladd(صحیح, صحیح);	/* add a single character to a ccl */
+بیرونی صحیح cclinit(تهی);	/* make an empty ccl */
+بیرونی تهی cclnegate(صحیح);	/* negate a ccl */
+بیرونی صحیح ccl_set_diff (صحیح a, صحیح b); /* set difference of two ccls. */
+بیرونی صحیح ccl_set_union (صحیح a, صحیح b); /* set union of two ccls. */
 
 /* List the members of a set of characters in CCL form. */
-extern void list_character_set(FILE *, int[]);
+بیرونی تهی list_character_set(FILE *, صحیح[]);
 
 
 /* from file dfa.c */
 
 /* Increase the maximum number of dfas. */
-extern void increase_max_dfas(void);
+بیرونی تهی increase_max_dfas(تهی);
 
-extern size_t ntod(void);	/* convert a ndfa to a dfa */
+بیرونی size_t ntod(تهی);	/* convert a ndfa to a dfa */
 
 
 /* from file ecs.c */
 
 /* Convert character classes to set of equivalence classes. */
-extern void ccl2ecl(void);
+بیرونی تهی ccl2ecl(تهی);
 
 /* Associate equivalence class numbers with class members. */
-extern int cre8ecs(int[], int[], int);
+بیرونی صحیح cre8ecs(صحیح[], صحیح[], صحیح);
 
 /* Update equivalence classes based on character class transitions. */
-extern void mkeccl(unsigned char[], int, int[], int[], int, int);
+بیرونی تهی mkeccl(unsigned نویسه[], صحیح, صحیح[], صحیح[], صحیح, صحیح);
 
 /* Create equivalence class for single character. */
-extern void mkechar(int, int[], int[]);
+بیرونی تهی mkechar(صحیح, صحیح[], صحیح[]);
 
 
 /* from file gen.c */
 
 /* Set a conditional amd make it visible in generated code */
-extern void visible_define (const char *);
+بیرونی تهی visible_define (ثابت نویسه *);
 
 /* And again, with an explicit value part. */
-extern void visible_define_str (const char *, const char *);
+بیرونی تهی visible_define_str (ثابت نویسه *, ثابت نویسه *);
 
 /* This time the value part is an int */
-extern void visible_define_int (const char *, const int);
+بیرونی تهی visible_define_int (ثابت نویسه *, ثابت صحیح);
 
 /* generate transition tables */
-extern void make_tables(void);
+بیرونی تهی make_tables(تهی);
 
 /* Select a type for optimal packing */
-struct packtype_t *optimize_pack(size_t);
+ساختار packtype_t *optimize_pack(size_t);
 
 /* from file main.c */
 
-extern void check_options(void);
-extern void flexend(int);
-extern void usage(void);
+بیرونی تهی check_options(تهی);
+بیرونی تهی flexend(صحیح);
+بیرونی تهی usage(تهی);
 
 
 /* from file misc.c */
 
 /* Add the given text to the stored actions. */
-extern void add_action(const char *new_text);
+بیرونی تهی add_action(ثابت نویسه *new_text);
 
 /* True if a string is all lower case. */
-extern int all_lower(char *);
+بیرونی صحیح all_lower(نویسه *);
 
 /* True if a string is all upper case. */
-extern int all_upper(char *);
+بیرونی صحیح all_upper(نویسه *);
 
 /* Compare two integers for use by qsort. */
-extern int intcmp(const void *, const void *);
+بیرونی صحیح intcmp(ثابت تهی *, ثابت تهی *);
 
 /* Check a character to make sure it's in the expected range. */
-extern void check_char(int c);
+بیرونی تهی check_char(صحیح c);
 
 /* Replace upper-case letter to lower-case. */
-extern unsigned char clower(int);
+بیرونی unsigned نویسه clower(صحیح);
 
 /* strdup() that fails fatally on allocation failures. */
-extern char *xstrdup(const char *);
+بیرونی نویسه *xstrdup(ثابت نویسه *);
 
 /* Compare two characters for use by qsort with '\0' sorting last. */
-extern int cclcmp(const void *, const void *);
+بیرونی صحیح cclcmp(ثابت تهی *, ثابت تهی *);
 
 /* Finish up a block of data declarations. */
-extern void dataend(const char *);
+بیرونی تهی dataend(ثابت نویسه *);
 
 /* Flush generated data statements. */
-extern void dataflush(void);
+بیرونی تهی dataflush(تهی);
 
 /* Report an error message and terminate. */
-extern void flexerror(const char *);
+بیرونی تهی flexerror(ثابت نویسه *);
 
 /* Report a fatal error message and terminate. */
-extern void flexfatal(const char *);
+بیرونی تهی flexfatal(ثابت نویسه *);
 
 /* Report a fatal error with a pinpoint, and terminate */
 #ifdef HAVE_DECL___FUNC__
-#define flex_die(msg) \
-    do{ \
+#define flex_die(پیام) \
+    انجامبده{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d (%s): %s\n"),\
-                program_name, __FILE__, (int)__LINE__,\
-                __func__,msg);\
+                program_name, __FILE__, (صحیح)__LINE__,\
+                __func__,پیام);\
         FLEX_EXIT(1);\
-    }while(0)
-#else /* ! HAVE_DECL___FUNC__ */
-#define flex_die(msg) \
-    do{ \
+    }وقتی(0)
+#وگرنه /* ! HAVE_DECL___FUNC__ */
+#define flex_die(پیام) \
+    انجامبده{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d %s\n"),\
-                program_name, __FILE__, (int)__LINE__,\
-                msg);\
+                program_name, __FILE__, (صحیح)__LINE__,\
+                پیام);\
         FLEX_EXIT(1);\
-    }while(0)
+    }وقتی(0)
 #endif /* ! HAVE_DECL___func__ */
 
 /* Report an error message formatted  */
-extern void lerr(const char *, ...)
-#if defined(__GNUC__) && __GNUC__ >= 3
+بیرونی تهی lerr(ثابت نویسه *, ...)
+#اگر defined(__GNUC__) && __GNUC__ >= 3
     __attribute__((__format__(__printf__, 1, 2)))
 #endif
 ;
 
 /* Like lerr, but also exit after displaying message. */
-extern void lerr_fatal(const char *, ...)
-#if defined(__GNUC__) && __GNUC__ >= 3
+بیرونی تهی lerr_fatal(ثابت نویسه *, ...)
+#اگر defined(__GNUC__) && __GNUC__ >= 3
     __attribute__((__format__(__printf__, 1, 2)))
 #endif
 ;
 
 /* Spit out a "#line" statement. */
-extern void line_directive_out(FILE *, char *, int);
+بیرونی تهی سطر_directive_out(FILE *, نویسه *, صحیح);
 
 /* Mark the current position in the action array as the end of the section 1
  * user defs.
  */
-extern void mark_defs1(void);
+بیرونی تهی mark_defs1(تهی);
 
 /* Mark the current position in the action array as the end of the prolog. */
-extern void mark_prolog(void);
+بیرونی تهی mark_prolog(تهی);
 
 /* Generate a data statement for a two-dimensional array. */
-extern void mk2data(int);
+بیرونی تهی mk2data(صحیح);
 
-extern void mkdata(int);	/* generate a data statement */
+بیرونی تهی mkdata(صحیح);	/* generate a data statement */
 
 /* Return the integer represented by a string of digits. */
-extern int myctoi(const char *);
+بیرونی صحیح myctoi(ثابت نویسه *);
 
 /* Return character corresponding to escape sequence. */
-extern unsigned char myesc(unsigned char[]);
+بیرونی unsigned نویسه myesc(unsigned نویسه[]);
 
 /* Output a (possibly-formatted) string to the generated scanner. */
-extern void out(const char *);
-extern void out_dec(const char *, int);
-extern void out_dec2(const char *, int, int);
-extern void out_hex(const char *, unsigned int);
-extern void out_str(const char *, const char *);
-extern void out_str_dec(const char *, const char *, int);
-extern void outc(int);
-extern void outn(const char *);
-extern void out_m4_define(const char* def, const char* val);
+بیرونی تهی out(ثابت نویسه *);
+بیرونی تهی out_dec(ثابت نویسه *, صحیح);
+بیرونی تهی out_dec2(ثابت نویسه *, صحیح, صحیح);
+بیرونی تهی out_hex(ثابت نویسه *, unsigned صحیح);
+بیرونی تهی out_str(ثابت نویسه *, ثابت نویسه *);
+بیرونی تهی out_str_dec(ثابت نویسه *, ثابت نویسه *, صحیح);
+بیرونی تهی outc(صحیح);
+بیرونی تهی outn(ثابت نویسه *);
+بیرونی تهی out_m4_define(ثابت نویسه* def, ثابت نویسه* val);
 
 /* Return a printable version of the given character, which might be
  * 8-bit.
  */
-extern char *readable_form(int);
+بیرونی نویسه *readable_form(صحیح);
 
 /* Output a yy_trans_info structure. */
-extern void transition_struct_out(int, int);
+بیرونی تهی transition_struct_out(صحیح, صحیح);
 
 /* Only needed when using certain broken versions of bison to build parse.c. */
-extern void *yy_flex_xmalloc(int);
+بیرونی تهی *yy_flex_xmalloc(صحیح);
 
 
 /* from file nfa.c */
 
 /* Add an accepting state to a machine. */
-extern void add_accept(int, int);
+بیرونی تهی add_accept(صحیح, صحیح);
 
 /* Make a given number of copies of a singleton machine. */
-extern int copysingl(int, int);
+بیرونی صحیح copysingl(صحیح, صحیح);
 
 /* Debugging routine to write out an nfa. */
-extern void dumpnfa(int);
+بیرونی تهی dumpnfa(صحیح);
 
 /* Finish up the processing for a rule. */
-extern void finish_rule(int, bool, int, int, int);
+بیرونی تهی finish_rule(صحیح, bool, صحیح, صحیح, صحیح);
 
 /* Connect two machines together. */
-extern int link_machines(int, int);
+بیرونی صحیح link_machines(صحیح, صحیح);
 
 /* Mark each "beginning" state in a machine as being a "normal" (i.e.,
  * not trailing context associated) state.
  */
-extern void mark_beginning_as_normal(int);
+بیرونی تهی mark_beginning_as_normal(صحیح);
 
 /* Make a machine that branches to two machines. */
-extern int mkbranch(int, int);
+بیرونی صحیح mkbranch(صحیح, صحیح);
 
-extern int mkclos(int);	/* convert a machine into a closure */
-extern int mkopt(int);	/* make a machine optional */
+بیرونی صحیح mkclos(صحیح);	/* convert a machine into a closure */
+بیرونی صحیح mkopt(صحیح);	/* make a machine optional */
 
 /* Make a machine that matches either one of two machines. */
-extern int mkor(int, int);
+بیرونی صحیح mkor(صحیح, صحیح);
 
 /* Convert a machine into a positive closure. */
-extern int mkposcl(int);
+بیرونی صحیح mkposcl(صحیح);
 
-extern int mkrep(int, int, int);	/* make a replicated machine */
+بیرونی صحیح mkrep(صحیح, صحیح, صحیح);	/* make a replicated machine */
 
 /* Create a state with a transition on a given symbol. */
-extern int mkstate(int);
+بیرونی صحیح mkstate(صحیح);
 
-extern void new_rule(void);	/* initialize for a new rule */
+بیرونی تهی new_rule(تهی);	/* initialize for a new rule */
 
 
 /* from file parse.y */
 
 /* Build the "<<EOF>>" action for the active start conditions. */
-extern void build_eof_action(void);
+بیرونی تهی build_eof_action(تهی);
 
 /* Write out a message formatted with one string, pinpointing its location. */
-extern void format_pinpoint_message(const char *, const char *);
+بیرونی تهی format_pinpoint_message(ثابت نویسه *, ثابت نویسه *);
 
 /* Write out a message, pinpointing its location. */
-extern void pinpoint_message(const char *);
+بیرونی تهی pinpoint_message(ثابت نویسه *);
 
 /* Write out a warning, pinpointing it at the given line. */
-extern void line_warning(const char *, int);
+بیرونی تهی سطر_warning(ثابت نویسه *, صحیح);
 
 /* Write out a message, pinpointing it at the given line. */
-extern void line_pinpoint(const char *, int);
+بیرونی تهی سطر_pinpoint(ثابت نویسه *, صحیح);
 
 /* Report a formatted syntax error. */
-extern void format_synerr(const char *, const char *);
-extern void synerr(const char *);	/* report a syntax error */
-extern void format_warn(const char *, const char *);
-extern void lwarn(const char *);	/* report a warning */
-extern void yyerror(const char *);	/* report a parse error */
-extern int yyparse(void);		/* the YACC parser */
+بیرونی تهی format_synerr(ثابت نویسه *, ثابت نویسه *);
+بیرونی تهی synerr(ثابت نویسه *);	/* report a syntax error */
+بیرونی تهی format_warn(ثابت نویسه *, ثابت نویسه *);
+بیرونی تهی lwarn(ثابت نویسه *);	/* report a warning */
+بیرونی تهی yyerror(ثابت نویسه *);	/* report a parse error */
+بیرونی صحیح yyparse(تهی);		/* the YACC parser */
 
 /* Ship a comment to the generated output */
-extern void comment(const char *);
+بیرونی تهی comment(ثابت نویسه *);
 
 /* from file scan.l */
 
 /* The Flex-generated scanner for flex. */
-extern int flexscan(void);
+بیرونی صحیح flexscan(تهی);
 
 /* Open the given file (if NULL, stdin) for scanning. */
-extern void set_input_file(char *);
+بیرونی تهی set_درون_داد_file(نویسه *);
 
 /* from file skeletons.c */
 
 /* return the correct file suffix for the selected back end */
-const char *suffix (void);
+ثابت نویسه *suffix (تهی);
 
 /* Mine a text-valued property out of the skeleton file */
-extern const char *skel_property(const char *);
+بیرونی ثابت نویسه *skel_property(ثابت نویسه *);
 
 /* Is the default back end selected?*/
-extern bool is_default_backend(void);
+بیرونی bool is_default_backend(تهی);
 
 /* Select a backend by name */
-extern void backend_by_name(const char *);
+بیرونی تهی backend_by_name(ثابت نویسه *);
 
 /* Write out one section of the skeleton file. */
-extern void skelout(bool);
+بیرونی تهی skelout(bool);
 
 /* from file sym.c */
 
 /* Save the text of a character class. */
-extern void cclinstal(char[], int);
+بیرونی تهی cclinstal(نویسه[], صحیح);
 
 /* Lookup the number associated with character class. */
-extern int ccllookup(char[]);
+بیرونی صحیح ccllookup(نویسه[]);
 
-extern void ndinstal(const char *, char[]);	/* install a name definition */
-extern char *ndlookup(const char *);	/* lookup a name definition */
+بیرونی تهی ndinstal(ثابت نویسه *, نویسه[]);	/* install a name definition */
+بیرونی نویسه *ndlookup(ثابت نویسه *);	/* lookup a name definition */
 
 /* Increase maximum number of SC's. */
-extern void scextend(void);
-extern void scinstal(const char *, bool);	/* make a start condition */
+بیرونی تهی scextend(تهی);
+بیرونی تهی scinstal(ثابت نویسه *, bool);	/* make a start condition */
 
 /* Lookup the number associated with a start condition. */
-extern int sclookup(const char *);
+بیرونی صحیح sclookup(ثابت نویسه *);
 
 /* Supply context argument for a function if required */
-extern void context_call(char *);
+بیرونی تهی context_call(نویسه *);
 
 /* from file tblcmp.c */
 
 /* Build table entries for dfa state. */
-extern void bldtbl(int[], int, int, int, int);
+بیرونی تهی bldtbl(صحیح[], صحیح, صحیح, صحیح, صحیح);
 
-extern void cmptmps(void);	/* compress template table entries */
-extern void expand_nxt_chk(void);	/* increase nxt/chk arrays */
+بیرونی تهی cmptmps(تهی);	/* compress template table entries */
+بیرونی تهی expand_nxt_chk(تهی);	/* increase nxt/chk arrays */
 
 /* Finds a space in the table for a state to be placed. */
-extern int find_table_space(int *, int);
-extern void inittbl(void);	/* initialize transition tables */
+بیرونی صحیح find_table_space(صحیح *, صحیح);
+بیرونی تهی inittbl(تهی);	/* initialize transition tables */
 
 /* Make the default, "jam" table entries. */
-extern void mkdeftbl(void);
+بیرونی تهی mkdeftbl(تهی);
 
 /* Create table entries for a state (or state fragment) which has
  * only one out-transition.
  */
-extern void mk1tbl(int, int, int, int);
+بیرونی تهی mk1tbl(صحیح, صحیح, صحیح, صحیح);
 
 /* Place a state into full speed transition table. */
-extern void place_state(int *, int, int);
+بیرونی تهی place_state(صحیح *, صحیح, صحیح);
 
 /* Save states with only one out-transition to be processed later. */
-extern void stack1(int, int, int, int);
+بیرونی تهی stack1(صحیح, صحیح, صحیح, صحیح);
 
 
 /* from file yylex.c */
 
-extern int yylex(void);
+بیرونی صحیح yylex(تهی);
 
 /* A growable array. See buf.c. */
-struct Buf {
-	void   *elts;		/* elements. */
-	int     nelts;		/* number of elements. */
+ساختار Buf {
+	تهی   *elts;		/* elements. */
+	صحیح     nelts;		/* number of elements. */
 	size_t  elt_size;	/* in bytes. */
-	int     nmax;		/* max capacity of elements. */
+	صحیح     nmax;		/* max capacity of elements. */
 };
 
-extern void buf_init(struct Buf * buf, size_t elem_size);
-extern void buf_destroy(struct Buf * buf);
-extern struct Buf *buf_append(struct Buf * buf, const void *ptr, int n_elem);
-extern struct Buf *buf_strappend(struct Buf *, const char *str);
-extern struct Buf *buf_strnappend(struct Buf *, const char *str, int nchars);
-extern struct Buf *buf_prints(struct Buf *buf, const char *fmt, const char* s);
+بیرونی تهی buf_init(ساختار Buf * buf, size_t elem_size);
+بیرونی تهی buf_destroy(ساختار Buf * buf);
+بیرونی ساختار Buf *buf_append(ساختار Buf * buf, ثابت تهی *ptr, صحیح n_elem);
+بیرونی ساختار Buf *buf_strappend(ساختار Buf *, ثابت نویسه *str);
+بیرونی ساختار Buf *buf_strnappend(ساختار Buf *, ثابت نویسه *str, صحیح nchars);
+بیرونی ساختار Buf *buf_prints(ساختار Buf *buf, ثابت نویسه *fmt, ثابت نویسه* s);
 
-extern struct Buf userdef_buf; /* a string buffer for #define's generated by user-options on cmd line. */
-extern struct Buf top_buf;     /* contains %top code. String buffer. */
+بیرونی ساختار Buf userdef_buf; /* a string buffer for #define's generated by user-options on cmd line. */
+بیرونی ساختار Buf بالاترین_buf;     /* contains %top code. String buffer. */
 
 /* For blocking out code from the header file. */
 #define OUT_BEGIN_CODE() outn("m4_ifdef( [[M4_YY_IN_HEADER]],,[[m4_dnl")
 #define OUT_END_CODE()   outn("]])")
 
 /* For setjmp/longjmp (instead of calling exit(2)). Linkage in main.c */
-extern jmp_buf flex_main_jmp_buf;
+بیرونی jmp_buf flex_main_jmp_buf;
 
 #define FLEX_EXIT(status) longjmp(flex_main_jmp_buf,(status)+1)
 
 /* Removes all \n and \r chars from tail of str. returns str. */
-extern char *chomp (char *str);
+بیرونی نویسه *chomp (نویسه *str);
 
 /* ctype functions forced to return boolean */
 #define b_isalnum(c) (isalnum(c)?true:false)
@@ -1125,13 +1125,13 @@ extern char *chomp (char *str);
 #define b_isxdigit(c) (isxdigit(c)?true:false)
 
 /* return true if char is uppercase or lowercase. */
-bool has_case(int c);
+bool has_case(صحیح c);
 
 /* Change case of character if possible. */
-int reverse_case(int c);
+صحیح reverse_case(صحیح c);
 
 /* return false if [c1-c2] is ambiguous for a caseless scanner. */
-bool range_covers_case (int c1, int c2);
+bool range_covers_case (صحیح c1, صحیح c2);
 
 /*
  *  From "filter.c"
@@ -1141,56 +1141,56 @@ bool range_covers_case (int c1, int c2);
  *  The filter may be external, such as "sed", or it
  *  may be internal, as a function call.
  */
-struct filter {
-    int    (*filter_func)(struct filter*); /**< internal filter function */
-    void * extra;         /**< extra data passed to filter_func */
-	int     argc;         /**< arg count */
-	const char ** argv;   /**< arg vector, \0-terminated */
-    struct filter * next; /**< next filter or NULL */
+ساختار filter {
+    صحیح    (*filter_func)(ساختار filter*); /**< internal filter function */
+    تهی * extra;         /**< extra data passed to filter_func */
+	صحیح     argc;         /**< arg count */
+	ثابت نویسه ** argv;   /**< arg vector, \0-terminated */
+    ساختار filter * next; /**< next filter or NULL */
 };
 
 /* output filter chain */
-extern struct filter * output_chain;
-extern struct filter *filter_create_ext (struct filter * chain, const char *cmd, ...);
-struct filter *filter_create_int(struct filter *chain,
-				  int (*filter_func) (struct filter *),
-                  void *extra);
-extern bool filter_apply_chain(struct filter * chain);
-extern int filter_truncate(struct filter * chain, int max_len);
-extern int filter_tee_header(struct filter *chain);
-extern int filter_fix_linedirs(struct filter *chain);
+بیرونی ساختار filter * output_chain;
+بیرونی ساختار filter *filter_create_ext (ساختار filter * chain, ثابت نویسه *cmd, ...);
+ساختار filter *filter_create_int(ساختار filter *chain,
+				  صحیح (*filter_func) (ساختار filter *),
+                  تهی *extra);
+بیرونی bool filter_apply_chain(ساختار filter * chain);
+بیرونی صحیح filter_truncate(ساختار filter * chain, صحیح max_len);
+بیرونی صحیح filter_tee_header(ساختار filter *chain);
+بیرونی صحیح filter_fix_linedirs(ساختار filter *chain);
 
 
 /*
  * From "regex.c"
  */
 
-extern regex_t regex_linedir;
-bool flex_init_regex(const char *);
-void flex_regcomp(regex_t *preg, const char *regex, int cflags);
-char   *regmatch_dup (regmatch_t * m, const char *src);
-char   *regmatch_cpy (regmatch_t * m, char *dest, const char *src);
-int regmatch_len (regmatch_t * m);
-int regmatch_strtol (regmatch_t * m, const char *src, char **endptr, int base);
+بیرونی regex_t regex_linedir;
+bool flex_init_regex(ثابت نویسه *);
+تهی flex_regcomp(regex_t *preg, ثابت نویسه *regex, صحیح cflags);
+نویسه   *regmatch_dup (regmatch_t * m, ثابت نویسه *src);
+نویسه   *regmatch_cpy (regmatch_t * m, نویسه *dest, ثابت نویسه *src);
+صحیح regmatch_len (regmatch_t * m);
+صحیح regmatch_strtol (regmatch_t * m, ثابت نویسه *src, نویسه **endptr, صحیح base);
 bool regmatch_empty (regmatch_t * m);
 
 /* From "scanflags.h" */
-typedef unsigned int scanflags_t;
-extern scanflags_t* _sf_stk;
-extern size_t _sf_top_ix, _sf_max; /**< stack of scanner flags. */
+تعریفنوع unsigned صحیح scanflags_t;
+بیرونی scanflags_t* _sf_stk;
+بیرونی size_t sf_بالاترین_ix, _sf_max; /**< stack of scanner flags. */
 #define _SF_CASE_INS   ((scanflags_t) 0x0001)
 #define _SF_DOT_ALL    ((scanflags_t) 0x0002)
 #define _SF_SKIP_WS    ((scanflags_t) 0x0004)
-#define sf_top()           (_sf_stk[_sf_top_ix])
-#define sf_case_ins()      (sf_top() & _SF_CASE_INS)
-#define sf_dot_all()       (sf_top() & _SF_DOT_ALL)
-#define sf_skip_ws()       (sf_top() & _SF_SKIP_WS)
-#define sf_set_case_ins(X)      ((X) ? (sf_top() |= _SF_CASE_INS) : (sf_top() &= ~_SF_CASE_INS))
-#define sf_set_dot_all(X)       ((X) ? (sf_top() |= _SF_DOT_ALL)  : (sf_top() &= ~_SF_DOT_ALL))
-#define sf_set_skip_ws(X)       ((X) ? (sf_top() |= _SF_SKIP_WS)  : (sf_top() &= ~_SF_SKIP_WS))
-extern void sf_init(void);
-extern void sf_push(void);
-extern void sf_pop(void);
+#define sf_بالاترین()           (_sf_stk[sf_بالاترین_ix])
+#define sf_case_ins()      (sf_بالاترین() & _SF_CASE_INS)
+#define sf_dot_all()       (sf_بالاترین() & _SF_DOT_ALL)
+#define sf_skip_ws()       (sf_بالاترین() & _SF_SKIP_WS)
+#define sf_set_case_ins(X)      ((X) ? (sf_بالاترین() |= _SF_CASE_INS) : (sf_بالاترین() &= ~_SF_CASE_INS))
+#define sf_set_dot_all(X)       ((X) ? (sf_بالاترین() |= _SF_DOT_ALL)  : (sf_بالاترین() &= ~_SF_DOT_ALL))
+#define sf_set_skip_ws(X)       ((X) ? (sf_بالاترین() |= _SF_SKIP_WS)  : (sf_بالاترین() &= ~_SF_SKIP_WS))
+بیرونی تهی sf_init(تهی);
+بیرونی تهی sf_افزودن(تهی);
+بیرونی تهی sf_برداشت(تهی);
 
 
 #endif /* not defined FLEXDEF_H */

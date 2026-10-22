@@ -32,22 +32,22 @@
 /*  IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED */
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
-#include "flexdef.h"
-#include "tables.h"
+#شامل "flexdef.h"
+#شامل "tables.h"
 
 /* Append "new_text" to the running buffer. */
-void add_action (const char *new_text)
+تهی add_action (ثابت نویسه *new_text)
 {
-	int     len = (int) strlen (new_text);
+	صحیح     len = (صحیح) strlen (new_text);
 
-	while (len + action_index >= action_size - 10 /* slop */ ) {
+	وقتی (len + action_index >= action_size - 10 /* slop */ ) {
 
-		if (action_size > INT_MAX / 2)
+		اگر (action_size > INT_MAX / 2)
 			/* Increase just a little, to try to avoid overflow
 			 * on 16-bit machines.
 			 */
 			action_size += action_size / 8;
-		else
+		وگرنه
 			action_size = action_size * 2;
 
 		action_array =
@@ -63,45 +63,45 @@ void add_action (const char *new_text)
 
 /* allocate_array - allocate memory for an integer array of the given size */
 
-void   *allocate_array (int size, size_t element_size)
+تهی   *allocate_array (صحیح size, size_t element_size)
 {
-	return reallocate_array(NULL, size, element_size);
+	بازگشت reallocate_array(پوچ, size, element_size);
 }
 
 
 /* all_lower - true if a string is all lower-case */
 
-int all_lower (char *str)
+صحیح all_lower (نویسه *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !islower ((unsigned char) * str))
-			return 0;
+	وقتی (*str) {
+		اگر (!isascii ((unsigned نویسه) * str) || !islower ((unsigned نویسه) * str))
+			بازگشت 0;
 		++str;
 	}
 
-	return 1;
+	بازگشت 1;
 }
 
 
 /* all_upper - true if a string is all upper-case */
 
-int all_upper (char *str)
+صحیح all_upper (نویسه *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !isupper ((unsigned char) * str))
-			return 0;
+	وقتی (*str) {
+		اگر (!isascii ((unsigned نویسه) * str) || !isupper ((unsigned نویسه) * str))
+			بازگشت 0;
 		++str;
 	}
 
-	return 1;
+	بازگشت 1;
 }
 
 
 /* intcmp - compares two integers for use by qsort. */
 
-int intcmp (const void *a, const void *b)
+صحیح intcmp (ثابت تهی *a, ثابت تهی *b)
 {
-  return *(const int *) a - *(const int *) b;
+  بازگشت *(ثابت صحیح *) a - *(ثابت صحیح *) b;
 }
 
 
@@ -110,13 +110,13 @@ int intcmp (const void *a, const void *b)
  *		and exits.
  */
 
-void check_char (int c)
+تهی check_char (صحیح c)
 {
-	if (c >= CSIZE)
+	اگر (c >= CSIZE)
 		lerr (_("bad character '%s' detected in check_char()"),
 			readable_form (c));
 
-	if (c >= ctrl.csize)
+	اگر (c >= ctrl.csize)
 		lerr (_
 			("scanner requires -8 flag to use the character %s"),
 			readable_form (c));
@@ -126,49 +126,49 @@ void check_char (int c)
 
 /* clower - replace upper-case letter to lower-case */
 
-unsigned char clower (int c)
+unsigned نویسه clower (صحیح c)
 {
-	return (unsigned char) ((isascii (c) && isupper (c)) ? tolower (c) : c);
+	بازگشت (unsigned نویسه) ((isascii (c) && isupper (c)) ? tolower (c) : c);
 }
 
 
-char *xstrdup(const char *s)
+نویسه *xstrdup(ثابت نویسه *s)
 {
-	char *s2;
+	نویسه *s2;
 
-	if ((s2 = strdup(s)) == NULL)
+	اگر ((s2 = strdup(s)) == پوچ)
 		flexfatal (_("memory allocation failure in xstrdup()"));
 
-	return s2;
+	بازگشت s2;
 }
 
 
 /* cclcmp - compares two characters for use by qsort with '\0' sorting last. */
 
-int cclcmp (const void *a, const void *b)
+صحیح cclcmp (ثابت تهی *a, ثابت تهی *b)
 {
-	if (!*(const unsigned char *) a)
-		return 1;
-	else
-		if (!*(const unsigned char *) b)
-			return - 1;
-		else
-			return *(const unsigned char *) a - *(const unsigned char *) b;
+	اگر (!*(ثابت unsigned نویسه *) a)
+		بازگشت 1;
+	وگرنه
+		اگر (!*(ثابت unsigned نویسه *) b)
+			بازگشت - 1;
+		وگرنه
+			بازگشت *(ثابت unsigned نویسه *) a - *(ثابت unsigned نویسه *) b;
 }
 
 
 /* dataend - finish up a block of data declarations */
 
-void dataend (const char *endit)
+تهی dataend (ثابت نویسه *endit)
 {
 	/* short circuit any output */
-	if (gentables) {
+	اگر (gentables) {
 
-		if (datapos > 0)
+		اگر (datapos > 0)
 			dataflush ();
 
 		/* add terminator for initialization; { for vi */
-		if (endit)
+		اگر (endit)
 			outn (endit);
 	}
 	dataline = 0;
@@ -178,14 +178,14 @@ void dataend (const char *endit)
 
 /* dataflush - flush generated data statements */
 
-void dataflush (void)
+تهی dataflush (تهی)
 {
-	assert (gentables);
+	أكد (gentables);
 
-	if (datapos > 0)
+	اگر (datapos > 0)
 		outc ('\n');
 
-	if (++dataline >= NUMDATALINES) {
+	اگر (++dataline >= NUMDATALINES) {
 		/* Put out a blank line so that the table is grouped into
 		 * large blocks that enable the user to find elements easily.
 		 */
@@ -200,32 +200,32 @@ void dataflush (void)
 
 /* flexerror - report an error message and terminate */
 
-void flexerror (const char *msg)
+تهی flexerror (ثابت نویسه *پیام)
 {
-	fprintf (stderr, "%s: %s\n", program_name, msg);
+	fprintf (stderr, "%s: %s\n", program_name, پیام);
 	flexend (1);
 }
 
 
 /* flexfatal - report a fatal error message and terminate */
 
-void flexfatal (const char *msg)
+تهی flexfatal (ثابت نویسه *پیام)
 {
 	fprintf (stderr, _("%s: fatal internal error, %s\n"),
-		 program_name, msg);
+		 program_name, پیام);
 	FLEX_EXIT (1);
 }
 
 
 /* lerr - report an error message */
 
-void lerr (const char *msg, ...)
+تهی lerr (ثابت نویسه *پیام, ...)
 {
-	char    errmsg[MAXLINE];
+	نویسه    errmsg[MAXLINE];
 	va_list args;
 
-	va_start(args, msg);
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
+	va_start(args, پیام);
+	vsnprintf (errmsg, اندازه(errmsg), پیام, args);
 	va_end(args);
 	flexerror (errmsg);
 }
@@ -233,38 +233,38 @@ void lerr (const char *msg, ...)
 
 /* lerr_fatal - as lerr, but call flexfatal */
 
-void lerr_fatal (const char *msg, ...)
+تهی lerr_fatal (ثابت نویسه *پیام, ...)
 {
-	char    errmsg[MAXLINE];
+	نویسه    errmsg[MAXLINE];
 	va_list args;
-	va_start(args, msg);
+	va_start(args, پیام);
 
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
+	vsnprintf (errmsg, اندازه(errmsg), پیام, args);
 	va_end(args);
 	flexfatal (errmsg);
 }
 
 
 /* line_directive_out - spit out a "#line" statement or equivalent */
-void line_directive_out (FILE *output_file, char *path, int linenum)
+تهی سطر_directive_out (FILE *output_file, نویسه *path, صحیح linenum)
 {
-	char	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
-	char    directive[MAXLINE*2], filename[MAXLINE];
-	char   *s1, *s2, *s3;
+	نویسه	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
+	نویسه    directive[MAXLINE*2], filename[MAXLINE];
+	نویسه   *s1, *s2, *s3;
 
-	if (!ctrl.gen_line_dirs)
-		return;
+	اگر (!ctrl.gen_سطر_dirs)
+		بازگشت;
 
-	s1 = (path != NULL) ? path : "M4_YY_OUTFILE_NAME";
+	s1 = (path != پوچ) ? path : "M4_YY_OUTFILE_NAME";
 
-	if ((path != NULL) && !s1)
+	اگر ((path != پوچ) && !s1)
 		s1 = "<stdin>";
     
 	s2 = filename;
-	s3 = &filename[sizeof (filename) - 2];
+	s3 = &filename[اندازه (filename) - 2];
 
-	while (s2 < s3 && *s1) {
-		if (*s1 == '\\' || *s1 == '"')
+	وقتی (s2 < s3 && *s1) {
+		اگر (*s1 == '\\' || *s1 == '"')
 			/* Escape the '\' or '"' */
 			*s2++ = '\\';
 
@@ -273,19 +273,19 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
 
 	*s2 = '\0';
 
-	if (path != NULL)
-		snprintf (directive, sizeof(directive), trace_fmt, linenum, filename);
-	else {
-		snprintf (directive, sizeof(directive), trace_fmt, 0, filename);
+	اگر (path != پوچ)
+		snprintf (directive, اندازه(directive), trace_fmt, linenum, filename);
+	وگرنه {
+		snprintf (directive, اندازه(directive), trace_fmt, 0, filename);
 	}
 
 	/* If output_file is nil then we should put the directive in
 	 * the accumulated actions.
 	 */
-	if (output_file) {
+	اگر (output_file) {
 		fputs (directive, output_file);
 	}
-	else
+	وگرنه
 		add_action (directive);
 }
 
@@ -294,7 +294,7 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
  *               representing where the user's section 1 definitions end
  *		 and the prolog begins
  */
-void mark_defs1 (void)
+تهی mark_defs1 (تهی)
 {
 	defs1_offset = 0;
 	action_array[action_index++] = '\0';
@@ -306,7 +306,7 @@ void mark_defs1 (void)
 /* mark_prolog - mark the current position in the action array as
  *               representing the end of the action prolog
  */
-void mark_prolog (void)
+تهی mark_prolog (تهی)
 {
 	action_array[action_index++] = '\0';
 	action_offset = action_index;
@@ -318,27 +318,27 @@ void mark_prolog (void)
  *
  * Generates a data statement initializing the current 2-D array to "value".
  */
-void mk2data (int value)
+تهی mk2data (صحیح مقدار)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	اگر (!gentables)
+		بازگشت;
 
-	if (datapos >= NUMDATAITEMS) {
+	اگر (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	اگر (datapos == 0)
 		/* Indent. */
 		out ("    ");
 
-	else
+	وگرنه
 	  outc (',');
 
 	++datapos;
 
-	out_dec ("%5d", value);
+	out_dec ("%5d", مقدار);
 }
 
 
@@ -347,73 +347,73 @@ void mk2data (int value)
  * Generates a data statement initializing the current array element to
  * "value".
  */
-void mkdata (int value)
+تهی mkdata (صحیح مقدار)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	اگر (!gentables)
+		بازگشت;
 
-	if (datapos >= NUMDATAITEMS) {
+	اگر (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	اگر (datapos == 0)
 		/* Indent. */
 		out ("    ");
-	else
+	وگرنه
 		outc (',');
 	++datapos;
 
-	out_dec ("%5d", value);
+	out_dec ("%5d", مقدار);
 }
 
 
 /* myctoi - return the integer represented by a string of digits */
 
-int myctoi (const char *array)
+صحیح myctoi (ثابت نویسه *array)
 {
-	int     val = 0;
+	صحیح     val = 0;
 
-	(void) sscanf (array, "%d", &val);
+	(تهی) sscanf (array, "%d", &val);
 
-	return val;
+	بازگشت val;
 }
 
 
 /* myesc - return character corresponding to escape sequence */
 
-unsigned char myesc (unsigned char array[])
+unsigned نویسه myesc (unsigned نویسه array[])
 {
-	unsigned char    c, esc_char;
+	unsigned نویسه    c, esc_char;
 
-	switch (array[1]) {
-	case 'b':
-		return '\b';
-	case 'f':
-		return '\f';
-	case 'n':
-		return '\n';
-	case 'r':
-		return '\r';
-	case 't':
-		return '\t';
-	case 'a':
-		return '\a';
-	case 'v':
-		return '\v';
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
+	انتخاب (array[1]) {
+	حالت 'b':
+		بازگشت '\b';
+	حالت 'f':
+		بازگشت '\f';
+	حالت 'n':
+		بازگشت '\n';
+	حالت 'r':
+		بازگشت '\r';
+	حالت 't':
+		بازگشت '\t';
+	حالت 'a':
+		بازگشت '\a';
+	حالت 'v':
+		بازگشت '\v';
+	حالت '0':
+	حالت '1':
+	حالت '2':
+	حالت '3':
+	حالت '4':
+	حالت '5':
+	حالت '6':
+	حالت '7':
 		{		/* \<octal> */
-			int     sptr = 1;
+			صحیح     sptr = 1;
 
-			while (sptr <= 3 &&
+			وقتی (sptr <= 3 &&
                                array[sptr] >= '0' && array[sptr] <= '7') {
 				++sptr;
 			}
@@ -421,18 +421,18 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 1, NULL, 8);
+			esc_char = (unsigned نویسه) strtoul (array + 1, پوچ, 8);
 
 			array[sptr] = c;
 
-			return esc_char;
+			بازگشت esc_char;
 		}
 
-	case 'x':
+	حالت 'x':
 		{		/* \x<hex> */
-			int     sptr = 2;
+			صحیح     sptr = 2;
 
-			while (sptr <= 3 && isxdigit (array[sptr])) {
+			وقتی (sptr <= 3 && isxdigit (array[sptr])) {
 				/* Don't increment inside loop control
 				 * because if isxdigit() is a macro it might
 				 * expand into multiple increments ...
@@ -443,15 +443,15 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 2, NULL, 16);
+			esc_char = (unsigned نویسه) strtoul (array + 2, پوچ, 16);
 
 			array[sptr] = c;
 
-			return esc_char;
+			بازگشت esc_char;
 		}
 
-	default:
-		return array[1];
+	پیشفرض:
+		بازگشت array[1];
 	}
 }
 
@@ -460,42 +460,42 @@ unsigned char myesc (unsigned char array[])
  *	 generated scanner, keeping track of the line count.
  */
 
-void out (const char *str)
+تهی out (ثابت نویسه *str)
 {
 	fputs (str, stdout);
 }
 
-void out_dec (const char *fmt, int n)
+تهی out_dec (ثابت نویسه *fmt, صحیح n)
 {
 	fprintf (stdout, fmt, n);
 }
 
-void out_dec2 (const char *fmt, int n1, int n2)
+تهی out_dec2 (ثابت نویسه *fmt, صحیح n1, صحیح n2)
 {
 	fprintf (stdout, fmt, n1, n2);
 }
 
-void out_hex (const char *fmt, unsigned int x)
+تهی out_hex (ثابت نویسه *fmt, unsigned صحیح x)
 {
 	fprintf (stdout, fmt, x);
 }
 
-void out_str (const char *fmt, const char str[])
+تهی out_str (ثابت نویسه *fmt, ثابت نویسه str[])
 {
 	fprintf (stdout,fmt, str);
 }
 
-void out_str_dec (const char *fmt, const char str[], int n)
+تهی out_str_dec (ثابت نویسه *fmt, ثابت نویسه str[], صحیح n)
 {
 	fprintf (stdout,fmt, str, n);
 }
 
-void outc (int c)
+تهی outc (صحیح c)
 {
 	fputc (c, stdout);
 }
 
-void outn (const char *str)
+تهی outn (ثابت نویسه *str)
 {
 	fputs (str,stdout);
     fputc('\n',stdout);
@@ -505,9 +505,9 @@ void outn (const char *str)
  * @param def The m4 symbol to define.
  * @param val The definition; may be NULL.
  */
-void out_m4_define (const char* def, const char* val)
+تهی out_m4_define (ثابت نویسه* def, ثابت نویسه* val)
 {
-    const char * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
+    ثابت نویسه * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
     fprintf(stdout, fmt, def, val?val:"");
 }
 
@@ -517,71 +517,71 @@ void out_m4_define (const char* def, const char* val)
  * The returned string is in static storage.
  */
 
-char   *readable_form (int c)
+نویسه   *readable_form (صحیح c)
 {
-	static char rform[20];
+	ایستا نویسه rform[20];
 
-	if ((c >= 0 && c < 32) || c >= 127) {
-		switch (c) {
-		case '\b':
-			return "\\b";
-		case '\f':
-			return "\\f";
-		case '\n':
-			return "\\n";
-		case '\r':
-			return "\\r";
-		case '\t':
-			return "\\t";
-		case '\a':
-			return "\\a";
-		case '\v':
-			return "\\v";
-		default:
-			if(env.trace_hex)
-				snprintf (rform, sizeof(rform), "\\x%.2x", (unsigned int) c);
-			else
-				snprintf (rform, sizeof(rform), "\\%.3o", (unsigned int) c);
-			return rform;
+	اگر ((c >= 0 && c < 32) || c >= 127) {
+		انتخاب (c) {
+		حالت '\b':
+			بازگشت "\\b";
+		حالت '\f':
+			بازگشت "\\f";
+		حالت '\n':
+			بازگشت "\\n";
+		حالت '\r':
+			بازگشت "\\r";
+		حالت '\t':
+			بازگشت "\\t";
+		حالت '\a':
+			بازگشت "\\a";
+		حالت '\v':
+			بازگشت "\\v";
+		پیشفرض:
+			اگر(env.trace_hex)
+				snprintf (rform, اندازه(rform), "\\x%.2x", (unsigned صحیح) c);
+			وگرنه
+				snprintf (rform, اندازه(rform), "\\%.3o", (unsigned صحیح) c);
+			بازگشت rform;
 		}
 	}
 
-	else if (c == ' ')
-		return "' '";
+	وگرنه اگر (c == ' ')
+		بازگشت "' '";
 
-	else {
-		rform[0] = (char) c;
+	وگرنه {
+		rform[0] = (نویسه) c;
 		rform[1] = '\0';
 
-		return rform;
+		بازگشت rform;
 	}
 }
 
 
 /* reallocate_array - increase the size of a dynamic array */
 
-void   *reallocate_array (void *array, int size, size_t element_size)
+تهی   *reallocate_array (تهی *array, صحیح size, size_t element_size)
 {
-	void *new_array;
+	تهی *new_array;
 #ifdef HAVE_REALLOCARR
 	new_array = array;
-	if (reallocarr(&new_array, (size_t) size, element_size)) {
+	اگر (reallocarr(&new_array, (size_t) size, element_size)) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
 			 * compatibility (for translations): */
 			_("memory allocation failed in allocate_array()"));
 	}
-#else
+#وگرنه
 # ifdef HAVE_REALLOCARRAY
 	new_array = reallocarray(array, (size_t) size, element_size);
-# else
+# وگرنه
 	/* Do manual overflow detection */
-	size_t num_bytes = (size_t) size * element_size;
-	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? NULL :
-		realloc(array, num_bytes);
+	size_t رقم_bytes = (size_t) size * element_size;
+	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? پوچ :
+		realloc(array, رقم_bytes);
 # endif
-	if (!new_array) {
+	اگر (!new_array) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
@@ -589,7 +589,7 @@ void   *reallocate_array (void *array, int size, size_t element_size)
 			_("memory allocation failed in allocate_array()"));
 	}
 #endif
-	return new_array;
+	بازگشت new_array;
 }
 
 
@@ -599,22 +599,22 @@ void   *reallocate_array (void *array, int size, size_t element_size)
  * element_n.  Formats the output with spaces and carriage returns.
  */
 
-void transition_struct_out (int element_v, int element_n)
+تهی transition_struct_out (صحیح element_v, صحیح element_n)
 {
 
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	اگر (!gentables)
+		بازگشت;
 
 	out_dec2 ("M4_HOOK_TABLE_OPENER[[%4d]],[[%4d]]M4_HOOK_TABLE_CONTINUE", element_v, element_n);
 	outc ('\n');
 
 	datapos += TRANS_STRUCT_PRINT_LENGTH;
 
-	if (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
+	اگر (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
 		outc ('\n');
 
-		if (++dataline % 10 == 0)
+		اگر (++dataline % 10 == 0)
 			outc ('\n');
 
 		datapos = 0;
@@ -627,52 +627,52 @@ void transition_struct_out (int element_v, int element_n)
  *
  * XXX: this is should go soon
  */
-void   *yy_flex_xmalloc (int size)
+تهی   *yy_flex_xmalloc (صحیح size)
 {
-	void   *result;
+	تهی   *result;
 
 	result = malloc((size_t) size);
-	if (!result)
+	اگر (!result)
 		flexfatal (_
 			   ("memory allocation failed in yy_flex_xmalloc()"));
 
-	return result;
+	بازگشت result;
 }
 
 
 /* Remove all '\n' and '\r' characters, if any, from the end of str.
  * str can be any null-terminated string, or NULL.
  * returns str. */
-char   *chomp (char *str)
+نویسه   *chomp (نویسه *str)
 {
-	char   *p = str;
+	نویسه   *p = str;
 
-	if (!str || !*str)	/* s is null or empty string */
-		return str;
+	اگر (!str || !*str)	/* s is null or empty string */
+		بازگشت str;
 
 	/* find end of string minus one */
-	while (*p)
+	وقتی (*p)
 		++p;
 	--p;
 
 	/* eat newlines */
-	while (p >= str && (*p == '\r' || *p == '\n'))
+	وقتی (p >= str && (*p == '\r' || *p == '\n'))
 		*p-- = 0;
-	return str;
+	بازگشت str;
 }
 
-void comment(const char *txt)
+تهی comment(ثابت نویسه *txt)
 {
-	char buf[MAXLINE];
+	نویسه buf[MAXLINE];
 	bool eol;
 
 	strncpy(buf, txt, MAXLINE-1);
 	eol = buf[strlen(buf)-1] == '\n';
 
-	if (eol)
+	اگر (eol)
 		buf[strlen(buf)-1] = '\0';
 	out_str("M4_HOOK_COMMENT_OPEN [[%s]] M4_HOOK_COMMENT_CLOSE", buf);
-	if (eol)
+	اگر (eol)
 		outc ('\n');
 }
 

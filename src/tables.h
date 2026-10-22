@@ -37,15 +37,15 @@
 
 #ifdef __cplusplus
 /* *INDENT-OFF* */
-extern  "C" {
+بیرونی  "C" {
 /* *INDENT-ON* */
 #endif
 
 /* Tables serialization API declarations. */
-#include "tables_shared.h"
-struct yytbl_writer {
+#شامل "tables_shared.h"
+ساختار yytbl_writer {
 	FILE   *out;
-	int total_written;
+	صحیح total_written;
 			    /**< bytes written so far */
 	fpos_t  th_ssize_pos;
 			    /**< position of th_ssize */
@@ -59,19 +59,19 @@ struct yytbl_writer {
  * tablesverify - true if tables-verify option specified
  * gentables - true if we should spit out the normal C tables
  */
-extern bool tablesext, tablesverify,gentables;
-extern char *tablesfilename, *tablesname;
-extern struct yytbl_writer tableswr;
+بیرونی bool tablesext, tablesverify,gentables;
+بیرونی نویسه *tablesfilename, *tablesname;
+بیرونی ساختار yytbl_writer tableswr;
 
-int     yytbl_writer_init (struct yytbl_writer *, FILE *);
-int     yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
-			const char *name);
-int     yytbl_data_init (struct yytbl_data *tbl, enum yytbl_id id);
-int     yytbl_data_destroy (struct yytbl_data *td);
-int     yytbl_hdr_fwrite (struct yytbl_writer *wr,
-			  const struct yytbl_hdr *th);
-int     yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td);
-void    yytbl_data_compress (struct yytbl_data *tbl);
+صحیح     yytbl_writer_init (ساختار yytbl_writer *, FILE *);
+صحیح     yytbl_hdr_init (ساختار yytbl_hdr *th, ثابت نویسه *version_str,
+			ثابت نویسه *name);
+صحیح     yytbl_data_init (ساختار yytbl_data *tbl, شمارش yytbl_id id);
+صحیح     yytbl_data_destroy (ساختار yytbl_data *td);
+صحیح     yytbl_hdr_fwrite (ساختار yytbl_writer *wr,
+			  ثابت ساختار yytbl_hdr *th);
+صحیح     yytbl_data_fwrite (ساختار yytbl_writer *wr, ساختار yytbl_data *td);
+تهی    yytbl_data_compress (ساختار yytbl_data *tbl);
 
 
 #ifdef __cplusplus

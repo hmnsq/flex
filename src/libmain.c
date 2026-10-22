@@ -23,16 +23,16 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include <stdlib.h>
+#شامل <stdlib.h>
 
-extern int yylex (void);
+بیرونی صحیح yylex (تهی);
 
-int     main (int argc, char *argv[])
+صحیح     اصلی (صحیح argc, نویسه *argv[])
 {
-	(void)argc;
-	(void)argv;
+	(تهی)argc;
+	(تهی)argv;
 
-	while (yylex () != 0) ;
+	وقتی (yylex () != 0) ;
 
 	exit(0);
 }
