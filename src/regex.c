@@ -32,11 +32,11 @@ regex_t regex_linedir; /**< matches line directives */
 /** Initialize the regular expressions.
  * @return true upon success.
  */
-bool flex_init_regex(const char *traceline_re)
+bool flex_init_regex(const var_na *traceline_re)
 {
-	if (traceline_re != NULL)
+	ถ้า (traceline_re != NULL)
 		flex_regcomp(&regex_linedir, traceline_re, REG_EXTENDED);
-	return true;
+	คืน true;
 }
 
 /** Compiles a regular expression or dies trying.
@@ -44,19 +44,19 @@ bool flex_init_regex(const char *traceline_re)
  * @param regex Same as for regcomp().
  * @param cflags Same as for regcomp().
  */
-void flex_regcomp(regex_t *preg, const char *regex, int cflags)
+void flex_regcomp(regex_t *preg, const var_na *regex, จำนวนเต็ม cflags)
 {
-	int err;
+	จำนวนเต็ม err;
 
-	memset (preg, 0, sizeof (regex_t));
+	memset (preg, 0, parimaa_na (regex_t));
 
-	if ((err = regcomp (preg, regex, cflags)) != 0) {
+	ถ้า ((err = regcomp (preg, regex, cflags)) != 0) {
 		const size_t errbuf_sz = 200;
-		char *errbuf;
-		int n;
+		var_na *errbuf;
+		จำนวนเต็ม n;
 
-		errbuf = malloc(errbuf_sz * sizeof(char));
-		if (!errbuf)
+		errbuf = malloc(errbuf_sz * parimaa_na(var_na));
+		ถ้า (!errbuf)
 			flexfatal(_("Unable to allocate buffer to report regcomp"));
 		n = snprintf(errbuf, errbuf_sz, "regcomp for \"%s\" failed: ", regex);
 		regerror(err, preg, errbuf+n, errbuf_sz-(size_t)n);
@@ -70,20 +70,20 @@ void flex_regcomp(regex_t *preg, const char *regex, int cflags)
  * @param src The source string that was passed to regexec().
  * @return The allocated string.
  */
-char   *regmatch_dup (regmatch_t * m, const char *src)
+var_na   *regmatch_dup (regmatch_t * m, const var_na *src)
 {
-	char   *str;
+	var_na   *str;
 	size_t  len;
 
-	if (m == NULL || m->rm_so < 0 || m->rm_eo < m->rm_so)
-		return NULL;
+	ถ้า (m == NULL || m->rm_so < 0 || m->rm_eo < m->rm_so)
+		คืน NULL;
 	len = (size_t) (m->rm_eo - m->rm_so);
-	str = malloc((len + 1) * sizeof(char));
-	if (!str)
+	str = malloc((len + 1) * parimaa_na(var_na));
+	ถ้า (!str)
 		flexfatal(_("Unable to allocate a copy of the match"));
 	strncpy (str, src + m->rm_so, len);
 	str[len] = 0;
-	return str;
+	คืน str;
 }
 
 /** Copy the match.
@@ -92,29 +92,29 @@ char   *regmatch_dup (regmatch_t * m, const char *src)
  * @param src The source string that was passed to regexec().
  * @return dest
  */
-char   *regmatch_cpy (regmatch_t * m, char *dest, const char *src)
+var_na   *regmatch_cpy (regmatch_t * m, var_na *dest, const var_na *src)
 {
-	if (m == NULL || m->rm_so < 0) {
-		if (dest)
+	ถ้า (m == NULL || m->rm_so < 0) {
+		ถ้า (dest)
 			dest[0] = '\0';
-		return dest;
+		คืน dest;
 	}
 
 	snprintf (dest, (size_t) regmatch_len(m), "%s", src + m->rm_so);
-	return dest;
+	คืน dest;
 }
 
 /** Get the length in characters of the match.
  * @param m A match as returned by regexec().
  * @return The length of the match.
  */
-int regmatch_len (regmatch_t * m)
+จำนวนเต็ม regmatch_len (regmatch_t * m)
 {
-	if (m == NULL || m->rm_so < 0) {
-		return 0;
+	ถ้า (m == NULL || m->rm_so < 0) {
+		คืน 0;
 	}
 
-	return m->rm_eo - m->rm_so;
+	คืน m->rm_eo - m->rm_so;
 }
 
 
@@ -126,29 +126,29 @@ int regmatch_len (regmatch_t * m)
  * @param base   Same as the third argument to strtol().
  * @return The converted integer or error (Return value is the same as for strtol()).
  */
-int regmatch_strtol (regmatch_t * m, const char *src, char **endptr,
-		     int base)
+จำนวนเต็ม regmatch_strtol (regmatch_t * m, const var_na *src, var_na **endptr,
+		     จำนวนเต็ม base)
 {
-	int     n = 0;
+	จำนวนเต็ม     n = 0;
 
 #define bufsz 20
-	char    buf[bufsz];
-	char   *s;
+	var_na    buf[bufsz];
+	var_na   *s;
 
-	if (m == NULL || m->rm_so < 0)
-		return 0;
+	ถ้า (m == NULL || m->rm_so < 0)
+		คืน 0;
 
-	if (regmatch_len (m) < bufsz)
+	ถ้า (regmatch_len (m) < bufsz)
 		s = regmatch_cpy (m, buf, src);
-	else
+	มิฉะนั้น
 		s = regmatch_dup (m, src);
 
-	n = (int) strtol (s, endptr, base);
+	n = (จำนวนเต็ม) strtol (s, endptr, base);
 
-	if (s != buf)
+	ถ้า (s != buf)
 		free (s);
 
-	return n;
+	คืน n;
 }
 
 /** Check for empty or non-existent match.
@@ -158,7 +158,7 @@ int regmatch_strtol (regmatch_t * m, const char *src, char **endptr,
  */
 bool regmatch_empty (regmatch_t * m)
 {
-	return (m == NULL || m->rm_so < 0 || m->rm_so == m->rm_eo);
+	คืน (m == NULL || m->rm_so < 0 || m->rm_so == m->rm_eo);
 }
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */
