@@ -25,14 +25,14 @@
 
 #include <stdlib.h>
 
-extern int yylex (void);
+extern số_nguyên yylex (void);
 
-int     main (int argc, char *argv[])
+số_nguyên     main (số_nguyên argc, char *argv[])
 {
 	(void)argc;
 	(void)argv;
 
-	while (yylex () != 0) ;
+	trong_khi (yylex () != 0) ;
 
 	exit(0);
 }

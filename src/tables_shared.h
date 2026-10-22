@@ -40,7 +40,7 @@ dnl  flex code (hence the name "_shared").
 #ifndef yyskel_static
 #define yyskel_static static
 #endif
-#else
+#không_thì
 #ifndef yyskel_static
 #define yyskel_static
 #endif

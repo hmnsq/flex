@@ -56,58 +56,58 @@ extern const char *escaped_qstart, *escaped_qend;
 #define MARK_END_OF_PROLOG mark_prolog();
 
 #define YY_DECL \
-	int flexscan(void)
+	số_nguyên flexscan(void)
 
 #define RETURNCHAR \
 	yylval = (unsigned char) yytext[0]; \
-	return CHAR;
+	trả_về CHAR;
 
 #define RETURNNAME \
-	if(yyleng < MAXLINE) \
+	nếu(yyleng < MAXLINE) \
          { \
 	strncpy( nmstr, yytext, sizeof(nmstr) ); \
-	return NAME; \
+	trả_về NAME; \
 	 } \
-	else \
+	không_thì \
 	 do { \
 	   synerr(_("Input line too long\n")); \
 	   FLEX_EXIT(EXIT_FAILURE);  \
-	 } while (0)
+	 } trong_khi (0)
 
 #define PUT_BACK_STRING(str, start) \
 	{ size_t i = strlen( str );	\
-	  while ( i > start )		\
+	  trong_khi ( i > start )		\
 	    unput((str)[--i]);		\
 	}
 
 #define CHECK_REJECT(str) \
-	if ( all_upper( str ) ) \
+	nếu ( all_upper( str ) ) \
 		reject = true;
 
 #define CHECK_YYREJECT(str) \
-	if ( all_lower( str ) ) \
+	nếu ( all_lower( str ) ) \
 		reject = true;
 
 #define YY_USER_INIT \
-	if ( getenv("POSIXLY_CORRECT") ) \
+	nếu ( getenv("POSIXLY_CORRECT") ) \
 		ctrl.posix_compat = true;
 
 #define START_CODEBLOCK(x) do { \
     /* Emit the needed line directive... */\
-    if (indented_code == false) { \
-        if (!x) linenum++; \
+    nếu (indented_code == false) { \
+        nếu (!x) linenum++; \
         line_directive_out(NULL, infilename, linenum);	\
     } \
     add_action(M4QSTART); \
     yy_push_state(CODEBLOCK); \
-    if ((indented_code = x)) ACTION_ECHO; \
-} while(0)
+    nếu ((indented_code = x)) ACTION_ECHO; \
+} trong_khi(0)
 
 #define END_CODEBLOCK do { \
     yy_pop_state();\
     add_action(M4QEND); \
-    if (!indented_code) line_directive_out(NULL, NULL, linenum);	\
-} while (0)
+    nếu (!indented_code) line_directive_out(NULL, NULL, linenum);	\
+} trong_khi (0)
 
 %}
 
@@ -154,12 +154,12 @@ void context_member(char *, const char *);
 #undef yyreject
 %}
 %%
-	static int bracelevel, didadef, indented_code;
+	static số_nguyên bracelevel, didadef, indented_code;
 	static bool doing_rule_action = false;
 	static bool option_sense;
 
 	static bool doing_codeblock = false;
-	int brace_depth=0, brace_start_line=0;
+	số_nguyên brace_depth=0, brace_start_line=0;
 	char nmdef[MAXLINE];
 
 
@@ -167,8 +167,8 @@ void context_member(char *, const char *);
 	^{WS}		START_CODEBLOCK(true);
 	^"/*"		add_action("/*[""["); yy_push_state( COMMENT );
 	^#{OPTWS}line{WS}	yy_push_state( LINEDIR );
-	^"%s"{NAME}?	return SCDECL;
-	^"%x"{NAME}?	return XSCDECL;
+	^"%s"{NAME}?	trả_về SCDECL;
+	^"%x"{NAME}?	trả_về XSCDECL;
 	^"%{".*{NL}	START_CODEBLOCK(false);
     ^"%top"[[:blank:]]*"{"[[:blank:]]*{NL}    {
 		char trampoline[512];
@@ -177,7 +177,7 @@ void context_member(char *, const char *);
 		snprintf(trampoline, sizeof(trampoline),
 			 "M4_HOOK_TRACE_LINE_FORMAT(%d, [[%s]])",
 			 linenum, infilename?infilename:"<stdin>");
-                if (ctrl.gen_line_dirs)
+                nếu (ctrl.gen_line_dirs)
                     buf_strappend(&top_buf, trampoline);
                 brace_depth = 1;
                 yy_push_state(CODEBLOCK_MATCH_BRACE);
@@ -193,13 +193,13 @@ void context_member(char *, const char *);
 			mark_defs1();
 			line_directive_out(NULL, infilename, linenum);
 			BEGIN(SECT2PROLOG);
-			return SECTEND;
+			trả_về SECTEND;
 			}
 
 	^"%pointer".*{NL}	ctrl.yytext_is_array = false; ++linenum;
 	^"%array".*{NL}		ctrl.yytext_is_array = true; ++linenum;
 
-	^"%option"	BEGIN(OPTION); return TOK_OPTION;
+	^"%option"	BEGIN(OPTION); trả_về TOK_OPTION;
 
 	^"%"{LEXOPT}{OPTWS}[[:digit:]]*{OPTWS}{NL}	++linenum; /* ignore */
 	^"%"{LEXOPT}{WS}.*{NL}	++linenum;	/* ignore */
@@ -208,11 +208,11 @@ void context_member(char *, const char *);
 	^"%"[^sxaceknopr{}].*	synerr( _( "unrecognized '%' directive" ) );
 
 	^{NAME}		{
-			if(yyleng < MAXLINE)
+			nếu(yyleng < MAXLINE)
         		 {
 			strncpy( nmstr, yytext, sizeof(nmstr) );
 			 }
-			else
+			không_thì
 			 {
 			   synerr( _("Definition name too long\n"));
 			   FLEX_EXIT(EXIT_FAILURE);
@@ -278,16 +278,16 @@ void context_member(char *, const char *);
 	{NL}		{
 			++linenum;
 			ACTION_ECHO;
-			if ( indented_code ) END_CODEBLOCK;
+			nếu ( indented_code ) END_CODEBLOCK;
 			}
 }
 
 <CODEBLOCK_MATCH_BRACE>{
     "}"     {
-                if( --brace_depth == 0){
+                nếu( --brace_depth == 0){
                     /* TODO: Matched. */
                     yy_pop_state();
-                }else
+                }không_thì
                     buf_strnappend(&top_buf, yytext, yyleng);
             }
 
@@ -301,8 +301,8 @@ void context_member(char *, const char *);
                 buf_strnappend(&top_buf, yytext, yyleng);
             }
 
-    {M4QSTART}  buf_strnappend(&top_buf, escaped_qstart, (int) strlen(escaped_qstart));
-    {M4QEND}    buf_strnappend(&top_buf, escaped_qend, (int) strlen(escaped_qend));
+    {M4QSTART}  buf_strnappend(&top_buf, escaped_qstart, (số_nguyên) strlen(escaped_qstart));
+    {M4QEND}    buf_strnappend(&top_buf, escaped_qend, (số_nguyên) strlen(escaped_qend));
     ([^{}\r\n\[\]]+)|[^{}\r\n]  {
        buf_strnappend(&top_buf, yytext, yyleng);
     }
@@ -310,7 +310,7 @@ void context_member(char *, const char *);
     <<EOF>>     {
                 linenum = brace_start_line;
                 synerr(_("Unmatched '{'"));
-                return YY_NULL;
+                trả_về YY_NULL;
                 }
 }
 
@@ -319,11 +319,11 @@ void context_member(char *, const char *);
 	{WS}		/* separates name and definition */
 
 	{NOT_WS}[^\r\n]*	{
- 		        if(yyleng < MAXLINE)
+ 		        nếu(yyleng < MAXLINE)
  		         {
 			strncpy( nmdef, yytext, sizeof(nmdef) );
  		         }
- 		        else
+ 		        không_thì
  		         {
  		           format_synerr( _("Definition value for {%s} too long\n"), nmstr);
  		           FLEX_EXIT(EXIT_FAILURE);
@@ -331,7 +331,7 @@ void context_member(char *, const char *);
 			/* Skip trailing whitespace. */
 			{
 			    size_t i = strlen( nmdef );
-			    while (i > 0 && (nmdef[i-1] == ' ' || nmdef[i-1] == '\t'))
+			    trong_khi (i > 0 && (nmdef[i-1] == ' ' || nmdef[i-1] == '\t'))
 			       --i;
 			    nmdef[i] = '\0';
 			}
@@ -341,7 +341,7 @@ void context_member(char *, const char *);
 			}
 
 	{NL}		{
-			if ( ! didadef )
+			nếu ( ! didadef )
 				synerr( _( "incomplete name definition" ) );
 			BEGIN(INITIAL);
 			++linenum;
@@ -353,8 +353,8 @@ void context_member(char *, const char *);
 	{NL}		++linenum; BEGIN(INITIAL);
 	{WS}		option_sense = true;
 
-	"="		return '=';
-	[[:digit:]]+	{nmval = atoi(yytext); return TOK_NUMERIC;}
+	"="		trả_về '=';
+	[[:digit:]]+	{nmval = atoi(yytext); trả_về TOK_NUMERIC;}
 
 	no		option_sense = ! option_sense;
 
@@ -370,7 +370,7 @@ void context_member(char *, const char *);
 	backup		env.backing_up_report = option_sense;
 	batch		ctrl.interactive = (trit)!option_sense;
 	bison-bridge     ctrl.bison_bridge_lval = option_sense;
-	bison-locations  { if((ctrl.bison_bridge_lloc = option_sense))
+	bison-locations  { nếu((ctrl.bison_bridge_lloc = option_sense))
                             ctrl.bison_bridge_lval = true;
 			}
 	"c++"		ctrl.C_plus_plus = option_sense;
@@ -396,7 +396,7 @@ void context_member(char *, const char *);
 	main		{
 			ctrl.do_main = option_sense;
 			/* Override yywrap */
-			if (option_sense)
+			nếu (option_sense)
                 		ctrl.do_yywrap = false;
 			}
 	meta-ecs	ctrl.usemecs = option_sense;
@@ -456,39 +456,39 @@ void context_member(char *, const char *);
 	yyget_lloc      ctrl.no_yyget_lloc = ! option_sense;
 	yyset_lloc      ctrl.no_yyset_lloc = ! option_sense;
 
-	bufsize		return TOK_BUFSIZE;
-	emit		return TOK_EMIT;
-	extra-type	return TOK_EXTRA_TYPE;
-	outfile		return TOK_OUTFILE;
-	prefix		return TOK_PREFIX;
-	yyclass		return TOK_YYCLASS;
-	yylmax		return TOK_YYLMAX;
-	yydecl		return TOK_YYDECL;
-	yyterminate	return TOK_YYTERMINATE;
-	pre-action	return TOK_PREACTION;
-	post-action	return TOK_POSTACTION;
-	user-init	return TOK_USERINIT;
-	header(-file)?      return TOK_HEADER_FILE;
-	tables-file         return TOK_TABLES_FILE;
+	bufsize		trả_về TOK_BUFSIZE;
+	emit		trả_về TOK_EMIT;
+	extra-type	trả_về TOK_EXTRA_TYPE;
+	outfile		trả_về TOK_OUTFILE;
+	prefix		trả_về TOK_PREFIX;
+	yyclass		trả_về TOK_YYCLASS;
+	yylmax		trả_về TOK_YYLMAX;
+	yydecl		trả_về TOK_YYDECL;
+	yyterminate	trả_về TOK_YYTERMINATE;
+	pre-action	trả_về TOK_PREACTION;
+	post-action	trả_về TOK_POSTACTION;
+	user-init	trả_về TOK_USERINIT;
+	header(-file)?      trả_về TOK_HEADER_FILE;
+	tables-file         trả_về TOK_TABLES_FILE;
 	tables-verify   {
                     tablesverify = option_sense;
-                    if (!tablesext && option_sense)
+                    nếu (!tablesext && option_sense)
                         tablesext = true;
                     }
 
 
 	"\""[^""\n]*"\""	{
-			if(yyleng-1 < MAXLINE)
+			nếu(yyleng-1 < MAXLINE)
         		 {
 			strncpy( nmstr, yytext + 1, sizeof(nmstr) );
 			 }
-			else
+			không_thì
 			 {
 			   synerr( _("Option line too long\n"));
 			   FLEX_EXIT(EXIT_FAILURE);
 			 }
 			nmstr[strlen( nmstr ) - 1] = '\0';
-			return NAME;
+			trả_về NAME;
 			}
 
 	(([a-mo-z]|n[a-np-z])[[:alpha:]\-+]*)|.	{
@@ -509,13 +509,13 @@ void context_member(char *, const char *);
 
 	^{NOT_WS}.*	{
         /* non-indented code */
-		if ( bracelevel <= 0 ) {
+		nếu ( bracelevel <= 0 ) {
             /* not in %{ ... %} */
             yyless( 0 );	/* put it all back */
             yy_set_bol( 1 );
             mark_prolog();
             BEGIN(SECT2);
-        } else {
+        } không_thì {
             START_CODEBLOCK(true);
         }
     }
@@ -526,7 +526,7 @@ void context_member(char *, const char *);
 	<<EOF>>		{
 			mark_prolog();
 			sectnum = 0;
-			return YY_NULL; /* to stop the parser */
+			trả_về YY_NULL; /* to stop the parser */
 			}
 }
 
@@ -542,54 +542,54 @@ void context_member(char *, const char *);
 
 	^{OPTWS}"<"	    {
                         /* Allow "<" to appear in (?x) patterns. */
-                        if (!sf_skip_ws())
+                        nếu (!sf_skip_ws())
                             BEGIN(SC);
-                        return '<';
+                        trả_về '<';
                     }
-	^{OPTWS}"^"	return '^';
-	"\""		BEGIN(QUOTE); return '"';
+	^{OPTWS}"^"	trả_về '^';
+	"\""		BEGIN(QUOTE); trả_về '"';
 	"{"/[[:digit:]]	{
 			BEGIN(NUM);
-			if ( ctrl.lex_compat || ctrl.posix_compat )
-				return BEGIN_REPEAT_POSIX;
-			else
-				return BEGIN_REPEAT_FLEX;
+			nếu ( ctrl.lex_compat || ctrl.posix_compat )
+				trả_về BEGIN_REPEAT_POSIX;
+			không_thì
+				trả_về BEGIN_REPEAT_FLEX;
 			}
-	"$"/([[:blank:]]|{NL})	return '$';
+	"$"/([[:blank:]]|{NL})	trả_về '$';
 
 	{WS}"%{"		{
 			bracelevel = 1;
 			BEGIN(PERCENT_BRACE_ACTION);
 
-			if ( in_rule )
+			nếu ( in_rule )
 				{
 				doing_rule_action = true;
 				in_rule = false;
-				return '\n';
+				trả_về '\n';
 				}
 			}
 	{WS}"|".*{NL}	{
-                        if (sf_skip_ws()){
+                        nếu (sf_skip_ws()){
                             /* We're in the middle of a (?x: ) pattern. */
                             /* Push back everything starting at the "|" */
-                            int amt = (int) (strchr (yytext, '|') - yytext);
+                            số_nguyên amt = (số_nguyên) (strchr (yytext, '|') - yytext);
                             yyless(amt);
                         }
-                        else {
+                        không_thì {
                             add_action("]""]");
                             continued_action = true;
                             ++linenum;
-                            return '\n';
+                            trả_về '\n';
                         }
                     }
 
 	^{WS}"/*"	{
 
-                if (sf_skip_ws()){
+                nếu (sf_skip_ws()){
                     /* We're in the middle of a (?x: ) pattern. */
                     yy_push_state(COMMENT_DISCARD);
                 }
-                else{
+                không_thì{
                     yyless( yyleng - 2 );	/* put back '/', '*' */
                     bracelevel = 0;
                     continued_action = false;
@@ -600,10 +600,10 @@ void context_member(char *, const char *);
 	^{WS}		/* allow indented rules */ ;
 
 	{WS}		{
-            if (sf_skip_ws()){
+            nếu (sf_skip_ws()){
                 /* We're in the middle of a (?x: ) pattern. */
             }
-            else{
+            không_thì{
                 /* This rule is separate from the one below because
                  * otherwise we get variable trailing context, so
                  * we can't build the scanner using -{f,F}.
@@ -612,37 +612,37 @@ void context_member(char *, const char *);
                 continued_action = false;
                 BEGIN(ACTION);
 
-                if ( in_rule )
+                nếu ( in_rule )
                     {
                     doing_rule_action = true;
                     in_rule = false;
-                    return '\n';
+                    trả_về '\n';
                     }
             }
 			}
 
 	{OPTWS}{NL}	{
-            if (sf_skip_ws()){
+            nếu (sf_skip_ws()){
                 /* We're in the middle of a (?x: ) pattern. */
                 ++linenum;
             }
-            else{
+            không_thì{
                 bracelevel = 0;
                 continued_action = false;
                 BEGIN(ACTION);
                 unput( '\n' );	/* so <ACTION> sees it */
 
-                if ( in_rule )
+                nếu ( in_rule )
                     {
                     doing_rule_action = true;
                     in_rule = false;
-                    return '\n';
+                    trả_về '\n';
                     }
             }
 			}
 
 	^{OPTWS}"<<EOF>>"	|
-	"<<EOF>>"	return EOF_OP;
+	"<<EOF>>"	trả_về EOF_OP;
 
 	^"%%".*		{
 			sectnum = 3;
@@ -652,13 +652,13 @@ void context_member(char *, const char *);
 			}
 
 	"["({FIRST_CCL_CHAR}|{CCL_EXPR})({CCL_CHAR}|{CCL_EXPR})*	{
-			int cclval;
+			số_nguyên cclval;
 
-			if(yyleng < MAXLINE)
+			nếu(yyleng < MAXLINE)
         		 {
 			strncpy( nmstr, yytext, sizeof(nmstr) );
 			 }
-			else
+			không_thì
 			 {
 			   synerr( _("Input line too long\n"));
 			   FLEX_EXIT(EXIT_FAILURE);
@@ -667,7 +667,7 @@ void context_member(char *, const char *);
 			/* Check to see if we've already encountered this
 			 * ccl.
 			 */
-			if (0 /* <--- This "0" effectively disables the reuse of a
+			nếu (0 /* <--- This "0" effectively disables the reuse of a
                    * character class (purely based on its source text).
                    * The reason it was disabled is so yacc/bison can parse
                    * ccl operations, such as ccl difference and union.
@@ -676,7 +676,7 @@ void context_member(char *, const char *);
 				{
      				 /* Dead code removed */
 				}
-			else
+			không_thì
 				{
 				/* We fudge a bit.  We know that this ccl will
 				 * soon be numbered as lastccl + 1 by cclinit.
@@ -689,11 +689,11 @@ void context_member(char *, const char *);
 				yyless( 1 );
 
 				BEGIN(FIRSTCCL);
-				return '[';
+				trả_về '[';
 				}
 			}
-    "{-}"       return CCL_OP_DIFF;
-    "{+}"       return CCL_OP_UNION;
+    "{-}"       trả_về CCL_OP_DIFF;
+    "{+}"       trả_về CCL_OP_UNION;
 
 
     /* Check for :space: at the end of the rule so we don't
@@ -702,44 +702,44 @@ void context_member(char *, const char *);
      */
 	"{"{NAME}"}"[[:space:]]?	 {
 			char *nmdefptr;
-            int end_is_ws, end_ch;
+            số_nguyên end_is_ws, end_ch;
 
             end_ch = yytext[yyleng-1];
             end_is_ws = end_ch != '}' ? 1 : 0;
 
- 			if(yyleng-1 < MAXLINE)
+ 			nếu(yyleng-1 < MAXLINE)
          		 {
 			strncpy( nmstr, yytext + 1, sizeof(nmstr) );
  			 }
- 			else
+ 			không_thì
  			 {
  			   synerr( _("Input line too long\n"));
  			   FLEX_EXIT(EXIT_FAILURE);
  			 }
 nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 
-			if ( (nmdefptr = ndlookup( nmstr )) == 0 )
+			nếu ( (nmdefptr = ndlookup( nmstr )) == 0 )
 				format_synerr(
 					_( "undefined definition {%s}" ),
 						nmstr );
 
-			else
+			không_thì
 				{ /* push back name surrounded by ()'s */
 				size_t len = strlen( nmdefptr );
-                if (end_is_ws)
+                nếu (end_is_ws)
                     unput(end_ch);
 
-				if ( ctrl.lex_compat || nmdefptr[0] == '^' ||
+				nếu ( ctrl.lex_compat || nmdefptr[0] == '^' ||
 				     (len > 0 && nmdefptr[len - 1] == '$')
                      || (end_is_ws && trlcontxt && !sf_skip_ws()))
 					{ /* don't use ()'s after all */
 					PUT_BACK_STRING(nmdefptr, 0);
 
-					if ( nmdefptr[0] == '^' )
+					nếu ( nmdefptr[0] == '^' )
 						BEGIN(CARETISBOL);
 					}
 
-				else
+				không_thì
 					{
 					unput(')');
 					PUT_BACK_STRING(nmdefptr, 0);
@@ -749,53 +749,53 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 			}
 
     "/*"        {
-                    if (sf_skip_ws())
+                    nếu (sf_skip_ws())
                         yy_push_state(COMMENT_DISCARD);
-                    else{
+                    không_thì{
                         /* Push back the "*" and return "/" as usual. */
                         yyless(1);
-                        return '/';
+                        trả_về '/';
                     }
                 }
 
     "(?#"       {
-                    if (ctrl.lex_compat || ctrl.posix_compat){
+                    nếu (ctrl.lex_compat || ctrl.posix_compat){
                         /* Push back the "?#" and treat it like a normal parens. */
                         yyless(1);
                         sf_push(); 
-                        return '(';
+                        trả_về '(';
                     }
-                    else
+                    không_thì
                         yy_push_state(EXTENDED_COMMENT);
                 }
     "(?"        {
                     sf_push();
-                    if (ctrl.lex_compat || ctrl.posix_compat)
+                    nếu (ctrl.lex_compat || ctrl.posix_compat)
                         /* Push back the "?" and treat it like a normal parens. */
                         yyless(1);
-                    else
+                    không_thì
                         BEGIN(GROUP_WITH_PARAMS);
-                    return '(';
+                    trả_về '(';
                 }
-    "("         sf_push(); return '(';
+    "("         sf_push(); trả_về '(';
     ")"         {
-                    if (_sf_top_ix > 0) {
+                    nếu (_sf_top_ix > 0) {
                         sf_pop();
-                        return ')';
-                    } else
+                        trả_về ')';
+                    } không_thì
                         synerr(_("unbalanced parenthesis"));
                 }
 
-	[/|*+?.(){}]	return (unsigned char) yytext[0];
+	[/|*+?.(){}]	trả_về (unsigned char) yytext[0];
 	.		RETURNCHAR;
 }
 
 
 <SC>{
 	{OPTWS}{NL}{OPTWS}	++linenum;	/* Allow blank lines & continuations */
-	[,*]		return (unsigned char) yytext[0];
-	">"		BEGIN(SECT2); return '>';
-	">"/^		BEGIN(CARETISBOL); return '>';
+	[,*]		trả_về (unsigned char) yytext[0];
+	">"		BEGIN(SECT2); trả_về '>';
+	">"/^		BEGIN(CARETISBOL); trả_về '>';
 	{SCNAME}	RETURNNAME;
 	.		{
 			format_synerr( _( "bad <start condition>: %s" ),
@@ -803,18 +803,18 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 			}
 }
 
-<CARETISBOL>"^"		BEGIN(SECT2); return '^';
+<CARETISBOL>"^"		BEGIN(SECT2); trả_về '^';
 
 
 <QUOTE>{
 	[^""\n]		RETURNCHAR;
-	"\""		BEGIN(SECT2); return '"';
+	"\""		BEGIN(SECT2); trả_về '"';
 
 	{NL}		{
 			synerr( _( "missing quote" ) );
 			BEGIN(SECT2);
 			++linenum;
-			return '"';
+			trả_về '"';
 			}
 }
 
@@ -833,82 +833,82 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 }
 
 <FIRSTCCL>{
-	"^"/[^-\]\n]	BEGIN(CCL); return '^';
-	"^"/("-"|"]")	return '^';
+	"^"/[^-\]\n]	BEGIN(CCL); trả_về '^';
+	"^"/("-"|"]")	trả_về '^';
 	.		BEGIN(CCL); RETURNCHAR;
 }
 
 <CCL>{
-	-/[^\]\n]	return '-';
+	-/[^\]\n]	trả_về '-';
 	[^\]\n]		RETURNCHAR;
-	"]"		BEGIN(SECT2); return ']';
+	"]"		BEGIN(SECT2); trả_về ']';
 	.|{NL}		{
 			synerr( _( "bad character class" ) );
 			BEGIN(SECT2);
-			return ']';
+			trả_về ']';
 			}
 }
 
 <FIRSTCCL,CCL>{
-	"[:alnum:]"	BEGIN(CCL); return CCE_ALNUM;
-	"[:alpha:]"	BEGIN(CCL); return CCE_ALPHA;
-	"[:blank:]"	BEGIN(CCL); return CCE_BLANK;
-	"[:cntrl:]"	BEGIN(CCL); return CCE_CNTRL;
-	"[:digit:]"	BEGIN(CCL); return CCE_DIGIT;
-	"[:graph:]"	BEGIN(CCL); return CCE_GRAPH;
-	"[:lower:]"	BEGIN(CCL); return CCE_LOWER;
-	"[:print:]"	BEGIN(CCL); return CCE_PRINT;
-	"[:punct:]"	BEGIN(CCL); return CCE_PUNCT;
-	"[:space:]"	BEGIN(CCL); return CCE_SPACE;
-	"[:upper:]"	BEGIN(CCL); return CCE_UPPER;
-	"[:xdigit:]"	BEGIN(CCL); return CCE_XDIGIT;
+	"[:alnum:]"	BEGIN(CCL); trả_về CCE_ALNUM;
+	"[:alpha:]"	BEGIN(CCL); trả_về CCE_ALPHA;
+	"[:blank:]"	BEGIN(CCL); trả_về CCE_BLANK;
+	"[:cntrl:]"	BEGIN(CCL); trả_về CCE_CNTRL;
+	"[:digit:]"	BEGIN(CCL); trả_về CCE_DIGIT;
+	"[:graph:]"	BEGIN(CCL); trả_về CCE_GRAPH;
+	"[:lower:]"	BEGIN(CCL); trả_về CCE_LOWER;
+	"[:print:]"	BEGIN(CCL); trả_về CCE_PRINT;
+	"[:punct:]"	BEGIN(CCL); trả_về CCE_PUNCT;
+	"[:space:]"	BEGIN(CCL); trả_về CCE_SPACE;
+	"[:upper:]"	BEGIN(CCL); trả_về CCE_UPPER;
+	"[:xdigit:]"	BEGIN(CCL); trả_về CCE_XDIGIT;
 
-	"[:^alnum:]"	BEGIN(CCL); return CCE_NEG_ALNUM;
-	"[:^alpha:]"	BEGIN(CCL); return CCE_NEG_ALPHA;
-	"[:^blank:]"	BEGIN(CCL); return CCE_NEG_BLANK;
-	"[:^cntrl:]"	BEGIN(CCL); return CCE_NEG_CNTRL;
-	"[:^digit:]"	BEGIN(CCL); return CCE_NEG_DIGIT;
-	"[:^graph:]"	BEGIN(CCL); return CCE_NEG_GRAPH;
-	"[:^lower:]"	BEGIN(CCL); return CCE_NEG_LOWER;
-	"[:^print:]"	BEGIN(CCL); return CCE_NEG_PRINT;
-	"[:^punct:]"	BEGIN(CCL); return CCE_NEG_PUNCT;
-	"[:^space:]"	BEGIN(CCL); return CCE_NEG_SPACE;
-	"[:^upper:]"	BEGIN(CCL); return CCE_NEG_UPPER;
-	"[:^xdigit:]"	BEGIN(CCL); return CCE_NEG_XDIGIT;
+	"[:^alnum:]"	BEGIN(CCL); trả_về CCE_NEG_ALNUM;
+	"[:^alpha:]"	BEGIN(CCL); trả_về CCE_NEG_ALPHA;
+	"[:^blank:]"	BEGIN(CCL); trả_về CCE_NEG_BLANK;
+	"[:^cntrl:]"	BEGIN(CCL); trả_về CCE_NEG_CNTRL;
+	"[:^digit:]"	BEGIN(CCL); trả_về CCE_NEG_DIGIT;
+	"[:^graph:]"	BEGIN(CCL); trả_về CCE_NEG_GRAPH;
+	"[:^lower:]"	BEGIN(CCL); trả_về CCE_NEG_LOWER;
+	"[:^print:]"	BEGIN(CCL); trả_về CCE_NEG_PRINT;
+	"[:^punct:]"	BEGIN(CCL); trả_về CCE_NEG_PUNCT;
+	"[:^space:]"	BEGIN(CCL); trả_về CCE_NEG_SPACE;
+	"[:^upper:]"	BEGIN(CCL); trả_về CCE_NEG_UPPER;
+	"[:^xdigit:]"	BEGIN(CCL); trả_về CCE_NEG_XDIGIT;
 	{CCL_EXPR}	{
 			format_synerr(
 				_( "bad character class expression: %s" ),
 					yytext );
-			BEGIN(CCL); return CCE_ALNUM;
+			BEGIN(CCL); trả_về CCE_ALNUM;
 			}
 }
 
 <NUM>{
 	[[:digit:]]+	{
 			yylval = myctoi( yytext );
-			return NUMBER;
+			trả_về NUMBER;
 			}
 
-	","		return ',';
+	","		trả_về ',';
 	"}"		{
 			BEGIN(SECT2);
-			if ( ctrl.lex_compat || ctrl.posix_compat )
-				return END_REPEAT_POSIX;
-			else
-				return END_REPEAT_FLEX;
+			nếu ( ctrl.lex_compat || ctrl.posix_compat )
+				trả_về END_REPEAT_POSIX;
+			không_thì
+				trả_về END_REPEAT_FLEX;
 			}
 
 	.		{
 			synerr( _( "bad character inside {}'s" ) );
 			BEGIN(SECT2);
-			return '}';
+			trả_về '}';
 			}
 
 	{NL}		{
 			synerr( _( "missing }" ) );
 			BEGIN(SECT2);
 			++linenum;
-			return '}';
+			trả_về '}';
 			}
 }
 
@@ -929,9 +929,9 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
         }
 		"yymore"{OPTWS}"("{OPTWS}")" {
 			yymore_used = true;
-			if (ctrl.rewrite)
+			nếu (ctrl.rewrite)
 				context_call(yytext);
-			else
+			không_thì
 				ACTION_ECHO;
         }
 	}
@@ -940,8 +940,8 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 	{NL}	{
 		++linenum;
 		ACTION_ECHO;
-		if (bracelevel <= 0 || (doing_codeblock && indented_code)) {
-            if ( doing_rule_action )
+		nếu (bracelevel <= 0 || (doing_codeblock && indented_code)) {
+            nếu ( doing_rule_action )
                 add_action( "\t]""]M4_HOOK_STATE_CASE_BREAK\n" );
 
             doing_rule_action = doing_codeblock = false;
@@ -956,9 +956,9 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 	"{"		ACTION_ECHO; ++bracelevel;
 	"}"		ACTION_ECHO; --bracelevel;
 	yyecho\(\)|yyinput\(\)|yystart\({FUNARGS}\)|yybegin\({FUNARGS}\)|yyunput\({FUNARGS}\)|yypanic\({FUNARGS}\)|yyatbol\(\)|yysetbol\({FUNARGS}\) {
-			if (ctrl.rewrite)
+			nếu (ctrl.rewrite)
 				context_call(yytext);
-			else
+			không_thì
 				ACTION_ECHO;
 	}
 	yyterminate\(\)|yyless\({FUNARGS}\) {
@@ -967,15 +967,15 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 			add_action("[""[");
 	}
 	(yyin|yyout|yyextra|yyleng|yytext|yyflexdebug)/[^[:alnum:]_] {
-			if (ctrl.rewrite)
+			nếu (ctrl.rewrite)
 				context_member(yytext, "M4_PROPERTY_CONTEXT_FORMAT");
-			else
+			không_thì
 				ACTION_ECHO;
 	}
 	(yylineno|yycolumn)/[^[:alnum:]_] {
-			if (ctrl.rewrite)
+			nếu (ctrl.rewrite)
 				context_member(yytext, "M4_PROPERTY_BUFFERSTACK_CONTEXT_FORMAT");
-			else
+			không_thì
 				ACTION_ECHO;
 	}
 	[^[:Alpha:]_{}""''/\n\[\]]+	ACTION_ECHO;
@@ -986,8 +986,8 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 	{NL} {
                 ++linenum;
                 ACTION_ECHO;
-                if (bracelevel <= 0) {
-                   if ( doing_rule_action )
+                nếu (bracelevel <= 0) {
+                   nếu ( doing_rule_action )
                       add_action( "\t]""]M4_HOOK_STATE_CASE_BREAK\n" );
 
                    doing_rule_action = false;
@@ -1008,7 +1008,7 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 <ACTION_STRING,CHARACTER_CONSTANT>{
         (\\\n)*         ACTION_ECHO;
 	\\(\\\n)*.	ACTION_ECHO;
-	{NL}	++linenum; ACTION_ECHO; if (bracelevel <= 0) { BEGIN(SECT2); } else { BEGIN(ACTION); }
+	{NL}	++linenum; ACTION_ECHO; nếu (bracelevel <= 0) { BEGIN(SECT2); } không_thì { BEGIN(ACTION); }
         .	ACTION_ECHO;
 }
 
@@ -1025,10 +1025,10 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 <SECT2,QUOTE,FIRSTCCL,CCL>{ESCSEQ}	{
 			yylval = myesc( (unsigned char *) yytext );
 
-			if ( YY_START == FIRSTCCL )
+			nếu ( YY_START == FIRSTCCL )
 				BEGIN(CCL);
 
-			return CHAR;
+			trả_về CHAR;
 			}
 
 <SECT3>{
@@ -1056,16 +1056,16 @@ nmstr[yyleng - 2 - end_is_ws] = '\0';  /* chop trailing brace */
 %%
 
 
-int yywrap(void)
+số_nguyên yywrap(void)
 	{
-	if ( --num_input_files > 0 )
+	nếu ( --num_input_files > 0 )
 		{
 		set_input_file( *++input_files );
-		return 0;
+		trả_về 0;
 		}
 
-	else
-		return 1;
+	không_thì
+		trả_về 1;
 	}
 
 
@@ -1073,16 +1073,16 @@ int yywrap(void)
 
 void set_input_file( char *file )
 	{
-	if ( file && strcmp( file, "-" ) )
+	nếu ( file && strcmp( file, "-" ) )
 		{
 		infilename = xstrdup(file);
 		yyin = fopen( infilename, "r" );
 
-		if ( yyin == NULL )
+		nếu ( yyin == NULL )
 			lerr( _( "can't open %s: %s" ), file, strerror(errno));
 		}
 
-	else
+	không_thì
 		{
 		yyin = stdin;
 		infilename = xstrdup("<stdin>");
@@ -1095,9 +1095,9 @@ void context_call(char *txt) {
 	const char *context_arg = skel_property("M4_PROPERTY_CONTEXT_ARG");
 
 	/* if there's no such property, simply pass through */
-	if (context_arg == NULL) {
+	nếu (context_arg == NULL) {
 		add_action(txt);
-	} else {
+	} không_thì {
 		char buf[BUFSIZ];
 
 		/* otherwise, supply the context string as a final argument */
@@ -1105,7 +1105,7 @@ void context_call(char *txt) {
 		strncpy(buf, txt, sizeof(buf));
 		buf[strlen(buf)-1] = '\0';	/* remove trailing ) */
 		add_action(buf);
-		if (txt[strlen(buf)-1] != '(') {
+		nếu (txt[strlen(buf)-1] != '(') {
 			add_action(", ");
 		}
 		add_action(context_arg);
@@ -1117,9 +1117,9 @@ void context_member(char *txt, const char *prop) {
 	const char *context_format = skel_property(prop);
 
 	/* if there's no such property, simply pass through */
-	if (context_format == NULL) {
+	nếu (context_format == NULL) {
 		add_action(txt);
-	} else {
+	} không_thì {
 		char buf[128];
 		snprintf(buf, sizeof(buf), context_format, txt);
 		add_action(buf);
