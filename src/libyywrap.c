@@ -23,9 +23,9 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-int     yywrap (void);
+पूर्णांक     yywrap (शून्य);
 
-int     yywrap (void)
+पूर्णांक     yywrap (शून्य)
 {
-	return 1;
+	परत 1;
 }

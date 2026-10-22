@@ -33,30 +33,30 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#अन्तर्भाव "flexdef.h"
 
 /* return true if the chr is in the ccl. Takes negation into account. */
-static bool
-ccl_contains (const int cclp, const int ch)
+स्थिर bool
+ccl_contains (स्थिरांक पूर्णांक cclp, स्थिरांक पूर्णांक ch)
 {
-	int     ind, len, i;
+	पूर्णांक     ind, len, i;
 
 	len = ccllen[cclp];
 	ind = cclmap[cclp];
 
-	for (i = 0; i < len; ++i)
-		if (ccltbl[ind + i] == ch)
-			return !cclng[cclp];
+	साठी (i = 0; i < len; ++i)
+		जर (ccltbl[ind + i] == ch)
+			परत !cclng[cclp];
 
-    return cclng[cclp];
+    परत cclng[cclp];
 }
 
 
 /* ccladd - add a single character to a ccl */
 
-void ccladd (int cclp, int ch)
+शून्य ccladd (पूर्णांक cclp, पूर्णांक ch)
 {
-	int     ind, len, newpos, i;
+	पूर्णांक     ind, len, newpos, i;
 
 	check_char (ch);
 
@@ -65,12 +65,12 @@ void ccladd (int cclp, int ch)
 
 	/* check to see if the character is already in the ccl */
 
-	for (i = 0; i < len; ++i)
-		if (ccltbl[ind + i] == ch)
-			return;
+	साठी (i = 0; i < len; ++i)
+		जर (ccltbl[ind + i] == ch)
+			परत;
 
 	/* mark newlines */
-	if (ch == nlch)
+	जर (ch == nlch)
 		ccl_has_nl[cclp] = true;
 
 	newpos = ind + len;
@@ -78,60 +78,60 @@ void ccladd (int cclp, int ch)
 	/* For a non-last cclp, expanding the set will overflow and overwrite a
 	 * char in the next cclp.
 	 * FIXME: Need another allocation scheme for ccl's. */
-	if (cclp != lastccl) {
+	जर (cclp != lastccl) {
 		flexfatal(_("internal error: trying to add a char to a non-last ccl.\n"));
 	}
 
-	if (newpos >= current_max_ccl_tbl_size) {
+	जर (newpos >= current_max_ccl_tbl_size) {
 		current_max_ccl_tbl_size += MAX_CCL_TBL_SIZE_INCREMENT;
 
-		++num_reallocs;
+		++अंक_reallocs;
 
 		ccltbl = reallocate_Character_array (ccltbl,
 						     current_max_ccl_tbl_size);
 	}
 
 	ccllen[cclp] = len + 1;
-	ccltbl[newpos] = (unsigned char) ch;
+	ccltbl[newpos] = (अचिन्हित अक्षर) ch;
 }
 
 /* dump_cclp - same thing as list_character_set, but for cclps.  */
 
-static void    dump_cclp (FILE* file, int cclp)
+स्थिर शून्य    dump_cclp (खाता* file, पूर्णांक cclp)
 {
-	int i;
+	पूर्णांक i;
 
-	putc ('[', file);
+	अ_दो ('[', file);
 
-	for (i = 0; i < ctrl.csize; ++i) {
-		if (ccl_contains(cclp, i)){
-			int start_char = i;
+	साठी (i = 0; i < ctrl.csize; ++i) {
+		जर (ccl_contains(cclp, i)){
+			पूर्णांक start_char = i;
 
-			putc (' ', file);
+			अ_दो (' ', file);
 
-			fputs (readable_form (i), file);
+			ख_माला_दो (readable_form (i), file);
 
-			while (++i < ctrl.csize && ccl_contains(cclp,i)) ;
+			पर्यंत (++i < ctrl.csize && ccl_contains(cclp,i)) ;
 
-			if (i - 1 > start_char)
+			जर (i - 1 > start_char)
 				/* this was a run */
-				fprintf (file, "-%s",
+				ख_लिखो (file, "-%s",
 					 readable_form (i - 1));
 
-			putc (' ', file);
+			अ_दो (' ', file);
 		}
 	}
 
-	putc (']', file);
+	अ_दो (']', file);
 }
 
 
 
 /* ccl_set_diff - create a new ccl as the set difference of the two given ccls. */
-int
-ccl_set_diff (int a, int b)
+पूर्णांक
+ccl_set_diff (पूर्णांक a, पूर्णांक b)
 {
-    int  d, ch;
+    पूर्णांक  d, ch;
 
     /* create new class  */
     d = cclinit();
@@ -140,78 +140,78 @@ ccl_set_diff (int a, int b)
      * adding each char in a that is not in b.
      * (This could be O(n^2), but n is small and bounded.)
      */
-	for ( ch = 0; ch < ctrl.csize; ++ch )
-        if (ccl_contains (a, ch) && !ccl_contains(b, ch))
+	साठी ( ch = 0; ch < ctrl.csize; ++ch )
+        जर (ccl_contains (a, ch) && !ccl_contains(b, ch))
             ccladd (d, ch);
 
     /* debug */
-    if (0){
-        fprintf(stderr, "ccl_set_diff (");
-            fprintf(stderr, "\n    ");
-            dump_cclp (stderr, a);
-            fprintf(stderr, "\n    ");
-            dump_cclp (stderr, b);
-            fprintf(stderr, "\n    ");
-            dump_cclp (stderr, d);
-        fprintf(stderr, "\n)\n");
+    जर (0){
+        ख_लिखो(मानक_त्रुटि, "ccl_set_diff (");
+            ख_लिखो(मानक_त्रुटि, "\n    ");
+            dump_cclp (मानक_त्रुटि, a);
+            ख_लिखो(मानक_त्रुटि, "\n    ");
+            dump_cclp (मानक_त्रुटि, b);
+            ख_लिखो(मानक_त्रुटि, "\n    ");
+            dump_cclp (मानक_त्रुटि, d);
+        ख_लिखो(मानक_त्रुटि, "\n)\n");
     }
-    return d;
+    परत d;
 }
 
 /* ccl_set_union - create a new ccl as the set union of the two given ccls. */
-int
-ccl_set_union (int a, int b)
+पूर्णांक
+ccl_set_union (पूर्णांक a, पूर्णांक b)
 {
-    int  d, i;
+    पूर्णांक  d, i;
 
     /* create new class  */
     d = cclinit();
 
     /* Add all of a */
-    for (i = 0; i < ccllen[a]; ++i)
+    साठी (i = 0; i < ccllen[a]; ++i)
 		ccladd (d, ccltbl[cclmap[a] + i]);
 
     /* Add all of b */
-    for (i = 0; i < ccllen[b]; ++i)
+    साठी (i = 0; i < ccllen[b]; ++i)
 		ccladd (d, ccltbl[cclmap[b] + i]);
 
     /* debug */
-    if (0){
-        fprintf(stderr, "ccl_set_union (%d + %d = %d", a, b, d);
-            fprintf(stderr, "\n    ");
-            dump_cclp (stderr, a);
-            fprintf(stderr, "\n    ");
-            dump_cclp (stderr, b);
-            fprintf(stderr, "\n    ");
-            dump_cclp (stderr, d);
-        fprintf(stderr, "\n)\n");
+    जर (0){
+        ख_लिखो(मानक_त्रुटि, "ccl_set_union (%d + %d = %d", a, b, d);
+            ख_लिखो(मानक_त्रुटि, "\n    ");
+            dump_cclp (मानक_त्रुटि, a);
+            ख_लिखो(मानक_त्रुटि, "\n    ");
+            dump_cclp (मानक_त्रुटि, b);
+            ख_लिखो(मानक_त्रुटि, "\n    ");
+            dump_cclp (मानक_त्रुटि, d);
+        ख_लिखो(मानक_त्रुटि, "\n)\n");
     }
-    return d;
+    परत d;
 }
 
 
 /* cclinit - return an empty ccl */
 
-int     cclinit (void)
+पूर्णांक     cclinit (शून्य)
 {
-	if (++lastccl >= current_maxccls) {
+	जर (++lastccl >= current_maxccls) {
 		current_maxccls += MAX_CCLS_INCREMENT;
 
-		++num_reallocs;
+		++अंक_reallocs;
 
 		cclmap =
 			reallocate_integer_array (cclmap, current_maxccls);
 		ccllen =
 			reallocate_integer_array (ccllen, current_maxccls);
 		cclng = reallocate_integer_array (cclng, current_maxccls);
-		ccl_has_nl = reallocate_array(ccl_has_nl, current_maxccls, sizeof(char));
+		ccl_has_nl = reallocate_array(ccl_has_nl, current_maxccls, आकार(अक्षर));
 	}
 
-	if (lastccl == 1)
+	जर (lastccl == 1)
 		/* we're making the first ccl */
 		cclmap[lastccl] = 0;
 
-	else
+	अन्यथा
 		/* The new pointer is just past the end of the last ccl.
 		 * Since the cclmap points to the \first/ character of a
 		 * ccl, adding the length of the ccl to the cclmap pointer
@@ -224,13 +224,13 @@ int     cclinit (void)
 	cclng[lastccl] = 0;	/* ccl's start out life un-negated */
 	ccl_has_nl[lastccl] = false;
 
-	return lastccl;
+	परत lastccl;
 }
 
 
 /* cclnegate - negate the given ccl */
 
-void    cclnegate (int cclp)
+शून्य    cclnegate (पूर्णांक cclp)
 {
 	cclng[cclp] = 1;
 	ccl_has_nl[cclp] = !ccl_has_nl[cclp];
@@ -244,32 +244,32 @@ void    cclnegate (int cclp)
  * has a non-zero value in the cset array.
  */
 
-void    list_character_set (FILE *file, int cset[])
+शून्य    list_character_set (खाता *file, पूर्णांक cset[])
 {
-	int i;
+	पूर्णांक i;
 
-	putc ('[', file);
+	अ_दो ('[', file);
 
-	for (i = 0; i < ctrl.csize; ++i) {
-		if (cset[i]) {
-			int start_char = i;
+	साठी (i = 0; i < ctrl.csize; ++i) {
+		जर (cset[i]) {
+			पूर्णांक start_char = i;
 
-			putc (' ', file);
+			अ_दो (' ', file);
 
-			fputs (readable_form (i), file);
+			ख_माला_दो (readable_form (i), file);
 
-			while (++i < ctrl.csize && cset[i]) ;
+			पर्यंत (++i < ctrl.csize && cset[i]) ;
 
-			if (i - 1 > start_char)
+			जर (i - 1 > start_char)
 				/* this was a run */
-				fprintf (file, "-%s",
+				ख_लिखो (file, "-%s",
 					 readable_form (i - 1));
 
-			putc (' ', file);
+			अ_दो (' ', file);
 		}
 	}
 
-	putc (']', file);
+	अ_दो (']', file);
 }
 
 /** Determines if the range [c1-c2] is unambiguous in a case-insensitive
@@ -283,30 +283,30 @@ void    list_character_set (FILE *file, int cset[])
  * @param c2 the upper end of the range
  * @return true if [c1-c2] is not ambiguous for a caseless scanner.
  */
-bool range_covers_case (int c1, int c2)
+bool range_covers_case (पूर्णांक c1, पूर्णांक c2)
 {
-	int     i, o;
+	पूर्णांक     i, o;
 
-	for (i = c1; i <= c2; i++) {
-		if (has_case (i)) {
+	साठी (i = c1; i <= c2; i++) {
+		जर (has_case (i)) {
 			o = reverse_case (i);
-			if (o < c1 || c2 < o)
-				return false;
+			जर (o < c1 || c2 < o)
+				परत false;
 		}
 	}
-	return true;
+	परत true;
 }
 
 /** Reverse the case of a character, if possible.
  * @return c if case-reversal does not apply.
  */
-int reverse_case (int c)
+पूर्णांक reverse_case (पूर्णांक c)
 {
-	return isupper (c) ? tolower (c) : (islower (c) ? toupper (c) : c);
+	परत है_बड़ा (c) ? छोटे (c) : (है_छोटा (c) ? बड़े (c) : c);
 }
 
 /** Return true if c is uppercase or lowercase. */
-bool has_case (int c)
+bool has_case (पूर्णांक c)
 {
-	return (isupper (c) || islower (c)) ? true : false;
+	परत (है_बड़ा (c) || है_छोटा (c)) ? true : false;
 }
