@@ -196,7 +196,7 @@ void    scextend (void)
 {
 	current_max_scs += MAX_SCS_INCREMENT;
 
-	++num_reallocs;
+	++नुमेरो_reallocs;
 
 	scset = reallocate_integer_array (scset, current_max_scs);
 	scbol = reallocate_integer_array (scbol, current_max_scs);

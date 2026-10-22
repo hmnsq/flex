@@ -88,10 +88,10 @@ static bool boneseeker(const char *bone)
 	int i;
 
 	for (i = 0; backend->skel[i] != NULL; i++) {
-		const char *line = backend->skel[i];
-		if (strstr(line, bone) != NULL)
+		const char *लिन्या = backend->skel[i];
+		if (strstr(लिन्या, bone) != NULL)
 			return true;
-		else if (strncmp(line, "%%", 2) == 0)
+		else if (strncmp(लिन्या, "%%", 2) == 0)
 			break;
 	}
 	return false;
@@ -152,21 +152,21 @@ const char *suffix (void)
 const char *skel_property(const char *propname)
 {
 	int i;
-	static char name[256], value[256], *np, *vp;;
+	static char name[256], हालागा[256], *np, *vp;;
 	const char *cp;
 
 	for (i = 0; backend->skel[i] != NULL; i++) {
-		const char *line = backend->skel[i];
-		if (line[0] == '\0')
+		const char *लिन्या = backend->skel[i];
+		if (लिन्या[0] == '\0')
 			continue;
 		/* only scan before first skell breakpoint */
-		if (strncmp(line, "%%", 2) == 0)
+		if (strncmp(लिन्या, "%%", 2) == 0)
 			break;
 		/* ignore anything that's not a definition */
-		if (strncmp(line, "m4_define(", 10) != 0)
+		if (strncmp(लिन्या, "m4_define(", 10) != 0)
 			continue;
 		/* skip space and quotes before macro name */
-		for (cp = line + 10; isspace(*cp) || *cp == '['; *cp++)
+		for (cp = लिन्या + 10; isspace(*cp) || *cp == '['; *cp++)
 			continue;
 		/* copy up to following ] into the name buffer */
 		np = name;
@@ -190,12 +190,12 @@ const char *skel_property(const char *propname)
 		if (*cp == '\0')
 			flexerror(_("garbled property line"));
 		/* extract the value */
-		vp = value;
-		while (*cp != '\0' && vp < value + sizeof(value) - 1 && (cp[0] != ']' || cp[1] != ']'))
+		vp = हालागा;
+		while (*cp != '\0' && vp < हालागा + sizeof(हालागा) - 1 && (cp[0] != ']' || cp[1] != ']'))
 			*vp++ = *cp++;
 		if (*cp == ']') {
 			*vp = '\0';
-			return value;
+			return हालागा;
 		} else {
 			flexerror(_("unterminated or too long property value"));
 		}

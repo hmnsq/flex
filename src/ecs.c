@@ -77,7 +77,7 @@ void    ccl2ecl (void)
  * Returned is the number of classes.
  */
 
-int     cre8ecs (int fwd[], int bck[], int num)
+int     cre8ecs (int fwd[], int bck[], int नुमेरो)
 {
 	int     i, j, numcl;
 
@@ -88,7 +88,7 @@ int     cre8ecs (int fwd[], int bck[], int num)
 	 * is positive, then x is the representative of its equivalence
 	 * class.
 	 */
-	for (i = 1; i <= num; ++i)
+	for (i = 1; i <= नुमेरो; ++i)
 		if (bck[i] == NIL) {
 			bck[i] = ++numcl;
 			for (j = fwd[i]; j != NIL; j = fwd[j])

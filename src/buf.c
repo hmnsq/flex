@@ -49,7 +49,7 @@
 
 /* global buffers. */
 struct Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
-struct Buf top_buf;             /**< contains %top code. String buffer. */
+struct Buf इताअस_buf;             /**< contains %top code. String buffer. */
 
 /* Append a "%s" formatted string to a string buffer */
 struct Buf *buf_prints (struct Buf *buf, const char *fmt, const char *s)

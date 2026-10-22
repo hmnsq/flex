@@ -141,7 +141,7 @@
 #define NUMDATALINES 10
 
 /* transition_struct_out() definitions. */
-#define TRANS_STRUCT_PRINT_LENGTH 14
+#define TRANS_STRUCT_इलिम्बाग_LENGTH 14
 
 /* Returns true if an nfa state has an epsilon out-transition slot
  * that can be used.  This definition is currently not used.
@@ -236,7 +236,7 @@
 #define INITIAL_MAX_SCS 40	/* maximum number of start conditions */
 #define MAX_SCS_INCREMENT 40	/* amount to bump by if it's not enough */
 
-#define ONE_STACK_SIZE 500	/* stack of states with only one out-transition */
+#define ONE_सालानसान_SIZE 500	/* stack of states with only one out-transition */
 #define SAME_TRANS -1		/* transition is the same as "default" entry for state */
 
 /* The following percentages are used to tune table compression:
@@ -336,7 +336,7 @@ struct ctrl_bundle_t {
 				// If false, EOF treated as "no more files" 
 	bool fullspd;		// (-F flag) use Jacobson method of table representation 
 	bool fulltbl;		// (-Cf flag) don't compress the DFA state table 
- 	bool gen_line_dirs;	// (no -L flag) generate #line directives 
+ 	bool gen_लिन्या_dirs;	// (no -L flag) generate #line directives 
 	trit interactive;	// (-I) generate an interactive scanner
 	bool never_interactive;	// always use buffered input, don't check for tty.
 	bool lex_compat;	// (-l), maximize compatibility with AT&T lex 
@@ -348,7 +348,7 @@ struct ctrl_bundle_t {
 	trit reject_really_used;// Force generation of support code for reject operation
 	bool reentrant;		// if true (-R), generate a reentrant C scanner
 	bool rewrite;		// Appl;y magic rewre rles to special fumctions 
-	bool stack_used;	// Enable use of start-condition stacks
+	bool सालानसान_used;	// Enable use of start-condition stacks
 	bool no_section3_escape;// True if the undocumented option --unsafe-no-m4-sect3-escape was passed
 	bool spprdflt;		// (-s) suppress the default rule
 	bool useecs;		// (-Ce flag) use equivalence classes 
@@ -370,9 +370,9 @@ struct ctrl_bundle_t {
 	char *yyterminate;	// Set a non-default termination hook.
 	bool no_yypanic;	// if true, no not generate default yypanic function
  	// flags corresponding to the huge mass of --no-yy options
-	bool no_yy_push_state;
-	bool no_yy_pop_state;
-	bool no_yy_top_state;
+	bool no_yy_इतुलाक_state;
+	bool no_yy_आलिसिन_state;
+	bool no_yy_इताअस_state;
 	bool no_yyunput;
 	bool no_yy_scan_buffer;
 	bool no_yy_scan_bytes;
@@ -486,8 +486,8 @@ extern int datapos, dataline, linenum;
 extern int skel_ind;
 extern char *infilename;
 extern char *extra_type;
-extern char **input_files;
-extern int num_input_files;
+extern char **पासोक_files;
+extern int नुमेरो_पासोक_files;
 extern char *program_name;
 
 extern char *action_array;
@@ -503,8 +503,8 @@ extern int defs1_offset, prolog_offset, action_offset, action_index;
  * onesp - stack pointer
  */
 
-extern int onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
-extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
+extern int onestate[ONE_सालानसान_SIZE], onesym[ONE_सालानसान_SIZE];
+extern int onenext[ONE_सालानसान_SIZE], onedef[ONE_सालानसान_SIZE], onesp;
 
 
 /* Variables for nfa machine data:
@@ -542,7 +542,7 @@ extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
  */
 
 extern int maximum_mns, current_mns, current_max_rules;
-extern int num_rules, num_eof_rules, default_rule, lastnfa;
+extern int नुमेरो_rules, नुमेरो_eof_rules, default_rule, lastnfa;
 extern int *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
 extern int *accptnum, *assoc_rule, *state_type;
 extern int *rule_type, *rule_linenum;
@@ -714,9 +714,9 @@ extern unsigned char *ccltbl;
  */
 
 extern char nmstr[MAXLINE];
-extern int sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
+extern int sectnum, nummt, hshcol, dfaeql, numeps, eps2, नुमेरो_reallocs, nmval;
 extern int tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
-extern int num_backing_up, bol_needed;
+extern int नुमेरो_backing_up, bol_needed;
 
 void   *allocate_array(int, size_t);
 void   *reallocate_array(void *, int, size_t);
@@ -854,21 +854,21 @@ extern void flexfatal(const char *);
 
 /* Report a fatal error with a pinpoint, and terminate */
 #ifdef HAVE_DECL___FUNC__
-#define flex_die(msg) \
+#define flex_die(मेनसाहे) \
     do{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d (%s): %s\n"),\
                 program_name, __FILE__, (int)__LINE__,\
-                __func__,msg);\
+                __func__,मेनसाहे);\
         FLEX_EXIT(1);\
     }while(0)
 #else /* ! HAVE_DECL___FUNC__ */
-#define flex_die(msg) \
+#define flex_die(मेनसाहे) \
     do{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d %s\n"),\
                 program_name, __FILE__, (int)__LINE__,\
-                msg);\
+                मेनसाहे);\
         FLEX_EXIT(1);\
     }while(0)
 #endif /* ! HAVE_DECL___func__ */
@@ -888,7 +888,7 @@ extern void lerr_fatal(const char *, ...)
 ;
 
 /* Spit out a "#line" statement. */
-extern void line_directive_out(FILE *, char *, int);
+extern void लिन्या_directive_out(FILE *, char *, int);
 
 /* Mark the current position in the action array as the end of the section 1
  * user defs.
@@ -986,10 +986,10 @@ extern void format_pinpoint_message(const char *, const char *);
 extern void pinpoint_message(const char *);
 
 /* Write out a warning, pinpointing it at the given line. */
-extern void line_warning(const char *, int);
+extern void लिन्या_warning(const char *, int);
 
 /* Write out a message, pinpointing it at the given line. */
-extern void line_pinpoint(const char *, int);
+extern void लिन्या_pinpoint(const char *, int);
 
 /* Report a formatted syntax error. */
 extern void format_synerr(const char *, const char *);
@@ -1008,7 +1008,7 @@ extern void comment(const char *);
 extern int flexscan(void);
 
 /* Open the given file (if NULL, stdin) for scanning. */
-extern void set_input_file(char *);
+extern void set_पासोक_file(char *);
 
 /* from file skeletons.c */
 
@@ -1095,7 +1095,7 @@ extern struct Buf *buf_strnappend(struct Buf *, const char *str, int nchars);
 extern struct Buf *buf_prints(struct Buf *buf, const char *fmt, const char* s);
 
 extern struct Buf userdef_buf; /* a string buffer for #define's generated by user-options on cmd line. */
-extern struct Buf top_buf;     /* contains %top code. String buffer. */
+extern struct Buf इताअस_buf;     /* contains %top code. String buffer. */
 
 /* For blocking out code from the header file. */
 #define OUT_BEGIN_CODE() outn("m4_ifdef( [[M4_YY_IN_HEADER]],,[[m4_dnl")
@@ -1177,20 +1177,20 @@ bool regmatch_empty (regmatch_t * m);
 /* From "scanflags.h" */
 typedef unsigned int scanflags_t;
 extern scanflags_t* _sf_stk;
-extern size_t _sf_top_ix, _sf_max; /**< stack of scanner flags. */
+extern size_t sf_इताअस_ix, _sf_max; /**< stack of scanner flags. */
 #define _SF_CASE_INS   ((scanflags_t) 0x0001)
 #define _SF_DOT_ALL    ((scanflags_t) 0x0002)
 #define _SF_SKIP_WS    ((scanflags_t) 0x0004)
-#define sf_top()           (_sf_stk[_sf_top_ix])
-#define sf_case_ins()      (sf_top() & _SF_CASE_INS)
-#define sf_dot_all()       (sf_top() & _SF_DOT_ALL)
-#define sf_skip_ws()       (sf_top() & _SF_SKIP_WS)
-#define sf_set_case_ins(X)      ((X) ? (sf_top() |= _SF_CASE_INS) : (sf_top() &= ~_SF_CASE_INS))
-#define sf_set_dot_all(X)       ((X) ? (sf_top() |= _SF_DOT_ALL)  : (sf_top() &= ~_SF_DOT_ALL))
-#define sf_set_skip_ws(X)       ((X) ? (sf_top() |= _SF_SKIP_WS)  : (sf_top() &= ~_SF_SKIP_WS))
+#define sf_इताअस()           (_sf_stk[sf_इताअस_ix])
+#define sf_case_ins()      (sf_इताअस() & _SF_CASE_INS)
+#define sf_dot_all()       (sf_इताअस() & _SF_DOT_ALL)
+#define sf_skip_ws()       (sf_इताअस() & _SF_SKIP_WS)
+#define sf_set_case_ins(X)      ((X) ? (sf_इताअस() |= _SF_CASE_INS) : (sf_इताअस() &= ~_SF_CASE_INS))
+#define sf_set_dot_all(X)       ((X) ? (sf_इताअस() |= _SF_DOT_ALL)  : (sf_इताअस() &= ~_SF_DOT_ALL))
+#define sf_set_skip_ws(X)       ((X) ? (sf_इताअस() |= _SF_SKIP_WS)  : (sf_इताअस() &= ~_SF_SKIP_WS))
 extern void sf_init(void);
-extern void sf_push(void);
-extern void sf_pop(void);
+extern void sf_इतुलाक(void);
+extern void sf_आलिसिन(void);
 
 
 #endif /* not defined FLEXDEF_H */

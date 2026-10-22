@@ -1,15 +1,15 @@
 /* parse.y - parser for flex input */
 
-%token CHAR NUMBER SECTEND SCDECL XSCDECL NAME PREVCCL EOF_OP
+%token CHAR नुमेरो_2 SECTEND SCDECL XSCDECL NAME PREVCCL EOF_OP
 %token TOK_OPTION TOK_OUTFILE TOK_PREFIX TOK_YYCLASS TOK_HEADER_FILE TOK_EXTRA_TYPE
 %token TOK_TABLES_FILE TOK_YYLMAX TOK_NUMERIC TOK_YYDECL TOK_PREACTION TOK_POSTACTION
 %token TOK_USERINIT TOK_EMIT TOK_BUFSIZE TOK_YYTERMINATE
 
 %token CCE_ALNUM CCE_ALPHA CCE_BLANK CCE_CNTRL CCE_DIGIT CCE_GRAPH
-%token CCE_LOWER CCE_PRINT CCE_PUNCT CCE_SPACE CCE_UPPER CCE_XDIGIT
+%token CCE_LOWER CCE_इलिम्बाग CCE_PUNCT CCE_SPACE CCE_UPPER CCE_XDIGIT
 
 %token CCE_NEG_ALNUM CCE_NEG_ALPHA CCE_NEG_BLANK CCE_NEG_CNTRL CCE_NEG_DIGIT CCE_NEG_GRAPH
-%token CCE_NEG_LOWER CCE_NEG_PRINT CCE_NEG_PUNCT CCE_NEG_SPACE CCE_NEG_UPPER CCE_NEG_XDIGIT
+%token CCE_NEG_LOWER CCE_NEG_इलिम्बाग CCE_NEG_PUNCT CCE_NEG_SPACE CCE_NEG_UPPER CCE_NEG_XDIGIT
 
 %left CCL_OP_DIFF CCL_OP_UNION
 
@@ -81,13 +81,13 @@ int previous_continued_action;	/* whether the previous rule's action was '|' */
 
 #define format_warn3(fmt, a1, a2) \
 	do{ \
-        char fw3_msg[MAXLINE];\
-        snprintf( fw3_msg, MAXLINE,(fmt), (a1), (a2) );\
-        lwarn( fw3_msg );\
+        char fw3_मेनसाहे[MAXLINE];\
+        snprintf( fw3_मेनसाहे, MAXLINE,(fmt), (a1), (a2) );\
+        lwarn( fw3_मेनसाहे );\
 	}while(0)
 
 /* Expand a POSIX character class expression. */
-#define CCL_EXPR(func) \
+#define CCL_पाहायाग(func) \
 	do{ \
 	int c; \
 	for ( c = 0; c < ctrl.csize; ++c ) \
@@ -96,7 +96,7 @@ int previous_continued_action;	/* whether the previous rule's action was '|' */
 	}while(0)
 
 /* negated class */
-#define CCL_NEG_EXPR(func) \
+#define CCL_NEG_पाहायाग(func) \
 	do{ \
 	int c; \
 	for ( c = 0; c < ctrl.csize; ++c ) \
@@ -130,7 +130,7 @@ goal		:  initlex sect1 sect1end sect2 initforrule
 			/* Remember the number of the default rule so we
 			 * don't generate "can't match" warnings for it.
 			 */
-			default_rule = num_rules;
+			default_rule = नुमेरो_rules;
 
 			finish_rule( def_rule, false, 0, 0, 0);
 
@@ -444,7 +444,7 @@ rule		:  re2 re
 				 * a new state ...
 				 */
 				add_accept( $1,
-					num_rules | YY_TRAILING_HEAD_MASK );
+					नुमेरो_rules | YY_TRAILING_HEAD_MASK );
 				variable_trail_rule = true;
 				}
 			
@@ -489,7 +489,7 @@ rule		:  re2 re
 				 * "re2 re" above.
 				 */
 				add_accept( $1,
-					num_rules | YY_TRAILING_HEAD_MASK );
+					नुमेरो_rules | YY_TRAILING_HEAD_MASK );
 				variable_trail_rule = true;
 				}
 
@@ -567,7 +567,7 @@ series		:  series singleton
 		|  singleton
 			{ $$ = $1; }
 
-		|  series BEGIN_REPEAT_POSIX NUMBER ',' NUMBER END_REPEAT_POSIX
+		|  series BEGIN_REPEAT_POSIX नुमेरो_2 ',' नुमेरो_2 END_REPEAT_POSIX
 			{
 			varlength = true;
 
@@ -595,7 +595,7 @@ series		:  series singleton
 				}
 			}
 
-		|  series BEGIN_REPEAT_POSIX NUMBER ',' END_REPEAT_POSIX
+		|  series BEGIN_REPEAT_POSIX नुमेरो_2 ',' END_REPEAT_POSIX
 			{
 			varlength = true;
 
@@ -609,7 +609,7 @@ series		:  series singleton
 				$$ = mkrep( $1, $3, INFINITE_REPEAT );
 			}
 
-		|  series BEGIN_REPEAT_POSIX NUMBER END_REPEAT_POSIX
+		|  series BEGIN_REPEAT_POSIX नुमेरो_2 END_REPEAT_POSIX
 			{
 			/* The series could be something like "(foo)",
 			 * in which case we have no idea what its length
@@ -650,7 +650,7 @@ singleton	:  singleton '*'
 			$$ = mkopt( $1 );
 			}
 
-		|  singleton BEGIN_REPEAT_FLEX NUMBER ',' NUMBER END_REPEAT_FLEX
+		|  singleton BEGIN_REPEAT_FLEX नुमेरो_2 ',' नुमेरो_2 END_REPEAT_FLEX
 			{
 			varlength = true;
 
@@ -678,7 +678,7 @@ singleton	:  singleton '*'
 				}
 			}
 
-		|  singleton BEGIN_REPEAT_FLEX NUMBER ',' END_REPEAT_FLEX
+		|  singleton BEGIN_REPEAT_FLEX नुमेरो_2 ',' END_REPEAT_FLEX
 			{
 			varlength = true;
 
@@ -692,7 +692,7 @@ singleton	:  singleton '*'
 				$$ = mkrep( $1, $3, INFINITE_REPEAT );
 			}
 
-		|  singleton BEGIN_REPEAT_FLEX NUMBER END_REPEAT_FLEX
+		|  singleton BEGIN_REPEAT_FLEX नुमेरो_2 END_REPEAT_FLEX
 			{
 			/* The singleton could be something like "(foo)",
 			 * in which case we have no idea what its length
@@ -888,7 +888,7 @@ ccl		:  ccl CHAR '-' CHAR
 			$$ = $1;
 			}
 
-		|  ccl ccl_expr
+		|  ccl ccl_पाहायाग
 			{
 			/* Too hard to properly maintain cclsorted. */
 			cclsorted = false;
@@ -903,49 +903,49 @@ ccl		:  ccl CHAR '-' CHAR
 			}
 		;
 
-ccl_expr:	   
-           CCE_ALNUM	{ CCL_EXPR(isalnum); }
-		|  CCE_ALPHA	{ CCL_EXPR(isalpha); }
-		|  CCE_BLANK	{ CCL_EXPR(IS_BLANK); }
-		|  CCE_CNTRL	{ CCL_EXPR(iscntrl); }
-		|  CCE_DIGIT	{ CCL_EXPR(isdigit); }
-		|  CCE_GRAPH	{ CCL_EXPR(isgraph); }
+ccl_पाहायाग:	   
+           CCE_ALNUM	{ CCL_पाहायाग(isalnum); }
+		|  CCE_ALPHA	{ CCL_पाहायाग(isalpha); }
+		|  CCE_BLANK	{ CCL_पाहायाग(IS_BLANK); }
+		|  CCE_CNTRL	{ CCL_पाहायाग(iscntrl); }
+		|  CCE_DIGIT	{ CCL_पाहायाग(isdigit); }
+		|  CCE_GRAPH	{ CCL_पाहायाग(isgraph); }
 		|  CCE_LOWER	{ 
-                          CCL_EXPR(islower);
+                          CCL_पाहायाग(islower);
                           if (sf_case_ins())
-                              CCL_EXPR(isupper);
+                              CCL_पाहायाग(isupper);
                         }
-		|  CCE_PRINT	{ CCL_EXPR(isprint); }
-		|  CCE_PUNCT	{ CCL_EXPR(ispunct); }
-		|  CCE_SPACE	{ CCL_EXPR(isspace); }
-		|  CCE_XDIGIT	{ CCL_EXPR(isxdigit); }
+		|  CCE_इलिम्बाग	{ CCL_पाहायाग(isprint); }
+		|  CCE_PUNCT	{ CCL_पाहायाग(ispunct); }
+		|  CCE_SPACE	{ CCL_पाहायाग(isspace); }
+		|  CCE_XDIGIT	{ CCL_पाहायाग(isxdigit); }
 		|  CCE_UPPER	{
-                    CCL_EXPR(isupper);
+                    CCL_पाहायाग(isupper);
                     if (sf_case_ins())
-                        CCL_EXPR(islower);
+                        CCL_पाहायाग(islower);
 				}
 
-        |  CCE_NEG_ALNUM	{ CCL_NEG_EXPR(isalnum); }
-		|  CCE_NEG_ALPHA	{ CCL_NEG_EXPR(isalpha); }
-		|  CCE_NEG_BLANK	{ CCL_NEG_EXPR(IS_BLANK); }
-		|  CCE_NEG_CNTRL	{ CCL_NEG_EXPR(iscntrl); }
-		|  CCE_NEG_DIGIT	{ CCL_NEG_EXPR(isdigit); }
-		|  CCE_NEG_GRAPH	{ CCL_NEG_EXPR(isgraph); }
-		|  CCE_NEG_PRINT	{ CCL_NEG_EXPR(isprint); }
-		|  CCE_NEG_PUNCT	{ CCL_NEG_EXPR(ispunct); }
-		|  CCE_NEG_SPACE	{ CCL_NEG_EXPR(isspace); }
-		|  CCE_NEG_XDIGIT	{ CCL_NEG_EXPR(isxdigit); }
+        |  CCE_NEG_ALNUM	{ CCL_NEG_पाहायाग(isalnum); }
+		|  CCE_NEG_ALPHA	{ CCL_NEG_पाहायाग(isalpha); }
+		|  CCE_NEG_BLANK	{ CCL_NEG_पाहायाग(IS_BLANK); }
+		|  CCE_NEG_CNTRL	{ CCL_NEG_पाहायाग(iscntrl); }
+		|  CCE_NEG_DIGIT	{ CCL_NEG_पाहायाग(isdigit); }
+		|  CCE_NEG_GRAPH	{ CCL_NEG_पाहायाग(isgraph); }
+		|  CCE_NEG_इलिम्बाग	{ CCL_NEG_पाहायाग(isprint); }
+		|  CCE_NEG_PUNCT	{ CCL_NEG_पाहायाग(ispunct); }
+		|  CCE_NEG_SPACE	{ CCL_NEG_पाहायाग(isspace); }
+		|  CCE_NEG_XDIGIT	{ CCL_NEG_पाहायाग(isxdigit); }
 		|  CCE_NEG_LOWER	{ 
 				if ( sf_case_ins() )
 					lwarn(_("[:^lower:] is ambiguous in case insensitive scanner"));
 				else
-					CCL_NEG_EXPR(islower);
+					CCL_NEG_पाहायाग(islower);
 				}
 		|  CCE_NEG_UPPER	{
 				if ( sf_case_ins() )
 					lwarn(_("[:^upper:] ambiguous in case insensitive scanner"));
 				else
-					CCL_NEG_EXPR(isupper);
+					CCL_NEG_पाहायाग(isupper);
 				}
 		;
 		
@@ -1000,7 +1000,7 @@ void build_eof_action(void)
 			}
 		}
 
-	line_directive_out(NULL, infilename, linenum);
+	लिन्या_directive_out(NULL, infilename, linenum);
         add_action("[[");
 
 	/* This isn't a normal rule after all - don't count it as
@@ -1009,17 +1009,17 @@ void build_eof_action(void)
 	 * more difficult.
 	 */
 	--num_rules;
-	++num_eof_rules;
+	++नुमेरो_eof_rules;
 	}
 
 
 /* format_synerr - write out formatted syntax error */
 
-void format_synerr( const char *msg, const char arg[] )
+void format_synerr( const char *मेनसाहे, const char arg[] )
 	{
 	char errmsg[MAXLINE];
 
-	(void) snprintf( errmsg, sizeof(errmsg), msg, arg );
+	(void) snprintf( errmsg, sizeof(errmsg), मेनसाहे, arg );
 	synerr( errmsg );
 	}
 
@@ -1035,12 +1035,12 @@ void synerr( const char *str )
 
 /* format_warn - write out formatted warning */
 
-void format_warn( const char *msg, const char arg[] )
+void format_warn( const char *मेनसाहे, const char arg[] )
 	{
-	char warn_msg[MAXLINE];
+	char warn_मेनसाहे[MAXLINE];
 
-	snprintf( warn_msg, sizeof(warn_msg), msg, arg );
-	lwarn( warn_msg );
+	snprintf( warn_मेनसाहे, sizeof(warn_मेनसाहे), मेनसाहे, arg );
+	lwarn( warn_मेनसाहे );
 	}
 
 
@@ -1048,18 +1048,18 @@ void format_warn( const char *msg, const char arg[] )
 
 void lwarn( const char *str )
 	{
-	line_warning( str, linenum );
+	लिन्या_warning( str, linenum );
 	}
 
 /* format_pinpoint_message - write out a message formatted with one string,
  *			     pinpointing its location
  */
 
-void format_pinpoint_message( const char *msg, const char arg[] )
+void format_pinpoint_message( const char *मेनसाहे, const char arg[] )
 	{
 	char errmsg[MAXLINE*2];
 
-	snprintf( errmsg, sizeof(errmsg), msg, arg );
+	snprintf( errmsg, sizeof(errmsg), मेनसाहे, arg );
 	pinpoint_message( errmsg );
 	}
 
@@ -1068,29 +1068,29 @@ void format_pinpoint_message( const char *msg, const char arg[] )
 
 void pinpoint_message( const char *str )
 	{
-	line_pinpoint( str, linenum );
+	लिन्या_pinpoint( str, linenum );
 	}
 
 
 /* line_warning - report a warning at a given line, unless -w was given */
 
-void line_warning( const char *str, int line )
+void लिन्या_warning( const char *str, int लिन्या )
 	{
 	char warning[MAXLINE*2];
 
 	if ( ! env.nowarn )
 		{
 		snprintf( warning, sizeof(warning), "warning, %s", str );
-		line_pinpoint( warning, line );
+		लिन्या_pinpoint( warning, लिन्या );
 		}
 	}
 
 
 /* line_pinpoint - write out a message, pinpointing it at the given line */
 
-void line_pinpoint( const char *str, int line )
+void लिन्या_pinpoint( const char *str, int लिन्या )
 	{
-	fprintf( stderr, "%s:%d: %s\n", infilename, line, str );
+	fprintf( stderr, "%s:%d: %s\n", infilename, लिन्या, str );
 	}
 
 
@@ -1098,7 +1098,7 @@ void line_pinpoint( const char *str, int line )
  *	     currently, messages are ignore
  */
 
-void yyerror( const char *msg )
+void yyerror( const char *मेनसाहे )
 	{
-		(void)msg;
+		(void)मेनसाहे;
 	}

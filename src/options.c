@@ -141,9 +141,9 @@ optspec_t flexopts[] = {
 	,			/* Maximal compatibility with POSIX lex. */
         {"--preproc=NUM", OPT_PREPROC_LEVEL, 0}
         ,
-	{"-L", OPT_NO_LINE, 0}
+	{"-L", OPT_NO_लिन्या, 0}
 	,			/* Suppress #line directives in scanner. */
-	{"--noline", OPT_NO_LINE, 0}
+	{"--noline", OPT_NO_लिन्या, 0}
 	,			/* Suppress #line directives in scanner. */
 	{"--main", OPT_MAIN, 0}
 	,			/* use built-in main() function. */
@@ -187,7 +187,7 @@ optspec_t flexopts[] = {
 	,
 	{"--skel=FILE", OPT_SKEL, 0}
 	,			/* Use skeleton from FILE */
-	{"--stack", OPT_STACK, 0}
+	{"--stack", OPT_सालानसान, 0}
 	,
 	{"--stdinit", OPT_STDINIT, 0}
 	,
@@ -245,11 +245,11 @@ optspec_t flexopts[] = {
 	,
 	{"--noyyunput", OPT_NO_YYUNPUT, 0}
 	,
-	{"--noyy_push_state", OPT_NO_YY_PUSH_STATE, 0}
+	{"--noyy_push_state", OPT_NO_YY_इतुलाक_STATE, 0}
 	,
-	{"--noyy_pop_state", OPT_NO_YY_POP_STATE, 0}
+	{"--noyy_pop_state", OPT_NO_YY_आलिसिन_STATE, 0}
 	,
-	{"--noyy_top_state", OPT_NO_YY_TOP_STATE, 0}
+	{"--noyy_top_state", OPT_NO_YY_इताअस_STATE, 0}
 	,
 	{"--noyy_scan_buffer", OPT_NO_YY_SCAN_BUFFER, 0}
 	,

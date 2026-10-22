@@ -79,11 +79,11 @@ static struct yytbl_data *mkeoltbl (void)
 	tbl = calloc(1, sizeof (struct yytbl_data));
 	yytbl_data_init (tbl, YYTD_ID_RULE_CAN_MATCH_EOL);
 	tbl->td_flags = YYTD_DATA8;
-	tbl->td_lolen = (flex_uint32_t) (num_rules + 1);
+	tbl->td_lolen = (flex_uint32_t) (नुमेरो_rules + 1);
 	tbl->td_data = tdata =
 		calloc(tbl->td_lolen, sizeof (flex_int8_t));
 
-	for (i = 1; i <= num_rules; i++)
+	for (i = 1; i <= नुमेरो_rules; i++)
 		tdata[i] = rule_has_nl[i] ? 1 : 0;
 
 	return tbl;
@@ -93,22 +93,22 @@ static struct yytbl_data *mkeoltbl (void)
 static void geneoltbl (void)
 {
 	int     i;
-	struct packtype_t *ptype = optimize_pack(num_rules);
+	struct packtype_t *ptype = optimize_pack(नुमेरो_rules);
 
 	outn ("m4_ifdef( [[M4_MODE_YYLINENO]],[[");
 	out_str ("m4_define([[M4_HOOK_EOLTABLE_TYPE]], [[%s]])\n", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_EOLTABLE_SIZE]], [[%d]])", num_rules + 1);
+	out_dec ("m4_define([[M4_HOOK_EOLTABLE_SIZE]], [[%d]])", नुमेरो_rules + 1);
 	outn ("m4_define([[M4_HOOK_EOLTABLE_BODY]], [[m4_dnl");
 
 	if (gentables) {
-		for (i = 1; i <= num_rules; i++) {
+		for (i = 1; i <= नुमेरो_rules; i++) {
 			out_dec ("%d, ", rule_has_nl[i] ? 1 : 0);
 			/* format nicely, 20 numbers per line. */
 			if ((i % 20) == 19)
 				out ("\n    ");
 		}
 	}
-	footprint += num_rules * ptype->width;
+	footprint += नुमेरो_rules * ptype->width;
 	outn ("]])");
 	outn ("]])");
 }
@@ -126,7 +126,7 @@ static struct yytbl_data *mkctbl (void)
 	int i;
 	struct yytbl_data *tbl = 0;
 	flex_int32_t *tdata = 0, curr = 0;
-	int     end_of_buffer_action = num_rules + 1;
+	int     end_of_buffer_action = नुमेरो_rules + 1;
 
 	struct packtype_t *ptype = optimize_pack(tblend + 2 + 1);
 	out_str ("m4_define([[M4_HOOK_MKCTBL_TYPE]], [[%s]])", ptype->name);
@@ -248,7 +248,7 @@ static struct yytbl_data *mkssltbl (void)
 static void genctbl(void)
 {
 	int i;
-	int     end_of_buffer_action = num_rules + 1;
+	int     end_of_buffer_action = नुमेरो_rules + 1;
 
 	/* Table of verify for transition and offset to next state. */
 	out_dec ("m4_define([[M4_HOOK_TRANSTABLE_SIZE]], [[%d]])", tblend + 2 + 1);
@@ -408,7 +408,7 @@ static void genecs(void)
 static struct yytbl_data *mkftbl(void)
 {
 	int i;
-	int     end_of_buffer_action = num_rules + 1;
+	int     end_of_buffer_action = नुमेरो_rules + 1;
 	struct yytbl_data *tbl;
 	flex_int32_t *tdata = 0;
 
@@ -442,8 +442,8 @@ static struct yytbl_data *mkftbl(void)
 static void genftbl(void)
 {
 	int i;
-	int     end_of_buffer_action = num_rules + 1;
-	struct packtype_t *ptype = optimize_pack(num_rules + 1);
+	int     end_of_buffer_action = नुमेरो_rules + 1;
+	struct packtype_t *ptype = optimize_pack(नुमेरो_rules + 1);
 
 	dfaacc[end_of_buffer_state].dfaacc_state = end_of_buffer_action;
 
@@ -479,7 +479,7 @@ static void genftbl(void)
 static void gentabs(void)
 {
 	int     sz, i, j, k, *accset, nacc, *acc_array, total_states;
-	int     end_of_buffer_action = num_rules + 1;
+	int     end_of_buffer_action = नुमेरो_rules + 1;
 	struct yytbl_data *yyacc_tbl = 0, *yymeta_tbl = 0, *yybase_tbl = 0,
 	    *yydef_tbl = 0, *yynxt_tbl = 0, *yychk_tbl = 0, *yyacclist_tbl=0;
 	flex_int32_t *yyacc_data = 0, *yybase_data = 0, *yydef_data = 0,
@@ -495,7 +495,7 @@ static void gentabs(void)
 	 * In order to recover the previous state, we effectively need
 	 * to keep backing-up information.
 	 */
-	++num_backing_up;
+	++नुमेरो_backing_up;
 
 	if (reject) {
 		/* Write out accepting list and pointer list.
@@ -549,7 +549,7 @@ static void gentabs(void)
 					    && !(accnum &
 						 YY_TRAILING_HEAD_MASK)
 					    && accnum > 0
-					    && accnum <= num_rules
+					    && accnum <= नुमेरो_rules
 					    && rule_type[accnum] ==
 					    RULE_VARIABLE) {
 						/* Special hack to flag
@@ -994,7 +994,7 @@ void make_tables (void)
 	comment(buf);
 	snprintf(buf, sizeof(buf), "numecs: %d\n", numecs);
 	comment(buf);
-	snprintf(buf, sizeof(buf), "num_rules: %d\n", num_rules);
+	snprintf(buf, sizeof(buf), "num_rules: %d\n", नुमेरो_rules);
 	comment(buf);
 	snprintf(buf, sizeof(buf), "lastdfa: %d\n", lastdfa);
 	comment(buf);
@@ -1005,13 +1005,13 @@ void make_tables (void)
 
 	comment("m4 controls begin\n");
 
-	if (num_backing_up > 0)
+	if (नुमेरो_backing_up > 0)
 		visible_define ( "M4_MODE_HAS_BACKING_UP");
 
 	// These are used for NUL transitions
-	if ((num_backing_up > 0 && !reject) && (!nultrans || ctrl.fullspd || ctrl.fulltbl))
+	if ((नुमेरो_backing_up > 0 && !reject) && (!nultrans || ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NEED_YY_CP");
-	if ((num_backing_up > 0 && !reject) && (ctrl.fullspd || ctrl.fulltbl))
+	if ((नुमेरो_backing_up > 0 && !reject) && (ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NULTRANS_WRAP");
 
 	comment("m4 controls end\n");
@@ -1089,12 +1089,12 @@ void make_tables (void)
 		/* Policy choice: we don't include this space
 		 * in the table metering.
 		 */
-		struct packtype_t *ptype = optimize_pack(num_rules);
+		struct packtype_t *ptype = optimize_pack(नुमेरो_rules);
 		out_str ("m4_define([[M4_HOOK_DEBUGTABLE_TYPE]], [[%s]])", ptype->name);
-		out_dec ("m4_define([[M4_HOOK_DEBUGTABLE_SIZE]], [[%d]])", num_rules);
+		out_dec ("m4_define([[M4_HOOK_DEBUGTABLE_SIZE]], [[%d]])", नुमेरो_rules);
 		outn ("m4_define([[M4_HOOK_DEBUGTABLE_BODY]], [[m4_dnl");
 
-		for (i = 1; i < num_rules; ++i)
+		for (i = 1; i < नुमेरो_rules; ++i)
 			mkdata (rule_linenum[i]);
 		dataend (NULL);
 		outn("]])");

@@ -200,59 +200,59 @@ void dataflush (void)
 
 /* flexerror - report an error message and terminate */
 
-void flexerror (const char *msg)
+void flexerror (const char *मेनसाहे)
 {
-	fprintf (stderr, "%s: %s\n", program_name, msg);
+	fprintf (stderr, "%s: %s\n", program_name, मेनसाहे);
 	flexend (1);
 }
 
 
 /* flexfatal - report a fatal error message and terminate */
 
-void flexfatal (const char *msg)
+void flexfatal (const char *मेनसाहे)
 {
 	fprintf (stderr, _("%s: fatal internal error, %s\n"),
-		 program_name, msg);
+		 program_name, मेनसाहे);
 	FLEX_EXIT (1);
 }
 
 
 /* lerr - report an error message */
 
-void lerr (const char *msg, ...)
+void lerr (const char *मेनसाहे, ...)
 {
 	char    errmsg[MAXLINE];
-	va_list args;
+	va_list मगा_कातविरान;
 
-	va_start(args, msg);
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
-	va_end(args);
+	va_start(मगा_कातविरान, मेनसाहे);
+	vsnprintf (errmsg, sizeof(errmsg), मेनसाहे, मगा_कातविरान);
+	va_end(मगा_कातविरान);
 	flexerror (errmsg);
 }
 
 
 /* lerr_fatal - as lerr, but call flexfatal */
 
-void lerr_fatal (const char *msg, ...)
+void lerr_fatal (const char *मेनसाहे, ...)
 {
 	char    errmsg[MAXLINE];
-	va_list args;
-	va_start(args, msg);
+	va_list मगा_कातविरान;
+	va_start(मगा_कातविरान, मेनसाहे);
 
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
-	va_end(args);
+	vsnprintf (errmsg, sizeof(errmsg), मेनसाहे, मगा_कातविरान);
+	va_end(मगा_कातविरान);
 	flexfatal (errmsg);
 }
 
 
 /* line_directive_out - spit out a "#line" statement or equivalent */
-void line_directive_out (FILE *output_file, char *path, int linenum)
+void लिन्या_directive_out (FILE *output_file, char *path, int linenum)
 {
 	char	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
 	char    directive[MAXLINE*2], filename[MAXLINE];
 	char   *s1, *s2, *s3;
 
-	if (!ctrl.gen_line_dirs)
+	if (!ctrl.gen_लिन्या_dirs)
 		return;
 
 	s1 = (path != NULL) ? path : "M4_YY_OUTFILE_NAME";
@@ -318,7 +318,7 @@ void mark_prolog (void)
  *
  * Generates a data statement initializing the current 2-D array to "value".
  */
-void mk2data (int value)
+void mk2data (int हालागा)
 {
 	/* short circuit any output */
 	if (!gentables)
@@ -338,7 +338,7 @@ void mk2data (int value)
 
 	++datapos;
 
-	out_dec ("%5d", value);
+	out_dec ("%5d", हालागा);
 }
 
 
@@ -347,7 +347,7 @@ void mk2data (int value)
  * Generates a data statement initializing the current array element to
  * "value".
  */
-void mkdata (int value)
+void mkdata (int हालागा)
 {
 	/* short circuit any output */
 	if (!gentables)
@@ -365,7 +365,7 @@ void mkdata (int value)
 		outc (',');
 	++datapos;
 
-	out_dec ("%5d", value);
+	out_dec ("%5d", हालागा);
 }
 
 
@@ -577,9 +577,9 @@ void   *reallocate_array (void *array, int size, size_t element_size)
 	new_array = reallocarray(array, (size_t) size, element_size);
 # else
 	/* Do manual overflow detection */
-	size_t num_bytes = (size_t) size * element_size;
+	size_t नुमेरो_bytes = (size_t) size * element_size;
 	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? NULL :
-		realloc(array, num_bytes);
+		realloc(array, नुमेरो_bytes);
 # endif
 	if (!new_array) {
 		flexfatal ((array) ?
@@ -609,9 +609,9 @@ void transition_struct_out (int element_v, int element_n)
 	out_dec2 ("M4_HOOK_TABLE_OPENER[[%4d]],[[%4d]]M4_HOOK_TABLE_CONTINUE", element_v, element_n);
 	outc ('\n');
 
-	datapos += TRANS_STRUCT_PRINT_LENGTH;
+	datapos += TRANS_STRUCT_इलिम्बाग_LENGTH;
 
-	if (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
+	if (datapos >= 79 - TRANS_STRUCT_इलिम्बाग_LENGTH) {
 		outc ('\n');
 
 		if (++dataline % 10 == 0)

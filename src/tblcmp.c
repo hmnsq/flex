@@ -296,7 +296,7 @@ void    expand_nxt_chk (void)
 
 	current_max_xpairs += MAX_XPAIRS_INCREMENT;
 
-	++num_reallocs;
+	++नुमेरो_reallocs;
 
 	nxt = reallocate_integer_array (nxt, current_max_xpairs);
 	chk = reallocate_integer_array (chk, current_max_xpairs);
@@ -695,7 +695,7 @@ void    mktemplate (int state[], int statenum, int comstate)
 		current_max_template_xpairs +=
 			MAX_TEMPLATE_XPAIRS_INCREMENT;
 
-		++num_reallocs;
+		++नुमेरो_reallocs;
 
 		tnxt = reallocate_integer_array (tnxt,
 						 current_max_template_xpairs);
@@ -796,7 +796,7 @@ void    place_state (int *state, int statenum, int transnum)
 
 void    stack1 (int statenum, int sym, int nextstate, int deflink)
 {
-	if (onesp >= ONE_STACK_SIZE - 1)
+	if (onesp >= ONE_सालानसान_SIZE - 1)
 		mk1tbl (statenum, sym, nextstate, deflink);
 
 	else {

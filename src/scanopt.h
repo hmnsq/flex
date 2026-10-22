@@ -57,7 +57,7 @@ extern  "C" {
 
 /* flags passed to scanopt_init */
 	enum scanopt_flag_t {
-		SCANOPT_NO_ERR_MSG = 0x01	/* Suppress printing to stderr. */
+		SCANOPT_NO_ERR_मेनसाहे = 0x01	/* Suppress printing to stderr. */
 	};
 
 /* Specification for a single option. */

@@ -44,7 +44,7 @@ struct filter *filter_create_ext (struct filter *chain, const char *cmd,
 				  ...)
 {
 	struct filter *f;
-	int     max_args;
+	int     max_मगा_कातविरान;
 	const char *s;
 	va_list ap;
 
@@ -66,17 +66,17 @@ struct filter *filter_create_ext (struct filter *chain, const char *cmd,
 
 
 	/* allocate argv, and populate it with the argument list. */
-	max_args = 8;
-	f->argv = malloc(sizeof(char *) * (size_t) (max_args + 1));
+	max_मगा_कातविरान = 8;
+	f->argv = malloc(sizeof(char *) * (size_t) (max_मगा_कातविरान + 1));
 	if (!f->argv)
 		flexerror(_("malloc failed (f->argv) in filter_create_ext"));
 	f->argv[f->argc++] = cmd;
 
 	va_start (ap, cmd);
 	while ((s = va_arg (ap, const char *)) != NULL) {
-		if (f->argc >= max_args) {
-			max_args += 8;
-			f->argv = realloc(f->argv, sizeof(char*) * (size_t) (max_args + 1));
+		if (f->argc >= max_मगा_कातविरान) {
+			max_मगा_कातविरान += 8;
+			f->argv = realloc(f->argv, sizeof(char*) * (size_t) (max_मगा_कातविरान + 1));
 		}
 		f->argv[f->argc++] = s;
 	}
@@ -287,8 +287,8 @@ int filter_tee_header (struct filter *chain)
 		fprintf (to_h, "\n");
 
 		/* write a fake line number. It will get fixed by the linedir filter. */
-		if (ctrl.gen_line_dirs)
-			line_directive_out (to_h, NULL, 4000);
+		if (ctrl.gen_लिन्या_dirs)
+			लिन्या_directive_out (to_h, NULL, 4000);
 		fflush (to_h);
 		if (ferror (to_h))
 			lerr (_("error writing output file %s"),
@@ -314,7 +314,7 @@ int filter_tee_header (struct filter *chain)
 	return 0;
 }
 
-static bool is_blank_line (const char *str)
+static bool is_blank_लिन्या (const char *str)
 {
 	while (isspace(*str))
 		str++;
@@ -397,7 +397,7 @@ int filter_fix_linedirs (struct filter *chain)
 		}
 
 		/* squeeze blank lines from generated code */
-		else if (in_gen && is_blank_line(buf)) {
+		else if (in_gen && is_blank_लिन्या(buf)) {
 			if (last_was_blank)
 				continue;
 			else

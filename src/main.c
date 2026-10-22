@@ -59,10 +59,10 @@ int     action_size, defs1_offset, prolog_offset, action_offset,
 	action_index;
 char   *infilename = NULL;
 char   *extra_type = NULL;
-int     onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
-int     onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
+int     onestate[ONE_सालानसान_SIZE], onesym[ONE_सालानसान_SIZE];
+int     onenext[ONE_सालानसान_SIZE], onedef[ONE_सालानसान_SIZE], onesp;
 int     maximum_mns, current_mns, current_max_rules;
-int     num_rules, num_eof_rules, default_rule, lastnfa;
+int     नुमेरो_rules, नुमेरो_eof_rules, default_rule, lastnfa;
 int    *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
 int    *accptnum, *assoc_rule, *state_type;
 int    *rule_type, *rule_linenum;
@@ -90,12 +90,12 @@ int     lastccl, *cclmap, *ccllen, *cclng, cclreuse;
 int     current_maxccls, current_max_ccl_tbl_size;
 unsigned char   *ccltbl;
 char    nmstr[MAXLINE];
-int     sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
+int     sectnum, nummt, hshcol, dfaeql, numeps, eps2, नुमेरो_reallocs, nmval;
 int     tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
-int     num_backing_up, bol_needed;
+int     नुमेरो_backing_up, bol_needed;
 int     end_of_buffer_state;
-char  **input_files;
-int     num_input_files;
+char  **पासोक_files;
+int     नुमेरो_पासोक_files;
 jmp_buf flex_main_jmp_buf;
 /* rule_useful[], rule_has_nl[] and ccl_has_nl[] are boolean arrays,
  * but allocated as char arrays for size. */
@@ -170,13 +170,13 @@ int flex_main (int argc, char *argv[])
 	skelout (true);		/* %% [1.0] DFA */
 	footprint += ntod ();
 
-	for (i = 1; i <= num_rules; ++i)
+	for (i = 1; i <= नुमेरो_rules; ++i)
 		if (!rule_useful[i] && i != default_rule)
-			line_warning (_("rule cannot be matched"),
+			लिन्या_warning (_("rule cannot be matched"),
 				      rule_linenum[i]);
 
 	if (ctrl.spprdflt && !reject && rule_useful[default_rule])
-		line_warning (_
+		लिन्या_warning (_
 			      ("-s option given but default rule can be matched"),
 			      rule_linenum[default_rule]);
 
@@ -202,8 +202,8 @@ int flex_main (int argc, char *argv[])
 	out ("\n");
 
 	comment("START of Flex-generated definitions\n");
-	out_str_dec ("M4_HOOK_CONST_DEFINE_UINT(%s, %d)", "YY_NUM_RULES", num_rules);
-	out_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_END_OF_BUFFER", num_rules + 1);
+	out_str_dec ("M4_HOOK_CONST_DEFINE_UINT(%s, %d)", "YY_NUM_RULES", नुमेरो_rules);
+	out_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_END_OF_BUFFER", नुमेरो_rules + 1);
 	out_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_JAMBASE", jambase);
 	out_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_JAMSTATE", jamstate);
 	out_str_dec ("M4_HOOK_CONST_DEFINE_BYTE(%s, %d)", "YY_NUL_EC", NUL_ec);
@@ -222,21 +222,21 @@ int flex_main (int argc, char *argv[])
 
 	out (&action_array[defs1_offset]);
 
-	line_directive_out (stdout, NULL, linenum);
+	लिन्या_directive_out (stdout, NULL, linenum);
 
 	skelout (true);		/* %% [4.0] - various random yylex internals get dumped here */
 
 	/* Copy prolog to output file. */
 	out (&action_array[prolog_offset]);
 
-	line_directive_out (stdout, NULL, linenum);
+	लिन्या_directive_out (stdout, NULL, linenum);
 
 	skelout (true);		/* %% [5.0] - main loop of matching-engine code gets dumped here */
 
 	/* Copy actions to output file. */
 	out (&action_array[action_offset]);
 
-	line_directive_out (stdout, NULL, linenum);
+	लिन्या_directive_out (stdout, NULL, linenum);
 
 	/* generate cases for any missing EOF rules */
 	for (i = 1; i <= lastsc; ++i)
@@ -256,7 +256,7 @@ int flex_main (int argc, char *argv[])
 
 	/* Copy remainder of input to output. */
 
-	line_directive_out (stdout, infilename, linenum);
+	लिन्या_directive_out (stdout, infilename, linenum);
 
 	if (sectnum == 3) {
 		OUT_BEGIN_CODE ();
@@ -474,13 +474,13 @@ void flexend (int exit_status)
 
 
 	if (env.backing_up_report && ctrl.backing_up_file) {
-		if (num_backing_up == 0)
+		if (नुमेरो_backing_up == 0)
 			fprintf (ctrl.backing_up_file, _("No backing up.\n"));
 		else if (ctrl.fullspd || ctrl.fulltbl)
 			fprintf (ctrl.backing_up_file,
 				 _
 				 ("%d backing up (non-accepting) states.\n"),
-				 num_backing_up);
+				 नुमेरो_backing_up);
 		else
 			fprintf (ctrl.backing_up_file,
 				 _("Compressed tables always back up.\n"));
@@ -534,7 +534,7 @@ void flexend (int exit_status)
 			putc ('B', stderr);
 		if (ctrl.interactive == trit_true)
 			putc ('I', stderr);
-		if (!ctrl.gen_line_dirs)
+		if (!ctrl.gen_लिन्या_dirs)
 			putc ('L', stderr);
 		if (env.trace)
 			putc ('T', stderr);
@@ -582,16 +582,16 @@ void flexend (int exit_status)
 		fprintf (stderr, _("  %d/%d DFA states (%d words)\n"),
 			 lastdfa, current_max_dfas, totnst);
 		fprintf (stderr, _("  %d rules\n"),
-			 num_rules + num_eof_rules -
+			 नुमेरो_rules + नुमेरो_eof_rules -
 			 1 /* - 1 for def. rule */ );
 
-		if (num_backing_up == 0)
+		if (नुमेरो_backing_up == 0)
 			fprintf (stderr, _("  No backing up\n"));
 		else if (ctrl.fullspd || ctrl.fulltbl)
 			fprintf (stderr,
 				 _
 				 ("  %d backing-up (non-accepting) states\n"),
-				 num_backing_up);
+				 नुमेरो_backing_up);
 		else
 			fprintf (stderr,
 				 _
@@ -676,7 +676,7 @@ void flexend (int exit_status)
 			 ("  %d (%d saved) hash collisions, %d DFAs equal\n"),
 			 hshcol, hshsave, dfaeql);
 		fprintf (stderr, _("  %d sets of reallocations needed\n"),
-			 num_reallocs);
+			 नुमेरो_reallocs);
 		fprintf (stderr, _("  %d total table entries needed\n"),
 			 tblsiz);
 	}
@@ -701,7 +701,7 @@ void flexinit (int argc, char **argv)
 
 	ctrl.do_main = trit_unspecified;
 	ctrl.interactive = ctrl.csize = trit_unspecified;
-	ctrl.do_yywrap = ctrl.gen_line_dirs = ctrl.usemecs = ctrl.useecs = true;
+	ctrl.do_yywrap = ctrl.gen_लिन्या_dirs = ctrl.usemecs = ctrl.useecs = true;
 	ctrl.reentrant = ctrl.bison_bridge_lval = ctrl.bison_bridge_lloc = false;
 	env.performance_hint = 0;
 	ctrl.prefix = "yy";
@@ -722,7 +722,7 @@ void flexinit (int argc, char **argv)
 
 	/* Initialize any buffers. */
 	buf_init (&userdef_buf, sizeof (char));	/* one long string */
-	buf_init (&top_buf, sizeof (char));	    /* one long string */
+	buf_init (&इताअस_buf, sizeof (char));	    /* one long string */
 
 	sf_init ();
 
@@ -867,8 +867,8 @@ void flexinit (int argc, char **argv)
 			ctrl.do_main = trit_false;
 			break;
 
-		    case OPT_NO_LINE:
-			ctrl.gen_line_dirs = false;
+		    case OPT_NO_लिन्या:
+			ctrl.gen_लिन्या_dirs = false;
 			break;
 
 		    case OPT_OUTFILE:
@@ -1026,8 +1026,8 @@ void flexinit (int argc, char **argv)
 			ctrl.use_read = true;
 			break;
 
-		    case OPT_STACK:
-			ctrl.stack_used = true;
+		    case OPT_सालानसान:
+			ctrl.सालानसान_used = true;
 			break;
 
 		    case OPT_STDINIT:
@@ -1074,14 +1074,14 @@ void flexinit (int argc, char **argv)
 			ctrl.reject_really_used = false;
 			break;
 
-		    case OPT_NO_YY_PUSH_STATE:
-			ctrl.no_yy_push_state = true;
+		    case OPT_NO_YY_इतुलाक_STATE:
+			ctrl.no_yy_इतुलाक_state = true;
 			break;
-		    case OPT_NO_YY_POP_STATE:
-			ctrl.no_yy_pop_state = true;
+		    case OPT_NO_YY_आलिसिन_STATE:
+			ctrl.no_yy_आलिसिन_state = true;
 			break;
-		    case OPT_NO_YY_TOP_STATE:
-			ctrl.no_yy_top_state = true;
+		    case OPT_NO_YY_इताअस_STATE:
+			ctrl.no_yy_इताअस_state = true;
 			break;
 		    case OPT_NO_YYINPUT:
 			ctrl.no_yyinput = true;
@@ -1164,18 +1164,18 @@ void flexinit (int argc, char **argv)
 
 	scanopt_destroy (sopt);
 
-	num_input_files = argc - optind;
-	input_files = argv + optind;
-	set_input_file (num_input_files > 0 ? input_files[0] : NULL);
+	नुमेरो_पासोक_files = argc - optind;
+	पासोक_files = argv + optind;
+	set_पासोक_file (नुमेरो_पासोक_files > 0 ? पासोक_files[0] : NULL);
 
 	lastccl = lastsc = lastdfa = lastnfa = 0;
-	num_rules = num_eof_rules = default_rule = 0;
+	नुमेरो_rules = नुमेरो_eof_rules = default_rule = 0;
 	numas = numsnpairs = tmpuses = 0;
-	numecs = numeps = eps2 = num_reallocs = hshcol = dfaeql = totnst =
+	numecs = numeps = eps2 = नुमेरो_reallocs = hshcol = dfaeql = totnst =
 	    0;
 	numuniq = numdup = hshsave = datapos = dataline = 0;
 	eofseen = false;
-	num_backing_up = onesp = numprots = 0;
+	नुमेरो_backing_up = onesp = numprots = 0;
 	variable_trailing_context_rules = bol_needed = false;
 
 	linenum = sectnum = 1;
@@ -1196,7 +1196,7 @@ void readin (void)
 {
 	char buf[256];
 
-	line_directive_out(NULL, infilename, linenum);
+	लिन्या_directive_out(NULL, infilename, linenum);
 
 	if (yyparse ()) {
 		pinpoint_message (_("fatal parse error"));
@@ -1261,7 +1261,7 @@ void readin (void)
 		flexerror(_("Prefix cannot include '[' or ']'"));
 
 	if (env.did_outfilename)
-		line_directive_out (stdout, NULL, linenum);
+		लिन्या_directive_out (stdout, NULL, linenum);
 
 	/* This is where we begin writing to the file. */
 
@@ -1270,11 +1270,11 @@ void readin (void)
 	comment("A lexical scanner generated by flex\n");
 
 	/* Dump the %top code. */
-	if( top_buf.elts)
-		outn((char*) top_buf.elts);
+	if( इताअस_buf.elts)
+		outn((char*) इताअस_buf.elts);
 
 	/* Place a bogus line directive, it will be fixed in the filter. */
-	line_directive_out(NULL, NULL, 0);
+	लिन्या_directive_out(NULL, NULL, 0);
 
 	/* User may want to set the scanner prototype */
 	if (ctrl.yydecl != NULL) {
@@ -1603,11 +1603,11 @@ void readin (void)
 	
 	if (ctrl.no_yypanic)
 		visible_define("M4_YY_NO_YYPANIC");
-	if (ctrl.no_yy_push_state)
+	if (ctrl.no_yy_इतुलाक_state)
 		visible_define("M4_YY_NO_PUSH_STATE");
-	if (ctrl.no_yy_pop_state)
+	if (ctrl.no_yy_आलिसिन_state)
 		visible_define("M4_YY_NO_POP_STATE");
-	if (ctrl.no_yy_top_state)
+	if (ctrl.no_yy_इताअस_state)
 		visible_define("M4_YY_NO_TOP_STATE");
 	if (ctrl.no_yyunput)
 		visible_define("M4_YY_NO_YYUNPUT");
@@ -1667,7 +1667,7 @@ void readin (void)
 		visible_define("M4_YY_ALWAYS_INTERACTIVE");
 	if (ctrl.never_interactive)
 		visible_define("M4_YY_NEVER_INTERACTIVE");
-	if (ctrl.stack_used)
+	if (ctrl.सालानसान_used)
 		visible_define("M4_YY_STACK_USED");
 
 	if (ctrl.rewrite)

@@ -85,7 +85,7 @@ void ccladd (int cclp, int ch)
 	if (newpos >= current_max_ccl_tbl_size) {
 		current_max_ccl_tbl_size += MAX_CCL_TBL_SIZE_INCREMENT;
 
-		++num_reallocs;
+		++नुमेरो_reallocs;
 
 		ccltbl = reallocate_Character_array (ccltbl,
 						     current_max_ccl_tbl_size);
@@ -197,7 +197,7 @@ int     cclinit (void)
 	if (++lastccl >= current_maxccls) {
 		current_maxccls += MAX_CCLS_INCREMENT;
 
-		++num_reallocs;
+		++नुमेरो_reallocs;
 
 		cclmap =
 			reallocate_integer_array (cclmap, current_maxccls);

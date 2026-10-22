@@ -47,7 +47,7 @@ void	mkxtion(int, int);
  * accepting_number becomes mach's accepting number.
  */
 
-void    add_accept (int mach, int accepting_number)
+void    add_accept (int mach, int accepting_नुमेरो)
 {
 	/* Hang the accepting number off an epsilon state.  if it is associated
 	 * with a state that has a non-epsilon out-transition, then the state
@@ -56,12 +56,12 @@ void    add_accept (int mach, int accepting_number)
 	 */
 
 	if (transchar[finalst[mach]] == SYM_EPSILON)
-		accptnum[finalst[mach]] = accepting_number;
+		accptnum[finalst[mach]] = accepting_नुमेरो;
 
 	else {
 		int     astate = mkstate (SYM_EPSILON);
 
-		accptnum[astate] = accepting_number;
+		accptnum[astate] = accepting_नुमेरो;
 		(void) link_machines (mach, astate);
 	}
 }
@@ -78,13 +78,13 @@ void    add_accept (int mach, int accepting_number)
  *     num    - the number of copies of singl to be present in newsng
  */
 
-int     copysingl (int singl, int num)
+int     copysingl (int singl, int नुमेरो)
 {
 	int     copy, i;
 
 	copy = mkstate (SYM_EPSILON);
 
-	for (i = 1; i <= num; ++i)
+	for (i = 1; i <= नुमेरो; ++i)
 		copy = link_machines (copy, dupmachine (singl));
 
 	return copy;
@@ -198,49 +198,49 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 {
 	char    action_text[MAXLINE];
 
-	add_accept (mach, num_rules);
+	add_accept (mach, नुमेरो_rules);
 
 	/* We did this in new_rule(), but it often gets the wrong
 	 * number because we do it before we start parsing the current rule.
 	 */
-	rule_linenum[num_rules] = linenum;
+	rule_linenum[नुमेरो_rules] = linenum;
 
 	/* If this is a continued action, then the line-number has already
 	 * been updated, giving us the wrong number.
 	 */
 	if (continued_action)
-		--rule_linenum[num_rules];
+		--rule_linenum[नुमेरो_rules];
 
 
 	/* If the previous rule was continued action, then we inherit the
 	 * previous newline flag, possibly overriding the current one.
 	 */
-	if (pcont_act && rule_has_nl[num_rules - 1])
-		rule_has_nl[num_rules] = true;
+	if (pcont_act && rule_has_nl[नुमेरो_rules - 1])
+		rule_has_nl[नुमेरो_rules] = true;
 
-	snprintf (action_text, sizeof(action_text), "M4_HOOK_NORMAL_STATE_CASE_ARM(%d)\n", num_rules);
+	snprintf (action_text, sizeof(action_text), "M4_HOOK_NORMAL_STATE_CASE_ARM(%d)\n", नुमेरो_rules);
 	add_action (action_text);
-	if (rule_has_nl[num_rules]) {
+	if (rule_has_nl[नुमेरो_rules]) {
 		snprintf (action_text, sizeof(action_text), "M4_HOOK_COMMENT_OPEN rule %d can match eol M4_HOOK_COMMENT_CLOSE\n",
-			 num_rules);
+			 नुमेरो_rules);
 		add_action (action_text);
 	}
 
 
 	if (variable_trail_rule) {
-		rule_type[num_rules] = RULE_VARIABLE;
+		rule_type[नुमेरो_rules] = RULE_VARIABLE;
 
 		if (env.performance_hint > 0)
 			fprintf (stderr,
 				 _
 				 ("Variable trailing context rule at line %d\n"),
-				 rule_linenum[num_rules]);
+				 rule_linenum[नुमेरो_rules]);
 
 		variable_trailing_context_rules = true;
 	}
 
 	else {
-		rule_type[num_rules] = RULE_NORMAL;
+		rule_type[नुमेरो_rules] = RULE_NORMAL;
 
 		if (headcnt > 0 || trailcnt > 0) {
 			/* Do trailing context magic to not match the trailing
@@ -249,7 +249,7 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 			add_action ("M4_HOOK_RELEASE_YYTEXT\n");
 
 			if (headcnt > 0) {
-				if (rule_has_nl[num_rules]) {
+				if (rule_has_nl[नुमेरो_rules]) {
 					snprintf (action_text, sizeof(action_text),
 						"M4_HOOK_LINE_FORWARD(%d)\n", headcnt);
 					add_action (action_text);
@@ -260,7 +260,7 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 			}
 
 			else {
-				if (rule_has_nl[num_rules]) {
+				if (rule_has_nl[नुमेरो_rules]) {
 					snprintf (action_text, sizeof(action_text),
 						 "M4_HOOK_LINE_REWIND(%d)\n", trailcnt);
 					add_action (action_text);
@@ -284,7 +284,7 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 	if (!continued_action)
 		add_action ("M4_HOOK_SET_RULE_SETUP\n");
 
-	line_directive_out(NULL, infilename, linenum);
+	लिन्या_directive_out(NULL, infilename, linenum);
         add_action("[[");
 }
 
@@ -595,7 +595,7 @@ int     mkstate (int sym)
 				("input rules are too complicated (>= %d NFA states)"),
 current_mns);
 
-		++num_reallocs;
+		++नुमेरो_reallocs;
 
 		firstst = reallocate_integer_array (firstst, current_mns);
 		lastst = reallocate_integer_array (lastst, current_mns);
@@ -619,7 +619,7 @@ current_mns);
 	trans1[lastnfa] = NO_TRANSITION;
 	trans2[lastnfa] = NO_TRANSITION;
 	accptnum[lastnfa] = NIL;
-	assoc_rule[lastnfa] = num_rules;
+	assoc_rule[lastnfa] = नुमेरो_rules;
 	state_type[lastnfa] = current_state_type;
 
 	/* Fix up equivalence classes base on this transition.  Note that any
@@ -682,8 +682,8 @@ void    mkxtion (int statefrom, int stateto)
 
 void    new_rule (void)
 {
-	if (++num_rules >= current_max_rules) {
-		++num_reallocs;
+	if (++नुमेरो_rules >= current_max_rules) {
+		++नुमेरो_reallocs;
 		current_max_rules += MAX_RULES_INCREMENT;
 		rule_type = reallocate_integer_array (rule_type,
 						      current_max_rules);
@@ -695,10 +695,10 @@ void    new_rule (void)
 					current_max_rules, sizeof(char));
 	}
 
-	if (num_rules > MAX_RULE)
+	if (नुमेरो_rules > MAX_RULE)
 		lerr (_("too many rules (> %d)!"), MAX_RULE);
 
-	rule_linenum[num_rules] = linenum;
-	rule_useful[num_rules] = false;
-	rule_has_nl[num_rules] = false;
+	rule_linenum[नुमेरो_rules] = linenum;
+	rule_useful[नुमेरो_rules] = false;
+	rule_has_nl[नुमेरो_rules] = false;
 }

@@ -59,7 +59,7 @@ struct _scanopt_t {
 	char  **argv;		/* Array of strings. */
 	int     index;		/* Used as: argv[index][subscript]. */
 	int     subscript;
-	char    no_err_msg;	/* If true, do not print errors. */
+	char    no_err_मेनसाहे;	/* If true, do not print errors. */
 	char    has_long;
 	char    has_short;
 };
@@ -148,7 +148,7 @@ scanopt_t *scanopt_init (const optspec_t *options, int argc, char **argv, int fl
 	s->argv = (char **) argv;
 	s->index = 1;
 	s->subscript = 0;
-	s->no_err_msg = (flags & SCANOPT_NO_ERR_MSG);
+	s->no_err_मेनसाहे = (flags & SCANOPT_NO_ERR_मेनसाहे);
 	s->has_long = 0;
 	s->has_short = 0;
 
@@ -239,7 +239,7 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 	usg_elem *ue;
 	int     opt_col_width = 0, desc_col_width = 0;
 	int     desccol;
-	int     print_run = 0;
+	int     इलिम्बाग_run = 0;
 
 	s = (struct _scanopt_t *) scanner;
 
@@ -343,13 +343,13 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 	}
 	desccol = opt_col_width + indent * 2;
 
-#define PRINT_SPACES(fp,n) \
+#define इलिम्बाग_SPACES(fp,n) \
 	fprintf((fp), "%*s", (n), "")
 
 	/* Second pass (same as above loop), this time we print. */
 	/* Sloppy hack: We iterate twice. The first time we print short and long options.
 	   The second time we print those lines that have ONLY long options. */
-	while (print_run++ < 2) {
+	while (इलिम्बाग_run++ < 2) {
 		for (ue = byr_val; ue; ue = ue->next) {
 			usg_elem *ap;
 			int     nwords = 0, nchars = 0, has_short = 0;
@@ -362,41 +362,41 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 					break;
 				}
 			}
-			if ((print_run == 1 && !has_short) ||
-			    (print_run == 2 && has_short))
+			if ((इलिम्बाग_run == 1 && !has_short) ||
+			    (इलिम्बाग_run == 2 && has_short))
 				continue;
 
-			PRINT_SPACES (fp, indent);
+			इलिम्बाग_SPACES (fp, indent);
 			nchars += indent;
 
 /* Print, adding a ", " between aliases. */
-#define PRINT_IT(i) do{\
+#define इलिम्बाग_IT(i) do{\
                   if(nwords++)\
                       nchars+=fprintf(fp,", ");\
                   nchars+=fprintf(fp,"%s",s->options[i].opt_fmt);\
             }while(0)
 
 			if (!(FLAGS (s, ue->idx) & IS_LONG))
-				PRINT_IT (ue->idx);
+				इलिम्बाग_IT (ue->idx);
 
 			/* print short aliases first. */
 			for (ap = ue->alias; ap; ap = ap->next) {
 				if (!(FLAGS (s, ap->idx) & IS_LONG))
-					PRINT_IT (ap->idx);
+					इलिम्बाग_IT (ap->idx);
 			}
 
 
 			if (FLAGS (s, ue->idx) & IS_LONG)
-				PRINT_IT (ue->idx);
+				इलिम्बाग_IT (ue->idx);
 
 			/* repeat the above loop, this time for long aliases. */
 			for (ap = ue->alias; ap; ap = ap->next) {
 				if (FLAGS (s, ap->idx) & IS_LONG)
-					PRINT_IT (ap->idx);
+					इलिम्बाग_IT (ap->idx);
 			}
 
 			/* pad to desccol */
-			PRINT_SPACES (fp, desccol - nchars);
+			इलिम्बाग_SPACES (fp, desccol - nchars);
 
 			/* Print description, wrapped to desc_col_width columns. */
 			if (1) {
@@ -426,7 +426,7 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 					else if (*p == '\n') {	/* print everything up to here then wrap. */
 						fprintf (fp, "%.*s\n", n,
 							 pstart);
-						PRINT_SPACES (fp, desccol);
+						इलिम्बाग_SPACES (fp, desccol);
 						pstart = p + 1;
 						continue;
 					}
@@ -446,7 +446,7 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 								 pstart);
 							pstart = p + 1;
 						}
-						PRINT_SPACES (fp, desccol);
+						इलिम्बाग_SPACES (fp, desccol);
 						continue;
 					}
 				}
@@ -464,7 +464,7 @@ static void scanopt_err(struct _scanopt_t *s, int is_short, int err)
 	const char *optname = "";
 	char    optchar[2];
 
-	if (!s->no_err_msg) {
+	if (!s->no_err_मेनसाहे) {
 
 		if (s->index > 0 && s->index < s->argc) {
 			if (is_short) {

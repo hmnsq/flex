@@ -67,7 +67,7 @@ int     yylex (void)
 
 	if (env.trace) {
 		if (beglin) {
-			fprintf (stderr, "%d\t", num_rules + 1);
+			fprintf (stderr, "%d\t", नुमेरो_rules + 1);
 			beglin = 0;
 		}
 
@@ -165,7 +165,7 @@ int     yylex (void)
 
 			break;
 
-		case NUMBER:
+		case नुमेरो_2:
 			fprintf (stderr, "%d", yylval);
 			break;
 
@@ -190,7 +190,7 @@ int     yylex (void)
 		case CCE_DIGIT:
 		case CCE_GRAPH:
 		case CCE_LOWER:
-		case CCE_PRINT:
+		case CCE_इलिम्बाग:
 		case CCE_PUNCT:
 		case CCE_SPACE:
 		case CCE_UPPER:

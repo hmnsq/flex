@@ -55,7 +55,7 @@ static int  symfollowset(int[], int, int, int[]);
 static void check_for_backing_up(int ds, int state[])
 {
 	if ((reject && !dfaacc[ds].dfaacc_set) || (!reject && !dfaacc[ds].dfaacc_state)) {	/* state is non-accepting */
-		++num_backing_up;
+		++नुमेरो_backing_up;
 
 		if (env.backing_up_report) {
 			fprintf (ctrl.backing_up_file,
@@ -97,11 +97,11 @@ static void check_for_backing_up(int ds, int state[])
  *    accset[1 .. nacc] is the list of accepting numbers for the DFA state.
  */
 
-static void check_trailing_context(int *nfa_states, int num_states, int *accset, int nacc)
+static void check_trailing_context(int *nfa_states, int नुमेरो_states, int *accset, int nacc)
 {
 	int i, j;
 
-	for (i = 1; i <= num_states; ++i) {
+	for (i = 1; i <= नुमेरो_states; ++i) {
 		int     ns = nfa_states[i];
 		int type = state_type[ns];
 		int ar = assoc_rule[ns];
@@ -118,7 +118,7 @@ static void check_trailing_context(int *nfa_states, int num_states, int *accset,
 			 */
 			for (j = 1; j <= nacc; ++j)
 				if (accset[j] & YY_TRAILING_HEAD_MASK) {
-					line_warning (_
+					लिन्या_warning (_
 						      ("dangerous trailing context"),
 						      rule_linenum[ar]);
 					return;
@@ -138,30 +138,30 @@ static void check_trailing_context(int *nfa_states, int num_states, int *accset,
 static void dump_associated_rules(FILE *file, int ds)
 {
 	int i, j;
-	int num_associated_rules = 0;
+	int नुमेरो_associated_rules = 0;
 	int rule_set[MAX_ASSOC_RULES + 1];
 	int *dset = dss[ds];
 	int size = dfasiz[ds];
 
 	for (i = 1; i <= size; ++i) {
-		int rule_num = rule_linenum[assoc_rule[dset[i]]];
+		int rule_नुमेरो = rule_linenum[assoc_rule[dset[i]]];
 
-		for (j = 1; j <= num_associated_rules; ++j)
-			if (rule_num == rule_set[j])
+		for (j = 1; j <= नुमेरो_associated_rules; ++j)
+			if (rule_नुमेरो == rule_set[j])
 				break;
 
-		if (j > num_associated_rules) {	/* new rule */
-			if (num_associated_rules < MAX_ASSOC_RULES)
-				rule_set[++num_associated_rules] =
-					rule_num;
+		if (j > नुमेरो_associated_rules) {	/* new rule */
+			if (नुमेरो_associated_rules < MAX_ASSOC_RULES)
+				rule_set[++नुमेरो_associated_rules] =
+					rule_नुमेरो;
 		}
 	}
 
-	qsort (&rule_set [1], (size_t) num_associated_rules, sizeof (rule_set [1]), intcmp);
+	qsort (&rule_set [1], (size_t) नुमेरो_associated_rules, sizeof (rule_set [1]), intcmp);
 
 	fprintf (file, _(" associated rule line numbers:"));
 
-	for (i = 1; i <= num_associated_rules; ++i) {
+	for (i = 1; i <= नुमेरो_associated_rules; ++i) {
 		if (i % 8 == 1)
 			putc ('\n', file);
 
@@ -254,12 +254,12 @@ accset[++nacc] = nfaccnum; \
 #define DO_REALLOCATION() \
 do { \
 current_max_dfa_size += MAX_DFA_SIZE_INCREMENT; \
-++num_reallocs; \
+++नुमेरो_reallocs; \
 t = reallocate_integer_array( t, current_max_dfa_size ); \
 stk = reallocate_integer_array( stk, current_max_dfa_size ); \
 }while(0) \
 
-#define PUT_ON_STACK(state) \
+#define PUT_ON_सालानसान(state) \
 do { \
 if ( ++stkend >= current_max_dfa_size ) \
 DO_REALLOCATION(); \
@@ -275,9 +275,9 @@ t[numstates] = state; \
 hashval += state; \
 }while(0)
 
-#define STACK_STATE(state) \
+#define सालानसान_STATE(state) \
 do { \
-PUT_ON_STACK(state); \
+PUT_ON_सालानसान(state); \
 CHECK_ACCEPT(state); \
 if ( nfaccnum != NIL || transchar[state] != SYM_EPSILON ) \
 ADD_STATE(state); \
@@ -298,7 +298,7 @@ ADD_STATE(state); \
 		 * the stack.
 		 */
 		if (!IS_MARKED (ns)) {
-			PUT_ON_STACK (ns);
+			PUT_ON_सालानसान (ns);
 			CHECK_ACCEPT (ns);
 			hashval += ns;
 		}
@@ -313,13 +313,13 @@ ADD_STATE(state); \
 
 			if (tsp != NO_TRANSITION) {
 				if (!IS_MARKED (tsp))
-					STACK_STATE (tsp);
+					सालानसान_STATE (tsp);
 
 				tsp = trans2[ns];
 
 				if (tsp != NO_TRANSITION
 				    && !IS_MARKED (tsp))
-					STACK_STATE (tsp);
+					सालानसान_STATE (tsp);
 			}
 		}
 	}
@@ -348,7 +348,7 @@ void increase_max_dfas (void)
 {
 	current_max_dfas += MAX_DFAS_INCREMENT;
 
-	++num_reallocs;
+	++नुमेरो_reallocs;
 
 	base = reallocate_integer_array (base, current_max_dfas);
 	def = reallocate_integer_array (def, current_max_dfas);
@@ -379,11 +379,11 @@ size_t ntod (void)
 {
 	int    *accset, ds, nacc, newds;
 	int     sym, hashval, numstates, dsize;
-	int     num_full_table_rows=0;	/* used only for -f */
+	int     नुमेरो_full_table_rows=0;	/* used only for -f */
 	int    *nset, *dset;
 	int     targptr, totaltrans, i, comstate, comfreq, targ;
 	int     symlist[CSIZE + 1];
-	int     num_start_states;
+	int     नुमेरो_start_states;
 	int     todo_head, todo_next;
 
 	struct yytbl_data *yynxt_tbl = 0;
@@ -402,7 +402,7 @@ size_t ntod (void)
 	/* accset needs to be large enough to hold all of the rules present
 	 * in the input, *plus* their YY_TRAILING_HEAD_MASK variants.
 	 */
-	accset = allocate_integer_array ((num_rules + 1) * 2);
+	accset = allocate_integer_array ((नुमेरो_rules + 1) * 2);
 	nset = allocate_integer_array (current_max_dfa_size);
 
 	/* The "todo" queue is represented by the head, which is the DFA
@@ -418,7 +418,7 @@ size_t ntod (void)
 		symlist[i] = false;
 	}
 
-	for (i = 0; i <= num_rules; ++i)
+	for (i = 0; i <= नुमेरो_rules; ++i)
 		accset[i] = NIL;
 
 	if (env.trace) {
@@ -479,14 +479,14 @@ size_t ntod (void)
 			/* We won't be including NUL's transitions in the
 			 * table, so build it for entries from 0 .. numecs - 1.
 			 */
-			num_full_table_rows = numecs;
+			नुमेरो_full_table_rows = numecs;
 
 		else
 			/* Take into account the fact that we'll be including
 			 * the NUL entries in the transition table.  Build it
 			 * from 0 .. numecs.
 			 */
-			num_full_table_rows = numecs + 1;
+			नुमेरो_full_table_rows = numecs + 1;
 
 		/* Begin generating yy_nxt[][]
 		 * This spans the entire LONG function.
@@ -498,7 +498,7 @@ size_t ntod (void)
      
 		yytbl_data_init (yynxt_tbl, YYTD_ID_NXT);
 		yynxt_tbl->td_hilen = 1;
-		yynxt_tbl->td_lolen = (flex_uint32_t) num_full_table_rows;
+		yynxt_tbl->td_lolen = (flex_uint32_t) नुमेरो_full_table_rows;
 		yynxt_tbl->td_data = yynxt_data =
 		    calloc(yynxt_tbl->td_lolen *
 			   yynxt_tbl->td_hilen,
@@ -508,14 +508,14 @@ size_t ntod (void)
 		struct packtype_t *ptype = optimize_pack(0);
 		/* Note: Used when ctrl.fulltbl is on. Alternately defined elsewhere */
 		out_str ("m4_define([[M4_HOOK_NXT_TYPE]], [[%s]])", ptype->name);
-		out_dec ("m4_define([[M4_HOOK_NXT_ROWS]], [[%d]])", num_full_table_rows);
+		out_dec ("m4_define([[M4_HOOK_NXT_ROWS]], [[%d]])", नुमेरो_full_table_rows);
 		outn ("m4_define([[M4_HOOK_NXT_BODY]], [[m4_dnl");
 		outn ("M4_HOOK_TABLE_OPENER");
 		if (gentables)
 			outn ("M4_HOOK_TABLE_OPENER");
 
 		/* Generate 0 entries for state #0. */
-		for (i = 0; i < num_full_table_rows; ++i) {
+		for (i = 0; i < नुमेरो_full_table_rows; ++i) {
 			mk2data (0);
 			yynxt_data[yynxt_curr++] = 0;
 		}
@@ -528,9 +528,9 @@ size_t ntod (void)
 
 	/* Create the first states. */
 
-	num_start_states = lastsc * 2;
+	नुमेरो_start_states = lastsc * 2;
 
-	for (i = 1; i <= num_start_states; ++i) {
+	for (i = 1; i <= नुमेरो_start_states; ++i) {
 		numstates = 1;
 
 		/* For each start condition, make one state for the case when
@@ -563,7 +563,7 @@ size_t ntod (void)
 				   ("could not create unique end-of-buffer state"));
 
 		++numas;
-		++num_start_states;
+		++नुमेरो_start_states;
 		++todo_next;
 	}
 
@@ -659,7 +659,7 @@ size_t ntod (void)
 
 		numsnpairs += totaltrans;
 
-		if (ds > num_start_states)
+		if (ds > नुमेरो_start_states)
 			check_for_backing_up (ds, state);
 
 		if (nultrans) {
@@ -691,7 +691,7 @@ size_t ntod (void)
 					end_of_buffer_state;
 			}
 
-			for (i = 1; i < num_full_table_rows; ++i) {
+			for (i = 1; i < नुमेरो_full_table_rows; ++i) {
 				/* Jams are marked by negative of state
 				 * number.
 				 */
@@ -864,7 +864,7 @@ static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval
 		for (i = 1; i <= nacc; ++i) {
 			dfaacc[newds].dfaacc_set[i] = accset[i];
 
-			if (accset[i] <= num_rules)
+			if (accset[i] <= नुमेरो_rules)
 				/* Who knows, perhaps a REJECT can yield
 				 * this rule.
 				 */
@@ -878,7 +878,7 @@ static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval
 		/* Find lowest numbered rule so the disambiguating rule
 		 * will work.
 		 */
-		j = num_rules + 1;
+		j = नुमेरो_rules + 1;
 
 		for (i = 1; i <= nacc; ++i)
 			if (accset[i] < j)
@@ -886,7 +886,7 @@ static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval
 
 		dfaacc[newds].dfaacc_state = j;
 
-		if (j <= num_rules)
+		if (j <= नुमेरो_rules)
 			rule_useful[j] = true;
 	}
 
