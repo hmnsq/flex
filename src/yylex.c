@@ -33,183 +33,183 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include <ctype.h>
-#include "flexdef.h"
-#include "parse.h"
+#ضمن <ctype.h>
+#ضمن "flexdef.h"
+#ضمن "parse.h"
 
 
 /* yylex - scan for a regular expression token */
-extern char *yytext;
-extern FILE *yyout;
+خارجي حرف *yytext;
+خارجي FILE *yyout;
 bool no_section3_escape = false;
-int     yylex (void)
+صحيح     yylex (فراغ)
 {
-	int     toktype;
-	static int beglin = false;
+	صحيح     toktype;
+	ساكن صحيح beglin = false;
 
-	if (eofseen) {
+	𐤀𐤌 (eofseen) {
 		toktype = EOF;
-        } else {
+        } وإلا {
 		toktype = flexscan ();
         }
-	if (toktype == EOF || toktype == 0) {
+	𐤀𐤌 (toktype == EOF || toktype == 0) {
 		eofseen = true;
 
-		if (sectnum == 1) {
+		𐤀𐤌 (sectnum == 1) {
 			synerr (_("premature EOF"));
 			sectnum = 2;
 			toktype = SECTEND;
 		}
 
-		else
+		وإلا
 			toktype = 0;
 	}
 
-	if (env.trace) {
-		if (beglin) {
+	𐤀𐤌 (env.trace) {
+		𐤀𐤌 (beglin) {
 			fprintf (stderr, "%d\t", num_rules + 1);
 			beglin = 0;
 		}
 
-		switch (toktype) {
-		case '<':
-		case '>':
-		case '^':
-		case '$':
-		case '"':
-		case '[':
-		case ']':
-		case '{':
-		case '}':
-		case '|':
-		case '(':
-		case ')':
-		case '-':
-		case '/':
-		case '\\':
-		case '?':
-		case '.':
-		case '*':
-		case '+':
-		case ',':
-			(void) putc (toktype, stderr);
-			break;
+		بدل (toktype) {
+		حالة '<':
+		حالة '>':
+		حالة '^':
+		حالة '$':
+		حالة '"':
+		حالة '[':
+		حالة ']':
+		حالة '{':
+		حالة '}':
+		حالة '|':
+		حالة '(':
+		حالة ')':
+		حالة '-':
+		حالة '/':
+		حالة '\\':
+		حالة '?':
+		حالة '.':
+		حالة '*':
+		حالة '+':
+		حالة ',':
+			(فراغ) putc (toktype, stderr);
+			اكسر;
 
-		case '\n':
-			(void) putc ('\n', stderr);
+		حالة '\n':
+			(فراغ) putc ('\n', stderr);
 
-			if (sectnum == 2)
+			𐤀𐤌 (sectnum == 2)
 				beglin = 1;
 
-			break;
+			اكسر;
 
-		case SCDECL:
+		حالة SCDECL:
 			fputs ("%s", stderr);
-			break;
+			اكسر;
 
-		case XSCDECL:
+		حالة XSCDECL:
 			fputs ("%x", stderr);
-			break;
+			اكسر;
 
-		case SECTEND:
+		حالة SECTEND:
 			fputs ("%%\n", stderr);
 
 			/* We set beglin to be true so we'll start
 			 * writing out numbers as we echo rules.
 			 * flexscan() has already assigned sectnum.
 			 */
-			if (sectnum == 2)
+			𐤀𐤌 (sectnum == 2)
 				beglin = 1;
 
-			break;
+			اكسر;
 
-		case NAME:
+		حالة NAME:
 			fprintf (stderr, "'%s'", nmstr);
-			break;
+			اكسر;
 
-		case CHAR:
-			switch (yylval) {
-			case '<':
-			case '>':
-			case '^':
-			case '$':
-			case '"':
-			case '[':
-			case ']':
-			case '{':
-			case '}':
-			case '|':
-			case '(':
-			case ')':
-			case '-':
-			case '/':
-			case '\\':
-			case '?':
-			case '.':
-			case '*':
-			case '+':
-			case ',':
+		حالة CHAR:
+			بدل (yylval) {
+			حالة '<':
+			حالة '>':
+			حالة '^':
+			حالة '$':
+			حالة '"':
+			حالة '[':
+			حالة ']':
+			حالة '{':
+			حالة '}':
+			حالة '|':
+			حالة '(':
+			حالة ')':
+			حالة '-':
+			حالة '/':
+			حالة '\\':
+			حالة '?':
+			حالة '.':
+			حالة '*':
+			حالة '+':
+			حالة ',':
 				fprintf (stderr, "\\%c", yylval);
-				break;
+				اكسر;
 
-			default:
-				if (!isascii (yylval) || !isprint (yylval)) {
-					if(env.trace_hex)
-						fprintf (stderr, "\\x%02x", (unsigned int) yylval);
-					else
-						fprintf (stderr, "\\%.3o", (unsigned int) yylval);
-				} else
-					(void) putc (yylval, stderr);
-				break;
+			افتراضي:
+				𐤀𐤌 (!isascii (yylval) || !isprint (yylval)) {
+					𐤀𐤌(env.trace_hex)
+						fprintf (stderr, "\\x%02x", (unsigned صحيح) yylval);
+					وإلا
+						fprintf (stderr, "\\%.3o", (unsigned صحيح) yylval);
+				} وإلا
+					(فراغ) putc (yylval, stderr);
+				اكسر;
 			}
 
-			break;
+			اكسر;
 
-		case NUMBER:
+		حالة NUMBER:
 			fprintf (stderr, "%d", yylval);
-			break;
+			اكسر;
 
-		case PREVCCL:
+		حالة PREVCCL:
 			fprintf (stderr, "[%d]", yylval);
-			break;
+			اكسر;
 
-		case EOF_OP:
+		حالة EOF_OP:
 			fprintf (stderr, "<<EOF>>");
-			break;
+			اكسر;
 
-		case TOK_OPTION:
+		حالة TOK_OPTION:
 			fprintf (stderr, "%s ", yytext);
-			break;
+			اكسر;
 
-		case TOK_OUTFILE:
-		case TOK_PREFIX:
-		case CCE_ALNUM:
-		case CCE_ALPHA:
-		case CCE_BLANK:
-		case CCE_CNTRL:
-		case CCE_DIGIT:
-		case CCE_GRAPH:
-		case CCE_LOWER:
-		case CCE_PRINT:
-		case CCE_PUNCT:
-		case CCE_SPACE:
-		case CCE_UPPER:
-		case CCE_XDIGIT:
+		حالة TOK_OUTFILE:
+		حالة TOK_PREFIX:
+		حالة CCE_ALNUM:
+		حالة CCE_ALPHA:
+		حالة CCE_BLANK:
+		حالة CCE_CNTRL:
+		حالة CCE_DIGIT:
+		حالة CCE_GRAPH:
+		حالة CCE_LOWER:
+		حالة CCE_PRINT:
+		حالة CCE_PUNCT:
+		حالة CCE_SPACE:
+		حالة CCE_UPPER:
+		حالة CCE_XDIGIT:
 			fprintf (stderr, "%s", yytext);
-			break;
+			اكسر;
 
-		case 0:
+		حالة 0:
 			fprintf (stderr, _("End Marker\n"));
-			break;
+			اكسر;
 
-		default:
+		افتراضي:
 			fprintf (stderr,
 				 _
 				 ("*Something Weird* - tok: %d val: %d\n"),
 				 toktype, yylval);
-			break;
+			اكسر;
 		}
 	}
 
-	return toktype;
+	أرجع toktype;
 }
