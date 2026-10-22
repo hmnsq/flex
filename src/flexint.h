@@ -1,54 +1,54 @@
 /* flex integer type definitions */
 
-#ifndef FLEXINT_H
-#define FLEXINT_H
+#که_نه_تعریف_شوی FLEXINT_H
+#تعریف_کړه FLEXINT_H
 
 /* C++ systems might need __STDC_LIMIT_MACROS defined before including
  * <stdint.h>, if you want the limit (max/min) macros for int types.
  */
-#ifndef __STDC_LIMIT_MACROS
-#define __STDC_LIMIT_MACROS 1
-#endif
+#که_نه_تعریف_شوی __STDC_LIMIT_MACROS
+#تعریف_کړه __STDC_LIMIT_MACROS 1
+#د_که_پای
 
 /* "flexint_shared.h" will be included also in skeleton. It will include
  * <inttypes.h> (if available) and define flex's integral types.
  */
-#include "flexint_shared.h"
+#ضمن "flexint_shared.h"
 
 /* Limits of integral types. */
-#ifndef INT8_MIN
-#define INT8_MIN               (-128)
-#endif
-#ifndef INT16_MIN
-#define INT16_MIN              (-32767-1)
-#endif
-#ifndef INT32_MIN
-#define INT32_MIN              (-2147483647-1)
-#endif
-#ifndef INT8_MAX
-#define INT8_MAX               (127)
-#endif
-#ifndef INT16_MAX
-#define INT16_MAX              (32767)
-#endif
-#ifndef INT32_MAX
-#define INT32_MAX              (2147483647)
-#endif
-#ifndef UINT8_MAX
-#define UINT8_MAX              (255U)
-#endif
-#ifndef UINT16_MAX
-#define UINT16_MAX             (65535U)
-#endif
-#ifndef UINT32_MAX
-#define UINT32_MAX             (4294967295U)
-#endif
+#که_نه_تعریف_شوی INT8_MIN
+#تعریف_کړه INT8_MIN               (-128)
+#د_که_پای
+#که_نه_تعریف_شوی INT16_MIN
+#تعریف_کړه INT16_MIN              (-32767-1)
+#د_که_پای
+#که_نه_تعریف_شوی INT32_MIN
+#تعریف_کړه INT32_MIN              (-2147483647-1)
+#د_که_پای
+#که_نه_تعریف_شوی INT8_MAX
+#تعریف_کړه INT8_MAX               (127)
+#د_که_پای
+#که_نه_تعریف_شوی INT16_MAX
+#تعریف_کړه INT16_MAX              (32767)
+#د_که_پای
+#که_نه_تعریف_شوی INT32_MAX
+#تعریف_کړه INT32_MAX              (2147483647)
+#د_که_پای
+#که_نه_تعریف_شوی UINT8_MAX
+#تعریف_کړه UINT8_MAX              (255U)
+#د_که_پای
+#که_نه_تعریف_شوی UINT16_MAX
+#تعریف_کړه UINT16_MAX             (65535U)
+#د_که_پای
+#که_نه_تعریف_شوی UINT32_MAX
+#تعریف_کړه UINT32_MAX             (4294967295U)
+#د_که_پای
 
-#ifndef INT_MAX
-#define INT_MAX                ((int)(~0U)>>1)
-#endif
-#ifndef SIZE_MAX
-#define SIZE_MAX               (~(size_t)0)
-#endif
+#که_نه_تعریف_شوی لوی_عدد
+#تعریف_کړه لوی_عدد                ((صحيح)(~0U)>>1)
+#د_که_پای
+#که_نه_تعریف_شوی اندازه_MAX
+#تعریف_کړه اندازه_MAX               (~(size_t)0)
+#د_که_پای
 
-#endif /* ! FLEXINT_H */
+#د_که_پای /* ! FLEXINT_H */

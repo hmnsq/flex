@@ -23,15 +23,15 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
-static const char * check_4_gnu_m4 =
+#ضمن "flexdef.h"
+ساكن ثابت حرف * check_4_gnu_m4 =
     "m4_dnl ifdef(`__gnu__', ,"
     "`errprint(Flex requires GNU M4. Set the PATH or set the M4 environment variable to its path name.)"
     " m4exit(2)')\n";
 
 
 /** global chain. */
-struct filter *output_chain = NULL;
+بنية filter *output_chain = عدم;
 
 /* Allocate and initialize an external filter.
  * @param chain the current chain or NULL for new chain
@@ -40,50 +40,50 @@ struct filter *output_chain = NULL;
  *            not including argv[0].
  * @return newest filter in chain
  */
-struct filter *filter_create_ext (struct filter *chain, const char *cmd,
+بنية filter *filter_create_ext (بنية filter *chain, ثابت حرف *cmd,
 				  ...)
 {
-	struct filter *f;
-	int     max_args;
-	const char *s;
+	بنية filter *f;
+	صحيح     max_دلیلونه;
+	ثابت حرف *s;
 	va_list ap;
 
 	/* allocate and initialize new filter */
-	f = calloc(sizeof(struct filter), 1);
-	if (!f)
+	f = حافظه_صفر_ورکړه(حجم(بنية filter), 1);
+	إذا (!f)
 		flexerror(_("calloc failed (f) in filter_create_ext"));
-	f->filter_func = NULL;
-	f->extra = NULL;
-	f->next = NULL;
+	f->filter_func = عدم;
+	f->extra = عدم;
+	f->بل = عدم;
 	f->argc = 0;
 
-	if (chain != NULL) {
+	إذا (chain != عدم) {
 		/* append f to end of chain */
-		while (chain->next)
-			chain = chain->next;
-		chain->next = f;
+		طالما (chain->بل)
+			chain = chain->بل;
+		chain->بل = f;
 	}
 
 
 	/* allocate argv, and populate it with the argument list. */
-	max_args = 8;
-	f->argv = malloc(sizeof(char *) * (size_t) (max_args + 1));
-	if (!f->argv)
+	max_دلیلونه = 8;
+	f->argv = حافظه_ورکړه(حجم(حرف *) * (size_t) (max_دلیلونه + 1));
+	إذا (!f->argv)
 		flexerror(_("malloc failed (f->argv) in filter_create_ext"));
 	f->argv[f->argc++] = cmd;
 
-	va_start (ap, cmd);
-	while ((s = va_arg (ap, const char *)) != NULL) {
-		if (f->argc >= max_args) {
-			max_args += 8;
-			f->argv = realloc(f->argv, sizeof(char*) * (size_t) (max_args + 1));
+	va_پیل (ap, cmd);
+	طالما ((s = va_arg (ap, ثابت حرف *)) != عدم) {
+		إذا (f->argc >= max_دلیلونه) {
+			max_دلیلونه += 8;
+			f->argv = realloc(f->argv, حجم(حرف*) * (size_t) (max_دلیلونه + 1));
 		}
 		f->argv[f->argc++] = s;
 	}
-	f->argv[f->argc] = NULL;
+	f->argv[f->argc] = عدم;
 
-	va_end (ap);
-	return f;
+	va_پای_ټکی (ap);
+	أرجع f;
 }
 
 /* Allocate and initialize an internal filter.
@@ -94,50 +94,50 @@ struct filter *filter_create_ext (struct filter *chain, const char *cmd,
  * @param extra optional user-defined data to pass to the filter.
  * @return newest filter in chain
  */
-struct filter *filter_create_int (struct filter *chain,
-				  int (*filter_func) (struct filter *),
-				  void *extra)
+بنية filter *filter_create_int (بنية filter *chain,
+				  صحيح (*filter_func) (بنية filter *),
+				  فراغ *extra)
 {
-	struct filter *f;
+	بنية filter *f;
 
 	/* allocate and initialize new filter */
-	f = calloc(sizeof(struct filter), 1);
-	if (!f)
+	f = حافظه_صفر_ورکړه(حجم(بنية filter), 1);
+	إذا (!f)
 		flexerror(_("calloc failed in filter_create_int"));
-	f->next = NULL;
+	f->بل = عدم;
 	f->argc = 0;
-	f->argv = NULL;
+	f->argv = عدم;
 
 	f->filter_func = filter_func;
 	f->extra = extra;
 
-	if (chain != NULL) {
+	إذا (chain != عدم) {
 		/* append f to end of chain */
-		while (chain->next)
-			chain = chain->next;
-		chain->next = f;
+		طالما (chain->بل)
+			chain = chain->بل;
+		chain->بل = f;
 	}
 
-	return f;
+	أرجع f;
 }
 
 /** Fork and exec entire filter chain.
  *  @param chain The head of the chain.
  *  @return true on success.
  */
-bool filter_apply_chain (struct filter * chain)
+bool filter_apply_chain (بنية filter * chain)
 {
-	int     pid, pipes[2];
+	صحيح     pid, pipes[2];
 
 
 	/* Tricky recursion, since we want to begin the chain
 	 * at the END. Why? Because we need all the forked processes
 	 * to be children of the main flex process.
 	 */
-	if (chain)
-		filter_apply_chain (chain->next);
-	else
-		return true;
+	إذا (chain)
+		filter_apply_chain (chain->بل);
+	وإلا
+		أرجع true;
 
 	/* Now we are the right-most unprocessed link in the chain.
 	 */
@@ -146,14 +146,14 @@ bool filter_apply_chain (struct filter * chain)
 	fflush (stderr);
 
 
-	if (pipe (pipes) == -1)
+	إذا (pipe (pipes) == -1)
 		flexerror (_("pipe failed"));
 
-	if ((pid = fork ()) == -1)
+	إذا ((pid = fork ()) == -1)
 		flexerror (_("fork failed"));
 
-	if (pid == 0) {
-		/* child */
+	إذا (pid == 0) {
+		/*ماشوم*/
 
         /* We need stdin (the FILE* stdin) to connect to this new pipe.
          * There is no portable way to set stdin to a new file descriptor,
@@ -163,24 +163,24 @@ bool filter_apply_chain (struct filter * chain)
          */
 		close (pipes[1]);
 		clearerr(stdin);
-		if (dup2 (pipes[0], fileno (stdin)) == -1)
+		إذا (dup2 (pipes[0], fileno (stdin)) == -1)
 			flexfatal (_("dup2(pipes[0],0)"));
 		close (pipes[0]);
 		fseek (stdin, 0, SEEK_CUR);
 		ungetc(' ', stdin); /* still an evil hack, but one that works better */
-		(void)fgetc(stdin); /* on NetBSD than the fseek attempt does */
+		(فراغ)fgetc(stdin); /* on NetBSD than the fseek attempt does */
 
 		/* run as a filter, either internally or by exec */
-		if (chain->filter_func) {
-			int     r;
+		إذا (chain->filter_func) {
+			صحيح     r;
 
-			if ((r = chain->filter_func (chain)) == -1)
+			إذا ((r = chain->filter_func (chain)) == -1)
 				flexfatal (_("filter_func failed"));
 			FLEX_EXIT (0);
 		}
-		else {
+		وإلا {
 			execvp (chain->argv[0],
-				(char **const) (chain->argv));
+				(حرف **ثابت) (chain->argv));
 			lerr_fatal ( _("exec of %s failed"),
 				     chain->argv[0]);
 		}
@@ -188,14 +188,14 @@ bool filter_apply_chain (struct filter * chain)
 		FLEX_EXIT (1);
 	}
 
-	/* Parent */
+	/*پلار*/
 	close (pipes[0]);
-	if (dup2 (pipes[1], fileno (stdout)) == -1)
+	إذا (dup2 (pipes[1], fileno (stdout)) == -1)
 		flexfatal (_("dup2(pipes[1],1)"));
 	close (pipes[1]);
 	fseek (stdout, 0, SEEK_CUR);
 
-	return true;
+	أرجع true;
 }
 
 /** Truncate the chain to max_len number of filters.
@@ -203,20 +203,20 @@ bool filter_apply_chain (struct filter * chain)
  * @param max_len the maximum length of the chain.
  * @return the resulting length of the chain.
  */
-int filter_truncate (struct filter *chain, int max_len)
+صحيح filter_truncate (بنية filter *chain, صحيح max_len)
 {
-	int     len = 1;
+	صحيح     len = 1;
 
-	if (!chain)
-		return 0;
+	إذا (!chain)
+		أرجع 0;
 
-	while (chain->next && len < max_len) {
-		chain = chain->next;
+	طالما (chain->بل && len < max_len) {
+		chain = chain->بل;
 		++len;
 	}
 
-	chain->next = NULL;
-	return len;
+	chain->بل = عدم;
+	أرجع len;
 }
 
 /** Splits the chain in order to write to a header file.
@@ -224,101 +224,101 @@ int filter_truncate (struct filter *chain, int max_len)
  *  The header file name is in extra.
  *  @return 0 (zero) on success, and -1 on failure.
  */
-int filter_tee_header (struct filter *chain)
+صحيح filter_tee_سرلیک (بنية filter *chain)
 {
 	/* This function reads from stdin and writes to both the C file and the
 	 * header file at the same time.
 	 */
 
-	char    buf[512];
-	int     to_cfd = -1;
-	FILE   *to_c = NULL, *to_h = NULL;
-	bool    write_header;
+	حرف    buf[512];
+	صحيح     منزل_cfd = -1;
+	FILE   *منزل_c = عدم, *منزل_h = عدم;
+	bool    write_سرلیک;
 
-	write_header = (chain->extra != NULL);
+	write_سرلیک = (chain->extra != عدم);
 
 	/* Store a copy of the stdout pipe, which is already piped to C file
 	 * through the running chain. Then create a new pipe to the H file as
 	 * stdout, and fork the rest of the chain again.
 	 */
 
-	if ((to_cfd = dup (1)) == -1)
+	إذا ((منزل_cfd = dup (1)) == -1)
 		flexfatal (_("dup(1) failed"));
-	to_c = fdopen (to_cfd, "w");
+	منزل_c = fdopen (منزل_cfd, "w");
 
-	if (write_header) {
-		if (freopen ((char *) chain->extra, "w", stdout) == NULL)
+	إذا (write_سرلیک) {
+		إذا (freopen ((حرف *) chain->extra, "w", stdout) == عدم)
 			flexfatal (_("freopen(headerfilename) failed"));
 
-		filter_apply_chain (chain->next);
-		to_h = stdout;
+		filter_apply_chain (chain->بل);
+		منزل_h = stdout;
 	}
 
 	/* Now to_c is a pipe to the C branch, and to_h is a pipe to the H branch.
 	 */
 
-	if (write_header) {
-		fputs (check_4_gnu_m4, to_h);
-		fputs ("m4_changecom`'m4_dnl\n", to_h);
-		fputs ("m4_changequote`'m4_dnl\n", to_h);
-	fputs ("m4_changequote([[,]])[[]]m4_dnl\n", to_h);
-		fputs ("m4_define([[M4_YY_NOOP]])[[]]m4_dnl\n", to_h);
-		fputs ("m4_define([[M4_YY_IN_HEADER]],[[]])m4_dnl\n", to_h);
-		fprintf (to_h,
+	إذا (write_سرلیک) {
+		fputs (check_4_gnu_m4, منزل_h);
+		fputs ("m4_changecom`'m4_dnl\n", منزل_h);
+		fputs ("m4_changequote`'m4_dnl\n", منزل_h);
+	fputs ("m4_changequote([[,]])[[]]m4_dnl\n", منزل_h);
+		fputs ("m4_define([[M4_YY_NOOP]])[[]]m4_dnl\n", منزل_h);
+		fputs ("m4_define([[M4_YY_IN_HEADER]],[[]])m4_dnl\n", منزل_h);
+		fprintf (منزل_h,
 			 "m4_define( [[M4_YY_OUTFILE_NAME]],[[%s]])m4_dnl\n",
-			 env.headerfilename != NULL ? env.headerfilename : "<stdout>");
+			 env.headerfilename != عدم ? env.headerfilename : "<stdout>");
 	}
 
-	fputs (check_4_gnu_m4, to_c);
-	fputs ("m4_changecom`'m4_dnl\n", to_c);
-	fputs ("m4_changequote`'m4_dnl\n", to_c);
-	fputs ("m4_changequote([[,]])[[]]m4_dnl\n", to_c);
-	fputs ("m4_define([[M4_YY_NOOP]])[[]]m4_dnl\n", to_c);
-	fprintf (to_c, "m4_define( [[M4_YY_OUTFILE_NAME]],[[%s]])m4_dnl\n",
-		 env.outfilename != NULL ? env.outfilename : "<stdout>");
+	fputs (check_4_gnu_m4, منزل_c);
+	fputs ("m4_changecom`'m4_dnl\n", منزل_c);
+	fputs ("m4_changequote`'m4_dnl\n", منزل_c);
+	fputs ("m4_changequote([[,]])[[]]m4_dnl\n", منزل_c);
+	fputs ("m4_define([[M4_YY_NOOP]])[[]]m4_dnl\n", منزل_c);
+	fprintf (منزل_c, "m4_define( [[M4_YY_OUTFILE_NAME]],[[%s]])m4_dnl\n",
+		 env.outfilename != عدم ? env.outfilename : "<stdout>");
 
-	while (fgets (buf, sizeof buf, stdin)) {
-		fputs (buf, to_c);
-		if (write_header)
-			fputs (buf, to_h);
+	طالما (fgets (buf, حجم buf, stdin)) {
+		fputs (buf, منزل_c);
+		إذا (write_سرلیک)
+			fputs (buf, منزل_h);
 	}
 
-	if (write_header) {
-		fprintf (to_h, "\n");
+	إذا (write_سرلیک) {
+		fprintf (منزل_h, "\n");
 
 		/* write a fake line number. It will get fixed by the linedir filter. */
-		if (ctrl.gen_line_dirs)
-			line_directive_out (to_h, NULL, 4000);
-		fflush (to_h);
-		if (ferror (to_h))
+		إذا (ctrl.gen_کرښه_dirs)
+			کرښه_directive_بهر (منزل_h, عدم, 4000);
+		fflush (منزل_h);
+		إذا (ferror (منزل_h))
 			lerr (_("error writing output file %s"),
-				(char *) chain->extra);
+				(حرف *) chain->extra);
 
-		else if (fclose (to_h))
+		وإلا إذا (fclose (منزل_h))
 			lerr (_("error closing output file %s"),
-				(char *) chain->extra);
+				(حرف *) chain->extra);
 	}
 
-	fflush (to_c);
-	if (ferror (to_c))
+	fflush (منزل_c);
+	إذا (ferror (منزل_c))
 		lerr (_("error writing output file %s"),
-			env.outfilename != NULL ? env.outfilename : "<stdout>");
+			env.outfilename != عدم ? env.outfilename : "<stdout>");
 
-	else if (fclose (to_c))
+	وإلا إذا (fclose (منزل_c))
 		lerr (_("error closing output file %s"),
-			env.outfilename != NULL ? env.outfilename : "<stdout>");
+			env.outfilename != عدم ? env.outfilename : "<stdout>");
 
-	while (wait (0) > 0) ;
+	طالما (wait (0) > 0) ;
 
 	FLEX_EXIT (0);
-	return 0;
+	أرجع 0;
 }
 
-static bool is_blank_line (const char *str)
+ساكن bool is_blank_کرښه (ثابت حرف *str)
 {
-	while (isspace(*str))
+	طالما (که_تشه(*str))
 		str++;
-	return (*str == '\0');
+	أرجع (*str == '\0');
 }
 
 /** Adjust the line numbers in the #line directives of the generated scanner.
@@ -327,53 +327,53 @@ static bool is_blank_line (const char *str)
  * not user code. This also happens to be a good place to squeeze multiple
  * blank lines into a single blank line.
  */
-int filter_fix_linedirs (struct filter *chain)
+صحيح filter_fix_linedirs (بنية filter *chain)
 {
-	char   buf[4096];
-	const char *cp;
-	const size_t readsz = sizeof buf;
-	int     lineno = 1;
-	bool    in_gen = true;	/* in generated code */
-	bool    last_was_blank = false;
+	حرف   buf[4096];
+	ثابت حرف *cp;
+	ثابت size_t readsz = حجم buf;
+	صحيح     lineno = 1;
+	bool    دننه_gen = true;	/* in generated code */
+	bool    وروستی_was_blank = false;
 
-	if (!chain)
-		return 0;
+	إذا (!chain)
+		أرجع 0;
 
-	while (fgets (buf, (int) readsz, stdin)) {
+	طالما (fgets (buf, (صحيح) readsz, stdin)) {
 
 		regmatch_t m[10];
 
 		/* Check for directive. Note wired-in assumption:
 		 * field reference 1 is line number, 2 is filename.
 		 */
-		if (ctrl.traceline_re != NULL &&
-		    ctrl.traceline_template != NULL &&
+		إذا (ctrl.traceline_re != عدم &&
+		    ctrl.traceline_template != عدم &&
 		    regexec (&regex_linedir, buf, 3, m, 0) == 0) {
 
-			char   *fname;
+			حرف   *fname;
 
 			/* extract the line number and filename */
 			fname = regmatch_dup (&m[2], buf);
 
-			if (strcmp (fname,
-				env.outfilename != NULL ? env.outfilename : "<stdout>")
+			إذا (strcmp (fname,
+				env.outfilename != عدم ? env.outfilename : "<stdout>")
 					== 0
 			 || strcmp (fname,
-			 	env.headerfilename != NULL ? env.headerfilename : "<stdout>")
+			 	env.headerfilename != عدم ? env.headerfilename : "<stdout>")
 					== 0) {
 
-				char    *s1, *s2;
-				char	filename[MAXLINE];
+				حرف    *s1, *s2;
+				حرف	filename[MAXLINE];
 
 				s1 = fname;
 				s2 = filename;
 
-				while ((s2 - filename) < (MAXLINE - 1) && *s1) {
+				طالما ((s2 - filename) < (MAXLINE - 1) && *s1) {
 					/* Escape the backslash */
-					if (*s1 == '\\')
+					إذا (*s1 == '\\')
 						*s2++ = '\\';
 					/* Escape the double quote */
-					if (*s1 == '\"')
+					إذا (*s1 == '\"')
 						*s2++ = '\\';
 					/* Copy the character as usual */
 					*s2++ = *s1++;
@@ -382,46 +382,46 @@ int filter_fix_linedirs (struct filter *chain)
 				*s2 = '\0';
 
 				/* Adjust the line directives. */
-				in_gen = true;
+				دننه_gen = true;
 				snprintf (buf, readsz, ctrl.traceline_template,
 					  lineno + 1, filename);
-				strncat(buf, "\n", sizeof(buf)-1);
+				strncat(buf, "\n", حجم(buf)-1);
 			}
-			else {
+			وإلا {
 				/* it's a #line directive for code we didn't write */
-				in_gen = false;
+				دننه_gen = false;
 			}
 
-			free (fname);
-			last_was_blank = false;
+			حرر (fname);
+			وروستی_was_blank = false;
 		}
 
 		/* squeeze blank lines from generated code */
-		else if (in_gen && is_blank_line(buf)) {
-			if (last_was_blank)
-				continue;
-			else
-				last_was_blank = true;
+		وإلا إذا (دننه_gen && is_blank_کرښه(buf)) {
+			إذا (وروستی_was_blank)
+				استمر;
+			وإلا
+				وروستی_was_blank = true;
 		}
 
-		else {
+		وإلا {
 			/* it's a line of normal, non-empty code. */
-			last_was_blank = false;
+			وروستی_was_blank = false;
 		}
 
 		fputs (buf, stdout);
 		lineno++;
 	}
 	fflush (stdout);
-	if (ferror (stdout))
+	إذا (ferror (stdout))
 		lerr (_("error writing output file %s"),
-			env.outfilename != NULL ? env.outfilename : "<stdout>");
+			env.outfilename != عدم ? env.outfilename : "<stdout>");
 
-	else if (fclose (stdout))
+	وإلا إذا (fclose (stdout))
 		lerr (_("error closing output file %s"),
-			env.outfilename != NULL ? env.outfilename : "<stdout>");
+			env.outfilename != عدم ? env.outfilename : "<stdout>");
 
-	return 0;
+	أرجع 0;
 }
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */

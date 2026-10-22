@@ -44,179 +44,179 @@
 //      #include <FlexLexer.h>
 //      ...
 
-#ifndef __FLEX_LEXER_H
+#که_نه_تعریف_شوی __FLEX_LEXER_H
 // Never included before - need to define base class.
-#define __FLEX_LEXER_H
+#تعریف_کړه __FLEX_LEXER_H
 
-#include <iostream>
+#ضمن <iostream>
 
-extern "C++" {
+خارجي "C++" {
 
-struct yy_buffer_state;
-typedef int yy_state_type;
+بنية yy_بفر_state;
+تعريفنوع صحيح yy_state_type;
 
 class FlexLexer
 {
-public:
-  virtual ~FlexLexer()        { }
+عام:
+  مجازي ~FlexLexer()        { }
 
-  const char* YYText() const  { return yytext; }
-  int YYLeng()        const   { return yyleng; }
+  ثابت حرف* YYText() ثابت  { أرجع yytext; }
+  صحيح YYLeng()        ثابت   { أرجع yyleng; }
 
-  virtual void
-  yy_switch_to_buffer( yy_buffer_state* new_buffer ) = 0;
-  virtual yy_buffer_state* yy_create_buffer( std::istream* s, int size ) = 0;
-  virtual yy_buffer_state* yy_create_buffer( std::istream& s, int size ) = 0;
-  virtual void yy_delete_buffer( yy_buffer_state* b ) = 0;
-  virtual void yyrestart( std::istream* s ) = 0;
-  virtual void yyrestart( std::istream& s ) = 0;
+  مجازي فراغ
+  yy_switch_منزل_بفر( yy_بفر_state* new_بفر ) = 0;
+  مجازي yy_بفر_state* yy_create_بفر( std::istream* s, صحيح اندازه ) = 0;
+  مجازي yy_بفر_state* yy_create_بفر( std::istream& s, صحيح اندازه ) = 0;
+  مجازي فراغ yy_delete_بفر( yy_بفر_state* b ) = 0;
+  مجازي فراغ yyrestart( std::istream* s ) = 0;
+  مجازي فراغ yyrestart( std::istream& s ) = 0;
 
-  virtual int yylex() = 0;
+  مجازي صحيح yylex() = 0;
 
   // Call yylex with new input/output sources.
-  int yylex( std::istream& new_in, std::ostream& new_out )
+  صحيح yylex( std::istream& new_دننه, std::ostream& new_بهر )
   {
-    switch_streams( new_in, new_out );
-    return yylex();
+    switch_streams( new_دننه, new_بهر );
+    أرجع yylex();
   }
 
-  int yylex( std::istream* new_in, std::ostream* new_out = 0)
+  صحيح yylex( std::istream* new_دننه, std::ostream* new_بهر = 0)
   {
-    switch_streams( new_in, new_out );
-    return yylex();
+    switch_streams( new_دننه, new_بهر );
+    أرجع yylex();
   }
 
   // Switch to new input/output streams.  A nil stream pointer
   // indicates "keep the current one".
-  virtual void switch_streams( std::istream* new_in,
-                               std::ostream* new_out ) = 0;
-  virtual void switch_streams( std::istream& new_in,
-                               std::ostream& new_out ) = 0;
+  مجازي فراغ switch_streams( std::istream* new_دننه,
+                               std::ostream* new_بهر ) = 0;
+  مجازي فراغ switch_streams( std::istream& new_دننه,
+                               std::ostream& new_بهر ) = 0;
 
-  int lineno() const          { return yylineno; }
+  صحيح lineno() ثابت          { أرجع yylineno; }
 
-  int debug() const           { return yyflexdebug; }
-  void set_debug( int flag )  { yyflexdebug = flag; }
+  صحيح debug() ثابت           { أرجع yyflexdebug; }
+  فراغ سېټ_debug( صحيح flag )  { yyflexdebug = flag; }
 
-protected:
-  char* yytext;
-  int yyleng;
-  int yylineno;       // only maintained if you use %option yylineno
-  int yyflexdebug;    // only has effect with -d or "%option debug"
+محمي:
+  حرف* yytext;
+  صحيح yyleng;
+  صحيح yylineno;       // only maintained if you use %option yylineno
+  صحيح yyflexdebug;    // only has effect with -d or "%option debug"
 };
 
 }
-#endif // FLEXLEXER_H
+#د_که_پای // FLEXLEXER_H
 
-#if defined(yyFlexLexer) || ! defined(yyFlexLexerOnce)
+#إذا defined(yyFlexLexer) || ! defined(yyFlexLexerOnce)
 // Either this is the first time through (yyFlexLexerOnce not defined),
 // or this is a repeated include to define a different flavor of
 // yyFlexLexer, as discussed in the flex manual.
 # define yyFlexLexerOnce
 
-extern "C++" {
+خارجي "C++" {
 
-class yyFlexLexer : public FlexLexer {
-public:
+class yyFlexLexer : عام FlexLexer {
+عام:
   // arg_yyin and arg_yyout default to the cin and cout, but we
   // only make that assignment when initializing in yylex().
   yyFlexLexer( std::istream& arg_yyin, std::ostream& arg_yyout );
   yyFlexLexer( std::istream* arg_yyin = 0, std::ostream* arg_yyout = 0 );
-private:
-  void ctor_common();
+خاص:
+  فراغ ctor_common();
 
-public:
+عام:
 
-  virtual ~yyFlexLexer();
+  مجازي ~yyFlexLexer();
 
-  void yy_switch_to_buffer( yy_buffer_state* new_buffer );
-  yy_buffer_state* yy_create_buffer( std::istream* s, int size );
-  yy_buffer_state* yy_create_buffer( std::istream& s, int size );
-  void yy_delete_buffer( yy_buffer_state* b );
-  void yyrestart( std::istream* s );
-  void yyrestart( std::istream& s );
+  فراغ yy_switch_منزل_بفر( yy_بفر_state* new_بفر );
+  yy_بفر_state* yy_create_بفر( std::istream* s, صحيح اندازه );
+  yy_بفر_state* yy_create_بفر( std::istream& s, صحيح اندازه );
+  فراغ yy_delete_بفر( yy_بفر_state* b );
+  فراغ yyrestart( std::istream* s );
+  فراغ yyrestart( std::istream& s );
 
-  void yypush_buffer_state( yy_buffer_state* new_buffer );
-  void yypop_buffer_state();
+  فراغ yypush_بفر_state( yy_بفر_state* new_بفر );
+  فراغ yypop_بفر_state();
 
-  virtual int yyread(char *buf, size_t);
-  virtual int yylex();
-  virtual void switch_streams( std::istream& new_in, std::ostream& new_out );
-  virtual void switch_streams( std::istream* new_in = 0, std::ostream* new_out = 0 );
-  virtual int yywrap();
+  مجازي صحيح yyread(حرف *buf, size_t);
+  مجازي صحيح yylex();
+  مجازي فراغ switch_streams( std::istream& new_دننه, std::ostream& new_بهر );
+  مجازي فراغ switch_streams( std::istream* new_دننه = 0, std::ostream* new_بهر = 0 );
+  مجازي صحيح yywrap();
 
-protected:
-  virtual int LexerInput( char* buf, int max_size );
-  virtual void LexerOutput( const char* buf, int size );
-  virtual void LexerError( const char* msg );
+محمي:
+  مجازي صحيح Lexer_ننوت( حرف* buf, صحيح max_اندازه );
+  مجازي فراغ LexerOutput( ثابت حرف* buf, صحيح اندازه );
+  مجازي فراغ LexerError( ثابت حرف* پیغام );
 			
-  void yyunput_r( int c, char* buf_ptr );
-  int yyinput();
+  فراغ yyunput_r( صحيح c, حرف* buf_ptr );
+  صحيح yyinput();
 
-  void yy_load_buffer_state();
-  void yy_init_buffer( yy_buffer_state* b, std::istream& s );
-  void yy_flush_buffer( yy_buffer_state* b );
+  فراغ yy_بارول_بفر_state();
+  فراغ yy_init_بفر( yy_بفر_state* b, std::istream& s );
+  فراغ yy_flush_بفر( yy_بفر_state* b );
 
-  int yy_start_stack_ptr;
-  int yy_start_stack_depth;
-  int* yy_start_stack;
+  صحيح yy_پیل_ډېری_ptr;
+  صحيح yy_پیل_ډېری_ژوروالی;
+  صحيح* yy_پیل_ډېری;
 
-  void yy_push_state( int new_state );
-  void yy_pop_state();
-  int yy_top_state();
+  فراغ yy_ټېل_state( صحيح new_state );
+  فراغ yy_راوباسه_state();
+  صحيح yy_سر_state();
 
-  yy_state_type yy_get_previous_state();
+  yy_state_type yy_get_پخوانی_state();
   yy_state_type yy_try_NUL_trans( yy_state_type current_state );
-  int yy_get_next_buffer();
+  صحيح yy_get_بل_بفر();
 
   std::istream yyin;  // input source for default LexerInput
   std::ostream yyout; // output sink for default LexerOutput
 
   // yy_hold_char holds the character lost when yytext is formed.
-  char yy_hold_char;
+  حرف yy_hold_char;
 
   // Number of characters read into yy_ch_buf.
-  int yy_n_chars;
+  صحيح yy_n_chars;
 
   // Points to current character in buffer.
-  char* yy_c_buf_p;
+  حرف* yy_c_buf_p;
 
-  int yy_init;                // whether we need to initialize
-  int yy_start;               // start state number
+  صحيح yy_init;                // whether we need to initialize
+  صحيح yy_پیل;               // start state number
 
   // Flag which is used to allow yywrap()'s to do buffer switches
   // instead of setting up a fresh yyin.  A bit of a hack ...
-  int yy_did_buffer_switch_on_eof;
+  صحيح yy_did_بفر_switch_on_eof;
 
 
-  size_t yy_buffer_stack_top; /**< index of top of stack. */
-  size_t yy_buffer_stack_max; /**< capacity of stack. */
-  yy_buffer_state ** yy_buffer_stack; /**< Stack as an array. */
-  void yyensure_buffer_stack(void);
+  size_t yy_بفر_ډېری_سر; /**< index of top of stack. */
+  size_t yy_بفر_ډېری_max; /**< capacity of stack. */
+  yy_بفر_state ** yy_بفر_ډېری; /**< Stack as an array. */
+  فراغ yyensure_بفر_ډېری(فراغ);
 
   // The following are not always needed, but may be depending
   // on use of certain flex features (like REJECT or yymore()).
 
-  yy_state_type yy_last_accepting_state;
-  char* yy_last_accepting_cpos;
+  yy_state_type yy_وروستی_accepting_state;
+  حرف* yy_وروستی_accepting_cpos;
 
   yy_state_type* yy_state_buf;
   yy_state_type* yy_state_ptr;
   size_t yy_state_buf_max;
 
-  char* yy_full_match;
-  int* yy_full_state;
-  int yy_full_lp;
+  حرف* yy_ډک_سمون;
+  صحيح* yy_ډک_state;
+  صحيح yy_ډک_lp;
 
-  int yy_lp;
-  int yy_looking_for_trail_begin;
+  صحيح yy_lp;
+  صحيح yy_looking_for_trail_begin;
 
-  int yy_more_flag;
-  int yy_more_len;
-  int yy_more_offset;
-  int yy_prev_more_offset;
+  صحيح yy_نور_flag;
+  صحيح yy_نور_len;
+  صحيح yy_نور_دننه_واټن;
+  صحيح yy_prev_نور_دننه_واټن;
 };
 
 }
 
-#endif // yyFlexLexer || ! yyFlexLexerOnce
+#د_که_پای // yyFlexLexer || ! yyFlexLexerOnce

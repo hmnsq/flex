@@ -1,1 +1,1 @@
-#define FLEX_VERSION VERSION
+#تعریف_کړه FLEX_نسخه نسخه
