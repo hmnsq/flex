@@ -1,0 +1,616 @@
+# What is still missing
+
+76 languages. Each line says in how many languages it is missing.
+
+## Files in languages BURP cannot read yet
+
+- `.sh`: 2 files
+
+## Keywords with no word in a language's table
+
+- shabda:yytext: 75
+- guru:__FILE__: 75
+- shabda:yylineno: 75
+- wyaaka:YYSTYPE: 75
+- wyaaka:yyerror: 75
+- guru:stderr: 71
+- guru:fprintf: 71
+- guru:size_t: 71
+- guru:putc: 71
+- guru:stdout: 71
+- guru:fputs: 71
+- guru:FILE: 71
+- guru:stdin: 71
+- guru:ferror: 71
+- guru:fclose: 71
+- shabda:strncpy: 71
+- guru:fflush: 71
+- shabda:EXIT_FAILURE: 71
+- shabda:EOF: 71
+- guru:isupper: 71
+- guru:islower: 71
+- guru:realloc: 71
+- guru:close: 71
+- guru:fwrite: 71
+- guru:va_list: 71
+- guru:va_start: 71
+- guru:va_end: 71
+- guru:fgets: 71
+- guru:getenv: 71
+- guru:fopen: 71
+- wyaaka:islower: 71
+- wyaaka:isupper: 71
+- shabda:size_t: 71
+- guru:tolower: 71
+- guru:fseek: 71
+- guru:SEEK_CUR: 71
+- guru:freopen: 71
+- guru:jmp_buf: 71
+- guru:isprint: 71
+- guru:isxdigit: 71
+- guru:setlocale: 71
+- guru:strtol: 71
+- guru:strchr: 71
+- guru:strtoul: 71
+- guru:fputc: 71
+- guru:strncpy: 71
+- wyaaka:strchr: 71
+- wyaaka:iscntrl: 71
+- wyaaka:isgraph: 71
+- wyaaka:isprint: 71
+- wyaaka:ispunct: 71
+- wyaaka:isxdigit: 71
+- shabda:fputs: 71
+- shabda:fprintf: 71
+- guru:fgetpos: 71
+- guru:fpos_t: 71
+- guru:fsetpos: 71
+- guru:EOF: 71
+- guru:va_arg: 71
+- guru:fork: 71
+- guru:clearerr: 71
+- guru:ungetc: 71
+- guru:fgetc: 71
+- guru:strncat: 71
+- guru:longjmp: 71
+- guru:iscntrl: 71
+- guru:isgraph: 71
+- guru:ispunct: 71
+- guru:UINT_MAX: 71
+- guru:setjmp: 71
+- guru:BUFSIZ: 71
+- guru:ceil: 71
+- wyaaka:size_t: 71
+- wyaaka:fprintf: 71
+- wyaaka:stderr: 71
+- shabda:getenv: 71
+- shabda:atoi: 71
+- shabda:stdout: 71
+- shabda:strchr: 71
+- shabda:fopen: 71
+- shabda:strerror: 71
+- shabda:errno: 71
+- shabda:stdin: 71
+- guru:atoi: 71
+- guru:strcmp: 70
+- guru:memset: 70
+- guru:qsort: 70
+- guru:wait: 70
+- guru:strcpy: 70
+- wyaaka:qsort: 70
+- shabda:strcmp: 70
+- guru:#define: 66
+- guru:#endif: 66
+- guru:#ifndef: 66
+- guru:#ifdef: 66
+- shabda:#define: 66
+- wyaaka:#define: 66
+- shabda:#undef: 66
+- guru:unsigned: 62
+- guru:calloc: 62
+- guru:strlen: 62
+- guru:malloc: 62
+- guru:isspace: 62
+- guru:printf: 62
+- shabda:strlen: 62
+- guru:INT_MAX: 62
+- shabda:unsigned: 62
+- guru:strncmp: 62
+- guru:short: 62
+- guru:long: 62
+- wyaaka:isalnum: 62
+- wyaaka:isalpha: 62
+- wyaaka:isdigit: 62
+- wyaaka:isspace: 62
+- guru:memcpy: 62
+- guru:toupper: 62
+- guru:isalnum: 62
+- guru:isalpha: 62
+- guru:isdigit: 62
+- guru:signed: 62
+- guru:exit: 62
+- guru:sscanf: 62
+- guru:strstr: 62
+- guru:abs: 62
+- guru:main: 54
+- shabda:main: 54
+- guru:virtual: 40
+- guru:void: 25
+- guru:const: 25
+- guru:extern: 25
+- guru:NULL: 25
+- guru:static: 25
+- guru:typedef: 25
+- guru:free: 25
+- wyaaka:void: 25
+- guru:do: 25
+- guru:switch: 25
+- wyaaka:const: 25
+- guru:continue: 25
+- guru:default: 25
+- shabda:void: 25
+- shabda:NULL: 25
+- guru:goto: 25
+- shabda:const: 25
+- guru:public: 25
+- guru:assert: 25
+- wyaaka:static: 25
+- shabda:static: 25
+- wyaaka:do: 25
+- shabda:extern: 25
+- shabda:do: 25
+- guru:private: 25
+- guru:#elif: 25
+- wyaaka:NULL: 25
+- shabda:free: 25
+- shabda:default: 25
+- shabda:read: 25
+- shabda:assert: 25
+- guru:for: 9
+- wyaaka:for: 9
+- guru:char: 9
+- guru:case: 9
+- guru:struct: 9
+- guru:break: 9
+- guru:sizeof: 9
+- shabda:char: 9
+- wyaaka:char: 9
+- guru:enum: 9
+- shabda:sizeof: 9
+- wyaaka:sizeof: 9
+- guru:union: 9
+- guru:protected: 9
+- wyaaka:break: 9
+- shabda:case: 9
+- guru:int: 1
+- guru:if: 1
+- guru:return: 1
+- guru:else: 1
+- shabda:return: 1
+- guru:while: 1
+- wyaaka:if: 1
+- shabda:if: 1
+- shabda:else: 1
+- wyaaka:else: 1
+- wyaaka:int: 1
+- shabda:int: 1
+- guru:#if: 1
+- guru:#else: 1
+- shabda:while: 1
+- wyaaka:while: 1
+
+## Names with no dictionary entry (the most common first)
+
+- `i`: 76
+- `ctrl`: 76
+- `_`: 76
+- `s`: 76
+- `buf`: 76
+- `tbl`: 76
+- `state`: 76
+- `env`: 76
+- `visible_define`: 76
+- `c`: 76
+- `j`: 76
+- `option_sense`: 76
+- `str`: 76
+- `BEGIN`: 76
+- `tblend`: 76
+- `numecs`: 76
+- `flex_int32_t`: 76
+- `linenum`: 76
+- `chk`: 76
+- `wr`: 76
+- `sym`: 76
+- `csize`: 76
+- `outn`: 76
+- `p`: 76
+- `flexerror`: 76
+- `NIL`: 76
+- `chain`: 76
+- `yytext`: 76
+- `n`: 76
+- `rv`: 76
+- `mach`: 76
+- `len`: 76
+- `lastdfa`: 76
+- `nmstr`: 76
+- `cclp`: 76
+- `ch`: 76
+- `name`: 76
+- `m`: 76
+- `synerr`: 76
+- `ACTION_ECHO`: 76
+- `ue`: 76
+- `td_lolen`: 76
+- `numstates`: 76
+- `ptype`: 76
+- `argv`: 76
+- `allocate_integer_array`: 76
+- `f`: 76
+- `array`: 76
+- `NAME`: 76
+- `arg`: 76
+- `CCL`: 76
+- `finalst`: 76
+- `file`: 76
+- `flex_uint32_t`: 76
+- `mkstate`: 76
+- `NL`: 76
+- `ns`: 76
+- `yynxt_tbl`: 76
+- `fullspd`: 76
+- `aux`: 76
+- `reallocate_integer_array`: 76
+- `ds`: 76
+- `nacc`: 76
+- `SYM_EPSILON`: 76
+- `ap`: 76
+- `nxt`: 76
+- `std`: 76
+- `accset`: 76
+- `current_max_dfas`: 76
+- `filter`: 76
+- `useecs`: 76
+- `Buf`: 76
+- `reject`: 76
+- `def`: 76
+- `fulltbl`: 76
+- `sz`: 76
+- `tdata`: 76
+- `flexfatal`: 76
+- `CSIZE`: 76
+- `ecgroup`: 76
+- `totaltrans`: 76
+- `lastsc`: 76
+- `argc`: 76
+- `lerr`: 76
+- `current_mns`: 76
+- `xstrdup`: 76
+- `tablesext`: 76
+- `k`: 76
+- `outfilename`: 76
+- `td_flags`: 76
+- `idx`: 76
+- `pstart`: 76
+- `statenum`: 76
+- `dfaacc`: 76
+- `cp`: 76
+- `scon_stk_ptr`: 76
+- `_scanopt_t`: 76
+- `ccltbl`: 76
+- `MAXLINE`: 76
+- `current_max_xpairs`: 76
+- `link_machines`: 76
+- `comment`: 76
+- `eps`: 76
+- `th`: 76
+- `fmt`: 76
+- `ccllen`: 76
+- `lastccl`: 76
+- `trans1`: 76
+- `tch`: 76
+- `varlength`: 76
+- `td`: 76
+- `cclmap`: 76
+- `d`: 76
+- `tableswr`: 76
+- `usemecs`: 76
+- `firstfree`: 76
+- `outc`: 76
+- `options`: 76
+- `bwritten`: 76
+- `b`: 76
+- `hashval`: 76
+- `transchar`: 76
+- `newds`: 76
+- `nset`: 76
+- `FLEX_EXIT`: 76
+- `interactive`: 76
+- `lastnfa`: 76
+- `OPTWS`: 76
+- `optname`: 76
+- `istream`: 76
+- `define`: 76
+- `x`: 76
+- `infilename`: 76
+- `flex_die`: 76
+- `yytbl_writer`: 76
+- `SECT2`: 76
+- `flags`: 76
+- `gentables`: 76
+- `bck`: 76
+- `footprint`: 76
+- `numtemps`: 76
+- `mkdata`: 76
+- `fp`: 76
+- `minec`: 76
+- `trace`: 76
+- `fwd`: 76
+- `s2`: 76
+- `lex_compat`: 76
+- `datapos`: 76
+- `firstprot`: 76
+- `current_max_scs`: 76
+- `flex_int8_t`: 76
+- `anum`: 76
+- `errmsg`: 76
+- `baseaddr`: 76
+- `reallocate_array`: 76
+- `a`: 76
+- `NO_TRANSITION`: 76
+- `trans2`: 76
+- `nultrans`: 76
+- `comstate`: 76
+- `scset`: 76
+- `td_hilen`: 76
+- `optimize_pack`: 76
+- `dataend`: 76
+- `onesp`: 76
+- `firstst`: 76
+- `val`: 76
+- `acc_array`: 76
+- `sptr`: 76
+- `headcnt`: 76
+- `namelen`: 76
+- `yyleng`: 76
+- `elts`: 76
+- `allocate_array`: 76
+- `current_maxccls`: 76
+- `has_case`: 76
+- `tsp`: 76
+- `accptnum`: 76
+- `s1`: 76
+- `C_plus_plus`: 76
+- `action_array`: 76
+- `mkxtion`: 76
+- `bracelevel`: 76
+- `dfaacc_state`: 76
+- `JAMSTATE`: 76
+- `lenccl`: 76
+- `sectnum`: 76
+- `flex_int16_t`: 76
+- `curr`: 76
+- `yynultrans_tbl`: 76
+- `yylval`: 76
+- `WS`: 76
+- `optc`: 76
+- `usg_elem`: 76
+- `ue_curr`: 76
+- `optarg`: 76
+- `t`: 76
+- `ccladd`: 76
+- `ich`: 76
+- `reentrant`: 76
+- `yytext_is_array`: 76
+- `lastst`: 76
+- `scname`: 76
+- `expand_nxt_chk`: 76
+- `rulelen`: 76
+- `ACTION`: 76
+- `IS_LONG`: 76
+- `backend`: 76
+- `v`: 76
+- `deflink`: 76
+- `qelm`: 76
+- `defined`: 76
+- `cclng`: 76
+- `ccl_has_nl`: 76
+- `duplist`: 76
+- `packtype_t`: 76
+- `scbol`: 76
+- `NUL_ec`: 76
+- `extra`: 76
+- `endif`: 76
+- `long_align`: 76
+- `posix_compat`: 76
+- `use_read`: 76
+- `yyterminate`: 76
+- `protnext`: 76
+- `tecbck`: 76
+- `jamstate`: 76
+- `_sf_stk`: 76
+- `sf_case_ins`: 76
+- `flex_uint16_t`: 76
+- `scanopt_t`: 76
+- `pname`: 76
+- `txt`: 76
+- `trailcnt`: 76
+- `pat`: 76
+- `cclsorted`: 76
+- `M4QSTART`: 76
+- `M4QEND`: 76
+- `maxec`: 76
+- `toktype`: 76
+- `yylex`: 76
+- `dss`: 76
+- `ABS`: 76
+- `stkpos`: 76
+- `accsiz`: 76
+- `symlist`: 76
+- `cclm`: 76
+- `filename`: 76
+- `MSP`: 76
+- `trit_true`: 76
+- `bison_bridge_lval`: 76
+- `do_yylineno`: 76
+- `rewrite`: 76
+- `performance_hint`: 76
+- `continued_action`: 76
+- `protprev`: 76
+- `lastprot`: 76
+- `nextecm`: 76
+- `sceof`: 76
+- `lwarn`: 76
+- `skel_property`: 76
+- `src`: 76
+- `yyacc_tbl`: 76
+- `yymeta_tbl`: 76
+- `yybase_tbl`: 76
+- `yydef_tbl`: 76
+- `yychk_tbl`: 76
+- `yyacclist_tbl`: 76
+- `tablesfilename`: 76
+- `copy`: 76
+- `optspec_t`: 76
+- `lastchar`: 76
+- `yyless`: 76
+- `opt_fmt`: 76
+- `skel`: 76
+- `newtbl`: 76
+- `yyskel_static`: 76
+- `mindiff`: 76
+- `minprot`: 76
+- `ostream`: 76
+- `yyout`: 76
+- `buf_strnappend`: 76
+- `readable_form`: 76
+- `state_type`: 76
+- `dfasiz`: 76
+- `transsym`: 76
+- `ccls`: 76
+- `trit`: 76
+- `skelname`: 76
+- `skelfile`: 76
+- `tnxt`: 76
+- `suffix`: 76
+- `skelout`: 76
+- `scanflags_t`: 76
+- `symname`: 76
+- `tblsiz`: 76
+- `rform`: 76
+- `CHAR`: 76
+- `trlcontxt`: 76
+
+## Comments with no translation
+
+- Redistribution and use in source and binary forms, with or without: 76
+- modification, are permitted provided that the following conditions: 76
+- are met:: 76
+- notice, this list of conditions and the following disclaimer.: 76
+- notice, this list of conditions and the following disclaimer in the: 76
+- documentation and/or other materials provided with the distribution.: 76
+- Neither the name of the University nor the names of its contributors: 76
+- may be used to endorse or promote products derived from this software: 76
+- without specific prior written permission.: 76
+- THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR: 76
+- IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED: 76
+- WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR: 76
+- PURPOSE.: 76
+- This file is part of flex.: 76
+- This code is derived from software contributed to Berkeley by: 76
+- Vern Paxson.: 76
+- The United States Government has rights in this work pursuant: 76
+- to contract no. DE-AC03-76SF00098 between the United States: 76
+- Department of Energy and the University of California.: 76
+- *< 1-dim ints: 76
+- flex - tool to generate fast lexical analyzers: 76
+- declare functions that have forward references: 76
+- vim:set tabstop=8 softtabstop=4 shiftwidth=4:: 76
+- vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0:: 76
+- short circuit any output: 76
+- We're in the middle of a (?x: ) pattern.: 76
+- #undef yyFlexLexer: 76
+- #include <FlexLexer.h>: 76
+- this was a run: 76
+- create new class: 76
+- debug: 76
+- do nothing: 76
+- Note: range 1..256 is mapped to 1..255,0: 76
+- allocate and initialize new filter: 76
+- append f to end of chain: 76
+- The percentage the number of homogeneous out-transitions of a state
+ * must be of the number of tota: 76
+- The percentage the number of differences between a state's transition
+ * table and the most similar : 76
+- rule_useful[], rule_has_nl[] and ccl_has_nl[] are boolean arrays,
+ * but allocated as char arrays fo: 76
+- scxclu[] and sceof[] are boolean arrays, but allocated as char
+ * arrays for size.: 76
+- flex integer type definitions: 76
+- We want the transition to be represented as the offset to the
+	 * next state, not the actual state n: 76
+- We need to have room in nxt/chk for two more slots: One for the
+	 * action and one for the end-of-bu: 76
+- anything but EOB: 76
+- So that "make test" won't show arb. differences.: 76
+- Make sure every state has an end-of-buffer transition and an
+	 * action #.: 76
+- action number: 76
+- verify, transition: 76
+- Here's the final, end-of-buffer state.: 76
+- one long string: 76
+- Indent.: 76
+- Function name is allocate_array() because of
+			 * compatibility (for translations):: 76
+- Scanner to be called by a bison pure parser.: 76
+- For POSIX lex compatibility.: 76
+- Suppress #line directives in scanner.: 76
+- Do it again for upper/lowercase: 76
+- ignore: 76
+- to stop the parser: 76
+- if there's no such property, simply pass through: 76
+- Prints a usage message based on contents of optlist.
+ * Parameters:
+ *   scanner  - The scanner, alr: 76
+- end while: 76
+- add padding: 76
+- Sanity check: 76
+- vim:set noexpandtab cindent tabstop=8 softtabstop=0 shiftwidth=8 textwidth=0:: 76
+- *INDENT-OFF*: 76
+- *INDENT-ON*: 76
+- FlexLexer.h -- define interfaces for lexical analyzer classes generated: 76
+- by flex: 76
+- Kent Williams and Tom Epperly.: 76
+- This file defines FlexLexer, an abstract class which specifies the: 76
+- external interface provided to flex C++ lexer objects, and yyFlexLexer,: 76
+- which defines a particular lexer class.: 76
+- If you want to create multiple lexer classes, you use the -P flag: 76
+- to rename each yyFlexLexer to some other xxFlexLexer.  You then: 76
+- include <FlexLexer.h> in your other sources once per lexer class:: 76
+- #define yyFlexLexer xxFlexLexer: 76
+- #define yyFlexLexer zzFlexLexer: 76
+- Never included before - need to define base class.: 76
+- Call yylex with new input/output sources.: 76
+- Switch to new input/output streams.  A nil stream pointer: 76
+- indicates "keep the current one".: 76
+- only maintained if you use %option yylineno: 76
+- only has effect with -d or "%option debug": 76
+- FLEXLEXER_H: 76
+- Either this is the first time through (yyFlexLexerOnce not defined),: 76
+- or this is a repeated include to define a different flavor of: 76
+- yyFlexLexer, as discussed in the flex manual.: 76
+- arg_yyin and arg_yyout default to the cin and cout, but we: 76
+- only make that assignment when initializing in yylex().: 76
+- input source for default LexerInput: 76
+- output sink for default LexerOutput: 76
+- yy_hold_char holds the character lost when yytext is formed.: 76
+- Number of characters read into yy_ch_buf.: 76
+- Points to current character in buffer.: 76
+- whether we need to initialize: 76
+- start state number: 76
+- Flag which is used to allow yywrap()'s to do buffer switches: 76
+- instead of setting up a fresh yyin.  A bit of a hack ...: 76
+- *< index of top of stack.: 76
+- *< capacity of stack.: 76
+- *< Stack as an array.: 76
