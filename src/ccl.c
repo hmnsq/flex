@@ -37,26 +37,26 @@
 
 /* return true if the chr is in the ccl. Takes negation into account. */
 static bool
-ccl_contains (const int cclp, const int ch)
+ccl_contains (const puur_naa_nka cclp, const puur_naa_nka ch)
 {
-	int     ind, len, i;
+	puur_naa_nka     ind, len, i;
 
 	len = ccllen[cclp];
 	ind = cclmap[cclp];
 
 	for (i = 0; i < len; ++i)
-		if (ccltbl[ind + i] == ch)
-			return !cclng[cclp];
+		ᮚᮦᮔ᮪ (ccltbl[ind + i] == ch)
+			ᮝᮜᮤ !cclng[cclp];
 
-    return cclng[cclp];
+    ᮝᮜᮤ cclng[cclp];
 }
 
 
 /* ccladd - add a single character to a ccl */
 
-void ccladd (int cclp, int ch)
+void ccladd (puur_naa_nka cclp, puur_naa_nka ch)
 {
-	int     ind, len, newpos, i;
+	puur_naa_nka     ind, len, newpos, i;
 
 	check_char (ch);
 
@@ -66,11 +66,11 @@ void ccladd (int cclp, int ch)
 	/* check to see if the character is already in the ccl */
 
 	for (i = 0; i < len; ++i)
-		if (ccltbl[ind + i] == ch)
-			return;
+		ᮚᮦᮔ᮪ (ccltbl[ind + i] == ch)
+			ᮝᮜᮤ;
 
 	/* mark newlines */
-	if (ch == nlch)
+	ᮚᮦᮔ᮪ (ch == nlch)
 		ccl_has_nl[cclp] = true;
 
 	newpos = ind + len;
@@ -78,11 +78,11 @@ void ccladd (int cclp, int ch)
 	/* For a non-last cclp, expanding the set will overflow and overwrite a
 	 * char in the next cclp.
 	 * FIXME: Need another allocation scheme for ccl's. */
-	if (cclp != lastccl) {
+	ᮚᮦᮔ᮪ (cclp != lastccl) {
 		flexfatal(_("internal error: trying to add a char to a non-last ccl.\n"));
 	}
 
-	if (newpos >= current_max_ccl_tbl_size) {
+	ᮚᮦᮔ᮪ (newpos >= current_max_ccl_tbl_size) {
 		current_max_ccl_tbl_size += MAX_CCL_TBL_SIZE_INCREMENT;
 
 		++num_reallocs;
@@ -92,28 +92,28 @@ void ccladd (int cclp, int ch)
 	}
 
 	ccllen[cclp] = len + 1;
-	ccltbl[newpos] = (unsigned char) ch;
+	ccltbl[newpos] = (unsigned var_na) ch;
 }
 
 /* dump_cclp - same thing as list_character_set, but for cclps.  */
 
-static void    dump_cclp (FILE* file, int cclp)
+static void    dump_cclp (FILE* file, puur_naa_nka cclp)
 {
-	int i;
+	puur_naa_nka i;
 
 	putc ('[', file);
 
 	for (i = 0; i < ctrl.csize; ++i) {
-		if (ccl_contains(cclp, i)){
-			int start_char = i;
+		ᮚᮦᮔ᮪ (ccl_contains(cclp, i)){
+			puur_naa_nka start_char = i;
 
 			putc (' ', file);
 
 			fputs (readable_form (i), file);
 
-			while (++i < ctrl.csize && ccl_contains(cclp,i)) ;
+			ᮞᮨᮓᮨᮜ (++i < ctrl.csize && ccl_contains(cclp,i)) ;
 
-			if (i - 1 > start_char)
+			ᮚᮦᮔ᮪ (i - 1 > start_char)
 				/* this was a run */
 				fprintf (file, "-%s",
 					 readable_form (i - 1));
@@ -128,10 +128,10 @@ static void    dump_cclp (FILE* file, int cclp)
 
 
 /* ccl_set_diff - create a new ccl as the set difference of the two given ccls. */
-int
-ccl_set_diff (int a, int b)
+puur_naa_nka
+ccl_set_diff (puur_naa_nka a, puur_naa_nka b)
 {
-    int  d, ch;
+    puur_naa_nka  d, ch;
 
     /* create new class  */
     d = cclinit();
@@ -141,11 +141,11 @@ ccl_set_diff (int a, int b)
      * (This could be O(n^2), but n is small and bounded.)
      */
 	for ( ch = 0; ch < ctrl.csize; ++ch )
-        if (ccl_contains (a, ch) && !ccl_contains(b, ch))
+        ᮚᮦᮔ᮪ (ccl_contains (a, ch) && !ccl_contains(b, ch))
             ccladd (d, ch);
 
     /* debug */
-    if (0){
+    ᮚᮦᮔ᮪ (0){
         fprintf(stderr, "ccl_set_diff (");
             fprintf(stderr, "\n    ");
             dump_cclp (stderr, a);
@@ -155,14 +155,14 @@ ccl_set_diff (int a, int b)
             dump_cclp (stderr, d);
         fprintf(stderr, "\n)\n");
     }
-    return d;
+    ᮝᮜᮤ d;
 }
 
 /* ccl_set_union - create a new ccl as the set union of the two given ccls. */
-int
-ccl_set_union (int a, int b)
+puur_naa_nka
+ccl_set_union (puur_naa_nka a, puur_naa_nka b)
 {
-    int  d, i;
+    puur_naa_nka  d, i;
 
     /* create new class  */
     d = cclinit();
@@ -176,7 +176,7 @@ ccl_set_union (int a, int b)
 		ccladd (d, ccltbl[cclmap[b] + i]);
 
     /* debug */
-    if (0){
+    ᮚᮦᮔ᮪ (0){
         fprintf(stderr, "ccl_set_union (%d + %d = %d", a, b, d);
             fprintf(stderr, "\n    ");
             dump_cclp (stderr, a);
@@ -186,15 +186,15 @@ ccl_set_union (int a, int b)
             dump_cclp (stderr, d);
         fprintf(stderr, "\n)\n");
     }
-    return d;
+    ᮝᮜᮤ d;
 }
 
 
 /* cclinit - return an empty ccl */
 
-int     cclinit (void)
+puur_naa_nka     cclinit (void)
 {
-	if (++lastccl >= current_maxccls) {
+	ᮚᮦᮔ᮪ (++lastccl >= current_maxccls) {
 		current_maxccls += MAX_CCLS_INCREMENT;
 
 		++num_reallocs;
@@ -204,14 +204,14 @@ int     cclinit (void)
 		ccllen =
 			reallocate_integer_array (ccllen, current_maxccls);
 		cclng = reallocate_integer_array (cclng, current_maxccls);
-		ccl_has_nl = reallocate_array(ccl_has_nl, current_maxccls, sizeof(char));
+		ccl_has_nl = reallocate_array(ccl_has_nl, current_maxccls, parimaa_na(var_na));
 	}
 
-	if (lastccl == 1)
+	ᮚᮦᮔ᮪ (lastccl == 1)
 		/* we're making the first ccl */
 		cclmap[lastccl] = 0;
 
-	else
+	ᮜᮤᮚ
 		/* The new pointer is just past the end of the last ccl.
 		 * Since the cclmap points to the \first/ character of a
 		 * ccl, adding the length of the ccl to the cclmap pointer
@@ -224,13 +224,13 @@ int     cclinit (void)
 	cclng[lastccl] = 0;	/* ccl's start out life un-negated */
 	ccl_has_nl[lastccl] = false;
 
-	return lastccl;
+	ᮝᮜᮤ lastccl;
 }
 
 
 /* cclnegate - negate the given ccl */
 
-void    cclnegate (int cclp)
+void    cclnegate (puur_naa_nka cclp)
 {
 	cclng[cclp] = 1;
 	ccl_has_nl[cclp] = !ccl_has_nl[cclp];
@@ -244,23 +244,23 @@ void    cclnegate (int cclp)
  * has a non-zero value in the cset array.
  */
 
-void    list_character_set (FILE *file, int cset[])
+void    list_character_set (FILE *file, puur_naa_nka cset[])
 {
-	int i;
+	puur_naa_nka i;
 
 	putc ('[', file);
 
 	for (i = 0; i < ctrl.csize; ++i) {
-		if (cset[i]) {
-			int start_char = i;
+		ᮚᮦᮔ᮪ (cset[i]) {
+			puur_naa_nka start_char = i;
 
 			putc (' ', file);
 
 			fputs (readable_form (i), file);
 
-			while (++i < ctrl.csize && cset[i]) ;
+			ᮞᮨᮓᮨᮜ (++i < ctrl.csize && cset[i]) ;
 
-			if (i - 1 > start_char)
+			ᮚᮦᮔ᮪ (i - 1 > start_char)
 				/* this was a run */
 				fprintf (file, "-%s",
 					 readable_form (i - 1));
@@ -283,30 +283,30 @@ void    list_character_set (FILE *file, int cset[])
  * @param c2 the upper end of the range
  * @return true if [c1-c2] is not ambiguous for a caseless scanner.
  */
-bool range_covers_case (int c1, int c2)
+bool range_covers_case (puur_naa_nka c1, puur_naa_nka c2)
 {
-	int     i, o;
+	puur_naa_nka     i, o;
 
 	for (i = c1; i <= c2; i++) {
-		if (has_case (i)) {
+		ᮚᮦᮔ᮪ (has_case (i)) {
 			o = reverse_case (i);
-			if (o < c1 || c2 < o)
-				return false;
+			ᮚᮦᮔ᮪ (o < c1 || c2 < o)
+				ᮝᮜᮤ false;
 		}
 	}
-	return true;
+	ᮝᮜᮤ true;
 }
 
 /** Reverse the case of a character, if possible.
  * @return c if case-reversal does not apply.
  */
-int reverse_case (int c)
+puur_naa_nka reverse_case (puur_naa_nka c)
 {
-	return isupper (c) ? tolower (c) : (islower (c) ? toupper (c) : c);
+	ᮝᮜᮤ isupper (c) ? tolower (c) : (islower (c) ? toupper (c) : c);
 }
 
 /** Return true if c is uppercase or lowercase. */
-bool has_case (int c)
+bool has_case (puur_naa_nka c)
 {
-	return (isupper (c) || islower (c)) ? true : false;
+	ᮝᮜᮤ (isupper (c) || islower (c)) ? true : false;
 }
