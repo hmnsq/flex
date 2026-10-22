@@ -31,16 +31,16 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
-#include "tables.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "flexdef.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "tables.h"
 
 /* declare functions that have forward references */
 
-static void dump_associated_rules(FILE *, int);
-static void dump_transitions(FILE *, int[]);
-static int  snstods(int[], int, int[], int, int, int *);
-static void sympartition(int[], int, int[], int[]);
-static int  symfollowset(int[], int, int, int[]);
+ਸਥਿਰ ਖਾਲੀ dump_associated_ਨਿਯਮਾਂ(FILE *, ਪੂਰਨ);
+ਸਥਿਰ ਖਾਲੀ dump_transitions(FILE *, ਪੂਰਨ[]);
+ਸਥਿਰ ਪੂਰਨ  snstods(ਪੂਰਨ[], ਪੂਰਨ, ਪੂਰਨ[], ਪੂਰਨ, ਪੂਰਨ, ਪੂਰਨ *);
+ਸਥਿਰ ਖਾਲੀ sympartition(ਪੂਰਨ[], ਪੂਰਨ, ਪੂਰਨ[], ਪੂਰਨ[]);
+ਸਥਿਰ ਪੂਰਨ  symfollowset(ਪੂਰਨ[], ਪੂਰਨ, ਪੂਰਨ, ਪੂਰਨ[]);
 
 
 /* check_for_backing_up - check a DFA state for backing up
@@ -52,24 +52,24 @@ static int  symfollowset(int[], int, int, int[]);
  * indexed by equivalence class.
  */
 
-static void check_for_backing_up(int ds, int state[])
+ਸਥਿਰ ਖਾਲੀ check_for_backing_ਉੱਪਰ(ਪੂਰਨ ds, ਪੂਰਨ state[])
 {
-	if ((reject && !dfaacc[ds].dfaacc_set) || (!reject && !dfaacc[ds].dfaacc_state)) {	/* state is non-accepting */
-		++num_backing_up;
+	ਜੇ ((reject && !dfaacc[ds].dfaacc_ਸੈੱਟ) || (!reject && !dfaacc[ds].dfaacc_state)) {	/* state is non-accepting */
+		++ਅੰਕ_backing_ਉੱਪਰ;
 
-		if (env.backing_up_report) {
-			fprintf (ctrl.backing_up_file,
+		ਜੇ (env.backing_ਉੱਪਰ_report) {
+			fprintf (ctrl.backing_ਉੱਪਰ_file,
 				 _("State #%d is non-accepting -\n"), ds);
 
 			/* identify the state */
-			dump_associated_rules (ctrl.backing_up_file, ds);
+			dump_associated_ਨਿਯਮਾਂ (ctrl.backing_ਉੱਪਰ_file, ds);
 
 			/* Now identify it further using the out- and
 			 * jam-transitions.
 			 */
-			dump_transitions (ctrl.backing_up_file, state);
+			dump_transitions (ctrl.backing_ਉੱਪਰ_file, state);
 
-			putc ('\n', ctrl.backing_up_file);
+			putc ('\n', ctrl.backing_ਉੱਪਰ_file);
 		}
 	}
 }
@@ -97,31 +97,31 @@ static void check_for_backing_up(int ds, int state[])
  *    accset[1 .. nacc] is the list of accepting numbers for the DFA state.
  */
 
-static void check_trailing_context(int *nfa_states, int num_states, int *accset, int nacc)
+ਸਥਿਰ ਖਾਲੀ check_trailing_context(ਪੂਰਨ *nfa_ਹਾਲਤਾਂ, ਪੂਰਨ ਅੰਕ_ਹਾਲਤਾਂ, ਪੂਰਨ *accset, ਪੂਰਨ nacc)
 {
-	int i, j;
+	ਪੂਰਨ i, j;
 
-	for (i = 1; i <= num_states; ++i) {
-		int     ns = nfa_states[i];
-		int type = state_type[ns];
-		int ar = assoc_rule[ns];
+	ਲਈ (i = 1; i <= ਅੰਕ_ਹਾਲਤਾਂ; ++i) {
+		ਪੂਰਨ     ns = nfa_ਹਾਲਤਾਂ[i];
+		ਪੂਰਨ type = state_type[ns];
+		ਪੂਰਨ ar = assoc_ਨਿਯਮ[ns];
 
-		if (type == STATE_NORMAL || rule_type[ar] != RULE_VARIABLE) {	/* do nothing */
+		ਜੇ (type == STATE_ਸਾਧਾਰਨ || ਨਿਯਮ_type[ar] != ਨਿਯਮ_VARIABLE) {	/* do nothing */
 		}
 
-		else if (type == STATE_TRAILING_CONTEXT) {
+		ਨਹੀਂਤਾਂ ਜੇ (type == STATE_TRAILING_CONTEXT) {
 			/* Potential trouble.  Scan set of accepting numbers
 			 * for the one marking the end of the "head".  We
 			 * assume that this looping will be fairly cheap
 			 * since it's rare that an accepting number set
 			 * is large.
 			 */
-			for (j = 1; j <= nacc; ++j)
-				if (accset[j] & YY_TRAILING_HEAD_MASK) {
-					line_warning (_
+			ਲਈ (j = 1; j <= nacc; ++j)
+				ਜੇ (accset[j] & YY_TRAILING_ਸਿਰ_ਨਕਾਬ) {
+					ਸਤਰ_warning (_
 						      ("dangerous trailing context"),
-						      rule_linenum[ar]);
-					return;
+						      ਨਿਯਮ_linenum[ar]);
+					ਵਾਪਸ;
 				}
 		}
 	}
@@ -135,37 +135,37 @@ static void check_trailing_context(int *nfa_states, int num_states, int *accset,
  * and writes a report to the given file.
  */
 
-static void dump_associated_rules(FILE *file, int ds)
+ਸਥਿਰ ਖਾਲੀ dump_associated_ਨਿਯਮਾਂ(FILE *file, ਪੂਰਨ ds)
 {
-	int i, j;
-	int num_associated_rules = 0;
-	int rule_set[MAX_ASSOC_RULES + 1];
-	int *dset = dss[ds];
-	int size = dfasiz[ds];
+	ਪੂਰਨ i, j;
+	ਪੂਰਨ ਅੰਕ_associated_ਨਿਯਮਾਂ = 0;
+	ਪੂਰਨ ਨਿਯਮ_ਸੈੱਟ[MAX_ASSOC_ਨਿਯਮਾਂ + 1];
+	ਪੂਰਨ *dset = dss[ds];
+	ਪੂਰਨ ਮਾਪ = dfasiz[ds];
 
-	for (i = 1; i <= size; ++i) {
-		int rule_num = rule_linenum[assoc_rule[dset[i]]];
+	ਲਈ (i = 1; i <= ਮਾਪ; ++i) {
+		ਪੂਰਨ ਨਿਯਮ_ਅੰਕ = ਨਿਯਮ_linenum[assoc_ਨਿਯਮ[dset[i]]];
 
-		for (j = 1; j <= num_associated_rules; ++j)
-			if (rule_num == rule_set[j])
-				break;
+		ਲਈ (j = 1; j <= ਅੰਕ_associated_ਨਿਯਮਾਂ; ++j)
+			ਜੇ (ਨਿਯਮ_ਅੰਕ == ਨਿਯਮ_ਸੈੱਟ[j])
+				ਰੋਕੋ;
 
-		if (j > num_associated_rules) {	/* new rule */
-			if (num_associated_rules < MAX_ASSOC_RULES)
-				rule_set[++num_associated_rules] =
-					rule_num;
+		ਜੇ (j > ਅੰਕ_associated_ਨਿਯਮਾਂ) {	/* new rule */
+			ਜੇ (ਅੰਕ_associated_ਨਿਯਮਾਂ < MAX_ASSOC_ਨਿਯਮਾਂ)
+				ਨਿਯਮ_ਸੈੱਟ[++ਅੰਕ_associated_ਨਿਯਮਾਂ] =
+					ਨਿਯਮ_ਅੰਕ;
 		}
 	}
 
-	qsort (&rule_set [1], (size_t) num_associated_rules, sizeof (rule_set [1]), intcmp);
+	qsort (&ਨਿਯਮ_ਸੈੱਟ [1], (size_t) ਅੰਕ_associated_ਨਿਯਮਾਂ, ਆਕਾਰ (ਨਿਯਮ_ਸੈੱਟ [1]), intcmp);
 
 	fprintf (file, _(" associated rule line numbers:"));
 
-	for (i = 1; i <= num_associated_rules; ++i) {
-		if (i % 8 == 1)
+	ਲਈ (i = 1; i <= ਅੰਕ_associated_ਨਿਯਮਾਂ; ++i) {
+		ਜੇ (i % 8 == 1)
 			putc ('\n', file);
 
-		fprintf (file, "\t%d", rule_set[i]);
+		fprintf (file, "\t%d", ਨਿਯਮ_ਸੈੱਟ[i]);
 	}
 
 	putc ('\n', file);
@@ -183,27 +183,27 @@ static void dump_associated_rules(FILE *file, int ds)
  * is done to the given file.
  */
 
-static void dump_transitions(FILE *file, int state[])
+ਸਥਿਰ ਖਾਲੀ dump_transitions(FILE *file, ਪੂਰਨ state[])
 {
-	int i, ec;
-	int out_char_set[CSIZE];
+	ਪੂਰਨ i, ec;
+	ਪੂਰਨ ਬਾਹਰਲਾ_char_ਸੈੱਟ[CSIZE];
 
-	for (i = 0; i < ctrl.csize; ++i) {
+	ਲਈ (i = 0; i < ctrl.csize; ++i) {
 		ec = ABS (ecgroup[i]);
-		out_char_set[i] = state[ec];
+		ਬਾਹਰਲਾ_char_ਸੈੱਟ[i] = state[ec];
 	}
 
 	fprintf (file, _(" out-transitions: "));
 
-	list_character_set (file, out_char_set);
+	list_character_ਸੈੱਟ (file, ਬਾਹਰਲਾ_char_ਸੈੱਟ);
 
 	/* now invert the members of the set to get the jam transitions */
-	for (i = 0; i < ctrl.csize; ++i)
-		out_char_set[i] = !out_char_set[i];
+	ਲਈ (i = 0; i < ctrl.csize; ++i)
+		ਬਾਹਰਲਾ_char_ਸੈੱਟ[i] = !ਬਾਹਰਲਾ_char_ਸੈੱਟ[i];
 
 	fprintf (file, _("\n jam-transitions: EOF "));
 
-	list_character_set (file, out_char_set);
+	list_character_ਸੈੱਟ (file, ਬਾਹਰਲਾ_char_ਸੈੱਟ);
 
 	putc ('\n', file);
 }
@@ -229,107 +229,107 @@ static void dump_transitions(FILE *file, int state[])
  *  hashval is the hash value for the dfa corresponding to the state set.
  */
 
-static int *epsclosure(int *t, int *ns_addr, int accset[], int *nacc_addr, int *hv_addr)
+ਸਥਿਰ ਪੂਰਨ *epsclosure(ਪੂਰਨ *t, ਪੂਰਨ *ns_addr, ਪੂਰਨ accset[], ਪੂਰਨ *nacc_addr, ਪੂਰਨ *hv_addr)
 {
-	int     stkpos, ns, tsp;
-	int     numstates = *ns_addr, nacc, hashval, transsym, nfaccnum;
-	int     stkend, nstate;
-	static int did_stk_init = false, *stk;
+	ਪੂਰਨ     stkpos, ns, tsp;
+	ਪੂਰਨ     numstates = *ns_addr, nacc, hashval, transsym, nfaccnum;
+	ਪੂਰਨ     stkend, nstate;
+	ਸਥਿਰ ਪੂਰਨ did_stk_init = false, *stk;
 
-#define MARK_STATE(state) \
-do{ trans1[state] = trans1[state] - MARKER_DIFFERENCE;} while(0)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ MARK_STATE(state) \
+ਕਰੋ{ trans1[state] = trans1[state] - MARKER_DIFFERENCE;} ਜਦੋਂ(0)
 
-#define IS_MARKED(state) (trans1[state] < 0)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ IS_MARKED(state) (trans1[state] < 0)
 
-#define UNMARK_STATE(state) \
-do{ trans1[state] = trans1[state] + MARKER_DIFFERENCE;} while(0)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ UNMARK_STATE(state) \
+ਕਰੋ{ trans1[state] = trans1[state] + MARKER_DIFFERENCE;} ਜਦੋਂ(0)
 
-#define CHECK_ACCEPT(state) \
-do{ \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ CHECK_ACCEPT(state) \
+ਕਰੋ{ \
 nfaccnum = accptnum[state]; \
-if ( nfaccnum != NIL ) \
+ਜੇ ( nfaccnum != NIL ) \
 accset[++nacc] = nfaccnum; \
-}while(0)
+}ਜਦੋਂ(0)
 
-#define DO_REALLOCATION() \
-do { \
-current_max_dfa_size += MAX_DFA_SIZE_INCREMENT; \
-++num_reallocs; \
-t = reallocate_integer_array( t, current_max_dfa_size ); \
-stk = reallocate_integer_array( stk, current_max_dfa_size ); \
-}while(0) \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ DO_REALLOCATION() \
+ਕਰੋ { \
+current_max_dfa_ਮਾਪ += MAX_DFA_ਮਾਪ_INCREMENT; \
+++ਅੰਕ_reallocs; \
+t = reallocate_integer_array( t, current_max_dfa_ਮਾਪ ); \
+stk = reallocate_integer_array( stk, current_max_dfa_ਮਾਪ ); \
+}ਜਦੋਂ(0) \
 
-#define PUT_ON_STACK(state) \
-do { \
-if ( ++stkend >= current_max_dfa_size ) \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PUT_ON_ਢੇਰ(state) \
+ਕਰੋ { \
+ਜੇ ( ++stkend >= current_max_dfa_ਮਾਪ ) \
 DO_REALLOCATION(); \
 stk[stkend] = state; \
 MARK_STATE(state); \
-}while(0)
+}ਜਦੋਂ(0)
 
-#define ADD_STATE(state) \
-do { \
-if ( ++numstates >= current_max_dfa_size ) \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਜੋੜੋ_STATE(state) \
+ਕਰੋ { \
+ਜੇ ( ++numstates >= current_max_dfa_ਮਾਪ ) \
 DO_REALLOCATION(); \
 t[numstates] = state; \
 hashval += state; \
-}while(0)
+}ਜਦੋਂ(0)
 
-#define STACK_STATE(state) \
-do { \
-PUT_ON_STACK(state); \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਢੇਰ_STATE(state) \
+ਕਰੋ { \
+PUT_ON_ਢੇਰ(state); \
 CHECK_ACCEPT(state); \
-if ( nfaccnum != NIL || transchar[state] != SYM_EPSILON ) \
-ADD_STATE(state); \
-}while(0)
+ਜੇ ( nfaccnum != NIL || transchar[state] != SYM_EPSILON ) \
+ਜੋੜੋ_STATE(state); \
+}ਜਦੋਂ(0)
 
 
-	if (!did_stk_init) {
-		stk = allocate_integer_array (current_max_dfa_size);
+	ਜੇ (!did_stk_init) {
+		stk = allocate_integer_array (current_max_dfa_ਮਾਪ);
 		did_stk_init = true;
 	}
 
 	nacc = stkend = hashval = 0;
 
-	for (nstate = 1; nstate <= numstates; ++nstate) {
+	ਲਈ (nstate = 1; nstate <= numstates; ++nstate) {
 		ns = t[nstate];
 
 		/* The state could be marked if we've already pushed it onto
 		 * the stack.
 		 */
-		if (!IS_MARKED (ns)) {
-			PUT_ON_STACK (ns);
+		ਜੇ (!IS_MARKED (ns)) {
+			PUT_ON_ਢੇਰ (ns);
 			CHECK_ACCEPT (ns);
 			hashval += ns;
 		}
 	}
 
-	for (stkpos = 1; stkpos <= stkend; ++stkpos) {
+	ਲਈ (stkpos = 1; stkpos <= stkend; ++stkpos) {
 		ns = stk[stkpos];
 		transsym = transchar[ns];
 
-		if (transsym == SYM_EPSILON) {
+		ਜੇ (transsym == SYM_EPSILON) {
 			tsp = trans1[ns] + MARKER_DIFFERENCE;
 
-			if (tsp != NO_TRANSITION) {
-				if (!IS_MARKED (tsp))
-					STACK_STATE (tsp);
+			ਜੇ (tsp != NO_TRANSITION) {
+				ਜੇ (!IS_MARKED (tsp))
+					ਢੇਰ_STATE (tsp);
 
 				tsp = trans2[ns];
 
-				if (tsp != NO_TRANSITION
+				ਜੇ (tsp != NO_TRANSITION
 				    && !IS_MARKED (tsp))
-					STACK_STATE (tsp);
+					ਢੇਰ_STATE (tsp);
 			}
 		}
 	}
 
 	/* Clear out "visit" markers. */
 
-	for (stkpos = 1; stkpos <= stkend; ++stkpos) {
-		if (IS_MARKED (stk[stkpos]))
+	ਲਈ (stkpos = 1; stkpos <= stkend; ++stkpos) {
+		ਜੇ (IS_MARKED (stk[stkpos]))
 			UNMARK_STATE (stk[stkpos]);
-		else
+		ਨਹੀਂਤਾਂ
 			flexfatal (_
 				   ("consistency check failed in epsclosure()"));
 	}
@@ -338,28 +338,28 @@ ADD_STATE(state); \
 	*hv_addr = hashval;
 	*nacc_addr = nacc;
 
-	return t;
+	ਵਾਪਸ t;
 }
 
 
 /* increase_max_dfas - increase the maximum number of DFAs */
 
-void increase_max_dfas (void)
+ਖਾਲੀ increase_max_dfas (ਖਾਲੀ)
 {
 	current_max_dfas += MAX_DFAS_INCREMENT;
 
-	++num_reallocs;
+	++ਅੰਕ_reallocs;
 
-	base = reallocate_integer_array (base, current_max_dfas);
+	ਅਧਾਰ = reallocate_integer_array (ਅਧਾਰ, current_max_dfas);
 	def = reallocate_integer_array (def, current_max_dfas);
 	dfasiz = reallocate_integer_array (dfasiz, current_max_dfas);
 	accsiz = reallocate_integer_array (accsiz, current_max_dfas);
 	dhash = reallocate_integer_array (dhash, current_max_dfas);
 	dss = reallocate_int_ptr_array (dss, current_max_dfas);
 	dfaacc = reallocate_array(dfaacc, current_max_dfas,
-		sizeof(union dfaacc_union));
+		ਆਕਾਰ(ਸੰਘ dfaacc_union));
 
-	if (nultrans)
+	ਜੇ (nultrans)
 		nultrans =
 			reallocate_integer_array (nultrans,
 						  current_max_dfas);
@@ -375,19 +375,19 @@ void increase_max_dfas (void)
  * In some modes this can be zero.
  */
 
-size_t ntod (void)
+size_t ntod (ਖਾਲੀ)
 {
-	int    *accset, ds, nacc, newds;
-	int     sym, hashval, numstates, dsize;
-	int     num_full_table_rows=0;	/* used only for -f */
-	int    *nset, *dset;
-	int     targptr, totaltrans, i, comstate, comfreq, targ;
-	int     symlist[CSIZE + 1];
-	int     num_start_states;
-	int     todo_head, todo_next;
+	ਪੂਰਨ    *accset, ds, nacc, newds;
+	ਪੂਰਨ     sym, hashval, numstates, dsize;
+	ਪੂਰਨ     ਅੰਕ_ਭਰਿਆ_ਸਾਰਣੀ_ਪੰਕਤੀਆਂ=0;	/* used only for -f */
+	ਪੂਰਨ    *nset, *dset;
+	ਪੂਰਨ     targptr, totaltrans, i, comstate, comfreq, targ;
+	ਪੂਰਨ     symlist[CSIZE + 1];
+	ਪੂਰਨ     ਅੰਕ_ਸ਼ੁਰੂ_ਹਾਲਤਾਂ;
+	ਪੂਰਨ     todo_ਸਿਰ, todo_ਅਗਲਾ;
 
-	struct yytbl_data *yynxt_tbl = 0;
-	flex_int32_t *yynxt_data = 0, yynxt_curr = 0;
+	ਬਣਤਰ yytbl_ਅੰਕੜੇ *yynxt_tbl = 0;
+	flex_int32_t *yynxt_ਅੰਕੜੇ = 0, yynxt_curr = 0;
 
 	/* Note that the following are indexed by *equivalence classes*
 	 * and not by characters.  Since equivalence classes are indexed
@@ -396,14 +396,14 @@ size_t ntod (void)
 	 * equivalence class) these arrays must have room for indices
 	 * from 1 to CSIZE, so their size must be CSIZE + 1.
 	 */
-	int     duplist[CSIZE + 1], state[CSIZE + 1];
-	int     targfreq[CSIZE + 1] = {0}, targstate[CSIZE + 1];
+	ਪੂਰਨ     duplist[CSIZE + 1], state[CSIZE + 1];
+	ਪੂਰਨ     targfreq[CSIZE + 1] = {0}, targstate[CSIZE + 1];
 
 	/* accset needs to be large enough to hold all of the rules present
 	 * in the input, *plus* their YY_TRAILING_HEAD_MASK variants.
 	 */
-	accset = allocate_integer_array ((num_rules + 1) * 2);
-	nset = allocate_integer_array (current_max_dfa_size);
+	accset = allocate_integer_array ((ਅੰਕ_ਨਿਯਮਾਂ + 1) * 2);
+	nset = allocate_integer_array (current_max_dfa_ਮਾਪ);
 
 	/* The "todo" queue is represented by the head, which is the DFA
 	 * state currently being processed, and the "next", which is the
@@ -411,17 +411,17 @@ size_t ntod (void)
 	 * fact that snstods() returns DFA's \in increasing order/, and thus
 	 * need only know the bounds of the dfas to be processed.
 	 */
-	todo_head = todo_next = 0;
+	todo_ਸਿਰ = todo_ਅਗਲਾ = 0;
 
-	for (i = 0; i <= ctrl.csize; ++i) {
+	ਲਈ (i = 0; i <= ctrl.csize; ++i) {
 		duplist[i] = NIL;
 		symlist[i] = false;
 	}
 
-	for (i = 0; i <= num_rules; ++i)
+	ਲਈ (i = 0; i <= ਅੰਕ_ਨਿਯਮਾਂ; ++i)
 		accset[i] = NIL;
 
-	if (env.trace) {
+	ਜੇ (env.trace) {
 		dumpnfa (scset[1]);
 		fputs (_("\n\nDFA Dump:\n\n"), stderr);
 	}
@@ -463,30 +463,30 @@ size_t ntod (void)
 	 * New way: we will only use NUL table for fulltbl, because the
 	 * scanner will use an integer instead of YY_CHAR as noted above
 	 */
-	if (ctrl.fulltbl && ecgroup[0] == numecs && is_power_of_2(numecs))
+	ਜੇ (ctrl.fulltbl && ecgroup[0] == numecs && is_power_ਦਾ_2(numecs))
 		nultrans = allocate_integer_array (current_max_dfas);
 
-	if (ctrl.fullspd) {
-		for (i = 0; i <= numecs; ++i)
+	ਜੇ (ctrl.fullspd) {
+		ਲਈ (i = 0; i <= numecs; ++i)
 			state[i] = 0;
 
-		place_state (state, 0, 0);
+		ਰੱਖੋ_state (state, 0, 0);
 		dfaacc[0].dfaacc_state = 0;
 	}
 
-	else if (ctrl.fulltbl) {
-		if (nultrans)
+	ਨਹੀਂਤਾਂ ਜੇ (ctrl.fulltbl) {
+		ਜੇ (nultrans)
 			/* We won't be including NUL's transitions in the
 			 * table, so build it for entries from 0 .. numecs - 1.
 			 */
-			num_full_table_rows = numecs;
+			ਅੰਕ_ਭਰਿਆ_ਸਾਰਣੀ_ਪੰਕਤੀਆਂ = numecs;
 
-		else
+		ਨਹੀਂਤਾਂ
 			/* Take into account the fact that we'll be including
 			 * the NUL entries in the transition table.  Build it
 			 * from 0 .. numecs.
 			 */
-			num_full_table_rows = numecs + 1;
+			ਅੰਕ_ਭਰਿਆ_ਸਾਰਣੀ_ਪੰਕਤੀਆਂ = numecs + 1;
 
 		/* Begin generating yy_nxt[][]
 		 * This spans the entire LONG function.
@@ -494,33 +494,33 @@ size_t ntod (void)
 		 * So we'll have to realloc() on the way...
 		 * we'll wait until we can calculate yynxt_tbl->td_hilen.
 		 */
-		yynxt_tbl = calloc(1, sizeof (struct yytbl_data));
+		yynxt_tbl = ਸਿਫਰ_ਸਮ੍ਰਿਤੀ_ਦਿਓ(1, ਆਕਾਰ (ਬਣਤਰ yytbl_ਅੰਕੜੇ));
      
-		yytbl_data_init (yynxt_tbl, YYTD_ID_NXT);
+		yytbl_ਅੰਕੜੇ_init (yynxt_tbl, YYTD_ID_NXT);
 		yynxt_tbl->td_hilen = 1;
-		yynxt_tbl->td_lolen = (flex_uint32_t) num_full_table_rows;
-		yynxt_tbl->td_data = yynxt_data =
-		    calloc(yynxt_tbl->td_lolen *
+		yynxt_tbl->td_lolen = (flex_uint32_t) ਅੰਕ_ਭਰਿਆ_ਸਾਰਣੀ_ਪੰਕਤੀਆਂ;
+		yynxt_tbl->td_ਅੰਕੜੇ = yynxt_ਅੰਕੜੇ =
+		    ਸਿਫਰ_ਸਮ੍ਰਿਤੀ_ਦਿਓ(yynxt_tbl->td_lolen *
 			   yynxt_tbl->td_hilen,
-			   sizeof (flex_int32_t));
+			   ਆਕਾਰ (flex_int32_t));
 		yynxt_curr = 0;
 
-		struct packtype_t *ptype = optimize_pack(0);
+		ਬਣਤਰ packtype_t *ptype = optimize_pack(0);
 		/* Note: Used when ctrl.fulltbl is on. Alternately defined elsewhere */
-		out_str ("m4_define([[M4_HOOK_NXT_TYPE]], [[%s]])", ptype->name);
-		out_dec ("m4_define([[M4_HOOK_NXT_ROWS]], [[%d]])", num_full_table_rows);
+		ਬਾਹਰਲਾ_str ("m4_define([[M4_HOOK_NXT_TYPE]], [[%s]])", ptype->name);
+		ਬਾਹਰਲਾ_dec ("m4_define([[M4_HOOK_NXT_ROWS]], [[%d]])", ਅੰਕ_ਭਰਿਆ_ਸਾਰਣੀ_ਪੰਕਤੀਆਂ);
 		outn ("m4_define([[M4_HOOK_NXT_BODY]], [[m4_dnl");
 		outn ("M4_HOOK_TABLE_OPENER");
-		if (gentables)
+		ਜੇ (gentables)
 			outn ("M4_HOOK_TABLE_OPENER");
 
 		/* Generate 0 entries for state #0. */
-		for (i = 0; i < num_full_table_rows; ++i) {
+		ਲਈ (i = 0; i < ਅੰਕ_ਭਰਿਆ_ਸਾਰਣੀ_ਪੰਕਤੀਆਂ; ++i) {
 			mk2data (0);
-			yynxt_data[yynxt_curr++] = 0;
+			yynxt_ਅੰਕੜੇ[yynxt_curr++] = 0;
 		}
 
-		if (gentables) {
+		ਜੇ (gentables) {
 			dataflush ();
 			outn ("M4_HOOK_TABLE_CONTINUE");
 		}
@@ -528,68 +528,68 @@ size_t ntod (void)
 
 	/* Create the first states. */
 
-	num_start_states = lastsc * 2;
+	ਅੰਕ_ਸ਼ੁਰੂ_ਹਾਲਤਾਂ = lastsc * 2;
 
-	for (i = 1; i <= num_start_states; ++i) {
+	ਲਈ (i = 1; i <= ਅੰਕ_ਸ਼ੁਰੂ_ਹਾਲਤਾਂ; ++i) {
 		numstates = 1;
 
 		/* For each start condition, make one state for the case when
 		 * we're at the beginning of the line (the '^' operator) and
 		 * one for the case when we're not.
 		 */
-		if (i % 2 == 1)
+		ਜੇ (i % 2 == 1)
 			nset[numstates] = scset[(i / 2) + 1];
-		else
+		ਨਹੀਂਤਾਂ
 			nset[numstates] =
 				mkbranch (scbol[i / 2], scset[i / 2]);
 
 		nset = epsclosure (nset, &numstates, accset, &nacc,
 				   &hashval);
 
-		if (snstods (nset, numstates, accset, nacc, hashval, &ds)) {
+		ਜੇ (snstods (nset, numstates, accset, nacc, hashval, &ds)) {
 			numas += nacc;
 			totnst += numstates;
-			++todo_next;
+			++todo_ਅਗਲਾ;
 
-			if (variable_trailing_context_rules && nacc > 0)
+			ਜੇ (variable_trailing_context_ਨਿਯਮਾਂ && nacc > 0)
 				check_trailing_context (nset, numstates,
 							accset, nacc);
 		}
 	}
 
-	if (!ctrl.fullspd) {
-		if (!snstods (nset, 0, accset, 0, 0, &end_of_buffer_state))
+	ਜੇ (!ctrl.fullspd) {
+		ਜੇ (!snstods (nset, 0, accset, 0, 0, &ਸਿਰਾ_ਦਾ_ਬਫਰ_state))
 			flexfatal (_
 				   ("could not create unique end-of-buffer state"));
 
 		++numas;
-		++num_start_states;
-		++todo_next;
+		++ਅੰਕ_ਸ਼ੁਰੂ_ਹਾਲਤਾਂ;
+		++todo_ਅਗਲਾ;
 	}
 
 
-	while (todo_head < todo_next) {
+	ਜਦੋਂ (todo_ਸਿਰ < todo_ਅਗਲਾ) {
 		targptr = 0;
 		totaltrans = 0;
 
-		for (i = 1; i <= numecs; ++i)
+		ਲਈ (i = 1; i <= numecs; ++i)
 			state[i] = 0;
 
-		ds = ++todo_head;
+		ds = ++todo_ਸਿਰ;
 
 		dset = dss[ds];
 		dsize = dfasiz[ds];
 
-		if (env.trace)
+		ਜੇ (env.trace)
 			fprintf (stderr, _("state # %d:\n"), ds);
 
 		sympartition (dset, dsize, symlist, duplist);
 
-		for (sym = 1; sym <= numecs; ++sym) {
-			if (symlist[sym]) {
+		ਲਈ (sym = 1; sym <= numecs; ++sym) {
+			ਜੇ (symlist[sym]) {
 				symlist[sym] = 0;
 
-				if (duplist[sym] == NIL) {
+				ਜੇ (duplist[sym] == NIL) {
 					/* Symbol has unique out-transitions. */
 					numstates =
 						symfollowset (dset, dsize,
@@ -599,15 +599,15 @@ size_t ntod (void)
 							   accset, &nacc,
 							   &hashval);
 
-					if (snstods
+					ਜੇ (snstods
 					    (nset, numstates, accset, nacc,
 					     hashval, &newds)) {
 						totnst = totnst +
 							numstates;
-						++todo_next;
+						++todo_ਅਗਲਾ;
 						numas += nacc;
 
-						if (variable_trailing_context_rules && nacc > 0)
+						ਜੇ (variable_trailing_context_ਨਿਯਮਾਂ && nacc > 0)
 							check_trailing_context
 								(nset,
 								 numstates,
@@ -617,7 +617,7 @@ size_t ntod (void)
 
 					state[sym] = newds;
 
-					if (env.trace)
+					ਜੇ (env.trace)
 						fprintf (stderr,
 							 "\t%d\t%d\n", sym,
 							 newds);
@@ -627,7 +627,7 @@ size_t ntod (void)
 					++numuniq;
 				}
 
-				else {
+				ਨਹੀਂਤਾਂ {
 					/* sym's equivalence class has the same
 					 * transitions as duplist(sym)'s
 					 * equivalence class.
@@ -635,7 +635,7 @@ size_t ntod (void)
 					targ = state[duplist[sym]];
 					state[sym] = targ;
 
-					if (env.trace)
+					ਜੇ (env.trace)
 						fprintf (stderr,
 							 "\t%d\t%d\n", sym,
 							 targ);
@@ -645,7 +645,7 @@ size_t ntod (void)
 					 */
 
 					i = 0;
-					while (targstate[++i] != targ) ;
+					ਜਦੋਂ (targstate[++i] != targ) ;
 
 					++targfreq[i];
 					++numdup;
@@ -659,63 +659,63 @@ size_t ntod (void)
 
 		numsnpairs += totaltrans;
 
-		if (ds > num_start_states)
-			check_for_backing_up (ds, state);
+		ਜੇ (ds > ਅੰਕ_ਸ਼ੁਰੂ_ਹਾਲਤਾਂ)
+			check_for_backing_ਉੱਪਰ (ds, state);
 
-		if (nultrans) {
+		ਜੇ (nultrans) {
 			nultrans[ds] = state[NUL_ec];
 			state[NUL_ec] = 0;	/* remove transition */
 		}
 
-		if (ctrl.fulltbl) {
+		ਜੇ (ctrl.fulltbl) {
 
 			/* Each time we hit here, it's another td_hilen, so we realloc. */
 			yynxt_tbl->td_hilen++;
-			yynxt_tbl->td_data = yynxt_data =
-				realloc (yynxt_data,
+			yynxt_tbl->td_ਅੰਕੜੇ = yynxt_ਅੰਕੜੇ =
+				realloc (yynxt_ਅੰਕੜੇ,
 						     yynxt_tbl->td_hilen *
 						     yynxt_tbl->td_lolen *
-						     sizeof (flex_int32_t));
-			if (gentables)
+						     ਆਕਾਰ (flex_int32_t));
+			ਜੇ (gentables)
 				outn ("M4_HOOK_TABLE_OPENER");
 
 			/* Supply array's 0-element. */
-			if (ds == end_of_buffer_state) {
-				mk2data (-end_of_buffer_state);
-				yynxt_data[yynxt_curr++] =
-					-end_of_buffer_state;
+			ਜੇ (ds == ਸਿਰਾ_ਦਾ_ਬਫਰ_state) {
+				mk2data (-ਸਿਰਾ_ਦਾ_ਬਫਰ_state);
+				yynxt_ਅੰਕੜੇ[yynxt_curr++] =
+					-ਸਿਰਾ_ਦਾ_ਬਫਰ_state;
 			}
-			else {
-				mk2data (end_of_buffer_state);
-				yynxt_data[yynxt_curr++] =
-					end_of_buffer_state;
+			ਨਹੀਂਤਾਂ {
+				mk2data (ਸਿਰਾ_ਦਾ_ਬਫਰ_state);
+				yynxt_ਅੰਕੜੇ[yynxt_curr++] =
+					ਸਿਰਾ_ਦਾ_ਬਫਰ_state;
 			}
 
-			for (i = 1; i < num_full_table_rows; ++i) {
+			ਲਈ (i = 1; i < ਅੰਕ_ਭਰਿਆ_ਸਾਰਣੀ_ਪੰਕਤੀਆਂ; ++i) {
 				/* Jams are marked by negative of state
 				 * number.
 				 */
 				mk2data (state[i] ? state[i] : -ds);
-				yynxt_data[yynxt_curr++] =
+				yynxt_ਅੰਕੜੇ[yynxt_curr++] =
 					state[i] ? state[i] : -ds;
 			}
 
-			if (gentables) {
+			ਜੇ (gentables) {
 				dataflush ();
 				outn ("M4_HOOK_TABLE_CONTINUE");
 			}
 		}
 
-		else if (ctrl.fullspd)
-			place_state (state, ds, totaltrans);
+		ਨਹੀਂਤਾਂ ਜੇ (ctrl.fullspd)
+			ਰੱਖੋ_state (state, ds, totaltrans);
 
-		else if (ds == end_of_buffer_state)
+		ਨਹੀਂਤਾਂ ਜੇ (ds == ਸਿਰਾ_ਦਾ_ਬਫਰ_state)
 			/* Special case this state to make sure it does what
 			 * it's supposed to, i.e., jam on end-of-buffer.
 			 */
 			stack1 (ds, 0, 0, JAMSTATE);
 
-		else {		/* normal, compressed state */
+		ਨਹੀਂਤਾਂ {		/* normal, compressed state */
 
 			/* Determine which destination state is the most
 			 * common, and how many transitions to it there are.
@@ -724,8 +724,8 @@ size_t ntod (void)
 			comfreq = 0;
 			comstate = 0;
 
-			for (i = 1; i <= targptr; ++i)
-				if (targfreq[i] > comfreq) {
+			ਲਈ (i = 1; i <= targptr; ++i)
+				ਜੇ (targfreq[i] > comfreq) {
 					comfreq = targfreq[i];
 					comstate = targstate[i];
 				}
@@ -734,28 +734,28 @@ size_t ntod (void)
 		}
 	}
 
-	if (ctrl.fulltbl) {
+	ਜੇ (ctrl.fulltbl) {
 		dataend ("M4_HOOK_TABLE_CLOSER");
 		outn("/* body */]])");
-		if (tablesext) {
-			yytbl_data_compress (yynxt_tbl);
-			if (yytbl_data_fwrite (&tableswr, yynxt_tbl) < 0)
+		ਜੇ (tablesext) {
+			yytbl_ਅੰਕੜੇ_compress (yynxt_tbl);
+			ਜੇ (yytbl_ਅੰਕੜੇ_fwrite (&tableswr, yynxt_tbl) < 0)
 				flexerror (_
 					   ("Could not write yynxt_tbl[][]"));
 		}
-		if (yynxt_tbl) {
-			yytbl_data_destroy (yynxt_tbl);
+		ਜੇ (yynxt_tbl) {
+			yytbl_ਅੰਕੜੇ_destroy (yynxt_tbl);
 			yynxt_tbl = 0;
 		}
 	}
 
-	else if (!ctrl.fullspd) {
+	ਨਹੀਂਤਾਂ ਜੇ (!ctrl.fullspd) {
 		cmptmps ();	/* create compressed template entries */
 
 		/* Create tables for all the states with only one
 		 * out-transition.
 		 */
-		while (onesp > 0) {
+		ਜਦੋਂ (onesp > 0) {
 			mk1tbl (onestate[onesp], onesym[onesp],
 				onenext[onesp], onedef[onesp]);
 			--onesp;
@@ -765,10 +765,10 @@ size_t ntod (void)
 	}
 
 
-	free(accset);
-	free(nset);
+	ਮੁਕਤ(accset);
+	ਮੁਕਤ(nset);
 
-	return (yynxt_tbl != NULL) ? (yynxt_tbl->td_hilen * sizeof(int32_t)) : 0;
+	ਵਾਪਸ (yynxt_tbl != ਨਿਰਾ) ? (yynxt_tbl->td_hilen * ਆਕਾਰ(int32_t)) : 0;
 }
 
 
@@ -782,45 +782,45 @@ size_t ntod (void)
  * On return, the dfa state number is in newds.
  */
 
-static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval, int *newds_addr)
+ਸਥਿਰ ਪੂਰਨ snstods(ਪੂਰਨ sns[], ਪੂਰਨ numstates, ਪੂਰਨ accset[], ਪੂਰਨ nacc, ਪੂਰਨ hashval, ਪੂਰਨ *newds_addr)
 {
-	int didsort = 0;
-	int i, j;
-	int newds, *oldsns;
+	ਪੂਰਨ didsort = 0;
+	ਪੂਰਨ i, j;
+	ਪੂਰਨ newds, *oldsns;
 
-	for (i = 1; i <= lastdfa; ++i)
-		if (hashval == dhash[i]) {
-			if (numstates == dfasiz[i]) {
+	ਲਈ (i = 1; i <= lastdfa; ++i)
+		ਜੇ (hashval == dhash[i]) {
+			ਜੇ (numstates == dfasiz[i]) {
 				oldsns = dss[i];
 
-				if (!didsort) {
+				ਜੇ (!didsort) {
 					/* We sort the states in sns so we
 					 * can compare it to oldsns quickly.
 					 */
-					qsort (&sns [1], (size_t) numstates, sizeof (sns [1]), intcmp);
+					qsort (&sns [1], (size_t) numstates, ਆਕਾਰ (sns [1]), intcmp);
 					didsort = 1;
 				}
 
-				for (j = 1; j <= numstates; ++j)
-					if (sns[j] != oldsns[j])
-						break;
+				ਲਈ (j = 1; j <= numstates; ++j)
+					ਜੇ (sns[j] != oldsns[j])
+						ਰੋਕੋ;
 
-				if (j > numstates) {
+				ਜੇ (j > numstates) {
 					++dfaeql;
 					*newds_addr = i;
-					return 0;
+					ਵਾਪਸ 0;
 				}
 
 				++hshcol;
 			}
 
-			else
+			ਨਹੀਂਤਾਂ
 				++hshsave;
 		}
 
 	/* Make a new dfa. */
 
-	if (++lastdfa >= current_max_dfas)
+	ਜੇ (++lastdfa >= current_max_dfas)
 		increase_max_dfas ();
 
 	newds = lastdfa;
@@ -831,68 +831,68 @@ static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval
 	 * so that future comparisons with it can be made quickly.
 	 */
 
-	if (!didsort)
-          	qsort (&sns [1], (size_t) numstates, sizeof (sns [1]), intcmp);
+	ਜੇ (!didsort)
+          	qsort (&sns [1], (size_t) numstates, ਆਕਾਰ (sns [1]), intcmp);
 
-	for (i = 1; i <= numstates; ++i)
+	ਲਈ (i = 1; i <= numstates; ++i)
 		dss[newds][i] = sns[i];
 
 	dfasiz[newds] = numstates;
 	dhash[newds] = hashval;
 
-	if (nacc == 0) {
-		if (reject)
-			dfaacc[newds].dfaacc_set = NULL;
-		else
+	ਜੇ (nacc == 0) {
+		ਜੇ (reject)
+			dfaacc[newds].dfaacc_ਸੈੱਟ = ਨਿਰਾ;
+		ਨਹੀਂਤਾਂ
 			dfaacc[newds].dfaacc_state = 0;
 
 		accsiz[newds] = 0;
 	}
 
-	else if (reject) {
+	ਨਹੀਂਤਾਂ ਜੇ (reject) {
 		/* We sort the accepting set in increasing order so the
 		 * disambiguating rule that the first rule listed is considered
 		 * match in the event of ties will work.
 		 */
 
-		qsort (&accset [1], (size_t) nacc, sizeof (accset [1]), intcmp);
+		qsort (&accset [1], (size_t) nacc, ਆਕਾਰ (accset [1]), intcmp);
 
-		dfaacc[newds].dfaacc_set =
+		dfaacc[newds].dfaacc_ਸੈੱਟ =
 			allocate_integer_array (nacc + 1);
 
 		/* Save the accepting set for later */
-		for (i = 1; i <= nacc; ++i) {
-			dfaacc[newds].dfaacc_set[i] = accset[i];
+		ਲਈ (i = 1; i <= nacc; ++i) {
+			dfaacc[newds].dfaacc_ਸੈੱਟ[i] = accset[i];
 
-			if (accset[i] <= num_rules)
+			ਜੇ (accset[i] <= ਅੰਕ_ਨਿਯਮਾਂ)
 				/* Who knows, perhaps a REJECT can yield
 				 * this rule.
 				 */
-				rule_useful[accset[i]] = true;
+				ਨਿਯਮ_useful[accset[i]] = true;
 		}
 
 		accsiz[newds] = nacc;
 	}
 
-	else {
+	ਨਹੀਂਤਾਂ {
 		/* Find lowest numbered rule so the disambiguating rule
 		 * will work.
 		 */
-		j = num_rules + 1;
+		j = ਅੰਕ_ਨਿਯਮਾਂ + 1;
 
-		for (i = 1; i <= nacc; ++i)
-			if (accset[i] < j)
+		ਲਈ (i = 1; i <= nacc; ++i)
+			ਜੇ (accset[i] < j)
 				j = accset[i];
 
 		dfaacc[newds].dfaacc_state = j;
 
-		if (j <= num_rules)
-			rule_useful[j] = true;
+		ਜੇ (j <= ਅੰਕ_ਨਿਯਮਾਂ)
+			ਨਿਯਮ_useful[j] = true;
 	}
 
 	*newds_addr = newds;
 
-	return 1;
+	ਵਾਪਸ 1;
 }
 
 
@@ -903,73 +903,73 @@ static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval
  *				int transsym, int nset[current_max_dfa_size] );
  */
 
-static int symfollowset(int ds[], int dsize, int transsym, int nset[])
+ਸਥਿਰ ਪੂਰਨ symfollowset(ਪੂਰਨ ds[], ਪੂਰਨ dsize, ਪੂਰਨ transsym, ਪੂਰਨ nset[])
 {
-	int     ns, tsp, sym, i, j, lenccl, ch, numstates, ccllist;
+	ਪੂਰਨ     ns, tsp, sym, i, j, lenccl, ch, numstates, ccllist;
 
 	numstates = 0;
 
-	for (i = 1; i <= dsize; ++i) {	/* for each nfa state ns in the state set of ds */
+	ਲਈ (i = 1; i <= dsize; ++i) {	/* for each nfa state ns in the state set of ds */
 		ns = ds[i];
 		sym = transchar[ns];
 		tsp = trans1[ns];
 
-		if (sym < 0) {	/* it's a character class */
+		ਜੇ (sym < 0) {	/* it's a character class */
 			sym = -sym;
 			ccllist = cclmap[sym];
 			lenccl = ccllen[sym];
 
-			if (cclng[sym]) {
-				for (j = 0; j < lenccl; ++j) {
+			ਜੇ (cclng[sym]) {
+				ਲਈ (j = 0; j < lenccl; ++j) {
 					/* Loop through negated character
 					 * class.
 					 */
 					ch = ccltbl[ccllist + j];
 
-					if (ch == 0)
+					ਜੇ (ch == 0)
 						ch = NUL_ec;
 
-					if (ch > transsym)
+					ਜੇ (ch > transsym)
 						/* Transsym isn't in negated
 						 * ccl.
 						 */
-						break;
+						ਰੋਕੋ;
 
-					else if (ch == transsym)
+					ਨਹੀਂਤਾਂ ਜੇ (ch == transsym)
 						/* next 2 */
-						goto bottom;
+						ਜਾਓ bottom;
 				}
 
 				/* Didn't find transsym in ccl. */
 				nset[++numstates] = tsp;
 			}
 
-			else
-				for (j = 0; j < lenccl; ++j) {
+			ਨਹੀਂਤਾਂ
+				ਲਈ (j = 0; j < lenccl; ++j) {
 					ch = ccltbl[ccllist + j];
 
-					if (ch == 0)
+					ਜੇ (ch == 0)
 						ch = NUL_ec;
 
-					if (ch > transsym)
-						break;
-					else if (ch == transsym) {
+					ਜੇ (ch > transsym)
+						ਰੋਕੋ;
+					ਨਹੀਂਤਾਂ ਜੇ (ch == transsym) {
 						nset[++numstates] = tsp;
-						break;
+						ਰੋਕੋ;
 					}
 				}
 		}
 
-		else if (sym == SYM_EPSILON) {	/* do nothing */
+		ਨਹੀਂਤਾਂ ਜੇ (sym == SYM_EPSILON) {	/* do nothing */
 		}
 
-		else if (ABS (ecgroup[sym]) == transsym)
+		ਨਹੀਂਤਾਂ ਜੇ (ABS (ecgroup[sym]) == transsym)
 			nset[++numstates] = tsp;
 
 	      bottom:;
 	}
 
-	return numstates;
+	ਵਾਪਸ numstates;
 }
 
 
@@ -980,16 +980,16 @@ static int symfollowset(int ds[], int dsize, int transsym, int nset[])
  *			int symlist[numecs], int duplist[numecs] );
  */
 
-static void sympartition(int ds[], int numstates, int symlist[], int duplist[])
+ਸਥਿਰ ਖਾਲੀ sympartition(ਪੂਰਨ ds[], ਪੂਰਨ numstates, ਪੂਰਨ symlist[], ਪੂਰਨ duplist[])
 {
-	int     tch, i, j, k, ns, dupfwd[CSIZE + 1], lenccl, cclp, ich;
+	ਪੂਰਨ     tch, i, j, k, ns, dupfwd[CSIZE + 1], lenccl, cclp, ich;
 
 	/* Partitioning is done by creating equivalence classes for those
 	 * characters which have out-transitions from the given state.  Thus
 	 * we are really creating equivalence classes of equivalence classes.
 	 */
 
-	for (i = 1; i <= numecs; ++i) {	/* initialize equivalence class list */
+	ਲਈ (i = 1; i <= numecs; ++i) {	/* initialize equivalence class list */
 		duplist[i] = i - 1;
 		dupfwd[i] = i + 1;
 	}
@@ -997,24 +997,24 @@ static void sympartition(int ds[], int numstates, int symlist[], int duplist[])
 	duplist[1] = NIL;
 	dupfwd[numecs] = NIL;
 
-	for (i = 1; i <= numstates; ++i) {
+	ਲਈ (i = 1; i <= numstates; ++i) {
 		ns = ds[i];
 		tch = transchar[ns];
 
-		if (tch != SYM_EPSILON) {
-			if (tch < -lastccl || tch >= ctrl.csize) {
+		ਜੇ (tch != SYM_EPSILON) {
+			ਜੇ (tch < -lastccl || tch >= ctrl.csize) {
 				flexfatal (_
 					   ("bad transition character detected in sympartition()"));
 			}
 
-			if (tch >= 0) {	/* character transition */
-				int     ec = ecgroup[tch];
+			ਜੇ (tch >= 0) {	/* character transition */
+				ਪੂਰਨ     ec = ecgroup[tch];
 
 				mkechar (ec, dupfwd, duplist);
 				symlist[ec] = 1;
 			}
 
-			else {	/* character class */
+			ਨਹੀਂਤਾਂ {	/* character class */
 				tch = -tch;
 
 				lenccl = ccllen[tch];
@@ -1022,28 +1022,28 @@ static void sympartition(int ds[], int numstates, int symlist[], int duplist[])
 				mkeccl (ccltbl + cclp, lenccl, dupfwd,
 					duplist, numecs, NUL_ec);
 
-				if (cclng[tch]) {
+				ਜੇ (cclng[tch]) {
 					j = 0;
 
-					for (k = 0; k < lenccl; ++k) {
+					ਲਈ (k = 0; k < lenccl; ++k) {
 						ich = ccltbl[cclp + k];
 
-						if (ich == 0)
+						ਜੇ (ich == 0)
 							ich = NUL_ec;
 
-						for (++j; j < ich; ++j)
+						ਲਈ (++j; j < ich; ++j)
 							symlist[j] = 1;
 					}
 
-					for (++j; j <= numecs; ++j)
+					ਲਈ (++j; j <= numecs; ++j)
 						symlist[j] = 1;
 				}
 
-				else
-					for (k = 0; k < lenccl; ++k) {
+				ਨਹੀਂਤਾਂ
+					ਲਈ (k = 0; k < lenccl; ++k) {
 						ich = ccltbl[cclp + k];
 
-						if (ich == 0)
+						ਜੇ (ich == 0)
 							ich = NUL_ec;
 
 						symlist[ich] = 1;

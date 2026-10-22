@@ -31,17 +31,17 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#ifndef OPTIONS_H
-#define OPTIONS_H
-#include "scanopt.h"
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ OPTIONS_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ OPTIONS_H
+#ਅਨ੍ਤਰ੍ਭਾਵ "scanopt.h"
 
-extern optspec_t flexopts[];
+ਬਾਹਰੀ optspec_t flexopts[];
 
-enum flexopt_flag_t {
+ਗਿਣਤੀ flexopt_flag_t {
 	/* Use positive integers only, since they are return codes for scanopt.
 	 * Order is not important. */
-	OPT_7BIT = 1,
-	OPT_8BIT,
+	OPT_7_ਦੋਆਧਾਰੀ_ਅੰਕ = 1,
+	OPT_8_ਦੋਆਧਾਰੀ_ਅੰਕ,
 	OPT_ALIGN,
 	OPT_ALWAYS_INTERACTIVE,
 	OPT_ARRAY,
@@ -59,8 +59,8 @@ enum flexopt_flag_t {
 	OPT_ECS,
 	OPT_EMIT,
 	OPT_FAST,
-	OPT_FULL,
-	OPT_HEADER_FILE,
+	OPT_ਭਰਿਆ,
+	OPT_ਸਿਰਲੇਖ_FILE,
 	OPT_HELP,
 	OPT_HEX,
 	OPT_INTERACTIVE,
@@ -73,7 +73,7 @@ enum flexopt_flag_t {
 	OPT_NO_DEBUG,
 	OPT_NO_DEFAULT,
 	OPT_NO_ECS,
-	OPT_NO_LINE,
+	OPT_NO_ਸਤਰ,
 	OPT_NO_MAIN,
 	OPT_NO_META_ECS,
 	OPT_NO_REENTRANT,
@@ -83,43 +83,43 @@ enum flexopt_flag_t {
 	OPT_NO_YYUNPUT,
 	OPT_NO_WARN,
 	OPT_NO_YYGET_EXTRA,
-	OPT_NO_YYGET_IN,
+	OPT_NO_YYGET_ਵਿੱਚ,
 	OPT_NO_YYGET_LENG,
 	OPT_NO_YYGET_LINENO,
-	OPT_NO_YYGET_COLUMN,
+	OPT_NO_YYGET_ਕਾਲਮ,
 	OPT_NO_YYGET_LLOC,
 	OPT_NO_YYGET_LVAL,
-	OPT_NO_YYGET_OUT,
+	OPT_NO_YYGET_ਬਾਹਰਲਾ,
 	OPT_NO_YYGET_DEBUG,
-	OPT_NO_YYGET_TEXT,
+	OPT_NO_YYGET_ਪਾਠ,
 	OPT_NO_YYLINENO,
 	OPT_NO_YYMORE,
 	OPT_NO_YYSET_EXTRA,
-	OPT_NO_YYSET_IN,
+	OPT_NO_YYSET_ਵਿੱਚ,
 	OPT_NO_YYSET_LINENO,
-	OPT_NO_YYSET_COLUMN,
+	OPT_NO_YYSET_ਕਾਲਮ,
 	OPT_NO_YYSET_LLOC,
 	OPT_NO_YYSET_LVAL,
-	OPT_NO_YYSET_OUT,
+	OPT_NO_YYSET_ਬਾਹਰਲਾ,
 	OPT_NO_YYSET_DEBUG,
 	OPT_NO_YYWRAP,
-	OPT_NO_YY_POP_STATE,
-	OPT_NO_YY_PUSH_STATE,
-	OPT_NO_YY_SCAN_BUFFER,
-	OPT_NO_YY_SCAN_BYTES,
-	OPT_NO_YY_SCAN_STRING,
-	OPT_NO_YY_TOP_STATE,
+	OPT_NO_YY_ਕੱਢੋ_STATE,
+	OPT_NO_YY_ਧੱਕੋ_STATE,
+	OPT_NO_YY_ਜਾਂਚ_ਬਫਰ,
+	OPT_NO_YY_ਜਾਂਚ_ਬਾਈਟਾਂ,
+	OPT_NO_YY_ਜਾਂਚ_STRING,
+	OPT_NO_YY_ਸਿਖਰ_STATE,
 	OPT_OUTFILE,
 	OPT_PERF_REPORT,
-	OPT_POINTER,
-	OPT_PREFIX,
+	OPT_ਸੂਚਕ,
+	OPT_ਅਗੇਤਰ,
 	OPT_PREPROCDEFINE,
 	OPT_PREPROC_LEVEL,
 	OPT_READ,
 	OPT_REENTRANT,
 	OPT_REJECT,
 	OPT_SKEL,
-	OPT_STACK,
+	OPT_ਢੇਰ,
 	OPT_STDINIT,
 	OPT_STDOUT,
 	OPT_TABLES_FILE,
@@ -127,7 +127,7 @@ enum flexopt_flag_t {
 	OPT_TRACE,
 	OPT_NO_UNISTD_H,
 	OPT_VERBOSE,
-	OPT_VERSION,
+	OPT_ਸੰਸਕਰਣ,
 	OPT_WARN,
 	OPT_YYCLASS,
 	OPT_YYLINENO,
@@ -136,6 +136,6 @@ enum flexopt_flag_t {
         OPT_NO_SECT3_ESCAPE,
 };
 
-#endif
+#ਜੇ_ਅੰਤ
 
 /* vim:set tabstop=8 softtabstop=4 shiftwidth=4 textwidth=0: */

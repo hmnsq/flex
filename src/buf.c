@@ -33,7 +33,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "flexdef.h"
 
 /* Take note: The buffer object is sometimes used as a String buffer (one
  * continuous string), and sometimes used as a list of strings, usually line by
@@ -48,57 +48,57 @@
  */
 
 /* global buffers. */
-struct Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
-struct Buf top_buf;             /**< contains %top code. String buffer. */
+ਬਣਤਰ Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
+ਬਣਤਰ Buf ਸਿਖਰ_buf;             /**< contains %top code. String buffer. */
 
 /* Append a "%s" formatted string to a string buffer */
-struct Buf *buf_prints (struct Buf *buf, const char *fmt, const char *s)
+ਬਣਤਰ Buf *buf_prints (ਬਣਤਰ Buf *buf, ਅਚਲ ਅੱਖਰ *fmt, ਅਚਲ ਅੱਖਰ *s)
 {
-	char   *t;
+	ਅੱਖਰ   *t;
 	size_t tsz;
 
-	tsz = strlen(fmt) + strlen(s) + 1;
-	t = malloc(tsz);
-	if (!t)
+	tsz = ਲੜੀ_ਲੰਬਾਈ(fmt) + ਲੜੀ_ਲੰਬਾਈ(s) + 1;
+	t = ਸਮ੍ਰਿਤੀ_ਦਿਓ(tsz);
+	ਜੇ (!t)
 	    flexfatal (_("Allocation of buffer to print string failed"));
 	snprintf (t, tsz, fmt, s);
 	buf = buf_strappend (buf, t);
-	free(t);
-	return buf;
+	ਮੁਕਤ(t);
+	ਵਾਪਸ buf;
 }
 
 /* Appends n characters in str to buf. */
-struct Buf *buf_strnappend (struct Buf *buf, const char *str, int n)
+ਬਣਤਰ Buf *buf_strnappend (ਬਣਤਰ Buf *buf, ਅਚਲ ਅੱਖਰ *str, ਪੂਰਨ n)
 {
 	buf_append (buf, str, n + 1);
 
 	/* "undo" the '\0' character that buf_append() already copied. */
 	buf->nelts--;
 
-	return buf;
+	ਵਾਪਸ buf;
 }
 
 /* Appends characters in str to buf. */
-struct Buf *buf_strappend (struct Buf *buf, const char *str)
+ਬਣਤਰ Buf *buf_strappend (ਬਣਤਰ Buf *buf, ਅਚਲ ਅੱਖਰ *str)
 {
-	return buf_strnappend (buf, str, (int) strlen (str));
+	ਵਾਪਸ buf_strnappend (buf, str, (ਪੂਰਨ) ਲੜੀ_ਲੰਬਾਈ (str));
 }
 
 /* create buf with 0 elements, each of size elem_size. */
-void buf_init (struct Buf *buf, size_t elem_size)
+ਖਾਲੀ buf_init (ਬਣਤਰ Buf *buf, size_t elem_ਮਾਪ)
 {
-	buf->elts = NULL;
+	buf->elts = ਨਿਰਾ;
 	buf->nelts = 0;
-	buf->elt_size = elem_size;
+	buf->elt_ਮਾਪ = elem_ਮਾਪ;
 	buf->nmax = 0;
 }
 
 /* frees memory */
-void buf_destroy (struct Buf *buf)
+ਖਾਲੀ buf_destroy (ਬਣਤਰ Buf *buf)
 {
-	if (buf) {
-		free(buf->elts);
-		buf->elts = NULL;
+	ਜੇ (buf) {
+		ਮੁਕਤ(buf->elts);
+		buf->elts = ਨਿਰਾ;
 	}
 }
 
@@ -109,43 +109,43 @@ void buf_destroy (struct Buf *buf)
  * We grow by mod(512) boundaries.
  */
 
-struct Buf *buf_append (struct Buf *buf, const void *ptr, int n_elem)
+ਬਣਤਰ Buf *buf_append (ਬਣਤਰ Buf *buf, ਅਚਲ ਖਾਲੀ *ptr, ਪੂਰਨ n_elem)
 {
-	int     n_alloc = 0;
+	ਪੂਰਨ     n_alloc = 0;
 
-	if (!ptr || n_elem == 0)
-		return buf;
+	ਜੇ (!ptr || n_elem == 0)
+		ਵਾਪਸ buf;
 
 	/* May need to alloc more. */
-	if (n_elem + buf->nelts > buf->nmax) {
+	ਜੇ (n_elem + buf->nelts > buf->nmax) {
 
 		/* exact count needed... */
 		n_alloc = n_elem + buf->nelts;
 
 		/* ...plus some extra */
-		if ((((size_t) n_alloc * buf->elt_size) % 512) != 0
-		    && buf->elt_size < 512)
-			n_alloc += (int)
+		ਜੇ ((((size_t) n_alloc * buf->elt_ਮਾਪ) % 512) != 0
+		    && buf->elt_ਮਾਪ < 512)
+			n_alloc += (ਪੂਰਨ)
 				((512 -
-				 (((size_t) n_alloc * buf->elt_size) % 512)) /
-				buf->elt_size);
+				 (((size_t) n_alloc * buf->elt_ਮਾਪ) % 512)) /
+				buf->elt_ਮਾਪ);
 
-		if (!buf->elts)
+		ਜੇ (!buf->elts)
 			buf->elts =
-				allocate_array ((int) n_alloc, buf->elt_size);
-		else
+				allocate_array ((ਪੂਰਨ) n_alloc, buf->elt_ਮਾਪ);
+		ਨਹੀਂਤਾਂ
 			buf->elts =
-				reallocate_array (buf->elts, (int) n_alloc,
-						  buf->elt_size);
+				reallocate_array (buf->elts, (ਪੂਰਨ) n_alloc,
+						  buf->elt_ਮਾਪ);
 
 		buf->nmax = n_alloc;
 	}
 
-	memcpy ((char *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
-		(size_t) n_elem * buf->elt_size);
+	ਸਮ੍ਰਿਤੀ_ਨਕਲ ((ਅੱਖਰ *) buf->elts + (size_t) buf->nelts * buf->elt_ਮਾਪ, ptr,
+		(size_t) n_elem * buf->elt_ਮਾਪ);
 	buf->nelts += n_elem;
 
-	return buf;
+	ਵਾਪਸ buf;
 }
 
 /* vim:set tabstop=8 softtabstop=4 shiftwidth=4: */

@@ -1,4 +1,4 @@
-#ifdef FLEX_SCANNER
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ FLEX_SCANNER
 /*
 dnl   tables_shared.c - tables serialization code
 dnl
@@ -40,16 +40,16 @@ dnl
 /* This file is meant to be included in both the skeleton and the actual
  * flex code (hence the name "_shared"). 
  */
-#ifndef yyskel_static
-#define yyskel_static static
-#endif
-#else
-#include "flexdef.h"
-#include "tables.h"
-#ifndef yyskel_static
-#define yyskel_static
-#endif
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ yyskel_static
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ yyskel_static ਸਥਿਰ
+#ਜੇ_ਅੰਤ
+#ਨਹੀਂਤਾਂ
+#ਅਨ੍ਤਰ੍ਭਾਵ "flexdef.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "tables.h"
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ yyskel_static
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ yyskel_static
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
 
 /** Get the number of integers in this table. This is NOT the
@@ -57,16 +57,16 @@ dnl
  *  @param tbl the table
  *  @return the number of integers in the table
  */
-yyskel_static flex_int32_t yytbl_calc_total_len (const struct yytbl_data *tbl)
+yyskel_static flex_int32_t yytbl_calc_ਕੁੱਲ_len (ਅਚਲ ਬਣਤਰ yytbl_ਅੰਕੜੇ *tbl)
 {
 	flex_uint32_t n;
 
 	/* total number of ints */
 	n = tbl->td_lolen;
-	if (tbl->td_hilen > 0)
+	ਜੇ (tbl->td_hilen > 0)
 		n *= tbl->td_hilen;
 
-	if (tbl->td_id == YYTD_ID_TRANSITION)
+	ਜੇ (tbl->td_id == YYTD_ID_TRANSITION)
 		n *= 2;
-	return (flex_int32_t) n;
+	ਵਾਪਸ (flex_int32_t) n;
 }

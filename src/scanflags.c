@@ -33,42 +33,42 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "flexdef.h"
 
-scanflags_t* _sf_stk = NULL;
-size_t _sf_top_ix=0, _sf_max=0;
+scanflags_t* _sf_stk = ਨਿਰਾ;
+size_t sf_ਸਿਖਰ_ix=0, _sf_max=0;
 
-void
-sf_push (void)
+ਖਾਲੀ
+sf_ਧੱਕੋ (ਖਾਲੀ)
 {
-    if (_sf_top_ix + 1 >= _sf_max) {
+    ਜੇ (sf_ਸਿਖਰ_ix + 1 >= _sf_max) {
         _sf_max += 32;
-        _sf_stk = realloc(_sf_stk, sizeof(scanflags_t) * _sf_max);
+        _sf_stk = realloc(_sf_stk, ਆਕਾਰ(scanflags_t) * _sf_max);
     }
 
     // copy the top element
-    _sf_stk[_sf_top_ix + 1] = _sf_stk[_sf_top_ix];
-    ++_sf_top_ix;
+    _sf_stk[sf_ਸਿਖਰ_ix + 1] = _sf_stk[sf_ਸਿਖਰ_ix];
+    ++sf_ਸਿਖਰ_ix;
 }
 
-void
-sf_pop (void)
+ਖਾਲੀ
+sf_ਕੱਢੋ (ਖਾਲੀ)
 {
-    assert(_sf_top_ix > 0);
-    --_sf_top_ix;
+    ਪ੍ਰਤਿਜ੍ਞਾ(sf_ਸਿਖਰ_ix > 0);
+    --sf_ਸਿਖਰ_ix;
 }
 
 /* one-time initialization. Should be called before any sf_ functions. */
-void
-sf_init (void)
+ਖਾਲੀ
+sf_init (ਖਾਲੀ)
 {
-    assert(_sf_stk == NULL);
+    ਪ੍ਰਤਿਜ੍ਞਾ(_sf_stk == ਨਿਰਾ);
     _sf_max = 32;
-    _sf_top_ix = 0;
-    _sf_stk = malloc(sizeof(scanflags_t) * _sf_max);
-    if (!_sf_stk)
-        lerr_fatal(_("Unable to allocate %zu of stack"), sizeof(scanflags_t));
-    _sf_stk[_sf_top_ix] = 0;
+    sf_ਸਿਖਰ_ix = 0;
+    _sf_stk = ਸਮ੍ਰਿਤੀ_ਦਿਓ(ਆਕਾਰ(scanflags_t) * _sf_max);
+    ਜੇ (!_sf_stk)
+        lerr_fatal(_("Unable to allocate %zu of stack"), ਆਕਾਰ(scanflags_t));
+    _sf_stk[sf_ਸਿਖਰ_ix] = 0;
 }
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */
