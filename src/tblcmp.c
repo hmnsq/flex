@@ -38,11 +38,11 @@
 
 /* declarations for functions that have forward references */
 
-void mkentry(int *, int, int, int, int);
-void mkprot(int[], int, int);
-void mktemplate(int[], int, int);
-void mv2front(int);
-int tbldiff(int[], int, int[]);
+void mkentry(정수 *, 정수, 정수, 정수, 정수);
+void mkprot(정수[], 정수, 정수);
+void mktemplate(정수[], 정수, 정수);
+void mv2front(정수);
+정수 tbldiff(정수[], 정수, 정수[]);
 
 
 /* bldtbl - build table entries for dfa state
@@ -80,10 +80,10 @@ int tbldiff(int[], int, int[]);
  * cost only one difference.
  */
 
-void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int comfreq)
+void    bldtbl (정수 state[], 정수 statenum, 정수 totaltrans, 정수 comstate, 정수 comfreq)
 {
-	int     extptr, extrct[2][CSIZE + 1];
-	int     mindiff, minprot, i, d;
+	정수     extptr, extrct[2][CSIZE + 1];
+	정수     mindiff, minprot, i, d;
 
 	/* If extptr is 0 then the first array of extrct holds the result
 	 * of the "best difference" to date, which is those transitions
@@ -101,24 +101,24 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 	 * compact its tables.
 	 */
 
-	if ((totaltrans * 100) < (numecs * PROTO_SIZE_PERCENTAGE))
+	만약 ((totaltrans * 100) < (numecs * PROTO_SIZE_PERCENTAGE))
 		mkentry (state, numecs, statenum, JAMSTATE, totaltrans);
 
-	else {
+	아니면 {
 		/* "checkcom" is true if we should only check "state" against
 		 * protos which have the same "comstate" value.
 		 */
-		int     checkcom =
+		정수     checkcom =
 
 			comfreq * 100 > totaltrans * CHECK_COM_PERCENTAGE;
 
 		minprot = firstprot;
 		mindiff = totaltrans;
 
-		if (checkcom) {
+		만약 (checkcom) {
 			/* Find first proto which has the same "comstate". */
-			for (i = firstprot; i != NIL; i = protnext[i])
-				if (protcomst[i] == comstate) {
+			위해 (i = firstprot; i != NIL; i = protnext[i])
+				만약 (protcomst[i] == comstate) {
 					minprot = i;
 					mindiff = tbldiff (state, minprot,
 							   extrct[extptr]);
@@ -126,7 +126,7 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 				}
 		}
 
-		else {
+		아니면 {
 			/* Since we've decided that the most common destination
 			 * out of "state" does not occur with a high enough
 			 * frequency, we set the "comstate" to zero, assuring
@@ -135,7 +135,7 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 			 */
 			comstate = 0;
 
-			if (firstprot != NIL) {
+			만약 (firstprot != NIL) {
 				minprot = firstprot;
 				mindiff = tbldiff (state, minprot,
 						   extrct[extptr]);
@@ -148,14 +148,14 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 		 * to see if we have any other reasonable matches.
 		 */
 
-		if (mindiff * 100 >
+		만약 (mindiff * 100 >
 		    totaltrans * FIRST_MATCH_DIFF_PERCENTAGE) {
 			/* Not a good enough match.  Scan the rest of the
 			 * protos.
 			 */
-			for (i = minprot; i != NIL; i = protnext[i]) {
+			위해 (i = minprot; i != NIL; i = protnext[i]) {
 				d = tbldiff (state, i, extrct[1 - extptr]);
-				if (d < mindiff) {
+				만약 (d < mindiff) {
 					extptr = 1 - extptr;
 					mindiff = d;
 					minprot = i;
@@ -167,26 +167,26 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 		 * enough to the state we want to match to be usable.
 		 */
 
-		if (mindiff * 100 >
+		만약 (mindiff * 100 >
 		    totaltrans * ACCEPTABLE_DIFF_PERCENTAGE) {
 			/* No good.  If the state is homogeneous enough,
 			 * we make a template out of it.  Otherwise, we
 			 * make a proto.
 			 */
 
-			if (comfreq * 100 >=
+			만약 (comfreq * 100 >=
 			    totaltrans * TEMPLATE_SAME_PERCENTAGE)
 					mktemplate (state, statenum,
 						    comstate);
 
-			else {
+			아니면 {
 				mkprot (state, statenum, comstate);
 				mkentry (state, numecs, statenum,
 					 JAMSTATE, totaltrans);
 			}
 		}
 
-		else {		/* use the proto */
+		아니면 {		/* use the proto */
 			mkentry (extrct[extptr], numecs, statenum,
 				 prottbl[minprot], mindiff);
 
@@ -194,7 +194,7 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 			 * proto we built it from, make it, too, a proto.
 			 */
 
-			if (mindiff * 100 >=
+			만약 (mindiff * 100 >=
 			    totaltrans * NEW_PROTO_DIFF_PERCENTAGE)
 					mkprot (state, statenum, comstate);
 
@@ -224,51 +224,51 @@ void    bldtbl (int state[], int statenum, int totaltrans, int comstate, int com
 
 void    cmptmps (void)
 {
-	int tmpstorage[CSIZE + 1];
-	int *tmp = tmpstorage, i, j;
-	int totaltrans, trans;
+	정수 tmpstorage[CSIZE + 1];
+	정수 *tmp = tmpstorage, i, j;
+	정수 totaltrans, trans;
 
 	peakpairs = numtemps * numecs + tblend;
 
-	if (ctrl.usemecs) {
+	만약 (ctrl.usemecs) {
 		/* Create equivalence classes based on data gathered on
 		 * template transitions.
 		 */
 		nummecs = cre8ecs (tecfwd, tecbck, numecs);
 	}
 
-	else
+	아니면
 		nummecs = numecs;
 
-	while (lastdfa + numtemps + 1 >= current_max_dfas)
+	동안 (lastdfa + numtemps + 1 >= current_max_dfas)
 		increase_max_dfas ();
 
 	/* Loop through each template. */
 
-	for (i = 1; i <= numtemps; ++i) {
+	위해 (i = 1; i <= numtemps; ++i) {
 		/* Number of non-jam transitions out of this template. */
 		totaltrans = 0;
 
-		for (j = 1; j <= numecs; ++j) {
+		위해 (j = 1; j <= numecs; ++j) {
 			trans = tnxt[numecs * i + j];
 
-			if (ctrl.usemecs) {
+			만약 (ctrl.usemecs) {
 				/* The absolute value of tecbck is the
 				 * meta-equivalence class of a given
 				 * equivalence class, as set up by cre8ecs().
 				 */
-				if (tecbck[j] > 0) {
+				만약 (tecbck[j] > 0) {
 					tmp[tecbck[j]] = trans;
 
-					if (trans > 0)
+					만약 (trans > 0)
 						++totaltrans;
 				}
 			}
 
-			else {
+			아니면 {
 				tmp[j] = trans;
 
-				if (trans > 0)
+				만약 (trans > 0)
 					++totaltrans;
 			}
 		}
@@ -292,7 +292,7 @@ void    cmptmps (void)
 
 void    expand_nxt_chk (void)
 {
-	int old_max = current_max_xpairs;
+	정수 old_max = current_max_xpairs;
 
 	current_max_xpairs += MAX_XPAIRS_INCREMENT;
 
@@ -301,7 +301,7 @@ void    expand_nxt_chk (void)
 	nxt = reallocate_integer_array (nxt, current_max_xpairs);
 	chk = reallocate_integer_array (chk, current_max_xpairs);
 
-	memset(chk + old_max, 0, MAX_XPAIRS_INCREMENT * sizeof(int));
+	memset(chk + old_max, 0, MAX_XPAIRS_INCREMENT * sizeof(정수));
 }
 
 
@@ -324,24 +324,24 @@ void    expand_nxt_chk (void)
  * and an action number will be added in [-1].
  */
 
-int     find_table_space (int *state, int numtrans)
+정수     find_table_space (정수 *state, 정수 numtrans)
 {
 	/* Firstfree is the position of the first possible occurrence of two
 	 * consecutive unused records in the chk and nxt arrays.
 	 */
-	int i;
-	int *state_ptr, *chk_ptr;
-	int *ptr_to_last_entry_in_state;
+	정수 i;
+	정수 *state_ptr, *chk_ptr;
+	정수 *ptr_to_last_entry_in_state;
 
 	/* If there are too many out-transitions, put the state at the end of
 	 * nxt and chk.
 	 */
-	if (numtrans > MAX_XTIONS_FULL_INTERIOR_FIT) {
+	만약 (numtrans > MAX_XTIONS_FULL_INTERIOR_FIT) {
 		/* If table is empty, return the first available spot in
 		 * chk/nxt, which should be 1.
 		 */
-		if (tblend < 2)
-			return 1;
+		만약 (tblend < 2)
+			반환 1;
 
 		/* Start searching for table space near the end of
 		 * chk/nxt arrays.
@@ -349,28 +349,28 @@ int     find_table_space (int *state, int numtrans)
 		i = tblend - numecs;
 	}
 
-	else
+	아니면
 		/* Start searching for table space from the beginning
 		 * (skipping only the elements which will definitely not
 		 * hold the new state).
 		 */
 		i = firstfree;
 
-	while (1) {		/* loops until a space is found */
-		while (i + numecs >= current_max_xpairs)
+	동안 (1) {		/* loops until a space is found */
+		동안 (i + numecs >= current_max_xpairs)
 			expand_nxt_chk ();
 
 		/* Loops until space for end-of-buffer and action number
 		 * are found.
 		 */
-		while (1) {
+		동안 (1) {
 			/* Check for action number space. */
-			if (chk[i - 1] == 0) {
+			만약 (chk[i - 1] == 0) {
 				/* Check for end-of-buffer space. */
-				if (chk[i] == 0)
+				만약 (chk[i] == 0)
 					break;
 
-				else
+				아니면
 					/* Since i != 0, there is no use
 					 * checking to see if (++i) - 1 == 0,
 					 * because that's the same as i == 0,
@@ -379,17 +379,17 @@ int     find_table_space (int *state, int numtrans)
 					i += 2;
 			}
 
-			else
+			아니면
 				++i;
 
-			while (i + numecs >= current_max_xpairs)
+			동안 (i + numecs >= current_max_xpairs)
 				expand_nxt_chk ();
 		}
 
 		/* If we started search from the beginning, store the new
 		 * firstfree for the next call of find_table_space().
 		 */
-		if (numtrans <= MAX_XTIONS_FULL_INTERIOR_FIT)
+		만약 (numtrans <= MAX_XTIONS_FULL_INTERIOR_FIT)
 			firstfree = i + 1;
 
 		/* Check to see if all elements in chk (and therefore nxt)
@@ -399,15 +399,15 @@ int     find_table_space (int *state, int numtrans)
 		state_ptr = &state[1];
 		ptr_to_last_entry_in_state = &chk[i + numecs + 1];
 
-		for (chk_ptr = &chk[i + 1];
+		위해 (chk_ptr = &chk[i + 1];
 		     chk_ptr != ptr_to_last_entry_in_state; ++chk_ptr)
-			if (*(state_ptr++) != 0 && *chk_ptr != 0)
+			만약 (*(state_ptr++) != 0 && *chk_ptr != 0)
 				break;
 
-		if (chk_ptr == ptr_to_last_entry_in_state)
-			return i;
+		만약 (chk_ptr == ptr_to_last_entry_in_state)
+			반환 i;
 
-		else
+		아니면
 			++i;
 	}
 }
@@ -420,15 +420,15 @@ int     find_table_space (int *state, int numtrans)
  */
 void    inittbl (void)
 {
-	int i;
+	정수 i;
 
-	memset(chk, 0, (size_t) current_max_xpairs * sizeof(int));
+	memset(chk, 0, (size_t) current_max_xpairs * sizeof(정수));
 
 	tblend = 0;
 	firstfree = tblend + 1;
 	numtemps = 0;
 
-	if (ctrl.usemecs) {
+	만약 (ctrl.usemecs) {
 		/* Set up doubly-linked meta-equivalence classes; these
 		 * are sets of equivalence classes which all have identical
 		 * transitions out of TEMPLATES.
@@ -436,7 +436,7 @@ void    inittbl (void)
 
 		tecbck[1] = NIL;
 
-		for (i = 2; i <= numecs; ++i) {
+		위해 (i = 2; i <= numecs; ++i) {
 			tecbck[i] = i - 1;
 			tecfwd[i - 1] = i;
 		}
@@ -450,20 +450,20 @@ void    inittbl (void)
 
 void    mkdeftbl (void)
 {
-	int     i;
+	정수     i;
 
 	jamstate = lastdfa + 1;
 
 	++tblend;		/* room for transition on end-of-buffer character */
 
-	while (tblend + numecs >= current_max_xpairs)
+	동안 (tblend + numecs >= current_max_xpairs)
 		expand_nxt_chk ();
 
 	/* Add in default end-of-buffer transition. */
 	nxt[tblend] = end_of_buffer_state;
 	chk[tblend] = jamstate;
 
-	for (i = 1; i <= numecs; ++i) {
+	위해 (i = 1; i <= numecs; ++i) {
 		nxt[tblend + i] = 0;
 		chk[tblend + i] = jamstate;
 	}
@@ -497,39 +497,39 @@ void    mkdeftbl (void)
  * state array.
  */
 
-void    mkentry (int *state, int numchars, int statenum, int deflink,
-		 int totaltrans)
+void    mkentry (정수 *state, 정수 numchars, 정수 statenum, 정수 deflink,
+		 정수 totaltrans)
 {
-	int minec, maxec, i, baseaddr;
-	int tblbase, tbllast;
+	정수 minec, maxec, i, baseaddr;
+	정수 tblbase, tbllast;
 
-	if (totaltrans == 0) {	/* there are no out-transitions */
-		if (deflink == JAMSTATE)
+	만약 (totaltrans == 0) {	/* there are no out-transitions */
+		만약 (deflink == JAMSTATE)
 			base[statenum] = JAMSTATE;
-		else
+		아니면
 			base[statenum] = 0;
 
 		def[statenum] = deflink;
-		return;
+		반환;
 	}
 
-	for (minec = 1; minec <= numchars; ++minec) {
-		if (state[minec] != SAME_TRANS)
-			if (state[minec] != 0 || deflink != JAMSTATE)
+	위해 (minec = 1; minec <= numchars; ++minec) {
+		만약 (state[minec] != SAME_TRANS)
+			만약 (state[minec] != 0 || deflink != JAMSTATE)
 				break;
 	}
 
-	if (totaltrans == 1) {
+	만약 (totaltrans == 1) {
 		/* There's only one out-transition.  Save it for later to fill
 		 * in holes in the tables.
 		 */
 		stack1 (statenum, minec, state[minec], deflink);
-		return;
+		반환;
 	}
 
-	for (maxec = numchars; maxec > 0; --maxec) {
-		if (state[maxec] != SAME_TRANS)
-			if (state[maxec] != 0 || deflink != JAMSTATE)
+	위해 (maxec = numchars; maxec > 0; --maxec) {
+		만약 (state[maxec] != SAME_TRANS)
+			만약 (state[maxec] != 0 || deflink != JAMSTATE)
 				break;
 	}
 
@@ -543,29 +543,29 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
 	 */
 
 	/* Find the first transition of state that we need to worry about. */
-	if (totaltrans * 100 <= numchars * INTERIOR_FIT_PERCENTAGE) {
+	만약 (totaltrans * 100 <= numchars * INTERIOR_FIT_PERCENTAGE) {
 		/* Attempt to squeeze it into the middle of the tables. */
 		baseaddr = firstfree;
 
-		while (baseaddr < minec) {
+		동안 (baseaddr < minec) {
 			/* Using baseaddr would result in a negative base
 			 * address below; find the next free slot.
 			 */
-			for (++baseaddr; chk[baseaddr] != 0; ++baseaddr) ;
+			위해 (++baseaddr; chk[baseaddr] != 0; ++baseaddr) ;
 		}
 
-		while (baseaddr + maxec - minec + 1 >= current_max_xpairs)
+		동안 (baseaddr + maxec - minec + 1 >= current_max_xpairs)
 			expand_nxt_chk ();
 
-		for (i = minec; i <= maxec; ++i)
-			if (state[i] != SAME_TRANS &&
+		위해 (i = minec; i <= maxec; ++i)
+			만약 (state[i] != SAME_TRANS &&
 			    (state[i] != 0 || deflink != JAMSTATE) &&
 			    chk[baseaddr + i - minec] != 0) {	/* baseaddr unsuitable - find another */
-				for (++baseaddr;
+				위해 (++baseaddr;
 				     baseaddr < current_max_xpairs &&
 				     chk[baseaddr] != 0; ++baseaddr) ;
 
-				while (baseaddr + maxec - minec + 1 >=
+				동안 (baseaddr + maxec - minec + 1 >=
 				       current_max_xpairs)
 						expand_nxt_chk ();
 
@@ -577,7 +577,7 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
 			}
 	}
 
-	else {
+	아니면 {
 		/* Ensure that the base address we eventually generate is
 		 * non-negative.
 		 */
@@ -587,22 +587,22 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
 	tblbase = baseaddr - minec;
 	tbllast = tblbase + maxec;
 
-	while (tbllast + 1 >= current_max_xpairs)
+	동안 (tbllast + 1 >= current_max_xpairs)
 		expand_nxt_chk ();
 
 	base[statenum] = tblbase;
 	def[statenum] = deflink;
 
-	for (i = minec; i <= maxec; ++i)
-		if (state[i] != SAME_TRANS)
-			if (state[i] != 0 || deflink != JAMSTATE) {
+	위해 (i = minec; i <= maxec; ++i)
+		만약 (state[i] != SAME_TRANS)
+			만약 (state[i] != 0 || deflink != JAMSTATE) {
 				nxt[tblbase + i] = state[i];
 				chk[tblbase + i] = statenum;
 			}
 
-	if (baseaddr == firstfree)
+	만약 (baseaddr == firstfree)
 		/* Find next free slot in tables. */
-		for (++firstfree; chk[firstfree] != 0; ++firstfree) ;
+		위해 (++firstfree; chk[firstfree] != 0; ++firstfree) ;
 
 	tblend = MAX (tblend, tbllast);
 }
@@ -612,13 +612,13 @@ void    mkentry (int *state, int numchars, int statenum, int deflink,
  *            has only one out-transition
  */
 
-void    mk1tbl (int state, int sym, int onenxt, int onedef)
+void    mk1tbl (정수 state, 정수 sym, 정수 onenxt, 정수 onedef)
 {
-	if (firstfree < sym)
+	만약 (firstfree < sym)
 		firstfree = sym;
 
-	while (chk[firstfree] != 0)
-		if (++firstfree >= current_max_xpairs)
+	동안 (chk[firstfree] != 0)
+		만약 (++firstfree >= current_max_xpairs)
 			expand_nxt_chk ();
 
 	base[state] = firstfree - sym;
@@ -626,10 +626,10 @@ void    mk1tbl (int state, int sym, int onenxt, int onedef)
 	chk[firstfree] = state;
 	nxt[firstfree] = onenxt;
 
-	if (firstfree > tblend) {
+	만약 (firstfree > tblend) {
 		tblend = firstfree++;
 
-		if (firstfree >= current_max_xpairs)
+		만약 (firstfree >= current_max_xpairs)
 			expand_nxt_chk ();
 	}
 }
@@ -637,11 +637,11 @@ void    mk1tbl (int state, int sym, int onenxt, int onedef)
 
 /* mkprot - create new proto entry */
 
-void    mkprot (int state[], int statenum, int comstate)
+void    mkprot (정수 state[], 정수 statenum, 정수 comstate)
 {
-	int     i, slot, tblbase;
+	정수     i, slot, tblbase;
 
-	if (++numprots >= MSP || numecs * numprots >= PROT_SAVE_SIZE) {
+	만약 (++numprots >= MSP || numecs * numprots >= PROT_SAVE_SIZE) {
 		/* Gotta make room for the new proto by dropping last entry in
 		 * the queue.
 		 */
@@ -650,12 +650,12 @@ void    mkprot (int state[], int statenum, int comstate)
 		protnext[lastprot] = NIL;
 	}
 
-	else
+	아니면
 		slot = numprots;
 
 	protnext[slot] = firstprot;
 
-	if (firstprot != NIL)
+	만약 (firstprot != NIL)
 		protprev[firstprot] = slot;
 
 	firstprot = slot;
@@ -665,7 +665,7 @@ void    mkprot (int state[], int statenum, int comstate)
 	/* Copy state into save area so it can be compared with rapidly. */
 	tblbase = numecs * (slot - 1);
 
-	for (i = 1; i <= numecs; ++i)
+	위해 (i = 1; i <= numecs; ++i)
 		protsave[tblbase + i] = state[i];
 }
 
@@ -674,11 +674,11 @@ void    mkprot (int state[], int statenum, int comstate)
  *              to it
  */
 
-void    mktemplate (int state[], int statenum, int comstate)
+void    mktemplate (정수 state[], 정수 statenum, 정수 comstate)
 {
-	int     i, numdiff, tmpbase, tmp[CSIZE + 1];
+	정수     i, numdiff, tmpbase, tmp[CSIZE + 1];
 	unsigned char    transset[CSIZE + 1];
-	int     tsptr;
+	정수     tsptr;
 
 	++numtemps;
 
@@ -691,7 +691,7 @@ void    mktemplate (int state[], int statenum, int comstate)
 
 	tmpbase = numtemps * numecs;
 
-	if (tmpbase + numecs >= current_max_template_xpairs) {
+	만약 (tmpbase + numecs >= current_max_template_xpairs) {
 		current_max_template_xpairs +=
 			MAX_TEMPLATE_XPAIRS_INCREMENT;
 
@@ -701,16 +701,16 @@ void    mktemplate (int state[], int statenum, int comstate)
 						 current_max_template_xpairs);
 	}
 
-	for (i = 1; i <= numecs; ++i)
-		if (state[i] == 0)
+	위해 (i = 1; i <= numecs; ++i)
+		만약 (state[i] == 0)
 			tnxt[tmpbase + i] = 0;
-		else {
+		아니면 {
 			/* Note: range 1..256 is mapped to 1..255,0 */
 			transset[tsptr++] = (unsigned char) i;
 			tnxt[tmpbase + i] = comstate;
 		}
 
-	if (ctrl.usemecs)
+	만약 (ctrl.usemecs)
 		mkeccl (transset, tsptr, tecfwd, tecbck, numecs, 0);
 
 	mkprot (tnxt + tmpbase, -numtemps, comstate);
@@ -726,15 +726,15 @@ void    mktemplate (int state[], int statenum, int comstate)
 
 /* mv2front - move proto queue element to front of queue */
 
-void    mv2front (int qelm)
+void    mv2front (정수 qelm)
 {
-	if (firstprot != qelm) {
-		if (qelm == lastprot)
+	만약 (firstprot != qelm) {
+		만약 (qelm == lastprot)
 			lastprot = protprev[lastprot];
 
 		protnext[protprev[qelm]] = protnext[qelm];
 
-		if (protnext[qelm] != NIL)
+		만약 (protnext[qelm] != NIL)
 			protprev[protnext[qelm]] = protprev[qelm];
 
 		protprev[qelm] = NIL;
@@ -752,11 +752,11 @@ void    mv2front (int qelm)
  * Transnum is the number of out-transitions for the state.
  */
 
-void    place_state (int *state, int statenum, int transnum)
+void    place_state (정수 *state, 정수 statenum, 정수 transnum)
 {
-	int i;
-	int *state_ptr;
-	int position = find_table_space (state, transnum);
+	정수 i;
+	정수 *state_ptr;
+	정수 position = find_table_space (state, transnum);
 
 	/* "base" is the table of start positions. */
 	base[statenum] = position;
@@ -776,13 +776,13 @@ void    place_state (int *state, int statenum, int transnum)
 	/* Place the state into chk and nxt. */
 	state_ptr = &state[1];
 
-	for (i = 1; i <= numecs; ++i, ++state_ptr)
-		if (*state_ptr != 0) {
+	위해 (i = 1; i <= numecs; ++i, ++state_ptr)
+		만약 (*state_ptr != 0) {
 			chk[position + i] = i;
 			nxt[position + i] = *state_ptr;
 		}
 
-	if (position + numecs > tblend)
+	만약 (position + numecs > tblend)
 		tblend = position + numecs;
 }
 
@@ -794,12 +794,12 @@ void    place_state (int *state, int statenum, int transnum)
  * no room, we process the sucker right now.
  */
 
-void    stack1 (int statenum, int sym, int nextstate, int deflink)
+void    stack1 (정수 statenum, 정수 sym, 정수 nextstate, 정수 deflink)
 {
-	if (onesp >= ONE_STACK_SIZE - 1)
+	만약 (onesp >= ONE_STACK_SIZE - 1)
 		mk1tbl (statenum, sym, nextstate, deflink);
 
-	else {
+	아니면 {
 		++onesp;
 		onestate[onesp] = statenum;
 		onesym[onesp] = sym;
@@ -823,21 +823,21 @@ void    stack1 (int statenum, int sym, int nextstate, int deflink)
  * number is "numecs" minus the number of "SAME_TRANS" entries in "ext".
  */
 
-int     tbldiff (int state[], int pr, int ext[])
+정수     tbldiff (정수 state[], 정수 pr, 정수 ext[])
 {
-	int i, *sp = state, *ep = ext, *protp;
-	int numdiff = 0;
+	정수 i, *sp = state, *ep = ext, *protp;
+	정수 numdiff = 0;
 
 	protp = &protsave[numecs * (pr - 1)];
 
-	for (i = numecs; i > 0; --i) {
-		if (*++protp == *++sp)
+	위해 (i = numecs; i > 0; --i) {
+		만약 (*++protp == *++sp)
 			*++ep = SAME_TRANS;
-		else {
+		아니면 {
 			*++ep = *sp;
 			++numdiff;
 		}
 	}
 
-	return numdiff;
+	반환 numdiff;
 }

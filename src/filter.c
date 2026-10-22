@@ -44,22 +44,22 @@ struct filter *filter_create_ext (struct filter *chain, const char *cmd,
 				  ...)
 {
 	struct filter *f;
-	int     max_args;
+	정수     max_args;
 	const char *s;
 	va_list ap;
 
 	/* allocate and initialize new filter */
 	f = calloc(sizeof(struct filter), 1);
-	if (!f)
+	만약 (!f)
 		flexerror(_("calloc failed (f) in filter_create_ext"));
 	f->filter_func = NULL;
 	f->extra = NULL;
 	f->next = NULL;
 	f->argc = 0;
 
-	if (chain != NULL) {
+	만약 (chain != NULL) {
 		/* append f to end of chain */
-		while (chain->next)
+		동안 (chain->next)
 			chain = chain->next;
 		chain->next = f;
 	}
@@ -68,13 +68,13 @@ struct filter *filter_create_ext (struct filter *chain, const char *cmd,
 	/* allocate argv, and populate it with the argument list. */
 	max_args = 8;
 	f->argv = malloc(sizeof(char *) * (size_t) (max_args + 1));
-	if (!f->argv)
+	만약 (!f->argv)
 		flexerror(_("malloc failed (f->argv) in filter_create_ext"));
 	f->argv[f->argc++] = cmd;
 
 	va_start (ap, cmd);
-	while ((s = va_arg (ap, const char *)) != NULL) {
-		if (f->argc >= max_args) {
+	동안 ((s = va_arg (ap, const char *)) != NULL) {
+		만약 (f->argc >= max_args) {
 			max_args += 8;
 			f->argv = realloc(f->argv, sizeof(char*) * (size_t) (max_args + 1));
 		}
@@ -83,7 +83,7 @@ struct filter *filter_create_ext (struct filter *chain, const char *cmd,
 	f->argv[f->argc] = NULL;
 
 	va_end (ap);
-	return f;
+	반환 f;
 }
 
 /* Allocate and initialize an internal filter.
@@ -95,14 +95,14 @@ struct filter *filter_create_ext (struct filter *chain, const char *cmd,
  * @return newest filter in chain
  */
 struct filter *filter_create_int (struct filter *chain,
-				  int (*filter_func) (struct filter *),
+				  정수 (*filter_func) (struct filter *),
 				  void *extra)
 {
 	struct filter *f;
 
 	/* allocate and initialize new filter */
 	f = calloc(sizeof(struct filter), 1);
-	if (!f)
+	만약 (!f)
 		flexerror(_("calloc failed in filter_create_int"));
 	f->next = NULL;
 	f->argc = 0;
@@ -111,14 +111,14 @@ struct filter *filter_create_int (struct filter *chain,
 	f->filter_func = filter_func;
 	f->extra = extra;
 
-	if (chain != NULL) {
+	만약 (chain != NULL) {
 		/* append f to end of chain */
-		while (chain->next)
+		동안 (chain->next)
 			chain = chain->next;
 		chain->next = f;
 	}
 
-	return f;
+	반환 f;
 }
 
 /** Fork and exec entire filter chain.
@@ -127,17 +127,17 @@ struct filter *filter_create_int (struct filter *chain,
  */
 bool filter_apply_chain (struct filter * chain)
 {
-	int     pid, pipes[2];
+	정수     pid, pipes[2];
 
 
 	/* Tricky recursion, since we want to begin the chain
 	 * at the END. Why? Because we need all the forked processes
 	 * to be children of the main flex process.
 	 */
-	if (chain)
+	만약 (chain)
 		filter_apply_chain (chain->next);
-	else
-		return true;
+	아니면
+		반환 true;
 
 	/* Now we are the right-most unprocessed link in the chain.
 	 */
@@ -146,13 +146,13 @@ bool filter_apply_chain (struct filter * chain)
 	fflush (stderr);
 
 
-	if (pipe (pipes) == -1)
+	만약 (pipe (pipes) == -1)
 		flexerror (_("pipe failed"));
 
-	if ((pid = fork ()) == -1)
+	만약 ((pid = fork ()) == -1)
 		flexerror (_("fork failed"));
 
-	if (pid == 0) {
+	만약 (pid == 0) {
 		/* child */
 
         /* We need stdin (the FILE* stdin) to connect to this new pipe.
@@ -163,7 +163,7 @@ bool filter_apply_chain (struct filter * chain)
          */
 		close (pipes[1]);
 		clearerr(stdin);
-		if (dup2 (pipes[0], fileno (stdin)) == -1)
+		만약 (dup2 (pipes[0], fileno (stdin)) == -1)
 			flexfatal (_("dup2(pipes[0],0)"));
 		close (pipes[0]);
 		fseek (stdin, 0, SEEK_CUR);
@@ -171,14 +171,14 @@ bool filter_apply_chain (struct filter * chain)
 		(void)fgetc(stdin); /* on NetBSD than the fseek attempt does */
 
 		/* run as a filter, either internally or by exec */
-		if (chain->filter_func) {
-			int     r;
+		만약 (chain->filter_func) {
+			정수     r;
 
-			if ((r = chain->filter_func (chain)) == -1)
+			만약 ((r = chain->filter_func (chain)) == -1)
 				flexfatal (_("filter_func failed"));
 			FLEX_EXIT (0);
 		}
-		else {
+		아니면 {
 			execvp (chain->argv[0],
 				(char **const) (chain->argv));
 			lerr_fatal ( _("exec of %s failed"),
@@ -190,12 +190,12 @@ bool filter_apply_chain (struct filter * chain)
 
 	/* Parent */
 	close (pipes[0]);
-	if (dup2 (pipes[1], fileno (stdout)) == -1)
+	만약 (dup2 (pipes[1], fileno (stdout)) == -1)
 		flexfatal (_("dup2(pipes[1],1)"));
 	close (pipes[1]);
 	fseek (stdout, 0, SEEK_CUR);
 
-	return true;
+	반환 true;
 }
 
 /** Truncate the chain to max_len number of filters.
@@ -203,20 +203,20 @@ bool filter_apply_chain (struct filter * chain)
  * @param max_len the maximum length of the chain.
  * @return the resulting length of the chain.
  */
-int filter_truncate (struct filter *chain, int max_len)
+정수 filter_truncate (struct filter *chain, 정수 max_len)
 {
-	int     len = 1;
+	정수     len = 1;
 
-	if (!chain)
-		return 0;
+	만약 (!chain)
+		반환 0;
 
-	while (chain->next && len < max_len) {
+	동안 (chain->next && len < max_len) {
 		chain = chain->next;
 		++len;
 	}
 
 	chain->next = NULL;
-	return len;
+	반환 len;
 }
 
 /** Splits the chain in order to write to a header file.
@@ -224,14 +224,14 @@ int filter_truncate (struct filter *chain, int max_len)
  *  The header file name is in extra.
  *  @return 0 (zero) on success, and -1 on failure.
  */
-int filter_tee_header (struct filter *chain)
+정수 filter_tee_header (struct filter *chain)
 {
 	/* This function reads from stdin and writes to both the C file and the
 	 * header file at the same time.
 	 */
 
 	char    buf[512];
-	int     to_cfd = -1;
+	정수     to_cfd = -1;
 	FILE   *to_c = NULL, *to_h = NULL;
 	bool    write_header;
 
@@ -242,12 +242,12 @@ int filter_tee_header (struct filter *chain)
 	 * stdout, and fork the rest of the chain again.
 	 */
 
-	if ((to_cfd = dup (1)) == -1)
+	만약 ((to_cfd = dup (1)) == -1)
 		flexfatal (_("dup(1) failed"));
 	to_c = fdopen (to_cfd, "w");
 
-	if (write_header) {
-		if (freopen ((char *) chain->extra, "w", stdout) == NULL)
+	만약 (write_header) {
+		만약 (freopen ((char *) chain->extra, "w", stdout) == NULL)
 			flexfatal (_("freopen(headerfilename) failed"));
 
 		filter_apply_chain (chain->next);
@@ -257,7 +257,7 @@ int filter_tee_header (struct filter *chain)
 	/* Now to_c is a pipe to the C branch, and to_h is a pipe to the H branch.
 	 */
 
-	if (write_header) {
+	만약 (write_header) {
 		fputs (check_4_gnu_m4, to_h);
 		fputs ("m4_changecom`'m4_dnl\n", to_h);
 		fputs ("m4_changequote`'m4_dnl\n", to_h);
@@ -277,48 +277,48 @@ int filter_tee_header (struct filter *chain)
 	fprintf (to_c, "m4_define( [[M4_YY_OUTFILE_NAME]],[[%s]])m4_dnl\n",
 		 env.outfilename != NULL ? env.outfilename : "<stdout>");
 
-	while (fgets (buf, sizeof buf, stdin)) {
+	동안 (fgets (buf, sizeof buf, stdin)) {
 		fputs (buf, to_c);
-		if (write_header)
+		만약 (write_header)
 			fputs (buf, to_h);
 	}
 
-	if (write_header) {
+	만약 (write_header) {
 		fprintf (to_h, "\n");
 
 		/* write a fake line number. It will get fixed by the linedir filter. */
-		if (ctrl.gen_line_dirs)
+		만약 (ctrl.gen_line_dirs)
 			line_directive_out (to_h, NULL, 4000);
 		fflush (to_h);
-		if (ferror (to_h))
+		만약 (ferror (to_h))
 			lerr (_("error writing output file %s"),
 				(char *) chain->extra);
 
-		else if (fclose (to_h))
+		아니면 만약 (fclose (to_h))
 			lerr (_("error closing output file %s"),
 				(char *) chain->extra);
 	}
 
 	fflush (to_c);
-	if (ferror (to_c))
+	만약 (ferror (to_c))
 		lerr (_("error writing output file %s"),
 			env.outfilename != NULL ? env.outfilename : "<stdout>");
 
-	else if (fclose (to_c))
+	아니면 만약 (fclose (to_c))
 		lerr (_("error closing output file %s"),
 			env.outfilename != NULL ? env.outfilename : "<stdout>");
 
-	while (wait (0) > 0) ;
+	동안 (wait (0) > 0) ;
 
 	FLEX_EXIT (0);
-	return 0;
+	반환 0;
 }
 
 static bool is_blank_line (const char *str)
 {
-	while (isspace(*str))
+	동안 (isspace(*str))
 		str++;
-	return (*str == '\0');
+	반환 (*str == '\0');
 }
 
 /** Adjust the line numbers in the #line directives of the generated scanner.
@@ -327,26 +327,26 @@ static bool is_blank_line (const char *str)
  * not user code. This also happens to be a good place to squeeze multiple
  * blank lines into a single blank line.
  */
-int filter_fix_linedirs (struct filter *chain)
+정수 filter_fix_linedirs (struct filter *chain)
 {
 	char   buf[4096];
 	const char *cp;
 	const size_t readsz = sizeof buf;
-	int     lineno = 1;
+	정수     lineno = 1;
 	bool    in_gen = true;	/* in generated code */
 	bool    last_was_blank = false;
 
-	if (!chain)
-		return 0;
+	만약 (!chain)
+		반환 0;
 
-	while (fgets (buf, (int) readsz, stdin)) {
+	동안 (fgets (buf, (정수) readsz, stdin)) {
 
 		regmatch_t m[10];
 
 		/* Check for directive. Note wired-in assumption:
 		 * field reference 1 is line number, 2 is filename.
 		 */
-		if (ctrl.traceline_re != NULL &&
+		만약 (ctrl.traceline_re != NULL &&
 		    ctrl.traceline_template != NULL &&
 		    regexec (&regex_linedir, buf, 3, m, 0) == 0) {
 
@@ -355,7 +355,7 @@ int filter_fix_linedirs (struct filter *chain)
 			/* extract the line number and filename */
 			fname = regmatch_dup (&m[2], buf);
 
-			if (strcmp (fname,
+			만약 (strcmp (fname,
 				env.outfilename != NULL ? env.outfilename : "<stdout>")
 					== 0
 			 || strcmp (fname,
@@ -368,12 +368,12 @@ int filter_fix_linedirs (struct filter *chain)
 				s1 = fname;
 				s2 = filename;
 
-				while ((s2 - filename) < (MAXLINE - 1) && *s1) {
+				동안 ((s2 - filename) < (MAXLINE - 1) && *s1) {
 					/* Escape the backslash */
-					if (*s1 == '\\')
+					만약 (*s1 == '\\')
 						*s2++ = '\\';
 					/* Escape the double quote */
-					if (*s1 == '\"')
+					만약 (*s1 == '\"')
 						*s2++ = '\\';
 					/* Copy the character as usual */
 					*s2++ = *s1++;
@@ -387,7 +387,7 @@ int filter_fix_linedirs (struct filter *chain)
 					  lineno + 1, filename);
 				strncat(buf, "\n", sizeof(buf)-1);
 			}
-			else {
+			아니면 {
 				/* it's a #line directive for code we didn't write */
 				in_gen = false;
 			}
@@ -397,14 +397,14 @@ int filter_fix_linedirs (struct filter *chain)
 		}
 
 		/* squeeze blank lines from generated code */
-		else if (in_gen && is_blank_line(buf)) {
-			if (last_was_blank)
+		아니면 만약 (in_gen && is_blank_line(buf)) {
+			만약 (last_was_blank)
 				continue;
-			else
+			아니면
 				last_was_blank = true;
 		}
 
-		else {
+		아니면 {
 			/* it's a line of normal, non-empty code. */
 			last_was_blank = false;
 		}
@@ -413,15 +413,15 @@ int filter_fix_linedirs (struct filter *chain)
 		lineno++;
 	}
 	fflush (stdout);
-	if (ferror (stdout))
+	만약 (ferror (stdout))
 		lerr (_("error writing output file %s"),
 			env.outfilename != NULL ? env.outfilename : "<stdout>");
 
-	else if (fclose (stdout))
+	아니면 만약 (fclose (stdout))
 		lerr (_("error closing output file %s"),
 			env.outfilename != NULL ? env.outfilename : "<stdout>");
 
-	return 0;
+	반환 0;
 }
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */

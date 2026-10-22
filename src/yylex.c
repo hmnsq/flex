@@ -42,31 +42,31 @@
 extern char *yytext;
 extern FILE *yyout;
 bool no_section3_escape = false;
-int     yylex (void)
+정수     yylex (void)
 {
-	int     toktype;
-	static int beglin = false;
+	정수     toktype;
+	static 정수 beglin = false;
 
-	if (eofseen) {
+	만약 (eofseen) {
 		toktype = EOF;
-        } else {
+        } 아니면 {
 		toktype = flexscan ();
         }
-	if (toktype == EOF || toktype == 0) {
+	만약 (toktype == EOF || toktype == 0) {
 		eofseen = true;
 
-		if (sectnum == 1) {
+		만약 (sectnum == 1) {
 			synerr (_("premature EOF"));
 			sectnum = 2;
 			toktype = SECTEND;
 		}
 
-		else
+		아니면
 			toktype = 0;
 	}
 
-	if (env.trace) {
-		if (beglin) {
+	만약 (env.trace) {
+		만약 (beglin) {
 			fprintf (stderr, "%d\t", num_rules + 1);
 			beglin = 0;
 		}
@@ -98,7 +98,7 @@ int     yylex (void)
 		case '\n':
 			(void) putc ('\n', stderr);
 
-			if (sectnum == 2)
+			만약 (sectnum == 2)
 				beglin = 1;
 
 			break;
@@ -118,7 +118,7 @@ int     yylex (void)
 			 * writing out numbers as we echo rules.
 			 * flexscan() has already assigned sectnum.
 			 */
-			if (sectnum == 2)
+			만약 (sectnum == 2)
 				beglin = 1;
 
 			break;
@@ -153,12 +153,12 @@ int     yylex (void)
 				break;
 
 			default:
-				if (!isascii (yylval) || !isprint (yylval)) {
-					if(env.trace_hex)
-						fprintf (stderr, "\\x%02x", (unsigned int) yylval);
-					else
-						fprintf (stderr, "\\%.3o", (unsigned int) yylval);
-				} else
+				만약 (!isascii (yylval) || !isprint (yylval)) {
+					만약(env.trace_hex)
+						fprintf (stderr, "\\x%02x", (unsigned 정수) yylval);
+					아니면
+						fprintf (stderr, "\\%.3o", (unsigned 정수) yylval);
+				} 아니면
 					(void) putc (yylval, stderr);
 				break;
 			}
@@ -211,5 +211,5 @@ int     yylex (void)
 		}
 	}
 
-	return toktype;
+	반환 toktype;
 }

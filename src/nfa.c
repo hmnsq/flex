@@ -38,8 +38,8 @@
 
 /* declare functions that have forward references */
 
-int	dupmachine(int);
-void	mkxtion(int, int);
+정수	dupmachine(정수);
+void	mkxtion(정수, 정수);
 
 
 /* add_accept - add an accepting state to a machine
@@ -47,7 +47,7 @@ void	mkxtion(int, int);
  * accepting_number becomes mach's accepting number.
  */
 
-void    add_accept (int mach, int accepting_number)
+void    add_accept (정수 mach, 정수 accepting_number)
 {
 	/* Hang the accepting number off an epsilon state.  if it is associated
 	 * with a state that has a non-epsilon out-transition, then the state
@@ -55,11 +55,11 @@ void    add_accept (int mach, int accepting_number)
 	 * too soon.
 	 */
 
-	if (transchar[finalst[mach]] == SYM_EPSILON)
+	만약 (transchar[finalst[mach]] == SYM_EPSILON)
 		accptnum[finalst[mach]] = accepting_number;
 
-	else {
-		int     astate = mkstate (SYM_EPSILON);
+	아니면 {
+		정수     astate = mkstate (SYM_EPSILON);
 
 		accptnum[astate] = accepting_number;
 		(void) link_machines (mach, astate);
@@ -78,24 +78,24 @@ void    add_accept (int mach, int accepting_number)
  *     num    - the number of copies of singl to be present in newsng
  */
 
-int     copysingl (int singl, int num)
+정수     copysingl (정수 singl, 정수 num)
 {
-	int     copy, i;
+	정수     copy, i;
 
 	copy = mkstate (SYM_EPSILON);
 
-	for (i = 1; i <= num; ++i)
+	위해 (i = 1; i <= num; ++i)
 		copy = link_machines (copy, dupmachine (singl));
 
-	return copy;
+	반환 copy;
 }
 
 
 /* dumpnfa - debugging routine to write out an nfa */
 
-void    dumpnfa (int state1)
+void    dumpnfa (정수 state1)
 {
-	int     sym, tsp1, tsp2, anum, ns;
+	정수     sym, tsp1, tsp2, anum, ns;
 
 	fprintf (stderr,
 		 _
@@ -109,7 +109,7 @@ void    dumpnfa (int state1)
 	 */
 
 	/* for ( ns = firstst[state1]; ns <= lastst[state1]; ++ns ) */
-	for (ns = 1; ns <= lastnfa; ++ns) {
+	위해 (ns = 1; ns <= lastnfa; ++ns) {
 		fprintf (stderr, _("state # %4d\t"), ns);
 
 		sym = transchar[ns];
@@ -119,7 +119,7 @@ void    dumpnfa (int state1)
 
 		fprintf (stderr, "%3d:  %4d, %4d", sym, tsp1, tsp2);
 
-		if (anum != NIL)
+		만약 (anum != NIL)
 			fprintf (stderr, "  [%d]", anum);
 
 		fprintf (stderr, "\n");
@@ -146,19 +146,19 @@ void    dumpnfa (int state1)
  * states accessible by the arrays firstst and lastst
  */
 
-int     dupmachine (int mach)
+정수     dupmachine (정수 mach)
 {
-	int     i, init, state_offset;
-	int     state = 0;
-	int     last = lastst[mach];
+	정수     i, init, state_offset;
+	정수     state = 0;
+	정수     last = lastst[mach];
 
-	for (i = firstst[mach]; i <= last; ++i) {
+	위해 (i = firstst[mach]; i <= last; ++i) {
 		state = mkstate (transchar[i]);
 
-		if (trans1[i] != NO_TRANSITION) {
+		만약 (trans1[i] != NO_TRANSITION) {
 			mkxtion (finalst[state], trans1[i] + state - i);
 
-			if (transchar[i] == SYM_EPSILON &&
+			만약 (transchar[i] == SYM_EPSILON &&
 			    trans2[i] != NO_TRANSITION)
 					mkxtion (finalst[state],
 						 trans2[i] + state - i);
@@ -167,7 +167,7 @@ int     dupmachine (int mach)
 		accptnum[state] = accptnum[i];
 	}
 
-	if (state == 0)
+	만약 (state == 0)
 		flexfatal (_("empty machine in dupmachine()"));
 
 	state_offset = state - i + 1;
@@ -177,7 +177,7 @@ int     dupmachine (int mach)
 	finalst[init] = finalst[mach] + state_offset;
 	lastst[init] = lastst[mach] + state_offset;
 
-	return init;
+	반환 init;
 }
 
 
@@ -193,8 +193,8 @@ int     dupmachine (int mach)
  * context has variable length.
  */
 
-void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailcnt,
-		     int pcont_act)
+void    finish_rule (정수 mach, bool variable_trail_rule, 정수 headcnt, 정수 trailcnt,
+		     정수 pcont_act)
 {
 	char    action_text[MAXLINE];
 
@@ -208,29 +208,29 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 	/* If this is a continued action, then the line-number has already
 	 * been updated, giving us the wrong number.
 	 */
-	if (continued_action)
+	만약 (continued_action)
 		--rule_linenum[num_rules];
 
 
 	/* If the previous rule was continued action, then we inherit the
 	 * previous newline flag, possibly overriding the current one.
 	 */
-	if (pcont_act && rule_has_nl[num_rules - 1])
+	만약 (pcont_act && rule_has_nl[num_rules - 1])
 		rule_has_nl[num_rules] = true;
 
 	snprintf (action_text, sizeof(action_text), "M4_HOOK_NORMAL_STATE_CASE_ARM(%d)\n", num_rules);
 	add_action (action_text);
-	if (rule_has_nl[num_rules]) {
+	만약 (rule_has_nl[num_rules]) {
 		snprintf (action_text, sizeof(action_text), "M4_HOOK_COMMENT_OPEN rule %d can match eol M4_HOOK_COMMENT_CLOSE\n",
 			 num_rules);
 		add_action (action_text);
 	}
 
 
-	if (variable_trail_rule) {
+	만약 (variable_trail_rule) {
 		rule_type[num_rules] = RULE_VARIABLE;
 
-		if (env.performance_hint > 0)
+		만약 (env.performance_hint > 0)
 			fprintf (stderr,
 				 _
 				 ("Variable trailing context rule at line %d\n"),
@@ -239,17 +239,17 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 		variable_trailing_context_rules = true;
 	}
 
-	else {
+	아니면 {
 		rule_type[num_rules] = RULE_NORMAL;
 
-		if (headcnt > 0 || trailcnt > 0) {
+		만약 (headcnt > 0 || trailcnt > 0) {
 			/* Do trailing context magic to not match the trailing
 			 * characters.
 			 */
 			add_action ("M4_HOOK_RELEASE_YYTEXT\n");
 
-			if (headcnt > 0) {
-				if (rule_has_nl[num_rules]) {
+			만약 (headcnt > 0) {
+				만약 (rule_has_nl[num_rules]) {
 					snprintf (action_text, sizeof(action_text),
 						"M4_HOOK_LINE_FORWARD(%d)\n", headcnt);
 					add_action (action_text);
@@ -259,8 +259,8 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 				add_action (action_text);
 			}
 
-			else {
-				if (rule_has_nl[num_rules]) {
+			아니면 {
+				만약 (rule_has_nl[num_rules]) {
 					snprintf (action_text, sizeof(action_text),
 						 "M4_HOOK_LINE_REWIND(%d)\n", trailcnt);
 					add_action (action_text);
@@ -281,7 +281,7 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
 	 * to do any user action.  But don't do it for continued actions,
 	 * as that'll result in multiple rule-setup calls.
 	 */
-	if (!continued_action)
+	만약 (!continued_action)
 		add_action ("M4_HOOK_SET_RULE_SETUP\n");
 
 	line_directive_out(NULL, infilename, linenum);
@@ -305,21 +305,21 @@ void    finish_rule (int mach, bool variable_trail_rule, int headcnt, int trailc
  *  FIRST is set to new by the operation.  last is unmolested.
  */
 
-int     link_machines (int first, int last)
+정수     link_machines (정수 first, 정수 last)
 {
-	if (first == NIL)
-		return last;
+	만약 (first == NIL)
+		반환 last;
 
-	else if (last == NIL)
-		return first;
+	아니면 만약 (last == NIL)
+		반환 first;
 
-	else {
+	아니면 {
 		mkxtion (finalst[first], last);
 		finalst[first] = finalst[last];
 		lastst[first] = MAX (lastst[first], lastst[last]);
 		firstst[first] = MIN (firstst[first], firstst[last]);
 
-		return first;
+		반환 first;
 	}
 }
 
@@ -331,21 +331,21 @@ int     link_machines (int first, int last)
  * The "beginning" states are the epsilon closure of the first state
  */
 
-void    mark_beginning_as_normal (int mach)
+void    mark_beginning_as_normal (정수 mach)
 {
 	switch (state_type[mach]) {
 	case STATE_NORMAL:
 		/* Oh, we've already visited here. */
-		return;
+		반환;
 
 	case STATE_TRAILING_CONTEXT:
 		state_type[mach] = STATE_NORMAL;
 
-		if (transchar[mach] == SYM_EPSILON) {
-			if (trans1[mach] != NO_TRANSITION)
+		만약 (transchar[mach] == SYM_EPSILON) {
+			만약 (trans1[mach] != NO_TRANSITION)
 				mark_beginning_as_normal (trans1[mach]);
 
-			if (trans2[mach] != NO_TRANSITION)
+			만약 (trans2[mach] != NO_TRANSITION)
 				mark_beginning_as_normal (trans2[mach]);
 		}
 		break;
@@ -372,22 +372,22 @@ void    mark_beginning_as_normal (int mach)
  * more mkbranch's.  Compare with mkor()
  */
 
-int     mkbranch (int first, int second)
+정수     mkbranch (정수 first, 정수 second)
 {
-	int     eps;
+	정수     eps;
 
-	if (first == NO_TRANSITION)
-		return second;
+	만약 (first == NO_TRANSITION)
+		반환 second;
 
-	else if (second == NO_TRANSITION)
-		return first;
+	아니면 만약 (second == NO_TRANSITION)
+		반환 first;
 
 	eps = mkstate (SYM_EPSILON);
 
 	mkxtion (eps, first);
 	mkxtion (eps, second);
 
-	return eps;
+	반환 eps;
 }
 
 
@@ -399,9 +399,9 @@ int     mkbranch (int first, int second)
  * new - a new state which matches the closure of "state"
  */
 
-int     mkclos (int state)
+정수     mkclos (정수 state)
 {
-	return mkopt (mkposcl (state));
+	반환 mkopt (mkposcl (state));
 }
 
 
@@ -419,11 +419,11 @@ int     mkclos (int state)
  *     2. mach is destroyed by the call
  */
 
-int     mkopt (int mach)
+정수     mkopt (정수 mach)
 {
-	int     eps;
+	정수     eps;
 
-	if (!SUPER_FREE_EPSILON (finalst[mach])) {
+	만약 (!SUPER_FREE_EPSILON (finalst[mach])) {
 		eps = mkstate (SYM_EPSILON);
 		mach = link_machines (mach, eps);
 	}
@@ -437,7 +437,7 @@ int     mkopt (int mach)
 
 	mkxtion (mach, finalst[mach]);
 
-	return mach;
+	반환 mach;
 }
 
 
@@ -455,17 +455,17 @@ int     mkopt (int mach)
  * the number of epsilon states needed
  */
 
-int     mkor (int first, int second)
+정수     mkor (정수 first, 정수 second)
 {
-	int     eps, orend;
+	정수     eps, orend;
 
-	if (first == NIL)
-		return second;
+	만약 (first == NIL)
+		반환 second;
 
-	else if (second == NIL)
-		return first;
+	아니면 만약 (second == NIL)
+		반환 first;
 
-	else {
+	아니면 {
 		/* See comment in mkopt() about why we can't use the first
 		 * state of "first" or "second" if they satisfy "FREE_EPSILON".
 		 */
@@ -475,19 +475,19 @@ int     mkor (int first, int second)
 
 		mkxtion (first, second);
 
-		if (SUPER_FREE_EPSILON (finalst[first]) &&
+		만약 (SUPER_FREE_EPSILON (finalst[first]) &&
 		    accptnum[finalst[first]] == NIL) {
 			orend = finalst[first];
 			mkxtion (finalst[second], orend);
 		}
 
-		else if (SUPER_FREE_EPSILON (finalst[second]) &&
+		아니면 만약 (SUPER_FREE_EPSILON (finalst[second]) &&
 			 accptnum[finalst[second]] == NIL) {
 			orend = finalst[second];
 			mkxtion (finalst[first], orend);
 		}
 
-		else {
+		아니면 {
 			eps = mkstate (SYM_EPSILON);
 
 			first = link_machines (first, eps);
@@ -500,7 +500,7 @@ int     mkor (int first, int second)
 	firstst[first] = MIN(firstst[first], firstst[second]);
 
 	finalst[first] = orend;
-	return first;
+	반환 first;
 }
 
 
@@ -512,19 +512,19 @@ int     mkor (int first, int second)
  *    new - a machine matching the positive closure of "state"
  */
 
-int     mkposcl (int state)
+정수     mkposcl (정수 state)
 {
-	int     eps;
+	정수     eps;
 
-	if (SUPER_FREE_EPSILON (finalst[state])) {
+	만약 (SUPER_FREE_EPSILON (finalst[state])) {
 		mkxtion (finalst[state], state);
-		return state;
+		반환 state;
 	}
 
-	else {
+	아니면 {
 		eps = mkstate (SYM_EPSILON);
 		mkxtion (eps, state);
-		return link_machines (state, eps);
+		반환 link_machines (state, eps);
 	}
 }
 
@@ -541,23 +541,23 @@ int     mkposcl (int state)
  *   if "ub" is INFINITE_REPEAT then "new" matches "lb" or more occurrences of "mach"
  */
 
-int     mkrep (int mach, int lb, int ub)
+정수     mkrep (정수 mach, 정수 lb, 정수 ub)
 {
-	int     base_mach, tail, copy, i;
+	정수     base_mach, tail, copy, i;
 
 	base_mach = copysingl (mach, lb - 1);
 
-	if (ub == INFINITE_REPEAT) {
+	만약 (ub == INFINITE_REPEAT) {
 		copy = dupmachine (mach);
 		mach = link_machines (mach,
 				      link_machines (base_mach,
 						     mkclos (copy)));
 	}
 
-	else {
+	아니면 {
 		tail = mkstate (SYM_EPSILON);
 
-		for (i = lb; i < ub; ++i) {
+		위해 (i = lb; i < ub; ++i) {
 			copy = dupmachine (mach);
 			tail = mkopt (link_machines (copy, tail));
 		}
@@ -567,7 +567,7 @@ int     mkrep (int mach, int lb, int ub)
 				       link_machines (base_mach, tail));
 	}
 
-	return mach;
+	반환 mach;
 }
 
 
@@ -587,10 +587,10 @@ int     mkrep (int mach, int lb, int ub)
  * that it admittedly is)
  */
 
-int     mkstate (int sym)
+정수     mkstate (정수 sym)
 {
-	if (++lastnfa >= current_mns) {
-		if ((current_mns += MNS_INCREMENT) >= maximum_mns)
+	만약 (++lastnfa >= current_mns) {
+		만약 ((current_mns += MNS_INCREMENT) >= maximum_mns)
 			lerr(_
 				("input rules are too complicated (>= %d NFA states)"),
 current_mns);
@@ -631,25 +631,25 @@ current_mns);
 	 * elsewhere in the input).
 	 */
 
-	if (sym < 0) {
+	만약 (sym < 0) {
 		/* We don't have to update the equivalence classes since
 		 * that was already done when the ccl was created for the
 		 * first time.
 		 */
 	}
 
-	else if (sym == SYM_EPSILON)
+	아니면 만약 (sym == SYM_EPSILON)
 		++numeps;
 
-	else {
+	아니면 {
 		check_char (sym);
 
-		if (ctrl.useecs)
+		만약 (ctrl.useecs)
 			/* Map NUL's to csize. */
 			mkechar (sym ? sym : ctrl.csize, nextecm, ecgroup);
 	}
 
-	return lastnfa;
+	반환 lastnfa;
 }
 
 
@@ -663,16 +663,16 @@ current_mns);
  *     stateto   - the state to which the transition is to be made
  */
 
-void    mkxtion (int statefrom, int stateto)
+void    mkxtion (정수 statefrom, 정수 stateto)
 {
-	if (trans1[statefrom] == NO_TRANSITION)
+	만약 (trans1[statefrom] == NO_TRANSITION)
 		trans1[statefrom] = stateto;
 
-	else if ((transchar[statefrom] != SYM_EPSILON) ||
+	아니면 만약 ((transchar[statefrom] != SYM_EPSILON) ||
 		 (trans2[statefrom] != NO_TRANSITION))
 		flexfatal (_("found too many transitions in mkxtion()"));
 
-	else {			/* second out-transition for an epsilon state */
+	아니면 {			/* second out-transition for an epsilon state */
 		++eps2;
 		trans2[statefrom] = stateto;
 	}
@@ -682,7 +682,7 @@ void    mkxtion (int statefrom, int stateto)
 
 void    new_rule (void)
 {
-	if (++num_rules >= current_max_rules) {
+	만약 (++num_rules >= current_max_rules) {
 		++num_reallocs;
 		current_max_rules += MAX_RULES_INCREMENT;
 		rule_type = reallocate_integer_array (rule_type,
@@ -695,7 +695,7 @@ void    new_rule (void)
 					current_max_rules, sizeof(char));
 	}
 
-	if (num_rules > MAX_RULE)
+	만약 (num_rules > MAX_RULE)
 		lerr (_("too many rules (> %d)!"), MAX_RULE);
 
 	rule_linenum[num_rules] = linenum;

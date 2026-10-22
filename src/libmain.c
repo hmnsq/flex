@@ -25,14 +25,14 @@
 
 #include <stdlib.h>
 
-extern int yylex (void);
+extern 정수 yylex (void);
 
-int     main (int argc, char *argv[])
+정수     main (정수 argc, char *argv[])
 {
 	(void)argc;
 	(void)argv;
 
-	while (yylex () != 0) ;
+	동안 (yylex () != 0) ;
 
 	exit(0);
 }

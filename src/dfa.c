@@ -36,11 +36,11 @@
 
 /* declare functions that have forward references */
 
-static void dump_associated_rules(FILE *, int);
-static void dump_transitions(FILE *, int[]);
-static int  snstods(int[], int, int[], int, int, int *);
-static void sympartition(int[], int, int[], int[]);
-static int  symfollowset(int[], int, int, int[]);
+static void dump_associated_rules(FILE *, 정수);
+static void dump_transitions(FILE *, 정수[]);
+static 정수  snstods(정수[], 정수, 정수[], 정수, 정수, 정수 *);
+static void sympartition(정수[], 정수, 정수[], 정수[]);
+static 정수  symfollowset(정수[], 정수, 정수, 정수[]);
 
 
 /* check_for_backing_up - check a DFA state for backing up
@@ -52,12 +52,12 @@ static int  symfollowset(int[], int, int, int[]);
  * indexed by equivalence class.
  */
 
-static void check_for_backing_up(int ds, int state[])
+static void check_for_backing_up(정수 ds, 정수 state[])
 {
-	if ((reject && !dfaacc[ds].dfaacc_set) || (!reject && !dfaacc[ds].dfaacc_state)) {	/* state is non-accepting */
+	만약 ((reject && !dfaacc[ds].dfaacc_set) || (!reject && !dfaacc[ds].dfaacc_state)) {	/* state is non-accepting */
 		++num_backing_up;
 
-		if (env.backing_up_report) {
+		만약 (env.backing_up_report) {
 			fprintf (ctrl.backing_up_file,
 				 _("State #%d is non-accepting -\n"), ds);
 
@@ -97,31 +97,31 @@ static void check_for_backing_up(int ds, int state[])
  *    accset[1 .. nacc] is the list of accepting numbers for the DFA state.
  */
 
-static void check_trailing_context(int *nfa_states, int num_states, int *accset, int nacc)
+static void check_trailing_context(정수 *nfa_states, 정수 num_states, 정수 *accset, 정수 nacc)
 {
-	int i, j;
+	정수 i, j;
 
-	for (i = 1; i <= num_states; ++i) {
-		int     ns = nfa_states[i];
-		int type = state_type[ns];
-		int ar = assoc_rule[ns];
+	위해 (i = 1; i <= num_states; ++i) {
+		정수     ns = nfa_states[i];
+		정수 type = state_type[ns];
+		정수 ar = assoc_rule[ns];
 
-		if (type == STATE_NORMAL || rule_type[ar] != RULE_VARIABLE) {	/* do nothing */
+		만약 (type == STATE_NORMAL || rule_type[ar] != RULE_VARIABLE) {	/* do nothing */
 		}
 
-		else if (type == STATE_TRAILING_CONTEXT) {
+		아니면 만약 (type == STATE_TRAILING_CONTEXT) {
 			/* Potential trouble.  Scan set of accepting numbers
 			 * for the one marking the end of the "head".  We
 			 * assume that this looping will be fairly cheap
 			 * since it's rare that an accepting number set
 			 * is large.
 			 */
-			for (j = 1; j <= nacc; ++j)
-				if (accset[j] & YY_TRAILING_HEAD_MASK) {
+			위해 (j = 1; j <= nacc; ++j)
+				만약 (accset[j] & YY_TRAILING_HEAD_MASK) {
 					line_warning (_
 						      ("dangerous trailing context"),
 						      rule_linenum[ar]);
-					return;
+					반환;
 				}
 		}
 	}
@@ -135,23 +135,23 @@ static void check_trailing_context(int *nfa_states, int num_states, int *accset,
  * and writes a report to the given file.
  */
 
-static void dump_associated_rules(FILE *file, int ds)
+static void dump_associated_rules(FILE *file, 정수 ds)
 {
-	int i, j;
-	int num_associated_rules = 0;
-	int rule_set[MAX_ASSOC_RULES + 1];
-	int *dset = dss[ds];
-	int size = dfasiz[ds];
+	정수 i, j;
+	정수 num_associated_rules = 0;
+	정수 rule_set[MAX_ASSOC_RULES + 1];
+	정수 *dset = dss[ds];
+	정수 size = dfasiz[ds];
 
-	for (i = 1; i <= size; ++i) {
-		int rule_num = rule_linenum[assoc_rule[dset[i]]];
+	위해 (i = 1; i <= size; ++i) {
+		정수 rule_num = rule_linenum[assoc_rule[dset[i]]];
 
-		for (j = 1; j <= num_associated_rules; ++j)
-			if (rule_num == rule_set[j])
+		위해 (j = 1; j <= num_associated_rules; ++j)
+			만약 (rule_num == rule_set[j])
 				break;
 
-		if (j > num_associated_rules) {	/* new rule */
-			if (num_associated_rules < MAX_ASSOC_RULES)
+		만약 (j > num_associated_rules) {	/* new rule */
+			만약 (num_associated_rules < MAX_ASSOC_RULES)
 				rule_set[++num_associated_rules] =
 					rule_num;
 		}
@@ -161,8 +161,8 @@ static void dump_associated_rules(FILE *file, int ds)
 
 	fprintf (file, _(" associated rule line numbers:"));
 
-	for (i = 1; i <= num_associated_rules; ++i) {
-		if (i % 8 == 1)
+	위해 (i = 1; i <= num_associated_rules; ++i) {
+		만약 (i % 8 == 1)
 			putc ('\n', file);
 
 		fprintf (file, "\t%d", rule_set[i]);
@@ -183,12 +183,12 @@ static void dump_associated_rules(FILE *file, int ds)
  * is done to the given file.
  */
 
-static void dump_transitions(FILE *file, int state[])
+static void dump_transitions(FILE *file, 정수 state[])
 {
-	int i, ec;
-	int out_char_set[CSIZE];
+	정수 i, ec;
+	정수 out_char_set[CSIZE];
 
-	for (i = 0; i < ctrl.csize; ++i) {
+	위해 (i = 0; i < ctrl.csize; ++i) {
 		ec = ABS (ecgroup[i]);
 		out_char_set[i] = state[ec];
 	}
@@ -198,7 +198,7 @@ static void dump_transitions(FILE *file, int state[])
 	list_character_set (file, out_char_set);
 
 	/* now invert the members of the set to get the jam transitions */
-	for (i = 0; i < ctrl.csize; ++i)
+	위해 (i = 0; i < ctrl.csize; ++i)
 		out_char_set[i] = !out_char_set[i];
 
 	fprintf (file, _("\n jam-transitions: EOF "));
@@ -229,27 +229,27 @@ static void dump_transitions(FILE *file, int state[])
  *  hashval is the hash value for the dfa corresponding to the state set.
  */
 
-static int *epsclosure(int *t, int *ns_addr, int accset[], int *nacc_addr, int *hv_addr)
+static 정수 *epsclosure(정수 *t, 정수 *ns_addr, 정수 accset[], 정수 *nacc_addr, 정수 *hv_addr)
 {
-	int     stkpos, ns, tsp;
-	int     numstates = *ns_addr, nacc, hashval, transsym, nfaccnum;
-	int     stkend, nstate;
-	static int did_stk_init = false, *stk;
+	정수     stkpos, ns, tsp;
+	정수     numstates = *ns_addr, nacc, hashval, transsym, nfaccnum;
+	정수     stkend, nstate;
+	static 정수 did_stk_init = false, *stk;
 
 #define MARK_STATE(state) \
-do{ trans1[state] = trans1[state] - MARKER_DIFFERENCE;} while(0)
+do{ trans1[state] = trans1[state] - MARKER_DIFFERENCE;} 동안(0)
 
 #define IS_MARKED(state) (trans1[state] < 0)
 
 #define UNMARK_STATE(state) \
-do{ trans1[state] = trans1[state] + MARKER_DIFFERENCE;} while(0)
+do{ trans1[state] = trans1[state] + MARKER_DIFFERENCE;} 동안(0)
 
 #define CHECK_ACCEPT(state) \
 do{ \
 nfaccnum = accptnum[state]; \
-if ( nfaccnum != NIL ) \
+만약 ( nfaccnum != NIL ) \
 accset[++nacc] = nfaccnum; \
-}while(0)
+}동안(0)
 
 #define DO_REALLOCATION() \
 do { \
@@ -257,67 +257,67 @@ current_max_dfa_size += MAX_DFA_SIZE_INCREMENT; \
 ++num_reallocs; \
 t = reallocate_integer_array( t, current_max_dfa_size ); \
 stk = reallocate_integer_array( stk, current_max_dfa_size ); \
-}while(0) \
+}동안(0) \
 
 #define PUT_ON_STACK(state) \
 do { \
-if ( ++stkend >= current_max_dfa_size ) \
+만약 ( ++stkend >= current_max_dfa_size ) \
 DO_REALLOCATION(); \
 stk[stkend] = state; \
 MARK_STATE(state); \
-}while(0)
+}동안(0)
 
 #define ADD_STATE(state) \
 do { \
-if ( ++numstates >= current_max_dfa_size ) \
+만약 ( ++numstates >= current_max_dfa_size ) \
 DO_REALLOCATION(); \
 t[numstates] = state; \
 hashval += state; \
-}while(0)
+}동안(0)
 
 #define STACK_STATE(state) \
 do { \
 PUT_ON_STACK(state); \
 CHECK_ACCEPT(state); \
-if ( nfaccnum != NIL || transchar[state] != SYM_EPSILON ) \
+만약 ( nfaccnum != NIL || transchar[state] != SYM_EPSILON ) \
 ADD_STATE(state); \
-}while(0)
+}동안(0)
 
 
-	if (!did_stk_init) {
+	만약 (!did_stk_init) {
 		stk = allocate_integer_array (current_max_dfa_size);
 		did_stk_init = true;
 	}
 
 	nacc = stkend = hashval = 0;
 
-	for (nstate = 1; nstate <= numstates; ++nstate) {
+	위해 (nstate = 1; nstate <= numstates; ++nstate) {
 		ns = t[nstate];
 
 		/* The state could be marked if we've already pushed it onto
 		 * the stack.
 		 */
-		if (!IS_MARKED (ns)) {
+		만약 (!IS_MARKED (ns)) {
 			PUT_ON_STACK (ns);
 			CHECK_ACCEPT (ns);
 			hashval += ns;
 		}
 	}
 
-	for (stkpos = 1; stkpos <= stkend; ++stkpos) {
+	위해 (stkpos = 1; stkpos <= stkend; ++stkpos) {
 		ns = stk[stkpos];
 		transsym = transchar[ns];
 
-		if (transsym == SYM_EPSILON) {
+		만약 (transsym == SYM_EPSILON) {
 			tsp = trans1[ns] + MARKER_DIFFERENCE;
 
-			if (tsp != NO_TRANSITION) {
-				if (!IS_MARKED (tsp))
+			만약 (tsp != NO_TRANSITION) {
+				만약 (!IS_MARKED (tsp))
 					STACK_STATE (tsp);
 
 				tsp = trans2[ns];
 
-				if (tsp != NO_TRANSITION
+				만약 (tsp != NO_TRANSITION
 				    && !IS_MARKED (tsp))
 					STACK_STATE (tsp);
 			}
@@ -326,10 +326,10 @@ ADD_STATE(state); \
 
 	/* Clear out "visit" markers. */
 
-	for (stkpos = 1; stkpos <= stkend; ++stkpos) {
-		if (IS_MARKED (stk[stkpos]))
+	위해 (stkpos = 1; stkpos <= stkend; ++stkpos) {
+		만약 (IS_MARKED (stk[stkpos]))
 			UNMARK_STATE (stk[stkpos]);
-		else
+		아니면
 			flexfatal (_
 				   ("consistency check failed in epsclosure()"));
 	}
@@ -338,7 +338,7 @@ ADD_STATE(state); \
 	*hv_addr = hashval;
 	*nacc_addr = nacc;
 
-	return t;
+	반환 t;
 }
 
 
@@ -359,7 +359,7 @@ void increase_max_dfas (void)
 	dfaacc = reallocate_array(dfaacc, current_max_dfas,
 		sizeof(union dfaacc_union));
 
-	if (nultrans)
+	만약 (nultrans)
 		nultrans =
 			reallocate_integer_array (nultrans,
 						  current_max_dfas);
@@ -377,14 +377,14 @@ void increase_max_dfas (void)
 
 size_t ntod (void)
 {
-	int    *accset, ds, nacc, newds;
-	int     sym, hashval, numstates, dsize;
-	int     num_full_table_rows=0;	/* used only for -f */
-	int    *nset, *dset;
-	int     targptr, totaltrans, i, comstate, comfreq, targ;
-	int     symlist[CSIZE + 1];
-	int     num_start_states;
-	int     todo_head, todo_next;
+	정수    *accset, ds, nacc, newds;
+	정수     sym, hashval, numstates, dsize;
+	정수     num_full_table_rows=0;	/* used only for -f */
+	정수    *nset, *dset;
+	정수     targptr, totaltrans, i, comstate, comfreq, targ;
+	정수     symlist[CSIZE + 1];
+	정수     num_start_states;
+	정수     todo_head, todo_next;
 
 	struct yytbl_data *yynxt_tbl = 0;
 	flex_int32_t *yynxt_data = 0, yynxt_curr = 0;
@@ -396,8 +396,8 @@ size_t ntod (void)
 	 * equivalence class) these arrays must have room for indices
 	 * from 1 to CSIZE, so their size must be CSIZE + 1.
 	 */
-	int     duplist[CSIZE + 1], state[CSIZE + 1];
-	int     targfreq[CSIZE + 1] = {0}, targstate[CSIZE + 1];
+	정수     duplist[CSIZE + 1], state[CSIZE + 1];
+	정수     targfreq[CSIZE + 1] = {0}, targstate[CSIZE + 1];
 
 	/* accset needs to be large enough to hold all of the rules present
 	 * in the input, *plus* their YY_TRAILING_HEAD_MASK variants.
@@ -413,15 +413,15 @@ size_t ntod (void)
 	 */
 	todo_head = todo_next = 0;
 
-	for (i = 0; i <= ctrl.csize; ++i) {
+	위해 (i = 0; i <= ctrl.csize; ++i) {
 		duplist[i] = NIL;
 		symlist[i] = false;
 	}
 
-	for (i = 0; i <= num_rules; ++i)
+	위해 (i = 0; i <= num_rules; ++i)
 		accset[i] = NIL;
 
-	if (env.trace) {
+	만약 (env.trace) {
 		dumpnfa (scset[1]);
 		fputs (_("\n\nDFA Dump:\n\n"), stderr);
 	}
@@ -463,25 +463,25 @@ size_t ntod (void)
 	 * New way: we will only use NUL table for fulltbl, because the
 	 * scanner will use an integer instead of YY_CHAR as noted above
 	 */
-	if (ctrl.fulltbl && ecgroup[0] == numecs && is_power_of_2(numecs))
+	만약 (ctrl.fulltbl && ecgroup[0] == numecs && is_power_of_2(numecs))
 		nultrans = allocate_integer_array (current_max_dfas);
 
-	if (ctrl.fullspd) {
-		for (i = 0; i <= numecs; ++i)
+	만약 (ctrl.fullspd) {
+		위해 (i = 0; i <= numecs; ++i)
 			state[i] = 0;
 
 		place_state (state, 0, 0);
 		dfaacc[0].dfaacc_state = 0;
 	}
 
-	else if (ctrl.fulltbl) {
-		if (nultrans)
+	아니면 만약 (ctrl.fulltbl) {
+		만약 (nultrans)
 			/* We won't be including NUL's transitions in the
 			 * table, so build it for entries from 0 .. numecs - 1.
 			 */
 			num_full_table_rows = numecs;
 
-		else
+		아니면
 			/* Take into account the fact that we'll be including
 			 * the NUL entries in the transition table.  Build it
 			 * from 0 .. numecs.
@@ -511,16 +511,16 @@ size_t ntod (void)
 		out_dec ("m4_define([[M4_HOOK_NXT_ROWS]], [[%d]])", num_full_table_rows);
 		outn ("m4_define([[M4_HOOK_NXT_BODY]], [[m4_dnl");
 		outn ("M4_HOOK_TABLE_OPENER");
-		if (gentables)
+		만약 (gentables)
 			outn ("M4_HOOK_TABLE_OPENER");
 
 		/* Generate 0 entries for state #0. */
-		for (i = 0; i < num_full_table_rows; ++i) {
+		위해 (i = 0; i < num_full_table_rows; ++i) {
 			mk2data (0);
 			yynxt_data[yynxt_curr++] = 0;
 		}
 
-		if (gentables) {
+		만약 (gentables) {
 			dataflush ();
 			outn ("M4_HOOK_TABLE_CONTINUE");
 		}
@@ -530,35 +530,35 @@ size_t ntod (void)
 
 	num_start_states = lastsc * 2;
 
-	for (i = 1; i <= num_start_states; ++i) {
+	위해 (i = 1; i <= num_start_states; ++i) {
 		numstates = 1;
 
 		/* For each start condition, make one state for the case when
 		 * we're at the beginning of the line (the '^' operator) and
 		 * one for the case when we're not.
 		 */
-		if (i % 2 == 1)
+		만약 (i % 2 == 1)
 			nset[numstates] = scset[(i / 2) + 1];
-		else
+		아니면
 			nset[numstates] =
 				mkbranch (scbol[i / 2], scset[i / 2]);
 
 		nset = epsclosure (nset, &numstates, accset, &nacc,
 				   &hashval);
 
-		if (snstods (nset, numstates, accset, nacc, hashval, &ds)) {
+		만약 (snstods (nset, numstates, accset, nacc, hashval, &ds)) {
 			numas += nacc;
 			totnst += numstates;
 			++todo_next;
 
-			if (variable_trailing_context_rules && nacc > 0)
+			만약 (variable_trailing_context_rules && nacc > 0)
 				check_trailing_context (nset, numstates,
 							accset, nacc);
 		}
 	}
 
-	if (!ctrl.fullspd) {
-		if (!snstods (nset, 0, accset, 0, 0, &end_of_buffer_state))
+	만약 (!ctrl.fullspd) {
+		만약 (!snstods (nset, 0, accset, 0, 0, &end_of_buffer_state))
 			flexfatal (_
 				   ("could not create unique end-of-buffer state"));
 
@@ -568,11 +568,11 @@ size_t ntod (void)
 	}
 
 
-	while (todo_head < todo_next) {
+	동안 (todo_head < todo_next) {
 		targptr = 0;
 		totaltrans = 0;
 
-		for (i = 1; i <= numecs; ++i)
+		위해 (i = 1; i <= numecs; ++i)
 			state[i] = 0;
 
 		ds = ++todo_head;
@@ -580,16 +580,16 @@ size_t ntod (void)
 		dset = dss[ds];
 		dsize = dfasiz[ds];
 
-		if (env.trace)
+		만약 (env.trace)
 			fprintf (stderr, _("state # %d:\n"), ds);
 
 		sympartition (dset, dsize, symlist, duplist);
 
-		for (sym = 1; sym <= numecs; ++sym) {
-			if (symlist[sym]) {
+		위해 (sym = 1; sym <= numecs; ++sym) {
+			만약 (symlist[sym]) {
 				symlist[sym] = 0;
 
-				if (duplist[sym] == NIL) {
+				만약 (duplist[sym] == NIL) {
 					/* Symbol has unique out-transitions. */
 					numstates =
 						symfollowset (dset, dsize,
@@ -599,7 +599,7 @@ size_t ntod (void)
 							   accset, &nacc,
 							   &hashval);
 
-					if (snstods
+					만약 (snstods
 					    (nset, numstates, accset, nacc,
 					     hashval, &newds)) {
 						totnst = totnst +
@@ -607,7 +607,7 @@ size_t ntod (void)
 						++todo_next;
 						numas += nacc;
 
-						if (variable_trailing_context_rules && nacc > 0)
+						만약 (variable_trailing_context_rules && nacc > 0)
 							check_trailing_context
 								(nset,
 								 numstates,
@@ -617,7 +617,7 @@ size_t ntod (void)
 
 					state[sym] = newds;
 
-					if (env.trace)
+					만약 (env.trace)
 						fprintf (stderr,
 							 "\t%d\t%d\n", sym,
 							 newds);
@@ -627,7 +627,7 @@ size_t ntod (void)
 					++numuniq;
 				}
 
-				else {
+				아니면 {
 					/* sym's equivalence class has the same
 					 * transitions as duplist(sym)'s
 					 * equivalence class.
@@ -635,7 +635,7 @@ size_t ntod (void)
 					targ = state[duplist[sym]];
 					state[sym] = targ;
 
-					if (env.trace)
+					만약 (env.trace)
 						fprintf (stderr,
 							 "\t%d\t%d\n", sym,
 							 targ);
@@ -645,7 +645,7 @@ size_t ntod (void)
 					 */
 
 					i = 0;
-					while (targstate[++i] != targ) ;
+					동안 (targstate[++i] != targ) ;
 
 					++targfreq[i];
 					++numdup;
@@ -659,15 +659,15 @@ size_t ntod (void)
 
 		numsnpairs += totaltrans;
 
-		if (ds > num_start_states)
+		만약 (ds > num_start_states)
 			check_for_backing_up (ds, state);
 
-		if (nultrans) {
+		만약 (nultrans) {
 			nultrans[ds] = state[NUL_ec];
 			state[NUL_ec] = 0;	/* remove transition */
 		}
 
-		if (ctrl.fulltbl) {
+		만약 (ctrl.fulltbl) {
 
 			/* Each time we hit here, it's another td_hilen, so we realloc. */
 			yynxt_tbl->td_hilen++;
@@ -676,22 +676,22 @@ size_t ntod (void)
 						     yynxt_tbl->td_hilen *
 						     yynxt_tbl->td_lolen *
 						     sizeof (flex_int32_t));
-			if (gentables)
+			만약 (gentables)
 				outn ("M4_HOOK_TABLE_OPENER");
 
 			/* Supply array's 0-element. */
-			if (ds == end_of_buffer_state) {
+			만약 (ds == end_of_buffer_state) {
 				mk2data (-end_of_buffer_state);
 				yynxt_data[yynxt_curr++] =
 					-end_of_buffer_state;
 			}
-			else {
+			아니면 {
 				mk2data (end_of_buffer_state);
 				yynxt_data[yynxt_curr++] =
 					end_of_buffer_state;
 			}
 
-			for (i = 1; i < num_full_table_rows; ++i) {
+			위해 (i = 1; i < num_full_table_rows; ++i) {
 				/* Jams are marked by negative of state
 				 * number.
 				 */
@@ -700,22 +700,22 @@ size_t ntod (void)
 					state[i] ? state[i] : -ds;
 			}
 
-			if (gentables) {
+			만약 (gentables) {
 				dataflush ();
 				outn ("M4_HOOK_TABLE_CONTINUE");
 			}
 		}
 
-		else if (ctrl.fullspd)
+		아니면 만약 (ctrl.fullspd)
 			place_state (state, ds, totaltrans);
 
-		else if (ds == end_of_buffer_state)
+		아니면 만약 (ds == end_of_buffer_state)
 			/* Special case this state to make sure it does what
 			 * it's supposed to, i.e., jam on end-of-buffer.
 			 */
 			stack1 (ds, 0, 0, JAMSTATE);
 
-		else {		/* normal, compressed state */
+		아니면 {		/* normal, compressed state */
 
 			/* Determine which destination state is the most
 			 * common, and how many transitions to it there are.
@@ -724,8 +724,8 @@ size_t ntod (void)
 			comfreq = 0;
 			comstate = 0;
 
-			for (i = 1; i <= targptr; ++i)
-				if (targfreq[i] > comfreq) {
+			위해 (i = 1; i <= targptr; ++i)
+				만약 (targfreq[i] > comfreq) {
 					comfreq = targfreq[i];
 					comstate = targstate[i];
 				}
@@ -734,28 +734,28 @@ size_t ntod (void)
 		}
 	}
 
-	if (ctrl.fulltbl) {
+	만약 (ctrl.fulltbl) {
 		dataend ("M4_HOOK_TABLE_CLOSER");
 		outn("/* body */]])");
-		if (tablesext) {
+		만약 (tablesext) {
 			yytbl_data_compress (yynxt_tbl);
-			if (yytbl_data_fwrite (&tableswr, yynxt_tbl) < 0)
+			만약 (yytbl_data_fwrite (&tableswr, yynxt_tbl) < 0)
 				flexerror (_
 					   ("Could not write yynxt_tbl[][]"));
 		}
-		if (yynxt_tbl) {
+		만약 (yynxt_tbl) {
 			yytbl_data_destroy (yynxt_tbl);
 			yynxt_tbl = 0;
 		}
 	}
 
-	else if (!ctrl.fullspd) {
+	아니면 만약 (!ctrl.fullspd) {
 		cmptmps ();	/* create compressed template entries */
 
 		/* Create tables for all the states with only one
 		 * out-transition.
 		 */
-		while (onesp > 0) {
+		동안 (onesp > 0) {
 			mk1tbl (onestate[onesp], onesym[onesp],
 				onenext[onesp], onedef[onesp]);
 			--onesp;
@@ -768,7 +768,7 @@ size_t ntod (void)
 	free(accset);
 	free(nset);
 
-	return (yynxt_tbl != NULL) ? (yynxt_tbl->td_hilen * sizeof(int32_t)) : 0;
+	반환 (yynxt_tbl != NULL) ? (yynxt_tbl->td_hilen * sizeof(int32_t)) : 0;
 }
 
 
@@ -782,18 +782,18 @@ size_t ntod (void)
  * On return, the dfa state number is in newds.
  */
 
-static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval, int *newds_addr)
+static 정수 snstods(정수 sns[], 정수 numstates, 정수 accset[], 정수 nacc, 정수 hashval, 정수 *newds_addr)
 {
-	int didsort = 0;
-	int i, j;
-	int newds, *oldsns;
+	정수 didsort = 0;
+	정수 i, j;
+	정수 newds, *oldsns;
 
-	for (i = 1; i <= lastdfa; ++i)
-		if (hashval == dhash[i]) {
-			if (numstates == dfasiz[i]) {
+	위해 (i = 1; i <= lastdfa; ++i)
+		만약 (hashval == dhash[i]) {
+			만약 (numstates == dfasiz[i]) {
 				oldsns = dss[i];
 
-				if (!didsort) {
+				만약 (!didsort) {
 					/* We sort the states in sns so we
 					 * can compare it to oldsns quickly.
 					 */
@@ -801,26 +801,26 @@ static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval
 					didsort = 1;
 				}
 
-				for (j = 1; j <= numstates; ++j)
-					if (sns[j] != oldsns[j])
+				위해 (j = 1; j <= numstates; ++j)
+					만약 (sns[j] != oldsns[j])
 						break;
 
-				if (j > numstates) {
+				만약 (j > numstates) {
 					++dfaeql;
 					*newds_addr = i;
-					return 0;
+					반환 0;
 				}
 
 				++hshcol;
 			}
 
-			else
+			아니면
 				++hshsave;
 		}
 
 	/* Make a new dfa. */
 
-	if (++lastdfa >= current_max_dfas)
+	만약 (++lastdfa >= current_max_dfas)
 		increase_max_dfas ();
 
 	newds = lastdfa;
@@ -831,25 +831,25 @@ static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval
 	 * so that future comparisons with it can be made quickly.
 	 */
 
-	if (!didsort)
+	만약 (!didsort)
           	qsort (&sns [1], (size_t) numstates, sizeof (sns [1]), intcmp);
 
-	for (i = 1; i <= numstates; ++i)
+	위해 (i = 1; i <= numstates; ++i)
 		dss[newds][i] = sns[i];
 
 	dfasiz[newds] = numstates;
 	dhash[newds] = hashval;
 
-	if (nacc == 0) {
-		if (reject)
+	만약 (nacc == 0) {
+		만약 (reject)
 			dfaacc[newds].dfaacc_set = NULL;
-		else
+		아니면
 			dfaacc[newds].dfaacc_state = 0;
 
 		accsiz[newds] = 0;
 	}
 
-	else if (reject) {
+	아니면 만약 (reject) {
 		/* We sort the accepting set in increasing order so the
 		 * disambiguating rule that the first rule listed is considered
 		 * match in the event of ties will work.
@@ -861,10 +861,10 @@ static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval
 			allocate_integer_array (nacc + 1);
 
 		/* Save the accepting set for later */
-		for (i = 1; i <= nacc; ++i) {
+		위해 (i = 1; i <= nacc; ++i) {
 			dfaacc[newds].dfaacc_set[i] = accset[i];
 
-			if (accset[i] <= num_rules)
+			만약 (accset[i] <= num_rules)
 				/* Who knows, perhaps a REJECT can yield
 				 * this rule.
 				 */
@@ -874,25 +874,25 @@ static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval
 		accsiz[newds] = nacc;
 	}
 
-	else {
+	아니면 {
 		/* Find lowest numbered rule so the disambiguating rule
 		 * will work.
 		 */
 		j = num_rules + 1;
 
-		for (i = 1; i <= nacc; ++i)
-			if (accset[i] < j)
+		위해 (i = 1; i <= nacc; ++i)
+			만약 (accset[i] < j)
 				j = accset[i];
 
 		dfaacc[newds].dfaacc_state = j;
 
-		if (j <= num_rules)
+		만약 (j <= num_rules)
 			rule_useful[j] = true;
 	}
 
 	*newds_addr = newds;
 
-	return 1;
+	반환 1;
 }
 
 
@@ -903,39 +903,39 @@ static int snstods(int sns[], int numstates, int accset[], int nacc, int hashval
  *				int transsym, int nset[current_max_dfa_size] );
  */
 
-static int symfollowset(int ds[], int dsize, int transsym, int nset[])
+static 정수 symfollowset(정수 ds[], 정수 dsize, 정수 transsym, 정수 nset[])
 {
-	int     ns, tsp, sym, i, j, lenccl, ch, numstates, ccllist;
+	정수     ns, tsp, sym, i, j, lenccl, ch, numstates, ccllist;
 
 	numstates = 0;
 
-	for (i = 1; i <= dsize; ++i) {	/* for each nfa state ns in the state set of ds */
+	위해 (i = 1; i <= dsize; ++i) {	/* for each nfa state ns in the state set of ds */
 		ns = ds[i];
 		sym = transchar[ns];
 		tsp = trans1[ns];
 
-		if (sym < 0) {	/* it's a character class */
+		만약 (sym < 0) {	/* it's a character class */
 			sym = -sym;
 			ccllist = cclmap[sym];
 			lenccl = ccllen[sym];
 
-			if (cclng[sym]) {
-				for (j = 0; j < lenccl; ++j) {
+			만약 (cclng[sym]) {
+				위해 (j = 0; j < lenccl; ++j) {
 					/* Loop through negated character
 					 * class.
 					 */
 					ch = ccltbl[ccllist + j];
 
-					if (ch == 0)
+					만약 (ch == 0)
 						ch = NUL_ec;
 
-					if (ch > transsym)
+					만약 (ch > transsym)
 						/* Transsym isn't in negated
 						 * ccl.
 						 */
 						break;
 
-					else if (ch == transsym)
+					아니면 만약 (ch == transsym)
 						/* next 2 */
 						goto bottom;
 				}
@@ -944,32 +944,32 @@ static int symfollowset(int ds[], int dsize, int transsym, int nset[])
 				nset[++numstates] = tsp;
 			}
 
-			else
-				for (j = 0; j < lenccl; ++j) {
+			아니면
+				위해 (j = 0; j < lenccl; ++j) {
 					ch = ccltbl[ccllist + j];
 
-					if (ch == 0)
+					만약 (ch == 0)
 						ch = NUL_ec;
 
-					if (ch > transsym)
+					만약 (ch > transsym)
 						break;
-					else if (ch == transsym) {
+					아니면 만약 (ch == transsym) {
 						nset[++numstates] = tsp;
 						break;
 					}
 				}
 		}
 
-		else if (sym == SYM_EPSILON) {	/* do nothing */
+		아니면 만약 (sym == SYM_EPSILON) {	/* do nothing */
 		}
 
-		else if (ABS (ecgroup[sym]) == transsym)
+		아니면 만약 (ABS (ecgroup[sym]) == transsym)
 			nset[++numstates] = tsp;
 
 	      bottom:;
 	}
 
-	return numstates;
+	반환 numstates;
 }
 
 
@@ -980,16 +980,16 @@ static int symfollowset(int ds[], int dsize, int transsym, int nset[])
  *			int symlist[numecs], int duplist[numecs] );
  */
 
-static void sympartition(int ds[], int numstates, int symlist[], int duplist[])
+static void sympartition(정수 ds[], 정수 numstates, 정수 symlist[], 정수 duplist[])
 {
-	int     tch, i, j, k, ns, dupfwd[CSIZE + 1], lenccl, cclp, ich;
+	정수     tch, i, j, k, ns, dupfwd[CSIZE + 1], lenccl, cclp, ich;
 
 	/* Partitioning is done by creating equivalence classes for those
 	 * characters which have out-transitions from the given state.  Thus
 	 * we are really creating equivalence classes of equivalence classes.
 	 */
 
-	for (i = 1; i <= numecs; ++i) {	/* initialize equivalence class list */
+	위해 (i = 1; i <= numecs; ++i) {	/* initialize equivalence class list */
 		duplist[i] = i - 1;
 		dupfwd[i] = i + 1;
 	}
@@ -997,24 +997,24 @@ static void sympartition(int ds[], int numstates, int symlist[], int duplist[])
 	duplist[1] = NIL;
 	dupfwd[numecs] = NIL;
 
-	for (i = 1; i <= numstates; ++i) {
+	위해 (i = 1; i <= numstates; ++i) {
 		ns = ds[i];
 		tch = transchar[ns];
 
-		if (tch != SYM_EPSILON) {
-			if (tch < -lastccl || tch >= ctrl.csize) {
+		만약 (tch != SYM_EPSILON) {
+			만약 (tch < -lastccl || tch >= ctrl.csize) {
 				flexfatal (_
 					   ("bad transition character detected in sympartition()"));
 			}
 
-			if (tch >= 0) {	/* character transition */
-				int     ec = ecgroup[tch];
+			만약 (tch >= 0) {	/* character transition */
+				정수     ec = ecgroup[tch];
 
 				mkechar (ec, dupfwd, duplist);
 				symlist[ec] = 1;
 			}
 
-			else {	/* character class */
+			아니면 {	/* character class */
 				tch = -tch;
 
 				lenccl = ccllen[tch];
@@ -1022,28 +1022,28 @@ static void sympartition(int ds[], int numstates, int symlist[], int duplist[])
 				mkeccl (ccltbl + cclp, lenccl, dupfwd,
 					duplist, numecs, NUL_ec);
 
-				if (cclng[tch]) {
+				만약 (cclng[tch]) {
 					j = 0;
 
-					for (k = 0; k < lenccl; ++k) {
+					위해 (k = 0; k < lenccl; ++k) {
 						ich = ccltbl[cclp + k];
 
-						if (ich == 0)
+						만약 (ich == 0)
 							ich = NUL_ec;
 
-						for (++j; j < ich; ++j)
+						위해 (++j; j < ich; ++j)
 							symlist[j] = 1;
 					}
 
-					for (++j; j <= numecs; ++j)
+					위해 (++j; j <= numecs; ++j)
 						symlist[j] = 1;
 				}
 
-				else
-					for (k = 0; k < lenccl; ++k) {
+				아니면
+					위해 (k = 0; k < lenccl; ++k) {
 						ich = ccltbl[cclp + k];
 
-						if (ich == 0)
+						만약 (ich == 0)
 							ich = NUL_ec;
 
 						symlist[ich] = 1;
