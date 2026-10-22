@@ -23,7 +23,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#অন্তর্ভাব "flexdef.h"
 
 
 regex_t regex_linedir; /**< matches line directives */
@@ -32,11 +32,11 @@ regex_t regex_linedir; /**< matches line directives */
 /** Initialize the regular expressions.
  * @return true upon success.
  */
-bool flex_init_regex(const char *traceline_re)
+bool flex_init_regex(ধ্রুবক অক্ষর *traceline_re)
 {
-	if (traceline_re != NULL)
+	যদি (traceline_re != ফাঁকা)
 		flex_regcomp(&regex_linedir, traceline_re, REG_EXTENDED);
-	return true;
+	ফেরত true;
 }
 
 /** Compiles a regular expression or dies trying.
@@ -44,19 +44,19 @@ bool flex_init_regex(const char *traceline_re)
  * @param regex Same as for regcomp().
  * @param cflags Same as for regcomp().
  */
-void flex_regcomp(regex_t *preg, const char *regex, int cflags)
+শূন্য flex_regcomp(regex_t *preg, ধ্রুবক অক্ষর *regex, পূর্ণসংখ্যা cflags)
 {
-	int err;
+	পূর্ণসংখ্যা err;
 
-	memset (preg, 0, sizeof (regex_t));
+	memset (preg, 0, আকার (regex_t));
 
-	if ((err = regcomp (preg, regex, cflags)) != 0) {
-		const size_t errbuf_sz = 200;
-		char *errbuf;
-		int n;
+	যদি ((err = regcomp (preg, regex, cflags)) != 0) {
+		ধ্রুবক size_t errbuf_sz = 200;
+		অক্ষর *errbuf;
+		পূর্ণসংখ্যা n;
 
-		errbuf = malloc(errbuf_sz * sizeof(char));
-		if (!errbuf)
+		errbuf = malloc(errbuf_sz * আকার(অক্ষর));
+		যদি (!errbuf)
 			flexfatal(_("Unable to allocate buffer to report regcomp"));
 		n = snprintf(errbuf, errbuf_sz, "regcomp for \"%s\" failed: ", regex);
 		regerror(err, preg, errbuf+n, errbuf_sz-(size_t)n);
@@ -70,20 +70,20 @@ void flex_regcomp(regex_t *preg, const char *regex, int cflags)
  * @param src The source string that was passed to regexec().
  * @return The allocated string.
  */
-char   *regmatch_dup (regmatch_t * m, const char *src)
+অক্ষর   *regmatch_dup (regmatch_t * m, ধ্রুবক অক্ষর *src)
 {
-	char   *str;
+	অক্ষর   *str;
 	size_t  len;
 
-	if (m == NULL || m->rm_so < 0 || m->rm_eo < m->rm_so)
-		return NULL;
+	যদি (m == ফাঁকা || m->rm_so < 0 || m->rm_eo < m->rm_so)
+		ফেরত ফাঁকা;
 	len = (size_t) (m->rm_eo - m->rm_so);
-	str = malloc((len + 1) * sizeof(char));
-	if (!str)
+	str = malloc((len + 1) * আকার(অক্ষর));
+	যদি (!str)
 		flexfatal(_("Unable to allocate a copy of the match"));
 	strncpy (str, src + m->rm_so, len);
 	str[len] = 0;
-	return str;
+	ফেরত str;
 }
 
 /** Copy the match.
@@ -92,29 +92,29 @@ char   *regmatch_dup (regmatch_t * m, const char *src)
  * @param src The source string that was passed to regexec().
  * @return dest
  */
-char   *regmatch_cpy (regmatch_t * m, char *dest, const char *src)
+অক্ষর   *regmatch_cpy (regmatch_t * m, অক্ষর *dest, ধ্রুবক অক্ষর *src)
 {
-	if (m == NULL || m->rm_so < 0) {
-		if (dest)
+	যদি (m == ফাঁকা || m->rm_so < 0) {
+		যদি (dest)
 			dest[0] = '\0';
-		return dest;
+		ফেরত dest;
 	}
 
 	snprintf (dest, (size_t) regmatch_len(m), "%s", src + m->rm_so);
-	return dest;
+	ফেরত dest;
 }
 
 /** Get the length in characters of the match.
  * @param m A match as returned by regexec().
  * @return The length of the match.
  */
-int regmatch_len (regmatch_t * m)
+পূর্ণসংখ্যা regmatch_len (regmatch_t * m)
 {
-	if (m == NULL || m->rm_so < 0) {
-		return 0;
+	যদি (m == ফাঁকা || m->rm_so < 0) {
+		ফেরত 0;
 	}
 
-	return m->rm_eo - m->rm_so;
+	ফেরত m->rm_eo - m->rm_so;
 }
 
 
@@ -126,29 +126,29 @@ int regmatch_len (regmatch_t * m)
  * @param base   Same as the third argument to strtol().
  * @return The converted integer or error (Return value is the same as for strtol()).
  */
-int regmatch_strtol (regmatch_t * m, const char *src, char **endptr,
-		     int base)
+পূর্ণসংখ্যা regmatch_strtol (regmatch_t * m, ধ্রুবক অক্ষর *src, অক্ষর **endptr,
+		     পূর্ণসংখ্যা base)
 {
-	int     n = 0;
+	পূর্ণসংখ্যা     n = 0;
 
 #define bufsz 20
-	char    buf[bufsz];
-	char   *s;
+	অক্ষর    buf[bufsz];
+	অক্ষর   *s;
 
-	if (m == NULL || m->rm_so < 0)
-		return 0;
+	যদি (m == ফাঁকা || m->rm_so < 0)
+		ফেরত 0;
 
-	if (regmatch_len (m) < bufsz)
+	যদি (regmatch_len (m) < bufsz)
 		s = regmatch_cpy (m, buf, src);
-	else
+	অন্যথা
 		s = regmatch_dup (m, src);
 
-	n = (int) strtol (s, endptr, base);
+	n = (পূর্ণসংখ্যা) strtol (s, endptr, base);
 
-	if (s != buf)
-		free (s);
+	যদি (s != buf)
+		মুক্ত (s);
 
-	return n;
+	ফেরত n;
 }
 
 /** Check for empty or non-existent match.
@@ -158,7 +158,7 @@ int regmatch_strtol (regmatch_t * m, const char *src, char **endptr,
  */
 bool regmatch_empty (regmatch_t * m)
 {
-	return (m == NULL || m->rm_so < 0 || m->rm_so == m->rm_eo);
+	ফেরত (m == ফাঁকা || m->rm_so < 0 || m->rm_so == m->rm_eo);
 }
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */

@@ -33,32 +33,32 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
-#include "tables.h"
+#অন্তর্ভাব "flexdef.h"
+#অন্তর্ভাব "tables.h"
 
 /* These typedefs are only used for computing footprint sizes,
  * You need to make sure they match reality in the skeleton file to
  * get accurate numbers, but they don't otherwise matter.
  */
-typedef char YY_CHAR;
-struct yy_trans_info {int32_t yy_verify; int32_t yy_nxt;};
+প্রকারলেখ অক্ষর YY_CHAR;
+কাঠামো yy_trans_info {int32_t yy_verify; int32_t yy_nxt;};
 
 /* declare functions that have forward references */
 
-static void genecs(void);
+স্থির শূন্য genecs(শূন্য);
 
-struct packtype_t *optimize_pack(size_t sz)
+কাঠামো packtype_t *optimize_pack(size_t sz)
 {
 	/* FIXME: There's a 32-bit assumption lurking here */
-	static struct packtype_t out;
-	if (sz == 0) {
+	স্থির কাঠামো packtype_t out;
+	যদি (sz == 0) {
 		out.name  = ctrl.long_align ? "M4_HOOK_INT32" : "M4_HOOK_INT16";
 		out.width = ctrl.long_align ? 32 : 16;
-	} else {
+	} অন্যথা {
 		out.name = (ctrl.long_align || sz >= INT16_MAX) ? "M4_HOOK_INT32" : "M4_HOOK_INT16";
 		out.width = (ctrl.long_align || sz >= INT16_MAX) ? 32 : 16;
 	}
-	return &out;
+	ফেরত &out;
 }
 
 /* Almost everything is done in terms of arrays starting at 1, so provide
@@ -70,45 +70,45 @@ struct packtype_t *optimize_pack(size_t sz)
 /** Make the table for possible eol matches.
  *  @return the newly allocated rule_can_match_eol table
  */
-static struct yytbl_data *mkeoltbl (void)
+স্থির কাঠামো yytbl_তথ্য *mkeoltbl (শূন্য)
 {
-	int     i;
+	পূর্ণসংখ্যা     i;
 	flex_int8_t *tdata = 0;
-	struct yytbl_data *tbl;
+	কাঠামো yytbl_তথ্য *tbl;
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_RULE_CAN_MATCH_EOL);
+	tbl = calloc(1, আকার (কাঠামো yytbl_তথ্য));
+	yytbl_তথ্য_init (tbl, YYTD_ID_RULE_CAN_MATCH_EOL);
 	tbl->td_flags = YYTD_DATA8;
-	tbl->td_lolen = (flex_uint32_t) (num_rules + 1);
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen, sizeof (flex_int8_t));
+	tbl->td_lolen = (flex_uint32_t) (অঙ্ক_rules + 1);
+	tbl->td_তথ্য = tdata =
+		calloc(tbl->td_lolen, আকার (flex_int8_t));
 
-	for (i = 1; i <= num_rules; i++)
+	জন্য (i = 1; i <= অঙ্ক_rules; i++)
 		tdata[i] = rule_has_nl[i] ? 1 : 0;
 
-	return tbl;
+	ফেরত tbl;
 }
 
 /* Generate the table for possible eol matches. */
-static void geneoltbl (void)
+স্থির শূন্য geneoltbl (শূন্য)
 {
-	int     i;
-	struct packtype_t *ptype = optimize_pack(num_rules);
+	পূর্ণসংখ্যা     i;
+	কাঠামো packtype_t *ptype = optimize_pack(অঙ্ক_rules);
 
 	outn ("m4_ifdef( [[M4_MODE_YYLINENO]],[[");
 	out_str ("m4_define([[M4_HOOK_EOLTABLE_TYPE]], [[%s]])\n", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_EOLTABLE_SIZE]], [[%d]])", num_rules + 1);
+	out_dec ("m4_define([[M4_HOOK_EOLTABLE_SIZE]], [[%d]])", অঙ্ক_rules + 1);
 	outn ("m4_define([[M4_HOOK_EOLTABLE_BODY]], [[m4_dnl");
 
-	if (gentables) {
-		for (i = 1; i <= num_rules; i++) {
+	যদি (gentables) {
+		জন্য (i = 1; i <= অঙ্ক_rules; i++) {
 			out_dec ("%d, ", rule_has_nl[i] ? 1 : 0);
 			/* format nicely, 20 numbers per line. */
-			if ((i % 20) == 19)
+			যদি ((i % 20) == 19)
 				out ("\n    ");
 		}
 	}
-	footprint += num_rules * ptype->width;
+	footprint += অঙ্ক_rules * ptype->width;
 	outn ("]])");
 	outn ("]])");
 }
@@ -121,24 +121,24 @@ static void geneoltbl (void)
  * @return the newly allocated trans table
  */
 
-static struct yytbl_data *mkctbl (void)
+স্থির কাঠামো yytbl_তথ্য *mkctbl (শূন্য)
 {
-	int i;
-	struct yytbl_data *tbl = 0;
+	পূর্ণসংখ্যা i;
+	কাঠামো yytbl_তথ্য *tbl = 0;
 	flex_int32_t *tdata = 0, curr = 0;
-	int     end_of_buffer_action = num_rules + 1;
+	পূর্ণসংখ্যা     end_of_বাফার_action = অঙ্ক_rules + 1;
 
-	struct packtype_t *ptype = optimize_pack(tblend + 2 + 1);
+	কাঠামো packtype_t *ptype = optimize_pack(tblend + 2 + 1);
 	out_str ("m4_define([[M4_HOOK_MKCTBL_TYPE]], [[%s]])", ptype->name);
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_TRANSITION);
+	tbl = calloc(1, আকার (কাঠামো yytbl_তথ্য));
+	yytbl_তথ্য_init (tbl, YYTD_ID_TRANSITION);
 	tbl->td_flags = YYTD_DATA32 | YYTD_STRUCT;
 	tbl->td_hilen = 0;
 	tbl->td_lolen = (flex_uint32_t) (tblend + 2 + 1);	/* number of structs */
 
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen * 2, sizeof (flex_int32_t));
+	tbl->td_তথ্য = tdata =
+		calloc(tbl->td_lolen * 2, আকার (flex_int32_t));
 
 	/* We want the transition to be represented as the offset to the
 	 * next state, not the actual state number, which is what it currently
@@ -158,14 +158,14 @@ static struct yytbl_data *mkctbl (void)
 	 * there's room for jam entries for other characters.
 	 */
 
-	while (tblend + 2 >= current_max_xpairs)
+	যখন (tblend + 2 >= current_max_xpairs)
 		expand_nxt_chk ();
 
-	while (lastdfa + 1 >= current_max_dfas)
+	যখন (lastdfa + 1 >= current_max_dfas)
 		increase_max_dfas ();
 
 	base[lastdfa + 1] = tblend + 2;
-	nxt[tblend + 1] = end_of_buffer_action;
+	nxt[tblend + 1] = end_of_বাফার_action;
 	chk[tblend + 1] = numecs + 1;
 	chk[tblend + 2] = 1;	/* anything but EOB */
 
@@ -175,31 +175,31 @@ static struct yytbl_data *mkctbl (void)
 	/* Make sure every state has an end-of-buffer transition and an
 	 * action #.
 	 */
-	for (i = 0; i <= lastdfa; ++i) {
-		int     anum = dfaacc[i].dfaacc_state;
-		int     offset = base[i];
+	জন্য (i = 0; i <= lastdfa; ++i) {
+		পূর্ণসংখ্যা     anum = dfaacc[i].dfaacc_state;
+		পূর্ণসংখ্যা     offset = base[i];
 
 		chk[offset] = EOB_POSITION;
 		chk[offset - 1] = ACTION_POSITION;
 		nxt[offset - 1] = anum;	/* action number */
 	}
 
-	for (i = 0; i <= tblend; ++i) {
-		if (chk[i] == EOB_POSITION) {
+	জন্য (i = 0; i <= tblend; ++i) {
+		যদি (chk[i] == EOB_POSITION) {
 			tdata[curr++] = 0;
 			tdata[curr++] = base[lastdfa + 1] - i;
 		}
 
-		else if (chk[i] == ACTION_POSITION) {
+		অন্যথা যদি (chk[i] == ACTION_POSITION) {
 			tdata[curr++] = 0;
 			tdata[curr++] = nxt[i];
 		}
 
-		else if (chk[i] > numecs || chk[i] == 0) {
+		অন্যথা যদি (chk[i] > numecs || chk[i] == 0) {
 			tdata[curr++] = 0;
 			tdata[curr++] = 0;
 		}
-		else {		/* verify, transition */
+		অন্যথা {		/* verify, transition */
 
 			tdata[curr++] = chk[i];
 			tdata[curr++] = base[nxt[i]] - (i - chk[i]);
@@ -213,42 +213,42 @@ static struct yytbl_data *mkctbl (void)
 	tdata[curr++] = chk[tblend + 2];
 	tdata[curr++] = nxt[tblend + 2];
 
-	return tbl;
+	ফেরত tbl;
 }
 
 
 /** Make start_state_list table.
  *  @return the newly allocated start_state_list table
  */
-static struct yytbl_data *mkssltbl (void)
+স্থির কাঠামো yytbl_তথ্য *mkssltbl (শূন্য)
 {
-	struct yytbl_data *tbl = 0;
+	কাঠামো yytbl_তথ্য *tbl = 0;
 	flex_int32_t *tdata = 0;
 	flex_int32_t i;
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_START_STATE_LIST);
+	tbl = calloc(1, আকার (কাঠামো yytbl_তথ্য));
+	yytbl_তথ্য_init (tbl, YYTD_ID_START_STATE_LIST);
 	tbl->td_flags = YYTD_DATA32 | YYTD_PTRANS;
 	tbl->td_hilen = 0;
 	tbl->td_lolen = (flex_uint32_t) (lastsc * 2 + 1);
 
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen, sizeof (flex_int32_t));
+	tbl->td_তথ্য = tdata =
+		calloc(tbl->td_lolen, আকার (flex_int32_t));
 
-	for (i = 0; i <= lastsc * 2; ++i)
+	জন্য (i = 0; i <= lastsc * 2; ++i)
 		tdata[i] = base[i];
 
-	return tbl;
+	ফেরত tbl;
 }
 
 
 
 /* genctbl - generates full speed compressed transition table */
 
-static void genctbl(void)
+স্থির শূন্য genctbl(শূন্য)
 {
-	int i;
-	int     end_of_buffer_action = num_rules + 1;
+	পূর্ণসংখ্যা i;
+	পূর্ণসংখ্যা     end_of_বাফার_action = অঙ্ক_rules + 1;
 
 	/* Table of verify for transition and offset to next state. */
 	out_dec ("m4_define([[M4_HOOK_TRANSTABLE_SIZE]], [[%d]])", tblend + 2 + 1);
@@ -272,14 +272,14 @@ static void genctbl(void)
 	 * there's room for jam entries for other characters.
 	 */
 
-	while (tblend + 2 >= current_max_xpairs)
+	যখন (tblend + 2 >= current_max_xpairs)
 		expand_nxt_chk ();
 
-	while (lastdfa + 1 >= current_max_dfas)
+	যখন (lastdfa + 1 >= current_max_dfas)
 		increase_max_dfas ();
 
 	base[lastdfa + 1] = tblend + 2;
-	nxt[tblend + 1] = end_of_buffer_action;
+	nxt[tblend + 1] = end_of_বাফার_action;
 	chk[tblend + 1] = numecs + 1;
 	chk[tblend + 2] = 1;	/* anything but EOB */
 
@@ -289,26 +289,26 @@ static void genctbl(void)
 	/* Make sure every state has an end-of-buffer transition and an
 	 * action #.
 	 */
-	for (i = 0; i <= lastdfa; ++i) {
-		int     anum = dfaacc[i].dfaacc_state;
-		int     offset = base[i];
+	জন্য (i = 0; i <= lastdfa; ++i) {
+		পূর্ণসংখ্যা     anum = dfaacc[i].dfaacc_state;
+		পূর্ণসংখ্যা     offset = base[i];
 
 		chk[offset] = EOB_POSITION;
 		chk[offset - 1] = ACTION_POSITION;
 		nxt[offset - 1] = anum;	/* action number */
 	}
 
-	for (i = 0; i <= tblend; ++i) {
-		if (chk[i] == EOB_POSITION)
+	জন্য (i = 0; i <= tblend; ++i) {
+		যদি (chk[i] == EOB_POSITION)
 			transition_struct_out (0, base[lastdfa + 1] - i);
 
-		else if (chk[i] == ACTION_POSITION)
+		অন্যথা যদি (chk[i] == ACTION_POSITION)
 			transition_struct_out (0, nxt[i]);
 
-		else if (chk[i] > numecs || chk[i] == 0)
+		অন্যথা যদি (chk[i] > numecs || chk[i] == 0)
 			transition_struct_out (0, 0);	/* unused slot */
 
-		else		/* verify, transition */
+		অন্যথা		/* verify, transition */
 			transition_struct_out (chk[i],
 					       base[nxt[i]] - (i -
 							       chk[i]));
@@ -320,76 +320,76 @@ static void genctbl(void)
 	transition_struct_out (chk[tblend + 2], nxt[tblend + 2]);
 
 	outn ("]])");
-	footprint += sizeof(struct yy_trans_info) * (tblend + 2 + 1);
+	footprint += আকার(কাঠামো yy_trans_info) * (tblend + 2 + 1);
 
 	out_dec ("m4_define([[M4_HOOK_STARTTABLE_SIZE]], [[%d]])", lastsc * 2 + 1);
-	if (gentables) {
+	যদি (gentables) {
 		outn ("m4_define([[M4_HOOK_STARTTABLE_BODY]], [[m4_dnl");
-		for (i = 0; i <= lastsc * 2; ++i)
+		জন্য (i = 0; i <= lastsc * 2; ++i)
 			out_dec ("M4_HOOK_STATE_ENTRY_FORMAT(%d)", base[i]);
 
-		dataend (NULL);
+		dataend (ফাঁকা);
 		outn("]])");
-		footprint +=  sizeof(struct yy_trans_info *) * (lastsc * 2 + 1);
+		footprint +=  আকার(কাঠামো yy_trans_info *) * (lastsc * 2 + 1);
 	}
 
-	if (ctrl.useecs)
+	যদি (ctrl.useecs)
 		genecs ();
 }
 
 
 /* mkecstbl - Make equivalence-class tables.  */
 
-static struct yytbl_data *mkecstbl (void)
+স্থির কাঠামো yytbl_তথ্য *mkecstbl (শূন্য)
 {
-	int i;
-	struct yytbl_data *tbl = 0;
+	পূর্ণসংখ্যা i;
+	কাঠামো yytbl_তথ্য *tbl = 0;
 	flex_int32_t *tdata = 0;
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_EC);
+	tbl = calloc(1, আকার (কাঠামো yytbl_তথ্য));
+	yytbl_তথ্য_init (tbl, YYTD_ID_EC);
 	tbl->td_flags |= YYTD_DATA32;
 	tbl->td_hilen = 0;
 	tbl->td_lolen = (flex_uint32_t) ctrl.csize;
 
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen, sizeof (flex_int32_t));
+	tbl->td_তথ্য = tdata =
+		calloc(tbl->td_lolen, আকার (flex_int32_t));
 
-	for (i = 1; i < ctrl.csize; ++i) {
+	জন্য (i = 1; i < ctrl.csize; ++i) {
 		ecgroup[i] = ABS (ecgroup[i]);
 		tdata[i] = ecgroup[i];
 	}
 
-	return tbl;
+	ফেরত tbl;
 }
 
 /* Generate equivalence-class tables. */
 
-static void genecs(void)
+স্থির শূন্য genecs(শূন্য)
 {
-	int ch, row;
-	int     numrows;
+	পূর্ণসংখ্যা ch, row;
+	পূর্ণসংখ্যা     numrows;
 
 	out_dec ("m4_define([[M4_HOOK_ECSTABLE_SIZE]], [[%d]])", ctrl.csize);
 	outn ("m4_define([[M4_HOOK_ECSTABLE_BODY]], [[m4_dnl");
 
-	for (ch = 1; ch < ctrl.csize; ++ch) {
+	জন্য (ch = 1; ch < ctrl.csize; ++ch) {
 		ecgroup[ch] = ABS (ecgroup[ch]);
 		mkdata (ecgroup[ch]);
 	}
 
-	dataend (NULL);
+	dataend (ফাঁকা);
 	outn("]])");
-	footprint += sizeof(YY_CHAR) * ctrl.csize;
+	footprint += আকার(YY_CHAR) * ctrl.csize;
 
-	if (env.trace) {
+	যদি (env.trace) {
 		fputs (_("\n\nEquivalence Classes:\n\n"), stderr);
 
 		/* Print in 8 columns */
 		numrows = ctrl.csize / 8;
 
-		for (row = 0; row < numrows; ++row) {
-			for (ch = row; ch < ctrl.csize; ch += numrows) {
+		জন্য (row = 0; row < numrows; ++row) {
+			জন্য (ch = row; ch < ctrl.csize; ch += numrows) {
 				fprintf (stderr, "%4s = %-2d",
 					 readable_form (ch), ecgroup[ch]);
 
@@ -405,68 +405,68 @@ static void genecs(void)
  * you should call mkecstbl() after this.
  */
 
-static struct yytbl_data *mkftbl(void)
+স্থির কাঠামো yytbl_তথ্য *mkftbl(শূন্য)
 {
-	int i;
-	int     end_of_buffer_action = num_rules + 1;
-	struct yytbl_data *tbl;
+	পূর্ণসংখ্যা i;
+	পূর্ণসংখ্যা     end_of_বাফার_action = অঙ্ক_rules + 1;
+	কাঠামো yytbl_তথ্য *tbl;
 	flex_int32_t *tdata = 0;
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_ACCEPT);
+	tbl = calloc(1, আকার (কাঠামো yytbl_তথ্য));
+	yytbl_তথ্য_init (tbl, YYTD_ID_ACCEPT);
 	tbl->td_flags |= YYTD_DATA32;
 	tbl->td_hilen = 0;	/* it's a one-dimensional array */
 	tbl->td_lolen = (flex_uint32_t) (lastdfa + 1);
 
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen, sizeof (flex_int32_t));
+	tbl->td_তথ্য = tdata =
+		calloc(tbl->td_lolen, আকার (flex_int32_t));
 
-	dfaacc[end_of_buffer_state].dfaacc_state = end_of_buffer_action;
+	dfaacc[end_of_বাফার_state].dfaacc_state = end_of_বাফার_action;
 
-	for (i = 1; i <= lastdfa; ++i) {
-		int anum = dfaacc[i].dfaacc_state;
+	জন্য (i = 1; i <= lastdfa; ++i) {
+		পূর্ণসংখ্যা anum = dfaacc[i].dfaacc_state;
 
 		tdata[i] = anum;
 
-		if (env.trace && anum)
+		যদি (env.trace && anum)
 			fprintf (stderr, _("state # %d accepts: [%d]\n"),
 				 i, anum);
 	}
 
-	return tbl;
+	ফেরত tbl;
 }
 
 
 /* genftbl - generate full transition table */
 
-static void genftbl(void)
+স্থির শূন্য genftbl(শূন্য)
 {
-	int i;
-	int     end_of_buffer_action = num_rules + 1;
-	struct packtype_t *ptype = optimize_pack(num_rules + 1);
+	পূর্ণসংখ্যা i;
+	পূর্ণসংখ্যা     end_of_বাফার_action = অঙ্ক_rules + 1;
+	কাঠামো packtype_t *ptype = optimize_pack(অঙ্ক_rules + 1);
 
-	dfaacc[end_of_buffer_state].dfaacc_state = end_of_buffer_action;
+	dfaacc[end_of_বাফার_state].dfaacc_state = end_of_বাফার_action;
 
 	outn ("m4_define([[M4_HOOK_NEED_ACCEPT]], 1)");
 	out_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
 	out_dec ("m4_define([[M4_HOOK_ACCEPT_SIZE]], [[%d]])", lastdfa + 1);
 	outn ("m4_define([[M4_HOOK_ACCEPT_BODY]], [[m4_dnl");
 
-	for (i = 1; i <= lastdfa; ++i) {
-		int anum = dfaacc[i].dfaacc_state;
+	জন্য (i = 1; i <= lastdfa; ++i) {
+		পূর্ণসংখ্যা anum = dfaacc[i].dfaacc_state;
 
 		mkdata (anum);
 
-		if (env.trace && anum)
+		যদি (env.trace && anum)
 			fprintf (stderr, _("state # %d accepts: [%d]\n"),
 				 i, anum);
 	}
 
-	dataend (NULL);
+	dataend (ফাঁকা);
 	outn("]])");
 	footprint += (lastdfa + 1) * ptype->width;
 
-	if (ctrl.useecs)
+	যদি (ctrl.useecs)
 		genecs ();
 
 	/* Don't have to dump the actual full table entries - they were
@@ -476,16 +476,16 @@ static void genftbl(void)
 
 /* gentabs - generate data statements for the transition tables */
 
-static void gentabs(void)
+স্থির শূন্য gentabs(শূন্য)
 {
-	int     sz, i, j, k, *accset, nacc, *acc_array, total_states;
-	int     end_of_buffer_action = num_rules + 1;
-	struct yytbl_data *yyacc_tbl = 0, *yymeta_tbl = 0, *yybase_tbl = 0,
+	পূর্ণসংখ্যা     sz, i, j, k, *accset, nacc, *acc_array, যোগ_states;
+	পূর্ণসংখ্যা     end_of_বাফার_action = অঙ্ক_rules + 1;
+	কাঠামো yytbl_তথ্য *yyacc_tbl = 0, *yymeta_tbl = 0, *yybase_tbl = 0,
 	    *yydef_tbl = 0, *yynxt_tbl = 0, *yychk_tbl = 0, *yyacclist_tbl=0;
-	flex_int32_t *yyacc_data = 0, *yybase_data = 0, *yydef_data = 0,
-	    *yynxt_data = 0, *yychk_data = 0, *yyacclist_data=0;
+	flex_int32_t *yyacc_তথ্য = 0, *yybase_তথ্য = 0, *yydef_তথ্য = 0,
+	    *yynxt_তথ্য = 0, *yychk_তথ্য = 0, *yyacclist_তথ্য=0;
 	flex_int32_t yybase_curr = 0, yyacclist_curr=0,yyacc_curr=0;
-	struct packtype_t *ptype;
+	কাঠামো packtype_t *ptype;
 
 	acc_array = allocate_integer_array (current_max_dfas);
 	nummt = 0;
@@ -495,22 +495,22 @@ static void gentabs(void)
 	 * In order to recover the previous state, we effectively need
 	 * to keep backing-up information.
 	 */
-	++num_backing_up;
+	++অঙ্ক_backing_up;
 
-	if (reject) {
+	যদি (reject) {
 		/* Write out accepting list and pointer list.
 
 		 * First we generate the "yy_acclist" array.  In the process,
 		 * we compute the indices that will go into the "yy_accept"
 		 * array, and save the indices in the dfaacc array.
 		 */
-		int     EOB_accepting_list[2];
+		পূর্ণসংখ্যা     EOB_accepting_list[2];
 
 		/* Set up accepting structures for the End Of Buffer state. */
 		EOB_accepting_list[0] = 0;
-		EOB_accepting_list[1] = end_of_buffer_action;
-		accsiz[end_of_buffer_state] = 1;
-		dfaacc[end_of_buffer_state].dfaacc_set =
+		EOB_accepting_list[1] = end_of_বাফার_action;
+		accsiz[end_of_বাফার_state] = 1;
+		dfaacc[end_of_বাফার_state].dfaacc_set =
 		    EOB_accepting_list;
 
 		sz = MAX (numas, 1) + 1;
@@ -519,37 +519,37 @@ static void gentabs(void)
 		out_dec ("m4_define([[M4_HOOK_ACCLIST_SIZE]], [[%d]])", sz);
 		outn ("m4_define([[M4_HOOK_ACCLIST_BODY]], [[m4_dnl");
 
-		yyacclist_tbl = calloc(1,sizeof(struct yytbl_data));
-		yytbl_data_init (yyacclist_tbl, YYTD_ID_ACCLIST);
+		yyacclist_tbl = calloc(1,আকার(কাঠামো yytbl_তথ্য));
+		yytbl_তথ্য_init (yyacclist_tbl, YYTD_ID_ACCLIST);
 		yyacclist_tbl->td_lolen  = (flex_uint32_t) (MAX(numas,1) + 1);
-		yyacclist_tbl->td_data = yyacclist_data =
-		    calloc(yyacclist_tbl->td_lolen, sizeof (flex_int32_t));
+		yyacclist_tbl->td_তথ্য = yyacclist_তথ্য =
+		    calloc(yyacclist_tbl->td_lolen, আকার (flex_int32_t));
 		yyacclist_curr = 1;
 
 		j = 1;		/* index into "yy_acclist" array */
 
-		for (i = 1; i <= lastdfa; ++i) {
+		জন্য (i = 1; i <= lastdfa; ++i) {
 			acc_array[i] = j;
 
-			if (accsiz[i] != 0) {
+			যদি (accsiz[i] != 0) {
 				accset = dfaacc[i].dfaacc_set;
 				nacc = accsiz[i];
 
-				if (env.trace)
+				যদি (env.trace)
 					fprintf (stderr,
 						 _("state # %d accepts: "),
 						 i);
 
-				for (k = 1; k <= nacc; ++k) {
-					int     accnum = accset[k];
+				জন্য (k = 1; k <= nacc; ++k) {
+					পূর্ণসংখ্যা     accnum = accset[k];
 
 					++j;
 
-					if (variable_trailing_context_rules
+					যদি (variable_trailing_context_rules
 					    && !(accnum &
-						 YY_TRAILING_HEAD_MASK)
+						 YY_TRAILING_শীর্ষ_MASK)
 					    && accnum > 0
-					    && accnum <= num_rules
+					    && accnum <= অঙ্ক_rules
 					    && rule_type[accnum] ==
 					    RULE_VARIABLE) {
 						/* Special hack to flag
@@ -560,16 +560,16 @@ static void gentabs(void)
 					}
 
 					mkdata (accnum);
-					yyacclist_data[yyacclist_curr++] = accnum;
+					yyacclist_তথ্য[yyacclist_curr++] = accnum;
 
-					if (env.trace) {
+					যদি (env.trace) {
 						fprintf (stderr, "[%d]",
 							 accset[k]);
 
-						if (k < nacc)
+						যদি (k < nacc)
 							fputs (", ",
 							       stderr);
-						else
+						অন্যথা
 							putc ('\n',
 							      stderr);
 					}
@@ -580,23 +580,23 @@ static void gentabs(void)
 		/* add accepting number for the "jam" state */
 		acc_array[i] = j;
 
-		dataend (NULL);
+		dataend (ফাঁকা);
 		outn("]])");
 		footprint += sz * ptype->width;
-		if (tablesext) {
-			yytbl_data_compress (yyacclist_tbl);
-			if (yytbl_data_fwrite (&tableswr, yyacclist_tbl) < 0)
+		যদি (tablesext) {
+			yytbl_তথ্য_compress (yyacclist_tbl);
+			যদি (yytbl_তথ্য_fwrite (&tableswr, yyacclist_tbl) < 0)
 				flexerror (_("Could not write yyacclist_tbl"));
-			yytbl_data_destroy (yyacclist_tbl);
-			yyacclist_tbl = NULL;
+			yytbl_তথ্য_destroy (yyacclist_tbl);
+			yyacclist_tbl = ফাঁকা;
 		}
 	}
 
-	else {
-		dfaacc[end_of_buffer_state].dfaacc_state =
-		    end_of_buffer_action;
+	অন্যথা {
+		dfaacc[end_of_বাফার_state].dfaacc_state =
+		    end_of_বাফার_action;
 
-		for (i = 1; i <= lastdfa; ++i)
+		জন্য (i = 1; i <= lastdfa; ++i)
 			acc_array[i] = dfaacc[i].dfaacc_state;
 
 		/* add accepting number for jam state */
@@ -615,7 +615,7 @@ static void gentabs(void)
 	 */
 	sz = lastdfa + 2;
 
-	if (reject)
+	যদি (reject)
 		/* We put a "cap" on the table associating lists of accepting
 		 * numbers with state numbers.  This is needed because we tell
 		 * where the end of an accepting list is by looking at where
@@ -630,189 +630,189 @@ static void gentabs(void)
 	out_dec ("m4_define([[M4_HOOK_ACCEPT_SIZE]], [[%d]])", sz);
 	outn ("m4_define([[M4_HOOK_ACCEPT_BODY]], [[m4_dnl");
 
-	yyacc_tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (yyacc_tbl, YYTD_ID_ACCEPT);
+	yyacc_tbl = calloc(1, আকার (কাঠামো yytbl_তথ্য));
+	yytbl_তথ্য_init (yyacc_tbl, YYTD_ID_ACCEPT);
 	yyacc_tbl->td_lolen = (flex_uint32_t) sz;
-	yyacc_tbl->td_data = yyacc_data =
-	    calloc(yyacc_tbl->td_lolen, sizeof (flex_int32_t));
+	yyacc_tbl->td_তথ্য = yyacc_তথ্য =
+	    calloc(yyacc_tbl->td_lolen, আকার (flex_int32_t));
 	yyacc_curr=1;
 
-	for (i = 1; i <= lastdfa; ++i) {
+	জন্য (i = 1; i <= lastdfa; ++i) {
 		mkdata (acc_array[i]);
-		yyacc_data[yyacc_curr++] = acc_array[i];
+		yyacc_তথ্য[yyacc_curr++] = acc_array[i];
 
-		if (!reject && env.trace && acc_array[i])
+		যদি (!reject && env.trace && acc_array[i])
 			fprintf (stderr, _("state # %d accepts: [%d]\n"),
 				 i, acc_array[i]);
 	}
 
 	/* Add entry for "jam" state. */
 	mkdata (acc_array[i]);
-	yyacc_data[yyacc_curr++] = acc_array[i];
+	yyacc_তথ্য[yyacc_curr++] = acc_array[i];
 
-	if (reject) {
+	যদি (reject) {
 		/* Add "cap" for the list. */
 		mkdata (acc_array[i]);
-		yyacc_data[yyacc_curr++] = acc_array[i];
+		yyacc_তথ্য[yyacc_curr++] = acc_array[i];
 	}
 
-	dataend (NULL);
+	dataend (ফাঁকা);
 	outn ("]])");
 	footprint += sz * ptype->width;
 
-	if (tablesext) {
-		yytbl_data_compress (yyacc_tbl);
-		if (yytbl_data_fwrite (&tableswr, yyacc_tbl) < 0)
+	যদি (tablesext) {
+		yytbl_তথ্য_compress (yyacc_tbl);
+		যদি (yytbl_তথ্য_fwrite (&tableswr, yyacc_tbl) < 0)
 			flexerror (_("Could not write yyacc_tbl"));
 	}
-	yytbl_data_destroy (yyacc_tbl);
-	yyacc_tbl = NULL;
+	yytbl_তথ্য_destroy (yyacc_tbl);
+	yyacc_tbl = ফাঁকা;
 	/* End generating yy_accept */
 
-	if (ctrl.useecs) {
+	যদি (ctrl.useecs) {
 
 		genecs ();
-		if (tablesext) {
-			struct yytbl_data *tbl;
+		যদি (tablesext) {
+			কাঠামো yytbl_তথ্য *tbl;
 
 			tbl = mkecstbl ();
-			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			yytbl_তথ্য_compress (tbl);
+			যদি (yytbl_তথ্য_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ecstbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_তথ্য_destroy (tbl);
 			tbl = 0;
 		}
 	}
 
-	if (ctrl.usemecs) {
+	যদি (ctrl.usemecs) {
 		/* Begin generating yy_meta */
 		/* Write out meta-equivalence classes (used to index
 		 * templates with).
 		 */
-		flex_int32_t *yymecs_data = 0;
-		yymeta_tbl = calloc(1, sizeof (struct yytbl_data));
-		yytbl_data_init (yymeta_tbl, YYTD_ID_META);
+		flex_int32_t *yymecs_তথ্য = 0;
+		yymeta_tbl = calloc(1, আকার (কাঠামো yytbl_তথ্য));
+		yytbl_তথ্য_init (yymeta_tbl, YYTD_ID_META);
 		yymeta_tbl->td_lolen = (flex_uint32_t) (numecs + 1);
-		yymeta_tbl->td_data = yymecs_data =
+		yymeta_tbl->td_তথ্য = yymecs_তথ্য =
 		    calloc(yymeta_tbl->td_lolen,
-			   sizeof (flex_int32_t));
+			   আকার (flex_int32_t));
 
-		if (env.trace)
+		যদি (env.trace)
 			fputs (_("\n\nMeta-Equivalence Classes:\n"),
 			       stderr);
 		out_dec ("m4_define([[M4_HOOK_MECSTABLE_SIZE]], [[%d]])", numecs+1);
 		outn ("m4_define([[M4_HOOK_MECSTABLE_BODY]], [[m4_dnl");
  	
-		for (i = 1; i <= numecs; ++i) {
-			if (env.trace)
+		জন্য (i = 1; i <= numecs; ++i) {
+			যদি (env.trace)
 				fprintf (stderr, "%d = %d\n",
 					 i, ABS (tecbck[i]));
 
 			mkdata (ABS (tecbck[i]));
-			yymecs_data[i] = ABS (tecbck[i]);
+			yymecs_তথ্য[i] = ABS (tecbck[i]);
 		}
 
-		dataend (NULL);
+		dataend (ফাঁকা);
 		outn ("]])");
-		footprint += sizeof(YY_CHAR) * (numecs + 1);
-		if (tablesext) {
-			yytbl_data_compress (yymeta_tbl);
-			if (yytbl_data_fwrite (&tableswr, yymeta_tbl) < 0)
+		footprint += আকার(YY_CHAR) * (numecs + 1);
+		যদি (tablesext) {
+			yytbl_তথ্য_compress (yymeta_tbl);
+			যদি (yytbl_তথ্য_fwrite (&tableswr, yymeta_tbl) < 0)
 				flexerror (_("Could not write yymeta_tbl"));
 		}
-		yytbl_data_destroy (yymeta_tbl);
-		yymeta_tbl = NULL;
+		yytbl_তথ্য_destroy (yymeta_tbl);
+		yymeta_tbl = ফাঁকা;
 		/* End generating yy_meta */
 	}
 
-	total_states = lastdfa + numtemps;
+	যোগ_states = lastdfa + numtemps;
 
 	/* Begin generating yy_base */
-	sz = total_states + 1;
+	sz = যোগ_states + 1;
 	ptype = optimize_pack(sz);
 	out_str ("m4_define([[M4_HOOK_BASE_TYPE]], [[%s]])", ptype->name);
 	out_dec ("m4_define([[M4_HOOK_BASE_SIZE]], [[%d]])", sz);
 	outn ("m4_define([[M4_HOOK_BASE_BODY]], [[m4_dnl");
 
-	yybase_tbl = calloc (1, sizeof (struct yytbl_data));
-	yytbl_data_init (yybase_tbl, YYTD_ID_BASE);
-	yybase_tbl->td_lolen = (flex_uint32_t) (total_states + 1);
-	yybase_tbl->td_data = yybase_data =
+	yybase_tbl = calloc (1, আকার (কাঠামো yytbl_তথ্য));
+	yytbl_তথ্য_init (yybase_tbl, YYTD_ID_BASE);
+	yybase_tbl->td_lolen = (flex_uint32_t) (যোগ_states + 1);
+	yybase_tbl->td_তথ্য = yybase_তথ্য =
 	    calloc(yybase_tbl->td_lolen,
-		   sizeof (flex_int32_t));
+		   আকার (flex_int32_t));
 	yybase_curr = 1;
 
-	for (i = 1; i <= lastdfa; ++i) {
-		int d = def[i];
+	জন্য (i = 1; i <= lastdfa; ++i) {
+		পূর্ণসংখ্যা d = def[i];
 
-		if (base[i] == JAMSTATE)
+		যদি (base[i] == JAMSTATE)
 			base[i] = jambase;
 
-		if (d == JAMSTATE)
+		যদি (d == JAMSTATE)
 			def[i] = jamstate;
 
-		else if (d < 0) {
+		অন্যথা যদি (d < 0) {
 			/* Template reference. */
 			++tmpuses;
 			def[i] = lastdfa - d + 1;
 		}
 
 		mkdata (base[i]);
-		yybase_data[yybase_curr++] = base[i];
+		yybase_তথ্য[yybase_curr++] = base[i];
 	}
 
 	/* Generate jam state's base index. */
 	mkdata (base[i]);
-	yybase_data[yybase_curr++] = base[i];
+	yybase_তথ্য[yybase_curr++] = base[i];
 
-	for (++i /* skip jam state */ ; i <= total_states; ++i) {
+	জন্য (++i /* skip jam state */ ; i <= যোগ_states; ++i) {
 		mkdata (base[i]);
-		yybase_data[yybase_curr++] = base[i];
+		yybase_তথ্য[yybase_curr++] = base[i];
 		def[i] = jamstate;
 	}
 
-	dataend (NULL);
+	dataend (ফাঁকা);
 	outn ("]])");
 	footprint += sz * ptype->width;
 
-	if (tablesext) {
-		yytbl_data_compress (yybase_tbl);
-		if (yytbl_data_fwrite (&tableswr, yybase_tbl) < 0)
+	যদি (tablesext) {
+		yytbl_তথ্য_compress (yybase_tbl);
+		যদি (yytbl_তথ্য_fwrite (&tableswr, yybase_tbl) < 0)
 			flexerror (_("Could not write yybase_tbl"));
 	}
-	yytbl_data_destroy (yybase_tbl);
-	yybase_tbl = NULL;
+	yytbl_তথ্য_destroy (yybase_tbl);
+	yybase_tbl = ফাঁকা;
 	/* End generating yy_base */
 
 
 	/* Begin generating yy_def */
-	ptype = optimize_pack(total_states + 1);
+	ptype = optimize_pack(যোগ_states + 1);
 	out_str ("m4_define([[M4_HOOK_DEF_TYPE]], [[%s]])", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_DEF_SIZE]], [[%d]])", total_states + 1);
+	out_dec ("m4_define([[M4_HOOK_DEF_SIZE]], [[%d]])", যোগ_states + 1);
 	outn ("m4_define([[M4_HOOK_DEF_BODY]], [[m4_dnl");
 
-	yydef_tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (yydef_tbl, YYTD_ID_DEF);
-	yydef_tbl->td_lolen = (flex_uint32_t)(total_states + 1);
-	yydef_tbl->td_data = yydef_data =
-	    calloc(yydef_tbl->td_lolen, sizeof (flex_int32_t));
+	yydef_tbl = calloc(1, আকার (কাঠামো yytbl_তথ্য));
+	yytbl_তথ্য_init (yydef_tbl, YYTD_ID_DEF);
+	yydef_tbl->td_lolen = (flex_uint32_t)(যোগ_states + 1);
+	yydef_tbl->td_তথ্য = yydef_তথ্য =
+	    calloc(yydef_tbl->td_lolen, আকার (flex_int32_t));
 
-	for (i = 1; i <= total_states; ++i) {
+	জন্য (i = 1; i <= যোগ_states; ++i) {
 		mkdata (def[i]);
-		yydef_data[i] = def[i];
+		yydef_তথ্য[i] = def[i];
 	}
 
-	dataend (NULL);
+	dataend (ফাঁকা);
 	outn ("]])");
-	footprint += (total_states + 1) * ptype->width;
+	footprint += (যোগ_states + 1) * ptype->width;
 
-	if (tablesext) {
-		yytbl_data_compress (yydef_tbl);
-		if (yytbl_data_fwrite (&tableswr, yydef_tbl) < 0)
+	যদি (tablesext) {
+		yytbl_তথ্য_compress (yydef_tbl);
+		যদি (yytbl_তথ্য_fwrite (&tableswr, yydef_tbl) < 0)
 			flexerror (_("Could not write yydef_tbl"));
 	}
-	yytbl_data_destroy (yydef_tbl);
-	yydef_tbl = NULL;
+	yytbl_তথ্য_destroy (yydef_tbl);
+	yydef_tbl = ফাঁকা;
 	/* End generating yy_def */
 
 
@@ -824,34 +824,34 @@ static void gentabs(void)
 	out_dec ("m4_define([[M4_HOOK_YYNXT_SIZE]], [[%d]])", tblend + 1);
 	outn ("m4_define([[M4_HOOK_YYNXT_BODY]], [[m4_dnl");
 
-	yynxt_tbl = calloc (1, sizeof (struct yytbl_data));
-	yytbl_data_init (yynxt_tbl, YYTD_ID_NXT);
+	yynxt_tbl = calloc (1, আকার (কাঠামো yytbl_তথ্য));
+	yytbl_তথ্য_init (yynxt_tbl, YYTD_ID_NXT);
 	yynxt_tbl->td_lolen = (flex_uint32_t) (tblend + 1);
-	yynxt_tbl->td_data = yynxt_data =
-	    calloc (yynxt_tbl->td_lolen, sizeof (flex_int32_t));
+	yynxt_tbl->td_তথ্য = yynxt_তথ্য =
+	    calloc (yynxt_tbl->td_lolen, আকার (flex_int32_t));
 
-	for (i = 1; i <= tblend; ++i) {
+	জন্য (i = 1; i <= tblend; ++i) {
 		/* Note, the order of the following test is important.
 		 * If chk[i] is 0, then nxt[i] is undefined.
 		 */
-		if (chk[i] == 0 || nxt[i] == 0)
+		যদি (chk[i] == 0 || nxt[i] == 0)
 			nxt[i] = jamstate;	/* new state is the JAM state */
 
 		mkdata (nxt[i]);
-		yynxt_data[i] = nxt[i];
+		yynxt_তথ্য[i] = nxt[i];
 	}
 
-	dataend (NULL);
+	dataend (ফাঁকা);
 	outn("]])");
 	footprint += ptype->width * (tblend + 1);
 
-	if (tablesext) {
-		yytbl_data_compress (yynxt_tbl);
-		if (yytbl_data_fwrite (&tableswr, yynxt_tbl) < 0)
+	যদি (tablesext) {
+		yytbl_তথ্য_compress (yynxt_tbl);
+		যদি (yytbl_তথ্য_fwrite (&tableswr, yynxt_tbl) < 0)
 			flexerror (_("Could not write yynxt_tbl"));
 	}
-	yytbl_data_destroy (yynxt_tbl);
-	yynxt_tbl = NULL;
+	yytbl_তথ্য_destroy (yynxt_tbl);
+	yynxt_tbl = ফাঁকা;
 	/* End generating yy_nxt */
 
 	/* Begin generating yy_chk */
@@ -860,59 +860,59 @@ static void gentabs(void)
 	out_dec ("m4_define([[M4_HOOK_CHK_SIZE]], [[%d]])", tblend + 1);
 	outn ("m4_define([[M4_HOOK_CHK_BODY]], [[m4_dnl");
 	
-	yychk_tbl = calloc (1, sizeof (struct yytbl_data));
-	yytbl_data_init (yychk_tbl, YYTD_ID_CHK);
+	yychk_tbl = calloc (1, আকার (কাঠামো yytbl_তথ্য));
+	yytbl_তথ্য_init (yychk_tbl, YYTD_ID_CHK);
 	yychk_tbl->td_lolen = (flex_uint32_t) (tblend + 1);
-	yychk_tbl->td_data = yychk_data =
-	    calloc(yychk_tbl->td_lolen, sizeof (flex_int32_t));
+	yychk_tbl->td_তথ্য = yychk_তথ্য =
+	    calloc(yychk_tbl->td_lolen, আকার (flex_int32_t));
 
-	for (i = 1; i <= tblend; ++i) {
-		if (chk[i] == 0)
+	জন্য (i = 1; i <= tblend; ++i) {
+		যদি (chk[i] == 0)
 			++nummt;
 
 		mkdata (chk[i]);
-		yychk_data[i] = chk[i];
+		yychk_তথ্য[i] = chk[i];
 	}
 
-	dataend (NULL);
+	dataend (ফাঁকা);
 	outn ("]])");
 	footprint += ptype->width * (tblend + 1);
 
-	if (tablesext) {
-		yytbl_data_compress (yychk_tbl);
-		if (yytbl_data_fwrite (&tableswr, yychk_tbl) < 0)
+	যদি (tablesext) {
+		yytbl_তথ্য_compress (yychk_tbl);
+		যদি (yytbl_তথ্য_fwrite (&tableswr, yychk_tbl) < 0)
 			flexerror (_("Could not write yychk_tbl"));
 	}
-	yytbl_data_destroy (yychk_tbl);
-	yychk_tbl = NULL;
+	yytbl_তথ্য_destroy (yychk_tbl);
+	yychk_tbl = ফাঁকা;
 	/* End generating yy_chk */
 
-	free(acc_array);
+	মুক্ত(acc_array);
 }
 
 
-void visible_define (const char *symname)
+শূন্য visible_define (ধ্রুবক অক্ষর *symname)
 {
-	out_m4_define(symname, NULL);
+	out_m4_define(symname, ফাঁকা);
 	comment(symname);
 	outc ('\n');
 }
 
-void visible_define_str (const char *symname, const char *val)
+শূন্য visible_define_str (ধ্রুবক অক্ষর *symname, ধ্রুবক অক্ষর *val)
 {
-	char buf[128];
+	অক্ষর buf[128];
 	out_m4_define(symname, val);
-	snprintf(buf, sizeof(buf), "%s = %s", symname, val);
+	snprintf(buf, আকার(buf), "%s = %s", symname, val);
 	comment(buf);
 	outc ('\n');
 }
 
-void visible_define_int (const char *symname, const int val)
+শূন্য visible_define_int (ধ্রুবক অক্ষর *symname, ধ্রুবক পূর্ণসংখ্যা val)
 {
-	char nbuf[24], buf[128];
-	snprintf(nbuf, sizeof(nbuf), "%d", val);
+	অক্ষর nbuf[24], buf[128];
+	snprintf(nbuf, আকার(nbuf), "%d", val);
 	out_m4_define(symname, nbuf);
-	snprintf(buf, sizeof(buf), "%s = %d", symname, val);
+	snprintf(buf, আকার(buf), "%s = %d", symname, val);
 	comment(buf);
 	outc ('\n');
 }
@@ -920,83 +920,83 @@ void visible_define_int (const char *symname, const int val)
 /* make_tables - generate transition tables
  */
 
-void make_tables (void)
+শূন্য make_tables (শূন্য)
 {
-	char buf[128];
-	int i;
-	struct yytbl_data *yynultrans_tbl = NULL;
+	অক্ষর buf[128];
+	পূর্ণসংখ্যা i;
+	কাঠামো yytbl_তথ্য *yynultrans_tbl = ফাঁকা;
 
 	/* This is where we REALLY begin generating the tables. */
 
-	if (ctrl.fullspd) {
+	যদি (ctrl.fullspd) {
 		genctbl ();
-		if (tablesext) {
-			struct yytbl_data *tbl;
+		যদি (tablesext) {
+			কাঠামো yytbl_তথ্য *tbl;
 
 			tbl = mkctbl ();
-			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			yytbl_তথ্য_compress (tbl);
+			যদি (yytbl_তথ্য_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ftbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_তথ্য_destroy (tbl);
 
 			tbl = mkssltbl ();
-			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			yytbl_তথ্য_compress (tbl);
+			যদি (yytbl_তথ্য_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ssltbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_তথ্য_destroy (tbl);
 			tbl = 0;
 
-			if (ctrl.useecs) {
+			যদি (ctrl.useecs) {
 				tbl = mkecstbl ();
-				yytbl_data_compress (tbl);
-				if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+				yytbl_তথ্য_compress (tbl);
+				যদি (yytbl_তথ্য_fwrite (&tableswr, tbl) < 0)
 					flexerror (_
 						   ("Could not write ecstbl"));
-				yytbl_data_destroy (tbl);
+				yytbl_তথ্য_destroy (tbl);
 				tbl = 0;
 			}
 		}
 	}
-	else if (ctrl.fulltbl) {
+	অন্যথা যদি (ctrl.fulltbl) {
 		genftbl ();
-		if (tablesext) {
-			struct yytbl_data *tbl;
+		যদি (tablesext) {
+			কাঠামো yytbl_তথ্য *tbl;
 
 			/* Alternately defined if !ctrl.ffullspd && !ctrl.fulltbl */
-			struct packtype_t *ptype;
+			কাঠামো packtype_t *ptype;
 			tbl = mkftbl ();
-			yytbl_data_compress (tbl);
+			yytbl_তথ্য_compress (tbl);
 			ptype = optimize_pack(tbl->td_lolen);
 			out_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			যদি (yytbl_তথ্য_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ftbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_তথ্য_destroy (tbl);
 			tbl = 0;
 
-			if (ctrl.useecs) {
+			যদি (ctrl.useecs) {
 				tbl = mkecstbl ();
-				yytbl_data_compress (tbl);
-				if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+				yytbl_তথ্য_compress (tbl);
+				যদি (yytbl_তথ্য_fwrite (&tableswr, tbl) < 0)
 					flexerror (_
 						   ("Could not write ecstbl"));
-				yytbl_data_destroy (tbl);
+				yytbl_তথ্য_destroy (tbl);
 				tbl = 0;
 			}
 		}
 	}
-	else {
+	অন্যথা {
 		gentabs ();
 	}
 
-	snprintf(buf, sizeof(buf), "footprint: %ld bytes\n", footprint);
+	snprintf(buf, আকার(buf), "footprint: %ld bytes\n", footprint);
 	comment(buf);
-	snprintf(buf, sizeof(buf), "tblend: %d\n", tblend);
+	snprintf(buf, আকার(buf), "tblend: %d\n", tblend);
 	comment(buf);
-	snprintf(buf, sizeof(buf), "numecs: %d\n", numecs);
+	snprintf(buf, আকার(buf), "numecs: %d\n", numecs);
 	comment(buf);
-	snprintf(buf, sizeof(buf), "num_rules: %d\n", num_rules);
+	snprintf(buf, আকার(buf), "num_rules: %d\n", অঙ্ক_rules);
 	comment(buf);
-	snprintf(buf, sizeof(buf), "lastdfa: %d\n", lastdfa);
+	snprintf(buf, আকার(buf), "lastdfa: %d\n", lastdfa);
 	comment(buf);
 	outc ('\n');
 	
@@ -1005,98 +1005,98 @@ void make_tables (void)
 
 	comment("m4 controls begin\n");
 
-	if (num_backing_up > 0)
+	যদি (অঙ্ক_backing_up > 0)
 		visible_define ( "M4_MODE_HAS_BACKING_UP");
 
 	// These are used for NUL transitions
-	if ((num_backing_up > 0 && !reject) && (!nultrans || ctrl.fullspd || ctrl.fulltbl))
+	যদি ((অঙ্ক_backing_up > 0 && !reject) && (!nultrans || ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NEED_YY_CP");
-	if ((num_backing_up > 0 && !reject) && (ctrl.fullspd || ctrl.fulltbl))
+	যদি ((অঙ্ক_backing_up > 0 && !reject) && (ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NULTRANS_WRAP");
 
 	comment("m4 controls end\n");
 	out ("\n");
 
-	if (ctrl.do_yylineno) {
+	যদি (ctrl.do_yylineno) {
 
 		geneoltbl ();
 
-		if (tablesext) {
-			struct yytbl_data *tbl;
+		যদি (tablesext) {
+			কাঠামো yytbl_তথ্য *tbl;
 
 			tbl = mkeoltbl ();
-			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			yytbl_তথ্য_compress (tbl);
+			যদি (yytbl_তথ্য_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write eoltbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_তথ্য_destroy (tbl);
 			tbl = 0;
 		}
 	}
 
-	if (nultrans) {
-		flex_int32_t *yynultrans_data = 0;
+	যদি (nultrans) {
+		flex_int32_t *yynultrans_তথ্য = 0;
 
 		/* Begin generating yy_NUL_trans */
 		out_str ("m4_define([[M4_HOOK_NULTRANS_TYPE]], [[%s]])", (ctrl.fullspd) ? "struct yy_trans_info*" : "M4_HOOK_INT32");
 		out_dec ("m4_define([[M4_HOOK_NULTRANS_SIZE]], [[%d]])", lastdfa + 1);
 		outn ("m4_define([[M4_HOOK_NULTRANS_BODY]], [[m4_dnl");
 
-		yynultrans_tbl = calloc(1, sizeof (struct yytbl_data));
-		yytbl_data_init (yynultrans_tbl, YYTD_ID_NUL_TRANS);
+		yynultrans_tbl = calloc(1, আকার (কাঠামো yytbl_তথ্য));
+		yytbl_তথ্য_init (yynultrans_tbl, YYTD_ID_NUL_TRANS);
 		// Performance kludge for C. Gives a small improvement
 		// in table loading time.
-		if (ctrl.fullspd && ctrl.have_state_entry_format)
+		যদি (ctrl.fullspd && ctrl.have_state_entry_format)
 			yynultrans_tbl->td_flags |= YYTD_PTRANS;
 		yynultrans_tbl->td_lolen = (flex_uint32_t) (lastdfa + 1);
-		yynultrans_tbl->td_data = yynultrans_data =
+		yynultrans_tbl->td_তথ্য = yynultrans_তথ্য =
 		    calloc(yynultrans_tbl->td_lolen,
-			   sizeof (flex_int32_t));
+			   আকার (flex_int32_t));
 
-		for (i = 1; i <= lastdfa; ++i) {
-			if ((yynultrans_tbl->td_flags & YYTD_PTRANS) != 0) {
+		জন্য (i = 1; i <= lastdfa; ++i) {
+			যদি ((yynultrans_tbl->td_flags & YYTD_PTRANS) != 0) {
 				// Only works in very C-like languages  
 				out_dec ("    &yy_transition[%d],\n",
 					 base[i]);
-				yynultrans_data[i] = base[i];
+				yynultrans_তথ্য[i] = base[i];
 			}
-			else {
+			অন্যথা {
 				// This will work anywhere
 				mkdata (nultrans[i]);
-				yynultrans_data[i] = nultrans[i];
+				yynultrans_তথ্য[i] = nultrans[i];
 			}
 		}
 
-		dataend (NULL);
+		dataend (ফাঁকা);
 		outn("]])");
-		footprint += (lastdfa + 1) * (ctrl.fullspd ? sizeof(struct yy_trans_info *) : sizeof(int32_t));
-		if (tablesext) {
-			yytbl_data_compress (yynultrans_tbl);
-			if (yytbl_data_fwrite (&tableswr, yynultrans_tbl) <
+		footprint += (lastdfa + 1) * (ctrl.fullspd ? আকার(কাঠামো yy_trans_info *) : আকার(int32_t));
+		যদি (tablesext) {
+			yytbl_তথ্য_compress (yynultrans_tbl);
+			যদি (yytbl_তথ্য_fwrite (&tableswr, yynultrans_tbl) <
 			    0)
 				flexerror (_
 					   ("Could not write yynultrans_tbl"));
 		}
 
-		if (yynultrans_tbl != NULL) {
-			yytbl_data_destroy (yynultrans_tbl);
-			yynultrans_tbl = NULL;
+		যদি (yynultrans_tbl != ফাঁকা) {
+			yytbl_তথ্য_destroy (yynultrans_tbl);
+			yynultrans_tbl = ফাঁকা;
 		}
 
 		/* End generating yy_NUL_trans */
 	}
 
-	if (ctrl.ddebug) {		/* Spit out table mapping rules to line numbers. */
+	যদি (ctrl.ddebug) {		/* Spit out table mapping rules to line numbers. */
 		/* Policy choice: we don't include this space
 		 * in the table metering.
 		 */
-		struct packtype_t *ptype = optimize_pack(num_rules);
+		কাঠামো packtype_t *ptype = optimize_pack(অঙ্ক_rules);
 		out_str ("m4_define([[M4_HOOK_DEBUGTABLE_TYPE]], [[%s]])", ptype->name);
-		out_dec ("m4_define([[M4_HOOK_DEBUGTABLE_SIZE]], [[%d]])", num_rules);
+		out_dec ("m4_define([[M4_HOOK_DEBUGTABLE_SIZE]], [[%d]])", অঙ্ক_rules);
 		outn ("m4_define([[M4_HOOK_DEBUGTABLE_BODY]], [[m4_dnl");
 
-		for (i = 1; i < num_rules; ++i)
+		জন্য (i = 1; i < অঙ্ক_rules; ++i)
 			mkdata (rule_linenum[i]);
-		dataend (NULL);
+		dataend (ফাঁকা);
 		outn("]])");
 	}
 }

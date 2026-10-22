@@ -32,76 +32,76 @@
 /*  IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED */
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
-#include "flexdef.h"
-#include "tables.h"
+#অন্তর্ভাব "flexdef.h"
+#অন্তর্ভাব "tables.h"
 
 /* Append "new_text" to the running buffer. */
-void add_action (const char *new_text)
+শূন্য add_action (ধ্রুবক অক্ষর *new_text)
 {
-	int     len = (int) strlen (new_text);
+	পূর্ণসংখ্যা     len = (পূর্ণসংখ্যা) strlen (new_text);
 
-	while (len + action_index >= action_size - 10 /* slop */ ) {
+	যখন (len + action_সূচক >= action_আকার - 10 /* slop */ ) {
 
-		if (action_size > INT_MAX / 2)
+		যদি (action_আকার > INT_MAX / 2)
 			/* Increase just a little, to try to avoid overflow
 			 * on 16-bit machines.
 			 */
-			action_size += action_size / 8;
-		else
-			action_size = action_size * 2;
+			action_আকার += action_আকার / 8;
+		অন্যথা
+			action_আকার = action_আকার * 2;
 
 		action_array =
 			reallocate_character_array (action_array,
-						    action_size);
+						    action_আকার);
 	}
 
-	strcpy (&action_array[action_index], new_text);
+	strcpy (&action_array[action_সূচক], new_text);
 
-	action_index += len;
+	action_সূচক += len;
 }
 
 
 /* allocate_array - allocate memory for an integer array of the given size */
 
-void   *allocate_array (int size, size_t element_size)
+শূন্য   *allocate_array (পূর্ণসংখ্যা আকার_2, size_t element_আকার)
 {
-	return reallocate_array(NULL, size, element_size);
+	ফেরত reallocate_array(ফাঁকা, আকার_2, element_আকার);
 }
 
 
 /* all_lower - true if a string is all lower-case */
 
-int all_lower (char *str)
+পূর্ণসংখ্যা all_lower (অক্ষর *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !islower ((unsigned char) * str))
-			return 0;
+	যখন (*str) {
+		যদি (!isascii ((unsigned অক্ষর) * str) || !islower ((unsigned অক্ষর) * str))
+			ফেরত 0;
 		++str;
 	}
 
-	return 1;
+	ফেরত 1;
 }
 
 
 /* all_upper - true if a string is all upper-case */
 
-int all_upper (char *str)
+পূর্ণসংখ্যা all_upper (অক্ষর *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !isupper ((unsigned char) * str))
-			return 0;
+	যখন (*str) {
+		যদি (!isascii ((unsigned অক্ষর) * str) || !isupper ((unsigned অক্ষর) * str))
+			ফেরত 0;
 		++str;
 	}
 
-	return 1;
+	ফেরত 1;
 }
 
 
 /* intcmp - compares two integers for use by qsort. */
 
-int intcmp (const void *a, const void *b)
+পূর্ণসংখ্যা intcmp (ধ্রুবক শূন্য *a, ধ্রুবক শূন্য *b)
 {
-  return *(const int *) a - *(const int *) b;
+  ফেরত *(ধ্রুবক পূর্ণসংখ্যা *) a - *(ধ্রুবক পূর্ণসংখ্যা *) b;
 }
 
 
@@ -110,13 +110,13 @@ int intcmp (const void *a, const void *b)
  *		and exits.
  */
 
-void check_char (int c)
+শূন্য check_char (পূর্ণসংখ্যা c)
 {
-	if (c >= CSIZE)
+	যদি (c >= CSIZE)
 		lerr (_("bad character '%s' detected in check_char()"),
 			readable_form (c));
 
-	if (c >= ctrl.csize)
+	যদি (c >= ctrl.csize)
 		lerr (_
 			("scanner requires -8 flag to use the character %s"),
 			readable_form (c));
@@ -126,49 +126,49 @@ void check_char (int c)
 
 /* clower - replace upper-case letter to lower-case */
 
-unsigned char clower (int c)
+unsigned অক্ষর clower (পূর্ণসংখ্যা c)
 {
-	return (unsigned char) ((isascii (c) && isupper (c)) ? tolower (c) : c);
+	ফেরত (unsigned অক্ষর) ((isascii (c) && isupper (c)) ? tolower (c) : c);
 }
 
 
-char *xstrdup(const char *s)
+অক্ষর *xstrdup(ধ্রুবক অক্ষর *s)
 {
-	char *s2;
+	অক্ষর *s2;
 
-	if ((s2 = strdup(s)) == NULL)
+	যদি ((s2 = strdup(s)) == ফাঁকা)
 		flexfatal (_("memory allocation failure in xstrdup()"));
 
-	return s2;
+	ফেরত s2;
 }
 
 
 /* cclcmp - compares two characters for use by qsort with '\0' sorting last. */
 
-int cclcmp (const void *a, const void *b)
+পূর্ণসংখ্যা cclcmp (ধ্রুবক শূন্য *a, ধ্রুবক শূন্য *b)
 {
-	if (!*(const unsigned char *) a)
-		return 1;
-	else
-		if (!*(const unsigned char *) b)
-			return - 1;
-		else
-			return *(const unsigned char *) a - *(const unsigned char *) b;
+	যদি (!*(ধ্রুবক unsigned অক্ষর *) a)
+		ফেরত 1;
+	অন্যথা
+		যদি (!*(ধ্রুবক unsigned অক্ষর *) b)
+			ফেরত - 1;
+		অন্যথা
+			ফেরত *(ধ্রুবক unsigned অক্ষর *) a - *(ধ্রুবক unsigned অক্ষর *) b;
 }
 
 
 /* dataend - finish up a block of data declarations */
 
-void dataend (const char *endit)
+শূন্য dataend (ধ্রুবক অক্ষর *endit)
 {
 	/* short circuit any output */
-	if (gentables) {
+	যদি (gentables) {
 
-		if (datapos > 0)
+		যদি (datapos > 0)
 			dataflush ();
 
 		/* add terminator for initialization; { for vi */
-		if (endit)
+		যদি (endit)
 			outn (endit);
 	}
 	dataline = 0;
@@ -178,14 +178,14 @@ void dataend (const char *endit)
 
 /* dataflush - flush generated data statements */
 
-void dataflush (void)
+শূন্য dataflush (শূন্য)
 {
-	assert (gentables);
+	প্রতিজ্ঞা (gentables);
 
-	if (datapos > 0)
+	যদি (datapos > 0)
 		outc ('\n');
 
-	if (++dataline >= NUMDATALINES) {
+	যদি (++dataline >= NUMDATALINES) {
 		/* Put out a blank line so that the table is grouped into
 		 * large blocks that enable the user to find elements easily.
 		 */
@@ -200,32 +200,32 @@ void dataflush (void)
 
 /* flexerror - report an error message and terminate */
 
-void flexerror (const char *msg)
+শূন্য flexerror (ধ্রুবক অক্ষর *বার্তা)
 {
-	fprintf (stderr, "%s: %s\n", program_name, msg);
+	fprintf (stderr, "%s: %s\n", program_name, বার্তা);
 	flexend (1);
 }
 
 
 /* flexfatal - report a fatal error message and terminate */
 
-void flexfatal (const char *msg)
+শূন্য flexfatal (ধ্রুবক অক্ষর *বার্তা)
 {
 	fprintf (stderr, _("%s: fatal internal error, %s\n"),
-		 program_name, msg);
+		 program_name, বার্তা);
 	FLEX_EXIT (1);
 }
 
 
 /* lerr - report an error message */
 
-void lerr (const char *msg, ...)
+শূন্য lerr (ধ্রুবক অক্ষর *বার্তা, ...)
 {
-	char    errmsg[MAXLINE];
+	অক্ষর    errmsg[MAXLINE];
 	va_list args;
 
-	va_start(args, msg);
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
+	va_start(args, বার্তা);
+	vsnprintf (errmsg, আকার(errmsg), বার্তা, args);
 	va_end(args);
 	flexerror (errmsg);
 }
@@ -233,38 +233,38 @@ void lerr (const char *msg, ...)
 
 /* lerr_fatal - as lerr, but call flexfatal */
 
-void lerr_fatal (const char *msg, ...)
+শূন্য lerr_fatal (ধ্রুবক অক্ষর *বার্তা, ...)
 {
-	char    errmsg[MAXLINE];
+	অক্ষর    errmsg[MAXLINE];
 	va_list args;
-	va_start(args, msg);
+	va_start(args, বার্তা);
 
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
+	vsnprintf (errmsg, আকার(errmsg), বার্তা, args);
 	va_end(args);
 	flexfatal (errmsg);
 }
 
 
 /* line_directive_out - spit out a "#line" statement or equivalent */
-void line_directive_out (FILE *output_file, char *path, int linenum)
+শূন্য সারি_directive_out (FILE *output_file, অক্ষর *path, পূর্ণসংখ্যা linenum)
 {
-	char	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
-	char    directive[MAXLINE*2], filename[MAXLINE];
-	char   *s1, *s2, *s3;
+	অক্ষর	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
+	অক্ষর    directive[MAXLINE*2], filename[MAXLINE];
+	অক্ষর   *s1, *s2, *s3;
 
-	if (!ctrl.gen_line_dirs)
-		return;
+	যদি (!ctrl.gen_সারি_dirs)
+		ফেরত;
 
-	s1 = (path != NULL) ? path : "M4_YY_OUTFILE_NAME";
+	s1 = (path != ফাঁকা) ? path : "M4_YY_OUTFILE_NAME";
 
-	if ((path != NULL) && !s1)
+	যদি ((path != ফাঁকা) && !s1)
 		s1 = "<stdin>";
     
 	s2 = filename;
-	s3 = &filename[sizeof (filename) - 2];
+	s3 = &filename[আকার (filename) - 2];
 
-	while (s2 < s3 && *s1) {
-		if (*s1 == '\\' || *s1 == '"')
+	যখন (s2 < s3 && *s1) {
+		যদি (*s1 == '\\' || *s1 == '"')
 			/* Escape the '\' or '"' */
 			*s2++ = '\\';
 
@@ -273,19 +273,19 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
 
 	*s2 = '\0';
 
-	if (path != NULL)
-		snprintf (directive, sizeof(directive), trace_fmt, linenum, filename);
-	else {
-		snprintf (directive, sizeof(directive), trace_fmt, 0, filename);
+	যদি (path != ফাঁকা)
+		snprintf (directive, আকার(directive), trace_fmt, linenum, filename);
+	অন্যথা {
+		snprintf (directive, আকার(directive), trace_fmt, 0, filename);
 	}
 
 	/* If output_file is nil then we should put the directive in
 	 * the accumulated actions.
 	 */
-	if (output_file) {
+	যদি (output_file) {
 		fputs (directive, output_file);
 	}
-	else
+	অন্যথা
 		add_action (directive);
 }
 
@@ -294,23 +294,23 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
  *               representing where the user's section 1 definitions end
  *		 and the prolog begins
  */
-void mark_defs1 (void)
+শূন্য mark_defs1 (শূন্য)
 {
 	defs1_offset = 0;
-	action_array[action_index++] = '\0';
-	action_offset = prolog_offset = action_index;
-	action_array[action_index] = '\0';
+	action_array[action_সূচক++] = '\0';
+	action_offset = prolog_offset = action_সূচক;
+	action_array[action_সূচক] = '\0';
 }
 
 
 /* mark_prolog - mark the current position in the action array as
  *               representing the end of the action prolog
  */
-void mark_prolog (void)
+শূন্য mark_prolog (শূন্য)
 {
-	action_array[action_index++] = '\0';
-	action_offset = action_index;
-	action_array[action_index] = '\0';
+	action_array[action_সূচক++] = '\0';
+	action_offset = action_সূচক;
+	action_array[action_সূচক] = '\0';
 }
 
 
@@ -318,27 +318,27 @@ void mark_prolog (void)
  *
  * Generates a data statement initializing the current 2-D array to "value".
  */
-void mk2data (int value)
+শূন্য mk2data (পূর্ণসংখ্যা মান)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	যদি (!gentables)
+		ফেরত;
 
-	if (datapos >= NUMDATAITEMS) {
+	যদি (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	যদি (datapos == 0)
 		/* Indent. */
 		out ("    ");
 
-	else
+	অন্যথা
 	  outc (',');
 
 	++datapos;
 
-	out_dec ("%5d", value);
+	out_dec ("%5d", মান);
 }
 
 
@@ -347,73 +347,73 @@ void mk2data (int value)
  * Generates a data statement initializing the current array element to
  * "value".
  */
-void mkdata (int value)
+শূন্য mkdata (পূর্ণসংখ্যা মান)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	যদি (!gentables)
+		ফেরত;
 
-	if (datapos >= NUMDATAITEMS) {
+	যদি (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	যদি (datapos == 0)
 		/* Indent. */
 		out ("    ");
-	else
+	অন্যথা
 		outc (',');
 	++datapos;
 
-	out_dec ("%5d", value);
+	out_dec ("%5d", মান);
 }
 
 
 /* myctoi - return the integer represented by a string of digits */
 
-int myctoi (const char *array)
+পূর্ণসংখ্যা myctoi (ধ্রুবক অক্ষর *array)
 {
-	int     val = 0;
+	পূর্ণসংখ্যা     val = 0;
 
-	(void) sscanf (array, "%d", &val);
+	(শূন্য) sscanf (array, "%d", &val);
 
-	return val;
+	ফেরত val;
 }
 
 
 /* myesc - return character corresponding to escape sequence */
 
-unsigned char myesc (unsigned char array[])
+unsigned অক্ষর myesc (unsigned অক্ষর array[])
 {
-	unsigned char    c, esc_char;
+	unsigned অক্ষর    c, esc_char;
 
-	switch (array[1]) {
-	case 'b':
-		return '\b';
-	case 'f':
-		return '\f';
-	case 'n':
-		return '\n';
-	case 'r':
-		return '\r';
-	case 't':
-		return '\t';
-	case 'a':
-		return '\a';
-	case 'v':
-		return '\v';
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
+	নির্বাচন (array[1]) {
+	ক্ষেত্র 'b':
+		ফেরত '\b';
+	ক্ষেত্র 'f':
+		ফেরত '\f';
+	ক্ষেত্র 'n':
+		ফেরত '\n';
+	ক্ষেত্র 'r':
+		ফেরত '\r';
+	ক্ষেত্র 't':
+		ফেরত '\t';
+	ক্ষেত্র 'a':
+		ফেরত '\a';
+	ক্ষেত্র 'v':
+		ফেরত '\v';
+	ক্ষেত্র '0':
+	ক্ষেত্র '1':
+	ক্ষেত্র '2':
+	ক্ষেত্র '3':
+	ক্ষেত্র '4':
+	ক্ষেত্র '5':
+	ক্ষেত্র '6':
+	ক্ষেত্র '7':
 		{		/* \<octal> */
-			int     sptr = 1;
+			পূর্ণসংখ্যা     sptr = 1;
 
-			while (sptr <= 3 &&
+			যখন (sptr <= 3 &&
                                array[sptr] >= '0' && array[sptr] <= '7') {
 				++sptr;
 			}
@@ -421,18 +421,18 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 1, NULL, 8);
+			esc_char = (unsigned অক্ষর) strtoul (array + 1, ফাঁকা, 8);
 
 			array[sptr] = c;
 
-			return esc_char;
+			ফেরত esc_char;
 		}
 
-	case 'x':
+	ক্ষেত্র 'x':
 		{		/* \x<hex> */
-			int     sptr = 2;
+			পূর্ণসংখ্যা     sptr = 2;
 
-			while (sptr <= 3 && isxdigit (array[sptr])) {
+			যখন (sptr <= 3 && isxdigit (array[sptr])) {
 				/* Don't increment inside loop control
 				 * because if isxdigit() is a macro it might
 				 * expand into multiple increments ...
@@ -443,15 +443,15 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 2, NULL, 16);
+			esc_char = (unsigned অক্ষর) strtoul (array + 2, ফাঁকা, 16);
 
 			array[sptr] = c;
 
-			return esc_char;
+			ফেরত esc_char;
 		}
 
-	default:
-		return array[1];
+	পূর্বনির্ধারিত:
+		ফেরত array[1];
 	}
 }
 
@@ -460,42 +460,42 @@ unsigned char myesc (unsigned char array[])
  *	 generated scanner, keeping track of the line count.
  */
 
-void out (const char *str)
+শূন্য out (ধ্রুবক অক্ষর *str)
 {
 	fputs (str, stdout);
 }
 
-void out_dec (const char *fmt, int n)
+শূন্য out_dec (ধ্রুবক অক্ষর *fmt, পূর্ণসংখ্যা n)
 {
 	fprintf (stdout, fmt, n);
 }
 
-void out_dec2 (const char *fmt, int n1, int n2)
+শূন্য out_dec2 (ধ্রুবক অক্ষর *fmt, পূর্ণসংখ্যা n1, পূর্ণসংখ্যা n2)
 {
 	fprintf (stdout, fmt, n1, n2);
 }
 
-void out_hex (const char *fmt, unsigned int x)
+শূন্য out_hex (ধ্রুবক অক্ষর *fmt, unsigned পূর্ণসংখ্যা x)
 {
 	fprintf (stdout, fmt, x);
 }
 
-void out_str (const char *fmt, const char str[])
+শূন্য out_str (ধ্রুবক অক্ষর *fmt, ধ্রুবক অক্ষর str[])
 {
 	fprintf (stdout,fmt, str);
 }
 
-void out_str_dec (const char *fmt, const char str[], int n)
+শূন্য out_str_dec (ধ্রুবক অক্ষর *fmt, ধ্রুবক অক্ষর str[], পূর্ণসংখ্যা n)
 {
 	fprintf (stdout,fmt, str, n);
 }
 
-void outc (int c)
+শূন্য outc (পূর্ণসংখ্যা c)
 {
 	fputc (c, stdout);
 }
 
-void outn (const char *str)
+শূন্য outn (ধ্রুবক অক্ষর *str)
 {
 	fputs (str,stdout);
     fputc('\n',stdout);
@@ -505,9 +505,9 @@ void outn (const char *str)
  * @param def The m4 symbol to define.
  * @param val The definition; may be NULL.
  */
-void out_m4_define (const char* def, const char* val)
+শূন্য out_m4_define (ধ্রুবক অক্ষর* def, ধ্রুবক অক্ষর* val)
 {
-    const char * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
+    ধ্রুবক অক্ষর * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
     fprintf(stdout, fmt, def, val?val:"");
 }
 
@@ -517,71 +517,71 @@ void out_m4_define (const char* def, const char* val)
  * The returned string is in static storage.
  */
 
-char   *readable_form (int c)
+অক্ষর   *readable_form (পূর্ণসংখ্যা c)
 {
-	static char rform[20];
+	স্থির অক্ষর rform[20];
 
-	if ((c >= 0 && c < 32) || c >= 127) {
-		switch (c) {
-		case '\b':
-			return "\\b";
-		case '\f':
-			return "\\f";
-		case '\n':
-			return "\\n";
-		case '\r':
-			return "\\r";
-		case '\t':
-			return "\\t";
-		case '\a':
-			return "\\a";
-		case '\v':
-			return "\\v";
-		default:
-			if(env.trace_hex)
-				snprintf (rform, sizeof(rform), "\\x%.2x", (unsigned int) c);
-			else
-				snprintf (rform, sizeof(rform), "\\%.3o", (unsigned int) c);
-			return rform;
+	যদি ((c >= 0 && c < 32) || c >= 127) {
+		নির্বাচন (c) {
+		ক্ষেত্র '\b':
+			ফেরত "\\b";
+		ক্ষেত্র '\f':
+			ফেরত "\\f";
+		ক্ষেত্র '\n':
+			ফেরত "\\n";
+		ক্ষেত্র '\r':
+			ফেরত "\\r";
+		ক্ষেত্র '\t':
+			ফেরত "\\t";
+		ক্ষেত্র '\a':
+			ফেরত "\\a";
+		ক্ষেত্র '\v':
+			ফেরত "\\v";
+		পূর্বনির্ধারিত:
+			যদি(env.trace_hex)
+				snprintf (rform, আকার(rform), "\\x%.2x", (unsigned পূর্ণসংখ্যা) c);
+			অন্যথা
+				snprintf (rform, আকার(rform), "\\%.3o", (unsigned পূর্ণসংখ্যা) c);
+			ফেরত rform;
 		}
 	}
 
-	else if (c == ' ')
-		return "' '";
+	অন্যথা যদি (c == ' ')
+		ফেরত "' '";
 
-	else {
-		rform[0] = (char) c;
+	অন্যথা {
+		rform[0] = (অক্ষর) c;
 		rform[1] = '\0';
 
-		return rform;
+		ফেরত rform;
 	}
 }
 
 
 /* reallocate_array - increase the size of a dynamic array */
 
-void   *reallocate_array (void *array, int size, size_t element_size)
+শূন্য   *reallocate_array (শূন্য *array, পূর্ণসংখ্যা আকার_2, size_t element_আকার)
 {
-	void *new_array;
+	শূন্য *new_array;
 #ifdef HAVE_REALLOCARR
 	new_array = array;
-	if (reallocarr(&new_array, (size_t) size, element_size)) {
+	যদি (reallocarr(&new_array, (size_t) আকার_2, element_আকার)) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
 			 * compatibility (for translations): */
 			_("memory allocation failed in allocate_array()"));
 	}
-#else
+#অন্যথা
 # ifdef HAVE_REALLOCARRAY
-	new_array = reallocarray(array, (size_t) size, element_size);
-# else
+	new_array = reallocarray(array, (size_t) আকার_2, element_আকার);
+# অন্যথা
 	/* Do manual overflow detection */
-	size_t num_bytes = (size_t) size * element_size;
-	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? NULL :
-		realloc(array, num_bytes);
+	size_t অঙ্ক_bytes = (size_t) আকার_2 * element_আকার;
+	new_array = (আকার_2 && আকার_MAX / (size_t) আকার_2 < element_আকার) ? ফাঁকা :
+		realloc(array, অঙ্ক_bytes);
 # endif
-	if (!new_array) {
+	যদি (!new_array) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
@@ -589,7 +589,7 @@ void   *reallocate_array (void *array, int size, size_t element_size)
 			_("memory allocation failed in allocate_array()"));
 	}
 #endif
-	return new_array;
+	ফেরত new_array;
 }
 
 
@@ -599,22 +599,22 @@ void   *reallocate_array (void *array, int size, size_t element_size)
  * element_n.  Formats the output with spaces and carriage returns.
  */
 
-void transition_struct_out (int element_v, int element_n)
+শূন্য transition_struct_out (পূর্ণসংখ্যা element_v, পূর্ণসংখ্যা element_n)
 {
 
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	যদি (!gentables)
+		ফেরত;
 
 	out_dec2 ("M4_HOOK_TABLE_OPENER[[%4d]],[[%4d]]M4_HOOK_TABLE_CONTINUE", element_v, element_n);
 	outc ('\n');
 
-	datapos += TRANS_STRUCT_PRINT_LENGTH;
+	datapos += TRANS_STRUCT_PRINT_দৈর্ঘ্য;
 
-	if (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
+	যদি (datapos >= 79 - TRANS_STRUCT_PRINT_দৈর্ঘ্য) {
 		outc ('\n');
 
-		if (++dataline % 10 == 0)
+		যদি (++dataline % 10 == 0)
 			outc ('\n');
 
 		datapos = 0;
@@ -627,52 +627,52 @@ void transition_struct_out (int element_v, int element_n)
  *
  * XXX: this is should go soon
  */
-void   *yy_flex_xmalloc (int size)
+শূন্য   *yy_flex_xmalloc (পূর্ণসংখ্যা আকার_2)
 {
-	void   *result;
+	শূন্য   *ফলাফল;
 
-	result = malloc((size_t) size);
-	if (!result)
+	ফলাফল = malloc((size_t) আকার_2);
+	যদি (!ফলাফল)
 		flexfatal (_
 			   ("memory allocation failed in yy_flex_xmalloc()"));
 
-	return result;
+	ফেরত ফলাফল;
 }
 
 
 /* Remove all '\n' and '\r' characters, if any, from the end of str.
  * str can be any null-terminated string, or NULL.
  * returns str. */
-char   *chomp (char *str)
+অক্ষর   *chomp (অক্ষর *str)
 {
-	char   *p = str;
+	অক্ষর   *p = str;
 
-	if (!str || !*str)	/* s is null or empty string */
-		return str;
+	যদি (!str || !*str)	/* s is null or empty string */
+		ফেরত str;
 
 	/* find end of string minus one */
-	while (*p)
+	যখন (*p)
 		++p;
 	--p;
 
 	/* eat newlines */
-	while (p >= str && (*p == '\r' || *p == '\n'))
+	যখন (p >= str && (*p == '\r' || *p == '\n'))
 		*p-- = 0;
-	return str;
+	ফেরত str;
 }
 
-void comment(const char *txt)
+শূন্য comment(ধ্রুবক অক্ষর *txt)
 {
-	char buf[MAXLINE];
+	অক্ষর buf[MAXLINE];
 	bool eol;
 
 	strncpy(buf, txt, MAXLINE-1);
 	eol = buf[strlen(buf)-1] == '\n';
 
-	if (eol)
+	যদি (eol)
 		buf[strlen(buf)-1] = '\0';
 	out_str("M4_HOOK_COMMENT_OPEN [[%s]] M4_HOOK_COMMENT_CLOSE", buf);
-	if (eol)
+	যদি (eol)
 		outc ('\n');
 }
 

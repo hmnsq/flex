@@ -13,7 +13,7 @@
 /* "flexint_shared.h" will be included also in skeleton. It will include
  * <inttypes.h> (if available) and define flex's integral types.
  */
-#include "flexint_shared.h"
+#অন্তর্ভাব "flexint_shared.h"
 
 /* Limits of integral types. */
 #ifndef INT8_MIN
@@ -45,10 +45,10 @@
 #endif
 
 #ifndef INT_MAX
-#define INT_MAX                ((int)(~0U)>>1)
+#define INT_MAX                ((পূর্ণসংখ্যা)(~0U)>>1)
 #endif
-#ifndef SIZE_MAX
-#define SIZE_MAX               (~(size_t)0)
+#ifndef আকার_MAX
+#define আকার_MAX               (~(size_t)0)
 #endif
 
 #endif /* ! FLEXINT_H */

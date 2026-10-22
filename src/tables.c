@@ -35,17 +35,17 @@
  */
 
 
-#include "flexdef.h"
-#include "tables.h"
+#অন্তর্ভাব "flexdef.h"
+#অন্তর্ভাব "tables.h"
 
 /** Convert size_t to t_flag.
  *  @param n in {1,2,4}
  *  @return YYTD_DATA*. 
  */
 #define BYTES2TFLAG(n)\
-    (((n) == sizeof(flex_int8_t))\
+    (((n) == আকার(flex_int8_t))\
         ? YYTD_DATA8\
-        :(((n)== sizeof(flex_int16_t))\
+        :(((n)== আকার(flex_int16_t))\
             ? YYTD_DATA16\
             : YYTD_DATA32))
 
@@ -54,11 +54,11 @@
  */
 #define TFLAGS_CLRDATA(flg) ((flg) & ~(YYTD_DATA8 | YYTD_DATA16 | YYTD_DATA32))
 
-int     yytbl_write32 (struct yytbl_writer *wr, flex_uint32_t v);
-int     yytbl_write16 (struct yytbl_writer *wr, flex_uint16_t v);
-int     yytbl_write8 (struct yytbl_writer *wr, flex_uint8_t v);
-int     yytbl_writen (struct yytbl_writer *wr, void *v, int len);
-static flex_int32_t yytbl_data_geti (const struct yytbl_data *tbl, int i);
+পূর্ণসংখ্যা     yytbl_write32 (কাঠামো yytbl_writer *wr, flex_uint32_t v);
+পূর্ণসংখ্যা     yytbl_write16 (কাঠামো yytbl_writer *wr, flex_uint16_t v);
+পূর্ণসংখ্যা     yytbl_write8 (কাঠামো yytbl_writer *wr, flex_uint8_t v);
+পূর্ণসংখ্যা     yytbl_writen (কাঠামো yytbl_writer *wr, শূন্য *v, পূর্ণসংখ্যা len);
+স্থির flex_int32_t yytbl_তথ্য_geti (ধ্রুবক কাঠামো yytbl_তথ্য *tbl, পূর্ণসংখ্যা i);
 /* XXX Not used
 static flex_int32_t yytbl_data_getijk (const struct yytbl_data *tbl, int i,
 				  int j, int k);
@@ -70,11 +70,11 @@ static flex_int32_t yytbl_data_getijk (const struct yytbl_data *tbl, int i,
  *  @param out the output file
  *  @return 0 on success
  */
-int yytbl_writer_init (struct yytbl_writer *wr, FILE * out)
+পূর্ণসংখ্যা yytbl_writer_init (কাঠামো yytbl_writer *wr, FILE * out)
 {
 	wr->out = out;
-	wr->total_written = 0;
-	return 0;
+	wr->যোগ_written = 0;
+	ফেরত 0;
 }
 
 /** Initialize a table header.
@@ -82,10 +82,10 @@ int yytbl_writer_init (struct yytbl_writer *wr, FILE * out)
  *  @param version_str the  version string
  *  @param name the name of this table set
  */
-int yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
-		    const char *name)
+পূর্ণসংখ্যা yytbl_hdr_init (কাঠামো yytbl_hdr *th, ধ্রুবক অক্ষর *version_str,
+		    ধ্রুবক অক্ষর *name)
 {
-	memset (th, 0, sizeof (struct yytbl_hdr));
+	memset (th, 0, আকার (কাঠামো yytbl_hdr));
 
 	th->th_magic = YYTBL_MAGIC;
 	th->th_hsize = (flex_uint32_t) (14 + strlen (version_str) + 1 + strlen (name) + 1);
@@ -94,7 +94,7 @@ int yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
 	th->th_flags = 0;
 	th->th_version = xstrdup(version_str);
 	th->th_name = xstrdup(name);
-	return 0;
+	ফেরত 0;
 }
 
 /** Allocate and initialize a table data structure.
@@ -102,39 +102,39 @@ int yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
  *  @param id  the table identifier
  *  @return 0 on success
  */
-int yytbl_data_init (struct yytbl_data *td, enum yytbl_id id)
+পূর্ণসংখ্যা yytbl_তথ্য_init (কাঠামো yytbl_তথ্য *td, গণনা yytbl_id id)
 {
 
-	memset (td, 0, sizeof (struct yytbl_data));
+	memset (td, 0, আকার (কাঠামো yytbl_তথ্য));
 	td->td_id = id;
 	td->td_flags = YYTD_DATA32;
-	return 0;
+	ফেরত 0;
 }
 
 /** Clean up table and data array.
  *  @param td will be destroyed
  *  @return 0 on success
  */
-int yytbl_data_destroy (struct yytbl_data *td)
+পূর্ণসংখ্যা yytbl_তথ্য_destroy (কাঠামো yytbl_তথ্য *td)
 {
-	free(td->td_data);
-	td->td_data = 0;
-	free (td);
-	return 0;
+	মুক্ত(td->td_তথ্য);
+	td->td_তথ্য = 0;
+	মুক্ত (td);
+	ফেরত 0;
 }
 
 /** Write enough padding to bring the file pointer to a 64-bit boundary. */
-static int yytbl_write_pad64 (struct yytbl_writer *wr)
+স্থির পূর্ণসংখ্যা yytbl_write_pad64 (কাঠামো yytbl_writer *wr)
 {
-	int bwritten = 0;
+	পূর্ণসংখ্যা bwritten = 0;
 
-	while (wr->total_written % (8 * sizeof(flex_uint8_t)) > 0) {
-		if (yytbl_write8 (wr, 0) < 0)
-			return -1;
-		else
+	যখন (wr->যোগ_written % (8 * আকার(flex_uint8_t)) > 0) {
+		যদি (yytbl_write8 (wr, 0) < 0)
+			ফেরত -1;
+		অন্যথা
 			bwritten++;
 	}
-	return bwritten;
+	ফেরত bwritten;
 }
 
 /** write the header.
@@ -142,44 +142,44 @@ static int yytbl_write_pad64 (struct yytbl_writer *wr)
  *  @param th table header to be written
  *  @return -1 on error, or bytes written on success.
  */
-int yytbl_hdr_fwrite (struct yytbl_writer *wr, const struct yytbl_hdr *th)
+পূর্ণসংখ্যা yytbl_hdr_fwrite (কাঠামো yytbl_writer *wr, ধ্রুবক কাঠামো yytbl_hdr *th)
 {
-	int  sz, rv;
-	int     bwritten = 0;
+	পূর্ণসংখ্যা  sz, rv;
+	পূর্ণসংখ্যা     bwritten = 0;
 
-	if (yytbl_write32 (wr, th->th_magic) < 0
+	যদি (yytbl_write32 (wr, th->th_magic) < 0
 	    || yytbl_write32 (wr, th->th_hsize) < 0)
 		flex_die (_("th_magic|th_hsize write32 failed"));
 	bwritten += 8;
 
-	if (fgetpos (wr->out, &(wr->th_ssize_pos)) != 0)
+	যদি (fgetpos (wr->out, &(wr->th_ssize_pos)) != 0)
 		flex_die (_("fgetpos failed"));
 
-	if (yytbl_write32 (wr, th->th_ssize) < 0
+	যদি (yytbl_write32 (wr, th->th_ssize) < 0
 	    || yytbl_write16 (wr, th->th_flags) < 0)
 		flex_die (_("th_ssize|th_flags write failed"));
 	bwritten += 6;
 
-	sz = (int) strlen (th->th_version) + 1;
-	if ((rv = yytbl_writen (wr, th->th_version, sz)) != sz)
+	sz = (পূর্ণসংখ্যা) strlen (th->th_version) + 1;
+	যদি ((rv = yytbl_writen (wr, th->th_version, sz)) != sz)
 		flex_die (_("th_version written failed"));
 	bwritten += rv;
 
-	sz = (int) strlen (th->th_name) + 1;
-	if ((rv = yytbl_writen (wr, th->th_name, sz)) != sz)
+	sz = (পূর্ণসংখ্যা) strlen (th->th_name) + 1;
+	যদি ((rv = yytbl_writen (wr, th->th_name, sz)) != sz)
 		flex_die (_("th_name written failed"));
 	bwritten += rv;
 
 	/* add padding */
-	if ((rv = yytbl_write_pad64 (wr)) < 0)
+	যদি ((rv = yytbl_write_pad64 (wr)) < 0)
 		flex_die (_("pad64 failed"));
 	bwritten += rv;
 
 	/* Sanity check */
-	if (bwritten != (int) th->th_hsize)
+	যদি (bwritten != (পূর্ণসংখ্যা) th->th_hsize)
 		flex_die (_("pad64 failed"));
 
-	return bwritten;
+	ফেরত bwritten;
 }
 
 
@@ -188,76 +188,76 @@ int yytbl_hdr_fwrite (struct yytbl_writer *wr, const struct yytbl_hdr *th)
  *  @param td table data to be written
  *  @return -1 on error, or bytes written on success.
  */
-int yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td)
+পূর্ণসংখ্যা yytbl_তথ্য_fwrite (কাঠামো yytbl_writer *wr, কাঠামো yytbl_তথ্য *td)
 {
-	int  rv;
+	পূর্ণসংখ্যা  rv;
 	flex_int32_t bwritten = 0;
-	flex_int32_t i, total_len;
+	flex_int32_t i, যোগ_len;
 	fpos_t  pos;
 
-	if ((rv = yytbl_write16 (wr, td->td_id)) < 0)
-		return -1;
+	যদি ((rv = yytbl_write16 (wr, td->td_id)) < 0)
+		ফেরত -1;
 	bwritten += rv;
 
-	if ((rv = yytbl_write16 (wr, td->td_flags)) < 0)
-		return -1;
+	যদি ((rv = yytbl_write16 (wr, td->td_flags)) < 0)
+		ফেরত -1;
 	bwritten += rv;
 
-	if ((rv = yytbl_write32 (wr, td->td_hilen)) < 0)
-		return -1;
+	যদি ((rv = yytbl_write32 (wr, td->td_hilen)) < 0)
+		ফেরত -1;
 	bwritten += rv;
 
-	if ((rv = yytbl_write32 (wr, td->td_lolen)) < 0)
-		return -1;
+	যদি ((rv = yytbl_write32 (wr, td->td_lolen)) < 0)
+		ফেরত -1;
 	bwritten += rv;
 
-	total_len = yytbl_calc_total_len (td);
-	for (i = 0; i < total_len; i++) {
-		switch (YYTDFLAGS2BYTES (td->td_flags)) {
-		case sizeof (flex_int8_t):
-			rv = yytbl_write8 (wr, (flex_uint8_t) yytbl_data_geti (td, i));
-			break;
-		case sizeof (flex_int16_t):
-			rv = yytbl_write16 (wr, (flex_uint16_t) yytbl_data_geti (td, i));
-			break;
-		case sizeof (flex_int32_t):
-			rv = yytbl_write32 (wr, (flex_uint32_t) yytbl_data_geti (td, i));
-			break;
-		default:
+	যোগ_len = yytbl_calc_যোগ_len (td);
+	জন্য (i = 0; i < যোগ_len; i++) {
+		নির্বাচন (YYTDFLAGS2BYTES (td->td_flags)) {
+		ক্ষেত্র আকার (flex_int8_t):
+			rv = yytbl_write8 (wr, (flex_uint8_t) yytbl_তথ্য_geti (td, i));
+			বিরতি;
+		ক্ষেত্র আকার (flex_int16_t):
+			rv = yytbl_write16 (wr, (flex_uint16_t) yytbl_তথ্য_geti (td, i));
+			বিরতি;
+		ক্ষেত্র আকার (flex_int32_t):
+			rv = yytbl_write32 (wr, (flex_uint32_t) yytbl_তথ্য_geti (td, i));
+			বিরতি;
+		পূর্বনির্ধারিত:
 			flex_die (_("invalid td_flags detected"));
 		}
-		if (rv < 0) {
+		যদি (rv < 0) {
 			flex_die (_("error while writing tables"));
-			return -1;
+			ফেরত -1;
 		}
 		bwritten += rv;
 	}
 
 	/* Sanity check */
-	if (bwritten != (12 + total_len * (int) YYTDFLAGS2BYTES (td->td_flags))) {
+	যদি (bwritten != (12 + যোগ_len * (পূর্ণসংখ্যা) YYTDFLAGS2BYTES (td->td_flags))) {
 		flex_die (_("insanity detected"));
-		return -1;
+		ফেরত -1;
 	}
 
 	/* add padding */
-	if ((rv = yytbl_write_pad64 (wr)) < 0) {
+	যদি ((rv = yytbl_write_pad64 (wr)) < 0) {
 		flex_die (_("pad64 failed"));
-		return -1;
+		ফেরত -1;
 	}
 	bwritten += rv;
 
 	/* Now go back and update the th_hsize member */
-	if (fgetpos (wr->out, &pos) != 0
+	যদি (fgetpos (wr->out, &pos) != 0
 	    || fsetpos (wr->out, &(wr->th_ssize_pos)) != 0
-	    || yytbl_write32 (wr, (flex_uint32_t) wr->total_written) < 0
+	    || yytbl_write32 (wr, (flex_uint32_t) wr->যোগ_written) < 0
 	    || fsetpos (wr->out, &pos)) {
 		flex_die (_("get|set|fwrite32 failed"));
-		return -1;
+		ফেরত -1;
 	}
-	else
+	অন্যথা
 		/* Don't count the int we just wrote. */
-		wr->total_written -= (int) sizeof (flex_int32_t);
-	return bwritten;
+		wr->যোগ_written -= (পূর্ণসংখ্যা) আকার (flex_int32_t);
+	ফেরত bwritten;
 }
 
 /** Write n bytes.
@@ -266,15 +266,15 @@ int yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td)
  *  @param  len  number of bytes
  *  @return  -1 on error. number of bytes written on success.
  */
-int yytbl_writen (struct yytbl_writer *wr, void *v, int len)
+পূর্ণসংখ্যা yytbl_writen (কাঠামো yytbl_writer *wr, শূন্য *v, পূর্ণসংখ্যা len)
 {
-	int  rv;
+	পূর্ণসংখ্যা  rv;
 
-	rv = (int) fwrite (v, 1, (size_t) len, wr->out);
-	if (rv != len)
-		return -1;
-	wr->total_written += len;
-	return len;
+	rv = (পূর্ণসংখ্যা) fwrite (v, 1, (size_t) len, wr->out);
+	যদি (rv != len)
+		ফেরত -1;
+	wr->যোগ_written += len;
+	ফেরত len;
 }
 
 /** Write four bytes in network byte order
@@ -282,18 +282,18 @@ int yytbl_writen (struct yytbl_writer *wr, void *v, int len)
  *  @param  v    a dword in host byte order
  *  @return  -1 on error. number of bytes written on success.
  */
-int yytbl_write32 (struct yytbl_writer *wr, flex_uint32_t v)
+পূর্ণসংখ্যা yytbl_write32 (কাঠামো yytbl_writer *wr, flex_uint32_t v)
 {
 	flex_uint32_t vnet;
-	int  bytes, rv;
+	পূর্ণসংখ্যা  bytes, rv;
 
 	vnet = htonl (v);
-	bytes = (int) sizeof (flex_uint32_t);
-	rv = (int) fwrite (&vnet, (size_t) bytes, 1, wr->out);
-	if (rv != 1)
-		return -1;
-	wr->total_written += bytes;
-	return bytes;
+	bytes = (পূর্ণসংখ্যা) আকার (flex_uint32_t);
+	rv = (পূর্ণসংখ্যা) fwrite (&vnet, (size_t) bytes, 1, wr->out);
+	যদি (rv != 1)
+		ফেরত -1;
+	wr->যোগ_written += bytes;
+	ফেরত bytes;
 }
 
 /** Write two bytes in network byte order.
@@ -301,18 +301,18 @@ int yytbl_write32 (struct yytbl_writer *wr, flex_uint32_t v)
  *  @param  v    a word in host byte order
  *  @return  -1 on error. number of bytes written on success.
  */
-int yytbl_write16 (struct yytbl_writer *wr, flex_uint16_t v)
+পূর্ণসংখ্যা yytbl_write16 (কাঠামো yytbl_writer *wr, flex_uint16_t v)
 {
 	flex_uint16_t vnet;
-	int  bytes, rv;
+	পূর্ণসংখ্যা  bytes, rv;
 
 	vnet = htons (v);
-	bytes = (int) sizeof (flex_uint16_t);
-	rv = (int) fwrite (&vnet, (size_t) bytes, 1, wr->out);
-	if (rv != 1)
-		return -1;
-	wr->total_written += bytes;
-	return bytes;
+	bytes = (পূর্ণসংখ্যা) আকার (flex_uint16_t);
+	rv = (পূর্ণসংখ্যা) fwrite (&vnet, (size_t) bytes, 1, wr->out);
+	যদি (rv != 1)
+		ফেরত -1;
+	wr->যোগ_written += bytes;
+	ফেরত bytes;
 }
 
 /** Write a byte.
@@ -320,21 +320,21 @@ int yytbl_write16 (struct yytbl_writer *wr, flex_uint16_t v)
  *  @param  v    the value to be written
  *  @return  -1 on error. number of bytes written on success.
  */
-int yytbl_write8 (struct yytbl_writer *wr, flex_uint8_t v)
+পূর্ণসংখ্যা yytbl_write8 (কাঠামো yytbl_writer *wr, flex_uint8_t v)
 {
-	int  bytes, rv;
+	পূর্ণসংখ্যা  bytes, rv;
 
-	bytes = (int) sizeof (flex_uint8_t);
-	rv = (int) fwrite (&v, (size_t) bytes, 1, wr->out);
-	if (rv != 1)
-		return -1;
-	wr->total_written += bytes;
-	return bytes;
+	bytes = (পূর্ণসংখ্যা) আকার (flex_uint8_t);
+	rv = (পূর্ণসংখ্যা) fwrite (&v, (size_t) bytes, 1, wr->out);
+	যদি (rv != 1)
+		ফেরত -1;
+	wr->যোগ_written += bytes;
+	ফেরত bytes;
 }
 
 
 /* XXX Not Used */
-#if 0
+#যদি 0
 /** Extract data element [i][j] from array data tables. 
  * @param tbl data table
  * @param i index into higher dimension array. i should be zero for one-dimensional arrays.
@@ -342,32 +342,32 @@ int yytbl_write8 (struct yytbl_writer *wr, flex_uint8_t v)
  * @param k index into struct, must be 0 or 1. Only valid for YYTD_ID_TRANSITION table
  * @return data[i][j + k]
  */
-static flex_int32_t yytbl_data_getijk (const struct yytbl_data *tbl, int i,
-				  int j, int k)
+স্থির flex_int32_t yytbl_তথ্য_getijk (ধ্রুবক কাঠামো yytbl_তথ্য *tbl, পূর্ণসংখ্যা i,
+				  পূর্ণসংখ্যা j, পূর্ণসংখ্যা k)
 {
 	flex_int32_t lo;
 
 	k %= 2;
 	lo = tbl->td_lolen;
 
-	switch (YYTDFLAGS2BYTES (tbl->td_flags)) {
-	case sizeof (flex_int8_t):
-		return ((flex_int8_t *) (tbl->td_data))[(i * lo + j) * (k + 1) +
+	নির্বাচন (YYTDFLAGS2BYTES (tbl->td_flags)) {
+	ক্ষেত্র আকার (flex_int8_t):
+		ফেরত ((flex_int8_t *) (tbl->td_তথ্য))[(i * lo + j) * (k + 1) +
 						   k];
-	case sizeof (flex_int16_t):
-		return ((flex_int16_t *) (tbl->td_data))[(i * lo + j) * (k +
+	ক্ষেত্র আকার (flex_int16_t):
+		ফেরত ((flex_int16_t *) (tbl->td_তথ্য))[(i * lo + j) * (k +
 								    1) +
 						    k];
-	case sizeof (flex_int32_t):
-		return ((flex_int32_t *) (tbl->td_data))[(i * lo + j) * (k +
+	ক্ষেত্র আকার (flex_int32_t):
+		ফেরত ((flex_int32_t *) (tbl->td_তথ্য))[(i * lo + j) * (k +
 								    1) +
 						    k];
-	default:
+	পূর্বনির্ধারিত:
 		flex_die (_("invalid td_flags detected"));
-		break;
+		বিরতি;
 	}
 
-	return 0;
+	ফেরত 0;
 }
 #endif /* Not used */
 
@@ -378,21 +378,21 @@ static flex_int32_t yytbl_data_getijk (const struct yytbl_data *tbl, int i,
  * @param i index into array.
  * @return data[i]
  */
-static flex_int32_t yytbl_data_geti (const struct yytbl_data *tbl, int i)
+স্থির flex_int32_t yytbl_তথ্য_geti (ধ্রুবক কাঠামো yytbl_তথ্য *tbl, পূর্ণসংখ্যা i)
 {
 
-	switch (YYTDFLAGS2BYTES (tbl->td_flags)) {
-	case sizeof (flex_int8_t):
-		return ((flex_int8_t *) (tbl->td_data))[i];
-	case sizeof (flex_int16_t):
-		return ((flex_int16_t *) (tbl->td_data))[i];
-	case sizeof (flex_int32_t):
-		return ((flex_int32_t *) (tbl->td_data))[i];
-	default:
+	নির্বাচন (YYTDFLAGS2BYTES (tbl->td_flags)) {
+	ক্ষেত্র আকার (flex_int8_t):
+		ফেরত ((flex_int8_t *) (tbl->td_তথ্য))[i];
+	ক্ষেত্র আকার (flex_int16_t):
+		ফেরত ((flex_int16_t *) (tbl->td_তথ্য))[i];
+	ক্ষেত্র আকার (flex_int32_t):
+		ফেরত ((flex_int32_t *) (tbl->td_তথ্য))[i];
+	পূর্বনির্ধারিত:
 		flex_die (_("invalid td_flags detected"));
-		break;
+		বিরতি;
 	}
-	return 0;
+	ফেরত 0;
 }
 
 /** Set data element [i] in array data tables treated as a single flat array of integers.
@@ -402,23 +402,23 @@ static flex_int32_t yytbl_data_geti (const struct yytbl_data *tbl, int i)
  * @param i index into array.
  * @param newval new value for data[i]
  */
-static void yytbl_data_seti (const struct yytbl_data *tbl, int i,
+স্থির শূন্য yytbl_তথ্য_seti (ধ্রুবক কাঠামো yytbl_তথ্য *tbl, পূর্ণসংখ্যা i,
 			     flex_int32_t newval)
 {
 
-	switch (YYTDFLAGS2BYTES (tbl->td_flags)) {
-	case sizeof (flex_int8_t):
-		((flex_int8_t *) (tbl->td_data))[i] = (flex_int8_t) newval;
-		break;
-	case sizeof (flex_int16_t):
-		((flex_int16_t *) (tbl->td_data))[i] = (flex_int16_t) newval;
-		break;
-	case sizeof (flex_int32_t):
-		((flex_int32_t *) (tbl->td_data))[i] = (flex_int32_t) newval;
-		break;
-	default:
+	নির্বাচন (YYTDFLAGS2BYTES (tbl->td_flags)) {
+	ক্ষেত্র আকার (flex_int8_t):
+		((flex_int8_t *) (tbl->td_তথ্য))[i] = (flex_int8_t) newval;
+		বিরতি;
+	ক্ষেত্র আকার (flex_int16_t):
+		((flex_int16_t *) (tbl->td_তথ্য))[i] = (flex_int16_t) newval;
+		বিরতি;
+	ক্ষেত্র আকার (flex_int32_t):
+		((flex_int32_t *) (tbl->td_তথ্য))[i] = (flex_int32_t) newval;
+		বিরতি;
+	পূর্বনির্ধারিত:
 		flex_die (_("invalid td_flags detected"));
-		break;
+		বিরতি;
 	}
 }
 
@@ -427,28 +427,28 @@ static void yytbl_data_seti (const struct yytbl_data *tbl, int i,
  *  @param tbl  the data table
  *  @return sizeof(n) where n in {flex_int8_t, flex_int16_t, flex_int32_t}
  */
-static size_t min_int_size (struct yytbl_data *tbl)
+স্থির size_t min_int_আকার (কাঠামো yytbl_তথ্য *tbl)
 {
-	flex_int32_t i, total_len;
+	flex_int32_t i, যোগ_len;
 	flex_int32_t max = 0;
 
-	total_len = yytbl_calc_total_len (tbl);
+	যোগ_len = yytbl_calc_যোগ_len (tbl);
 
-	for (i = 0; i < total_len; i++) {
+	জন্য (i = 0; i < যোগ_len; i++) {
 		flex_int32_t n;
 
-		n = abs (yytbl_data_geti (tbl, i));
+		n = abs (yytbl_তথ্য_geti (tbl, i));
 
-		if (max < n)
+		যদি (max < n)
 			max = n;
 	}
 
-	if (max <= INT8_MAX)
-		return sizeof (flex_int8_t);
-	else if (max <= INT16_MAX)
-		return sizeof (flex_int16_t);
-	else
-		return sizeof (flex_int32_t);
+	যদি (max <= INT8_MAX)
+		ফেরত আকার (flex_int8_t);
+	অন্যথা যদি (max <= INT16_MAX)
+		ফেরত আকার (flex_int16_t);
+	অন্যথা
+		ফেরত আকার (flex_int32_t);
 }
 
 /** Transform data to smallest possible of (int32, int16, int8).
@@ -460,44 +460,44 @@ static size_t min_int_size (struct yytbl_data *tbl)
  *
  * @param tbl the table to be compressed
  */
-void yytbl_data_compress (struct yytbl_data *tbl)
+শূন্য yytbl_তথ্য_compress (কাঠামো yytbl_তথ্য *tbl)
 {
-	flex_int32_t i, total_len;
+	flex_int32_t i, যোগ_len;
 	size_t newsz;
-	struct yytbl_data newtbl;
+	কাঠামো yytbl_তথ্য newtbl;
 
-	yytbl_data_init (&newtbl, tbl->td_id);
+	yytbl_তথ্য_init (&newtbl, tbl->td_id);
 	newtbl.td_hilen = tbl->td_hilen;
 	newtbl.td_lolen = tbl->td_lolen;
 	newtbl.td_flags = tbl->td_flags;
 
-	newsz = min_int_size (tbl);
+	newsz = min_int_আকার (tbl);
 
 
-	if (newsz == YYTDFLAGS2BYTES (tbl->td_flags))
+	যদি (newsz == YYTDFLAGS2BYTES (tbl->td_flags))
 		/* No change in this table needed. */
-		return;
+		ফেরত;
 
-	if (newsz > YYTDFLAGS2BYTES (tbl->td_flags)) {
+	যদি (newsz > YYTDFLAGS2BYTES (tbl->td_flags)) {
 		flex_die (_("detected negative compression"));
-		return;
+		ফেরত;
 	}
 
-	total_len = yytbl_calc_total_len (tbl);
-	newtbl.td_data = calloc ((size_t) total_len, newsz);
+	যোগ_len = yytbl_calc_যোগ_len (tbl);
+	newtbl.td_তথ্য = calloc ((size_t) যোগ_len, newsz);
 	newtbl.td_flags = (flex_uint16_t)
 		(TFLAGS_CLRDATA (newtbl.td_flags) | BYTES2TFLAG (newsz));
 
-	for (i = 0; i < total_len; i++) {
+	জন্য (i = 0; i < যোগ_len; i++) {
 		flex_int32_t g;
 
-		g = yytbl_data_geti (tbl, i);
-		yytbl_data_seti (&newtbl, i, g);
+		g = yytbl_তথ্য_geti (tbl, i);
+		yytbl_তথ্য_seti (&newtbl, i, g);
 	}
 
 
 	/* Now copy over the old table */
-	free (tbl->td_data);
+	মুক্ত (tbl->td_তথ্য);
 	*tbl = newtbl;
 }
 

@@ -34,23 +34,23 @@
 /*  PURPOSE. */
 
 
-#include "flexdef.h"
-#include "tables.h"
+#অন্তর্ভাব "flexdef.h"
+#অন্তর্ভাব "tables.h"
 
 /* START digested skeletons */
 
-const char *cpp_skel[] = {
-#include "cpp-flex.h"
+ধ্রুবক অক্ষর *cpp_skel[] = {
+#অন্তর্ভাব "cpp-flex.h"
     0,
 };
 
-const char *c99_skel[] = {
-#include "c99-flex.h"
+ধ্রুবক অক্ষর *c99_skel[] = {
+#অন্তর্ভাব "c99-flex.h"
     0,
 };
 
-const char *go_skel[] = {
-#include "go-flex.h"
+ধ্রুবক অক্ষর *go_skel[] = {
+#অন্তর্ভাব "go-flex.h"
     0,
 };
 
@@ -61,59 +61,59 @@ const char *go_skel[] = {
  * array, it prevents us from getting lost in a maze of
  * twisty array reference levels, all different.
  */
-struct flex_backend_t {
-	const char **skel;		// Digested skeleton file
+কাঠামো flex_backend_t {
+	ধ্রুবক অক্ষর **skel;		// Digested skeleton file
 };
 
-static struct flex_backend_t backends[] = {
+স্থির কাঠামো flex_backend_t backends[] = {
     {.skel=cpp_skel},
     {.skel=c99_skel},
     {.skel=go_skel},
-    {NULL}
+    {ফাঁকা}
 };
 
-static struct flex_backend_t *backend = &backends[0];
+স্থির কাঠামো flex_backend_t *backend = &backends[0];
 
 /* Functions for querying skeleton properties. */
 
-bool is_default_backend(void)
+bool is_default_backend(শূন্য)
 {
-    return backend == &backends[0];
+    ফেরত backend == &backends[0];
 }
 
 /* Search for a string in the skeleton prolog, where macros are defined.
  */
-static bool boneseeker(const char *bone)
+স্থির bool boneseeker(ধ্রুবক অক্ষর *bone)
 {
-	int i;
+	পূর্ণসংখ্যা i;
 
-	for (i = 0; backend->skel[i] != NULL; i++) {
-		const char *line = backend->skel[i];
-		if (strstr(line, bone) != NULL)
-			return true;
-		else if (strncmp(line, "%%", 2) == 0)
-			break;
+	জন্য (i = 0; backend->skel[i] != ফাঁকা; i++) {
+		ধ্রুবক অক্ষর *সারি = backend->skel[i];
+		যদি (strstr(সারি, bone) != ফাঁকা)
+			ফেরত true;
+		অন্যথা যদি (strncmp(সারি, "%%", 2) == 0)
+			বিরতি;
 	}
-	return false;
+	ফেরত false;
 }
 
-void backend_by_name(const char *name)
+শূন্য backend_by_name(ধ্রুবক অক্ষর *name)
 {
-	const char *prefix_property;
-	if (name != NULL) {
-		if (strcmp(name, "nr") == 0) {
+	ধ্রুবক অক্ষর *prefix_property;
+	যদি (name != ফাঁকা) {
+		যদি (strcmp(name, "nr") == 0) {
 			backend = &backends[0];
 			ctrl.reentrant = false;
-			goto backend_ok;
+			যাও backend_ok;
 		}
-		if (strcmp(name, "r") == 0) {
+		যদি (strcmp(name, "r") == 0) {
 			backend = &backends[0];
 			ctrl.reentrant = true;
-			goto backend_ok;
+			যাও backend_ok;
 		}
-		for (backend = &backends[0]; backend->skel != NULL; backend++) {
-			if (strcasecmp(skel_property("M4_PROPERTY_BACKEND_NAME"), name) == 0)
-				goto backend_ok;
+		জন্য (backend = &backends[0]; backend->skel != ফাঁকা; backend++) {
+			যদি (strcasecmp(skel_property("M4_PROPERTY_BACKEND_NAME"), name) == 0)
+				যাও backend_ok;
 		}
 		flexerror(_("no such back end"));
 	}
@@ -124,83 +124,83 @@ void backend_by_name(const char *name)
 	ctrl.traceline_template = xstrdup(skel_property("M4_PROPERTY_TRACE_LINE_TEMPLATE"));
 	ctrl.have_state_entry_format = boneseeker("m4_define([[M4_HOOK_STATE_ENTRY_FORMAT]]");
 	prefix_property = skel_property("M4_PROPERTY_PREFIX");
-	if (prefix_property != NULL)
+	যদি (prefix_property != ফাঁকা)
 		ctrl.prefix = xstrdup(prefix_property);
 	flex_init_regex(ctrl.traceline_re);
 }
 
-const char *suffix (void)
+ধ্রুবক অক্ষর *suffix (শূন্য)
 {
-	const char   *suffix;
+	ধ্রুবক অক্ষর   *suffix;
 
-	if (is_default_backend()) {
-		if (ctrl.C_plus_plus)
+	যদি (is_default_backend()) {
+		যদি (ctrl.C_plus_plus)
 			suffix = "cc";
-		else
+		অন্যথা
 			suffix = "c";
-	} else {
+	} অন্যথা {
 		suffix = skel_property("M4_PROPERTY_SOURCE_SUFFIX");
 	}
 	
-	return suffix;
+	ফেরত suffix;
 }
 
 /* Search for a m4 define of the property key, retrieve the value.  The
  * definition must be single-line.  Don't call this a second time before
  * stashing away the previous return, we cheat with static buffers.
  */
-const char *skel_property(const char *propname)
+ধ্রুবক অক্ষর *skel_property(ধ্রুবক অক্ষর *propname)
 {
-	int i;
-	static char name[256], value[256], *np, *vp;;
-	const char *cp;
+	পূর্ণসংখ্যা i;
+	স্থির অক্ষর name[256], মান[256], *np, *vp;;
+	ধ্রুবক অক্ষর *cp;
 
-	for (i = 0; backend->skel[i] != NULL; i++) {
-		const char *line = backend->skel[i];
-		if (line[0] == '\0')
-			continue;
+	জন্য (i = 0; backend->skel[i] != ফাঁকা; i++) {
+		ধ্রুবক অক্ষর *সারি = backend->skel[i];
+		যদি (সারি[0] == '\0')
+			চালু;
 		/* only scan before first skell breakpoint */
-		if (strncmp(line, "%%", 2) == 0)
-			break;
+		যদি (strncmp(সারি, "%%", 2) == 0)
+			বিরতি;
 		/* ignore anything that's not a definition */
-		if (strncmp(line, "m4_define(", 10) != 0)
-			continue;
+		যদি (strncmp(সারি, "m4_define(", 10) != 0)
+			চালু;
 		/* skip space and quotes before macro name */
-		for (cp = line + 10; isspace(*cp) || *cp == '['; *cp++)
-			continue;
+		জন্য (cp = সারি + 10; isspace(*cp) || *cp == '['; *cp++)
+			চালু;
 		/* copy up to following ] into the name buffer */
 		np = name;
-		while (*cp != ']' && *cp != '\0' && (np < name + sizeof(name)-1)) {
+		যখন (*cp != ']' && *cp != '\0' && (np < name + আকার(name)-1)) {
 			*np++ = *cp++;
 		}
 		*np = '\0';
 		/* check for valid and matching name */
-		if (*cp == ']') {
-			if (strcmp(name, propname) != 0)
-				continue; /* try next line */
-		} else {
+		যদি (*cp == ']') {
+			যদি (strcmp(name, propname) != 0)
+				চালু; /* try next line */
+		} অন্যথা {
 			flexerror(_("unterminated or too long property name"));
-			continue;
+			চালু;
 		}
 		/* skip to the property value */
-		while (*cp != '\0' && (*cp == ']' || isspace(*cp) || *cp == ','))
+		যখন (*cp != '\0' && (*cp == ']' || isspace(*cp) || *cp == ','))
 			cp++;
-		while (*cp == '[')
+		যখন (*cp == '[')
 			cp++;
-		if (*cp == '\0')
+		যদি (*cp == '\0')
 			flexerror(_("garbled property line"));
 		/* extract the value */
-		vp = value;
-		while (*cp != '\0' && vp < value + sizeof(value) - 1 && (cp[0] != ']' || cp[1] != ']'))
+		vp = মান;
+		যখন (*cp != '\0' && vp < মান + আকার(মান) - 1 && (cp[0] != ']' || cp[1] != ']'))
 			*vp++ = *cp++;
-		if (*cp == ']') {
+		যদি (*cp == ']') {
 			*vp = '\0';
-			return value;
-		} else {
+			ফেরত মান;
+		} অন্যথা {
 			flexerror(_("unterminated or too long property value"));
 		}
 	}
-	return NULL;
+	ফেরত ফাঁকা;
 }
 
 /* skelout - write out one section of the skeleton file
@@ -209,46 +209,46 @@ const char *skel_property(const char *propname)
  *    Copies skelfile or skel array to stdout until a line beginning with
  *    "%%" or EOF is found.
  */
-void skelout (bool announce)
+শূন্য skelout (bool announce)
 {
-	char    buf_storage[MAXLINE];
-	char   *buf = buf_storage;
+	অক্ষর    buf_storage[MAXLINE];
+	অক্ষর   *buf = buf_storage;
 	bool   do_copy = true;
 
 	/* Loop pulling lines either from the skelfile, if we're using
 	 * one, or from the selected back end's skel[] array.
 	 */
-	while (env.skelfile != NULL ?
-	       (fgets (buf, MAXLINE, env.skelfile) != NULL) :
-	       ((buf = (char *) backend->skel[skel_ind++]) != 0)) {
+	যখন (env.skelfile != ফাঁকা ?
+	       (fgets (buf, MAXLINE, env.skelfile) != ফাঁকা) :
+	       ((buf = (অক্ষর *) backend->skel[skel_ind++]) != 0)) {
 
-		if (env.skelfile != NULL)
+		যদি (env.skelfile != ফাঁকা)
 			chomp (buf);
 
 		/* copy from skel array */
-		if (buf[0] == '%') {	/* control line */
+		যদি (buf[0] == '%') {	/* control line */
 			/* print the control line as a comment. */
-			if (ctrl.ddebug && buf[1] != '#') {
+			যদি (ctrl.ddebug && buf[1] != '#') {
 			    comment(buf);
 			    outc ('\n');
 			}
-			if (buf[1] == '#') {
+			যদি (buf[1] == '#') {
 				/* %# indicates comment line to be ignored */
 			} 
-			else if (buf[1] == '%') {
+			অন্যথা যদি (buf[1] == '%') {
 				/* %% is a break point for skelout() */
-				if (announce) {
+				যদি (announce) {
 					comment(buf);
 					outc ('\n');
 				}
-				return;
+				ফেরত;
 			}
-			else {
+			অন্যথা {
 				flexfatal (_("bad line in skeleton file"));
 			}
 		}
 
-		else if (do_copy) 
+		অন্যথা যদি (do_copy) 
 			outn (buf);
 	}			/* end while */
 }

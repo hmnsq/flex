@@ -37,15 +37,15 @@
 
 #ifdef __cplusplus
 /* *INDENT-OFF* */
-extern  "C" {
+বাহ্যিক  "C" {
 /* *INDENT-ON* */
 #endif
 
 /* Tables serialization API declarations. */
-#include "tables_shared.h"
-struct yytbl_writer {
+#অন্তর্ভাব "tables_shared.h"
+কাঠামো yytbl_writer {
 	FILE   *out;
-	int total_written;
+	পূর্ণসংখ্যা যোগ_written;
 			    /**< bytes written so far */
 	fpos_t  th_ssize_pos;
 			    /**< position of th_ssize */
@@ -59,19 +59,19 @@ struct yytbl_writer {
  * tablesverify - true if tables-verify option specified
  * gentables - true if we should spit out the normal C tables
  */
-extern bool tablesext, tablesverify,gentables;
-extern char *tablesfilename, *tablesname;
-extern struct yytbl_writer tableswr;
+বাহ্যিক bool tablesext, tablesverify,gentables;
+বাহ্যিক অক্ষর *tablesfilename, *tablesname;
+বাহ্যিক কাঠামো yytbl_writer tableswr;
 
-int     yytbl_writer_init (struct yytbl_writer *, FILE *);
-int     yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
-			const char *name);
-int     yytbl_data_init (struct yytbl_data *tbl, enum yytbl_id id);
-int     yytbl_data_destroy (struct yytbl_data *td);
-int     yytbl_hdr_fwrite (struct yytbl_writer *wr,
-			  const struct yytbl_hdr *th);
-int     yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td);
-void    yytbl_data_compress (struct yytbl_data *tbl);
+পূর্ণসংখ্যা     yytbl_writer_init (কাঠামো yytbl_writer *, FILE *);
+পূর্ণসংখ্যা     yytbl_hdr_init (কাঠামো yytbl_hdr *th, ধ্রুবক অক্ষর *version_str,
+			ধ্রুবক অক্ষর *name);
+পূর্ণসংখ্যা     yytbl_তথ্য_init (কাঠামো yytbl_তথ্য *tbl, গণনা yytbl_id id);
+পূর্ণসংখ্যা     yytbl_তথ্য_destroy (কাঠামো yytbl_তথ্য *td);
+পূর্ণসংখ্যা     yytbl_hdr_fwrite (কাঠামো yytbl_writer *wr,
+			  ধ্রুবক কাঠামো yytbl_hdr *th);
+পূর্ণসংখ্যা     yytbl_তথ্য_fwrite (কাঠামো yytbl_writer *wr, কাঠামো yytbl_তথ্য *td);
+শূন্য    yytbl_তথ্য_compress (কাঠামো yytbl_তথ্য *tbl);
 
 
 #ifdef __cplusplus
