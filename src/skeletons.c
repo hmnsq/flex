@@ -34,23 +34,23 @@
 /*  PURPOSE. */
 
 
-#include "flexdef.h"
-#include "tables.h"
+#شامل "flexdef.h"
+#شامل "tables.h"
 
 /* START digested skeletons */
 
-const char *cpp_skel[] = {
-#include "cpp-flex.h"
+ثابت حرف *cpp_skel[] = {
+#شامل "cpp-flex.h"
     0,
 };
 
-const char *c99_skel[] = {
-#include "c99-flex.h"
+ثابت حرف *c99_skel[] = {
+#شامل "c99-flex.h"
     0,
 };
 
-const char *go_skel[] = {
-#include "go-flex.h"
+ثابت حرف *go_skel[] = {
+#شامل "go-flex.h"
     0,
 };
 
@@ -61,59 +61,59 @@ const char *go_skel[] = {
  * array, it prevents us from getting lost in a maze of
  * twisty array reference levels, all different.
  */
-struct flex_backend_t {
-	const char **skel;		// Digested skeleton file
+ساخت flex_backend_t {
+	ثابت حرف **skel;		// Digested skeleton file
 };
 
-static struct flex_backend_t backends[] = {
+ساکن ساخت flex_backend_t backends[] = {
     {.skel=cpp_skel},
     {.skel=c99_skel},
     {.skel=go_skel},
-    {NULL}
+    {تہی}
 };
 
-static struct flex_backend_t *backend = &backends[0];
+ساکن ساخت flex_backend_t *backend = &backends[0];
 
 /* Functions for querying skeleton properties. */
 
-bool is_default_backend(void)
+bool is_default_backend(خالی)
 {
-    return backend == &backends[0];
+    واپس backend == &backends[0];
 }
 
 /* Search for a string in the skeleton prolog, where macros are defined.
  */
-static bool boneseeker(const char *bone)
+ساکن bool boneseeker(ثابت حرف *bone)
 {
-	int i;
+	صحیح i;
 
-	for (i = 0; backend->skel[i] != NULL; i++) {
-		const char *line = backend->skel[i];
-		if (strstr(line, bone) != NULL)
-			return true;
-		else if (strncmp(line, "%%", 2) == 0)
-			break;
+	برائے (i = 0; backend->skel[i] != تہی; i++) {
+		ثابت حرف *سطر = backend->skel[i];
+		اگر (لڑی_تلاش(سطر, bone) != تہی)
+			واپس true;
+		ورنہ اگر (لڑی_موازنہ(سطر, "%%", 2) == 0)
+			توڑو;
 	}
-	return false;
+	واپس false;
 }
 
-void backend_by_name(const char *name)
+خالی backend_by_name(ثابت حرف *name)
 {
-	const char *prefix_property;
-	if (name != NULL) {
-		if (strcmp(name, "nr") == 0) {
+	ثابت حرف *سابقہ_property;
+	اگر (name != تہی) {
+		اگر (strcmp(name, "nr") == 0) {
 			backend = &backends[0];
 			ctrl.reentrant = false;
-			goto backend_ok;
+			جاؤ backend_ok;
 		}
-		if (strcmp(name, "r") == 0) {
+		اگر (strcmp(name, "r") == 0) {
 			backend = &backends[0];
 			ctrl.reentrant = true;
-			goto backend_ok;
+			جاؤ backend_ok;
 		}
-		for (backend = &backends[0]; backend->skel != NULL; backend++) {
-			if (strcasecmp(skel_property("M4_PROPERTY_BACKEND_NAME"), name) == 0)
-				goto backend_ok;
+		برائے (backend = &backends[0]; backend->skel != تہی; backend++) {
+			اگر (strcasecmp(skel_property("M4_PROPERTY_BACKEND_NAME"), name) == 0)
+				جاؤ backend_ok;
 		}
 		flexerror(_("no such back end"));
 	}
@@ -122,85 +122,85 @@ void backend_by_name(const char *name)
 	ctrl.backend_name = xstrdup(skel_property("M4_PROPERTY_BACKEND_NAME"));
 	ctrl.traceline_re = xstrdup(skel_property("M4_PROPERTY_TRACE_LINE_REGEXP"));
 	ctrl.traceline_template = xstrdup(skel_property("M4_PROPERTY_TRACE_LINE_TEMPLATE"));
-	ctrl.have_state_entry_format = boneseeker("m4_define([[M4_HOOK_STATE_ENTRY_FORMAT]]");
-	prefix_property = skel_property("M4_PROPERTY_PREFIX");
-	if (prefix_property != NULL)
-		ctrl.prefix = xstrdup(prefix_property);
+	ctrl.have_state_اندراج_format = boneseeker("m4_define([[M4_HOOK_STATE_ENTRY_FORMAT]]");
+	سابقہ_property = skel_property("M4_PROPERTY_PREFIX");
+	اگر (سابقہ_property != تہی)
+		ctrl.سابقہ = xstrdup(سابقہ_property);
 	flex_init_regex(ctrl.traceline_re);
 }
 
-const char *suffix (void)
+ثابت حرف *suffix (خالی)
 {
-	const char   *suffix;
+	ثابت حرف   *suffix;
 
-	if (is_default_backend()) {
-		if (ctrl.C_plus_plus)
+	اگر (is_default_backend()) {
+		اگر (ctrl.C_plus_plus)
 			suffix = "cc";
-		else
+		ورنہ
 			suffix = "c";
-	} else {
+	} ورنہ {
 		suffix = skel_property("M4_PROPERTY_SOURCE_SUFFIX");
 	}
 	
-	return suffix;
+	واپس suffix;
 }
 
 /* Search for a m4 define of the property key, retrieve the value.  The
  * definition must be single-line.  Don't call this a second time before
  * stashing away the previous return, we cheat with static buffers.
  */
-const char *skel_property(const char *propname)
+ثابت حرف *skel_property(ثابت حرف *propname)
 {
-	int i;
-	static char name[256], value[256], *np, *vp;;
-	const char *cp;
+	صحیح i;
+	ساکن حرف name[256], قدر[256], *np, *vp;;
+	ثابت حرف *cp;
 
-	for (i = 0; backend->skel[i] != NULL; i++) {
-		const char *line = backend->skel[i];
-		if (line[0] == '\0')
-			continue;
+	برائے (i = 0; backend->skel[i] != تہی; i++) {
+		ثابت حرف *سطر = backend->skel[i];
+		اگر (سطر[0] == '\0')
+			جاری;
 		/* only scan before first skell breakpoint */
-		if (strncmp(line, "%%", 2) == 0)
-			break;
+		اگر (لڑی_موازنہ(سطر, "%%", 2) == 0)
+			توڑو;
 		/* ignore anything that's not a definition */
-		if (strncmp(line, "m4_define(", 10) != 0)
-			continue;
+		اگر (لڑی_موازنہ(سطر, "m4_define(", 10) != 0)
+			جاری;
 		/* skip space and quotes before macro name */
-		for (cp = line + 10; isspace(*cp) || *cp == '['; *cp++)
-			continue;
+		برائے (cp = سطر + 10; خلا_ہے(*cp) || *cp == '['; *cp++)
+			جاری;
 		/* copy up to following ] into the name buffer */
 		np = name;
-		while (*cp != ']' && *cp != '\0' && (np < name + sizeof(name)-1)) {
+		جب (*cp != ']' && *cp != '\0' && (np < name + حجم(name)-1)) {
 			*np++ = *cp++;
 		}
 		*np = '\0';
 		/* check for valid and matching name */
-		if (*cp == ']') {
-			if (strcmp(name, propname) != 0)
-				continue; /* try next line */
-		} else {
+		اگر (*cp == ']') {
+			اگر (strcmp(name, propname) != 0)
+				جاری; /* try next line */
+		} ورنہ {
 			flexerror(_("unterminated or too long property name"));
-			continue;
+			جاری;
 		}
 		/* skip to the property value */
-		while (*cp != '\0' && (*cp == ']' || isspace(*cp) || *cp == ','))
+		جب (*cp != '\0' && (*cp == ']' || خلا_ہے(*cp) || *cp == ','))
 			cp++;
-		while (*cp == '[')
+		جب (*cp == '[')
 			cp++;
-		if (*cp == '\0')
+		اگر (*cp == '\0')
 			flexerror(_("garbled property line"));
 		/* extract the value */
-		vp = value;
-		while (*cp != '\0' && vp < value + sizeof(value) - 1 && (cp[0] != ']' || cp[1] != ']'))
+		vp = قدر;
+		جب (*cp != '\0' && vp < قدر + حجم(قدر) - 1 && (cp[0] != ']' || cp[1] != ']'))
 			*vp++ = *cp++;
-		if (*cp == ']') {
+		اگر (*cp == ']') {
 			*vp = '\0';
-			return value;
-		} else {
+			واپس قدر;
+		} ورنہ {
 			flexerror(_("unterminated or too long property value"));
 		}
 	}
-	return NULL;
+	واپس تہی;
 }
 
 /* skelout - write out one section of the skeleton file
@@ -209,49 +209,49 @@ const char *skel_property(const char *propname)
  *    Copies skelfile or skel array to stdout until a line beginning with
  *    "%%" or EOF is found.
  */
-void skelout (bool announce)
+خالی skelout (bool announce)
 {
-	char    buf_storage[MAXLINE];
-	char   *buf = buf_storage;
+	حرف    buf_storage[MAXLINE];
+	حرف   *buf = buf_storage;
 	bool   do_copy = true;
 
 	/* Loop pulling lines either from the skelfile, if we're using
 	 * one, or from the selected back end's skel[] array.
 	 */
-	while (env.skelfile != NULL ?
-	       (fgets (buf, MAXLINE, env.skelfile) != NULL) :
-	       ((buf = (char *) backend->skel[skel_ind++]) != 0)) {
+	جب (env.skelfile != تہی ?
+	       (fgets (buf, MAXLINE, env.skelfile) != تہی) :
+	       ((buf = (حرف *) backend->skel[skel_ind++]) != 0)) {
 
-		if (env.skelfile != NULL)
+		اگر (env.skelfile != تہی)
 			chomp (buf);
 
 		/* copy from skel array */
-		if (buf[0] == '%') {	/* control line */
+		اگر (buf[0] == '%') {	/* control line */
 			/* print the control line as a comment. */
-			if (ctrl.ddebug && buf[1] != '#') {
+			اگر (ctrl.ddebug && buf[1] != '#') {
 			    comment(buf);
 			    outc ('\n');
 			}
-			if (buf[1] == '#') {
+			اگر (buf[1] == '#') {
 				/* %# indicates comment line to be ignored */
 			} 
-			else if (buf[1] == '%') {
+			ورنہ اگر (buf[1] == '%') {
 				/* %% is a break point for skelout() */
-				if (announce) {
+				اگر (announce) {
 					comment(buf);
 					outc ('\n');
 				}
-				return;
+				واپس;
 			}
-			else {
+			ورنہ {
 				flexfatal (_("bad line in skeleton file"));
 			}
 		}
 
-		else if (do_copy) 
+		ورنہ اگر (do_copy) 
 			outn (buf);
 	}			/* end while */
 }
 
 
-/* end */
+/*انتہا*/

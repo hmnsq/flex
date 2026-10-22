@@ -32,20 +32,20 @@
  *  PURPOSE.
  */
 
-#ifndef TABLES_H
-#define TABLES_H
+#اگر_غیر_تعریف_شدہ TABLES_H
+#تعریف_کرو TABLES_H
 
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
 /* *INDENT-OFF* */
-extern  "C" {
+خارجی  "C" {
 /* *INDENT-ON* */
-#endif
+#اگر_ختم
 
 /* Tables serialization API declarations. */
-#include "tables_shared.h"
-struct yytbl_writer {
-	FILE   *out;
-	int total_written;
+#شامل "tables_shared.h"
+ساخت yytbl_writer {
+	FILE   *برآمد;
+	صحیح کل_written;
 			    /**< bytes written so far */
 	fpos_t  th_ssize_pos;
 			    /**< position of th_ssize */
@@ -59,26 +59,26 @@ struct yytbl_writer {
  * tablesverify - true if tables-verify option specified
  * gentables - true if we should spit out the normal C tables
  */
-extern bool tablesext, tablesverify,gentables;
-extern char *tablesfilename, *tablesname;
-extern struct yytbl_writer tableswr;
+خارجی bool tablesext, tablesverify,gentables;
+خارجی حرف *tablesfilename, *tablesname;
+خارجی ساخت yytbl_writer tableswr;
 
-int     yytbl_writer_init (struct yytbl_writer *, FILE *);
-int     yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
-			const char *name);
-int     yytbl_data_init (struct yytbl_data *tbl, enum yytbl_id id);
-int     yytbl_data_destroy (struct yytbl_data *td);
-int     yytbl_hdr_fwrite (struct yytbl_writer *wr,
-			  const struct yytbl_hdr *th);
-int     yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td);
-void    yytbl_data_compress (struct yytbl_data *tbl);
+صحیح     yytbl_writer_init (ساخت yytbl_writer *, FILE *);
+صحیح     yytbl_hdr_init (ساخت yytbl_hdr *th, ثابت حرف *نسخہ_str,
+			ثابت حرف *name);
+صحیح     yytbl_ڈیٹا_init (ساخت yytbl_ڈیٹا *tbl, شمار yytbl_id id);
+صحیح     yytbl_ڈیٹا_destroy (ساخت yytbl_ڈیٹا *td);
+صحیح     yytbl_hdr_fwrite (ساخت yytbl_writer *wr,
+			  ثابت ساخت yytbl_hdr *th);
+صحیح     yytbl_ڈیٹا_fwrite (ساخت yytbl_writer *wr, ساخت yytbl_ڈیٹا *td);
+خالی    yytbl_ڈیٹا_compress (ساخت yytbl_ڈیٹا *tbl);
 
 
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
 /* *INDENT-OFF* */
 }
 /* *INDENT-ON* */
-#endif
-#endif
+#اگر_ختم
+#اگر_ختم
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */

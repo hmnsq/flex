@@ -33,188 +33,188 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
-#include "scanopt.h"
+#شامل "flexdef.h"
+#شامل "scanopt.h"
 
 
 /* Internal structures */
 
-#define ARG_NONE 0x01
-#define ARG_REQ  0x02
-#define ARG_OPT  0x04
-#define IS_LONG  0x08
+#تعریف_کرو ARG_NONE 0x01
+#تعریف_کرو ARG_REQ  0x02
+#تعریف_کرو ARG_OPT  0x04
+#تعریف_کرو IS_LONG  0x08
 
-struct _aux {
-	int     flags;		/* The above hex flags. */
-	int     namelen;	/* Length of the actual option word, e.g., "--file[=foo]" is 4 */
-	int     printlen;	/* Length of entire string, e.g., "--file[=foo]" is 12 */
+ساخت _aux {
+	صحیح     flags;		/* The above hex flags. */
+	صحیح     namelen;	/* Length of the actual option word, e.g., "--file[=foo]" is 4 */
+	صحیح     printlen;	/* Length of entire string, e.g., "--file[=foo]" is 12 */
 };
 
 
-struct _scanopt_t {
-	const optspec_t *options;	/* List of options. */
-	struct _aux *aux;	/* Auxiliary data about options. */
-	int     optc;		/* Number of options. */
-	int     argc;		/* Number of args. */
-	char  **argv;		/* Array of strings. */
-	int     index;		/* Used as: argv[index][subscript]. */
-	int     subscript;
-	char    no_err_msg;	/* If true, do not print errors. */
-	char    has_long;
-	char    has_short;
+ساخت _scanopt_t {
+	ثابت optspec_t *options;	/* List of options. */
+	ساخت _aux *aux;	/* Auxiliary data about options. */
+	صحیح     optc;		/* Number of options. */
+	صحیح     argc;		/* Number of args. */
+	حرف  **argv;		/* Array of strings. */
+	صحیح     اشاریہ;		/* Used as: argv[index][subscript]. */
+	صحیح     subscript;
+	حرف    no_err_پیغام;	/* If true, do not print errors. */
+	حرف    has_long;
+	حرف    has_short;
 };
 
 /* Accessor functions. These WOULD be one-liners, but portability calls. */
-static const char *NAME(struct _scanopt_t *, int);
-static int PRINTLEN(struct _scanopt_t *, int);
-static int RVAL(struct _scanopt_t *, int);
-static int FLAGS(struct _scanopt_t *, int);
-static const char *DESC(struct _scanopt_t *, int);
-static void scanopt_err(struct _scanopt_t *, int, int);
-static int matchlongopt(char *, char **, int *, char **, int *);
-static int find_opt(struct _scanopt_t *, int, char *, int, int *, int *opt_offset);
+ساکن ثابت حرف *NAME(ساخت _scanopt_t *, صحیح);
+ساکن صحیح PRINTLEN(ساخت _scanopt_t *, صحیح);
+ساکن صحیح RVAL(ساخت _scanopt_t *, صحیح);
+ساکن صحیح FLAGS(ساخت _scanopt_t *, صحیح);
+ساکن ثابت حرف *DESC(ساخت _scanopt_t *, صحیح);
+ساکن خالی scanopt_err(ساخت _scanopt_t *, صحیح, صحیح);
+ساکن صحیح matchlongopt(حرف *, حرف **, صحیح *, حرف **, صحیح *);
+ساکن صحیح ڈھونڈو_opt(ساخت _scanopt_t *, صحیح, حرف *, صحیح, صحیح *, صحیح *opt_انحراف);
 
-static const char *NAME (struct _scanopt_t *s, int i)
+ساکن ثابت حرف *NAME (ساخت _scanopt_t *s, صحیح i)
 {
-	return s->options[i].opt_fmt +
+	واپس s->options[i].opt_fmt +
 		((s->aux[i].flags & IS_LONG) ? 2 : 1);
 }
 
-static int PRINTLEN (struct _scanopt_t *s, int i)
+ساکن صحیح PRINTLEN (ساخت _scanopt_t *s, صحیح i)
 {
-	return s->aux[i].printlen;
+	واپس s->aux[i].printlen;
 }
 
-static int RVAL (struct _scanopt_t *s, int i)
+ساکن صحیح RVAL (ساخت _scanopt_t *s, صحیح i)
 {
-	return s->options[i].r_val;
+	واپس s->options[i].r_val;
 }
 
-static int FLAGS (struct _scanopt_t *s, int i)
+ساکن صحیح FLAGS (ساخت _scanopt_t *s, صحیح i)
 {
-	return s->aux[i].flags;
+	واپس s->aux[i].flags;
 }
 
-static const char *DESC (struct _scanopt_t *s, int i)
+ساکن ثابت حرف *DESC (ساخت _scanopt_t *s, صحیح i)
 {
-	return s->options[i].desc ? s->options[i].desc : "";
+	واپس s->options[i].desc ? s->options[i].desc : "";
 }
 
-#ifndef NO_SCANOPT_USAGE
-static int get_cols (void);
+#اگر_غیر_تعریف_شدہ NO_SCANOPT_USAGE
+ساکن صحیح get_ستون_تعداد (خالی);
 
-static int get_cols (void)
+ساکن صحیح get_ستون_تعداد (خالی)
 {
-	char   *env;
-	int     cols = 80;	/* default */
+	حرف   *env;
+	صحیح     ستون_تعداد = 80;	/* default */
 
-#ifdef HAVE_NCURSES_H
+#اگر_تعریف_شدہ HAVE_NCURSES_H
 	initscr ();
 	endwin ();
-	if (COLS > 0)
-		return COLS;
-#endif
+	اگر (ستون_تعداد_2 > 0)
+		واپس ستون_تعداد_2;
+#اگر_ختم
 
-	if ((env = getenv ("COLUMNS")) != NULL)
-		cols = atoi (env);
+	اگر ((env = getenv ("COLUMNS")) != تہی)
+		ستون_تعداد = atoi (env);
 
-	return cols;
+	واپس ستون_تعداد;
 }
-#endif
+#اگر_ختم
 
 /* Macro to check for NULL before assigning a value. */
-#define SAFE_ASSIGN(ptr,val) \
-    do{                      \
-        if((ptr)!=NULL)      \
+#تعریف_کرو محفوظ_تفویض(ptr,val) \
+    کرو{                      \
+        اگر((ptr)!=تہی)      \
             *(ptr) = val;    \
-    }while(0)
+    }جب(0)
 
 /* Macro to assure we reset subscript whenever we adjust s->index.*/
-#define INC_INDEX(s,n)     \
-    do{                    \
-       (s)->index += (n);  \
+#تعریف_کرو INC_اشاریہ(s,n)     \
+    کرو{                    \
+       (s)->اشاریہ += (n);  \
        (s)->subscript= 0;  \
-    }while(0)
+    }جب(0)
 
-scanopt_t *scanopt_init (const optspec_t *options, int argc, char **argv, int flags)
+scanopt_t *scanopt_init (ثابت optspec_t *options, صحیح argc, حرف **argv, صحیح flags)
 {
-	int     i;
-	struct _scanopt_t *s;
-	s = malloc(sizeof (struct _scanopt_t));
+	صحیح     i;
+	ساخت _scanopt_t *s;
+	s = حافظہ_دو(حجم (ساخت _scanopt_t));
 
 	s->options = options;
 	s->optc = 0;
 	s->argc = argc;
-	s->argv = (char **) argv;
-	s->index = 1;
+	s->argv = (حرف **) argv;
+	s->اشاریہ = 1;
 	s->subscript = 0;
-	s->no_err_msg = (flags & SCANOPT_NO_ERR_MSG);
+	s->no_err_پیغام = (flags & SCANOPT_NO_ERR_پیغام);
 	s->has_long = 0;
 	s->has_short = 0;
 
 	/* Determine option count. (Find entry with all zeros). */
 	s->optc = 0;
-	while (options[s->optc].opt_fmt
+	جب (options[s->optc].opt_fmt
 	       || options[s->optc].r_val || options[s->optc].desc)
 		s->optc++;
 
 	/* Build auxiliary data */
-	s->aux = malloc((size_t) s->optc * sizeof (struct _aux));
+	s->aux = حافظہ_دو((size_t) s->optc * حجم (ساخت _aux));
 
-	for (i = 0; i < s->optc; i++) {
-		const unsigned char *p, *pname;
-		const struct optspec_t *opt;
-		struct _aux *aux;
+	برائے (i = 0; i < s->optc; i++) {
+		ثابت غیرعلامتی حرف *p, *pname;
+		ثابت ساخت optspec_t *opt;
+		ساخت _aux *aux;
 
 		opt = s->options + i;
 		aux = s->aux + i;
 
 		aux->flags = ARG_NONE;
 
-		if (opt->opt_fmt[0] == '-' && opt->opt_fmt[1] == '-') {
+		اگر (opt->opt_fmt[0] == '-' && opt->opt_fmt[1] == '-') {
 			aux->flags |= IS_LONG;
-			pname = (const unsigned char *)(opt->opt_fmt + 2);
+			pname = (ثابت غیرعلامتی حرف *)(opt->opt_fmt + 2);
 			s->has_long = 1;
 		}
-		else {
-			pname = (const unsigned char *)(opt->opt_fmt + 1);
+		ورنہ {
+			pname = (ثابت غیرعلامتی حرف *)(opt->opt_fmt + 1);
 			s->has_short = 1;
 		}
-		aux->printlen = (int) strlen (opt->opt_fmt);
+		aux->printlen = (صحیح) لڑی_لمبائی (opt->opt_fmt);
 
 		aux->namelen = 0;
-		for (p = pname + 1; *p; p++) {
+		برائے (p = pname + 1; *p; p++) {
 			/* detect required arg */
-			if (*p == '=' || isspace ((unsigned char)*p)
+			اگر (*p == '=' || خلا_ہے ((غیرعلامتی حرف)*p)
 			    || !(aux->flags & IS_LONG)) {
-				if (aux->namelen == 0)
-					aux->namelen = (int) (p - pname);
+				اگر (aux->namelen == 0)
+					aux->namelen = (صحیح) (p - pname);
 				aux->flags |= ARG_REQ;
 				aux->flags &= ~ARG_NONE;
 			}
 			/* detect optional arg. This overrides required arg. */
-			if (*p == '[') {
-				if (aux->namelen == 0)
-					aux->namelen = (int) (p - pname);
+			اگر (*p == '[') {
+				اگر (aux->namelen == 0)
+					aux->namelen = (صحیح) (p - pname);
 				aux->flags &= ~(ARG_REQ | ARG_NONE);
 				aux->flags |= ARG_OPT;
-				break;
+				توڑو;
 			}
 		}
-		if (aux->namelen == 0)
-			aux->namelen = (int) (p - pname);
+		اگر (aux->namelen == 0)
+			aux->namelen = (صحیح) (p - pname);
 	}
-	return (scanopt_t *) s;
+	واپس (scanopt_t *) s;
 }
 
-#ifndef NO_SCANOPT_USAGE
+#اگر_غیر_تعریف_شدہ NO_SCANOPT_USAGE
 /* these structs are for scanopt_usage(). */
-struct usg_elem {
-	int     idx;
-	struct usg_elem *next;
-	struct usg_elem *alias;
+ساخت usg_elem {
+	صحیح     idx;
+	ساخت usg_elem *اگلا;
+	ساخت usg_elem *alias;
 };
-typedef struct usg_elem usg_elem;
+قسمتعریف ساخت usg_elem usg_elem;
 
 
 /* Prints a usage message based on contents of optlist.
@@ -228,170 +228,170 @@ typedef struct usg_elem usg_elem;
 [indent][option, alias1, alias2...][indent][description line1
                                             description line2...]
  */
-int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
+صحیح     scanopt_usage (scanopt_t *scanner, FILE *fp, ثابت حرف *usage)
 {
-	struct _scanopt_t *s;
-	int     i, columns;
-	const int indent = 2;
-	usg_elem *byr_val = NULL;	/* option indices sorted by r_val */
+	ساخت _scanopt_t *s;
+	صحیح     i, columns;
+	ثابت صحیح indent = 2;
+	usg_elem *byr_val = تہی;	/* option indices sorted by r_val */
 	usg_elem *store;	/* array of preallocated elements. */
-	int     store_idx = 0;
+	صحیح     store_idx = 0;
 	usg_elem *ue;
-	int     opt_col_width = 0, desc_col_width = 0;
-	int     desccol;
-	int     print_run = 0;
+	صحیح     opt_ستون_چوڑائی = 0, desc_ستون_چوڑائی = 0;
+	صحیح     desccol;
+	صحیح     print_تسلسل = 0;
 
-	s = (struct _scanopt_t *) scanner;
+	s = (ساخت _scanopt_t *) scanner;
 
-	if (usage) {
+	اگر (usage) {
 		fprintf (fp, "%s\n", usage);
 	}
-	else {
+	ورنہ {
 		fprintf (fp, _("Usage: %s [OPTIONS]...\n"), s->argv[0]);
 	}
 	fprintf (fp, "\n");
 
 	/* Sort by r_val and string. Yes, this is O(n*n), but n is small. */
-	store = malloc((size_t) s->optc * sizeof (usg_elem));
-	for (i = 0; i < s->optc; i++) {
+	store = حافظہ_دو((size_t) s->optc * حجم (usg_elem));
+	برائے (i = 0; i < s->optc; i++) {
 
 		/* grab the next preallocate node. */
 		ue = store + store_idx++;
 		ue->idx = i;
-		ue->next = ue->alias = NULL;
+		ue->اگلا = ue->alias = تہی;
 
 		/* insert into list. */
-		if (!byr_val)
+		اگر (!byr_val)
 			byr_val = ue;
-		else {
-			int     found_alias = 0;
-			usg_elem **ue_curr, **ptr_if_no_alias = NULL;
+		ورنہ {
+			صحیح     ملا_alias = 0;
+			usg_elem **ue_curr, **ptr_if_no_alias = تہی;
 
 			ue_curr = &byr_val;
-			while (*ue_curr) {
-				if (RVAL (s, (*ue_curr)->idx) ==
+			جب (*ue_curr) {
+				اگر (RVAL (s, (*ue_curr)->idx) ==
 				    RVAL (s, ue->idx)) {
 					/* push onto the alias list. */
 					ue_curr = &((*ue_curr)->alias);
-					found_alias = 1;
-					break;
+					ملا_alias = 1;
+					توڑو;
 				}
-				if (!ptr_if_no_alias
+				اگر (!ptr_if_no_alias
 				    &&
 				    strcasecmp (NAME (s, (*ue_curr)->idx),
 						NAME (s, ue->idx)) > 0) {
 					ptr_if_no_alias = ue_curr;
 				}
-				ue_curr = &((*ue_curr)->next);
+				ue_curr = &((*ue_curr)->اگلا);
 			}
-			if (!found_alias && ptr_if_no_alias)
+			اگر (!ملا_alias && ptr_if_no_alias)
 				ue_curr = ptr_if_no_alias;
-			ue->next = *ue_curr;
+			ue->اگلا = *ue_curr;
 			*ue_curr = ue;
 		}
 	}
 
-#if 0
-	if (1) {
-		printf ("ORIGINAL:\n");
-		for (i = 0; i < s->optc; i++)
-			printf ("%2d: %s\n", i, NAME (s, i));
-		printf ("SORTED:\n");
+#اگر 0
+	اگر (1) {
+		لکھو ("ORIGINAL:\n");
+		برائے (i = 0; i < s->optc; i++)
+			لکھو ("%2d: %s\n", i, NAME (s, i));
+		لکھو ("SORTED:\n");
 		ue = byr_val;
-		while (ue) {
+		جب (ue) {
 			usg_elem *ue2;
 
-			printf ("%2d: %s\n", ue->idx, NAME (s, ue->idx));
-			for (ue2 = ue->alias; ue2; ue2 = ue2->next)
-				printf ("  +---> %2d: %s\n", ue2->idx,
+			لکھو ("%2d: %s\n", ue->idx, NAME (s, ue->idx));
+			برائے (ue2 = ue->alias; ue2; ue2 = ue2->اگلا)
+				لکھو ("  +---> %2d: %s\n", ue2->idx,
 					NAME (s, ue2->idx));
-			ue = ue->next;
+			ue = ue->اگلا;
 		}
 	}
-#endif
+#اگر_ختم
 
 	/* Now build each row of output. */
 
 	/* first pass calculate how much room we need. */
-	for (ue = byr_val; ue; ue = ue->next) {
+	برائے (ue = byr_val; ue; ue = ue->اگلا) {
 		usg_elem *ap;
-		int     len;
+		صحیح     len;
 
 		len = PRINTLEN(s, ue->idx);
 
-		for (ap = ue->alias; ap; ap = ap->next) {
-			len += PRINTLEN(s, ap->idx) + (int) strlen(", ");
+		برائے (ap = ue->alias; ap; ap = ap->اگلا) {
+			len += PRINTLEN(s, ap->idx) + (صحیح) لڑی_لمبائی(", ");
 		}
 
-		if (len > opt_col_width)
-			opt_col_width = len;
+		اگر (len > opt_ستون_چوڑائی)
+			opt_ستون_چوڑائی = len;
 
 		/* It's much easier to calculate length for description column! */
-		len = (int) strlen (DESC (s, ue->idx));
-		if (len > desc_col_width)
-			desc_col_width = len;
+		len = (صحیح) لڑی_لمبائی (DESC (s, ue->idx));
+		اگر (len > desc_ستون_چوڑائی)
+			desc_ستون_چوڑائی = len;
 	}
 
 	/* Determine how much room we have, and how much we will allocate to each col.
 	 * Do not address pathological cases. Output will just be ugly. */
-	columns = get_cols () - 1;
-	if (opt_col_width + desc_col_width + indent * 2 > columns) {
+	columns = get_ستون_تعداد () - 1;
+	اگر (opt_ستون_چوڑائی + desc_ستون_چوڑائی + indent * 2 > columns) {
 		/* opt col gets whatever it wants. we'll wrap the desc col. */
-		desc_col_width = columns - (opt_col_width + indent * 2);
-		if (desc_col_width < 14)	/* 14 is arbitrary lower limit on desc width. */
-			desc_col_width = INT_MAX;
+		desc_ستون_چوڑائی = columns - (opt_ستون_چوڑائی + indent * 2);
+		اگر (desc_ستون_چوڑائی < 14)	/* 14 is arbitrary lower limit on desc width. */
+			desc_ستون_چوڑائی = زیادہ_سے_زیادہ_عدد;
 	}
-	desccol = opt_col_width + indent * 2;
+	desccol = opt_ستون_چوڑائی + indent * 2;
 
-#define PRINT_SPACES(fp,n) \
+#تعریف_کرو PRINT_SPACES(fp,n) \
 	fprintf((fp), "%*s", (n), "")
 
 	/* Second pass (same as above loop), this time we print. */
 	/* Sloppy hack: We iterate twice. The first time we print short and long options.
 	   The second time we print those lines that have ONLY long options. */
-	while (print_run++ < 2) {
-		for (ue = byr_val; ue; ue = ue->next) {
+	جب (print_تسلسل++ < 2) {
+		برائے (ue = byr_val; ue; ue = ue->اگلا) {
 			usg_elem *ap;
-			int     nwords = 0, nchars = 0, has_short = 0;
+			صحیح     nwords = 0, nchars = 0, has_short = 0;
 
 /* TODO: get has_short schtick to work */
 			has_short = !(FLAGS (s, ue->idx) & IS_LONG);
-			for (ap = ue->alias; ap; ap = ap->next) {
-				if (!(FLAGS (s, ap->idx) & IS_LONG)) {
+			برائے (ap = ue->alias; ap; ap = ap->اگلا) {
+				اگر (!(FLAGS (s, ap->idx) & IS_LONG)) {
 					has_short = 1;
-					break;
+					توڑو;
 				}
 			}
-			if ((print_run == 1 && !has_short) ||
-			    (print_run == 2 && has_short))
-				continue;
+			اگر ((print_تسلسل == 1 && !has_short) ||
+			    (print_تسلسل == 2 && has_short))
+				جاری;
 
 			PRINT_SPACES (fp, indent);
 			nchars += indent;
 
 /* Print, adding a ", " between aliases. */
-#define PRINT_IT(i) do{\
-                  if(nwords++)\
+#تعریف_کرو PRINT_IT(i) کرو{\
+                  اگر(nwords++)\
                       nchars+=fprintf(fp,", ");\
                   nchars+=fprintf(fp,"%s",s->options[i].opt_fmt);\
-            }while(0)
+            }جب(0)
 
-			if (!(FLAGS (s, ue->idx) & IS_LONG))
+			اگر (!(FLAGS (s, ue->idx) & IS_LONG))
 				PRINT_IT (ue->idx);
 
 			/* print short aliases first. */
-			for (ap = ue->alias; ap; ap = ap->next) {
-				if (!(FLAGS (s, ap->idx) & IS_LONG))
+			برائے (ap = ue->alias; ap; ap = ap->اگلا) {
+				اگر (!(FLAGS (s, ap->idx) & IS_LONG))
 					PRINT_IT (ap->idx);
 			}
 
 
-			if (FLAGS (s, ue->idx) & IS_LONG)
+			اگر (FLAGS (s, ue->idx) & IS_LONG)
 				PRINT_IT (ue->idx);
 
 			/* repeat the above loop, this time for long aliases. */
-			for (ap = ue->alias; ap; ap = ap->next) {
-				if (FLAGS (s, ap->idx) & IS_LONG)
+			برائے (ap = ue->alias; ap; ap = ap->اگلا) {
+				اگر (FLAGS (s, ap->idx) & IS_LONG)
 					PRINT_IT (ap->idx);
 			}
 
@@ -399,47 +399,47 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 			PRINT_SPACES (fp, desccol - nchars);
 
 			/* Print description, wrapped to desc_col_width columns. */
-			if (1) {
-				const char *pstart;
+			اگر (1) {
+				ثابت حرف *pstart;
 
 				pstart = DESC (s, ue->idx);
-				while (1) {
-					int     n = 0;
-					const char *lastws = NULL, *p;
+				جب (1) {
+					صحیح     n = 0;
+					ثابت حرف *lastws = تہی, *p;
 
 					p = pstart;
 
-					while (*p && n < desc_col_width
+					جب (*p && n < desc_ستون_چوڑائی
 					       && *p != '\n') {
-						if (isspace ((unsigned char)(*p))
+						اگر (خلا_ہے ((غیرعلامتی حرف)(*p))
 						    || *p == '-') lastws =
 								p;
 						n++;
 						p++;
 					}
 
-					if (!*p) {	/* hit end of desc. done. */
+					اگر (!*p) {	/* hit end of desc. done. */
 						fprintf (fp, "%s\n",
 							 pstart);
-						break;
+						توڑو;
 					}
-					else if (*p == '\n') {	/* print everything up to here then wrap. */
+					ورنہ اگر (*p == '\n') {	/* print everything up to here then wrap. */
 						fprintf (fp, "%.*s\n", n,
 							 pstart);
 						PRINT_SPACES (fp, desccol);
 						pstart = p + 1;
-						continue;
+						جاری;
 					}
-					else {	/* we hit the edge of the screen. wrap at space if possible. */
-						if (lastws) {
+					ورنہ {	/* we hit the edge of the screen. wrap at space if possible. */
+						اگر (lastws) {
 							fprintf (fp,
 								 "%.*s\n",
-								 (int)(lastws - pstart),
+								 (صحیح)(lastws - pstart),
 								 pstart);
 							pstart =
 								lastws + 1;
 						}
-						else {
+						ورنہ {
 							fprintf (fp,
 								 "%.*s\n",
 								 n,
@@ -447,61 +447,61 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 							pstart = p + 1;
 						}
 						PRINT_SPACES (fp, desccol);
-						continue;
+						جاری;
 					}
 				}
 			}
 		}
 	}			/* end while */
-	free (store);
-	return 0;
+	آزاد (store);
+	واپس 0;
 }
-#endif /* no scanopt_usage */
+#اگر_ختم /* no scanopt_usage */
 
 
-static void scanopt_err(struct _scanopt_t *s, int is_short, int err)
+ساکن خالی scanopt_err(ساخت _scanopt_t *s, صحیح is_short, صحیح err)
 {
-	const char *optname = "";
-	char    optchar[2];
+	ثابت حرف *optname = "";
+	حرف    optchar[2];
 
-	if (!s->no_err_msg) {
+	اگر (!s->no_err_پیغام) {
 
-		if (s->index > 0 && s->index < s->argc) {
-			if (is_short) {
+		اگر (s->اشاریہ > 0 && s->اشاریہ < s->argc) {
+			اگر (is_short) {
 				optchar[0] =
-					s->argv[s->index][s->subscript];
+					s->argv[s->اشاریہ][s->subscript];
 				optchar[1] = '\0';
 				optname = optchar;
 			}
-			else {
-				optname = s->argv[s->index];
+			ورنہ {
+				optname = s->argv[s->اشاریہ];
 			}
 		}
 
 		fprintf (stderr, "%s: ", s->argv[0]);
-		switch (err) {
-		case SCANOPT_ERR_ARG_NOT_ALLOWED:
+		انتخاب (err) {
+		حالت SCANOPT_ERR_ARG_NOT_ALLOWED:
 			fprintf (stderr,
 				 _
 				 ("option `%s' doesn't allow an argument\n"),
 				 optname);
-			break;
-		case SCANOPT_ERR_ARG_NOT_FOUND:
+			توڑو;
+		حالت SCANOPT_ERR_ARG_NOT_ملا:
 			fprintf (stderr,
 				 _("option `%s' requires an argument\n"),
 				 optname);
-			break;
-		case SCANOPT_ERR_OPT_AMBIGUOUS:
+			توڑو;
+		حالت SCANOPT_ERR_OPT_AMBIGUOUS:
 			fprintf (stderr, _("option `%s' is ambiguous\n"),
 				 optname);
-			break;
-		case SCANOPT_ERR_OPT_UNRECOGNIZED:
+			توڑو;
+		حالت SCANOPT_ERR_OPT_UNRECOGNIZED:
 			fprintf (stderr, _("Unrecognized option `%s'\n"),
 				 optname);
-			break;
-		default:
+			توڑو;
+		طےشدہ:
 			fprintf (stderr, _("Unknown error=(%d)\n"), err);
-			break;
+			توڑو;
 		}
 	}
 }
@@ -513,40 +513,40 @@ static void scanopt_err(struct _scanopt_t *s, int is_short, int err)
  * optname will point to str + 2
  *
  */
-static int matchlongopt (char *str, char **optname, int *optlen, char **arg, int *arglen)
+ساکن صحیح matchlongopt (حرف *str, حرف **optname, صحیح *optlen, حرف **arg, صحیح *arglen)
 {
-	char   *p;
+	حرف   *p;
 
-	*optname = *arg = NULL;
+	*optname = *arg = تہی;
 	*optlen = *arglen = 0;
 
 	/* Match regex /--./   */
 	p = str;
-	if (p[0] != '-' || p[1] != '-' || !p[2])
-		return 0;
+	اگر (p[0] != '-' || p[1] != '-' || !p[2])
+		واپس 0;
 
 	p += 2;
 	*optname = p;
 
 	/* find the end of optname */
-	while (*p && *p != '=')
+	جب (*p && *p != '=')
 		++p;
 
-	*optlen = (int) (p - *optname);
+	*optlen = (صحیح) (p - *optname);
 
-	if (!*p)
+	اگر (!*p)
 		/* an option with no '=...' part. */
-		return 1;
+		واپس 1;
 
 
 	/* We saw an '=' char. The rest of p is the arg. */
 	p++;
 	*arg = p;
-	while (*p)
+	جب (*p)
 		++p;
-	*arglen = (int) (p - *arg);
+	*arglen = (صحیح) (p - *arg);
 
-	return 1;
+	واپس 1;
 }
 
 
@@ -555,131 +555,131 @@ static int matchlongopt (char *str, char **optname, int *optlen, char **arg, int
  * Short options must be exact.
  * Return boolean true if found and no error.
  * Error stored in err_code or zero if no error. */
-static int find_opt (struct _scanopt_t *s, int lookup_long, char *optstart, int
-	len, int *err_code, int *opt_offset)
+ساکن صحیح ڈھونڈو_opt (ساخت _scanopt_t *s, صحیح lookup_long, حرف *optstart, صحیح
+	len, صحیح *err_رمز, صحیح *opt_انحراف)
 {
-	int     nmatch = 0, lastr_val = 0, i;
+	صحیح     nmatch = 0, lastr_val = 0, i;
 
-	*err_code = 0;
-	*opt_offset = -1;
+	*err_رمز = 0;
+	*opt_انحراف = -1;
 
-	if (!optstart)
-		return 0;
+	اگر (!optstart)
+		واپس 0;
 
-	for (i = 0; i < s->optc; i++) {
-		const char   *optname;
+	برائے (i = 0; i < s->optc; i++) {
+		ثابت حرف   *optname;
 
 		optname = s->options[i].opt_fmt + (lookup_long ? 2 : 1);
 
-		if (lookup_long && (s->aux[i].flags & IS_LONG)) {
-			if (len > s->aux[i].namelen)
-				continue;
+		اگر (lookup_long && (s->aux[i].flags & IS_LONG)) {
+			اگر (len > s->aux[i].namelen)
+				جاری;
 
-			if (strncmp (optname, optstart, (size_t) len) == 0) {
+			اگر (لڑی_موازنہ (optname, optstart, (size_t) len) == 0) {
 				nmatch++;
-				*opt_offset = i;
+				*opt_انحراف = i;
 
 				/* exact match overrides all. */
-				if (len == s->aux[i].namelen) {
+				اگر (len == s->aux[i].namelen) {
 					nmatch = 1;
-					break;
+					توڑو;
 				}
 
 				/* ambiguity is ok between aliases. */
-				if (lastr_val
+				اگر (lastr_val
 				    && lastr_val ==
 				    s->options[i].r_val) nmatch--;
 				lastr_val = s->options[i].r_val;
 			}
 		}
-		else if (!lookup_long && !(s->aux[i].flags & IS_LONG)) {
-			if (optname[0] == optstart[0]) {
+		ورنہ اگر (!lookup_long && !(s->aux[i].flags & IS_LONG)) {
+			اگر (optname[0] == optstart[0]) {
 				nmatch++;
-				*opt_offset = i;
+				*opt_انحراف = i;
 			}
 		}
 	}
 
-	if (nmatch == 0) {
-		*err_code = SCANOPT_ERR_OPT_UNRECOGNIZED;
-		*opt_offset = -1;
+	اگر (nmatch == 0) {
+		*err_رمز = SCANOPT_ERR_OPT_UNRECOGNIZED;
+		*opt_انحراف = -1;
 	}
-	else if (nmatch > 1) {
-		*err_code = SCANOPT_ERR_OPT_AMBIGUOUS;
-		*opt_offset = -1;
+	ورنہ اگر (nmatch > 1) {
+		*err_رمز = SCANOPT_ERR_OPT_AMBIGUOUS;
+		*opt_انحراف = -1;
 	}
 
-	return *err_code ? 0 : 1;
+	واپس *err_رمز ? 0 : 1;
 }
 
 
-int     scanopt (scanopt_t *svoid, char **arg, int *optindex)
+صحیح     scanopt (scanopt_t *svoid, حرف **arg, صحیح *optindex)
 {
-	char   *optname = NULL, *optarg = NULL, *pstart;
-	int     namelen = 0, arglen = 0;
-	int     errcode = 0, has_next;
-	const optspec_t *optp;
-	struct _scanopt_t *s;
-	struct _aux *auxp;
-	int     is_short;
-	int     opt_offset = -1;
+	حرف   *optname = تہی, *optarg = تہی, *pstart;
+	صحیح     namelen = 0, arglen = 0;
+	صحیح     errcode = 0, has_اگلا;
+	ثابت optspec_t *optp;
+	ساخت _scanopt_t *s;
+	ساخت _aux *auxp;
+	صحیح     is_short;
+	صحیح     opt_انحراف = -1;
 
-	s = (struct _scanopt_t *) svoid;
+	s = (ساخت _scanopt_t *) svoid;
 
 	/* Normalize return-parameters. */
-	SAFE_ASSIGN (arg, NULL);
-	SAFE_ASSIGN (optindex, s->index);
+	محفوظ_تفویض (arg, تہی);
+	محفوظ_تفویض (optindex, s->اشاریہ);
 
-	if (s->index >= s->argc)
-		return 0;
+	اگر (s->اشاریہ >= s->argc)
+		واپس 0;
 
 	/* pstart always points to the start of our current scan. */
-	pstart = s->argv[s->index] + s->subscript;
-	if (!pstart)
-		return 0;
+	pstart = s->argv[s->اشاریہ] + s->subscript;
+	اگر (!pstart)
+		واپس 0;
 
-	if (s->subscript == 0) {
+	اگر (s->subscript == 0) {
 
 		/* test for exact match of "--" */
-		if (pstart[0] == '-' && pstart[1] == '-' && !pstart[2]) {
-			SAFE_ASSIGN (optindex, s->index + 1);
-			INC_INDEX (s, 1);
-			return 0;
+		اگر (pstart[0] == '-' && pstart[1] == '-' && !pstart[2]) {
+			محفوظ_تفویض (optindex, s->اشاریہ + 1);
+			INC_اشاریہ (s, 1);
+			واپس 0;
 		}
 
 		/* Match an opt. */
-		if (matchlongopt
+		اگر (matchlongopt
 		    (pstart, &optname, &namelen, &optarg, &arglen)) {
 
 			/* it LOOKS like an opt, but is it one?! */
-			if (!find_opt
+			اگر (!ڈھونڈو_opt
 			    (s, 1, optname, namelen, &errcode,
-			     &opt_offset)) {
+			     &opt_انحراف)) {
 				scanopt_err (s, 0, errcode);
-				return errcode;
+				واپس errcode;
 			}
 			/* We handle this below. */
 			is_short = 0;
 
 			/* Check for short opt.  */
 		}
-		else if (pstart[0] == '-' && pstart[1]) {
+		ورنہ اگر (pstart[0] == '-' && pstart[1]) {
 			/* Pass through to below. */
 			is_short = 1;
 			s->subscript++;
 			pstart++;
 		}
 
-		else {
+		ورنہ {
 			/* It's not an option. We're done. */
-			return 0;
+			واپس 0;
 		}
 	}
 
 	/* We have to re-check the subscript status because it
 	 * may have changed above. */
 
-	if (s->subscript != 0) {
+	اگر (s->subscript != 0) {
 
 		/* we are somewhere in a run of short opts,
 		 * e.g., at the 'z' in `tar -xzf` */
@@ -688,19 +688,19 @@ int     scanopt (scanopt_t *svoid, char **arg, int *optindex)
 		namelen = 1;
 		is_short = 1;
 
-		if (!find_opt
-		    (s, 0, pstart, namelen, &errcode, &opt_offset)) {
+		اگر (!ڈھونڈو_opt
+		    (s, 0, pstart, namelen, &errcode, &opt_انحراف)) {
 			scanopt_err(s, 1, errcode);
-			return errcode;
+			واپس errcode;
 		}
 
 		optarg = pstart + 1;
-		if (!*optarg) {
-			optarg = NULL;
+		اگر (!*optarg) {
+			optarg = تہی;
 			arglen = 0;
 		}
-		else
-			arglen = (int) strlen (optarg);
+		ورنہ
+			arglen = (صحیح) لڑی_لمبائی (optarg);
 	}
 
 	/* At this point, we have a long or short option matched at opt_offset into
@@ -710,67 +710,67 @@ int     scanopt (scanopt_t *svoid, char **arg, int *optindex)
 
 	/* Look ahead in argv[] to see if there is something
 	 * that we can use as an argument (if needed). */
-	has_next = s->index + 1 < s->argc;
+	has_اگلا = s->اشاریہ + 1 < s->argc;
 
-	optp = s->options + opt_offset;
-	auxp = s->aux + opt_offset;
+	optp = s->options + opt_انحراف;
+	auxp = s->aux + opt_انحراف;
 
 	/* case: no args allowed */
-	if (auxp->flags & ARG_NONE) {
-		if (optarg && !is_short) {
+	اگر (auxp->flags & ARG_NONE) {
+		اگر (optarg && !is_short) {
 			scanopt_err(s, is_short, SCANOPT_ERR_ARG_NOT_ALLOWED);
-			INC_INDEX (s, 1);
-			return SCANOPT_ERR_ARG_NOT_ALLOWED;
+			INC_اشاریہ (s, 1);
+			واپس SCANOPT_ERR_ARG_NOT_ALLOWED;
 		}
-		else if (!optarg)
-			INC_INDEX (s, 1);
-		else
+		ورنہ اگر (!optarg)
+			INC_اشاریہ (s, 1);
+		ورنہ
 			s->subscript++;
-		return optp->r_val;
+		واپس optp->r_val;
 	}
 
 	/* case: required */
-	if (auxp->flags & ARG_REQ) {
-		if (!optarg && !has_next) {
-			scanopt_err(s, is_short, SCANOPT_ERR_ARG_NOT_FOUND);
-			return SCANOPT_ERR_ARG_NOT_FOUND;
+	اگر (auxp->flags & ARG_REQ) {
+		اگر (!optarg && !has_اگلا) {
+			scanopt_err(s, is_short, SCANOPT_ERR_ARG_NOT_ملا);
+			واپس SCANOPT_ERR_ARG_NOT_ملا;
 		}
 
-		if (!optarg) {
+		اگر (!optarg) {
 			/* Let the next argv element become the argument. */
-			SAFE_ASSIGN (arg, s->argv[s->index + 1]);
-			INC_INDEX (s, 2);
+			محفوظ_تفویض (arg, s->argv[s->اشاریہ + 1]);
+			INC_اشاریہ (s, 2);
 		}
-		else {
-			SAFE_ASSIGN (arg, (char *) optarg);
-			INC_INDEX (s, 1);
+		ورنہ {
+			محفوظ_تفویض (arg, (حرف *) optarg);
+			INC_اشاریہ (s, 1);
 		}
-		return optp->r_val;
+		واپس optp->r_val;
 	}
 
 	/* case: optional */
-	if (auxp->flags & ARG_OPT) {
-		SAFE_ASSIGN (arg, optarg);
-		INC_INDEX (s, 1);
-		return optp->r_val;
+	اگر (auxp->flags & ARG_OPT) {
+		محفوظ_تفویض (arg, optarg);
+		INC_اشاریہ (s, 1);
+		واپس optp->r_val;
 	}
 
 
 	/* Should not reach here. */
-	return 0;
+	واپس 0;
 }
 
 
-int     scanopt_destroy (scanopt_t *svoid)
+صحیح     scanopt_destroy (scanopt_t *svoid)
 {
-	struct _scanopt_t *s;
+	ساخت _scanopt_t *s;
 
-	s = (struct _scanopt_t *) svoid;
-	if (s != NULL) {
-		free(s->aux);
-		free(s);
+	s = (ساخت _scanopt_t *) svoid;
+	اگر (s != تہی) {
+		آزاد(s->aux);
+		آزاد(s);
 	}
-	return 0;
+	واپس 0;
 }
 
 

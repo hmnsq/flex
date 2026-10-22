@@ -32,121 +32,121 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#ifndef FLEXDEF_H
-#define FLEXDEF_H 1
+#اگر_غیر_تعریف_شدہ FLEXDEF_H
+#تعریف_کرو FLEXDEF_H 1
 
-#ifndef USE_CONFIG_FOR_BUILD
+#اگر_غیر_تعریف_شدہ USE_CONFIG_FOR_BUILD
 # ifdef HAVE_CONFIG_H
-#include <config.h>
+#شامل <config.h>
 # endif
-#else
-#include <config_for_build.h>
-#endif
+#ورنہ
+#شامل <config_for_build.h>
+#اگر_ختم
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <setjmp.h>
-#include <ctype.h>
-#include <string.h>
-#include <math.h>
+#شامل <stdio.h>
+#شامل <stdlib.h>
+#شامل <stdarg.h>
+#شامل <setjmp.h>
+#شامل <ctype.h>
+#شامل <string.h>
+#شامل <math.h>
 
-#ifdef HAVE_ASSERT_H
-#include <assert.h>
-#else
-#define assert(Pred)
-#endif
+#اگر_تعریف_شدہ HAVE_ASSERT_H
+#شامل <assert.h>
+#ورنہ
+#تعریف_کرو أكد(Pred)
+#اگر_ختم
 
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
-#endif
+#اگر_تعریف_شدہ HAVE_LIMITS_H
+#شامل <limits.h>
+#اگر_ختم
 /* Required: dup() and dup2() in <unistd.h> */
-#include <unistd.h>
-#ifdef HAVE_NETINET_IN_H
-#include <netinet/in.h>
-#endif
-#ifdef HAVE_SYS_PARAMS_H
-#include <sys/params.h>
-#endif
+#شامل <unistd.h>
+#اگر_تعریف_شدہ HAVE_NETINET_اندر_H
+#شامل <netinet/in.h>
+#اگر_ختم
+#اگر_تعریف_شدہ HAVE_SYS_PARAMS_H
+#شامل <sys/params.h>
+#اگر_ختم
 /* Required: wait() in <sys/wait.h> */
-#include <sys/wait.h>
-#ifdef HAVE_STDBOOL_H
-#include <stdbool.h>
-#elif !defined(__cplusplus) && (!defined(__STDC_VERSION__) || \
+#شامل <sys/wait.h>
+#اگر_تعریف_شدہ HAVE_STDBOOL_H
+#شامل <stdbool.h>
+#وگرنہ_اگر !defined(__cplusplus) && (!defined(__STDC_VERSION__) || \
       __STDC_VERSION__ < 202311L)
 # ifdef HAVE__BOOL
 #  define bool _Bool
-# else
-#  define bool int
+# ورنہ
+#  define bool صحیح
 # endif
 # define false 0
 # define true 1
-#endif
-#include <stdarg.h>
+#اگر_ختم
+#شامل <stdarg.h>
 /* Required: regcomp(), regexec() and regerror() in <regex.h> */
-#include <regex.h>
+#شامل <regex.h>
 /* Required: strcasecmp() in <strings.h> */
-#include <strings.h>
-#include "flexint.h"
+#شامل <strings.h>
+#شامل "flexint.h"
 
 /* We use gettext. So, when we write strings which should be translated, we
  * mark them with _()
  */
-#if defined(ENABLE_NLS) && ENABLE_NLS
-#ifdef HAVE_LOCALE_H
-#include <locale.h>
-#endif /* HAVE_LOCALE_H */
-#include "gettext.h"
-#define _(String) gettext (String)
-#else
-#define _(STRING) STRING
-#endif /* ENABLE_NLS */
+#اگر defined(ENABLE_NLS) && ENABLE_NLS
+#اگر_تعریف_شدہ HAVE_LOCALE_H
+#شامل <locale.h>
+#اگر_ختم /* HAVE_LOCALE_H */
+#شامل "gettext.h"
+#تعریف_کرو _(String) gettext (String)
+#ورنہ
+#تعریف_کرو _(STRING) STRING
+#اگر_ختم /* ENABLE_NLS */
 
 /* Always be prepared to generate an 8-bit scanner. */
-#define CSIZE 256
+#تعریف_کرو CSIZE 256
 
 /* Size of input alphabet - should be size of ASCII set. */
-#ifndef DEFAULT_CSIZE
-#define DEFAULT_CSIZE 128
-#endif
+#اگر_غیر_تعریف_شدہ DEFAULT_CSIZE
+#تعریف_کرو DEFAULT_CSIZE 128
+#اگر_ختم
 
 /* Maximum line length we'll have to deal with. */
-#define MAXLINE 2048
+#تعریف_کرو MAXLINE 2048
 
-#ifndef MIN
-#define MIN(x,y) ((x) < (y) ? (x) : (y))
-#endif
-#ifndef MAX
-#define MAX(x,y) ((x) > (y) ? (x) : (y))
-#endif
-#ifndef ABS
-#define ABS(x) ((x) < 0 ? -(x) : (x))
-#endif
+#اگر_غیر_تعریف_شدہ MIN
+#تعریف_کرو MIN(x,y) ((x) < (y) ? (x) : (y))
+#اگر_ختم
+#اگر_غیر_تعریف_شدہ MAX
+#تعریف_کرو MAX(x,y) ((x) > (y) ? (x) : (y))
+#اگر_ختم
+#اگر_غیر_تعریف_شدہ ABS
+#تعریف_کرو ABS(x) ((x) < 0 ? -(x) : (x))
+#اگر_ختم
 
 /* Whether an integer is a power of two */
-#define is_power_of_2(n) ((n) > 0 && ((n) & ((n) - 1)) == 0)
+#تعریف_کرو is_power_کا_2(n) ((n) > 0 && ((n) & ((n) - 1)) == 0)
 
 /* Special chk[] values marking the slots taking by end-of-buffer and action
  * numbers.
  */
-#define EOB_POSITION -1
-#define ACTION_POSITION -2
+#تعریف_کرو EOB_POSITION -1
+#تعریف_کرو ACTION_POSITION -2
 
 /* Number of data items per line for -f output. */
-#define NUMDATAITEMS 10
+#تعریف_کرو NUMDATAITEMS 10
 
 /* Number of lines of data in -f output before inserting a blank line for
  * readability.
  */
-#define NUMDATALINES 10
+#تعریف_کرو NUMDATALINES 10
 
 /* transition_struct_out() definitions. */
-#define TRANS_STRUCT_PRINT_LENGTH 14
+#تعریف_کرو TRANS_STRUCT_PRINT_لمبائی 14
 
 /* Returns true if an nfa state has an epsilon out-transition slot
  * that can be used.  This definition is currently not used.
  */
-#define FREE_EPSILON(state) \
+#تعریف_کرو FREE_EPSILON(state) \
 	(transchar[state] == SYM_EPSILON && \
 	 trans2[state] == NO_TRANSITION && \
 	 finalst[state] != state)
@@ -154,7 +154,7 @@
 /* Returns true if an nfa state has an epsilon out-transition character
  * and both slots are free
  */
-#define SUPER_FREE_EPSILON(state) \
+#تعریف_کرو SUPER_FREE_EPSILON(state) \
 	(transchar[state] == SYM_EPSILON && \
 	 trans1[state] == NO_TRANSITION) \
 
@@ -162,8 +162,8 @@
  * big because if there's a lot of rules, the initial state will have a
  * huge epsilon closure.
  */
-#define INITIAL_MAX_DFA_SIZE 750
-#define MAX_DFA_SIZE_INCREMENT 750
+#تعریف_کرو INITIAL_MAX_DFA_سائز 750
+#تعریف_کرو MAX_DFA_سائز_INCREMENT 750
 
 
 /* A note on the following masks.  They are used to mark accepting numbers
@@ -175,69 +175,69 @@
  */
 
 /* Mask to mark a trailing context accepting number. */
-#define YY_TRAILING_MASK 0x2000
+#تعریف_کرو YY_TRAILING_نقاب 0x2000
 
 /* Mask to mark the accepting number of the "head" of a trailing context
  * rule.
  */
-#define YY_TRAILING_HEAD_MASK 0x4000
+#تعریف_کرو YY_TRAILING_سر_نقاب 0x4000
 
 /* Maximum number of rules, as outlined in the above note. */
-#define MAX_RULE (YY_TRAILING_MASK - 1)
+#تعریف_کرو MAX_قاعدہ (YY_TRAILING_نقاب - 1)
 
 
 /* NIL must be 0.  If not, its special meaning when making equivalence classes
  * (it marks the representative of a given e.c.) will be unidentifiable.
  */
-#define NIL 0
+#تعریف_کرو NIL 0
 
-#define JAM -1			/* to mark a missing DFA transition */
-#define NO_TRANSITION NIL
-#define UNIQUE -1		/* marks a symbol as an e.c. representative */
-#define INFINITE_REPEAT -1		/* for x{5,} constructions */
+#تعریف_کرو JAM -1			/* to mark a missing DFA transition */
+#تعریف_کرو NO_TRANSITION NIL
+#تعریف_کرو UNIQUE -1		/* marks a symbol as an e.c. representative */
+#تعریف_کرو INFINITE_REPEAT -1		/* for x{5,} constructions */
 
-#define INITIAL_MAX_CCLS 100	/* max number of unique character classes */
-#define MAX_CCLS_INCREMENT 100
+#تعریف_کرو INITIAL_MAX_CCLS 100	/* max number of unique character classes */
+#تعریف_کرو MAX_CCLS_INCREMENT 100
 
 /* Size of table holding members of character classes. */
-#define INITIAL_MAX_CCL_TBL_SIZE 500
-#define MAX_CCL_TBL_SIZE_INCREMENT 250
+#تعریف_کرو INITIAL_MAX_CCL_TBL_سائز 500
+#تعریف_کرو MAX_CCL_TBL_سائز_INCREMENT 250
 
-#define INITIAL_MAX_RULES 100	/* default maximum number of rules */
-#define MAX_RULES_INCREMENT 100
+#تعریف_کرو INITIAL_MAX_قواعد 100	/* default maximum number of rules */
+#تعریف_کرو MAX_قواعد_INCREMENT 100
 
-#define INITIAL_MNS 2000	/* default maximum number of nfa states */
-#define MNS_INCREMENT 1000	/* amount to bump above by if it's not enough */
+#تعریف_کرو INITIAL_MNS 2000	/* default maximum number of nfa states */
+#تعریف_کرو MNS_INCREMENT 1000	/* amount to bump above by if it's not enough */
 
-#define INITIAL_MAX_DFAS 1000	/* default maximum number of dfa states */
-#define MAX_DFAS_INCREMENT 1000
+#تعریف_کرو INITIAL_MAX_DFAS 1000	/* default maximum number of dfa states */
+#تعریف_کرو MAX_DFAS_INCREMENT 1000
 
-#define JAMSTATE -32766		/* marks a reference to the state that always jams */
+#تعریف_کرو JAMSTATE -32766		/* marks a reference to the state that always jams */
 
 /* Maximum number of NFA states. */
-#define MAXIMUM_MNS 31999
-#define MAXIMUM_MNS_LONG 1999999999
+#تعریف_کرو زیادہ_سے_زیادہ_MNS 31999
+#تعریف_کرو زیادہ_سے_زیادہ_MNS_LONG 1999999999
 
 /* Enough so that if it's subtracted from an NFA state number, the result
  * is guaranteed to be negative.
  */
-#define MARKER_DIFFERENCE (maximum_mns+2)
+#تعریف_کرو MARKER_DIFFERENCE (زیادہ_سے_زیادہ_mns+2)
 
 /* Maximum number of nxt/chk pairs for non-templates. */
-#define INITIAL_MAX_XPAIRS 2000
-#define MAX_XPAIRS_INCREMENT 2000
+#تعریف_کرو INITIAL_MAX_XPAIRS 2000
+#تعریف_کرو MAX_XPAIRS_INCREMENT 2000
 
 /* Maximum number of nxt/chk pairs needed for templates. */
-#define INITIAL_MAX_TEMPLATE_XPAIRS 2500
-#define MAX_TEMPLATE_XPAIRS_INCREMENT 2500
+#تعریف_کرو INITIAL_MAX_TEMPLATE_XPAIRS 2500
+#تعریف_کرو MAX_TEMPLATE_XPAIRS_INCREMENT 2500
 
-#define SYM_EPSILON (CSIZE + 1)	/* to mark transitions on the symbol epsilon */
+#تعریف_کرو SYM_EPSILON (CSIZE + 1)	/* to mark transitions on the symbol epsilon */
 
-#define INITIAL_MAX_SCS 40	/* maximum number of start conditions */
-#define MAX_SCS_INCREMENT 40	/* amount to bump by if it's not enough */
+#تعریف_کرو INITIAL_MAX_SCS 40	/* maximum number of start conditions */
+#تعریف_کرو MAX_SCS_INCREMENT 40	/* amount to bump by if it's not enough */
 
-#define ONE_STACK_SIZE 500	/* stack of states with only one out-transition */
-#define SAME_TRANS -1		/* transition is the same as "default" entry for state */
+#تعریف_کرو ONE_ڈھیر_سائز 500	/* stack of states with only one out-transition */
+#تعریف_کرو SAME_TRANS -1		/* transition is the same as "default" entry for state */
 
 /* The following percentages are used to tune table compression:
 
@@ -245,7 +245,7 @@
  * number of equivalence classes in order to be considered for table
  * compaction by using protos.
  */
-#define PROTO_SIZE_PERCENTAGE 15
+#تعریف_کرو PROTO_سائز_PERCENTAGE 15
 
 /* The percentage the number of homogeneous out-transitions of a state
  * must be of the number of total out-transitions of the state in order
@@ -253,63 +253,63 @@
  * template of the most common out-transition instead of with the first
  * proto in the proto queue.
  */
-#define CHECK_COM_PERCENTAGE 50
+#تعریف_کرو CHECK_COM_PERCENTAGE 50
 
 /* The percentage the number of differences between a state's transition
  * table and the proto it was first compared with must be of the total
  * number of out-transitions of the state in order to keep the first
  * proto as a good match and not search any further.
  */
-#define FIRST_MATCH_DIFF_PERCENTAGE 10
+#تعریف_کرو پہلا_مطابقت_DIFF_PERCENTAGE 10
 
 /* The percentage the number of differences between a state's transition
  * table and the most similar proto must be of the state's total number
  * of out-transitions to use the proto as an acceptable close match.
  */
-#define ACCEPTABLE_DIFF_PERCENTAGE 50
+#تعریف_کرو ACCEPTABLE_DIFF_PERCENTAGE 50
 
 /* The percentage the number of homogeneous out-transitions of a state
  * must be of the number of total out-transitions of the state in order
  * to consider making a template from the state.
  */
-#define TEMPLATE_SAME_PERCENTAGE 60
+#تعریف_کرو TEMPLATE_SAME_PERCENTAGE 60
 
 /* The percentage the number of differences between a state's transition
  * table and the most similar proto must be of the state's total number
  * of out-transitions to create a new proto from the state.
  */
-#define NEW_PROTO_DIFF_PERCENTAGE 20
+#تعریف_کرو NEW_PROTO_DIFF_PERCENTAGE 20
 
 /* The percentage the total number of out-transitions of a state must be
  * of the number of equivalence classes in order to consider trying to
  * fit the transition table into "holes" inside the nxt/chk table.
  */
-#define INTERIOR_FIT_PERCENTAGE 15
+#تعریف_کرو INTERIOR_FIT_PERCENTAGE 15
 
 /* Size of region set aside to cache the complete transition table of
  * protos on the proto queue to enable quick comparisons.
  */
-#define PROT_SAVE_SIZE 2000
+#تعریف_کرو PROT_SAVE_سائز 2000
 
-#define MSP 50			/* maximum number of saved protos (protos on the proto queue) */
+#تعریف_کرو MSP 50			/* maximum number of saved protos (protos on the proto queue) */
 
 /* Maximum number of out-transitions a state can have that we'll rummage
  * around through the interior of the internal fast table looking for a
  * spot for it.
  */
-#define MAX_XTIONS_FULL_INTERIOR_FIT 4
+#تعریف_کرو MAX_XTIONS_بھرا_INTERIOR_FIT 4
 
 /* Maximum number of rules which will be reported as being associated
  * with a DFA state.
  */
-#define MAX_ASSOC_RULES 100
+#تعریف_کرو MAX_ASSOC_قواعد 100
 
 /* Number that, if used to subscript an array, has a good chance of producing
  * an error; should be small enough to fit into a short.
  */
-#define BAD_SUBSCRIPT -32767
+#تعریف_کرو BAD_SUBSCRIPT -32767
 
-typedef enum trit_t {
+قسمتعریف شمار trit_t {
 	trit_unspecified = -1,
 	trit_false = 0,
 	trit_true = 1,
@@ -319,14 +319,14 @@ typedef enum trit_t {
  * twice for each option, instead a single struct can be declared and externed.
  * If it's in this structure, it has a corresponding m4 symbol.
  */
-struct ctrl_bundle_t {
+ساخت ctrl_bundle_t {
 	bool always_interactive;// always use character-by-character input
-	FILE *backing_up_file;	// file to summarize backing-up states to 
+	FILE *backing_اوپر_file;	// file to summarize backing-up states to 
 	bool bison_bridge_lval;	// (--bison-bridge), bison pure calling convention. 
 	bool bison_bridge_lloc;	// (--bison-locations), bison yylloc.
 	size_t bufsize;		// input buffer size
 	bool C_plus_plus;	// (-+ flag) generate a C++ scanner class 
-	int csize;		// size of character set for the scanner 
+	صحیح csize;		// size of character set for the scanner 
 				// 128 for 7-bit chars and 256 for 8-bit 
 	bool ddebug;		// (-d) make a "debug" scanner 
 	trit do_main;		// generate main part to make lexer standalone.
@@ -336,7 +336,7 @@ struct ctrl_bundle_t {
 				// If false, EOF treated as "no more files" 
 	bool fullspd;		// (-F flag) use Jacobson method of table representation 
 	bool fulltbl;		// (-Cf flag) don't compress the DFA state table 
- 	bool gen_line_dirs;	// (no -L flag) generate #line directives 
+ 	bool gen_سطر_dirs;	// (no -L flag) generate #line directives 
 	trit interactive;	// (-I) generate an interactive scanner
 	bool never_interactive;	// always use buffered input, don't check for tty.
 	bool lex_compat;	// (-l), maximize compatibility with AT&T lex 
@@ -344,51 +344,51 @@ struct ctrl_bundle_t {
 	bool no_yyinput;	// suppress use of yyinput()
 	bool no_unistd;		// suppress inclusion of unistd.h
 	bool posix_compat;	// (-X) maximize compatibility with POSIX lex 
-	char *prefix;		// prefix for externally visible names, default "yy" 
-	trit reject_really_used;// Force generation of support code for reject operation
+	حرف *سابقہ;		// prefix for externally visible names, default "yy" 
+	trit reject_really_مستعمل;// Force generation of support code for reject operation
 	bool reentrant;		// if true (-R), generate a reentrant C scanner
 	bool rewrite;		// Appl;y magic rewre rles to special fumctions 
-	bool stack_used;	// Enable use of start-condition stacks
+	bool ڈھیر_مستعمل;	// Enable use of start-condition stacks
 	bool no_section3_escape;// True if the undocumented option --unsafe-no-m4-sect3-escape was passed
 	bool spprdflt;		// (-s) suppress the default rule
 	bool useecs;		// (-Ce flag) use equivalence classes 
 	bool usemecs;		// (-Cm flag), use meta-equivalence classes 
 	bool use_read;		// (-f, -F, or -Cr) use read() for scanner input 
        				// otherwise, use fread(). 
-	char *yyclass;		// yyFlexLexer subclass to use for YY_DECL
-	char *yydecl;		// user-specified prototype for yylex.
-	int yylmax;		// Maximum buffer length if %array
-	trit yymore_really_used;// Force geberation of support code for yymore
+	حرف *yyclass;		// yyFlexLexer subclass to use for YY_DECL
+	حرف *yydecl;		// user-specified prototype for yylex.
+	صحیح yylmax;		// Maximum buffer length if %array
+	trit yymore_really_مستعمل;// Force geberation of support code for yymore
 	bool yytext_is_array;	// if true (i.e., %array directive), then declare
 				// yytext as array instead of a character pointer.
 				// Nice and inefficient.
 	bool noyyread;		// User supplied a yyread function, don't generate default
-	char *userinit;		// Code fragment to be inserted before scanning
-	char *preaction;	// Code fragment to be inserted before each action
-	char *postaction;	// Code fragment to be inserted after each action
-	char *emit;		// Specify target language to emit.
-	char *yyterminate;	// Set a non-default termination hook.
+	حرف *userinit;		// Code fragment to be inserted before scanning
+	حرف *preaction;	// Code fragment to be inserted before each action
+	حرف *postaction;	// Code fragment to be inserted after each action
+	حرف *emit;		// Specify target language to emit.
+	حرف *yyterminate;	// Set a non-default termination hook.
 	bool no_yypanic;	// if true, no not generate default yypanic function
  	// flags corresponding to the huge mass of --no-yy options
-	bool no_yy_push_state;
-	bool no_yy_pop_state;
-	bool no_yy_top_state;
+	bool no_yy_ڈالو_state;
+	bool no_yy_نکالو_state;
+	bool no_yy_چوٹی_state;
 	bool no_yyunput;
-	bool no_yy_scan_buffer;
-	bool no_yy_scan_bytes;
-	bool no_yy_scan_string;
+	bool no_yy_جائزہ_بفر;
+	bool no_yy_جائزہ_بائٹیں;
+	bool no_yy_جائزہ_string;
 	bool no_yyget_extra;
 	bool no_yyset_extra;
 	bool no_yyget_leng;
-	bool no_yyget_text;
+	bool no_yyget_متن;
 	bool no_yyget_lineno;
 	bool no_yyset_lineno;
-	bool no_yyget_column;
-	bool no_yyset_column;
-	bool no_yyget_in;
-	bool no_yyset_in;
-	bool no_yyget_out;
-	bool no_yyset_out;
+	bool no_yyget_عمود;
+	bool no_yyset_عمود;
+	bool no_yyget_اندر;
+	bool no_yyset_اندر;
+	bool no_yyget_برآمد;
+	bool no_yyset_برآمد;
 	bool no_yyget_lval;
 	bool no_yyset_lval;
 	bool no_yyget_lloc;
@@ -397,31 +397,31 @@ struct ctrl_bundle_t {
 	bool no_flex_realloc;
 	bool no_flex_free;
 	bool no_get_debug;
-	bool no_set_debug;
+	bool no_سیٹ_debug;
 	// Properties read from the skeleton
-	const char *backend_name;	// What the back end tells you its name is
-	const char *traceline_re;	// Regular expression for recognizing tracelines */
-	const char *traceline_template;	// templare for emitting trace lines */
-	bool have_state_entry_format;	// Do we know how to make a state entry address?
+	ثابت حرف *backend_name;	// What the back end tells you its name is
+	ثابت حرف *traceline_re;	// Regular expression for recognizing tracelines */
+	ثابت حرف *traceline_template;	// templare for emitting trace lines */
+	bool have_state_اندراج_format;	// Do we know how to make a state entry address?
 };
 
 /* Environment variables.  These control the lexer operation, but do
  * not have corresponding m4 symbols and do not affect the behavior of
  * the generated parser.
  */
-struct env_bundle_t {
-	bool backing_up_report;	// (-b flag), generate "lex.backup" file 
+ساخت env_bundle_t {
+	bool backing_اوپر_report;	// (-b flag), generate "lex.backup" file 
 				// listing backing-up states
 	bool did_outfilename;	// whether outfilename was explicitly set
-	char *headerfilename;	// name of the .h file to generate
+	حرف *headerfilename;	// name of the .h file to generate
 	bool nowarn;		// (-w) do not generate warnings 
-	int performance_hint;	// if > 0 (i.e., -p flag), generate a report 
+	صحیح performance_hint;	// if > 0 (i.e., -p flag), generate a report 
 				// relating to scanner performance; 
 				// if > 1 (-p -p), report 
  				// on minor performance problems, too.
-	char *outfilename;	// output file name
+	حرف *outfilename;	// output file name
 	bool printstats;	// (-v) dump statistics
-	char *skelname;		// name of skeleton for code generation
+	حرف *skelname;		// name of skeleton for code generation
 	FILE *skelfile;		// the skeleton file'd descriptor
 	bool trace;		// (-T) env.trace processing 
 	bool trace_hex; 	// use hex in trace/debug outputs not octal
@@ -429,13 +429,13 @@ struct env_bundle_t {
 };
 
 /* Name and byte-width information on a type for code-generation purposes. */
-struct packtype_t {
-	char *name;
-	size_t width;
+ساخت packtype_t {
+	حرف *name;
+	size_t چوڑائی;
 };
 
-extern struct ctrl_bundle_t ctrl;
-extern struct env_bundle_t env;
+خارجی ساخت ctrl_bundle_t ctrl;
+خارجی ساخت env_bundle_t env;
 
 /* Declarations for global variables. */
 
@@ -455,8 +455,8 @@ extern struct env_bundle_t env;
  * reject_really_used - same for REJECT
   */
 
-extern bool syntaxerror, eofseen;
-extern int yymore_used, reject, real_reject, continued_action, in_rule;
+خارجی bool syntaxerror, eofseen;
+خارجی صحیح yymore_مستعمل, reject, real_reject, continued_action, اندر_قاعدہ;
 
 /* Variables used in the flex input routines:
  * datapos - characters on current output line
@@ -482,17 +482,17 @@ extern int yymore_used, reject, real_reject, continued_action, in_rule;
  * always_interactive - if true, generate an interactive scanner
  */
 
-extern int datapos, dataline, linenum;
-extern int skel_ind;
-extern char *infilename;
-extern char *extra_type;
-extern char **input_files;
-extern int num_input_files;
-extern char *program_name;
+خارجی صحیح datapos, dataline, linenum;
+خارجی صحیح skel_ind;
+خارجی حرف *infilename;
+خارجی حرف *extra_type;
+خارجی حرف **داخلہ_files;
+خارجی صحیح عدد_داخلہ_files;
+خارجی حرف *پروگرام_name;
 
-extern char *action_array;
-extern int action_size;
-extern int defs1_offset, prolog_offset, action_offset, action_index;
+خارجی حرف *action_array;
+خارجی صحیح action_سائز;
+خارجی صحیح defs1_انحراف, prolog_انحراف, action_انحراف, action_اشاریہ;
 
 
 /* Variables for stack of states having only one out-transition:
@@ -503,8 +503,8 @@ extern int defs1_offset, prolog_offset, action_offset, action_index;
  * onesp - stack pointer
  */
 
-extern int onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
-extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
+خارجی صحیح onestate[ONE_ڈھیر_سائز], onesym[ONE_ڈھیر_سائز];
+خارجی صحیح onenext[ONE_ڈھیر_سائز], onedef[ONE_ڈھیر_سائز], onesp;
 
 
 /* Variables for nfa machine data:
@@ -541,36 +541,36 @@ extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
  * footprint - total size of tables, in bytes.
  */
 
-extern int maximum_mns, current_mns, current_max_rules;
-extern int num_rules, num_eof_rules, default_rule, lastnfa;
-extern int *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
-extern int *accptnum, *assoc_rule, *state_type;
-extern int *rule_type, *rule_linenum;
+خارجی صحیح زیادہ_سے_زیادہ_mns, current_mns, current_max_قواعد;
+خارجی صحیح عدد_قواعد, عدد_eof_قواعد, default_قاعدہ, lastnfa;
+خارجی صحیح *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
+خارجی صحیح *accptnum, *assoc_قاعدہ, *state_type;
+خارجی صحیح *قاعدہ_type, *قاعدہ_linenum;
 /* rule_useful[], rule_has_nl[] and ccl_has_nl[] are boolean arrays,
  * but allocated as char arrays for size. */
-extern char *rule_useful, *rule_has_nl, *ccl_has_nl;
-extern int nlch;
-extern size_t footprint;
+خارجی حرف *قاعدہ_useful, *قاعدہ_has_nl, *ccl_has_nl;
+خارجی صحیح nlch;
+خارجی size_t footprint;
 
 
 /* Different types of states; values are useful as masks, as well, for
  * routines like check_trailing_context().
  */
-#define STATE_NORMAL 0x1
-#define STATE_TRAILING_CONTEXT 0x2
+#تعریف_کرو STATE_معمول 0x1
+#تعریف_کرو STATE_TRAILING_CONTEXT 0x2
 
 /* Global holding current type of state we're making. */
 
-extern int current_state_type;
+خارجی صحیح current_state_type;
 
 /* Different types of rules. */
-#define RULE_NORMAL 0
-#define RULE_VARIABLE 1
+#تعریف_کرو قاعدہ_معمول 0
+#تعریف_کرو قاعدہ_VARIABLE 1
 
 /* True if the input rules include a rule with both variable-length head
  * and trailing context, false otherwise.
  */
-extern bool variable_trailing_context_rules;
+خارجی bool variable_trailing_context_قواعد;
 
 
 /* Variables for protos:
@@ -585,8 +585,8 @@ extern bool variable_trailing_context_rules;
  * protsave contains the entire state array for protos
  */
 
-extern int numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
-extern int protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
+خارجی صحیح numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
+خارجی صحیح protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_سائز];
 
 
 /* Variables for managing equivalence classes:
@@ -604,14 +604,14 @@ extern int protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
  * for the NUL character.  Later we'll move this information into
  * the 0th element.
  */
-extern int numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs;
+خارجی صحیح numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs;
 
 /* Meta-equivalence classes are indexed starting at 1, so it's possible
  * that they will require positions from 1 .. CSIZE, i.e., CSIZE + 1
  * slots total (since the arrays are 0-based).  nextecm[] and ecgroup[]
  * don't require the extra position since they're indexed from 1 .. CSIZE - 1.
  */
-extern int tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
+خارجی صحیح tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
 
 
 /* Variables for start conditions:
@@ -624,12 +624,12 @@ extern int tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
  * scname - start condition name
  */
 
-extern int lastsc, *scset, *scbol;
+خارجی صحیح lastsc, *scset, *scbol;
 /* scxclu[] and sceof[] are boolean arrays, but allocated as char
  * arrays for size. */
-extern char *scxclu, *sceof;
-extern int current_max_scs;
-extern const char **scname;
+خارجی حرف *scxclu, *sceof;
+خارجی صحیح current_max_scs;
+خارجی ثابت حرف **scname;
 
 
 /* Variables for dfa machine data:
@@ -662,18 +662,18 @@ extern const char **scname;
  * end_of_buffer_state - end-of-buffer dfa state number
  */
 
-extern int current_max_dfa_size, current_max_xpairs;
-extern int current_max_template_xpairs, current_max_dfas;
-extern int lastdfa, *nxt, *chk, *tnxt;
-extern int *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss,
+خارجی صحیح current_max_dfa_سائز, current_max_xpairs;
+خارجی صحیح current_max_template_xpairs, current_max_dfas;
+خارجی صحیح lastdfa, *nxt, *chk, *tnxt;
+خارجی صحیح *بنیاد, *def, *nultrans, NUL_ec, tblend, firstfree, **dss,
 	*dfasiz;
-extern union dfaacc_union {
-	int    *dfaacc_set;
-	int     dfaacc_state;
+خارجی اتحاد dfaacc_union {
+	صحیح    *dfaacc_سیٹ;
+	صحیح     dfaacc_state;
 }      *dfaacc;
-extern int *accsiz, *dhash, numas;
-extern int numsnpairs, jambase, jamstate;
-extern int end_of_buffer_state;
+خارجی صحیح *accsiz, *dhash, numas;
+خارجی صحیح numsnpairs, jambase, jamstate;
+خارجی صحیح انتہا_کا_بفر_state;
 
 /* Variables for ccl information:
  * lastccl - ccl index of the last created ccl
@@ -687,9 +687,9 @@ extern int end_of_buffer_state;
  * ccltbl - holds the characters in each ccl - indexed by cclmap
  */
 
-extern int lastccl, *cclmap, *ccllen, *cclng, cclreuse;
-extern int current_maxccls, current_max_ccl_tbl_size;
-extern unsigned char *ccltbl;
+خارجی صحیح lastccl, *cclmap, *ccllen, *cclng, cclreuse;
+خارجی صحیح current_maxccls, current_max_ccl_tbl_سائز;
+خارجی غیرعلامتی حرف *ccltbl;
 
 
 /* Variables for miscellaneous information:
@@ -713,43 +713,43 @@ extern unsigned char *ccltbl;
  * bol_needed - whether scanner needs beginning-of-line recognition
  */
 
-extern char nmstr[MAXLINE];
-extern int sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
-extern int tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
-extern int num_backing_up, bol_needed;
+خارجی حرف nmstr[MAXLINE];
+خارجی صحیح sectnum, nummt, hshcol, dfaeql, numeps, eps2, عدد_reallocs, nmval;
+خارجی صحیح tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
+خارجی صحیح عدد_backing_اوپر, bol_needed;
 
-void   *allocate_array(int, size_t);
-void   *reallocate_array(void *, int, size_t);
+خالی   *allocate_array(صحیح, size_t);
+خالی   *reallocate_array(خالی *, صحیح, size_t);
 
-#define allocate_integer_array(size) \
-	allocate_array(size, sizeof(int))
+#تعریف_کرو allocate_integer_array(سائز) \
+	allocate_array(سائز, حجم(صحیح))
 
-#define reallocate_integer_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(int))
+#تعریف_کرو reallocate_integer_array(array,سائز) \
+	reallocate_array((خالی *) array, سائز, حجم(صحیح))
 
-#define allocate_int_ptr_array(size) \
-	allocate_array(size, sizeof(int *))
+#تعریف_کرو allocate_int_ptr_array(سائز) \
+	allocate_array(سائز, حجم(صحیح *))
 
-#define allocate_char_ptr_array(size) \
-	allocate_array(size, sizeof(char *))
+#تعریف_کرو allocate_char_ptr_array(سائز) \
+	allocate_array(سائز, حجم(حرف *))
 
-#define reallocate_int_ptr_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(int *))
+#تعریف_کرو reallocate_int_ptr_array(array,سائز) \
+	reallocate_array((خالی *) array, سائز, حجم(صحیح *))
 
-#define reallocate_char_ptr_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(char *))
+#تعریف_کرو reallocate_char_ptr_array(array,سائز) \
+	reallocate_array((خالی *) array, سائز, حجم(حرف *))
 
-#define allocate_character_array(size) \
-	allocate_array( size, sizeof(char))
+#تعریف_کرو allocate_character_array(سائز) \
+	allocate_array( سائز, حجم(حرف))
 
-#define reallocate_character_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(char))
+#تعریف_کرو reallocate_character_array(array,سائز) \
+	reallocate_array((خالی *) array, سائز, حجم(حرف))
 
-#define allocate_Character_array(size) \
-	allocate_array(size, sizeof(unsigned char))
+#تعریف_کرو allocate_Character_array(سائز) \
+	allocate_array(سائز, حجم(غیرعلامتی حرف))
 
-#define reallocate_Character_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(unsigned char))
+#تعریف_کرو reallocate_Character_array(array,سائز) \
+	reallocate_array((خالی *) array, سائز, حجم(غیرعلامتی حرف))
 
 
 /* External functions that are cross-referenced among the flex source files. */
@@ -757,381 +757,381 @@ void   *reallocate_array(void *, int, size_t);
 
 /* from file ccl.c */
 
-extern void ccladd(int, int);	/* add a single character to a ccl */
-extern int cclinit(void);	/* make an empty ccl */
-extern void cclnegate(int);	/* negate a ccl */
-extern int ccl_set_diff (int a, int b); /* set difference of two ccls. */
-extern int ccl_set_union (int a, int b); /* set union of two ccls. */
+خارجی خالی ccladd(صحیح, صحیح);	/* add a single character to a ccl */
+خارجی صحیح cclinit(خالی);	/* make an empty ccl */
+خارجی خالی cclnegate(صحیح);	/* negate a ccl */
+خارجی صحیح ccl_سیٹ_diff (صحیح a, صحیح b); /* set difference of two ccls. */
+خارجی صحیح ccl_سیٹ_union (صحیح a, صحیح b); /* set union of two ccls. */
 
 /* List the members of a set of characters in CCL form. */
-extern void list_character_set(FILE *, int[]);
+خارجی خالی list_character_سیٹ(FILE *, صحیح[]);
 
 
 /* from file dfa.c */
 
 /* Increase the maximum number of dfas. */
-extern void increase_max_dfas(void);
+خارجی خالی increase_max_dfas(خالی);
 
-extern size_t ntod(void);	/* convert a ndfa to a dfa */
+خارجی size_t ntod(خالی);	/* convert a ndfa to a dfa */
 
 
 /* from file ecs.c */
 
 /* Convert character classes to set of equivalence classes. */
-extern void ccl2ecl(void);
+خارجی خالی ccl2ecl(خالی);
 
 /* Associate equivalence class numbers with class members. */
-extern int cre8ecs(int[], int[], int);
+خارجی صحیح cre8ecs(صحیح[], صحیح[], صحیح);
 
 /* Update equivalence classes based on character class transitions. */
-extern void mkeccl(unsigned char[], int, int[], int[], int, int);
+خارجی خالی mkeccl(غیرعلامتی حرف[], صحیح, صحیح[], صحیح[], صحیح, صحیح);
 
 /* Create equivalence class for single character. */
-extern void mkechar(int, int[], int[]);
+خارجی خالی mkechar(صحیح, صحیح[], صحیح[]);
 
 
 /* from file gen.c */
 
 /* Set a conditional amd make it visible in generated code */
-extern void visible_define (const char *);
+خارجی خالی visible_define (ثابت حرف *);
 
 /* And again, with an explicit value part. */
-extern void visible_define_str (const char *, const char *);
+خارجی خالی visible_define_str (ثابت حرف *, ثابت حرف *);
 
 /* This time the value part is an int */
-extern void visible_define_int (const char *, const int);
+خارجی خالی visible_define_int (ثابت حرف *, ثابت صحیح);
 
 /* generate transition tables */
-extern void make_tables(void);
+خارجی خالی make_tables(خالی);
 
 /* Select a type for optimal packing */
-struct packtype_t *optimize_pack(size_t);
+ساخت packtype_t *optimize_pack(size_t);
 
 /* from file main.c */
 
-extern void check_options(void);
-extern void flexend(int);
-extern void usage(void);
+خارجی خالی check_options(خالی);
+خارجی خالی flexend(صحیح);
+خارجی خالی usage(خالی);
 
 
 /* from file misc.c */
 
 /* Add the given text to the stored actions. */
-extern void add_action(const char *new_text);
+خارجی خالی جوڑو_action(ثابت حرف *new_متن);
 
 /* True if a string is all lower case. */
-extern int all_lower(char *);
+خارجی صحیح all_زیریں(حرف *);
 
 /* True if a string is all upper case. */
-extern int all_upper(char *);
+خارجی صحیح all_بالائی(حرف *);
 
 /* Compare two integers for use by qsort. */
-extern int intcmp(const void *, const void *);
+خارجی صحیح intcmp(ثابت خالی *, ثابت خالی *);
 
 /* Check a character to make sure it's in the expected range. */
-extern void check_char(int c);
+خارجی خالی check_char(صحیح c);
 
 /* Replace upper-case letter to lower-case. */
-extern unsigned char clower(int);
+خارجی غیرعلامتی حرف clower(صحیح);
 
 /* strdup() that fails fatally on allocation failures. */
-extern char *xstrdup(const char *);
+خارجی حرف *xstrdup(ثابت حرف *);
 
 /* Compare two characters for use by qsort with '\0' sorting last. */
-extern int cclcmp(const void *, const void *);
+خارجی صحیح cclcmp(ثابت خالی *, ثابت خالی *);
 
 /* Finish up a block of data declarations. */
-extern void dataend(const char *);
+خارجی خالی dataend(ثابت حرف *);
 
 /* Flush generated data statements. */
-extern void dataflush(void);
+خارجی خالی dataflush(خالی);
 
 /* Report an error message and terminate. */
-extern void flexerror(const char *);
+خارجی خالی flexerror(ثابت حرف *);
 
 /* Report a fatal error message and terminate. */
-extern void flexfatal(const char *);
+خارجی خالی flexfatal(ثابت حرف *);
 
 /* Report a fatal error with a pinpoint, and terminate */
-#ifdef HAVE_DECL___FUNC__
-#define flex_die(msg) \
-    do{ \
+#اگر_تعریف_شدہ HAVE_DECL___FUNC__
+#تعریف_کرو flex_die(پیغام) \
+    کرو{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d (%s): %s\n"),\
-                program_name, __FILE__, (int)__LINE__,\
-                __func__,msg);\
+                پروگرام_name, __FILE__, (صحیح)__LINE__,\
+                __func__,پیغام);\
         FLEX_EXIT(1);\
-    }while(0)
-#else /* ! HAVE_DECL___FUNC__ */
-#define flex_die(msg) \
-    do{ \
+    }جب(0)
+#ورنہ /* ! HAVE_DECL___FUNC__ */
+#تعریف_کرو flex_die(پیغام) \
+    کرو{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d %s\n"),\
-                program_name, __FILE__, (int)__LINE__,\
-                msg);\
+                پروگرام_name, __FILE__, (صحیح)__LINE__,\
+                پیغام);\
         FLEX_EXIT(1);\
-    }while(0)
-#endif /* ! HAVE_DECL___func__ */
+    }جب(0)
+#اگر_ختم /* ! HAVE_DECL___func__ */
 
 /* Report an error message formatted  */
-extern void lerr(const char *, ...)
-#if defined(__GNUC__) && __GNUC__ >= 3
+خارجی خالی lerr(ثابت حرف *, ...)
+#اگر defined(__GNUC__) && __GNUC__ >= 3
     __attribute__((__format__(__printf__, 1, 2)))
-#endif
+#اگر_ختم
 ;
 
 /* Like lerr, but also exit after displaying message. */
-extern void lerr_fatal(const char *, ...)
-#if defined(__GNUC__) && __GNUC__ >= 3
+خارجی خالی lerr_fatal(ثابت حرف *, ...)
+#اگر defined(__GNUC__) && __GNUC__ >= 3
     __attribute__((__format__(__printf__, 1, 2)))
-#endif
+#اگر_ختم
 ;
 
 /* Spit out a "#line" statement. */
-extern void line_directive_out(FILE *, char *, int);
+خارجی خالی سطر_directive_برآمد(FILE *, حرف *, صحیح);
 
 /* Mark the current position in the action array as the end of the section 1
  * user defs.
  */
-extern void mark_defs1(void);
+خارجی خالی mark_defs1(خالی);
 
 /* Mark the current position in the action array as the end of the prolog. */
-extern void mark_prolog(void);
+خارجی خالی mark_prolog(خالی);
 
 /* Generate a data statement for a two-dimensional array. */
-extern void mk2data(int);
+خارجی خالی mk2data(صحیح);
 
-extern void mkdata(int);	/* generate a data statement */
+خارجی خالی mkdata(صحیح);	/* generate a data statement */
 
 /* Return the integer represented by a string of digits. */
-extern int myctoi(const char *);
+خارجی صحیح myctoi(ثابت حرف *);
 
 /* Return character corresponding to escape sequence. */
-extern unsigned char myesc(unsigned char[]);
+خارجی غیرعلامتی حرف myesc(غیرعلامتی حرف[]);
 
 /* Output a (possibly-formatted) string to the generated scanner. */
-extern void out(const char *);
-extern void out_dec(const char *, int);
-extern void out_dec2(const char *, int, int);
-extern void out_hex(const char *, unsigned int);
-extern void out_str(const char *, const char *);
-extern void out_str_dec(const char *, const char *, int);
-extern void outc(int);
-extern void outn(const char *);
-extern void out_m4_define(const char* def, const char* val);
+خارجی خالی برآمد(ثابت حرف *);
+خارجی خالی برآمد_dec(ثابت حرف *, صحیح);
+خارجی خالی برآمد_dec2(ثابت حرف *, صحیح, صحیح);
+خارجی خالی برآمد_hex(ثابت حرف *, غیرعلامتی صحیح);
+خارجی خالی برآمد_str(ثابت حرف *, ثابت حرف *);
+خارجی خالی برآمد_str_dec(ثابت حرف *, ثابت حرف *, صحیح);
+خارجی خالی outc(صحیح);
+خارجی خالی outn(ثابت حرف *);
+خارجی خالی برآمد_m4_define(ثابت حرف* def, ثابت حرف* val);
 
 /* Return a printable version of the given character, which might be
  * 8-bit.
  */
-extern char *readable_form(int);
+خارجی حرف *readable_form(صحیح);
 
 /* Output a yy_trans_info structure. */
-extern void transition_struct_out(int, int);
+خارجی خالی transition_struct_برآمد(صحیح, صحیح);
 
 /* Only needed when using certain broken versions of bison to build parse.c. */
-extern void *yy_flex_xmalloc(int);
+خارجی خالی *yy_flex_xmalloc(صحیح);
 
 
 /* from file nfa.c */
 
 /* Add an accepting state to a machine. */
-extern void add_accept(int, int);
+خارجی خالی جوڑو_accept(صحیح, صحیح);
 
 /* Make a given number of copies of a singleton machine. */
-extern int copysingl(int, int);
+خارجی صحیح copysingl(صحیح, صحیح);
 
 /* Debugging routine to write out an nfa. */
-extern void dumpnfa(int);
+خارجی خالی dumpnfa(صحیح);
 
 /* Finish up the processing for a rule. */
-extern void finish_rule(int, bool, int, int, int);
+خارجی خالی اختتام_قاعدہ(صحیح, bool, صحیح, صحیح, صحیح);
 
 /* Connect two machines together. */
-extern int link_machines(int, int);
+خارجی صحیح link_machines(صحیح, صحیح);
 
 /* Mark each "beginning" state in a machine as being a "normal" (i.e.,
  * not trailing context associated) state.
  */
-extern void mark_beginning_as_normal(int);
+خارجی خالی mark_beginning_as_معمول(صحیح);
 
 /* Make a machine that branches to two machines. */
-extern int mkbranch(int, int);
+خارجی صحیح mkbranch(صحیح, صحیح);
 
-extern int mkclos(int);	/* convert a machine into a closure */
-extern int mkopt(int);	/* make a machine optional */
+خارجی صحیح mkclos(صحیح);	/* convert a machine into a closure */
+خارجی صحیح mkopt(صحیح);	/* make a machine optional */
 
 /* Make a machine that matches either one of two machines. */
-extern int mkor(int, int);
+خارجی صحیح mkor(صحیح, صحیح);
 
 /* Convert a machine into a positive closure. */
-extern int mkposcl(int);
+خارجی صحیح mkposcl(صحیح);
 
-extern int mkrep(int, int, int);	/* make a replicated machine */
+خارجی صحیح mkrep(صحیح, صحیح, صحیح);	/* make a replicated machine */
 
 /* Create a state with a transition on a given symbol. */
-extern int mkstate(int);
+خارجی صحیح mkstate(صحیح);
 
-extern void new_rule(void);	/* initialize for a new rule */
+خارجی خالی new_قاعدہ(خالی);	/* initialize for a new rule */
 
 
 /* from file parse.y */
 
 /* Build the "<<EOF>>" action for the active start conditions. */
-extern void build_eof_action(void);
+خارجی خالی build_eof_action(خالی);
 
 /* Write out a message formatted with one string, pinpointing its location. */
-extern void format_pinpoint_message(const char *, const char *);
+خارجی خالی format_pinpoint_پیغام(ثابت حرف *, ثابت حرف *);
 
 /* Write out a message, pinpointing its location. */
-extern void pinpoint_message(const char *);
+خارجی خالی pinpoint_پیغام(ثابت حرف *);
 
 /* Write out a warning, pinpointing it at the given line. */
-extern void line_warning(const char *, int);
+خارجی خالی سطر_warning(ثابت حرف *, صحیح);
 
 /* Write out a message, pinpointing it at the given line. */
-extern void line_pinpoint(const char *, int);
+خارجی خالی سطر_pinpoint(ثابت حرف *, صحیح);
 
 /* Report a formatted syntax error. */
-extern void format_synerr(const char *, const char *);
-extern void synerr(const char *);	/* report a syntax error */
-extern void format_warn(const char *, const char *);
-extern void lwarn(const char *);	/* report a warning */
-extern void yyerror(const char *);	/* report a parse error */
-extern int yyparse(void);		/* the YACC parser */
+خارجی خالی format_synerr(ثابت حرف *, ثابت حرف *);
+خارجی خالی synerr(ثابت حرف *);	/* report a syntax error */
+خارجی خالی format_warn(ثابت حرف *, ثابت حرف *);
+خارجی خالی lwarn(ثابت حرف *);	/* report a warning */
+خارجی خالی yyerror(ثابت حرف *);	/* report a parse error */
+خارجی صحیح yyparse(خالی);		/* the YACC parser */
 
 /* Ship a comment to the generated output */
-extern void comment(const char *);
+خارجی خالی comment(ثابت حرف *);
 
 /* from file scan.l */
 
 /* The Flex-generated scanner for flex. */
-extern int flexscan(void);
+خارجی صحیح flexscan(خالی);
 
 /* Open the given file (if NULL, stdin) for scanning. */
-extern void set_input_file(char *);
+خارجی خالی سیٹ_داخلہ_file(حرف *);
 
 /* from file skeletons.c */
 
 /* return the correct file suffix for the selected back end */
-const char *suffix (void);
+ثابت حرف *suffix (خالی);
 
 /* Mine a text-valued property out of the skeleton file */
-extern const char *skel_property(const char *);
+خارجی ثابت حرف *skel_property(ثابت حرف *);
 
 /* Is the default back end selected?*/
-extern bool is_default_backend(void);
+خارجی bool is_default_backend(خالی);
 
 /* Select a backend by name */
-extern void backend_by_name(const char *);
+خارجی خالی backend_by_name(ثابت حرف *);
 
 /* Write out one section of the skeleton file. */
-extern void skelout(bool);
+خارجی خالی skelout(bool);
 
 /* from file sym.c */
 
 /* Save the text of a character class. */
-extern void cclinstal(char[], int);
+خارجی خالی cclinstal(حرف[], صحیح);
 
 /* Lookup the number associated with character class. */
-extern int ccllookup(char[]);
+خارجی صحیح ccllookup(حرف[]);
 
-extern void ndinstal(const char *, char[]);	/* install a name definition */
-extern char *ndlookup(const char *);	/* lookup a name definition */
+خارجی خالی ndinstal(ثابت حرف *, حرف[]);	/* install a name definition */
+خارجی حرف *ndlookup(ثابت حرف *);	/* lookup a name definition */
 
 /* Increase maximum number of SC's. */
-extern void scextend(void);
-extern void scinstal(const char *, bool);	/* make a start condition */
+خارجی خالی scextend(خالی);
+خارجی خالی scinstal(ثابت حرف *, bool);	/* make a start condition */
 
 /* Lookup the number associated with a start condition. */
-extern int sclookup(const char *);
+خارجی صحیح sclookup(ثابت حرف *);
 
 /* Supply context argument for a function if required */
-extern void context_call(char *);
+خارجی خالی context_call(حرف *);
 
 /* from file tblcmp.c */
 
 /* Build table entries for dfa state. */
-extern void bldtbl(int[], int, int, int, int);
+خارجی خالی bldtbl(صحیح[], صحیح, صحیح, صحیح, صحیح);
 
-extern void cmptmps(void);	/* compress template table entries */
-extern void expand_nxt_chk(void);	/* increase nxt/chk arrays */
+خارجی خالی cmptmps(خالی);	/* compress template table entries */
+خارجی خالی expand_nxt_chk(خالی);	/* increase nxt/chk arrays */
 
 /* Finds a space in the table for a state to be placed. */
-extern int find_table_space(int *, int);
-extern void inittbl(void);	/* initialize transition tables */
+خارجی صحیح ڈھونڈو_جدول_space(صحیح *, صحیح);
+خارجی خالی inittbl(خالی);	/* initialize transition tables */
 
 /* Make the default, "jam" table entries. */
-extern void mkdeftbl(void);
+خارجی خالی mkdeftbl(خالی);
 
 /* Create table entries for a state (or state fragment) which has
  * only one out-transition.
  */
-extern void mk1tbl(int, int, int, int);
+خارجی خالی mk1tbl(صحیح, صحیح, صحیح, صحیح);
 
 /* Place a state into full speed transition table. */
-extern void place_state(int *, int, int);
+خارجی خالی رکھو_state(صحیح *, صحیح, صحیح);
 
 /* Save states with only one out-transition to be processed later. */
-extern void stack1(int, int, int, int);
+خارجی خالی stack1(صحیح, صحیح, صحیح, صحیح);
 
 
 /* from file yylex.c */
 
-extern int yylex(void);
+خارجی صحیح yylex(خالی);
 
 /* A growable array. See buf.c. */
-struct Buf {
-	void   *elts;		/* elements. */
-	int     nelts;		/* number of elements. */
-	size_t  elt_size;	/* in bytes. */
-	int     nmax;		/* max capacity of elements. */
+ساخت Buf {
+	خالی   *elts;		/* elements. */
+	صحیح     nelts;		/* number of elements. */
+	size_t  elt_سائز;	/* in bytes. */
+	صحیح     nmax;		/* max capacity of elements. */
 };
 
-extern void buf_init(struct Buf * buf, size_t elem_size);
-extern void buf_destroy(struct Buf * buf);
-extern struct Buf *buf_append(struct Buf * buf, const void *ptr, int n_elem);
-extern struct Buf *buf_strappend(struct Buf *, const char *str);
-extern struct Buf *buf_strnappend(struct Buf *, const char *str, int nchars);
-extern struct Buf *buf_prints(struct Buf *buf, const char *fmt, const char* s);
+خارجی خالی buf_init(ساخت Buf * buf, size_t elem_سائز);
+خارجی خالی buf_destroy(ساخت Buf * buf);
+خارجی ساخت Buf *buf_append(ساخت Buf * buf, ثابت خالی *ptr, صحیح n_elem);
+خارجی ساخت Buf *buf_strappend(ساخت Buf *, ثابت حرف *str);
+خارجی ساخت Buf *buf_strnappend(ساخت Buf *, ثابت حرف *str, صحیح nchars);
+خارجی ساخت Buf *buf_prints(ساخت Buf *buf, ثابت حرف *fmt, ثابت حرف* s);
 
-extern struct Buf userdef_buf; /* a string buffer for #define's generated by user-options on cmd line. */
-extern struct Buf top_buf;     /* contains %top code. String buffer. */
+خارجی ساخت Buf userdef_buf; /* a string buffer for #define's generated by user-options on cmd line. */
+خارجی ساخت Buf چوٹی_buf;     /* contains %top code. String buffer. */
 
 /* For blocking out code from the header file. */
-#define OUT_BEGIN_CODE() outn("m4_ifdef( [[M4_YY_IN_HEADER]],,[[m4_dnl")
-#define OUT_END_CODE()   outn("]])")
+#تعریف_کرو برآمد_BEGIN_رمز() outn("m4_ifdef( [[M4_YY_IN_HEADER]],,[[m4_dnl")
+#تعریف_کرو برآمد_انتہا_رمز()   outn("]])")
 
 /* For setjmp/longjmp (instead of calling exit(2)). Linkage in main.c */
-extern jmp_buf flex_main_jmp_buf;
+خارجی jmp_buf flex_main_jmp_buf;
 
-#define FLEX_EXIT(status) longjmp(flex_main_jmp_buf,(status)+1)
+#تعریف_کرو FLEX_EXIT(حالت_2) longjmp(flex_main_jmp_buf,(حالت_2)+1)
 
 /* Removes all \n and \r chars from tail of str. returns str. */
-extern char *chomp (char *str);
+خارجی حرف *chomp (حرف *str);
 
 /* ctype functions forced to return boolean */
-#define b_isalnum(c) (isalnum(c)?true:false)
-#define b_isalpha(c) (isalpha(c)?true:false)
-#define b_isascii(c) (isascii(c)?true:false)
-#define b_isblank(c) (isblank(c)?true:false)
-#define b_iscntrl(c) (iscntrl(c)?true:false)
-#define b_isdigit(c) (isdigit(c)?true:false)
-#define b_isgraph(c) (isgraph(c)?true:false)
-#define b_islower(c) (islower(c)?true:false)
-#define b_isprint(c) (isprint(c)?true:false)
-#define b_ispunct(c) (ispunct(c)?true:false)
-#define b_isspace(c) (isspace(c)?true:false)
-#define b_isupper(c) (isupper(c)?true:false)
-#define b_isxdigit(c) (isxdigit(c)?true:false)
+#تعریف_کرو b_isalnum(c) (حرف_یا_ہندسہ(c)?true:false)
+#تعریف_کرو b_isalpha(c) (حرف_ہے(c)?true:false)
+#تعریف_کرو b_isascii(c) (isascii(c)?true:false)
+#تعریف_کرو b_isblank(c) (isblank(c)?true:false)
+#تعریف_کرو b_iscntrl(c) (iscntrl(c)?true:false)
+#تعریف_کرو b_isdigit(c) (ہندسہ_ہے(c)?true:false)
+#تعریف_کرو b_isgraph(c) (isgraph(c)?true:false)
+#تعریف_کرو b_islower(c) (islower(c)?true:false)
+#تعریف_کرو b_isprint(c) (isprint(c)?true:false)
+#تعریف_کرو b_ispunct(c) (ispunct(c)?true:false)
+#تعریف_کرو b_isspace(c) (خلا_ہے(c)?true:false)
+#تعریف_کرو b_isupper(c) (isupper(c)?true:false)
+#تعریف_کرو b_isxdigit(c) (isxdigit(c)?true:false)
 
 /* return true if char is uppercase or lowercase. */
-bool has_case(int c);
+bool has_case(صحیح c);
 
 /* Change case of character if possible. */
-int reverse_case(int c);
+صحیح الٹ_case(صحیح c);
 
 /* return false if [c1-c2] is ambiguous for a caseless scanner. */
-bool range_covers_case (int c1, int c2);
+bool range_covers_case (صحیح c1, صحیح c2);
 
 /*
  *  From "filter.c"
@@ -1141,56 +1141,56 @@ bool range_covers_case (int c1, int c2);
  *  The filter may be external, such as "sed", or it
  *  may be internal, as a function call.
  */
-struct filter {
-    int    (*filter_func)(struct filter*); /**< internal filter function */
-    void * extra;         /**< extra data passed to filter_func */
-	int     argc;         /**< arg count */
-	const char ** argv;   /**< arg vector, \0-terminated */
-    struct filter * next; /**< next filter or NULL */
+ساخت filter {
+    صحیح    (*filter_func)(ساخت filter*); /**< internal filter function */
+    خالی * extra;         /**< extra data passed to filter_func */
+	صحیح     argc;         /**< arg count */
+	ثابت حرف ** argv;   /**< arg vector, \0-terminated */
+    ساخت filter * اگلا; /**< next filter or NULL */
 };
 
 /* output filter chain */
-extern struct filter * output_chain;
-extern struct filter *filter_create_ext (struct filter * chain, const char *cmd, ...);
-struct filter *filter_create_int(struct filter *chain,
-				  int (*filter_func) (struct filter *),
-                  void *extra);
-extern bool filter_apply_chain(struct filter * chain);
-extern int filter_truncate(struct filter * chain, int max_len);
-extern int filter_tee_header(struct filter *chain);
-extern int filter_fix_linedirs(struct filter *chain);
+خارجی ساخت filter * output_chain;
+خارجی ساخت filter *filter_create_ext (ساخت filter * chain, ثابت حرف *cmd, ...);
+ساخت filter *filter_create_int(ساخت filter *chain,
+				  صحیح (*filter_func) (ساخت filter *),
+                  خالی *extra);
+خارجی bool filter_apply_chain(ساخت filter * chain);
+خارجی صحیح filter_truncate(ساخت filter * chain, صحیح max_len);
+خارجی صحیح filter_tee_سرخی(ساخت filter *chain);
+خارجی صحیح filter_fix_linedirs(ساخت filter *chain);
 
 
 /*
  * From "regex.c"
  */
 
-extern regex_t regex_linedir;
-bool flex_init_regex(const char *);
-void flex_regcomp(regex_t *preg, const char *regex, int cflags);
-char   *regmatch_dup (regmatch_t * m, const char *src);
-char   *regmatch_cpy (regmatch_t * m, char *dest, const char *src);
-int regmatch_len (regmatch_t * m);
-int regmatch_strtol (regmatch_t * m, const char *src, char **endptr, int base);
-bool regmatch_empty (regmatch_t * m);
+خارجی regex_t regex_linedir;
+bool flex_init_regex(ثابت حرف *);
+خالی flex_regcomp(regex_t *preg, ثابت حرف *regex, صحیح cflags);
+حرف   *regmatch_dup (regmatch_t * m, ثابت حرف *src);
+حرف   *regmatch_cpy (regmatch_t * m, حرف *dest, ثابت حرف *src);
+صحیح regmatch_len (regmatch_t * m);
+صحیح regmatch_strtol (regmatch_t * m, ثابت حرف *src, حرف **endptr, صحیح بنیاد);
+bool regmatch_خالی_خانے (regmatch_t * m);
 
 /* From "scanflags.h" */
-typedef unsigned int scanflags_t;
-extern scanflags_t* _sf_stk;
-extern size_t _sf_top_ix, _sf_max; /**< stack of scanner flags. */
-#define _SF_CASE_INS   ((scanflags_t) 0x0001)
-#define _SF_DOT_ALL    ((scanflags_t) 0x0002)
-#define _SF_SKIP_WS    ((scanflags_t) 0x0004)
-#define sf_top()           (_sf_stk[_sf_top_ix])
-#define sf_case_ins()      (sf_top() & _SF_CASE_INS)
-#define sf_dot_all()       (sf_top() & _SF_DOT_ALL)
-#define sf_skip_ws()       (sf_top() & _SF_SKIP_WS)
-#define sf_set_case_ins(X)      ((X) ? (sf_top() |= _SF_CASE_INS) : (sf_top() &= ~_SF_CASE_INS))
-#define sf_set_dot_all(X)       ((X) ? (sf_top() |= _SF_DOT_ALL)  : (sf_top() &= ~_SF_DOT_ALL))
-#define sf_set_skip_ws(X)       ((X) ? (sf_top() |= _SF_SKIP_WS)  : (sf_top() &= ~_SF_SKIP_WS))
-extern void sf_init(void);
-extern void sf_push(void);
-extern void sf_pop(void);
+قسمتعریف غیرعلامتی صحیح scanflags_t;
+خارجی scanflags_t* _sf_stk;
+خارجی size_t sf_چوٹی_ix, _sf_max; /**< stack of scanner flags. */
+#تعریف_کرو _SF_CASE_INS   ((scanflags_t) 0x0001)
+#تعریف_کرو _SF_DOT_ALL    ((scanflags_t) 0x0002)
+#تعریف_کرو _SF_SKIP_WS    ((scanflags_t) 0x0004)
+#تعریف_کرو sf_چوٹی()           (_sf_stk[sf_چوٹی_ix])
+#تعریف_کرو sf_case_ins()      (sf_چوٹی() & _SF_CASE_INS)
+#تعریف_کرو sf_dot_all()       (sf_چوٹی() & _SF_DOT_ALL)
+#تعریف_کرو sf_skip_ws()       (sf_چوٹی() & _SF_SKIP_WS)
+#تعریف_کرو sf_سیٹ_case_ins(X)      ((X) ? (sf_چوٹی() |= _SF_CASE_INS) : (sf_چوٹی() &= ~_SF_CASE_INS))
+#تعریف_کرو sf_سیٹ_dot_all(X)       ((X) ? (sf_چوٹی() |= _SF_DOT_ALL)  : (sf_چوٹی() &= ~_SF_DOT_ALL))
+#تعریف_کرو sf_سیٹ_skip_ws(X)       ((X) ? (sf_چوٹی() |= _SF_SKIP_WS)  : (sf_چوٹی() &= ~_SF_SKIP_WS))
+خارجی خالی sf_init(خالی);
+خارجی خالی sf_ڈالو(خالی);
+خارجی خالی sf_نکالو(خالی);
 
 
-#endif /* not defined FLEXDEF_H */
+#اگر_ختم /* not defined FLEXDEF_H */

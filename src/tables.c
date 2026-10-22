@@ -35,30 +35,30 @@
  */
 
 
-#include "flexdef.h"
-#include "tables.h"
+#شامل "flexdef.h"
+#شامل "tables.h"
 
 /** Convert size_t to t_flag.
  *  @param n in {1,2,4}
  *  @return YYTD_DATA*. 
  */
-#define BYTES2TFLAG(n)\
-    (((n) == sizeof(flex_int8_t))\
+#تعریف_کرو BYTES2TFLAG(n)\
+    (((n) == حجم(flex_int8_t))\
         ? YYTD_DATA8\
-        :(((n)== sizeof(flex_int16_t))\
+        :(((n)== حجم(flex_int16_t))\
             ? YYTD_DATA16\
             : YYTD_DATA32))
 
 /** Clear YYTD_DATA* bit flags
  * @return the flag with the YYTD_DATA* bits cleared
  */
-#define TFLAGS_CLRDATA(flg) ((flg) & ~(YYTD_DATA8 | YYTD_DATA16 | YYTD_DATA32))
+#تعریف_کرو TFLAGS_CLRDATA(flg) ((flg) & ~(YYTD_DATA8 | YYTD_DATA16 | YYTD_DATA32))
 
-int     yytbl_write32 (struct yytbl_writer *wr, flex_uint32_t v);
-int     yytbl_write16 (struct yytbl_writer *wr, flex_uint16_t v);
-int     yytbl_write8 (struct yytbl_writer *wr, flex_uint8_t v);
-int     yytbl_writen (struct yytbl_writer *wr, void *v, int len);
-static flex_int32_t yytbl_data_geti (const struct yytbl_data *tbl, int i);
+صحیح     yytbl_write32 (ساخت yytbl_writer *wr, flex_uint32_t v);
+صحیح     yytbl_write16 (ساخت yytbl_writer *wr, flex_uint16_t v);
+صحیح     yytbl_write8 (ساخت yytbl_writer *wr, flex_uint8_t v);
+صحیح     yytbl_writen (ساخت yytbl_writer *wr, خالی *v, صحیح len);
+ساکن flex_int32_t yytbl_ڈیٹا_geti (ثابت ساخت yytbl_ڈیٹا *tbl, صحیح i);
 /* XXX Not used
 static flex_int32_t yytbl_data_getijk (const struct yytbl_data *tbl, int i,
 				  int j, int k);
@@ -70,11 +70,11 @@ static flex_int32_t yytbl_data_getijk (const struct yytbl_data *tbl, int i,
  *  @param out the output file
  *  @return 0 on success
  */
-int yytbl_writer_init (struct yytbl_writer *wr, FILE * out)
+صحیح yytbl_writer_init (ساخت yytbl_writer *wr, FILE * برآمد)
 {
-	wr->out = out;
-	wr->total_written = 0;
-	return 0;
+	wr->برآمد = برآمد;
+	wr->کل_written = 0;
+	واپس 0;
 }
 
 /** Initialize a table header.
@@ -82,19 +82,19 @@ int yytbl_writer_init (struct yytbl_writer *wr, FILE * out)
  *  @param version_str the  version string
  *  @param name the name of this table set
  */
-int yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
-		    const char *name)
+صحیح yytbl_hdr_init (ساخت yytbl_hdr *th, ثابت حرف *نسخہ_str,
+		    ثابت حرف *name)
 {
-	memset (th, 0, sizeof (struct yytbl_hdr));
+	memset (th, 0, حجم (ساخت yytbl_hdr));
 
 	th->th_magic = YYTBL_MAGIC;
-	th->th_hsize = (flex_uint32_t) (14 + strlen (version_str) + 1 + strlen (name) + 1);
+	th->th_hsize = (flex_uint32_t) (14 + لڑی_لمبائی (نسخہ_str) + 1 + لڑی_لمبائی (name) + 1);
 	th->th_hsize += (8 - (th->th_hsize % 8)) % 8; // Pad to 64-bit boundary
 	th->th_ssize = 0;	// Not known at this point.
 	th->th_flags = 0;
-	th->th_version = xstrdup(version_str);
+	th->th_نسخہ = xstrdup(نسخہ_str);
 	th->th_name = xstrdup(name);
-	return 0;
+	واپس 0;
 }
 
 /** Allocate and initialize a table data structure.
@@ -102,39 +102,39 @@ int yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
  *  @param id  the table identifier
  *  @return 0 on success
  */
-int yytbl_data_init (struct yytbl_data *td, enum yytbl_id id)
+صحیح yytbl_ڈیٹا_init (ساخت yytbl_ڈیٹا *td, شمار yytbl_id id)
 {
 
-	memset (td, 0, sizeof (struct yytbl_data));
+	memset (td, 0, حجم (ساخت yytbl_ڈیٹا));
 	td->td_id = id;
 	td->td_flags = YYTD_DATA32;
-	return 0;
+	واپس 0;
 }
 
 /** Clean up table and data array.
  *  @param td will be destroyed
  *  @return 0 on success
  */
-int yytbl_data_destroy (struct yytbl_data *td)
+صحیح yytbl_ڈیٹا_destroy (ساخت yytbl_ڈیٹا *td)
 {
-	free(td->td_data);
-	td->td_data = 0;
-	free (td);
-	return 0;
+	آزاد(td->td_ڈیٹا);
+	td->td_ڈیٹا = 0;
+	آزاد (td);
+	واپس 0;
 }
 
 /** Write enough padding to bring the file pointer to a 64-bit boundary. */
-static int yytbl_write_pad64 (struct yytbl_writer *wr)
+ساکن صحیح yytbl_write_pad64 (ساخت yytbl_writer *wr)
 {
-	int bwritten = 0;
+	صحیح bwritten = 0;
 
-	while (wr->total_written % (8 * sizeof(flex_uint8_t)) > 0) {
-		if (yytbl_write8 (wr, 0) < 0)
-			return -1;
-		else
+	جب (wr->کل_written % (8 * حجم(flex_uint8_t)) > 0) {
+		اگر (yytbl_write8 (wr, 0) < 0)
+			واپس -1;
+		ورنہ
 			bwritten++;
 	}
-	return bwritten;
+	واپس bwritten;
 }
 
 /** write the header.
@@ -142,44 +142,44 @@ static int yytbl_write_pad64 (struct yytbl_writer *wr)
  *  @param th table header to be written
  *  @return -1 on error, or bytes written on success.
  */
-int yytbl_hdr_fwrite (struct yytbl_writer *wr, const struct yytbl_hdr *th)
+صحیح yytbl_hdr_fwrite (ساخت yytbl_writer *wr, ثابت ساخت yytbl_hdr *th)
 {
-	int  sz, rv;
-	int     bwritten = 0;
+	صحیح  sz, rv;
+	صحیح     bwritten = 0;
 
-	if (yytbl_write32 (wr, th->th_magic) < 0
+	اگر (yytbl_write32 (wr, th->th_magic) < 0
 	    || yytbl_write32 (wr, th->th_hsize) < 0)
 		flex_die (_("th_magic|th_hsize write32 failed"));
 	bwritten += 8;
 
-	if (fgetpos (wr->out, &(wr->th_ssize_pos)) != 0)
+	اگر (fgetpos (wr->برآمد, &(wr->th_ssize_pos)) != 0)
 		flex_die (_("fgetpos failed"));
 
-	if (yytbl_write32 (wr, th->th_ssize) < 0
+	اگر (yytbl_write32 (wr, th->th_ssize) < 0
 	    || yytbl_write16 (wr, th->th_flags) < 0)
 		flex_die (_("th_ssize|th_flags write failed"));
 	bwritten += 6;
 
-	sz = (int) strlen (th->th_version) + 1;
-	if ((rv = yytbl_writen (wr, th->th_version, sz)) != sz)
+	sz = (صحیح) لڑی_لمبائی (th->th_نسخہ) + 1;
+	اگر ((rv = yytbl_writen (wr, th->th_نسخہ, sz)) != sz)
 		flex_die (_("th_version written failed"));
 	bwritten += rv;
 
-	sz = (int) strlen (th->th_name) + 1;
-	if ((rv = yytbl_writen (wr, th->th_name, sz)) != sz)
+	sz = (صحیح) لڑی_لمبائی (th->th_name) + 1;
+	اگر ((rv = yytbl_writen (wr, th->th_name, sz)) != sz)
 		flex_die (_("th_name written failed"));
 	bwritten += rv;
 
 	/* add padding */
-	if ((rv = yytbl_write_pad64 (wr)) < 0)
+	اگر ((rv = yytbl_write_pad64 (wr)) < 0)
 		flex_die (_("pad64 failed"));
 	bwritten += rv;
 
 	/* Sanity check */
-	if (bwritten != (int) th->th_hsize)
+	اگر (bwritten != (صحیح) th->th_hsize)
 		flex_die (_("pad64 failed"));
 
-	return bwritten;
+	واپس bwritten;
 }
 
 
@@ -188,76 +188,76 @@ int yytbl_hdr_fwrite (struct yytbl_writer *wr, const struct yytbl_hdr *th)
  *  @param td table data to be written
  *  @return -1 on error, or bytes written on success.
  */
-int yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td)
+صحیح yytbl_ڈیٹا_fwrite (ساخت yytbl_writer *wr, ساخت yytbl_ڈیٹا *td)
 {
-	int  rv;
+	صحیح  rv;
 	flex_int32_t bwritten = 0;
-	flex_int32_t i, total_len;
+	flex_int32_t i, کل_len;
 	fpos_t  pos;
 
-	if ((rv = yytbl_write16 (wr, td->td_id)) < 0)
-		return -1;
+	اگر ((rv = yytbl_write16 (wr, td->td_id)) < 0)
+		واپس -1;
 	bwritten += rv;
 
-	if ((rv = yytbl_write16 (wr, td->td_flags)) < 0)
-		return -1;
+	اگر ((rv = yytbl_write16 (wr, td->td_flags)) < 0)
+		واپس -1;
 	bwritten += rv;
 
-	if ((rv = yytbl_write32 (wr, td->td_hilen)) < 0)
-		return -1;
+	اگر ((rv = yytbl_write32 (wr, td->td_hilen)) < 0)
+		واپس -1;
 	bwritten += rv;
 
-	if ((rv = yytbl_write32 (wr, td->td_lolen)) < 0)
-		return -1;
+	اگر ((rv = yytbl_write32 (wr, td->td_lolen)) < 0)
+		واپس -1;
 	bwritten += rv;
 
-	total_len = yytbl_calc_total_len (td);
-	for (i = 0; i < total_len; i++) {
-		switch (YYTDFLAGS2BYTES (td->td_flags)) {
-		case sizeof (flex_int8_t):
-			rv = yytbl_write8 (wr, (flex_uint8_t) yytbl_data_geti (td, i));
-			break;
-		case sizeof (flex_int16_t):
-			rv = yytbl_write16 (wr, (flex_uint16_t) yytbl_data_geti (td, i));
-			break;
-		case sizeof (flex_int32_t):
-			rv = yytbl_write32 (wr, (flex_uint32_t) yytbl_data_geti (td, i));
-			break;
-		default:
+	کل_len = yytbl_calc_کل_len (td);
+	برائے (i = 0; i < کل_len; i++) {
+		انتخاب (YYTDFLAGS2_بائٹیں (td->td_flags)) {
+		حالت حجم (flex_int8_t):
+			rv = yytbl_write8 (wr, (flex_uint8_t) yytbl_ڈیٹا_geti (td, i));
+			توڑو;
+		حالت حجم (flex_int16_t):
+			rv = yytbl_write16 (wr, (flex_uint16_t) yytbl_ڈیٹا_geti (td, i));
+			توڑو;
+		حالت حجم (flex_int32_t):
+			rv = yytbl_write32 (wr, (flex_uint32_t) yytbl_ڈیٹا_geti (td, i));
+			توڑو;
+		طےشدہ:
 			flex_die (_("invalid td_flags detected"));
 		}
-		if (rv < 0) {
+		اگر (rv < 0) {
 			flex_die (_("error while writing tables"));
-			return -1;
+			واپس -1;
 		}
 		bwritten += rv;
 	}
 
 	/* Sanity check */
-	if (bwritten != (12 + total_len * (int) YYTDFLAGS2BYTES (td->td_flags))) {
+	اگر (bwritten != (12 + کل_len * (صحیح) YYTDFLAGS2_بائٹیں (td->td_flags))) {
 		flex_die (_("insanity detected"));
-		return -1;
+		واپس -1;
 	}
 
 	/* add padding */
-	if ((rv = yytbl_write_pad64 (wr)) < 0) {
+	اگر ((rv = yytbl_write_pad64 (wr)) < 0) {
 		flex_die (_("pad64 failed"));
-		return -1;
+		واپس -1;
 	}
 	bwritten += rv;
 
 	/* Now go back and update the th_hsize member */
-	if (fgetpos (wr->out, &pos) != 0
-	    || fsetpos (wr->out, &(wr->th_ssize_pos)) != 0
-	    || yytbl_write32 (wr, (flex_uint32_t) wr->total_written) < 0
-	    || fsetpos (wr->out, &pos)) {
+	اگر (fgetpos (wr->برآمد, &pos) != 0
+	    || fsetpos (wr->برآمد, &(wr->th_ssize_pos)) != 0
+	    || yytbl_write32 (wr, (flex_uint32_t) wr->کل_written) < 0
+	    || fsetpos (wr->برآمد, &pos)) {
 		flex_die (_("get|set|fwrite32 failed"));
-		return -1;
+		واپس -1;
 	}
-	else
+	ورنہ
 		/* Don't count the int we just wrote. */
-		wr->total_written -= (int) sizeof (flex_int32_t);
-	return bwritten;
+		wr->کل_written -= (صحیح) حجم (flex_int32_t);
+	واپس bwritten;
 }
 
 /** Write n bytes.
@@ -266,15 +266,15 @@ int yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td)
  *  @param  len  number of bytes
  *  @return  -1 on error. number of bytes written on success.
  */
-int yytbl_writen (struct yytbl_writer *wr, void *v, int len)
+صحیح yytbl_writen (ساخت yytbl_writer *wr, خالی *v, صحیح len)
 {
-	int  rv;
+	صحیح  rv;
 
-	rv = (int) fwrite (v, 1, (size_t) len, wr->out);
-	if (rv != len)
-		return -1;
-	wr->total_written += len;
-	return len;
+	rv = (صحیح) fwrite (v, 1, (size_t) len, wr->برآمد);
+	اگر (rv != len)
+		واپس -1;
+	wr->کل_written += len;
+	واپس len;
 }
 
 /** Write four bytes in network byte order
@@ -282,18 +282,18 @@ int yytbl_writen (struct yytbl_writer *wr, void *v, int len)
  *  @param  v    a dword in host byte order
  *  @return  -1 on error. number of bytes written on success.
  */
-int yytbl_write32 (struct yytbl_writer *wr, flex_uint32_t v)
+صحیح yytbl_write32 (ساخت yytbl_writer *wr, flex_uint32_t v)
 {
 	flex_uint32_t vnet;
-	int  bytes, rv;
+	صحیح  بائٹیں, rv;
 
 	vnet = htonl (v);
-	bytes = (int) sizeof (flex_uint32_t);
-	rv = (int) fwrite (&vnet, (size_t) bytes, 1, wr->out);
-	if (rv != 1)
-		return -1;
-	wr->total_written += bytes;
-	return bytes;
+	بائٹیں = (صحیح) حجم (flex_uint32_t);
+	rv = (صحیح) fwrite (&vnet, (size_t) بائٹیں, 1, wr->برآمد);
+	اگر (rv != 1)
+		واپس -1;
+	wr->کل_written += بائٹیں;
+	واپس بائٹیں;
 }
 
 /** Write two bytes in network byte order.
@@ -301,18 +301,18 @@ int yytbl_write32 (struct yytbl_writer *wr, flex_uint32_t v)
  *  @param  v    a word in host byte order
  *  @return  -1 on error. number of bytes written on success.
  */
-int yytbl_write16 (struct yytbl_writer *wr, flex_uint16_t v)
+صحیح yytbl_write16 (ساخت yytbl_writer *wr, flex_uint16_t v)
 {
 	flex_uint16_t vnet;
-	int  bytes, rv;
+	صحیح  بائٹیں, rv;
 
 	vnet = htons (v);
-	bytes = (int) sizeof (flex_uint16_t);
-	rv = (int) fwrite (&vnet, (size_t) bytes, 1, wr->out);
-	if (rv != 1)
-		return -1;
-	wr->total_written += bytes;
-	return bytes;
+	بائٹیں = (صحیح) حجم (flex_uint16_t);
+	rv = (صحیح) fwrite (&vnet, (size_t) بائٹیں, 1, wr->برآمد);
+	اگر (rv != 1)
+		واپس -1;
+	wr->کل_written += بائٹیں;
+	واپس بائٹیں;
 }
 
 /** Write a byte.
@@ -320,21 +320,21 @@ int yytbl_write16 (struct yytbl_writer *wr, flex_uint16_t v)
  *  @param  v    the value to be written
  *  @return  -1 on error. number of bytes written on success.
  */
-int yytbl_write8 (struct yytbl_writer *wr, flex_uint8_t v)
+صحیح yytbl_write8 (ساخت yytbl_writer *wr, flex_uint8_t v)
 {
-	int  bytes, rv;
+	صحیح  بائٹیں, rv;
 
-	bytes = (int) sizeof (flex_uint8_t);
-	rv = (int) fwrite (&v, (size_t) bytes, 1, wr->out);
-	if (rv != 1)
-		return -1;
-	wr->total_written += bytes;
-	return bytes;
+	بائٹیں = (صحیح) حجم (flex_uint8_t);
+	rv = (صحیح) fwrite (&v, (size_t) بائٹیں, 1, wr->برآمد);
+	اگر (rv != 1)
+		واپس -1;
+	wr->کل_written += بائٹیں;
+	واپس بائٹیں;
 }
 
 
 /* XXX Not Used */
-#if 0
+#اگر 0
 /** Extract data element [i][j] from array data tables. 
  * @param tbl data table
  * @param i index into higher dimension array. i should be zero for one-dimensional arrays.
@@ -342,34 +342,34 @@ int yytbl_write8 (struct yytbl_writer *wr, flex_uint8_t v)
  * @param k index into struct, must be 0 or 1. Only valid for YYTD_ID_TRANSITION table
  * @return data[i][j + k]
  */
-static flex_int32_t yytbl_data_getijk (const struct yytbl_data *tbl, int i,
-				  int j, int k)
+ساکن flex_int32_t yytbl_ڈیٹا_getijk (ثابت ساخت yytbl_ڈیٹا *tbl, صحیح i,
+				  صحیح j, صحیح k)
 {
 	flex_int32_t lo;
 
 	k %= 2;
 	lo = tbl->td_lolen;
 
-	switch (YYTDFLAGS2BYTES (tbl->td_flags)) {
-	case sizeof (flex_int8_t):
-		return ((flex_int8_t *) (tbl->td_data))[(i * lo + j) * (k + 1) +
+	انتخاب (YYTDFLAGS2_بائٹیں (tbl->td_flags)) {
+	حالت حجم (flex_int8_t):
+		واپس ((flex_int8_t *) (tbl->td_ڈیٹا))[(i * lo + j) * (k + 1) +
 						   k];
-	case sizeof (flex_int16_t):
-		return ((flex_int16_t *) (tbl->td_data))[(i * lo + j) * (k +
+	حالت حجم (flex_int16_t):
+		واپس ((flex_int16_t *) (tbl->td_ڈیٹا))[(i * lo + j) * (k +
 								    1) +
 						    k];
-	case sizeof (flex_int32_t):
-		return ((flex_int32_t *) (tbl->td_data))[(i * lo + j) * (k +
+	حالت حجم (flex_int32_t):
+		واپس ((flex_int32_t *) (tbl->td_ڈیٹا))[(i * lo + j) * (k +
 								    1) +
 						    k];
-	default:
+	طےشدہ:
 		flex_die (_("invalid td_flags detected"));
-		break;
+		توڑو;
 	}
 
-	return 0;
+	واپس 0;
 }
-#endif /* Not used */
+#اگر_ختم /* Not used */
 
 /** Extract data element [i] from array data tables treated as a single flat array of integers.
  * Be careful for 2-dimensional arrays or for YYTD_ID_TRANSITION, which is an array
@@ -378,21 +378,21 @@ static flex_int32_t yytbl_data_getijk (const struct yytbl_data *tbl, int i,
  * @param i index into array.
  * @return data[i]
  */
-static flex_int32_t yytbl_data_geti (const struct yytbl_data *tbl, int i)
+ساکن flex_int32_t yytbl_ڈیٹا_geti (ثابت ساخت yytbl_ڈیٹا *tbl, صحیح i)
 {
 
-	switch (YYTDFLAGS2BYTES (tbl->td_flags)) {
-	case sizeof (flex_int8_t):
-		return ((flex_int8_t *) (tbl->td_data))[i];
-	case sizeof (flex_int16_t):
-		return ((flex_int16_t *) (tbl->td_data))[i];
-	case sizeof (flex_int32_t):
-		return ((flex_int32_t *) (tbl->td_data))[i];
-	default:
+	انتخاب (YYTDFLAGS2_بائٹیں (tbl->td_flags)) {
+	حالت حجم (flex_int8_t):
+		واپس ((flex_int8_t *) (tbl->td_ڈیٹا))[i];
+	حالت حجم (flex_int16_t):
+		واپس ((flex_int16_t *) (tbl->td_ڈیٹا))[i];
+	حالت حجم (flex_int32_t):
+		واپس ((flex_int32_t *) (tbl->td_ڈیٹا))[i];
+	طےشدہ:
 		flex_die (_("invalid td_flags detected"));
-		break;
+		توڑو;
 	}
-	return 0;
+	واپس 0;
 }
 
 /** Set data element [i] in array data tables treated as a single flat array of integers.
@@ -402,23 +402,23 @@ static flex_int32_t yytbl_data_geti (const struct yytbl_data *tbl, int i)
  * @param i index into array.
  * @param newval new value for data[i]
  */
-static void yytbl_data_seti (const struct yytbl_data *tbl, int i,
+ساکن خالی yytbl_ڈیٹا_seti (ثابت ساخت yytbl_ڈیٹا *tbl, صحیح i,
 			     flex_int32_t newval)
 {
 
-	switch (YYTDFLAGS2BYTES (tbl->td_flags)) {
-	case sizeof (flex_int8_t):
-		((flex_int8_t *) (tbl->td_data))[i] = (flex_int8_t) newval;
-		break;
-	case sizeof (flex_int16_t):
-		((flex_int16_t *) (tbl->td_data))[i] = (flex_int16_t) newval;
-		break;
-	case sizeof (flex_int32_t):
-		((flex_int32_t *) (tbl->td_data))[i] = (flex_int32_t) newval;
-		break;
-	default:
+	انتخاب (YYTDFLAGS2_بائٹیں (tbl->td_flags)) {
+	حالت حجم (flex_int8_t):
+		((flex_int8_t *) (tbl->td_ڈیٹا))[i] = (flex_int8_t) newval;
+		توڑو;
+	حالت حجم (flex_int16_t):
+		((flex_int16_t *) (tbl->td_ڈیٹا))[i] = (flex_int16_t) newval;
+		توڑو;
+	حالت حجم (flex_int32_t):
+		((flex_int32_t *) (tbl->td_ڈیٹا))[i] = (flex_int32_t) newval;
+		توڑو;
+	طےشدہ:
 		flex_die (_("invalid td_flags detected"));
-		break;
+		توڑو;
 	}
 }
 
@@ -427,28 +427,28 @@ static void yytbl_data_seti (const struct yytbl_data *tbl, int i,
  *  @param tbl  the data table
  *  @return sizeof(n) where n in {flex_int8_t, flex_int16_t, flex_int32_t}
  */
-static size_t min_int_size (struct yytbl_data *tbl)
+ساکن size_t min_int_سائز (ساخت yytbl_ڈیٹا *tbl)
 {
-	flex_int32_t i, total_len;
+	flex_int32_t i, کل_len;
 	flex_int32_t max = 0;
 
-	total_len = yytbl_calc_total_len (tbl);
+	کل_len = yytbl_calc_کل_len (tbl);
 
-	for (i = 0; i < total_len; i++) {
+	برائے (i = 0; i < کل_len; i++) {
 		flex_int32_t n;
 
-		n = abs (yytbl_data_geti (tbl, i));
+		n = مطلق_قدر (yytbl_ڈیٹا_geti (tbl, i));
 
-		if (max < n)
+		اگر (max < n)
 			max = n;
 	}
 
-	if (max <= INT8_MAX)
-		return sizeof (flex_int8_t);
-	else if (max <= INT16_MAX)
-		return sizeof (flex_int16_t);
-	else
-		return sizeof (flex_int32_t);
+	اگر (max <= INT8_MAX)
+		واپس حجم (flex_int8_t);
+	ورنہ اگر (max <= INT16_MAX)
+		واپس حجم (flex_int16_t);
+	ورنہ
+		واپس حجم (flex_int32_t);
 }
 
 /** Transform data to smallest possible of (int32, int16, int8).
@@ -460,44 +460,44 @@ static size_t min_int_size (struct yytbl_data *tbl)
  *
  * @param tbl the table to be compressed
  */
-void yytbl_data_compress (struct yytbl_data *tbl)
+خالی yytbl_ڈیٹا_compress (ساخت yytbl_ڈیٹا *tbl)
 {
-	flex_int32_t i, total_len;
+	flex_int32_t i, کل_len;
 	size_t newsz;
-	struct yytbl_data newtbl;
+	ساخت yytbl_ڈیٹا newtbl;
 
-	yytbl_data_init (&newtbl, tbl->td_id);
+	yytbl_ڈیٹا_init (&newtbl, tbl->td_id);
 	newtbl.td_hilen = tbl->td_hilen;
 	newtbl.td_lolen = tbl->td_lolen;
 	newtbl.td_flags = tbl->td_flags;
 
-	newsz = min_int_size (tbl);
+	newsz = min_int_سائز (tbl);
 
 
-	if (newsz == YYTDFLAGS2BYTES (tbl->td_flags))
+	اگر (newsz == YYTDFLAGS2_بائٹیں (tbl->td_flags))
 		/* No change in this table needed. */
-		return;
+		واپس;
 
-	if (newsz > YYTDFLAGS2BYTES (tbl->td_flags)) {
+	اگر (newsz > YYTDFLAGS2_بائٹیں (tbl->td_flags)) {
 		flex_die (_("detected negative compression"));
-		return;
+		واپس;
 	}
 
-	total_len = yytbl_calc_total_len (tbl);
-	newtbl.td_data = calloc ((size_t) total_len, newsz);
+	کل_len = yytbl_calc_کل_len (tbl);
+	newtbl.td_ڈیٹا = صفر_حافظہ_دو ((size_t) کل_len, newsz);
 	newtbl.td_flags = (flex_uint16_t)
 		(TFLAGS_CLRDATA (newtbl.td_flags) | BYTES2TFLAG (newsz));
 
-	for (i = 0; i < total_len; i++) {
+	برائے (i = 0; i < کل_len; i++) {
 		flex_int32_t g;
 
-		g = yytbl_data_geti (tbl, i);
-		yytbl_data_seti (&newtbl, i, g);
+		g = yytbl_ڈیٹا_geti (tbl, i);
+		yytbl_ڈیٹا_seti (&newtbl, i, g);
 	}
 
 
 	/* Now copy over the old table */
-	free (tbl->td_data);
+	آزاد (tbl->td_ڈیٹا);
 	*tbl = newtbl;
 }
 

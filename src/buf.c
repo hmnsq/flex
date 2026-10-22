@@ -33,7 +33,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#شامل "flexdef.h"
 
 /* Take note: The buffer object is sometimes used as a String buffer (one
  * continuous string), and sometimes used as a list of strings, usually line by
@@ -48,57 +48,57 @@
  */
 
 /* global buffers. */
-struct Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
-struct Buf top_buf;             /**< contains %top code. String buffer. */
+ساخت Buf userdef_buf;		/**< for user #definitions triggered by cmd-line. */
+ساخت Buf چوٹی_buf;             /**< contains %top code. String buffer. */
 
 /* Append a "%s" formatted string to a string buffer */
-struct Buf *buf_prints (struct Buf *buf, const char *fmt, const char *s)
+ساخت Buf *buf_prints (ساخت Buf *buf, ثابت حرف *fmt, ثابت حرف *s)
 {
-	char   *t;
+	حرف   *t;
 	size_t tsz;
 
-	tsz = strlen(fmt) + strlen(s) + 1;
-	t = malloc(tsz);
-	if (!t)
+	tsz = لڑی_لمبائی(fmt) + لڑی_لمبائی(s) + 1;
+	t = حافظہ_دو(tsz);
+	اگر (!t)
 	    flexfatal (_("Allocation of buffer to print string failed"));
 	snprintf (t, tsz, fmt, s);
 	buf = buf_strappend (buf, t);
-	free(t);
-	return buf;
+	آزاد(t);
+	واپس buf;
 }
 
 /* Appends n characters in str to buf. */
-struct Buf *buf_strnappend (struct Buf *buf, const char *str, int n)
+ساخت Buf *buf_strnappend (ساخت Buf *buf, ثابت حرف *str, صحیح n)
 {
 	buf_append (buf, str, n + 1);
 
 	/* "undo" the '\0' character that buf_append() already copied. */
 	buf->nelts--;
 
-	return buf;
+	واپس buf;
 }
 
 /* Appends characters in str to buf. */
-struct Buf *buf_strappend (struct Buf *buf, const char *str)
+ساخت Buf *buf_strappend (ساخت Buf *buf, ثابت حرف *str)
 {
-	return buf_strnappend (buf, str, (int) strlen (str));
+	واپس buf_strnappend (buf, str, (صحیح) لڑی_لمبائی (str));
 }
 
 /* create buf with 0 elements, each of size elem_size. */
-void buf_init (struct Buf *buf, size_t elem_size)
+خالی buf_init (ساخت Buf *buf, size_t elem_سائز)
 {
-	buf->elts = NULL;
+	buf->elts = تہی;
 	buf->nelts = 0;
-	buf->elt_size = elem_size;
+	buf->elt_سائز = elem_سائز;
 	buf->nmax = 0;
 }
 
 /* frees memory */
-void buf_destroy (struct Buf *buf)
+خالی buf_destroy (ساخت Buf *buf)
 {
-	if (buf) {
-		free(buf->elts);
-		buf->elts = NULL;
+	اگر (buf) {
+		آزاد(buf->elts);
+		buf->elts = تہی;
 	}
 }
 
@@ -109,43 +109,43 @@ void buf_destroy (struct Buf *buf)
  * We grow by mod(512) boundaries.
  */
 
-struct Buf *buf_append (struct Buf *buf, const void *ptr, int n_elem)
+ساخت Buf *buf_append (ساخت Buf *buf, ثابت خالی *ptr, صحیح n_elem)
 {
-	int     n_alloc = 0;
+	صحیح     n_alloc = 0;
 
-	if (!ptr || n_elem == 0)
-		return buf;
+	اگر (!ptr || n_elem == 0)
+		واپس buf;
 
 	/* May need to alloc more. */
-	if (n_elem + buf->nelts > buf->nmax) {
+	اگر (n_elem + buf->nelts > buf->nmax) {
 
 		/* exact count needed... */
 		n_alloc = n_elem + buf->nelts;
 
 		/* ...plus some extra */
-		if ((((size_t) n_alloc * buf->elt_size) % 512) != 0
-		    && buf->elt_size < 512)
-			n_alloc += (int)
+		اگر ((((size_t) n_alloc * buf->elt_سائز) % 512) != 0
+		    && buf->elt_سائز < 512)
+			n_alloc += (صحیح)
 				((512 -
-				 (((size_t) n_alloc * buf->elt_size) % 512)) /
-				buf->elt_size);
+				 (((size_t) n_alloc * buf->elt_سائز) % 512)) /
+				buf->elt_سائز);
 
-		if (!buf->elts)
+		اگر (!buf->elts)
 			buf->elts =
-				allocate_array ((int) n_alloc, buf->elt_size);
-		else
+				allocate_array ((صحیح) n_alloc, buf->elt_سائز);
+		ورنہ
 			buf->elts =
-				reallocate_array (buf->elts, (int) n_alloc,
-						  buf->elt_size);
+				reallocate_array (buf->elts, (صحیح) n_alloc,
+						  buf->elt_سائز);
 
 		buf->nmax = n_alloc;
 	}
 
-	memcpy ((char *) buf->elts + (size_t) buf->nelts * buf->elt_size, ptr,
-		(size_t) n_elem * buf->elt_size);
+	حافظہ_نقل ((حرف *) buf->elts + (size_t) buf->nelts * buf->elt_سائز, ptr,
+		(size_t) n_elem * buf->elt_سائز);
 	buf->nelts += n_elem;
 
-	return buf;
+	واپس buf;
 }
 
 /* vim:set tabstop=8 softtabstop=4 shiftwidth=4: */

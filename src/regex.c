@@ -23,7 +23,7 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
+#شامل "flexdef.h"
 
 
 regex_t regex_linedir; /**< matches line directives */
@@ -32,11 +32,11 @@ regex_t regex_linedir; /**< matches line directives */
 /** Initialize the regular expressions.
  * @return true upon success.
  */
-bool flex_init_regex(const char *traceline_re)
+bool flex_init_regex(ثابت حرف *traceline_re)
 {
-	if (traceline_re != NULL)
+	اگر (traceline_re != تہی)
 		flex_regcomp(&regex_linedir, traceline_re, REG_EXTENDED);
-	return true;
+	واپس true;
 }
 
 /** Compiles a regular expression or dies trying.
@@ -44,19 +44,19 @@ bool flex_init_regex(const char *traceline_re)
  * @param regex Same as for regcomp().
  * @param cflags Same as for regcomp().
  */
-void flex_regcomp(regex_t *preg, const char *regex, int cflags)
+خالی flex_regcomp(regex_t *preg, ثابت حرف *regex, صحیح cflags)
 {
-	int err;
+	صحیح err;
 
-	memset (preg, 0, sizeof (regex_t));
+	memset (preg, 0, حجم (regex_t));
 
-	if ((err = regcomp (preg, regex, cflags)) != 0) {
-		const size_t errbuf_sz = 200;
-		char *errbuf;
-		int n;
+	اگر ((err = regcomp (preg, regex, cflags)) != 0) {
+		ثابت size_t errbuf_sz = 200;
+		حرف *errbuf;
+		صحیح n;
 
-		errbuf = malloc(errbuf_sz * sizeof(char));
-		if (!errbuf)
+		errbuf = حافظہ_دو(errbuf_sz * حجم(حرف));
+		اگر (!errbuf)
 			flexfatal(_("Unable to allocate buffer to report regcomp"));
 		n = snprintf(errbuf, errbuf_sz, "regcomp for \"%s\" failed: ", regex);
 		regerror(err, preg, errbuf+n, errbuf_sz-(size_t)n);
@@ -70,20 +70,20 @@ void flex_regcomp(regex_t *preg, const char *regex, int cflags)
  * @param src The source string that was passed to regexec().
  * @return The allocated string.
  */
-char   *regmatch_dup (regmatch_t * m, const char *src)
+حرف   *regmatch_dup (regmatch_t * m, ثابت حرف *src)
 {
-	char   *str;
+	حرف   *str;
 	size_t  len;
 
-	if (m == NULL || m->rm_so < 0 || m->rm_eo < m->rm_so)
-		return NULL;
+	اگر (m == تہی || m->rm_so < 0 || m->rm_eo < m->rm_so)
+		واپس تہی;
 	len = (size_t) (m->rm_eo - m->rm_so);
-	str = malloc((len + 1) * sizeof(char));
-	if (!str)
+	str = حافظہ_دو((len + 1) * حجم(حرف));
+	اگر (!str)
 		flexfatal(_("Unable to allocate a copy of the match"));
 	strncpy (str, src + m->rm_so, len);
 	str[len] = 0;
-	return str;
+	واپس str;
 }
 
 /** Copy the match.
@@ -92,29 +92,29 @@ char   *regmatch_dup (regmatch_t * m, const char *src)
  * @param src The source string that was passed to regexec().
  * @return dest
  */
-char   *regmatch_cpy (regmatch_t * m, char *dest, const char *src)
+حرف   *regmatch_cpy (regmatch_t * m, حرف *dest, ثابت حرف *src)
 {
-	if (m == NULL || m->rm_so < 0) {
-		if (dest)
+	اگر (m == تہی || m->rm_so < 0) {
+		اگر (dest)
 			dest[0] = '\0';
-		return dest;
+		واپس dest;
 	}
 
 	snprintf (dest, (size_t) regmatch_len(m), "%s", src + m->rm_so);
-	return dest;
+	واپس dest;
 }
 
 /** Get the length in characters of the match.
  * @param m A match as returned by regexec().
  * @return The length of the match.
  */
-int regmatch_len (regmatch_t * m)
+صحیح regmatch_len (regmatch_t * m)
 {
-	if (m == NULL || m->rm_so < 0) {
-		return 0;
+	اگر (m == تہی || m->rm_so < 0) {
+		واپس 0;
 	}
 
-	return m->rm_eo - m->rm_so;
+	واپس m->rm_eo - m->rm_so;
 }
 
 
@@ -126,29 +126,29 @@ int regmatch_len (regmatch_t * m)
  * @param base   Same as the third argument to strtol().
  * @return The converted integer or error (Return value is the same as for strtol()).
  */
-int regmatch_strtol (regmatch_t * m, const char *src, char **endptr,
-		     int base)
+صحیح regmatch_strtol (regmatch_t * m, ثابت حرف *src, حرف **endptr,
+		     صحیح بنیاد)
 {
-	int     n = 0;
+	صحیح     n = 0;
 
-#define bufsz 20
-	char    buf[bufsz];
-	char   *s;
+#تعریف_کرو bufsz 20
+	حرف    buf[bufsz];
+	حرف   *s;
 
-	if (m == NULL || m->rm_so < 0)
-		return 0;
+	اگر (m == تہی || m->rm_so < 0)
+		واپس 0;
 
-	if (regmatch_len (m) < bufsz)
+	اگر (regmatch_len (m) < bufsz)
 		s = regmatch_cpy (m, buf, src);
-	else
+	ورنہ
 		s = regmatch_dup (m, src);
 
-	n = (int) strtol (s, endptr, base);
+	n = (صحیح) strtol (s, endptr, بنیاد);
 
-	if (s != buf)
-		free (s);
+	اگر (s != buf)
+		آزاد (s);
 
-	return n;
+	واپس n;
 }
 
 /** Check for empty or non-existent match.
@@ -156,9 +156,9 @@ int regmatch_strtol (regmatch_t * m, const char *src, char **endptr,
  * @return false if match length is non-zero.
  * Note that reg_empty returns true even if match did not occur at all.
  */
-bool regmatch_empty (regmatch_t * m)
+bool regmatch_خالی_خانے (regmatch_t * m)
 {
-	return (m == NULL || m->rm_so < 0 || m->rm_so == m->rm_eo);
+	واپس (m == تہی || m->rm_so < 0 || m->rm_so == m->rm_eo);
 }
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */
