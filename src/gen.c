@@ -33,32 +33,32 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
-#include "tables.h"
+#ضمن "flexdef.h"
+#ضمن "tables.h"
 
 /* These typedefs are only used for computing footprint sizes,
  * You need to make sure they match reality in the skeleton file to
  * get accurate numbers, but they don't otherwise matter.
  */
-typedef char YY_CHAR;
-struct yy_trans_info {int32_t yy_verify; int32_t yy_nxt;};
+تعريفنوع حرف YY_CHAR;
+بنية yy_trans_info {int32_t yy_verify; int32_t yy_nxt;};
 
 /* declare functions that have forward references */
 
-static void genecs(void);
+ساكن فراغ genecs(فراغ);
 
-struct packtype_t *optimize_pack(size_t sz)
+بنية packtype_t *optimize_pack(size_t sz)
 {
 	/* FIXME: There's a 32-bit assumption lurking here */
-	static struct packtype_t out;
-	if (sz == 0) {
-		out.name  = ctrl.long_align ? "M4_HOOK_INT32" : "M4_HOOK_INT16";
-		out.width = ctrl.long_align ? 32 : 16;
-	} else {
-		out.name = (ctrl.long_align || sz >= INT16_MAX) ? "M4_HOOK_INT32" : "M4_HOOK_INT16";
-		out.width = (ctrl.long_align || sz >= INT16_MAX) ? 32 : 16;
+	ساكن بنية packtype_t بیرون;
+	إذا (sz == 0) {
+		بیرون.name  = ctrl.long_align ? "M4_HOOK_INT32" : "M4_HOOK_INT16";
+		بیرون.عرض = ctrl.long_align ? 32 : 16;
+	} وإلا {
+		بیرون.name = (ctrl.long_align || sz >= INT16_MAX) ? "M4_HOOK_INT32" : "M4_HOOK_INT16";
+		بیرون.عرض = (ctrl.long_align || sz >= INT16_MAX) ? 32 : 16;
 	}
-	return &out;
+	أرجع &بیرون;
 }
 
 /* Almost everything is done in terms of arrays starting at 1, so provide
@@ -70,45 +70,45 @@ struct packtype_t *optimize_pack(size_t sz)
 /** Make the table for possible eol matches.
  *  @return the newly allocated rule_can_match_eol table
  */
-static struct yytbl_data *mkeoltbl (void)
+ساكن بنية yytbl_داده *mkeoltbl (فراغ)
 {
-	int     i;
+	صحيح     i;
 	flex_int8_t *tdata = 0;
-	struct yytbl_data *tbl;
+	بنية yytbl_داده *tbl;
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_RULE_CAN_MATCH_EOL);
+	tbl = حافظه_صفر_بده(1, حجم (بنية yytbl_داده));
+	yytbl_داده_init (tbl, YYTD_ID_قاعده_CAN_تطابق_EOL);
 	tbl->td_flags = YYTD_DATA8;
-	tbl->td_lolen = (flex_uint32_t) (num_rules + 1);
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen, sizeof (flex_int8_t));
+	tbl->td_lolen = (flex_uint32_t) (رقم_قواعد + 1);
+	tbl->td_داده = tdata =
+		حافظه_صفر_بده(tbl->td_lolen, حجم (flex_int8_t));
 
-	for (i = 1; i <= num_rules; i++)
-		tdata[i] = rule_has_nl[i] ? 1 : 0;
+	لكل (i = 1; i <= رقم_قواعد; i++)
+		tdata[i] = قاعده_has_nl[i] ? 1 : 0;
 
-	return tbl;
+	أرجع tbl;
 }
 
 /* Generate the table for possible eol matches. */
-static void geneoltbl (void)
+ساكن فراغ geneoltbl (فراغ)
 {
-	int     i;
-	struct packtype_t *ptype = optimize_pack(num_rules);
+	صحيح     i;
+	بنية packtype_t *ptype = optimize_pack(رقم_قواعد);
 
 	outn ("m4_ifdef( [[M4_MODE_YYLINENO]],[[");
-	out_str ("m4_define([[M4_HOOK_EOLTABLE_TYPE]], [[%s]])\n", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_EOLTABLE_SIZE]], [[%d]])", num_rules + 1);
+	بیرون_str ("m4_define([[M4_HOOK_EOLTABLE_TYPE]], [[%s]])\n", ptype->name);
+	بیرون_dec ("m4_define([[M4_HOOK_EOLTABLE_SIZE]], [[%d]])", رقم_قواعد + 1);
 	outn ("m4_define([[M4_HOOK_EOLTABLE_BODY]], [[m4_dnl");
 
-	if (gentables) {
-		for (i = 1; i <= num_rules; i++) {
-			out_dec ("%d, ", rule_has_nl[i] ? 1 : 0);
+	إذا (gentables) {
+		لكل (i = 1; i <= رقم_قواعد; i++) {
+			بیرون_dec ("%d, ", قاعده_has_nl[i] ? 1 : 0);
 			/* format nicely, 20 numbers per line. */
-			if ((i % 20) == 19)
-				out ("\n    ");
+			إذا ((i % 20) == 19)
+				بیرون ("\n    ");
 		}
 	}
-	footprint += num_rules * ptype->width;
+	footprint += رقم_قواعد * ptype->عرض;
 	outn ("]])");
 	outn ("]])");
 }
@@ -121,24 +121,24 @@ static void geneoltbl (void)
  * @return the newly allocated trans table
  */
 
-static struct yytbl_data *mkctbl (void)
+ساكن بنية yytbl_داده *mkctbl (فراغ)
 {
-	int i;
-	struct yytbl_data *tbl = 0;
+	صحيح i;
+	بنية yytbl_داده *tbl = 0;
 	flex_int32_t *tdata = 0, curr = 0;
-	int     end_of_buffer_action = num_rules + 1;
+	صحيح     انتها_از_میانگیر_action = رقم_قواعد + 1;
 
-	struct packtype_t *ptype = optimize_pack(tblend + 2 + 1);
-	out_str ("m4_define([[M4_HOOK_MKCTBL_TYPE]], [[%s]])", ptype->name);
+	بنية packtype_t *ptype = optimize_pack(tblend + 2 + 1);
+	بیرون_str ("m4_define([[M4_HOOK_MKCTBL_TYPE]], [[%s]])", ptype->name);
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_TRANSITION);
+	tbl = حافظه_صفر_بده(1, حجم (بنية yytbl_داده));
+	yytbl_داده_init (tbl, YYTD_ID_TRANSITION);
 	tbl->td_flags = YYTD_DATA32 | YYTD_STRUCT;
 	tbl->td_hilen = 0;
 	tbl->td_lolen = (flex_uint32_t) (tblend + 2 + 1);	/* number of structs */
 
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen * 2, sizeof (flex_int32_t));
+	tbl->td_داده = tdata =
+		حافظه_صفر_بده(tbl->td_lolen * 2, حجم (flex_int32_t));
 
 	/* We want the transition to be represented as the offset to the
 	 * next state, not the actual state number, which is what it currently
@@ -158,14 +158,14 @@ static struct yytbl_data *mkctbl (void)
 	 * there's room for jam entries for other characters.
 	 */
 
-	while (tblend + 2 >= current_max_xpairs)
+	طالما (tblend + 2 >= current_max_xpairs)
 		expand_nxt_chk ();
 
-	while (lastdfa + 1 >= current_max_dfas)
+	طالما (lastdfa + 1 >= current_max_dfas)
 		increase_max_dfas ();
 
-	base[lastdfa + 1] = tblend + 2;
-	nxt[tblend + 1] = end_of_buffer_action;
+	پایه[lastdfa + 1] = tblend + 2;
+	nxt[tblend + 1] = انتها_از_میانگیر_action;
 	chk[tblend + 1] = numecs + 1;
 	chk[tblend + 2] = 1;	/* anything but EOB */
 
@@ -175,34 +175,34 @@ static struct yytbl_data *mkctbl (void)
 	/* Make sure every state has an end-of-buffer transition and an
 	 * action #.
 	 */
-	for (i = 0; i <= lastdfa; ++i) {
-		int     anum = dfaacc[i].dfaacc_state;
-		int     offset = base[i];
+	لكل (i = 0; i <= lastdfa; ++i) {
+		صحيح     anum = dfaacc[i].dfaacc_state;
+		صحيح     جابه_جایی = پایه[i];
 
-		chk[offset] = EOB_POSITION;
-		chk[offset - 1] = ACTION_POSITION;
-		nxt[offset - 1] = anum;	/* action number */
+		chk[جابه_جایی] = EOB_POSITION;
+		chk[جابه_جایی - 1] = ACTION_POSITION;
+		nxt[جابه_جایی - 1] = anum;	/* action number */
 	}
 
-	for (i = 0; i <= tblend; ++i) {
-		if (chk[i] == EOB_POSITION) {
+	لكل (i = 0; i <= tblend; ++i) {
+		إذا (chk[i] == EOB_POSITION) {
 			tdata[curr++] = 0;
-			tdata[curr++] = base[lastdfa + 1] - i;
+			tdata[curr++] = پایه[lastdfa + 1] - i;
 		}
 
-		else if (chk[i] == ACTION_POSITION) {
+		وإلا إذا (chk[i] == ACTION_POSITION) {
 			tdata[curr++] = 0;
 			tdata[curr++] = nxt[i];
 		}
 
-		else if (chk[i] > numecs || chk[i] == 0) {
+		وإلا إذا (chk[i] > numecs || chk[i] == 0) {
 			tdata[curr++] = 0;
 			tdata[curr++] = 0;
 		}
-		else {		/* verify, transition */
+		وإلا {		/* verify, transition */
 
 			tdata[curr++] = chk[i];
-			tdata[curr++] = base[nxt[i]] - (i - chk[i]);
+			tdata[curr++] = پایه[nxt[i]] - (i - chk[i]);
 		}
 	}
 
@@ -213,45 +213,45 @@ static struct yytbl_data *mkctbl (void)
 	tdata[curr++] = chk[tblend + 2];
 	tdata[curr++] = nxt[tblend + 2];
 
-	return tbl;
+	أرجع tbl;
 }
 
 
 /** Make start_state_list table.
  *  @return the newly allocated start_state_list table
  */
-static struct yytbl_data *mkssltbl (void)
+ساكن بنية yytbl_داده *mkssltbl (فراغ)
 {
-	struct yytbl_data *tbl = 0;
+	بنية yytbl_داده *tbl = 0;
 	flex_int32_t *tdata = 0;
 	flex_int32_t i;
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_START_STATE_LIST);
+	tbl = حافظه_صفر_بده(1, حجم (بنية yytbl_داده));
+	yytbl_داده_init (tbl, YYTD_ID_شروع_STATE_LIST);
 	tbl->td_flags = YYTD_DATA32 | YYTD_PTRANS;
 	tbl->td_hilen = 0;
 	tbl->td_lolen = (flex_uint32_t) (lastsc * 2 + 1);
 
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen, sizeof (flex_int32_t));
+	tbl->td_داده = tdata =
+		حافظه_صفر_بده(tbl->td_lolen, حجم (flex_int32_t));
 
-	for (i = 0; i <= lastsc * 2; ++i)
-		tdata[i] = base[i];
+	لكل (i = 0; i <= lastsc * 2; ++i)
+		tdata[i] = پایه[i];
 
-	return tbl;
+	أرجع tbl;
 }
 
 
 
 /* genctbl - generates full speed compressed transition table */
 
-static void genctbl(void)
+ساكن فراغ genctbl(فراغ)
 {
-	int i;
-	int     end_of_buffer_action = num_rules + 1;
+	صحيح i;
+	صحيح     انتها_از_میانگیر_action = رقم_قواعد + 1;
 
 	/* Table of verify for transition and offset to next state. */
-	out_dec ("m4_define([[M4_HOOK_TRANSTABLE_SIZE]], [[%d]])", tblend + 2 + 1);
+	بیرون_dec ("m4_define([[M4_HOOK_TRANSTABLE_SIZE]], [[%d]])", tblend + 2 + 1);
 	outn ("m4_define([[M4_HOOK_TRANSTABLE_BODY]], [[m4_dnl");
 
 	/* We want the transition to be represented as the offset to the
@@ -272,14 +272,14 @@ static void genctbl(void)
 	 * there's room for jam entries for other characters.
 	 */
 
-	while (tblend + 2 >= current_max_xpairs)
+	طالما (tblend + 2 >= current_max_xpairs)
 		expand_nxt_chk ();
 
-	while (lastdfa + 1 >= current_max_dfas)
+	طالما (lastdfa + 1 >= current_max_dfas)
 		increase_max_dfas ();
 
-	base[lastdfa + 1] = tblend + 2;
-	nxt[tblend + 1] = end_of_buffer_action;
+	پایه[lastdfa + 1] = tblend + 2;
+	nxt[tblend + 1] = انتها_از_میانگیر_action;
 	chk[tblend + 1] = numecs + 1;
 	chk[tblend + 2] = 1;	/* anything but EOB */
 
@@ -289,107 +289,107 @@ static void genctbl(void)
 	/* Make sure every state has an end-of-buffer transition and an
 	 * action #.
 	 */
-	for (i = 0; i <= lastdfa; ++i) {
-		int     anum = dfaacc[i].dfaacc_state;
-		int     offset = base[i];
+	لكل (i = 0; i <= lastdfa; ++i) {
+		صحيح     anum = dfaacc[i].dfaacc_state;
+		صحيح     جابه_جایی = پایه[i];
 
-		chk[offset] = EOB_POSITION;
-		chk[offset - 1] = ACTION_POSITION;
-		nxt[offset - 1] = anum;	/* action number */
+		chk[جابه_جایی] = EOB_POSITION;
+		chk[جابه_جایی - 1] = ACTION_POSITION;
+		nxt[جابه_جایی - 1] = anum;	/* action number */
 	}
 
-	for (i = 0; i <= tblend; ++i) {
-		if (chk[i] == EOB_POSITION)
-			transition_struct_out (0, base[lastdfa + 1] - i);
+	لكل (i = 0; i <= tblend; ++i) {
+		إذا (chk[i] == EOB_POSITION)
+			transition_struct_بیرون (0, پایه[lastdfa + 1] - i);
 
-		else if (chk[i] == ACTION_POSITION)
-			transition_struct_out (0, nxt[i]);
+		وإلا إذا (chk[i] == ACTION_POSITION)
+			transition_struct_بیرون (0, nxt[i]);
 
-		else if (chk[i] > numecs || chk[i] == 0)
-			transition_struct_out (0, 0);	/* unused slot */
+		وإلا إذا (chk[i] > numecs || chk[i] == 0)
+			transition_struct_بیرون (0, 0);	/* unused slot */
 
-		else		/* verify, transition */
-			transition_struct_out (chk[i],
-					       base[nxt[i]] - (i -
+		وإلا		/* verify, transition */
+			transition_struct_بیرون (chk[i],
+					       پایه[nxt[i]] - (i -
 							       chk[i]));
 	}
 
 
 	/* Here's the final, end-of-buffer state. */
-	transition_struct_out (chk[tblend + 1], nxt[tblend + 1]);
-	transition_struct_out (chk[tblend + 2], nxt[tblend + 2]);
+	transition_struct_بیرون (chk[tblend + 1], nxt[tblend + 1]);
+	transition_struct_بیرون (chk[tblend + 2], nxt[tblend + 2]);
 
 	outn ("]])");
-	footprint += sizeof(struct yy_trans_info) * (tblend + 2 + 1);
+	footprint += حجم(بنية yy_trans_info) * (tblend + 2 + 1);
 
-	out_dec ("m4_define([[M4_HOOK_STARTTABLE_SIZE]], [[%d]])", lastsc * 2 + 1);
-	if (gentables) {
+	بیرون_dec ("m4_define([[M4_HOOK_STARTTABLE_SIZE]], [[%d]])", lastsc * 2 + 1);
+	إذا (gentables) {
 		outn ("m4_define([[M4_HOOK_STARTTABLE_BODY]], [[m4_dnl");
-		for (i = 0; i <= lastsc * 2; ++i)
-			out_dec ("M4_HOOK_STATE_ENTRY_FORMAT(%d)", base[i]);
+		لكل (i = 0; i <= lastsc * 2; ++i)
+			بیرون_dec ("M4_HOOK_STATE_ENTRY_FORMAT(%d)", پایه[i]);
 
-		dataend (NULL);
+		dataend (عدم);
 		outn("]])");
-		footprint +=  sizeof(struct yy_trans_info *) * (lastsc * 2 + 1);
+		footprint +=  حجم(بنية yy_trans_info *) * (lastsc * 2 + 1);
 	}
 
-	if (ctrl.useecs)
+	إذا (ctrl.useecs)
 		genecs ();
 }
 
 
 /* mkecstbl - Make equivalence-class tables.  */
 
-static struct yytbl_data *mkecstbl (void)
+ساكن بنية yytbl_داده *mkecstbl (فراغ)
 {
-	int i;
-	struct yytbl_data *tbl = 0;
+	صحيح i;
+	بنية yytbl_داده *tbl = 0;
 	flex_int32_t *tdata = 0;
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_EC);
+	tbl = حافظه_صفر_بده(1, حجم (بنية yytbl_داده));
+	yytbl_داده_init (tbl, YYTD_ID_EC);
 	tbl->td_flags |= YYTD_DATA32;
 	tbl->td_hilen = 0;
 	tbl->td_lolen = (flex_uint32_t) ctrl.csize;
 
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen, sizeof (flex_int32_t));
+	tbl->td_داده = tdata =
+		حافظه_صفر_بده(tbl->td_lolen, حجم (flex_int32_t));
 
-	for (i = 1; i < ctrl.csize; ++i) {
+	لكل (i = 1; i < ctrl.csize; ++i) {
 		ecgroup[i] = ABS (ecgroup[i]);
 		tdata[i] = ecgroup[i];
 	}
 
-	return tbl;
+	أرجع tbl;
 }
 
 /* Generate equivalence-class tables. */
 
-static void genecs(void)
+ساكن فراغ genecs(فراغ)
 {
-	int ch, row;
-	int     numrows;
+	صحيح ch, ردیف;
+	صحيح     numrows;
 
-	out_dec ("m4_define([[M4_HOOK_ECSTABLE_SIZE]], [[%d]])", ctrl.csize);
+	بیرون_dec ("m4_define([[M4_HOOK_ECSTABLE_SIZE]], [[%d]])", ctrl.csize);
 	outn ("m4_define([[M4_HOOK_ECSTABLE_BODY]], [[m4_dnl");
 
-	for (ch = 1; ch < ctrl.csize; ++ch) {
+	لكل (ch = 1; ch < ctrl.csize; ++ch) {
 		ecgroup[ch] = ABS (ecgroup[ch]);
 		mkdata (ecgroup[ch]);
 	}
 
-	dataend (NULL);
+	dataend (عدم);
 	outn("]])");
-	footprint += sizeof(YY_CHAR) * ctrl.csize;
+	footprint += حجم(YY_CHAR) * ctrl.csize;
 
-	if (env.trace) {
+	إذا (env.trace) {
 		fputs (_("\n\nEquivalence Classes:\n\n"), stderr);
 
 		/* Print in 8 columns */
 		numrows = ctrl.csize / 8;
 
-		for (row = 0; row < numrows; ++row) {
-			for (ch = row; ch < ctrl.csize; ch += numrows) {
+		لكل (ردیف = 0; ردیف < numrows; ++ردیف) {
+			لكل (ch = ردیف; ch < ctrl.csize; ch += numrows) {
 				fprintf (stderr, "%4s = %-2d",
 					 readable_form (ch), ecgroup[ch]);
 
@@ -405,68 +405,68 @@ static void genecs(void)
  * you should call mkecstbl() after this.
  */
 
-static struct yytbl_data *mkftbl(void)
+ساكن بنية yytbl_داده *mkftbl(فراغ)
 {
-	int i;
-	int     end_of_buffer_action = num_rules + 1;
-	struct yytbl_data *tbl;
+	صحيح i;
+	صحيح     انتها_از_میانگیر_action = رقم_قواعد + 1;
+	بنية yytbl_داده *tbl;
 	flex_int32_t *tdata = 0;
 
-	tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (tbl, YYTD_ID_ACCEPT);
+	tbl = حافظه_صفر_بده(1, حجم (بنية yytbl_داده));
+	yytbl_داده_init (tbl, YYTD_ID_ACCEPT);
 	tbl->td_flags |= YYTD_DATA32;
 	tbl->td_hilen = 0;	/* it's a one-dimensional array */
 	tbl->td_lolen = (flex_uint32_t) (lastdfa + 1);
 
-	tbl->td_data = tdata =
-		calloc(tbl->td_lolen, sizeof (flex_int32_t));
+	tbl->td_داده = tdata =
+		حافظه_صفر_بده(tbl->td_lolen, حجم (flex_int32_t));
 
-	dfaacc[end_of_buffer_state].dfaacc_state = end_of_buffer_action;
+	dfaacc[انتها_از_میانگیر_state].dfaacc_state = انتها_از_میانگیر_action;
 
-	for (i = 1; i <= lastdfa; ++i) {
-		int anum = dfaacc[i].dfaacc_state;
+	لكل (i = 1; i <= lastdfa; ++i) {
+		صحيح anum = dfaacc[i].dfaacc_state;
 
 		tdata[i] = anum;
 
-		if (env.trace && anum)
+		إذا (env.trace && anum)
 			fprintf (stderr, _("state # %d accepts: [%d]\n"),
 				 i, anum);
 	}
 
-	return tbl;
+	أرجع tbl;
 }
 
 
 /* genftbl - generate full transition table */
 
-static void genftbl(void)
+ساكن فراغ genftbl(فراغ)
 {
-	int i;
-	int     end_of_buffer_action = num_rules + 1;
-	struct packtype_t *ptype = optimize_pack(num_rules + 1);
+	صحيح i;
+	صحيح     انتها_از_میانگیر_action = رقم_قواعد + 1;
+	بنية packtype_t *ptype = optimize_pack(رقم_قواعد + 1);
 
-	dfaacc[end_of_buffer_state].dfaacc_state = end_of_buffer_action;
+	dfaacc[انتها_از_میانگیر_state].dfaacc_state = انتها_از_میانگیر_action;
 
 	outn ("m4_define([[M4_HOOK_NEED_ACCEPT]], 1)");
-	out_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_ACCEPT_SIZE]], [[%d]])", lastdfa + 1);
+	بیرون_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
+	بیرون_dec ("m4_define([[M4_HOOK_ACCEPT_SIZE]], [[%d]])", lastdfa + 1);
 	outn ("m4_define([[M4_HOOK_ACCEPT_BODY]], [[m4_dnl");
 
-	for (i = 1; i <= lastdfa; ++i) {
-		int anum = dfaacc[i].dfaacc_state;
+	لكل (i = 1; i <= lastdfa; ++i) {
+		صحيح anum = dfaacc[i].dfaacc_state;
 
 		mkdata (anum);
 
-		if (env.trace && anum)
+		إذا (env.trace && anum)
 			fprintf (stderr, _("state # %d accepts: [%d]\n"),
 				 i, anum);
 	}
 
-	dataend (NULL);
+	dataend (عدم);
 	outn("]])");
-	footprint += (lastdfa + 1) * ptype->width;
+	footprint += (lastdfa + 1) * ptype->عرض;
 
-	if (ctrl.useecs)
+	إذا (ctrl.useecs)
 		genecs ();
 
 	/* Don't have to dump the actual full table entries - they were
@@ -476,16 +476,16 @@ static void genftbl(void)
 
 /* gentabs - generate data statements for the transition tables */
 
-static void gentabs(void)
+ساكن فراغ gentabs(فراغ)
 {
-	int     sz, i, j, k, *accset, nacc, *acc_array, total_states;
-	int     end_of_buffer_action = num_rules + 1;
-	struct yytbl_data *yyacc_tbl = 0, *yymeta_tbl = 0, *yybase_tbl = 0,
+	صحيح     sz, i, j, k, *accset, nacc, *acc_array, مجموع_حالتها;
+	صحيح     انتها_از_میانگیر_action = رقم_قواعد + 1;
+	بنية yytbl_داده *yyacc_tbl = 0, *yymeta_tbl = 0, *yybase_tbl = 0,
 	    *yydef_tbl = 0, *yynxt_tbl = 0, *yychk_tbl = 0, *yyacclist_tbl=0;
-	flex_int32_t *yyacc_data = 0, *yybase_data = 0, *yydef_data = 0,
-	    *yynxt_data = 0, *yychk_data = 0, *yyacclist_data=0;
+	flex_int32_t *yyacc_داده = 0, *yybase_داده = 0, *yydef_داده = 0,
+	    *yynxt_داده = 0, *yychk_داده = 0, *yyacclist_داده=0;
 	flex_int32_t yybase_curr = 0, yyacclist_curr=0,yyacc_curr=0;
-	struct packtype_t *ptype;
+	بنية packtype_t *ptype;
 
 	acc_array = allocate_integer_array (current_max_dfas);
 	nummt = 0;
@@ -495,81 +495,81 @@ static void gentabs(void)
 	 * In order to recover the previous state, we effectively need
 	 * to keep backing-up information.
 	 */
-	++num_backing_up;
+	++رقم_backing_به_بالا;
 
-	if (reject) {
+	إذا (reject) {
 		/* Write out accepting list and pointer list.
 
 		 * First we generate the "yy_acclist" array.  In the process,
 		 * we compute the indices that will go into the "yy_accept"
 		 * array, and save the indices in the dfaacc array.
 		 */
-		int     EOB_accepting_list[2];
+		صحيح     EOB_accepting_list[2];
 
 		/* Set up accepting structures for the End Of Buffer state. */
 		EOB_accepting_list[0] = 0;
-		EOB_accepting_list[1] = end_of_buffer_action;
-		accsiz[end_of_buffer_state] = 1;
-		dfaacc[end_of_buffer_state].dfaacc_set =
+		EOB_accepting_list[1] = انتها_از_میانگیر_action;
+		accsiz[انتها_از_میانگیر_state] = 1;
+		dfaacc[انتها_از_میانگیر_state].dfaacc_مجموعه =
 		    EOB_accepting_list;
 
 		sz = MAX (numas, 1) + 1;
 		ptype = optimize_pack(sz);
-		out_str ("m4_define([[M4_HOOK_ACCLIST_TYPE]], [[%s]])", ptype->name);
-		out_dec ("m4_define([[M4_HOOK_ACCLIST_SIZE]], [[%d]])", sz);
+		بیرون_str ("m4_define([[M4_HOOK_ACCLIST_TYPE]], [[%s]])", ptype->name);
+		بیرون_dec ("m4_define([[M4_HOOK_ACCLIST_SIZE]], [[%d]])", sz);
 		outn ("m4_define([[M4_HOOK_ACCLIST_BODY]], [[m4_dnl");
 
-		yyacclist_tbl = calloc(1,sizeof(struct yytbl_data));
-		yytbl_data_init (yyacclist_tbl, YYTD_ID_ACCLIST);
+		yyacclist_tbl = حافظه_صفر_بده(1,حجم(بنية yytbl_داده));
+		yytbl_داده_init (yyacclist_tbl, YYTD_ID_ACCLIST);
 		yyacclist_tbl->td_lolen  = (flex_uint32_t) (MAX(numas,1) + 1);
-		yyacclist_tbl->td_data = yyacclist_data =
-		    calloc(yyacclist_tbl->td_lolen, sizeof (flex_int32_t));
+		yyacclist_tbl->td_داده = yyacclist_داده =
+		    حافظه_صفر_بده(yyacclist_tbl->td_lolen, حجم (flex_int32_t));
 		yyacclist_curr = 1;
 
 		j = 1;		/* index into "yy_acclist" array */
 
-		for (i = 1; i <= lastdfa; ++i) {
+		لكل (i = 1; i <= lastdfa; ++i) {
 			acc_array[i] = j;
 
-			if (accsiz[i] != 0) {
-				accset = dfaacc[i].dfaacc_set;
+			إذا (accsiz[i] != 0) {
+				accset = dfaacc[i].dfaacc_مجموعه;
 				nacc = accsiz[i];
 
-				if (env.trace)
+				إذا (env.trace)
 					fprintf (stderr,
 						 _("state # %d accepts: "),
 						 i);
 
-				for (k = 1; k <= nacc; ++k) {
-					int     accnum = accset[k];
+				لكل (k = 1; k <= nacc; ++k) {
+					صحيح     accnum = accset[k];
 
 					++j;
 
-					if (variable_trailing_context_rules
+					إذا (variable_trailing_context_قواعد
 					    && !(accnum &
-						 YY_TRAILING_HEAD_MASK)
+						 YY_TRAILING_سر_ماسک)
 					    && accnum > 0
-					    && accnum <= num_rules
-					    && rule_type[accnum] ==
-					    RULE_VARIABLE) {
+					    && accnum <= رقم_قواعد
+					    && قاعده_type[accnum] ==
+					    قاعده_VARIABLE) {
 						/* Special hack to flag
 						 * accepting number as part
 						 * of trailing context rule.
 						 */
-						accnum |= YY_TRAILING_MASK;
+						accnum |= YY_TRAILING_ماسک;
 					}
 
 					mkdata (accnum);
-					yyacclist_data[yyacclist_curr++] = accnum;
+					yyacclist_داده[yyacclist_curr++] = accnum;
 
-					if (env.trace) {
+					إذا (env.trace) {
 						fprintf (stderr, "[%d]",
 							 accset[k]);
 
-						if (k < nacc)
+						إذا (k < nacc)
 							fputs (", ",
 							       stderr);
-						else
+						وإلا
 							putc ('\n',
 							      stderr);
 					}
@@ -580,23 +580,23 @@ static void gentabs(void)
 		/* add accepting number for the "jam" state */
 		acc_array[i] = j;
 
-		dataend (NULL);
+		dataend (عدم);
 		outn("]])");
-		footprint += sz * ptype->width;
-		if (tablesext) {
-			yytbl_data_compress (yyacclist_tbl);
-			if (yytbl_data_fwrite (&tableswr, yyacclist_tbl) < 0)
+		footprint += sz * ptype->عرض;
+		إذا (tablesext) {
+			yytbl_داده_compress (yyacclist_tbl);
+			إذا (yytbl_داده_fwrite (&tableswr, yyacclist_tbl) < 0)
 				flexerror (_("Could not write yyacclist_tbl"));
-			yytbl_data_destroy (yyacclist_tbl);
-			yyacclist_tbl = NULL;
+			yytbl_داده_destroy (yyacclist_tbl);
+			yyacclist_tbl = عدم;
 		}
 	}
 
-	else {
-		dfaacc[end_of_buffer_state].dfaacc_state =
-		    end_of_buffer_action;
+	وإلا {
+		dfaacc[انتها_از_میانگیر_state].dfaacc_state =
+		    انتها_از_میانگیر_action;
 
-		for (i = 1; i <= lastdfa; ++i)
+		لكل (i = 1; i <= lastdfa; ++i)
 			acc_array[i] = dfaacc[i].dfaacc_state;
 
 		/* add accepting number for jam state */
@@ -615,7 +615,7 @@ static void gentabs(void)
 	 */
 	sz = lastdfa + 2;
 
-	if (reject)
+	إذا (reject)
 		/* We put a "cap" on the table associating lists of accepting
 		 * numbers with state numbers.  This is needed because we tell
 		 * where the end of an accepting list is by looking at where
@@ -626,193 +626,193 @@ static void gentabs(void)
 	/* Note that this table is alternately defined if ctrl.fulltbl */
 	ptype = optimize_pack(sz);
 	outn ("m4_define([[M4_HOOK_NEED_ACCEPT]], 1)");
-	out_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_ACCEPT_SIZE]], [[%d]])", sz);
+	بیرون_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
+	بیرون_dec ("m4_define([[M4_HOOK_ACCEPT_SIZE]], [[%d]])", sz);
 	outn ("m4_define([[M4_HOOK_ACCEPT_BODY]], [[m4_dnl");
 
-	yyacc_tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (yyacc_tbl, YYTD_ID_ACCEPT);
+	yyacc_tbl = حافظه_صفر_بده(1, حجم (بنية yytbl_داده));
+	yytbl_داده_init (yyacc_tbl, YYTD_ID_ACCEPT);
 	yyacc_tbl->td_lolen = (flex_uint32_t) sz;
-	yyacc_tbl->td_data = yyacc_data =
-	    calloc(yyacc_tbl->td_lolen, sizeof (flex_int32_t));
+	yyacc_tbl->td_داده = yyacc_داده =
+	    حافظه_صفر_بده(yyacc_tbl->td_lolen, حجم (flex_int32_t));
 	yyacc_curr=1;
 
-	for (i = 1; i <= lastdfa; ++i) {
+	لكل (i = 1; i <= lastdfa; ++i) {
 		mkdata (acc_array[i]);
-		yyacc_data[yyacc_curr++] = acc_array[i];
+		yyacc_داده[yyacc_curr++] = acc_array[i];
 
-		if (!reject && env.trace && acc_array[i])
+		إذا (!reject && env.trace && acc_array[i])
 			fprintf (stderr, _("state # %d accepts: [%d]\n"),
 				 i, acc_array[i]);
 	}
 
 	/* Add entry for "jam" state. */
 	mkdata (acc_array[i]);
-	yyacc_data[yyacc_curr++] = acc_array[i];
+	yyacc_داده[yyacc_curr++] = acc_array[i];
 
-	if (reject) {
+	إذا (reject) {
 		/* Add "cap" for the list. */
 		mkdata (acc_array[i]);
-		yyacc_data[yyacc_curr++] = acc_array[i];
+		yyacc_داده[yyacc_curr++] = acc_array[i];
 	}
 
-	dataend (NULL);
+	dataend (عدم);
 	outn ("]])");
-	footprint += sz * ptype->width;
+	footprint += sz * ptype->عرض;
 
-	if (tablesext) {
-		yytbl_data_compress (yyacc_tbl);
-		if (yytbl_data_fwrite (&tableswr, yyacc_tbl) < 0)
+	إذا (tablesext) {
+		yytbl_داده_compress (yyacc_tbl);
+		إذا (yytbl_داده_fwrite (&tableswr, yyacc_tbl) < 0)
 			flexerror (_("Could not write yyacc_tbl"));
 	}
-	yytbl_data_destroy (yyacc_tbl);
-	yyacc_tbl = NULL;
+	yytbl_داده_destroy (yyacc_tbl);
+	yyacc_tbl = عدم;
 	/* End generating yy_accept */
 
-	if (ctrl.useecs) {
+	إذا (ctrl.useecs) {
 
 		genecs ();
-		if (tablesext) {
-			struct yytbl_data *tbl;
+		إذا (tablesext) {
+			بنية yytbl_داده *tbl;
 
 			tbl = mkecstbl ();
-			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			yytbl_داده_compress (tbl);
+			إذا (yytbl_داده_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ecstbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_داده_destroy (tbl);
 			tbl = 0;
 		}
 	}
 
-	if (ctrl.usemecs) {
+	إذا (ctrl.usemecs) {
 		/* Begin generating yy_meta */
 		/* Write out meta-equivalence classes (used to index
 		 * templates with).
 		 */
-		flex_int32_t *yymecs_data = 0;
-		yymeta_tbl = calloc(1, sizeof (struct yytbl_data));
-		yytbl_data_init (yymeta_tbl, YYTD_ID_META);
+		flex_int32_t *yymecs_داده = 0;
+		yymeta_tbl = حافظه_صفر_بده(1, حجم (بنية yytbl_داده));
+		yytbl_داده_init (yymeta_tbl, YYTD_ID_META);
 		yymeta_tbl->td_lolen = (flex_uint32_t) (numecs + 1);
-		yymeta_tbl->td_data = yymecs_data =
-		    calloc(yymeta_tbl->td_lolen,
-			   sizeof (flex_int32_t));
+		yymeta_tbl->td_داده = yymecs_داده =
+		    حافظه_صفر_بده(yymeta_tbl->td_lolen,
+			   حجم (flex_int32_t));
 
-		if (env.trace)
+		إذا (env.trace)
 			fputs (_("\n\nMeta-Equivalence Classes:\n"),
 			       stderr);
-		out_dec ("m4_define([[M4_HOOK_MECSTABLE_SIZE]], [[%d]])", numecs+1);
+		بیرون_dec ("m4_define([[M4_HOOK_MECSTABLE_SIZE]], [[%d]])", numecs+1);
 		outn ("m4_define([[M4_HOOK_MECSTABLE_BODY]], [[m4_dnl");
  	
-		for (i = 1; i <= numecs; ++i) {
-			if (env.trace)
+		لكل (i = 1; i <= numecs; ++i) {
+			إذا (env.trace)
 				fprintf (stderr, "%d = %d\n",
 					 i, ABS (tecbck[i]));
 
 			mkdata (ABS (tecbck[i]));
-			yymecs_data[i] = ABS (tecbck[i]);
+			yymecs_داده[i] = ABS (tecbck[i]);
 		}
 
-		dataend (NULL);
+		dataend (عدم);
 		outn ("]])");
-		footprint += sizeof(YY_CHAR) * (numecs + 1);
-		if (tablesext) {
-			yytbl_data_compress (yymeta_tbl);
-			if (yytbl_data_fwrite (&tableswr, yymeta_tbl) < 0)
+		footprint += حجم(YY_CHAR) * (numecs + 1);
+		إذا (tablesext) {
+			yytbl_داده_compress (yymeta_tbl);
+			إذا (yytbl_داده_fwrite (&tableswr, yymeta_tbl) < 0)
 				flexerror (_("Could not write yymeta_tbl"));
 		}
-		yytbl_data_destroy (yymeta_tbl);
-		yymeta_tbl = NULL;
+		yytbl_داده_destroy (yymeta_tbl);
+		yymeta_tbl = عدم;
 		/* End generating yy_meta */
 	}
 
-	total_states = lastdfa + numtemps;
+	مجموع_حالتها = lastdfa + numtemps;
 
 	/* Begin generating yy_base */
-	sz = total_states + 1;
+	sz = مجموع_حالتها + 1;
 	ptype = optimize_pack(sz);
-	out_str ("m4_define([[M4_HOOK_BASE_TYPE]], [[%s]])", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_BASE_SIZE]], [[%d]])", sz);
+	بیرون_str ("m4_define([[M4_HOOK_BASE_TYPE]], [[%s]])", ptype->name);
+	بیرون_dec ("m4_define([[M4_HOOK_BASE_SIZE]], [[%d]])", sz);
 	outn ("m4_define([[M4_HOOK_BASE_BODY]], [[m4_dnl");
 
-	yybase_tbl = calloc (1, sizeof (struct yytbl_data));
-	yytbl_data_init (yybase_tbl, YYTD_ID_BASE);
-	yybase_tbl->td_lolen = (flex_uint32_t) (total_states + 1);
-	yybase_tbl->td_data = yybase_data =
-	    calloc(yybase_tbl->td_lolen,
-		   sizeof (flex_int32_t));
+	yybase_tbl = حافظه_صفر_بده (1, حجم (بنية yytbl_داده));
+	yytbl_داده_init (yybase_tbl, YYTD_ID_پایه);
+	yybase_tbl->td_lolen = (flex_uint32_t) (مجموع_حالتها + 1);
+	yybase_tbl->td_داده = yybase_داده =
+	    حافظه_صفر_بده(yybase_tbl->td_lolen,
+		   حجم (flex_int32_t));
 	yybase_curr = 1;
 
-	for (i = 1; i <= lastdfa; ++i) {
-		int d = def[i];
+	لكل (i = 1; i <= lastdfa; ++i) {
+		صحيح d = def[i];
 
-		if (base[i] == JAMSTATE)
-			base[i] = jambase;
+		إذا (پایه[i] == JAMSTATE)
+			پایه[i] = jambase;
 
-		if (d == JAMSTATE)
+		إذا (d == JAMSTATE)
 			def[i] = jamstate;
 
-		else if (d < 0) {
+		وإلا إذا (d < 0) {
 			/* Template reference. */
 			++tmpuses;
 			def[i] = lastdfa - d + 1;
 		}
 
-		mkdata (base[i]);
-		yybase_data[yybase_curr++] = base[i];
+		mkdata (پایه[i]);
+		yybase_داده[yybase_curr++] = پایه[i];
 	}
 
 	/* Generate jam state's base index. */
-	mkdata (base[i]);
-	yybase_data[yybase_curr++] = base[i];
+	mkdata (پایه[i]);
+	yybase_داده[yybase_curr++] = پایه[i];
 
-	for (++i /* skip jam state */ ; i <= total_states; ++i) {
-		mkdata (base[i]);
-		yybase_data[yybase_curr++] = base[i];
+	لكل (++i /* skip jam state */ ; i <= مجموع_حالتها; ++i) {
+		mkdata (پایه[i]);
+		yybase_داده[yybase_curr++] = پایه[i];
 		def[i] = jamstate;
 	}
 
-	dataend (NULL);
+	dataend (عدم);
 	outn ("]])");
-	footprint += sz * ptype->width;
+	footprint += sz * ptype->عرض;
 
-	if (tablesext) {
-		yytbl_data_compress (yybase_tbl);
-		if (yytbl_data_fwrite (&tableswr, yybase_tbl) < 0)
+	إذا (tablesext) {
+		yytbl_داده_compress (yybase_tbl);
+		إذا (yytbl_داده_fwrite (&tableswr, yybase_tbl) < 0)
 			flexerror (_("Could not write yybase_tbl"));
 	}
-	yytbl_data_destroy (yybase_tbl);
-	yybase_tbl = NULL;
+	yytbl_داده_destroy (yybase_tbl);
+	yybase_tbl = عدم;
 	/* End generating yy_base */
 
 
 	/* Begin generating yy_def */
-	ptype = optimize_pack(total_states + 1);
-	out_str ("m4_define([[M4_HOOK_DEF_TYPE]], [[%s]])", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_DEF_SIZE]], [[%d]])", total_states + 1);
+	ptype = optimize_pack(مجموع_حالتها + 1);
+	بیرون_str ("m4_define([[M4_HOOK_DEF_TYPE]], [[%s]])", ptype->name);
+	بیرون_dec ("m4_define([[M4_HOOK_DEF_SIZE]], [[%d]])", مجموع_حالتها + 1);
 	outn ("m4_define([[M4_HOOK_DEF_BODY]], [[m4_dnl");
 
-	yydef_tbl = calloc(1, sizeof (struct yytbl_data));
-	yytbl_data_init (yydef_tbl, YYTD_ID_DEF);
-	yydef_tbl->td_lolen = (flex_uint32_t)(total_states + 1);
-	yydef_tbl->td_data = yydef_data =
-	    calloc(yydef_tbl->td_lolen, sizeof (flex_int32_t));
+	yydef_tbl = حافظه_صفر_بده(1, حجم (بنية yytbl_داده));
+	yytbl_داده_init (yydef_tbl, YYTD_ID_DEF);
+	yydef_tbl->td_lolen = (flex_uint32_t)(مجموع_حالتها + 1);
+	yydef_tbl->td_داده = yydef_داده =
+	    حافظه_صفر_بده(yydef_tbl->td_lolen, حجم (flex_int32_t));
 
-	for (i = 1; i <= total_states; ++i) {
+	لكل (i = 1; i <= مجموع_حالتها; ++i) {
 		mkdata (def[i]);
-		yydef_data[i] = def[i];
+		yydef_داده[i] = def[i];
 	}
 
-	dataend (NULL);
+	dataend (عدم);
 	outn ("]])");
-	footprint += (total_states + 1) * ptype->width;
+	footprint += (مجموع_حالتها + 1) * ptype->عرض;
 
-	if (tablesext) {
-		yytbl_data_compress (yydef_tbl);
-		if (yytbl_data_fwrite (&tableswr, yydef_tbl) < 0)
+	إذا (tablesext) {
+		yytbl_داده_compress (yydef_tbl);
+		إذا (yytbl_داده_fwrite (&tableswr, yydef_tbl) < 0)
 			flexerror (_("Could not write yydef_tbl"));
 	}
-	yytbl_data_destroy (yydef_tbl);
-	yydef_tbl = NULL;
+	yytbl_داده_destroy (yydef_tbl);
+	yydef_tbl = عدم;
 	/* End generating yy_def */
 
 
@@ -820,99 +820,99 @@ static void gentabs(void)
 	/* Note: Used when !ctrl.fulltbl && !ctrl.fullspd).
 	 * (Alternately defined when ctrl.fullspd)
 	 */
-	out_str ("m4_define([[M4_HOOK_YYNXT_TYPE]], [[%s]])", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_YYNXT_SIZE]], [[%d]])", tblend + 1);
+	بیرون_str ("m4_define([[M4_HOOK_YYNXT_TYPE]], [[%s]])", ptype->name);
+	بیرون_dec ("m4_define([[M4_HOOK_YYNXT_SIZE]], [[%d]])", tblend + 1);
 	outn ("m4_define([[M4_HOOK_YYNXT_BODY]], [[m4_dnl");
 
-	yynxt_tbl = calloc (1, sizeof (struct yytbl_data));
-	yytbl_data_init (yynxt_tbl, YYTD_ID_NXT);
+	yynxt_tbl = حافظه_صفر_بده (1, حجم (بنية yytbl_داده));
+	yytbl_داده_init (yynxt_tbl, YYTD_ID_NXT);
 	yynxt_tbl->td_lolen = (flex_uint32_t) (tblend + 1);
-	yynxt_tbl->td_data = yynxt_data =
-	    calloc (yynxt_tbl->td_lolen, sizeof (flex_int32_t));
+	yynxt_tbl->td_داده = yynxt_داده =
+	    حافظه_صفر_بده (yynxt_tbl->td_lolen, حجم (flex_int32_t));
 
-	for (i = 1; i <= tblend; ++i) {
+	لكل (i = 1; i <= tblend; ++i) {
 		/* Note, the order of the following test is important.
 		 * If chk[i] is 0, then nxt[i] is undefined.
 		 */
-		if (chk[i] == 0 || nxt[i] == 0)
+		إذا (chk[i] == 0 || nxt[i] == 0)
 			nxt[i] = jamstate;	/* new state is the JAM state */
 
 		mkdata (nxt[i]);
-		yynxt_data[i] = nxt[i];
+		yynxt_داده[i] = nxt[i];
 	}
 
-	dataend (NULL);
+	dataend (عدم);
 	outn("]])");
-	footprint += ptype->width * (tblend + 1);
+	footprint += ptype->عرض * (tblend + 1);
 
-	if (tablesext) {
-		yytbl_data_compress (yynxt_tbl);
-		if (yytbl_data_fwrite (&tableswr, yynxt_tbl) < 0)
+	إذا (tablesext) {
+		yytbl_داده_compress (yynxt_tbl);
+		إذا (yytbl_داده_fwrite (&tableswr, yynxt_tbl) < 0)
 			flexerror (_("Could not write yynxt_tbl"));
 	}
-	yytbl_data_destroy (yynxt_tbl);
-	yynxt_tbl = NULL;
+	yytbl_داده_destroy (yynxt_tbl);
+	yynxt_tbl = عدم;
 	/* End generating yy_nxt */
 
 	/* Begin generating yy_chk */
 	ptype = optimize_pack(tblend + 1);
-	out_str ("m4_define([[M4_HOOK_CHK_TYPE]], [[%s]])", ptype->name);
-	out_dec ("m4_define([[M4_HOOK_CHK_SIZE]], [[%d]])", tblend + 1);
+	بیرون_str ("m4_define([[M4_HOOK_CHK_TYPE]], [[%s]])", ptype->name);
+	بیرون_dec ("m4_define([[M4_HOOK_CHK_SIZE]], [[%d]])", tblend + 1);
 	outn ("m4_define([[M4_HOOK_CHK_BODY]], [[m4_dnl");
 	
-	yychk_tbl = calloc (1, sizeof (struct yytbl_data));
-	yytbl_data_init (yychk_tbl, YYTD_ID_CHK);
+	yychk_tbl = حافظه_صفر_بده (1, حجم (بنية yytbl_داده));
+	yytbl_داده_init (yychk_tbl, YYTD_ID_CHK);
 	yychk_tbl->td_lolen = (flex_uint32_t) (tblend + 1);
-	yychk_tbl->td_data = yychk_data =
-	    calloc(yychk_tbl->td_lolen, sizeof (flex_int32_t));
+	yychk_tbl->td_داده = yychk_داده =
+	    حافظه_صفر_بده(yychk_tbl->td_lolen, حجم (flex_int32_t));
 
-	for (i = 1; i <= tblend; ++i) {
-		if (chk[i] == 0)
+	لكل (i = 1; i <= tblend; ++i) {
+		إذا (chk[i] == 0)
 			++nummt;
 
 		mkdata (chk[i]);
-		yychk_data[i] = chk[i];
+		yychk_داده[i] = chk[i];
 	}
 
-	dataend (NULL);
+	dataend (عدم);
 	outn ("]])");
-	footprint += ptype->width * (tblend + 1);
+	footprint += ptype->عرض * (tblend + 1);
 
-	if (tablesext) {
-		yytbl_data_compress (yychk_tbl);
-		if (yytbl_data_fwrite (&tableswr, yychk_tbl) < 0)
+	إذا (tablesext) {
+		yytbl_داده_compress (yychk_tbl);
+		إذا (yytbl_داده_fwrite (&tableswr, yychk_tbl) < 0)
 			flexerror (_("Could not write yychk_tbl"));
 	}
-	yytbl_data_destroy (yychk_tbl);
-	yychk_tbl = NULL;
+	yytbl_داده_destroy (yychk_tbl);
+	yychk_tbl = عدم;
 	/* End generating yy_chk */
 
-	free(acc_array);
+	حرر(acc_array);
 }
 
 
-void visible_define (const char *symname)
+فراغ visible_define (ثابت حرف *symname)
 {
-	out_m4_define(symname, NULL);
+	بیرون_m4_define(symname, عدم);
 	comment(symname);
 	outc ('\n');
 }
 
-void visible_define_str (const char *symname, const char *val)
+فراغ visible_define_str (ثابت حرف *symname, ثابت حرف *val)
 {
-	char buf[128];
-	out_m4_define(symname, val);
-	snprintf(buf, sizeof(buf), "%s = %s", symname, val);
+	حرف buf[128];
+	بیرون_m4_define(symname, val);
+	snprintf(buf, حجم(buf), "%s = %s", symname, val);
 	comment(buf);
 	outc ('\n');
 }
 
-void visible_define_int (const char *symname, const int val)
+فراغ visible_define_int (ثابت حرف *symname, ثابت صحيح val)
 {
-	char nbuf[24], buf[128];
-	snprintf(nbuf, sizeof(nbuf), "%d", val);
-	out_m4_define(symname, nbuf);
-	snprintf(buf, sizeof(buf), "%s = %d", symname, val);
+	حرف nbuf[24], buf[128];
+	snprintf(nbuf, حجم(nbuf), "%d", val);
+	بیرون_m4_define(symname, nbuf);
+	snprintf(buf, حجم(buf), "%s = %d", symname, val);
 	comment(buf);
 	outc ('\n');
 }
@@ -920,83 +920,83 @@ void visible_define_int (const char *symname, const int val)
 /* make_tables - generate transition tables
  */
 
-void make_tables (void)
+فراغ make_tables (فراغ)
 {
-	char buf[128];
-	int i;
-	struct yytbl_data *yynultrans_tbl = NULL;
+	حرف buf[128];
+	صحيح i;
+	بنية yytbl_داده *yynultrans_tbl = عدم;
 
 	/* This is where we REALLY begin generating the tables. */
 
-	if (ctrl.fullspd) {
+	إذا (ctrl.fullspd) {
 		genctbl ();
-		if (tablesext) {
-			struct yytbl_data *tbl;
+		إذا (tablesext) {
+			بنية yytbl_داده *tbl;
 
 			tbl = mkctbl ();
-			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			yytbl_داده_compress (tbl);
+			إذا (yytbl_داده_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ftbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_داده_destroy (tbl);
 
 			tbl = mkssltbl ();
-			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			yytbl_داده_compress (tbl);
+			إذا (yytbl_داده_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ssltbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_داده_destroy (tbl);
 			tbl = 0;
 
-			if (ctrl.useecs) {
+			إذا (ctrl.useecs) {
 				tbl = mkecstbl ();
-				yytbl_data_compress (tbl);
-				if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+				yytbl_داده_compress (tbl);
+				إذا (yytbl_داده_fwrite (&tableswr, tbl) < 0)
 					flexerror (_
 						   ("Could not write ecstbl"));
-				yytbl_data_destroy (tbl);
+				yytbl_داده_destroy (tbl);
 				tbl = 0;
 			}
 		}
 	}
-	else if (ctrl.fulltbl) {
+	وإلا إذا (ctrl.fulltbl) {
 		genftbl ();
-		if (tablesext) {
-			struct yytbl_data *tbl;
+		إذا (tablesext) {
+			بنية yytbl_داده *tbl;
 
 			/* Alternately defined if !ctrl.ffullspd && !ctrl.fulltbl */
-			struct packtype_t *ptype;
+			بنية packtype_t *ptype;
 			tbl = mkftbl ();
-			yytbl_data_compress (tbl);
+			yytbl_داده_compress (tbl);
 			ptype = optimize_pack(tbl->td_lolen);
-			out_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			بیرون_str ("m4_define([[M4_HOOK_ACCEPT_TYPE]], [[%s]])", ptype->name);
+			إذا (yytbl_داده_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write ftbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_داده_destroy (tbl);
 			tbl = 0;
 
-			if (ctrl.useecs) {
+			إذا (ctrl.useecs) {
 				tbl = mkecstbl ();
-				yytbl_data_compress (tbl);
-				if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+				yytbl_داده_compress (tbl);
+				إذا (yytbl_داده_fwrite (&tableswr, tbl) < 0)
 					flexerror (_
 						   ("Could not write ecstbl"));
-				yytbl_data_destroy (tbl);
+				yytbl_داده_destroy (tbl);
 				tbl = 0;
 			}
 		}
 	}
-	else {
+	وإلا {
 		gentabs ();
 	}
 
-	snprintf(buf, sizeof(buf), "footprint: %ld bytes\n", footprint);
+	snprintf(buf, حجم(buf), "footprint: %ld bytes\n", footprint);
 	comment(buf);
-	snprintf(buf, sizeof(buf), "tblend: %d\n", tblend);
+	snprintf(buf, حجم(buf), "tblend: %d\n", tblend);
 	comment(buf);
-	snprintf(buf, sizeof(buf), "numecs: %d\n", numecs);
+	snprintf(buf, حجم(buf), "numecs: %d\n", numecs);
 	comment(buf);
-	snprintf(buf, sizeof(buf), "num_rules: %d\n", num_rules);
+	snprintf(buf, حجم(buf), "num_rules: %d\n", رقم_قواعد);
 	comment(buf);
-	snprintf(buf, sizeof(buf), "lastdfa: %d\n", lastdfa);
+	snprintf(buf, حجم(buf), "lastdfa: %d\n", lastdfa);
 	comment(buf);
 	outc ('\n');
 	
@@ -1005,98 +1005,98 @@ void make_tables (void)
 
 	comment("m4 controls begin\n");
 
-	if (num_backing_up > 0)
+	إذا (رقم_backing_به_بالا > 0)
 		visible_define ( "M4_MODE_HAS_BACKING_UP");
 
 	// These are used for NUL transitions
-	if ((num_backing_up > 0 && !reject) && (!nultrans || ctrl.fullspd || ctrl.fulltbl))
+	إذا ((رقم_backing_به_بالا > 0 && !reject) && (!nultrans || ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NEED_YY_CP");
-	if ((num_backing_up > 0 && !reject) && (ctrl.fullspd || ctrl.fulltbl))
+	إذا ((رقم_backing_به_بالا > 0 && !reject) && (ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NULTRANS_WRAP");
 
 	comment("m4 controls end\n");
-	out ("\n");
+	بیرون ("\n");
 
-	if (ctrl.do_yylineno) {
+	إذا (ctrl.do_yylineno) {
 
 		geneoltbl ();
 
-		if (tablesext) {
-			struct yytbl_data *tbl;
+		إذا (tablesext) {
+			بنية yytbl_داده *tbl;
 
 			tbl = mkeoltbl ();
-			yytbl_data_compress (tbl);
-			if (yytbl_data_fwrite (&tableswr, tbl) < 0)
+			yytbl_داده_compress (tbl);
+			إذا (yytbl_داده_fwrite (&tableswr, tbl) < 0)
 				flexerror (_("Could not write eoltbl"));
-			yytbl_data_destroy (tbl);
+			yytbl_داده_destroy (tbl);
 			tbl = 0;
 		}
 	}
 
-	if (nultrans) {
-		flex_int32_t *yynultrans_data = 0;
+	إذا (nultrans) {
+		flex_int32_t *yynultrans_داده = 0;
 
 		/* Begin generating yy_NUL_trans */
-		out_str ("m4_define([[M4_HOOK_NULTRANS_TYPE]], [[%s]])", (ctrl.fullspd) ? "struct yy_trans_info*" : "M4_HOOK_INT32");
-		out_dec ("m4_define([[M4_HOOK_NULTRANS_SIZE]], [[%d]])", lastdfa + 1);
+		بیرون_str ("m4_define([[M4_HOOK_NULTRANS_TYPE]], [[%s]])", (ctrl.fullspd) ? "struct yy_trans_info*" : "M4_HOOK_INT32");
+		بیرون_dec ("m4_define([[M4_HOOK_NULTRANS_SIZE]], [[%d]])", lastdfa + 1);
 		outn ("m4_define([[M4_HOOK_NULTRANS_BODY]], [[m4_dnl");
 
-		yynultrans_tbl = calloc(1, sizeof (struct yytbl_data));
-		yytbl_data_init (yynultrans_tbl, YYTD_ID_NUL_TRANS);
+		yynultrans_tbl = حافظه_صفر_بده(1, حجم (بنية yytbl_داده));
+		yytbl_داده_init (yynultrans_tbl, YYTD_ID_NUL_TRANS);
 		// Performance kludge for C. Gives a small improvement
 		// in table loading time.
-		if (ctrl.fullspd && ctrl.have_state_entry_format)
+		إذا (ctrl.fullspd && ctrl.have_state_مدخل_format)
 			yynultrans_tbl->td_flags |= YYTD_PTRANS;
 		yynultrans_tbl->td_lolen = (flex_uint32_t) (lastdfa + 1);
-		yynultrans_tbl->td_data = yynultrans_data =
-		    calloc(yynultrans_tbl->td_lolen,
-			   sizeof (flex_int32_t));
+		yynultrans_tbl->td_داده = yynultrans_داده =
+		    حافظه_صفر_بده(yynultrans_tbl->td_lolen,
+			   حجم (flex_int32_t));
 
-		for (i = 1; i <= lastdfa; ++i) {
-			if ((yynultrans_tbl->td_flags & YYTD_PTRANS) != 0) {
+		لكل (i = 1; i <= lastdfa; ++i) {
+			إذا ((yynultrans_tbl->td_flags & YYTD_PTRANS) != 0) {
 				// Only works in very C-like languages  
-				out_dec ("    &yy_transition[%d],\n",
-					 base[i]);
-				yynultrans_data[i] = base[i];
+				بیرون_dec ("    &yy_transition[%d],\n",
+					 پایه[i]);
+				yynultrans_داده[i] = پایه[i];
 			}
-			else {
+			وإلا {
 				// This will work anywhere
 				mkdata (nultrans[i]);
-				yynultrans_data[i] = nultrans[i];
+				yynultrans_داده[i] = nultrans[i];
 			}
 		}
 
-		dataend (NULL);
+		dataend (عدم);
 		outn("]])");
-		footprint += (lastdfa + 1) * (ctrl.fullspd ? sizeof(struct yy_trans_info *) : sizeof(int32_t));
-		if (tablesext) {
-			yytbl_data_compress (yynultrans_tbl);
-			if (yytbl_data_fwrite (&tableswr, yynultrans_tbl) <
+		footprint += (lastdfa + 1) * (ctrl.fullspd ? حجم(بنية yy_trans_info *) : حجم(int32_t));
+		إذا (tablesext) {
+			yytbl_داده_compress (yynultrans_tbl);
+			إذا (yytbl_داده_fwrite (&tableswr, yynultrans_tbl) <
 			    0)
 				flexerror (_
 					   ("Could not write yynultrans_tbl"));
 		}
 
-		if (yynultrans_tbl != NULL) {
-			yytbl_data_destroy (yynultrans_tbl);
-			yynultrans_tbl = NULL;
+		إذا (yynultrans_tbl != عدم) {
+			yytbl_داده_destroy (yynultrans_tbl);
+			yynultrans_tbl = عدم;
 		}
 
 		/* End generating yy_NUL_trans */
 	}
 
-	if (ctrl.ddebug) {		/* Spit out table mapping rules to line numbers. */
+	إذا (ctrl.ddebug) {		/* Spit out table mapping rules to line numbers. */
 		/* Policy choice: we don't include this space
 		 * in the table metering.
 		 */
-		struct packtype_t *ptype = optimize_pack(num_rules);
-		out_str ("m4_define([[M4_HOOK_DEBUGTABLE_TYPE]], [[%s]])", ptype->name);
-		out_dec ("m4_define([[M4_HOOK_DEBUGTABLE_SIZE]], [[%d]])", num_rules);
+		بنية packtype_t *ptype = optimize_pack(رقم_قواعد);
+		بیرون_str ("m4_define([[M4_HOOK_DEBUGTABLE_TYPE]], [[%s]])", ptype->name);
+		بیرون_dec ("m4_define([[M4_HOOK_DEBUGTABLE_SIZE]], [[%d]])", رقم_قواعد);
 		outn ("m4_define([[M4_HOOK_DEBUGTABLE_BODY]], [[m4_dnl");
 
-		for (i = 1; i < num_rules; ++i)
-			mkdata (rule_linenum[i]);
-		dataend (NULL);
+		لكل (i = 1; i < رقم_قواعد; ++i)
+			mkdata (قاعده_linenum[i]);
+		dataend (عدم);
 		outn("]])");
 	}
 }
