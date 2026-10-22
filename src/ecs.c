@@ -34,15 +34,15 @@
 /*  PURPOSE. */
 
 
-#include "flexdef.h"
+#ಅನ್ತರ್ಭಾವ "flexdef.h"
 
 /* ccl2ecl - convert character classes to set of equivalence classes */
 
-void    ccl2ecl (void)
+ಶೂನ್ಯ    ccl2ecl (ಶೂನ್ಯ)
 {
-	int     i, ich, newlen, cclp, ccls, cclmec;
+	ಪೂರ್ಣಾಂಕ     i, ich, newlen, cclp, ccls, cclmec;
 
-	for (i = 1; i <= lastccl; ++i) {
+	ಗಾಗಿ (i = 1; i <= lastccl; ++i) {
 		/* We loop through each character class, and for each character
 		 * in the class, add the character's equivalence class to the
 		 * new "character" class we are creating.  Thus when we are all
@@ -53,13 +53,13 @@ void    ccl2ecl (void)
 		newlen = 0;
 		cclp = cclmap[i];
 
-		for (ccls = 0; ccls < ccllen[i]; ++ccls) {
+		ಗಾಗಿ (ccls = 0; ccls < ccllen[i]; ++ccls) {
 			ich = ccltbl[cclp + ccls];
 			cclmec = ecgroup[ich];
 
-			if (cclmec > 0) {
+			ಆದರೆ (cclmec > 0) {
 				/* Note: range 1..256 is mapped to 1..255,0 */
-				ccltbl[cclp + newlen] = (unsigned char) cclmec;
+				ccltbl[cclp + newlen] = (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ) cclmec;
 				++newlen;
 			}
 		}
@@ -77,9 +77,9 @@ void    ccl2ecl (void)
  * Returned is the number of classes.
  */
 
-int     cre8ecs (int fwd[], int bck[], int num)
+ಪೂರ್ಣಾಂಕ     cre8ecs (ಪೂರ್ಣಾಂಕ fwd[], ಪೂರ್ಣಾಂಕ bck[], ಪೂರ್ಣಾಂಕ ಅಂಕೆ)
 {
-	int     i, j, numcl;
+	ಪೂರ್ಣಾಂಕ     i, j, numcl;
 
 	numcl = 0;
 
@@ -88,14 +88,14 @@ int     cre8ecs (int fwd[], int bck[], int num)
 	 * is positive, then x is the representative of its equivalence
 	 * class.
 	 */
-	for (i = 1; i <= num; ++i)
-		if (bck[i] == NIL) {
+	ಗಾಗಿ (i = 1; i <= ಅಂಕೆ; ++i)
+		ಆದರೆ (bck[i] == NIL) {
 			bck[i] = ++numcl;
-			for (j = fwd[i]; j != NIL; j = fwd[j])
+			ಗಾಗಿ (j = fwd[i]; j != NIL; j = fwd[j])
 				bck[j] = -numcl;
 		}
 
-	return numcl;
+	ಹಿಂತಿರುಗಿ numcl;
 }
 
 
@@ -114,11 +114,11 @@ int     cre8ecs (int fwd[], int bck[], int num)
  * NUL_mapping is the value which NUL (0) should be mapped to.
  */
 
-void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsiz, int NUL_mapping)
+ಶೂನ್ಯ    mkeccl (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ ccls[], ಪೂರ್ಣಾಂಕ lenccl, ಪೂರ್ಣಾಂಕ fwd[], ಪೂರ್ಣಾಂಕ bck[], ಪೂರ್ಣಾಂಕ llsiz, ಪೂರ್ಣಾಂಕ NUL_mapping)
 {
-	int     cclp, oldec, newec;
-	int     cclm, i, j;
-	static unsigned char cclflags[CSIZE];	/* initialized to all '\0' */
+	ಪೂರ್ಣಾಂಕ     cclp, oldec, newec;
+	ಪೂರ್ಣಾಂಕ     cclm, i, j;
+	ಸ್ಥಿರ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ cclflags[CSIZE];	/* initialized to all '\0' */
 
 	/* Note that it doesn't matter whether or not the character class is
 	 * negated.  The same results will be obtained in either case.
@@ -126,10 +126,10 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 	cclp = 0;
 
-	while (cclp < lenccl) {
+	ಆಗ (cclp < lenccl) {
 		cclm = ccls[cclp];
 
-		if (NUL_mapping && cclm == 0)
+		ಆದರೆ (NUL_mapping && cclm == 0)
 			cclm = NUL_mapping;
 
 		oldec = bck[cclm];
@@ -137,19 +137,19 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 		j = cclp + 1;
 
-		for (i = fwd[cclm]; i != NIL && i <= llsiz; i = fwd[i]) {	/* look for the symbol in the character class */
-			for (; j < lenccl; ++j) {
-				int ccl_char;
+		ಗಾಗಿ (i = fwd[cclm]; i != NIL && i <= llsiz; i = fwd[i]) {	/* look for the symbol in the character class */
+			ಗಾಗಿ (; j < lenccl; ++j) {
+				ಪೂರ್ಣಾಂಕ ccl_char;
 
-				if (NUL_mapping && ccls[j] == 0)
+				ಆದರೆ (NUL_mapping && ccls[j] == 0)
 					ccl_char = NUL_mapping;
-				else
+				ಇಲ್ಲದಿದ್ದರೆ
 					ccl_char = ccls[j];
 
-				if (ccl_char > i)
-					break;
+				ಆದರೆ (ccl_char > i)
+					ನಿಲ್ಲಿಸು;
 
-				if (ccl_char == i && !cclflags[j]) {
+				ಆದರೆ (ccl_char == i && !cclflags[j]) {
 					/* We found an old companion of cclm
 					 * in the ccl.  Link it into the new
 					 * equivalence class and flag it as
@@ -164,7 +164,7 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 					/* Get next equivalence class member. */
 					/* continue 2 */
-					goto next_pt;
+					ಹೋಗು ಮುಂದಿನ_pt;
 				}
 			}
 
@@ -174,15 +174,15 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 			bck[i] = oldec;
 
-			if (oldec != NIL)
+			ಆದರೆ (oldec != NIL)
 				fwd[oldec] = i;
 
 			oldec = i;
 
-		      next_pt:;
+		      ಮುಂದಿನ_pt:;
 		}
 
-		if (bck[cclm] != NIL || oldec != bck[cclm]) {
+		ಆದರೆ (bck[cclm] != NIL || oldec != bck[cclm]) {
 			bck[cclm] = NIL;
 			fwd[oldec] = NIL;
 		}
@@ -191,7 +191,7 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 		/* Find next ccl member to process. */
 
-		for (++cclp; cclp < lenccl && cclflags[cclp]; ++cclp) {
+		ಗಾಗಿ (++cclp; cclp < lenccl && cclflags[cclp]; ++cclp) {
 			/* Reset "doesn't need processing" flag. */
 			cclflags[cclp] = 0;
 		}
@@ -201,16 +201,16 @@ void    mkeccl (unsigned char ccls[], int lenccl, int fwd[], int bck[], int llsi
 
 /* mkechar - create equivalence class for single character */
 
-void    mkechar (int tch, int fwd[], int bck[])
+ಶೂನ್ಯ    mkechar (ಪೂರ್ಣಾಂಕ tch, ಪೂರ್ಣಾಂಕ fwd[], ಪೂರ್ಣಾಂಕ bck[])
 {
 	/* If until now the character has been a proper subset of
 	 * an equivalence class, break it away to create a new ec
 	 */
 
-	if (fwd[tch] != NIL)
+	ಆದರೆ (fwd[tch] != NIL)
 		bck[fwd[tch]] = bck[tch];
 
-	if (bck[tch] != NIL)
+	ಆದರೆ (bck[tch] != NIL)
 		fwd[bck[tch]] = fwd[tch];
 
 	fwd[tch] = NIL;

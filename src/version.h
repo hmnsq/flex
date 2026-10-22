@@ -1,1 +1,1 @@
-#define FLEX_VERSION VERSION
+#ವ್ಯಾಖ್ಯಾನಿಸು FLEX_ಆವೃತ್ತಿ ಆವೃತ್ತಿ

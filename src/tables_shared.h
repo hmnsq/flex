@@ -1,4 +1,4 @@
-#ifdef FLEX_SCANNER
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ FLEX_SCANNER
 /*
 dnl  tables_shared.h - tables serialization header
 dnl
@@ -37,14 +37,14 @@ dnl
 dnl  This file is meant to be included in both the skeleton and the actual
 dnl  flex code (hence the name "_shared").
 */
-#ifndef yyskel_static
-#define yyskel_static static
-#endif
-#else
-#ifndef yyskel_static
-#define yyskel_static
-#endif
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ yyskel_static
+#ವ್ಯಾಖ್ಯಾನಿಸು yyskel_static ಸ್ಥಿರ
+#ಆದರೆ_ಅಂತ್ಯ
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ yyskel_static
+#ವ್ಯಾಖ್ಯಾನಿಸು yyskel_static
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* Structures and prototypes for serializing flex tables.  The
  * binary format is documented in the manual.
@@ -59,32 +59,32 @@ dnl  flex code (hence the name "_shared").
  */
 
 /** Magic number for serialized format. */
-#ifndef YYTBL_MAGIC
-#define YYTBL_MAGIC 0xF13C57B1
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ YYTBL_MAGIC
+#ವ್ಯಾಖ್ಯಾನಿಸು YYTBL_MAGIC 0xF13C57B1
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef YYTABLES_TYPES
-#define YYTABLES_TYPES
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ YYTABLES_TYPES
+#ವ್ಯಾಖ್ಯಾನಿಸು YYTABLES_TYPES
 /** Possible values for td_id field. Each one corresponds to a
  *  scanner table of the same name.
  */
-enum yytbl_id {
+ಎಣಿಕೆ yytbl_id {
 	YYTD_ID_ACCEPT = 0x01,		/**< 1-dim ints */
-	YYTD_ID_BASE = 0x02,		/**< 1-dim ints */
+	YYTD_ID_ತಳ = 0x02,		/**< 1-dim ints */
 	YYTD_ID_CHK = 0x03,		/**< 1-dim ints */
 	YYTD_ID_DEF = 0x04,		/**< 1-dim ints */
 	YYTD_ID_EC = 0x05,		/**< 1-dim ints */
 	YYTD_ID_META = 0x06,		/**< 1-dim ints */
 	YYTD_ID_NUL_TRANS = 0x07,	/**< 1-dim ints, maybe indices */
 	YYTD_ID_NXT = 0x08,		/**< may be 2 dimensional ints */
-	YYTD_ID_RULE_CAN_MATCH_EOL = 0x09, /**< 1-dim ints */
-	YYTD_ID_START_STATE_LIST = 0x0A,	/**< 1-dim indices into trans tbl  */
+	YYTD_ID_ನಿಯಮ_CAN_ಹೊಂದಿಕೆ_EOL = 0x09, /**< 1-dim ints */
+	YYTD_ID_ಆರಂಭ_STATE_LIST = 0x0A,	/**< 1-dim indices into trans tbl  */
 	YYTD_ID_TRANSITION = 0x0B,	/**< structs */
 	YYTD_ID_ACCLIST = 0x0C		/**< 1-dim ints */
 };
 
 /** bit flags for t_flags field of struct yytbl_data */
-enum yytbl_flags {
+ಎಣಿಕೆ yytbl_flags {
 	/* These first three are mutually exclusive */
 	YYTD_DATA8 = 0x01,   /**< data is an array of type flex_int8_t */
 	YYTD_DATA16 = 0x02,  /**< data is an array of type flex_int16_t */
@@ -98,41 +98,41 @@ enum yytbl_flags {
 };
 
 /* The serialized tables header. */
-struct yytbl_hdr {
+ರಚನೆ yytbl_hdr {
 	flex_uint32_t th_magic;  /**< Must be 0xF13C57B1 (comes from "Flex Table") */
 	flex_uint32_t th_hsize;  /**< Size of this header in bytes. */
 	flex_uint32_t th_ssize;  /**< Size of this dataset, in bytes, including header. */
 	flex_uint16_t th_flags;  /**< Currently unused, must be 0 */
-	char   *th_version; /**< Flex version string. NUL terminated. */
-	char   *th_name;    /**< The name of this table set. NUL terminated. */
+	ಅಕ್ಷರ   *th_ಆವೃತ್ತಿ; /**< Flex version string. NUL terminated. */
+	ಅಕ್ಷರ   *th_name;    /**< The name of this table set. NUL terminated. */
 };
 
 /** A single serialized table */
-struct yytbl_data {
+ರಚನೆ yytbl_ದತ್ತಾಂಶ {
 	flex_uint16_t td_id;      /**< enum yytbl_id table identifier */
 	flex_uint16_t td_flags;   /**< how to interpret this data */
 	flex_uint32_t td_hilen;   /**< num elements in highest dimension array */
 	flex_uint32_t td_lolen;   /**< num elements in lowest dimension array */
-	void   *td_data;     /**< table data */
+	ಶೂನ್ಯ   *td_ದತ್ತಾಂಶ;     /**< table data */
 };
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
 /** Extract corresponding data size_t from td_flags */
-#ifndef YYTDFLAGS2BYTES
-#define YYTDFLAGS2BYTES(td_flags)\
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ YYTDFLAGS2_ಬೈಟುಗಳು
+#ವ್ಯಾಖ್ಯಾನಿಸು YYTDFLAGS2_ಬೈಟುಗಳು(td_flags)\
         (((td_flags) & YYTD_DATA8)\
-            ? sizeof(flex_int8_t)\
+            ? ಗಾತ್ರ(flex_int8_t)\
             :(((td_flags) & YYTD_DATA16)\
-                ? sizeof(flex_int16_t)\
-                :sizeof(flex_int32_t)))
-#endif
+                ? ಗಾತ್ರ(flex_int16_t)\
+                :ಗಾತ್ರ(flex_int32_t)))
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef FLEX_SCANNER
-m4_ifdef( [[M4_YY_NOT_IN_HEADER]],[[
-#endif
-yyskel_static flex_int32_t yytbl_calc_total_len (const struct yytbl_data *tbl);
-#ifdef FLEX_SCANNER
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ FLEX_SCANNER
+m4_ifdef( [[M4_YY_NOT_ಒಳ_ಶೀರ್ಷಿಕೆ]],[[
+#ಆದರೆ_ಅಂತ್ಯ
+yyskel_static flex_int32_t yytbl_calc_ಒಟ್ಟು_len (ಸ್ಥಿರಾಂಕ ರಚನೆ yytbl_ದತ್ತಾಂಶ *tbl);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ FLEX_SCANNER
 ]])
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* vim:set noexpandtab cindent tabstop=8 softtabstop=0 shiftwidth=8 textwidth=0: */

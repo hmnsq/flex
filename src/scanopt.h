@@ -31,47 +31,47 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#ifndef SCANOPT_H
-#define SCANOPT_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SCANOPT_H
+#ವ್ಯಾಖ್ಯಾನಿಸು SCANOPT_H
 
-#include "flexdef.h"
+#ಅನ್ತರ್ಭಾವ "flexdef.h"
 
 
-#ifndef NO_SCANOPT_USAGE
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ NO_SCANOPT_USAGE
 /* Used by scanopt_usage for pretty-printing. */
-#ifdef HAVE_NCURSES_H
-#include <ncurses.h>
-#endif
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_NCURSES_H
+#ಅನ್ತರ್ಭಾವ <ncurses.h>
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef __cplusplus
-extern  "C" {
-#endif
-/* Error codes. */ enum scanopt_err_t {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ  "C" {
+#ಆದರೆ_ಅಂತ್ಯ
+/* Error codes. */ ಎಣಿಕೆ scanopt_err_t {
 		SCANOPT_ERR_OPT_UNRECOGNIZED = -1,	/* Unrecognized option. */
 		SCANOPT_ERR_OPT_AMBIGUOUS = -2,	/* It matched more than one option name. */
-		SCANOPT_ERR_ARG_NOT_FOUND = -3,	/* The required arg was not found. */
+		SCANOPT_ERR_ARG_NOT_ಸಿಕ್ಕಿತು = -3,	/* The required arg was not found. */
 		SCANOPT_ERR_ARG_NOT_ALLOWED = -4	/* Option does not take an argument. */
 	};
 
 
 /* flags passed to scanopt_init */
-	enum scanopt_flag_t {
-		SCANOPT_NO_ERR_MSG = 0x01	/* Suppress printing to stderr. */
+	ಎಣಿಕೆ scanopt_flag_t {
+		SCANOPT_NO_ERR_ಸಂದೇಶ = 0x01	/* Suppress printing to stderr. */
 	};
 
 /* Specification for a single option. */
-	struct optspec_t {
-		const char *opt_fmt;	/* e.g., "--foo=FILE", "-f FILE", "-n [NUM]" */
-		int     r_val;	/* Value to be returned by scanopt_ex(). */
-		const char *desc;	/* Brief description of this option, or NULL. */
+	ರಚನೆ optspec_t {
+		ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *opt_fmt;	/* e.g., "--foo=FILE", "-f FILE", "-n [NUM]" */
+		ಪೂರ್ಣಾಂಕ     r_val;	/* Value to be returned by scanopt_ex(). */
+		ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *desc;	/* Brief description of this option, or NULL. */
 	};
-	typedef struct optspec_t optspec_t;
+	ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ optspec_t optspec_t;
 
 
 /* Used internally by scanopt() to maintain state. */
 /* Never modify these value directly. */
-	typedef void *scanopt_t;
+	ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಶೂನ್ಯ *scanopt_t;
 
 
 /* Initializes scanner and checks option list for errors.
@@ -82,14 +82,14 @@ extern  "C" {
  *   flags   - Control behavior.
  * Return:  A malloc'd pointer .
  */
-	scanopt_t *scanopt_init (const optspec_t * options, int argc,
-				 char **argv, int flags);
+	scanopt_t *scanopt_init (ಸ್ಥಿರಾಂಕ optspec_t * options, ಪೂರ್ಣಾಂಕ argc,
+				 ಅಕ್ಷರ **argv, ಪೂರ್ಣಾಂಕ flags);
 
 /* Frees memory used by scanner.
  * Always returns 0. */
-	int scanopt_destroy (scanopt_t * scanner);
+	ಪೂರ್ಣಾಂಕ scanopt_destroy (scanopt_t * scanner);
 
-#ifndef NO_SCANOPT_USAGE
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ NO_SCANOPT_USAGE
 /* Prints a usage message based on contents of optlist.
  * Parameters:
  *   scanner  - The scanner, already initialized with scanopt_init().
@@ -97,8 +97,8 @@ extern  "C" {
  *   usage    - Text to be prepended to option list. May be NULL.
  * Return:  Always returns 0 (zero).
  */
-	int scanopt_usage (scanopt_t * scanner, FILE * fp, const char *usage);
-#endif
+	ಪೂರ್ಣಾಂಕ scanopt_usage (scanopt_t * scanner, FILE * fp, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *usage);
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* Scans command-line options in argv[].
  * Parameters:
@@ -114,10 +114,10 @@ extern  "C" {
  *          < 0 on error (return value is an error code).
  *
  */
-	int scanopt (scanopt_t * scanner, char **optarg, int *optindex);
+	ಪೂರ್ಣಾಂಕ scanopt (scanopt_t * scanner, ಅಕ್ಷರ **optarg, ಪೂರ್ಣಾಂಕ *optindex);
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 /* vim:set tabstop=8 softtabstop=4 shiftwidth=4: */

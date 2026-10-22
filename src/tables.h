@@ -32,20 +32,20 @@
  *  PURPOSE.
  */
 
-#ifndef TABLES_H
-#define TABLES_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ TABLES_H
+#ವ್ಯಾಖ್ಯಾನಿಸು TABLES_H
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 /* *INDENT-OFF* */
-extern  "C" {
+ಬಾಹ್ಯ  "C" {
 /* *INDENT-ON* */
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* Tables serialization API declarations. */
-#include "tables_shared.h"
-struct yytbl_writer {
-	FILE   *out;
-	int total_written;
+#ಅನ್ತರ್ಭಾವ "tables_shared.h"
+ರಚನೆ yytbl_writer {
+	FILE   *ಹೊರಹೋಗು;
+	ಪೂರ್ಣಾಂಕ ಒಟ್ಟು_written;
 			    /**< bytes written so far */
 	fpos_t  th_ssize_pos;
 			    /**< position of th_ssize */
@@ -59,26 +59,26 @@ struct yytbl_writer {
  * tablesverify - true if tables-verify option specified
  * gentables - true if we should spit out the normal C tables
  */
-extern bool tablesext, tablesverify,gentables;
-extern char *tablesfilename, *tablesname;
-extern struct yytbl_writer tableswr;
+ಬಾಹ್ಯ bool tablesext, tablesverify,gentables;
+ಬಾಹ್ಯ ಅಕ್ಷರ *tablesfilename, *tablesname;
+ಬಾಹ್ಯ ರಚನೆ yytbl_writer tableswr;
 
-int     yytbl_writer_init (struct yytbl_writer *, FILE *);
-int     yytbl_hdr_init (struct yytbl_hdr *th, const char *version_str,
-			const char *name);
-int     yytbl_data_init (struct yytbl_data *tbl, enum yytbl_id id);
-int     yytbl_data_destroy (struct yytbl_data *td);
-int     yytbl_hdr_fwrite (struct yytbl_writer *wr,
-			  const struct yytbl_hdr *th);
-int     yytbl_data_fwrite (struct yytbl_writer *wr, struct yytbl_data *td);
-void    yytbl_data_compress (struct yytbl_data *tbl);
+ಪೂರ್ಣಾಂಕ     yytbl_writer_init (ರಚನೆ yytbl_writer *, FILE *);
+ಪೂರ್ಣಾಂಕ     yytbl_hdr_init (ರಚನೆ yytbl_hdr *th, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಆವೃತ್ತಿ_str,
+			ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *name);
+ಪೂರ್ಣಾಂಕ     yytbl_ದತ್ತಾಂಶ_init (ರಚನೆ yytbl_ದತ್ತಾಂಶ *tbl, ಎಣಿಕೆ yytbl_id id);
+ಪೂರ್ಣಾಂಕ     yytbl_ದತ್ತಾಂಶ_destroy (ರಚನೆ yytbl_ದತ್ತಾಂಶ *td);
+ಪೂರ್ಣಾಂಕ     yytbl_hdr_fwrite (ರಚನೆ yytbl_writer *wr,
+			  ಸ್ಥಿರಾಂಕ ರಚನೆ yytbl_hdr *th);
+ಪೂರ್ಣಾಂಕ     yytbl_ದತ್ತಾಂಶ_fwrite (ರಚನೆ yytbl_writer *wr, ರಚನೆ yytbl_ದತ್ತಾಂಶ *td);
+ಶೂನ್ಯ    yytbl_ದತ್ತಾಂಶ_compress (ರಚನೆ yytbl_ದತ್ತಾಂಶ *tbl);
 
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 /* *INDENT-OFF* */
 }
 /* *INDENT-ON* */
-#endif
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* vim:set expandtab cindent tabstop=4 softtabstop=4 shiftwidth=4 textwidth=0: */

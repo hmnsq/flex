@@ -32,76 +32,76 @@
 /*  IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED */
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
-#include "flexdef.h"
-#include "tables.h"
+#ಅನ್ತರ್ಭಾವ "flexdef.h"
+#ಅನ್ತರ್ಭಾವ "tables.h"
 
 /* Append "new_text" to the running buffer. */
-void add_action (const char *new_text)
+ಶೂನ್ಯ ಕೂಡಿಸು_action (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *new_ಪಠ್ಯ)
 {
-	int     len = (int) strlen (new_text);
+	ಪೂರ್ಣಾಂಕ     len = (ಪೂರ್ಣಾಂಕ) ಅಕ್ಷರಸರಣಿ_ಉದ್ದ (new_ಪಠ್ಯ);
 
-	while (len + action_index >= action_size - 10 /* slop */ ) {
+	ಆಗ (len + action_ಸೂಚ್ಯಂಕ >= action_ಗಾತ್ರ - 10 /* slop */ ) {
 
-		if (action_size > INT_MAX / 2)
+		ಆದರೆ (action_ಗಾತ್ರ > ಗರಿಷ್ಠ_ಪೂರ್ಣಾಂಕ / 2)
 			/* Increase just a little, to try to avoid overflow
 			 * on 16-bit machines.
 			 */
-			action_size += action_size / 8;
-		else
-			action_size = action_size * 2;
+			action_ಗಾತ್ರ += action_ಗಾತ್ರ / 8;
+		ಇಲ್ಲದಿದ್ದರೆ
+			action_ಗಾತ್ರ = action_ಗಾತ್ರ * 2;
 
 		action_array =
 			reallocate_character_array (action_array,
-						    action_size);
+						    action_ಗಾತ್ರ);
 	}
 
-	strcpy (&action_array[action_index], new_text);
+	strcpy (&action_array[action_ಸೂಚ್ಯಂಕ], new_ಪಠ್ಯ);
 
-	action_index += len;
+	action_ಸೂಚ್ಯಂಕ += len;
 }
 
 
 /* allocate_array - allocate memory for an integer array of the given size */
 
-void   *allocate_array (int size, size_t element_size)
+ಶೂನ್ಯ   *allocate_array (ಪೂರ್ಣಾಂಕ ಗಾತ್ರ_2, size_t element_ಗಾತ್ರ)
 {
-	return reallocate_array(NULL, size, element_size);
+	ಹಿಂತಿರುಗಿ reallocate_array(ಖಾಲಿ, ಗಾತ್ರ_2, element_ಗಾತ್ರ);
 }
 
 
 /* all_lower - true if a string is all lower-case */
 
-int all_lower (char *str)
+ಪೂರ್ಣಾಂಕ all_ಅಧೋ (ಅಕ್ಷರ *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !islower ((unsigned char) * str))
-			return 0;
+	ಆಗ (*str) {
+		ಆದರೆ (!isascii ((ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ) * str) || !islower ((ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ) * str))
+			ಹಿಂತಿರುಗಿ 0;
 		++str;
 	}
 
-	return 1;
+	ಹಿಂತಿರುಗಿ 1;
 }
 
 
 /* all_upper - true if a string is all upper-case */
 
-int all_upper (char *str)
+ಪೂರ್ಣಾಂಕ all_ಊರ್ಧ್ವ (ಅಕ್ಷರ *str)
 {
-	while (*str) {
-		if (!isascii ((unsigned char) * str) || !isupper ((unsigned char) * str))
-			return 0;
+	ಆಗ (*str) {
+		ಆದರೆ (!isascii ((ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ) * str) || !isupper ((ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ) * str))
+			ಹಿಂತಿರುಗಿ 0;
 		++str;
 	}
 
-	return 1;
+	ಹಿಂತಿರುಗಿ 1;
 }
 
 
 /* intcmp - compares two integers for use by qsort. */
 
-int intcmp (const void *a, const void *b)
+ಪೂರ್ಣಾಂಕ intcmp (ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *a, ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *b)
 {
-  return *(const int *) a - *(const int *) b;
+  ಹಿಂತಿರುಗಿ *(ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ *) a - *(ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ *) b;
 }
 
 
@@ -110,13 +110,13 @@ int intcmp (const void *a, const void *b)
  *		and exits.
  */
 
-void check_char (int c)
+ಶೂನ್ಯ check_char (ಪೂರ್ಣಾಂಕ c)
 {
-	if (c >= CSIZE)
+	ಆದರೆ (c >= CSIZE)
 		lerr (_("bad character '%s' detected in check_char()"),
 			readable_form (c));
 
-	if (c >= ctrl.csize)
+	ಆದರೆ (c >= ctrl.csize)
 		lerr (_
 			("scanner requires -8 flag to use the character %s"),
 			readable_form (c));
@@ -126,49 +126,49 @@ void check_char (int c)
 
 /* clower - replace upper-case letter to lower-case */
 
-unsigned char clower (int c)
+ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ clower (ಪೂರ್ಣಾಂಕ c)
 {
-	return (unsigned char) ((isascii (c) && isupper (c)) ? tolower (c) : c);
+	ಹಿಂತಿರುಗಿ (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ) ((isascii (c) && isupper (c)) ? tolower (c) : c);
 }
 
 
-char *xstrdup(const char *s)
+ಅಕ್ಷರ *xstrdup(ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *s)
 {
-	char *s2;
+	ಅಕ್ಷರ *s2;
 
-	if ((s2 = strdup(s)) == NULL)
+	ಆದರೆ ((s2 = strdup(s)) == ಖಾಲಿ)
 		flexfatal (_("memory allocation failure in xstrdup()"));
 
-	return s2;
+	ಹಿಂತಿರುಗಿ s2;
 }
 
 
 /* cclcmp - compares two characters for use by qsort with '\0' sorting last. */
 
-int cclcmp (const void *a, const void *b)
+ಪೂರ್ಣಾಂಕ cclcmp (ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *a, ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *b)
 {
-	if (!*(const unsigned char *) a)
-		return 1;
-	else
-		if (!*(const unsigned char *) b)
-			return - 1;
-		else
-			return *(const unsigned char *) a - *(const unsigned char *) b;
+	ಆದರೆ (!*(ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *) a)
+		ಹಿಂತಿರುಗಿ 1;
+	ಇಲ್ಲದಿದ್ದರೆ
+		ಆದರೆ (!*(ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *) b)
+			ಹಿಂತಿರುಗಿ - 1;
+		ಇಲ್ಲದಿದ್ದರೆ
+			ಹಿಂತಿರುಗಿ *(ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *) a - *(ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *) b;
 }
 
 
 /* dataend - finish up a block of data declarations */
 
-void dataend (const char *endit)
+ಶೂನ್ಯ dataend (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *endit)
 {
 	/* short circuit any output */
-	if (gentables) {
+	ಆದರೆ (gentables) {
 
-		if (datapos > 0)
+		ಆದರೆ (datapos > 0)
 			dataflush ();
 
 		/* add terminator for initialization; { for vi */
-		if (endit)
+		ಆದರೆ (endit)
 			outn (endit);
 	}
 	dataline = 0;
@@ -178,14 +178,14 @@ void dataend (const char *endit)
 
 /* dataflush - flush generated data statements */
 
-void dataflush (void)
+ಶೂನ್ಯ dataflush (ಶೂನ್ಯ)
 {
-	assert (gentables);
+	ಪ್ರತಿಜ್ಞಾ (gentables);
 
-	if (datapos > 0)
+	ಆದರೆ (datapos > 0)
 		outc ('\n');
 
-	if (++dataline >= NUMDATALINES) {
+	ಆದರೆ (++dataline >= NUMDATALINES) {
 		/* Put out a blank line so that the table is grouped into
 		 * large blocks that enable the user to find elements easily.
 		 */
@@ -200,71 +200,71 @@ void dataflush (void)
 
 /* flexerror - report an error message and terminate */
 
-void flexerror (const char *msg)
+ಶೂನ್ಯ flexerror (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಸಂದೇಶ)
 {
-	fprintf (stderr, "%s: %s\n", program_name, msg);
+	fprintf (stderr, "%s: %s\n", ಕಾರ್ಯಕ್ರಮ_name, ಸಂದೇಶ);
 	flexend (1);
 }
 
 
 /* flexfatal - report a fatal error message and terminate */
 
-void flexfatal (const char *msg)
+ಶೂನ್ಯ flexfatal (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಸಂದೇಶ)
 {
 	fprintf (stderr, _("%s: fatal internal error, %s\n"),
-		 program_name, msg);
+		 ಕಾರ್ಯಕ್ರಮ_name, ಸಂದೇಶ);
 	FLEX_EXIT (1);
 }
 
 
 /* lerr - report an error message */
 
-void lerr (const char *msg, ...)
+ಶೂನ್ಯ lerr (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಸಂದೇಶ, ...)
 {
-	char    errmsg[MAXLINE];
-	va_list args;
+	ಅಕ್ಷರ    errmsg[MAXLINE];
+	va_list ವಾದಗಳು;
 
-	va_start(args, msg);
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
-	va_end(args);
+	va_ಆರಂಭ(ವಾದಗಳು, ಸಂದೇಶ);
+	vsnprintf (errmsg, ಗಾತ್ರ(errmsg), ಸಂದೇಶ, ವಾದಗಳು);
+	va_ಕೊನೆ(ವಾದಗಳು);
 	flexerror (errmsg);
 }
 
 
 /* lerr_fatal - as lerr, but call flexfatal */
 
-void lerr_fatal (const char *msg, ...)
+ಶೂನ್ಯ lerr_fatal (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಸಂದೇಶ, ...)
 {
-	char    errmsg[MAXLINE];
-	va_list args;
-	va_start(args, msg);
+	ಅಕ್ಷರ    errmsg[MAXLINE];
+	va_list ವಾದಗಳು;
+	va_ಆರಂಭ(ವಾದಗಳು, ಸಂದೇಶ);
 
-	vsnprintf (errmsg, sizeof(errmsg), msg, args);
-	va_end(args);
+	vsnprintf (errmsg, ಗಾತ್ರ(errmsg), ಸಂದೇಶ, ವಾದಗಳು);
+	va_ಕೊನೆ(ವಾದಗಳು);
 	flexfatal (errmsg);
 }
 
 
 /* line_directive_out - spit out a "#line" statement or equivalent */
-void line_directive_out (FILE *output_file, char *path, int linenum)
+ಶೂನ್ಯ ಸಾಲು_directive_ಹೊರಹೋಗು (FILE *output_file, ಅಕ್ಷರ *ಮಾರ್ಗ, ಪೂರ್ಣಾಂಕ linenum)
 {
-	char	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
-	char    directive[MAXLINE*2], filename[MAXLINE];
-	char   *s1, *s2, *s3;
+	ಅಕ್ಷರ	*trace_fmt = "m4_ifdef([[M4_HOOK_TRACE_LINE_FORMAT]], [[M4_HOOK_TRACE_LINE_FORMAT([[%d]], [[%s]])]])";
+	ಅಕ್ಷರ    directive[MAXLINE*2], filename[MAXLINE];
+	ಅಕ್ಷರ   *s1, *s2, *s3;
 
-	if (!ctrl.gen_line_dirs)
-		return;
+	ಆದರೆ (!ctrl.gen_ಸಾಲು_dirs)
+		ಹಿಂತಿರುಗಿ;
 
-	s1 = (path != NULL) ? path : "M4_YY_OUTFILE_NAME";
+	s1 = (ಮಾರ್ಗ != ಖಾಲಿ) ? ಮಾರ್ಗ : "M4_YY_OUTFILE_NAME";
 
-	if ((path != NULL) && !s1)
+	ಆದರೆ ((ಮಾರ್ಗ != ಖಾಲಿ) && !s1)
 		s1 = "<stdin>";
     
 	s2 = filename;
-	s3 = &filename[sizeof (filename) - 2];
+	s3 = &filename[ಗಾತ್ರ (filename) - 2];
 
-	while (s2 < s3 && *s1) {
-		if (*s1 == '\\' || *s1 == '"')
+	ಆಗ (s2 < s3 && *s1) {
+		ಆದರೆ (*s1 == '\\' || *s1 == '"')
 			/* Escape the '\' or '"' */
 			*s2++ = '\\';
 
@@ -273,20 +273,20 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
 
 	*s2 = '\0';
 
-	if (path != NULL)
-		snprintf (directive, sizeof(directive), trace_fmt, linenum, filename);
-	else {
-		snprintf (directive, sizeof(directive), trace_fmt, 0, filename);
+	ಆದರೆ (ಮಾರ್ಗ != ಖಾಲಿ)
+		snprintf (directive, ಗಾತ್ರ(directive), trace_fmt, linenum, filename);
+	ಇಲ್ಲದಿದ್ದರೆ {
+		snprintf (directive, ಗಾತ್ರ(directive), trace_fmt, 0, filename);
 	}
 
 	/* If output_file is nil then we should put the directive in
 	 * the accumulated actions.
 	 */
-	if (output_file) {
+	ಆದರೆ (output_file) {
 		fputs (directive, output_file);
 	}
-	else
-		add_action (directive);
+	ಇಲ್ಲದಿದ್ದರೆ
+		ಕೂಡಿಸು_action (directive);
 }
 
 
@@ -294,23 +294,23 @@ void line_directive_out (FILE *output_file, char *path, int linenum)
  *               representing where the user's section 1 definitions end
  *		 and the prolog begins
  */
-void mark_defs1 (void)
+ಶೂನ್ಯ mark_defs1 (ಶೂನ್ಯ)
 {
-	defs1_offset = 0;
-	action_array[action_index++] = '\0';
-	action_offset = prolog_offset = action_index;
-	action_array[action_index] = '\0';
+	defs1_ಸ್ಥಾನಾಂತರ = 0;
+	action_array[action_ಸೂಚ್ಯಂಕ++] = '\0';
+	action_ಸ್ಥಾನಾಂತರ = prolog_ಸ್ಥಾನಾಂತರ = action_ಸೂಚ್ಯಂಕ;
+	action_array[action_ಸೂಚ್ಯಂಕ] = '\0';
 }
 
 
 /* mark_prolog - mark the current position in the action array as
  *               representing the end of the action prolog
  */
-void mark_prolog (void)
+ಶೂನ್ಯ mark_prolog (ಶೂನ್ಯ)
 {
-	action_array[action_index++] = '\0';
-	action_offset = action_index;
-	action_array[action_index] = '\0';
+	action_array[action_ಸೂಚ್ಯಂಕ++] = '\0';
+	action_ಸ್ಥಾನಾಂತರ = action_ಸೂಚ್ಯಂಕ;
+	action_array[action_ಸೂಚ್ಯಂಕ] = '\0';
 }
 
 
@@ -318,27 +318,27 @@ void mark_prolog (void)
  *
  * Generates a data statement initializing the current 2-D array to "value".
  */
-void mk2data (int value)
+ಶೂನ್ಯ mk2data (ಪೂರ್ಣಾಂಕ ಮೌಲ್ಯ)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	ಆದರೆ (!gentables)
+		ಹಿಂತಿರುಗಿ;
 
-	if (datapos >= NUMDATAITEMS) {
+	ಆದರೆ (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	ಆದರೆ (datapos == 0)
 		/* Indent. */
-		out ("    ");
+		ಹೊರಹೋಗು ("    ");
 
-	else
+	ಇಲ್ಲದಿದ್ದರೆ
 	  outc (',');
 
 	++datapos;
 
-	out_dec ("%5d", value);
+	ಹೊರಹೋಗು_dec ("%5d", ಮೌಲ್ಯ);
 }
 
 
@@ -347,73 +347,73 @@ void mk2data (int value)
  * Generates a data statement initializing the current array element to
  * "value".
  */
-void mkdata (int value)
+ಶೂನ್ಯ mkdata (ಪೂರ್ಣಾಂಕ ಮೌಲ್ಯ)
 {
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	ಆದರೆ (!gentables)
+		ಹಿಂತಿರುಗಿ;
 
-	if (datapos >= NUMDATAITEMS) {
+	ಆದರೆ (datapos >= NUMDATAITEMS) {
 		outc (',');
 		dataflush ();
 	}
 
-	if (datapos == 0)
+	ಆದರೆ (datapos == 0)
 		/* Indent. */
-		out ("    ");
-	else
+		ಹೊರಹೋಗು ("    ");
+	ಇಲ್ಲದಿದ್ದರೆ
 		outc (',');
 	++datapos;
 
-	out_dec ("%5d", value);
+	ಹೊರಹೋಗು_dec ("%5d", ಮೌಲ್ಯ);
 }
 
 
 /* myctoi - return the integer represented by a string of digits */
 
-int myctoi (const char *array)
+ಪೂರ್ಣಾಂಕ myctoi (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *array)
 {
-	int     val = 0;
+	ಪೂರ್ಣಾಂಕ     val = 0;
 
-	(void) sscanf (array, "%d", &val);
+	(ಶೂನ್ಯ) ಅಕ್ಷರಸರಣಿ_ಓದು (array, "%d", &val);
 
-	return val;
+	ಹಿಂತಿರುಗಿ val;
 }
 
 
 /* myesc - return character corresponding to escape sequence */
 
-unsigned char myesc (unsigned char array[])
+ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ myesc (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ array[])
 {
-	unsigned char    c, esc_char;
+	ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ    c, esc_char;
 
-	switch (array[1]) {
-	case 'b':
-		return '\b';
-	case 'f':
-		return '\f';
-	case 'n':
-		return '\n';
-	case 'r':
-		return '\r';
-	case 't':
-		return '\t';
-	case 'a':
-		return '\a';
-	case 'v':
-		return '\v';
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
+	ಆಯ್ಕೆ (array[1]) {
+	ಸ್ಥಿತಿ 'b':
+		ಹಿಂತಿರುಗಿ '\b';
+	ಸ್ಥಿತಿ 'f':
+		ಹಿಂತಿರುಗಿ '\f';
+	ಸ್ಥಿತಿ 'n':
+		ಹಿಂತಿರುಗಿ '\n';
+	ಸ್ಥಿತಿ 'r':
+		ಹಿಂತಿರುಗಿ '\r';
+	ಸ್ಥಿತಿ 't':
+		ಹಿಂತಿರುಗಿ '\t';
+	ಸ್ಥಿತಿ 'a':
+		ಹಿಂತಿರುಗಿ '\a';
+	ಸ್ಥಿತಿ 'v':
+		ಹಿಂತಿರುಗಿ '\v';
+	ಸ್ಥಿತಿ '0':
+	ಸ್ಥಿತಿ '1':
+	ಸ್ಥಿತಿ '2':
+	ಸ್ಥಿತಿ '3':
+	ಸ್ಥಿತಿ '4':
+	ಸ್ಥಿತಿ '5':
+	ಸ್ಥಿತಿ '6':
+	ಸ್ಥಿತಿ '7':
 		{		/* \<octal> */
-			int     sptr = 1;
+			ಪೂರ್ಣಾಂಕ     sptr = 1;
 
-			while (sptr <= 3 &&
+			ಆಗ (sptr <= 3 &&
                                array[sptr] >= '0' && array[sptr] <= '7') {
 				++sptr;
 			}
@@ -421,18 +421,18 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 1, NULL, 8);
+			esc_char = (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ) strtoul (array + 1, ಖಾಲಿ, 8);
 
 			array[sptr] = c;
 
-			return esc_char;
+			ಹಿಂತಿರುಗಿ esc_char;
 		}
 
-	case 'x':
+	ಸ್ಥಿತಿ 'x':
 		{		/* \x<hex> */
-			int     sptr = 2;
+			ಪೂರ್ಣಾಂಕ     sptr = 2;
 
-			while (sptr <= 3 && isxdigit (array[sptr])) {
+			ಆಗ (sptr <= 3 && isxdigit (array[sptr])) {
 				/* Don't increment inside loop control
 				 * because if isxdigit() is a macro it might
 				 * expand into multiple increments ...
@@ -443,15 +443,15 @@ unsigned char myesc (unsigned char array[])
 			c = array[sptr];
 			array[sptr] = '\0';
 
-			esc_char = (unsigned char) strtoul (array + 2, NULL, 16);
+			esc_char = (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ) strtoul (array + 2, ಖಾಲಿ, 16);
 
 			array[sptr] = c;
 
-			return esc_char;
+			ಹಿಂತಿರುಗಿ esc_char;
 		}
 
-	default:
-		return array[1];
+	ಪೂರ್ವನಿಯೋಜಿತ:
+		ಹಿಂತಿರುಗಿ array[1];
 	}
 }
 
@@ -460,42 +460,42 @@ unsigned char myesc (unsigned char array[])
  *	 generated scanner, keeping track of the line count.
  */
 
-void out (const char *str)
+ಶೂನ್ಯ ಹೊರಹೋಗು (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *str)
 {
 	fputs (str, stdout);
 }
 
-void out_dec (const char *fmt, int n)
+ಶೂನ್ಯ ಹೊರಹೋಗು_dec (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *fmt, ಪೂರ್ಣಾಂಕ n)
 {
 	fprintf (stdout, fmt, n);
 }
 
-void out_dec2 (const char *fmt, int n1, int n2)
+ಶೂನ್ಯ ಹೊರಹೋಗು_dec2 (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *fmt, ಪೂರ್ಣಾಂಕ n1, ಪೂರ್ಣಾಂಕ n2)
 {
 	fprintf (stdout, fmt, n1, n2);
 }
 
-void out_hex (const char *fmt, unsigned int x)
+ಶೂನ್ಯ ಹೊರಹೋಗು_hex (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *fmt, ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ x)
 {
 	fprintf (stdout, fmt, x);
 }
 
-void out_str (const char *fmt, const char str[])
+ಶೂನ್ಯ ಹೊರಹೋಗು_str (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *fmt, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ str[])
 {
 	fprintf (stdout,fmt, str);
 }
 
-void out_str_dec (const char *fmt, const char str[], int n)
+ಶೂನ್ಯ ಹೊರಹೋಗು_str_dec (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *fmt, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ str[], ಪೂರ್ಣಾಂಕ n)
 {
 	fprintf (stdout,fmt, str, n);
 }
 
-void outc (int c)
+ಶೂನ್ಯ outc (ಪೂರ್ಣಾಂಕ c)
 {
 	fputc (c, stdout);
 }
 
-void outn (const char *str)
+ಶೂನ್ಯ outn (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *str)
 {
 	fputs (str,stdout);
     fputc('\n',stdout);
@@ -505,9 +505,9 @@ void outn (const char *str)
  * @param def The m4 symbol to define.
  * @param val The definition; may be NULL.
  */
-void out_m4_define (const char* def, const char* val)
+ಶೂನ್ಯ ಹೊರಹೋಗು_m4_define (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ* def, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ* val)
 {
-    const char * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ * fmt = "m4_define( [[%s]], [[%s]])m4_dnl\n";
     fprintf(stdout, fmt, def, val?val:"");
 }
 
@@ -517,79 +517,79 @@ void out_m4_define (const char* def, const char* val)
  * The returned string is in static storage.
  */
 
-char   *readable_form (int c)
+ಅಕ್ಷರ   *readable_form (ಪೂರ್ಣಾಂಕ c)
 {
-	static char rform[20];
+	ಸ್ಥಿರ ಅಕ್ಷರ rform[20];
 
-	if ((c >= 0 && c < 32) || c >= 127) {
-		switch (c) {
-		case '\b':
-			return "\\b";
-		case '\f':
-			return "\\f";
-		case '\n':
-			return "\\n";
-		case '\r':
-			return "\\r";
-		case '\t':
-			return "\\t";
-		case '\a':
-			return "\\a";
-		case '\v':
-			return "\\v";
-		default:
-			if(env.trace_hex)
-				snprintf (rform, sizeof(rform), "\\x%.2x", (unsigned int) c);
-			else
-				snprintf (rform, sizeof(rform), "\\%.3o", (unsigned int) c);
-			return rform;
+	ಆದರೆ ((c >= 0 && c < 32) || c >= 127) {
+		ಆಯ್ಕೆ (c) {
+		ಸ್ಥಿತಿ '\b':
+			ಹಿಂತಿರುಗಿ "\\b";
+		ಸ್ಥಿತಿ '\f':
+			ಹಿಂತಿರುಗಿ "\\f";
+		ಸ್ಥಿತಿ '\n':
+			ಹಿಂತಿರುಗಿ "\\n";
+		ಸ್ಥಿತಿ '\r':
+			ಹಿಂತಿರುಗಿ "\\r";
+		ಸ್ಥಿತಿ '\t':
+			ಹಿಂತಿರುಗಿ "\\t";
+		ಸ್ಥಿತಿ '\a':
+			ಹಿಂತಿರುಗಿ "\\a";
+		ಸ್ಥಿತಿ '\v':
+			ಹಿಂತಿರುಗಿ "\\v";
+		ಪೂರ್ವನಿಯೋಜಿತ:
+			ಆದರೆ(env.trace_hex)
+				snprintf (rform, ಗಾತ್ರ(rform), "\\x%.2x", (ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ) c);
+			ಇಲ್ಲದಿದ್ದರೆ
+				snprintf (rform, ಗಾತ್ರ(rform), "\\%.3o", (ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ) c);
+			ಹಿಂತಿರುಗಿ rform;
 		}
 	}
 
-	else if (c == ' ')
-		return "' '";
+	ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (c == ' ')
+		ಹಿಂತಿರುಗಿ "' '";
 
-	else {
-		rform[0] = (char) c;
+	ಇಲ್ಲದಿದ್ದರೆ {
+		rform[0] = (ಅಕ್ಷರ) c;
 		rform[1] = '\0';
 
-		return rform;
+		ಹಿಂತಿರುಗಿ rform;
 	}
 }
 
 
 /* reallocate_array - increase the size of a dynamic array */
 
-void   *reallocate_array (void *array, int size, size_t element_size)
+ಶೂನ್ಯ   *reallocate_array (ಶೂನ್ಯ *array, ಪೂರ್ಣಾಂಕ ಗಾತ್ರ_2, size_t element_ಗಾತ್ರ)
 {
-	void *new_array;
-#ifdef HAVE_REALLOCARR
+	ಶೂನ್ಯ *new_array;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_REALLOCARR
 	new_array = array;
-	if (reallocarr(&new_array, (size_t) size, element_size)) {
+	ಆದರೆ (reallocarr(&new_array, (size_t) ಗಾತ್ರ_2, element_ಗಾತ್ರ)) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
 			 * compatibility (for translations): */
 			_("memory allocation failed in allocate_array()"));
 	}
-#else
+#ಇಲ್ಲದಿದ್ದರೆ
 # ifdef HAVE_REALLOCARRAY
-	new_array = reallocarray(array, (size_t) size, element_size);
-# else
+	new_array = reallocarray(array, (size_t) ಗಾತ್ರ_2, element_ಗಾತ್ರ);
+# ಇಲ್ಲದಿದ್ದರೆ
 	/* Do manual overflow detection */
-	size_t num_bytes = (size_t) size * element_size;
-	new_array = (size && SIZE_MAX / (size_t) size < element_size) ? NULL :
-		realloc(array, num_bytes);
+	size_t ಅಂಕೆ_ಬೈಟುಗಳು = (size_t) ಗಾತ್ರ_2 * element_ಗಾತ್ರ;
+	new_array = (ಗಾತ್ರ_2 && ಗಾತ್ರ_MAX / (size_t) ಗಾತ್ರ_2 < element_ಗಾತ್ರ) ? ಖಾಲಿ :
+		realloc(array, ಅಂಕೆ_ಬೈಟುಗಳು);
 # endif
-	if (!new_array) {
+	ಆದರೆ (!new_array) {
 		flexfatal ((array) ?
 			_("attempt to increase array size failed") :
 			/* Function name is allocate_array() because of
 			 * compatibility (for translations): */
 			_("memory allocation failed in allocate_array()"));
 	}
-#endif
-	return new_array;
+#ಆದರೆ_ಅಂತ್ಯ
+	ಹಿಂತಿರುಗಿ new_array;
 }
 
 
@@ -599,22 +599,22 @@ void   *reallocate_array (void *array, int size, size_t element_size)
  * element_n.  Formats the output with spaces and carriage returns.
  */
 
-void transition_struct_out (int element_v, int element_n)
+ಶೂನ್ಯ transition_struct_ಹೊರಹೋಗು (ಪೂರ್ಣಾಂಕ element_v, ಪೂರ್ಣಾಂಕ element_n)
 {
 
 	/* short circuit any output */
-	if (!gentables)
-		return;
+	ಆದರೆ (!gentables)
+		ಹಿಂತಿರುಗಿ;
 
-	out_dec2 ("M4_HOOK_TABLE_OPENER[[%4d]],[[%4d]]M4_HOOK_TABLE_CONTINUE", element_v, element_n);
+	ಹೊರಹೋಗು_dec2 ("M4_HOOK_TABLE_OPENER[[%4d]],[[%4d]]M4_HOOK_TABLE_CONTINUE", element_v, element_n);
 	outc ('\n');
 
-	datapos += TRANS_STRUCT_PRINT_LENGTH;
+	datapos += TRANS_STRUCT_PRINT_ಉದ್ದಳತೆ;
 
-	if (datapos >= 79 - TRANS_STRUCT_PRINT_LENGTH) {
+	ಆದರೆ (datapos >= 79 - TRANS_STRUCT_PRINT_ಉದ್ದಳತೆ) {
 		outc ('\n');
 
-		if (++dataline % 10 == 0)
+		ಆದರೆ (++dataline % 10 == 0)
 			outc ('\n');
 
 		datapos = 0;
@@ -627,52 +627,52 @@ void transition_struct_out (int element_v, int element_n)
  *
  * XXX: this is should go soon
  */
-void   *yy_flex_xmalloc (int size)
+ಶೂನ್ಯ   *yy_flex_xmalloc (ಪೂರ್ಣಾಂಕ ಗಾತ್ರ_2)
 {
-	void   *result;
+	ಶೂನ್ಯ   *ಫಲಿತಾಂಶ;
 
-	result = malloc((size_t) size);
-	if (!result)
+	ಫಲಿತಾಂಶ = ಸ್ಮರಣೆ_ಕೊಡು((size_t) ಗಾತ್ರ_2);
+	ಆದರೆ (!ಫಲಿತಾಂಶ)
 		flexfatal (_
 			   ("memory allocation failed in yy_flex_xmalloc()"));
 
-	return result;
+	ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
 
 /* Remove all '\n' and '\r' characters, if any, from the end of str.
  * str can be any null-terminated string, or NULL.
  * returns str. */
-char   *chomp (char *str)
+ಅಕ್ಷರ   *chomp (ಅಕ್ಷರ *str)
 {
-	char   *p = str;
+	ಅಕ್ಷರ   *p = str;
 
-	if (!str || !*str)	/* s is null or empty string */
-		return str;
+	ಆದರೆ (!str || !*str)	/* s is null or empty string */
+		ಹಿಂತಿರುಗಿ str;
 
 	/* find end of string minus one */
-	while (*p)
+	ಆಗ (*p)
 		++p;
 	--p;
 
 	/* eat newlines */
-	while (p >= str && (*p == '\r' || *p == '\n'))
+	ಆಗ (p >= str && (*p == '\r' || *p == '\n'))
 		*p-- = 0;
-	return str;
+	ಹಿಂತಿರುಗಿ str;
 }
 
-void comment(const char *txt)
+ಶೂನ್ಯ comment(ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *txt)
 {
-	char buf[MAXLINE];
+	ಅಕ್ಷರ buf[MAXLINE];
 	bool eol;
 
 	strncpy(buf, txt, MAXLINE-1);
-	eol = buf[strlen(buf)-1] == '\n';
+	eol = buf[ಅಕ್ಷರಸರಣಿ_ಉದ್ದ(buf)-1] == '\n';
 
-	if (eol)
-		buf[strlen(buf)-1] = '\0';
-	out_str("M4_HOOK_COMMENT_OPEN [[%s]] M4_HOOK_COMMENT_CLOSE", buf);
-	if (eol)
+	ಆದರೆ (eol)
+		buf[ಅಕ್ಷರಸರಣಿ_ಉದ್ದ(buf)-1] = '\0';
+	ಹೊರಹೋಗು_str("M4_HOOK_COMMENT_OPEN [[%s]] M4_HOOK_COMMENT_CLOSE", buf);
+	ಆದರೆ (eol)
 		outc ('\n');
 }
 

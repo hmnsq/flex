@@ -33,188 +33,188 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
-#include "scanopt.h"
+#ಅನ್ತರ್ಭಾವ "flexdef.h"
+#ಅನ್ತರ್ಭಾವ "scanopt.h"
 
 
 /* Internal structures */
 
-#define ARG_NONE 0x01
-#define ARG_REQ  0x02
-#define ARG_OPT  0x04
-#define IS_LONG  0x08
+#ವ್ಯಾಖ್ಯಾನಿಸು ARG_NONE 0x01
+#ವ್ಯಾಖ್ಯಾನಿಸು ARG_REQ  0x02
+#ವ್ಯಾಖ್ಯಾನಿಸು ARG_OPT  0x04
+#ವ್ಯಾಖ್ಯಾನಿಸು IS_LONG  0x08
 
-struct _aux {
-	int     flags;		/* The above hex flags. */
-	int     namelen;	/* Length of the actual option word, e.g., "--file[=foo]" is 4 */
-	int     printlen;	/* Length of entire string, e.g., "--file[=foo]" is 12 */
+ರಚನೆ _aux {
+	ಪೂರ್ಣಾಂಕ     flags;		/* The above hex flags. */
+	ಪೂರ್ಣಾಂಕ     namelen;	/* Length of the actual option word, e.g., "--file[=foo]" is 4 */
+	ಪೂರ್ಣಾಂಕ     printlen;	/* Length of entire string, e.g., "--file[=foo]" is 12 */
 };
 
 
-struct _scanopt_t {
-	const optspec_t *options;	/* List of options. */
-	struct _aux *aux;	/* Auxiliary data about options. */
-	int     optc;		/* Number of options. */
-	int     argc;		/* Number of args. */
-	char  **argv;		/* Array of strings. */
-	int     index;		/* Used as: argv[index][subscript]. */
-	int     subscript;
-	char    no_err_msg;	/* If true, do not print errors. */
-	char    has_long;
-	char    has_short;
+ರಚನೆ _scanopt_t {
+	ಸ್ಥಿರಾಂಕ optspec_t *options;	/* List of options. */
+	ರಚನೆ _aux *aux;	/* Auxiliary data about options. */
+	ಪೂರ್ಣಾಂಕ     optc;		/* Number of options. */
+	ಪೂರ್ಣಾಂಕ     argc;		/* Number of args. */
+	ಅಕ್ಷರ  **argv;		/* Array of strings. */
+	ಪೂರ್ಣಾಂಕ     ಸೂಚ್ಯಂಕ;		/* Used as: argv[index][subscript]. */
+	ಪೂರ್ಣಾಂಕ     subscript;
+	ಅಕ್ಷರ    no_err_ಸಂದೇಶ;	/* If true, do not print errors. */
+	ಅಕ್ಷರ    has_long;
+	ಅಕ್ಷರ    has_short;
 };
 
 /* Accessor functions. These WOULD be one-liners, but portability calls. */
-static const char *NAME(struct _scanopt_t *, int);
-static int PRINTLEN(struct _scanopt_t *, int);
-static int RVAL(struct _scanopt_t *, int);
-static int FLAGS(struct _scanopt_t *, int);
-static const char *DESC(struct _scanopt_t *, int);
-static void scanopt_err(struct _scanopt_t *, int, int);
-static int matchlongopt(char *, char **, int *, char **, int *);
-static int find_opt(struct _scanopt_t *, int, char *, int, int *, int *opt_offset);
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *NAME(ರಚನೆ _scanopt_t *, ಪೂರ್ಣಾಂಕ);
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ PRINTLEN(ರಚನೆ _scanopt_t *, ಪೂರ್ಣಾಂಕ);
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ RVAL(ರಚನೆ _scanopt_t *, ಪೂರ್ಣಾಂಕ);
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ FLAGS(ರಚನೆ _scanopt_t *, ಪೂರ್ಣಾಂಕ);
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *DESC(ರಚನೆ _scanopt_t *, ಪೂರ್ಣಾಂಕ);
+ಸ್ಥಿರ ಶೂನ್ಯ scanopt_err(ರಚನೆ _scanopt_t *, ಪೂರ್ಣಾಂಕ, ಪೂರ್ಣಾಂಕ);
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ matchlongopt(ಅಕ್ಷರ *, ಅಕ್ಷರ **, ಪೂರ್ಣಾಂಕ *, ಅಕ್ಷರ **, ಪೂರ್ಣಾಂಕ *);
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ ಕಂಡುಹಿಡಿ_opt(ರಚನೆ _scanopt_t *, ಪೂರ್ಣಾಂಕ, ಅಕ್ಷರ *, ಪೂರ್ಣಾಂಕ, ಪೂರ್ಣಾಂಕ *, ಪೂರ್ಣಾಂಕ *opt_ಸ್ಥಾನಾಂತರ);
 
-static const char *NAME (struct _scanopt_t *s, int i)
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *NAME (ರಚನೆ _scanopt_t *s, ಪೂರ್ಣಾಂಕ i)
 {
-	return s->options[i].opt_fmt +
+	ಹಿಂತಿರುಗಿ s->options[i].opt_fmt +
 		((s->aux[i].flags & IS_LONG) ? 2 : 1);
 }
 
-static int PRINTLEN (struct _scanopt_t *s, int i)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ PRINTLEN (ರಚನೆ _scanopt_t *s, ಪೂರ್ಣಾಂಕ i)
 {
-	return s->aux[i].printlen;
+	ಹಿಂತಿರುಗಿ s->aux[i].printlen;
 }
 
-static int RVAL (struct _scanopt_t *s, int i)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ RVAL (ರಚನೆ _scanopt_t *s, ಪೂರ್ಣಾಂಕ i)
 {
-	return s->options[i].r_val;
+	ಹಿಂತಿರುಗಿ s->options[i].r_val;
 }
 
-static int FLAGS (struct _scanopt_t *s, int i)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ FLAGS (ರಚನೆ _scanopt_t *s, ಪೂರ್ಣಾಂಕ i)
 {
-	return s->aux[i].flags;
+	ಹಿಂತಿರುಗಿ s->aux[i].flags;
 }
 
-static const char *DESC (struct _scanopt_t *s, int i)
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *DESC (ರಚನೆ _scanopt_t *s, ಪೂರ್ಣಾಂಕ i)
 {
-	return s->options[i].desc ? s->options[i].desc : "";
+	ಹಿಂತಿರುಗಿ s->options[i].desc ? s->options[i].desc : "";
 }
 
-#ifndef NO_SCANOPT_USAGE
-static int get_cols (void);
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ NO_SCANOPT_USAGE
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ get_ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ (ಶೂನ್ಯ);
 
-static int get_cols (void)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ get_ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ (ಶೂನ್ಯ)
 {
-	char   *env;
-	int     cols = 80;	/* default */
+	ಅಕ್ಷರ   *env;
+	ಪೂರ್ಣಾಂಕ     ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ = 80;	/* default */
 
-#ifdef HAVE_NCURSES_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_NCURSES_H
 	initscr ();
 	endwin ();
-	if (COLS > 0)
-		return COLS;
-#endif
+	ಆದರೆ (ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ_2 > 0)
+		ಹಿಂತಿರುಗಿ ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ_2;
+#ಆದರೆ_ಅಂತ್ಯ
 
-	if ((env = getenv ("COLUMNS")) != NULL)
-		cols = atoi (env);
+	ಆದರೆ ((env = getenv ("COLUMNS")) != ಖಾಲಿ)
+		ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ = atoi (env);
 
-	return cols;
+	ಹಿಂತಿರುಗಿ ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ;
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* Macro to check for NULL before assigning a value. */
-#define SAFE_ASSIGN(ptr,val) \
-    do{                      \
-        if((ptr)!=NULL)      \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಸುರಕ್ಷಿತ_ನಿಯೋಜಿಸು(ptr,val) \
+    ಮಾಡು{                      \
+        ಆದರೆ((ptr)!=ಖಾಲಿ)      \
             *(ptr) = val;    \
-    }while(0)
+    }ಆಗ(0)
 
 /* Macro to assure we reset subscript whenever we adjust s->index.*/
-#define INC_INDEX(s,n)     \
-    do{                    \
-       (s)->index += (n);  \
+#ವ್ಯಾಖ್ಯಾನಿಸು INC_ಸೂಚ್ಯಂಕ(s,n)     \
+    ಮಾಡು{                    \
+       (s)->ಸೂಚ್ಯಂಕ += (n);  \
        (s)->subscript= 0;  \
-    }while(0)
+    }ಆಗ(0)
 
-scanopt_t *scanopt_init (const optspec_t *options, int argc, char **argv, int flags)
+scanopt_t *scanopt_init (ಸ್ಥಿರಾಂಕ optspec_t *options, ಪೂರ್ಣಾಂಕ argc, ಅಕ್ಷರ **argv, ಪೂರ್ಣಾಂಕ flags)
 {
-	int     i;
-	struct _scanopt_t *s;
-	s = malloc(sizeof (struct _scanopt_t));
+	ಪೂರ್ಣಾಂಕ     i;
+	ರಚನೆ _scanopt_t *s;
+	s = ಸ್ಮರಣೆ_ಕೊಡು(ಗಾತ್ರ (ರಚನೆ _scanopt_t));
 
 	s->options = options;
 	s->optc = 0;
 	s->argc = argc;
-	s->argv = (char **) argv;
-	s->index = 1;
+	s->argv = (ಅಕ್ಷರ **) argv;
+	s->ಸೂಚ್ಯಂಕ = 1;
 	s->subscript = 0;
-	s->no_err_msg = (flags & SCANOPT_NO_ERR_MSG);
+	s->no_err_ಸಂದೇಶ = (flags & SCANOPT_NO_ERR_ಸಂದೇಶ);
 	s->has_long = 0;
 	s->has_short = 0;
 
 	/* Determine option count. (Find entry with all zeros). */
 	s->optc = 0;
-	while (options[s->optc].opt_fmt
+	ಆಗ (options[s->optc].opt_fmt
 	       || options[s->optc].r_val || options[s->optc].desc)
 		s->optc++;
 
 	/* Build auxiliary data */
-	s->aux = malloc((size_t) s->optc * sizeof (struct _aux));
+	s->aux = ಸ್ಮರಣೆ_ಕೊಡು((size_t) s->optc * ಗಾತ್ರ (ರಚನೆ _aux));
 
-	for (i = 0; i < s->optc; i++) {
-		const unsigned char *p, *pname;
-		const struct optspec_t *opt;
-		struct _aux *aux;
+	ಗಾಗಿ (i = 0; i < s->optc; i++) {
+		ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *p, *pname;
+		ಸ್ಥಿರಾಂಕ ರಚನೆ optspec_t *opt;
+		ರಚನೆ _aux *aux;
 
 		opt = s->options + i;
 		aux = s->aux + i;
 
 		aux->flags = ARG_NONE;
 
-		if (opt->opt_fmt[0] == '-' && opt->opt_fmt[1] == '-') {
+		ಆದರೆ (opt->opt_fmt[0] == '-' && opt->opt_fmt[1] == '-') {
 			aux->flags |= IS_LONG;
-			pname = (const unsigned char *)(opt->opt_fmt + 2);
+			pname = (ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *)(opt->opt_fmt + 2);
 			s->has_long = 1;
 		}
-		else {
-			pname = (const unsigned char *)(opt->opt_fmt + 1);
+		ಇಲ್ಲದಿದ್ದರೆ {
+			pname = (ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *)(opt->opt_fmt + 1);
 			s->has_short = 1;
 		}
-		aux->printlen = (int) strlen (opt->opt_fmt);
+		aux->printlen = (ಪೂರ್ಣಾಂಕ) ಅಕ್ಷರಸರಣಿ_ಉದ್ದ (opt->opt_fmt);
 
 		aux->namelen = 0;
-		for (p = pname + 1; *p; p++) {
+		ಗಾಗಿ (p = pname + 1; *p; p++) {
 			/* detect required arg */
-			if (*p == '=' || isspace ((unsigned char)*p)
+			ಆದರೆ (*p == '=' || ಖಾಲಿಯೇ ((ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)*p)
 			    || !(aux->flags & IS_LONG)) {
-				if (aux->namelen == 0)
-					aux->namelen = (int) (p - pname);
+				ಆದರೆ (aux->namelen == 0)
+					aux->namelen = (ಪೂರ್ಣಾಂಕ) (p - pname);
 				aux->flags |= ARG_REQ;
 				aux->flags &= ~ARG_NONE;
 			}
 			/* detect optional arg. This overrides required arg. */
-			if (*p == '[') {
-				if (aux->namelen == 0)
-					aux->namelen = (int) (p - pname);
+			ಆದರೆ (*p == '[') {
+				ಆದರೆ (aux->namelen == 0)
+					aux->namelen = (ಪೂರ್ಣಾಂಕ) (p - pname);
 				aux->flags &= ~(ARG_REQ | ARG_NONE);
 				aux->flags |= ARG_OPT;
-				break;
+				ನಿಲ್ಲಿಸು;
 			}
 		}
-		if (aux->namelen == 0)
-			aux->namelen = (int) (p - pname);
+		ಆದರೆ (aux->namelen == 0)
+			aux->namelen = (ಪೂರ್ಣಾಂಕ) (p - pname);
 	}
-	return (scanopt_t *) s;
+	ಹಿಂತಿರುಗಿ (scanopt_t *) s;
 }
 
-#ifndef NO_SCANOPT_USAGE
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ NO_SCANOPT_USAGE
 /* these structs are for scanopt_usage(). */
-struct usg_elem {
-	int     idx;
-	struct usg_elem *next;
-	struct usg_elem *alias;
+ರಚನೆ usg_elem {
+	ಪೂರ್ಣಾಂಕ     idx;
+	ರಚನೆ usg_elem *ಮುಂದಿನ;
+	ರಚನೆ usg_elem *alias;
 };
-typedef struct usg_elem usg_elem;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ usg_elem usg_elem;
 
 
 /* Prints a usage message based on contents of optlist.
@@ -228,170 +228,170 @@ typedef struct usg_elem usg_elem;
 [indent][option, alias1, alias2...][indent][description line1
                                             description line2...]
  */
-int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
+ಪೂರ್ಣಾಂಕ     scanopt_usage (scanopt_t *scanner, FILE *fp, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *usage)
 {
-	struct _scanopt_t *s;
-	int     i, columns;
-	const int indent = 2;
-	usg_elem *byr_val = NULL;	/* option indices sorted by r_val */
+	ರಚನೆ _scanopt_t *s;
+	ಪೂರ್ಣಾಂಕ     i, columns;
+	ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ indent = 2;
+	usg_elem *byr_val = ಖಾಲಿ;	/* option indices sorted by r_val */
 	usg_elem *store;	/* array of preallocated elements. */
-	int     store_idx = 0;
+	ಪೂರ್ಣಾಂಕ     store_idx = 0;
 	usg_elem *ue;
-	int     opt_col_width = 0, desc_col_width = 0;
-	int     desccol;
-	int     print_run = 0;
+	ಪೂರ್ಣಾಂಕ     opt_ಲಂಬಸಾಲು_ಅಗಲ = 0, desc_ಲಂಬಸಾಲು_ಅಗಲ = 0;
+	ಪೂರ್ಣಾಂಕ     desccol;
+	ಪೂರ್ಣಾಂಕ     print_ಸತತ = 0;
 
-	s = (struct _scanopt_t *) scanner;
+	s = (ರಚನೆ _scanopt_t *) scanner;
 
-	if (usage) {
+	ಆದರೆ (usage) {
 		fprintf (fp, "%s\n", usage);
 	}
-	else {
+	ಇಲ್ಲದಿದ್ದರೆ {
 		fprintf (fp, _("Usage: %s [OPTIONS]...\n"), s->argv[0]);
 	}
 	fprintf (fp, "\n");
 
 	/* Sort by r_val and string. Yes, this is O(n*n), but n is small. */
-	store = malloc((size_t) s->optc * sizeof (usg_elem));
-	for (i = 0; i < s->optc; i++) {
+	store = ಸ್ಮರಣೆ_ಕೊಡು((size_t) s->optc * ಗಾತ್ರ (usg_elem));
+	ಗಾಗಿ (i = 0; i < s->optc; i++) {
 
 		/* grab the next preallocate node. */
 		ue = store + store_idx++;
 		ue->idx = i;
-		ue->next = ue->alias = NULL;
+		ue->ಮುಂದಿನ = ue->alias = ಖಾಲಿ;
 
 		/* insert into list. */
-		if (!byr_val)
+		ಆದರೆ (!byr_val)
 			byr_val = ue;
-		else {
-			int     found_alias = 0;
-			usg_elem **ue_curr, **ptr_if_no_alias = NULL;
+		ಇಲ್ಲದಿದ್ದರೆ {
+			ಪೂರ್ಣಾಂಕ     ಸಿಕ್ಕಿತು_alias = 0;
+			usg_elem **ue_curr, **ptr_if_no_alias = ಖಾಲಿ;
 
 			ue_curr = &byr_val;
-			while (*ue_curr) {
-				if (RVAL (s, (*ue_curr)->idx) ==
+			ಆಗ (*ue_curr) {
+				ಆದರೆ (RVAL (s, (*ue_curr)->idx) ==
 				    RVAL (s, ue->idx)) {
 					/* push onto the alias list. */
 					ue_curr = &((*ue_curr)->alias);
-					found_alias = 1;
-					break;
+					ಸಿಕ್ಕಿತು_alias = 1;
+					ನಿಲ್ಲಿಸು;
 				}
-				if (!ptr_if_no_alias
+				ಆದರೆ (!ptr_if_no_alias
 				    &&
 				    strcasecmp (NAME (s, (*ue_curr)->idx),
 						NAME (s, ue->idx)) > 0) {
 					ptr_if_no_alias = ue_curr;
 				}
-				ue_curr = &((*ue_curr)->next);
+				ue_curr = &((*ue_curr)->ಮುಂದಿನ);
 			}
-			if (!found_alias && ptr_if_no_alias)
+			ಆದರೆ (!ಸಿಕ್ಕಿತು_alias && ptr_if_no_alias)
 				ue_curr = ptr_if_no_alias;
-			ue->next = *ue_curr;
+			ue->ಮುಂದಿನ = *ue_curr;
 			*ue_curr = ue;
 		}
 	}
 
-#if 0
-	if (1) {
-		printf ("ORIGINAL:\n");
-		for (i = 0; i < s->optc; i++)
-			printf ("%2d: %s\n", i, NAME (s, i));
-		printf ("SORTED:\n");
+#ಆದರೆ 0
+	ಆದರೆ (1) {
+		ಬರೆ ("ORIGINAL:\n");
+		ಗಾಗಿ (i = 0; i < s->optc; i++)
+			ಬರೆ ("%2d: %s\n", i, NAME (s, i));
+		ಬರೆ ("SORTED:\n");
 		ue = byr_val;
-		while (ue) {
+		ಆಗ (ue) {
 			usg_elem *ue2;
 
-			printf ("%2d: %s\n", ue->idx, NAME (s, ue->idx));
-			for (ue2 = ue->alias; ue2; ue2 = ue2->next)
-				printf ("  +---> %2d: %s\n", ue2->idx,
+			ಬರೆ ("%2d: %s\n", ue->idx, NAME (s, ue->idx));
+			ಗಾಗಿ (ue2 = ue->alias; ue2; ue2 = ue2->ಮುಂದಿನ)
+				ಬರೆ ("  +---> %2d: %s\n", ue2->idx,
 					NAME (s, ue2->idx));
-			ue = ue->next;
+			ue = ue->ಮುಂದಿನ;
 		}
 	}
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
 	/* Now build each row of output. */
 
 	/* first pass calculate how much room we need. */
-	for (ue = byr_val; ue; ue = ue->next) {
+	ಗಾಗಿ (ue = byr_val; ue; ue = ue->ಮುಂದಿನ) {
 		usg_elem *ap;
-		int     len;
+		ಪೂರ್ಣಾಂಕ     len;
 
 		len = PRINTLEN(s, ue->idx);
 
-		for (ap = ue->alias; ap; ap = ap->next) {
-			len += PRINTLEN(s, ap->idx) + (int) strlen(", ");
+		ಗಾಗಿ (ap = ue->alias; ap; ap = ap->ಮುಂದಿನ) {
+			len += PRINTLEN(s, ap->idx) + (ಪೂರ್ಣಾಂಕ) ಅಕ್ಷರಸರಣಿ_ಉದ್ದ(", ");
 		}
 
-		if (len > opt_col_width)
-			opt_col_width = len;
+		ಆದರೆ (len > opt_ಲಂಬಸಾಲು_ಅಗಲ)
+			opt_ಲಂಬಸಾಲು_ಅಗಲ = len;
 
 		/* It's much easier to calculate length for description column! */
-		len = (int) strlen (DESC (s, ue->idx));
-		if (len > desc_col_width)
-			desc_col_width = len;
+		len = (ಪೂರ್ಣಾಂಕ) ಅಕ್ಷರಸರಣಿ_ಉದ್ದ (DESC (s, ue->idx));
+		ಆದರೆ (len > desc_ಲಂಬಸಾಲು_ಅಗಲ)
+			desc_ಲಂಬಸಾಲು_ಅಗಲ = len;
 	}
 
 	/* Determine how much room we have, and how much we will allocate to each col.
 	 * Do not address pathological cases. Output will just be ugly. */
-	columns = get_cols () - 1;
-	if (opt_col_width + desc_col_width + indent * 2 > columns) {
+	columns = get_ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ () - 1;
+	ಆದರೆ (opt_ಲಂಬಸಾಲು_ಅಗಲ + desc_ಲಂಬಸಾಲು_ಅಗಲ + indent * 2 > columns) {
 		/* opt col gets whatever it wants. we'll wrap the desc col. */
-		desc_col_width = columns - (opt_col_width + indent * 2);
-		if (desc_col_width < 14)	/* 14 is arbitrary lower limit on desc width. */
-			desc_col_width = INT_MAX;
+		desc_ಲಂಬಸಾಲು_ಅಗಲ = columns - (opt_ಲಂಬಸಾಲು_ಅಗಲ + indent * 2);
+		ಆದರೆ (desc_ಲಂಬಸಾಲು_ಅಗಲ < 14)	/* 14 is arbitrary lower limit on desc width. */
+			desc_ಲಂಬಸಾಲು_ಅಗಲ = ಗರಿಷ್ಠ_ಪೂರ್ಣಾಂಕ;
 	}
-	desccol = opt_col_width + indent * 2;
+	desccol = opt_ಲಂಬಸಾಲು_ಅಗಲ + indent * 2;
 
-#define PRINT_SPACES(fp,n) \
+#ವ್ಯಾಖ್ಯಾನಿಸು PRINT_SPACES(fp,n) \
 	fprintf((fp), "%*s", (n), "")
 
 	/* Second pass (same as above loop), this time we print. */
 	/* Sloppy hack: We iterate twice. The first time we print short and long options.
 	   The second time we print those lines that have ONLY long options. */
-	while (print_run++ < 2) {
-		for (ue = byr_val; ue; ue = ue->next) {
+	ಆಗ (print_ಸತತ++ < 2) {
+		ಗಾಗಿ (ue = byr_val; ue; ue = ue->ಮುಂದಿನ) {
 			usg_elem *ap;
-			int     nwords = 0, nchars = 0, has_short = 0;
+			ಪೂರ್ಣಾಂಕ     nwords = 0, nchars = 0, has_short = 0;
 
 /* TODO: get has_short schtick to work */
 			has_short = !(FLAGS (s, ue->idx) & IS_LONG);
-			for (ap = ue->alias; ap; ap = ap->next) {
-				if (!(FLAGS (s, ap->idx) & IS_LONG)) {
+			ಗಾಗಿ (ap = ue->alias; ap; ap = ap->ಮುಂದಿನ) {
+				ಆದರೆ (!(FLAGS (s, ap->idx) & IS_LONG)) {
 					has_short = 1;
-					break;
+					ನಿಲ್ಲಿಸು;
 				}
 			}
-			if ((print_run == 1 && !has_short) ||
-			    (print_run == 2 && has_short))
-				continue;
+			ಆದರೆ ((print_ಸತತ == 1 && !has_short) ||
+			    (print_ಸತತ == 2 && has_short))
+				ಮುಂದುವರಿ;
 
 			PRINT_SPACES (fp, indent);
 			nchars += indent;
 
 /* Print, adding a ", " between aliases. */
-#define PRINT_IT(i) do{\
-                  if(nwords++)\
+#ವ್ಯಾಖ್ಯಾನಿಸು PRINT_IT(i) ಮಾಡು{\
+                  ಆದರೆ(nwords++)\
                       nchars+=fprintf(fp,", ");\
                   nchars+=fprintf(fp,"%s",s->options[i].opt_fmt);\
-            }while(0)
+            }ಆಗ(0)
 
-			if (!(FLAGS (s, ue->idx) & IS_LONG))
+			ಆದರೆ (!(FLAGS (s, ue->idx) & IS_LONG))
 				PRINT_IT (ue->idx);
 
 			/* print short aliases first. */
-			for (ap = ue->alias; ap; ap = ap->next) {
-				if (!(FLAGS (s, ap->idx) & IS_LONG))
+			ಗಾಗಿ (ap = ue->alias; ap; ap = ap->ಮುಂದಿನ) {
+				ಆದರೆ (!(FLAGS (s, ap->idx) & IS_LONG))
 					PRINT_IT (ap->idx);
 			}
 
 
-			if (FLAGS (s, ue->idx) & IS_LONG)
+			ಆದರೆ (FLAGS (s, ue->idx) & IS_LONG)
 				PRINT_IT (ue->idx);
 
 			/* repeat the above loop, this time for long aliases. */
-			for (ap = ue->alias; ap; ap = ap->next) {
-				if (FLAGS (s, ap->idx) & IS_LONG)
+			ಗಾಗಿ (ap = ue->alias; ap; ap = ap->ಮುಂದಿನ) {
+				ಆದರೆ (FLAGS (s, ap->idx) & IS_LONG)
 					PRINT_IT (ap->idx);
 			}
 
@@ -399,47 +399,47 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 			PRINT_SPACES (fp, desccol - nchars);
 
 			/* Print description, wrapped to desc_col_width columns. */
-			if (1) {
-				const char *pstart;
+			ಆದರೆ (1) {
+				ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *pstart;
 
 				pstart = DESC (s, ue->idx);
-				while (1) {
-					int     n = 0;
-					const char *lastws = NULL, *p;
+				ಆಗ (1) {
+					ಪೂರ್ಣಾಂಕ     n = 0;
+					ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *lastws = ಖಾಲಿ, *p;
 
 					p = pstart;
 
-					while (*p && n < desc_col_width
+					ಆಗ (*p && n < desc_ಲಂಬಸಾಲು_ಅಗಲ
 					       && *p != '\n') {
-						if (isspace ((unsigned char)(*p))
+						ಆದರೆ (ಖಾಲಿಯೇ ((ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)(*p))
 						    || *p == '-') lastws =
 								p;
 						n++;
 						p++;
 					}
 
-					if (!*p) {	/* hit end of desc. done. */
+					ಆದರೆ (!*p) {	/* hit end of desc. done. */
 						fprintf (fp, "%s\n",
 							 pstart);
-						break;
+						ನಿಲ್ಲಿಸು;
 					}
-					else if (*p == '\n') {	/* print everything up to here then wrap. */
+					ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (*p == '\n') {	/* print everything up to here then wrap. */
 						fprintf (fp, "%.*s\n", n,
 							 pstart);
 						PRINT_SPACES (fp, desccol);
 						pstart = p + 1;
-						continue;
+						ಮುಂದುವರಿ;
 					}
-					else {	/* we hit the edge of the screen. wrap at space if possible. */
-						if (lastws) {
+					ಇಲ್ಲದಿದ್ದರೆ {	/* we hit the edge of the screen. wrap at space if possible. */
+						ಆದರೆ (lastws) {
 							fprintf (fp,
 								 "%.*s\n",
-								 (int)(lastws - pstart),
+								 (ಪೂರ್ಣಾಂಕ)(lastws - pstart),
 								 pstart);
 							pstart =
 								lastws + 1;
 						}
-						else {
+						ಇಲ್ಲದಿದ್ದರೆ {
 							fprintf (fp,
 								 "%.*s\n",
 								 n,
@@ -447,61 +447,61 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 							pstart = p + 1;
 						}
 						PRINT_SPACES (fp, desccol);
-						continue;
+						ಮುಂದುವರಿ;
 					}
 				}
 			}
 		}
 	}			/* end while */
-	free (store);
-	return 0;
+	ಬಿಡುಗಡೆ (store);
+	ಹಿಂತಿರುಗಿ 0;
 }
-#endif /* no scanopt_usage */
+#ಆದರೆ_ಅಂತ್ಯ /* no scanopt_usage */
 
 
-static void scanopt_err(struct _scanopt_t *s, int is_short, int err)
+ಸ್ಥಿರ ಶೂನ್ಯ scanopt_err(ರಚನೆ _scanopt_t *s, ಪೂರ್ಣಾಂಕ is_short, ಪೂರ್ಣಾಂಕ err)
 {
-	const char *optname = "";
-	char    optchar[2];
+	ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *optname = "";
+	ಅಕ್ಷರ    optchar[2];
 
-	if (!s->no_err_msg) {
+	ಆದರೆ (!s->no_err_ಸಂದೇಶ) {
 
-		if (s->index > 0 && s->index < s->argc) {
-			if (is_short) {
+		ಆದರೆ (s->ಸೂಚ್ಯಂಕ > 0 && s->ಸೂಚ್ಯಂಕ < s->argc) {
+			ಆದರೆ (is_short) {
 				optchar[0] =
-					s->argv[s->index][s->subscript];
+					s->argv[s->ಸೂಚ್ಯಂಕ][s->subscript];
 				optchar[1] = '\0';
 				optname = optchar;
 			}
-			else {
-				optname = s->argv[s->index];
+			ಇಲ್ಲದಿದ್ದರೆ {
+				optname = s->argv[s->ಸೂಚ್ಯಂಕ];
 			}
 		}
 
 		fprintf (stderr, "%s: ", s->argv[0]);
-		switch (err) {
-		case SCANOPT_ERR_ARG_NOT_ALLOWED:
+		ಆಯ್ಕೆ (err) {
+		ಸ್ಥಿತಿ SCANOPT_ERR_ARG_NOT_ALLOWED:
 			fprintf (stderr,
 				 _
 				 ("option `%s' doesn't allow an argument\n"),
 				 optname);
-			break;
-		case SCANOPT_ERR_ARG_NOT_FOUND:
+			ನಿಲ್ಲಿಸು;
+		ಸ್ಥಿತಿ SCANOPT_ERR_ARG_NOT_ಸಿಕ್ಕಿತು:
 			fprintf (stderr,
 				 _("option `%s' requires an argument\n"),
 				 optname);
-			break;
-		case SCANOPT_ERR_OPT_AMBIGUOUS:
+			ನಿಲ್ಲಿಸು;
+		ಸ್ಥಿತಿ SCANOPT_ERR_OPT_AMBIGUOUS:
 			fprintf (stderr, _("option `%s' is ambiguous\n"),
 				 optname);
-			break;
-		case SCANOPT_ERR_OPT_UNRECOGNIZED:
+			ನಿಲ್ಲಿಸು;
+		ಸ್ಥಿತಿ SCANOPT_ERR_OPT_UNRECOGNIZED:
 			fprintf (stderr, _("Unrecognized option `%s'\n"),
 				 optname);
-			break;
-		default:
+			ನಿಲ್ಲಿಸು;
+		ಪೂರ್ವನಿಯೋಜಿತ:
 			fprintf (stderr, _("Unknown error=(%d)\n"), err);
-			break;
+			ನಿಲ್ಲಿಸು;
 		}
 	}
 }
@@ -513,40 +513,40 @@ static void scanopt_err(struct _scanopt_t *s, int is_short, int err)
  * optname will point to str + 2
  *
  */
-static int matchlongopt (char *str, char **optname, int *optlen, char **arg, int *arglen)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ matchlongopt (ಅಕ್ಷರ *str, ಅಕ್ಷರ **optname, ಪೂರ್ಣಾಂಕ *optlen, ಅಕ್ಷರ **arg, ಪೂರ್ಣಾಂಕ *arglen)
 {
-	char   *p;
+	ಅಕ್ಷರ   *p;
 
-	*optname = *arg = NULL;
+	*optname = *arg = ಖಾಲಿ;
 	*optlen = *arglen = 0;
 
 	/* Match regex /--./   */
 	p = str;
-	if (p[0] != '-' || p[1] != '-' || !p[2])
-		return 0;
+	ಆದರೆ (p[0] != '-' || p[1] != '-' || !p[2])
+		ಹಿಂತಿರುಗಿ 0;
 
 	p += 2;
 	*optname = p;
 
 	/* find the end of optname */
-	while (*p && *p != '=')
+	ಆಗ (*p && *p != '=')
 		++p;
 
-	*optlen = (int) (p - *optname);
+	*optlen = (ಪೂರ್ಣಾಂಕ) (p - *optname);
 
-	if (!*p)
+	ಆದರೆ (!*p)
 		/* an option with no '=...' part. */
-		return 1;
+		ಹಿಂತಿರುಗಿ 1;
 
 
 	/* We saw an '=' char. The rest of p is the arg. */
 	p++;
 	*arg = p;
-	while (*p)
+	ಆಗ (*p)
 		++p;
-	*arglen = (int) (p - *arg);
+	*arglen = (ಪೂರ್ಣಾಂಕ) (p - *arg);
 
-	return 1;
+	ಹಿಂತಿರುಗಿ 1;
 }
 
 
@@ -555,131 +555,131 @@ static int matchlongopt (char *str, char **optname, int *optlen, char **arg, int
  * Short options must be exact.
  * Return boolean true if found and no error.
  * Error stored in err_code or zero if no error. */
-static int find_opt (struct _scanopt_t *s, int lookup_long, char *optstart, int
-	len, int *err_code, int *opt_offset)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ ಕಂಡುಹಿಡಿ_opt (ರಚನೆ _scanopt_t *s, ಪೂರ್ಣಾಂಕ lookup_long, ಅಕ್ಷರ *optstart, ಪೂರ್ಣಾಂಕ
+	len, ಪೂರ್ಣಾಂಕ *err_ಸಂಕೇತ, ಪೂರ್ಣಾಂಕ *opt_ಸ್ಥಾನಾಂತರ)
 {
-	int     nmatch = 0, lastr_val = 0, i;
+	ಪೂರ್ಣಾಂಕ     nmatch = 0, lastr_val = 0, i;
 
-	*err_code = 0;
-	*opt_offset = -1;
+	*err_ಸಂಕೇತ = 0;
+	*opt_ಸ್ಥಾನಾಂತರ = -1;
 
-	if (!optstart)
-		return 0;
+	ಆದರೆ (!optstart)
+		ಹಿಂತಿರುಗಿ 0;
 
-	for (i = 0; i < s->optc; i++) {
-		const char   *optname;
+	ಗಾಗಿ (i = 0; i < s->optc; i++) {
+		ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ   *optname;
 
 		optname = s->options[i].opt_fmt + (lookup_long ? 2 : 1);
 
-		if (lookup_long && (s->aux[i].flags & IS_LONG)) {
-			if (len > s->aux[i].namelen)
-				continue;
+		ಆದರೆ (lookup_long && (s->aux[i].flags & IS_LONG)) {
+			ಆದರೆ (len > s->aux[i].namelen)
+				ಮುಂದುವರಿ;
 
-			if (strncmp (optname, optstart, (size_t) len) == 0) {
+			ಆದರೆ (ಅಕ್ಷರಸರಣಿ_ಹೋಲಿಕೆ (optname, optstart, (size_t) len) == 0) {
 				nmatch++;
-				*opt_offset = i;
+				*opt_ಸ್ಥಾನಾಂತರ = i;
 
 				/* exact match overrides all. */
-				if (len == s->aux[i].namelen) {
+				ಆದರೆ (len == s->aux[i].namelen) {
 					nmatch = 1;
-					break;
+					ನಿಲ್ಲಿಸು;
 				}
 
 				/* ambiguity is ok between aliases. */
-				if (lastr_val
+				ಆದರೆ (lastr_val
 				    && lastr_val ==
 				    s->options[i].r_val) nmatch--;
 				lastr_val = s->options[i].r_val;
 			}
 		}
-		else if (!lookup_long && !(s->aux[i].flags & IS_LONG)) {
-			if (optname[0] == optstart[0]) {
+		ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!lookup_long && !(s->aux[i].flags & IS_LONG)) {
+			ಆದರೆ (optname[0] == optstart[0]) {
 				nmatch++;
-				*opt_offset = i;
+				*opt_ಸ್ಥಾನಾಂತರ = i;
 			}
 		}
 	}
 
-	if (nmatch == 0) {
-		*err_code = SCANOPT_ERR_OPT_UNRECOGNIZED;
-		*opt_offset = -1;
+	ಆದರೆ (nmatch == 0) {
+		*err_ಸಂಕೇತ = SCANOPT_ERR_OPT_UNRECOGNIZED;
+		*opt_ಸ್ಥಾನಾಂತರ = -1;
 	}
-	else if (nmatch > 1) {
-		*err_code = SCANOPT_ERR_OPT_AMBIGUOUS;
-		*opt_offset = -1;
+	ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (nmatch > 1) {
+		*err_ಸಂಕೇತ = SCANOPT_ERR_OPT_AMBIGUOUS;
+		*opt_ಸ್ಥಾನಾಂತರ = -1;
 	}
 
-	return *err_code ? 0 : 1;
+	ಹಿಂತಿರುಗಿ *err_ಸಂಕೇತ ? 0 : 1;
 }
 
 
-int     scanopt (scanopt_t *svoid, char **arg, int *optindex)
+ಪೂರ್ಣಾಂಕ     scanopt (scanopt_t *svoid, ಅಕ್ಷರ **arg, ಪೂರ್ಣಾಂಕ *optindex)
 {
-	char   *optname = NULL, *optarg = NULL, *pstart;
-	int     namelen = 0, arglen = 0;
-	int     errcode = 0, has_next;
-	const optspec_t *optp;
-	struct _scanopt_t *s;
-	struct _aux *auxp;
-	int     is_short;
-	int     opt_offset = -1;
+	ಅಕ್ಷರ   *optname = ಖಾಲಿ, *optarg = ಖಾಲಿ, *pstart;
+	ಪೂರ್ಣಾಂಕ     namelen = 0, arglen = 0;
+	ಪೂರ್ಣಾಂಕ     errcode = 0, has_ಮುಂದಿನ;
+	ಸ್ಥಿರಾಂಕ optspec_t *optp;
+	ರಚನೆ _scanopt_t *s;
+	ರಚನೆ _aux *auxp;
+	ಪೂರ್ಣಾಂಕ     is_short;
+	ಪೂರ್ಣಾಂಕ     opt_ಸ್ಥಾನಾಂತರ = -1;
 
-	s = (struct _scanopt_t *) svoid;
+	s = (ರಚನೆ _scanopt_t *) svoid;
 
 	/* Normalize return-parameters. */
-	SAFE_ASSIGN (arg, NULL);
-	SAFE_ASSIGN (optindex, s->index);
+	ಸುರಕ್ಷಿತ_ನಿಯೋಜಿಸು (arg, ಖಾಲಿ);
+	ಸುರಕ್ಷಿತ_ನಿಯೋಜಿಸು (optindex, s->ಸೂಚ್ಯಂಕ);
 
-	if (s->index >= s->argc)
-		return 0;
+	ಆದರೆ (s->ಸೂಚ್ಯಂಕ >= s->argc)
+		ಹಿಂತಿರುಗಿ 0;
 
 	/* pstart always points to the start of our current scan. */
-	pstart = s->argv[s->index] + s->subscript;
-	if (!pstart)
-		return 0;
+	pstart = s->argv[s->ಸೂಚ್ಯಂಕ] + s->subscript;
+	ಆದರೆ (!pstart)
+		ಹಿಂತಿರುಗಿ 0;
 
-	if (s->subscript == 0) {
+	ಆದರೆ (s->subscript == 0) {
 
 		/* test for exact match of "--" */
-		if (pstart[0] == '-' && pstart[1] == '-' && !pstart[2]) {
-			SAFE_ASSIGN (optindex, s->index + 1);
-			INC_INDEX (s, 1);
-			return 0;
+		ಆದರೆ (pstart[0] == '-' && pstart[1] == '-' && !pstart[2]) {
+			ಸುರಕ್ಷಿತ_ನಿಯೋಜಿಸು (optindex, s->ಸೂಚ್ಯಂಕ + 1);
+			INC_ಸೂಚ್ಯಂಕ (s, 1);
+			ಹಿಂತಿರುಗಿ 0;
 		}
 
 		/* Match an opt. */
-		if (matchlongopt
+		ಆದರೆ (matchlongopt
 		    (pstart, &optname, &namelen, &optarg, &arglen)) {
 
 			/* it LOOKS like an opt, but is it one?! */
-			if (!find_opt
+			ಆದರೆ (!ಕಂಡುಹಿಡಿ_opt
 			    (s, 1, optname, namelen, &errcode,
-			     &opt_offset)) {
+			     &opt_ಸ್ಥಾನಾಂತರ)) {
 				scanopt_err (s, 0, errcode);
-				return errcode;
+				ಹಿಂತಿರುಗಿ errcode;
 			}
 			/* We handle this below. */
 			is_short = 0;
 
 			/* Check for short opt.  */
 		}
-		else if (pstart[0] == '-' && pstart[1]) {
+		ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (pstart[0] == '-' && pstart[1]) {
 			/* Pass through to below. */
 			is_short = 1;
 			s->subscript++;
 			pstart++;
 		}
 
-		else {
+		ಇಲ್ಲದಿದ್ದರೆ {
 			/* It's not an option. We're done. */
-			return 0;
+			ಹಿಂತಿರುಗಿ 0;
 		}
 	}
 
 	/* We have to re-check the subscript status because it
 	 * may have changed above. */
 
-	if (s->subscript != 0) {
+	ಆದರೆ (s->subscript != 0) {
 
 		/* we are somewhere in a run of short opts,
 		 * e.g., at the 'z' in `tar -xzf` */
@@ -688,19 +688,19 @@ int     scanopt (scanopt_t *svoid, char **arg, int *optindex)
 		namelen = 1;
 		is_short = 1;
 
-		if (!find_opt
-		    (s, 0, pstart, namelen, &errcode, &opt_offset)) {
+		ಆದರೆ (!ಕಂಡುಹಿಡಿ_opt
+		    (s, 0, pstart, namelen, &errcode, &opt_ಸ್ಥಾನಾಂತರ)) {
 			scanopt_err(s, 1, errcode);
-			return errcode;
+			ಹಿಂತಿರುಗಿ errcode;
 		}
 
 		optarg = pstart + 1;
-		if (!*optarg) {
-			optarg = NULL;
+		ಆದರೆ (!*optarg) {
+			optarg = ಖಾಲಿ;
 			arglen = 0;
 		}
-		else
-			arglen = (int) strlen (optarg);
+		ಇಲ್ಲದಿದ್ದರೆ
+			arglen = (ಪೂರ್ಣಾಂಕ) ಅಕ್ಷರಸರಣಿ_ಉದ್ದ (optarg);
 	}
 
 	/* At this point, we have a long or short option matched at opt_offset into
@@ -710,67 +710,67 @@ int     scanopt (scanopt_t *svoid, char **arg, int *optindex)
 
 	/* Look ahead in argv[] to see if there is something
 	 * that we can use as an argument (if needed). */
-	has_next = s->index + 1 < s->argc;
+	has_ಮುಂದಿನ = s->ಸೂಚ್ಯಂಕ + 1 < s->argc;
 
-	optp = s->options + opt_offset;
-	auxp = s->aux + opt_offset;
+	optp = s->options + opt_ಸ್ಥಾನಾಂತರ;
+	auxp = s->aux + opt_ಸ್ಥಾನಾಂತರ;
 
 	/* case: no args allowed */
-	if (auxp->flags & ARG_NONE) {
-		if (optarg && !is_short) {
+	ಆದರೆ (auxp->flags & ARG_NONE) {
+		ಆದರೆ (optarg && !is_short) {
 			scanopt_err(s, is_short, SCANOPT_ERR_ARG_NOT_ALLOWED);
-			INC_INDEX (s, 1);
-			return SCANOPT_ERR_ARG_NOT_ALLOWED;
+			INC_ಸೂಚ್ಯಂಕ (s, 1);
+			ಹಿಂತಿರುಗಿ SCANOPT_ERR_ARG_NOT_ALLOWED;
 		}
-		else if (!optarg)
-			INC_INDEX (s, 1);
-		else
+		ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!optarg)
+			INC_ಸೂಚ್ಯಂಕ (s, 1);
+		ಇಲ್ಲದಿದ್ದರೆ
 			s->subscript++;
-		return optp->r_val;
+		ಹಿಂತಿರುಗಿ optp->r_val;
 	}
 
 	/* case: required */
-	if (auxp->flags & ARG_REQ) {
-		if (!optarg && !has_next) {
-			scanopt_err(s, is_short, SCANOPT_ERR_ARG_NOT_FOUND);
-			return SCANOPT_ERR_ARG_NOT_FOUND;
+	ಆದರೆ (auxp->flags & ARG_REQ) {
+		ಆದರೆ (!optarg && !has_ಮುಂದಿನ) {
+			scanopt_err(s, is_short, SCANOPT_ERR_ARG_NOT_ಸಿಕ್ಕಿತು);
+			ಹಿಂತಿರುಗಿ SCANOPT_ERR_ARG_NOT_ಸಿಕ್ಕಿತು;
 		}
 
-		if (!optarg) {
+		ಆದರೆ (!optarg) {
 			/* Let the next argv element become the argument. */
-			SAFE_ASSIGN (arg, s->argv[s->index + 1]);
-			INC_INDEX (s, 2);
+			ಸುರಕ್ಷಿತ_ನಿಯೋಜಿಸು (arg, s->argv[s->ಸೂಚ್ಯಂಕ + 1]);
+			INC_ಸೂಚ್ಯಂಕ (s, 2);
 		}
-		else {
-			SAFE_ASSIGN (arg, (char *) optarg);
-			INC_INDEX (s, 1);
+		ಇಲ್ಲದಿದ್ದರೆ {
+			ಸುರಕ್ಷಿತ_ನಿಯೋಜಿಸು (arg, (ಅಕ್ಷರ *) optarg);
+			INC_ಸೂಚ್ಯಂಕ (s, 1);
 		}
-		return optp->r_val;
+		ಹಿಂತಿರುಗಿ optp->r_val;
 	}
 
 	/* case: optional */
-	if (auxp->flags & ARG_OPT) {
-		SAFE_ASSIGN (arg, optarg);
-		INC_INDEX (s, 1);
-		return optp->r_val;
+	ಆದರೆ (auxp->flags & ARG_OPT) {
+		ಸುರಕ್ಷಿತ_ನಿಯೋಜಿಸು (arg, optarg);
+		INC_ಸೂಚ್ಯಂಕ (s, 1);
+		ಹಿಂತಿರುಗಿ optp->r_val;
 	}
 
 
 	/* Should not reach here. */
-	return 0;
+	ಹಿಂತಿರುಗಿ 0;
 }
 
 
-int     scanopt_destroy (scanopt_t *svoid)
+ಪೂರ್ಣಾಂಕ     scanopt_destroy (scanopt_t *svoid)
 {
-	struct _scanopt_t *s;
+	ರಚನೆ _scanopt_t *s;
 
-	s = (struct _scanopt_t *) svoid;
-	if (s != NULL) {
-		free(s->aux);
-		free(s);
+	s = (ರಚನೆ _scanopt_t *) svoid;
+	ಆದರೆ (s != ಖಾಲಿ) {
+		ಬಿಡುಗಡೆ(s->aux);
+		ಬಿಡುಗಡೆ(s);
 	}
-	return 0;
+	ಹಿಂತಿರುಗಿ 0;
 }
 
 
