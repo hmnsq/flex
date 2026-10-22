@@ -33,8 +33,8 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include "flexdef.h"
-#include "scanopt.h"
+#अन्तर्भाव "flexdef.h"
+#अन्तर्भाव "scanopt.h"
 
 
 /* Internal structures */
@@ -44,177 +44,177 @@
 #define ARG_OPT  0x04
 #define IS_LONG  0x08
 
-struct _aux {
-	int     flags;		/* The above hex flags. */
-	int     namelen;	/* Length of the actual option word, e.g., "--file[=foo]" is 4 */
-	int     printlen;	/* Length of entire string, e.g., "--file[=foo]" is 12 */
+संरचना _aux {
+	पूर्णाङ्क     flags;		/* The above hex flags. */
+	पूर्णाङ्क     namelen;	/* Length of the actual option word, e.g., "--file[=foo]" is 4 */
+	पूर्णाङ्क     printlen;	/* Length of entire string, e.g., "--file[=foo]" is 12 */
 };
 
 
-struct _scanopt_t {
-	const optspec_t *options;	/* List of options. */
-	struct _aux *aux;	/* Auxiliary data about options. */
-	int     optc;		/* Number of options. */
-	int     argc;		/* Number of args. */
-	char  **argv;		/* Array of strings. */
-	int     index;		/* Used as: argv[index][subscript]. */
-	int     subscript;
-	char    no_err_msg;	/* If true, do not print errors. */
-	char    has_long;
-	char    has_short;
+संरचना _scanopt_t {
+	ध्रुव optspec_t *options;	/* List of options. */
+	संरचना _aux *aux;	/* Auxiliary data about options. */
+	पूर्णाङ्क     optc;		/* Number of options. */
+	पूर्णाङ्क     argc;		/* Number of args. */
+	वर्ण  **argv;		/* Array of strings. */
+	पूर्णाङ्क     index;		/* Used as: argv[index][subscript]. */
+	पूर्णाङ्क     subscript;
+	वर्ण    no_err_सन्देशः;	/* If true, do not print errors. */
+	वर्ण    has_long;
+	वर्ण    has_short;
 };
 
 /* Accessor functions. These WOULD be one-liners, but portability calls. */
-static const char *NAME(struct _scanopt_t *, int);
-static int PRINTLEN(struct _scanopt_t *, int);
-static int RVAL(struct _scanopt_t *, int);
-static int FLAGS(struct _scanopt_t *, int);
-static const char *DESC(struct _scanopt_t *, int);
-static void scanopt_err(struct _scanopt_t *, int, int);
-static int matchlongopt(char *, char **, int *, char **, int *);
-static int find_opt(struct _scanopt_t *, int, char *, int, int *, int *opt_offset);
+स्थिर ध्रुव वर्ण *NAME(संरचना _scanopt_t *, पूर्णाङ्क);
+स्थिर पूर्णाङ्क PRINTLEN(संरचना _scanopt_t *, पूर्णाङ्क);
+स्थिर पूर्णाङ्क RVAL(संरचना _scanopt_t *, पूर्णाङ्क);
+स्थिर पूर्णाङ्क FLAGS(संरचना _scanopt_t *, पूर्णाङ्क);
+स्थिर ध्रुव वर्ण *DESC(संरचना _scanopt_t *, पूर्णाङ्क);
+स्थिर शून्य scanopt_err(संरचना _scanopt_t *, पूर्णाङ्क, पूर्णाङ्क);
+स्थिर पूर्णाङ्क matchlongopt(वर्ण *, वर्ण **, पूर्णाङ्क *, वर्ण **, पूर्णाङ्क *);
+स्थिर पूर्णाङ्क find_opt(संरचना _scanopt_t *, पूर्णाङ्क, वर्ण *, पूर्णाङ्क, पूर्णाङ्क *, पूर्णाङ्क *opt_offset);
 
-static const char *NAME (struct _scanopt_t *s, int i)
+स्थिर ध्रुव वर्ण *NAME (संरचना _scanopt_t *s, पूर्णाङ्क i)
 {
-	return s->options[i].opt_fmt +
+	प्रत्यागम s->options[i].opt_fmt +
 		((s->aux[i].flags & IS_LONG) ? 2 : 1);
 }
 
-static int PRINTLEN (struct _scanopt_t *s, int i)
+स्थिर पूर्णाङ्क PRINTLEN (संरचना _scanopt_t *s, पूर्णाङ्क i)
 {
-	return s->aux[i].printlen;
+	प्रत्यागम s->aux[i].printlen;
 }
 
-static int RVAL (struct _scanopt_t *s, int i)
+स्थिर पूर्णाङ्क RVAL (संरचना _scanopt_t *s, पूर्णाङ्क i)
 {
-	return s->options[i].r_val;
+	प्रत्यागम s->options[i].r_val;
 }
 
-static int FLAGS (struct _scanopt_t *s, int i)
+स्थिर पूर्णाङ्क FLAGS (संरचना _scanopt_t *s, पूर्णाङ्क i)
 {
-	return s->aux[i].flags;
+	प्रत्यागम s->aux[i].flags;
 }
 
-static const char *DESC (struct _scanopt_t *s, int i)
+स्थिर ध्रुव वर्ण *DESC (संरचना _scanopt_t *s, पूर्णाङ्क i)
 {
-	return s->options[i].desc ? s->options[i].desc : "";
+	प्रत्यागम s->options[i].desc ? s->options[i].desc : "";
 }
 
 #ifndef NO_SCANOPT_USAGE
-static int get_cols (void);
+स्थिर पूर्णाङ्क get_cols (शून्य);
 
-static int get_cols (void)
+स्थिर पूर्णाङ्क get_cols (शून्य)
 {
-	char   *env;
-	int     cols = 80;	/* default */
+	वर्ण   *env;
+	पूर्णाङ्क     cols = 80;	/* default */
 
 #ifdef HAVE_NCURSES_H
 	initscr ();
 	endwin ();
-	if (COLS > 0)
-		return COLS;
+	जइ (COLS > 0)
+		प्रत्यागम COLS;
 #endif
 
-	if ((env = getenv ("COLUMNS")) != NULL)
+	जइ ((env = getenv ("COLUMNS")) != रिक्त)
 		cols = atoi (env);
 
-	return cols;
+	प्रत्यागम cols;
 }
 #endif
 
 /* Macro to check for NULL before assigning a value. */
 #define SAFE_ASSIGN(ptr,val) \
-    do{                      \
-        if((ptr)!=NULL)      \
+    करेहि{                      \
+        जइ((ptr)!=रिक्त)      \
             *(ptr) = val;    \
-    }while(0)
+    }जाव(0)
 
 /* Macro to assure we reset subscript whenever we adjust s->index.*/
 #define INC_INDEX(s,n)     \
-    do{                    \
+    करेहि{                    \
        (s)->index += (n);  \
        (s)->subscript= 0;  \
-    }while(0)
+    }जाव(0)
 
-scanopt_t *scanopt_init (const optspec_t *options, int argc, char **argv, int flags)
+scanopt_t *scanopt_init (ध्रुव optspec_t *options, पूर्णाङ्क argc, वर्ण **argv, पूर्णाङ्क flags)
 {
-	int     i;
-	struct _scanopt_t *s;
-	s = malloc(sizeof (struct _scanopt_t));
+	पूर्णाङ्क     i;
+	संरचना _scanopt_t *s;
+	s = malloc(परिमाण (संरचना _scanopt_t));
 
 	s->options = options;
 	s->optc = 0;
 	s->argc = argc;
-	s->argv = (char **) argv;
+	s->argv = (वर्ण **) argv;
 	s->index = 1;
 	s->subscript = 0;
-	s->no_err_msg = (flags & SCANOPT_NO_ERR_MSG);
+	s->no_err_सन्देशः = (flags & SCANOPT_NO_ERR_सन्देशः);
 	s->has_long = 0;
 	s->has_short = 0;
 
 	/* Determine option count. (Find entry with all zeros). */
 	s->optc = 0;
-	while (options[s->optc].opt_fmt
+	जाव (options[s->optc].opt_fmt
 	       || options[s->optc].r_val || options[s->optc].desc)
 		s->optc++;
 
 	/* Build auxiliary data */
-	s->aux = malloc((size_t) s->optc * sizeof (struct _aux));
+	s->aux = malloc((size_t) s->optc * परिमाण (संरचना _aux));
 
-	for (i = 0; i < s->optc; i++) {
-		const unsigned char *p, *pname;
-		const struct optspec_t *opt;
-		struct _aux *aux;
+	प्रति (i = 0; i < s->optc; i++) {
+		ध्रुव unsigned वर्ण *p, *pname;
+		ध्रुव संरचना optspec_t *opt;
+		संरचना _aux *aux;
 
 		opt = s->options + i;
 		aux = s->aux + i;
 
 		aux->flags = ARG_NONE;
 
-		if (opt->opt_fmt[0] == '-' && opt->opt_fmt[1] == '-') {
+		जइ (opt->opt_fmt[0] == '-' && opt->opt_fmt[1] == '-') {
 			aux->flags |= IS_LONG;
-			pname = (const unsigned char *)(opt->opt_fmt + 2);
+			pname = (ध्रुव unsigned वर्ण *)(opt->opt_fmt + 2);
 			s->has_long = 1;
 		}
-		else {
-			pname = (const unsigned char *)(opt->opt_fmt + 1);
+		अण्णहा {
+			pname = (ध्रुव unsigned वर्ण *)(opt->opt_fmt + 1);
 			s->has_short = 1;
 		}
-		aux->printlen = (int) strlen (opt->opt_fmt);
+		aux->printlen = (पूर्णाङ्क) strlen (opt->opt_fmt);
 
 		aux->namelen = 0;
-		for (p = pname + 1; *p; p++) {
+		प्रति (p = pname + 1; *p; p++) {
 			/* detect required arg */
-			if (*p == '=' || isspace ((unsigned char)*p)
+			जइ (*p == '=' || isspace ((unsigned वर्ण)*p)
 			    || !(aux->flags & IS_LONG)) {
-				if (aux->namelen == 0)
-					aux->namelen = (int) (p - pname);
+				जइ (aux->namelen == 0)
+					aux->namelen = (पूर्णाङ्क) (p - pname);
 				aux->flags |= ARG_REQ;
 				aux->flags &= ~ARG_NONE;
 			}
 			/* detect optional arg. This overrides required arg. */
-			if (*p == '[') {
-				if (aux->namelen == 0)
-					aux->namelen = (int) (p - pname);
+			जइ (*p == '[') {
+				जइ (aux->namelen == 0)
+					aux->namelen = (पूर्णाङ्क) (p - pname);
 				aux->flags &= ~(ARG_REQ | ARG_NONE);
 				aux->flags |= ARG_OPT;
-				break;
+				भङ्ग;
 			}
 		}
-		if (aux->namelen == 0)
-			aux->namelen = (int) (p - pname);
+		जइ (aux->namelen == 0)
+			aux->namelen = (पूर्णाङ्क) (p - pname);
 	}
-	return (scanopt_t *) s;
+	प्रत्यागम (scanopt_t *) s;
 }
 
 #ifndef NO_SCANOPT_USAGE
 /* these structs are for scanopt_usage(). */
-struct usg_elem {
-	int     idx;
-	struct usg_elem *next;
-	struct usg_elem *alias;
+संरचना usg_elem {
+	पूर्णाङ्क     idx;
+	संरचना usg_elem *next;
+	संरचना usg_elem *alias;
 };
-typedef struct usg_elem usg_elem;
+प्रकारनिर्देश संरचना usg_elem usg_elem;
 
 
 /* Prints a usage message based on contents of optlist.
@@ -228,55 +228,55 @@ typedef struct usg_elem usg_elem;
 [indent][option, alias1, alias2...][indent][description line1
                                             description line2...]
  */
-int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
+पूर्णाङ्क     scanopt_usage (scanopt_t *scanner, FILE *fp, ध्रुव वर्ण *usage)
 {
-	struct _scanopt_t *s;
-	int     i, columns;
-	const int indent = 2;
-	usg_elem *byr_val = NULL;	/* option indices sorted by r_val */
+	संरचना _scanopt_t *s;
+	पूर्णाङ्क     i, columns;
+	ध्रुव पूर्णाङ्क indent = 2;
+	usg_elem *byr_val = रिक्त;	/* option indices sorted by r_val */
 	usg_elem *store;	/* array of preallocated elements. */
-	int     store_idx = 0;
+	पूर्णाङ्क     store_idx = 0;
 	usg_elem *ue;
-	int     opt_col_width = 0, desc_col_width = 0;
-	int     desccol;
-	int     print_run = 0;
+	पूर्णाङ्क     opt_col_width = 0, desc_col_width = 0;
+	पूर्णाङ्क     desccol;
+	पूर्णाङ्क     print_run = 0;
 
-	s = (struct _scanopt_t *) scanner;
+	s = (संरचना _scanopt_t *) scanner;
 
-	if (usage) {
+	जइ (usage) {
 		fprintf (fp, "%s\n", usage);
 	}
-	else {
+	अण्णहा {
 		fprintf (fp, _("Usage: %s [OPTIONS]...\n"), s->argv[0]);
 	}
 	fprintf (fp, "\n");
 
 	/* Sort by r_val and string. Yes, this is O(n*n), but n is small. */
-	store = malloc((size_t) s->optc * sizeof (usg_elem));
-	for (i = 0; i < s->optc; i++) {
+	store = malloc((size_t) s->optc * परिमाण (usg_elem));
+	प्रति (i = 0; i < s->optc; i++) {
 
 		/* grab the next preallocate node. */
 		ue = store + store_idx++;
 		ue->idx = i;
-		ue->next = ue->alias = NULL;
+		ue->next = ue->alias = रिक्त;
 
 		/* insert into list. */
-		if (!byr_val)
+		जइ (!byr_val)
 			byr_val = ue;
-		else {
-			int     found_alias = 0;
-			usg_elem **ue_curr, **ptr_if_no_alias = NULL;
+		अण्णहा {
+			पूर्णाङ्क     found_alias = 0;
+			usg_elem **ue_curr, **ptr_if_no_alias = रिक्त;
 
 			ue_curr = &byr_val;
-			while (*ue_curr) {
-				if (RVAL (s, (*ue_curr)->idx) ==
+			जाव (*ue_curr) {
+				जइ (RVAL (s, (*ue_curr)->idx) ==
 				    RVAL (s, ue->idx)) {
 					/* push onto the alias list. */
 					ue_curr = &((*ue_curr)->alias);
 					found_alias = 1;
-					break;
+					भङ्ग;
 				}
-				if (!ptr_if_no_alias
+				जइ (!ptr_if_no_alias
 				    &&
 				    strcasecmp (NAME (s, (*ue_curr)->idx),
 						NAME (s, ue->idx)) > 0) {
@@ -284,25 +284,25 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 				}
 				ue_curr = &((*ue_curr)->next);
 			}
-			if (!found_alias && ptr_if_no_alias)
+			जइ (!found_alias && ptr_if_no_alias)
 				ue_curr = ptr_if_no_alias;
 			ue->next = *ue_curr;
 			*ue_curr = ue;
 		}
 	}
 
-#if 0
-	if (1) {
+#जइ 0
+	जइ (1) {
 		printf ("ORIGINAL:\n");
-		for (i = 0; i < s->optc; i++)
+		प्रति (i = 0; i < s->optc; i++)
 			printf ("%2d: %s\n", i, NAME (s, i));
 		printf ("SORTED:\n");
 		ue = byr_val;
-		while (ue) {
+		जाव (ue) {
 			usg_elem *ue2;
 
 			printf ("%2d: %s\n", ue->idx, NAME (s, ue->idx));
-			for (ue2 = ue->alias; ue2; ue2 = ue2->next)
+			प्रति (ue2 = ue->alias; ue2; ue2 = ue2->next)
 				printf ("  +---> %2d: %s\n", ue2->idx,
 					NAME (s, ue2->idx));
 			ue = ue->next;
@@ -313,32 +313,32 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 	/* Now build each row of output. */
 
 	/* first pass calculate how much room we need. */
-	for (ue = byr_val; ue; ue = ue->next) {
+	प्रति (ue = byr_val; ue; ue = ue->next) {
 		usg_elem *ap;
-		int     len;
+		पूर्णाङ्क     len;
 
 		len = PRINTLEN(s, ue->idx);
 
-		for (ap = ue->alias; ap; ap = ap->next) {
-			len += PRINTLEN(s, ap->idx) + (int) strlen(", ");
+		प्रति (ap = ue->alias; ap; ap = ap->next) {
+			len += PRINTLEN(s, ap->idx) + (पूर्णाङ्क) strlen(", ");
 		}
 
-		if (len > opt_col_width)
+		जइ (len > opt_col_width)
 			opt_col_width = len;
 
 		/* It's much easier to calculate length for description column! */
-		len = (int) strlen (DESC (s, ue->idx));
-		if (len > desc_col_width)
+		len = (पूर्णाङ्क) strlen (DESC (s, ue->idx));
+		जइ (len > desc_col_width)
 			desc_col_width = len;
 	}
 
 	/* Determine how much room we have, and how much we will allocate to each col.
 	 * Do not address pathological cases. Output will just be ugly. */
 	columns = get_cols () - 1;
-	if (opt_col_width + desc_col_width + indent * 2 > columns) {
+	जइ (opt_col_width + desc_col_width + indent * 2 > columns) {
 		/* opt col gets whatever it wants. we'll wrap the desc col. */
 		desc_col_width = columns - (opt_col_width + indent * 2);
-		if (desc_col_width < 14)	/* 14 is arbitrary lower limit on desc width. */
+		जइ (desc_col_width < 14)	/* 14 is arbitrary lower limit on desc width. */
 			desc_col_width = INT_MAX;
 	}
 	desccol = opt_col_width + indent * 2;
@@ -349,49 +349,49 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 	/* Second pass (same as above loop), this time we print. */
 	/* Sloppy hack: We iterate twice. The first time we print short and long options.
 	   The second time we print those lines that have ONLY long options. */
-	while (print_run++ < 2) {
-		for (ue = byr_val; ue; ue = ue->next) {
+	जाव (print_run++ < 2) {
+		प्रति (ue = byr_val; ue; ue = ue->next) {
 			usg_elem *ap;
-			int     nwords = 0, nchars = 0, has_short = 0;
+			पूर्णाङ्क     nwords = 0, nchars = 0, has_short = 0;
 
 /* TODO: get has_short schtick to work */
 			has_short = !(FLAGS (s, ue->idx) & IS_LONG);
-			for (ap = ue->alias; ap; ap = ap->next) {
-				if (!(FLAGS (s, ap->idx) & IS_LONG)) {
+			प्रति (ap = ue->alias; ap; ap = ap->next) {
+				जइ (!(FLAGS (s, ap->idx) & IS_LONG)) {
 					has_short = 1;
-					break;
+					भङ्ग;
 				}
 			}
-			if ((print_run == 1 && !has_short) ||
+			जइ ((print_run == 1 && !has_short) ||
 			    (print_run == 2 && has_short))
-				continue;
+				अनुवर्त;
 
 			PRINT_SPACES (fp, indent);
 			nchars += indent;
 
 /* Print, adding a ", " between aliases. */
-#define PRINT_IT(i) do{\
-                  if(nwords++)\
+#define PRINT_IT(i) करेहि{\
+                  जइ(nwords++)\
                       nchars+=fprintf(fp,", ");\
                   nchars+=fprintf(fp,"%s",s->options[i].opt_fmt);\
-            }while(0)
+            }जाव(0)
 
-			if (!(FLAGS (s, ue->idx) & IS_LONG))
+			जइ (!(FLAGS (s, ue->idx) & IS_LONG))
 				PRINT_IT (ue->idx);
 
 			/* print short aliases first. */
-			for (ap = ue->alias; ap; ap = ap->next) {
-				if (!(FLAGS (s, ap->idx) & IS_LONG))
+			प्रति (ap = ue->alias; ap; ap = ap->next) {
+				जइ (!(FLAGS (s, ap->idx) & IS_LONG))
 					PRINT_IT (ap->idx);
 			}
 
 
-			if (FLAGS (s, ue->idx) & IS_LONG)
+			जइ (FLAGS (s, ue->idx) & IS_LONG)
 				PRINT_IT (ue->idx);
 
 			/* repeat the above loop, this time for long aliases. */
-			for (ap = ue->alias; ap; ap = ap->next) {
-				if (FLAGS (s, ap->idx) & IS_LONG)
+			प्रति (ap = ue->alias; ap; ap = ap->next) {
+				जइ (FLAGS (s, ap->idx) & IS_LONG)
 					PRINT_IT (ap->idx);
 			}
 
@@ -399,47 +399,47 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 			PRINT_SPACES (fp, desccol - nchars);
 
 			/* Print description, wrapped to desc_col_width columns. */
-			if (1) {
-				const char *pstart;
+			जइ (1) {
+				ध्रुव वर्ण *pstart;
 
 				pstart = DESC (s, ue->idx);
-				while (1) {
-					int     n = 0;
-					const char *lastws = NULL, *p;
+				जाव (1) {
+					पूर्णाङ्क     n = 0;
+					ध्रुव वर्ण *lastws = रिक्त, *p;
 
 					p = pstart;
 
-					while (*p && n < desc_col_width
+					जाव (*p && n < desc_col_width
 					       && *p != '\n') {
-						if (isspace ((unsigned char)(*p))
+						जइ (isspace ((unsigned वर्ण)(*p))
 						    || *p == '-') lastws =
 								p;
 						n++;
 						p++;
 					}
 
-					if (!*p) {	/* hit end of desc. done. */
+					जइ (!*p) {	/* hit end of desc. done. */
 						fprintf (fp, "%s\n",
 							 pstart);
-						break;
+						भङ्ग;
 					}
-					else if (*p == '\n') {	/* print everything up to here then wrap. */
+					अण्णहा जइ (*p == '\n') {	/* print everything up to here then wrap. */
 						fprintf (fp, "%.*s\n", n,
 							 pstart);
 						PRINT_SPACES (fp, desccol);
 						pstart = p + 1;
-						continue;
+						अनुवर्त;
 					}
-					else {	/* we hit the edge of the screen. wrap at space if possible. */
-						if (lastws) {
+					अण्णहा {	/* we hit the edge of the screen. wrap at space if possible. */
+						जइ (lastws) {
 							fprintf (fp,
 								 "%.*s\n",
-								 (int)(lastws - pstart),
+								 (पूर्णाङ्क)(lastws - pstart),
 								 pstart);
 							pstart =
 								lastws + 1;
 						}
-						else {
+						अण्णहा {
 							fprintf (fp,
 								 "%.*s\n",
 								 n,
@@ -447,61 +447,61 @@ int     scanopt_usage (scanopt_t *scanner, FILE *fp, const char *usage)
 							pstart = p + 1;
 						}
 						PRINT_SPACES (fp, desccol);
-						continue;
+						अनुवर्त;
 					}
 				}
 			}
 		}
 	}			/* end while */
-	free (store);
-	return 0;
+	मुक्त (store);
+	प्रत्यागम 0;
 }
 #endif /* no scanopt_usage */
 
 
-static void scanopt_err(struct _scanopt_t *s, int is_short, int err)
+स्थिर शून्य scanopt_err(संरचना _scanopt_t *s, पूर्णाङ्क is_short, पूर्णाङ्क err)
 {
-	const char *optname = "";
-	char    optchar[2];
+	ध्रुव वर्ण *optname = "";
+	वर्ण    optchar[2];
 
-	if (!s->no_err_msg) {
+	जइ (!s->no_err_सन्देशः) {
 
-		if (s->index > 0 && s->index < s->argc) {
-			if (is_short) {
+		जइ (s->index > 0 && s->index < s->argc) {
+			जइ (is_short) {
 				optchar[0] =
 					s->argv[s->index][s->subscript];
 				optchar[1] = '\0';
 				optname = optchar;
 			}
-			else {
+			अण्णहा {
 				optname = s->argv[s->index];
 			}
 		}
 
 		fprintf (stderr, "%s: ", s->argv[0]);
-		switch (err) {
-		case SCANOPT_ERR_ARG_NOT_ALLOWED:
+		विकल्प (err) {
+		पक्ष SCANOPT_ERR_ARG_NOT_ALLOWED:
 			fprintf (stderr,
 				 _
 				 ("option `%s' doesn't allow an argument\n"),
 				 optname);
-			break;
-		case SCANOPT_ERR_ARG_NOT_FOUND:
+			भङ्ग;
+		पक्ष SCANOPT_ERR_ARG_NOT_FOUND:
 			fprintf (stderr,
 				 _("option `%s' requires an argument\n"),
 				 optname);
-			break;
-		case SCANOPT_ERR_OPT_AMBIGUOUS:
+			भङ्ग;
+		पक्ष SCANOPT_ERR_OPT_AMBIGUOUS:
 			fprintf (stderr, _("option `%s' is ambiguous\n"),
 				 optname);
-			break;
-		case SCANOPT_ERR_OPT_UNRECOGNIZED:
+			भङ्ग;
+		पक्ष SCANOPT_ERR_OPT_UNRECOGNIZED:
 			fprintf (stderr, _("Unrecognized option `%s'\n"),
 				 optname);
-			break;
-		default:
+			भङ्ग;
+		स्वभाव:
 			fprintf (stderr, _("Unknown error=(%d)\n"), err);
-			break;
+			भङ्ग;
 		}
 	}
 }
@@ -513,40 +513,40 @@ static void scanopt_err(struct _scanopt_t *s, int is_short, int err)
  * optname will point to str + 2
  *
  */
-static int matchlongopt (char *str, char **optname, int *optlen, char **arg, int *arglen)
+स्थिर पूर्णाङ्क matchlongopt (वर्ण *str, वर्ण **optname, पूर्णाङ्क *optlen, वर्ण **arg, पूर्णाङ्क *arglen)
 {
-	char   *p;
+	वर्ण   *p;
 
-	*optname = *arg = NULL;
+	*optname = *arg = रिक्त;
 	*optlen = *arglen = 0;
 
 	/* Match regex /--./   */
 	p = str;
-	if (p[0] != '-' || p[1] != '-' || !p[2])
-		return 0;
+	जइ (p[0] != '-' || p[1] != '-' || !p[2])
+		प्रत्यागम 0;
 
 	p += 2;
 	*optname = p;
 
 	/* find the end of optname */
-	while (*p && *p != '=')
+	जाव (*p && *p != '=')
 		++p;
 
-	*optlen = (int) (p - *optname);
+	*optlen = (पूर्णाङ्क) (p - *optname);
 
-	if (!*p)
+	जइ (!*p)
 		/* an option with no '=...' part. */
-		return 1;
+		प्रत्यागम 1;
 
 
 	/* We saw an '=' char. The rest of p is the arg. */
 	p++;
 	*arg = p;
-	while (*p)
+	जाव (*p)
 		++p;
-	*arglen = (int) (p - *arg);
+	*arglen = (पूर्णाङ्क) (p - *arg);
 
-	return 1;
+	प्रत्यागम 1;
 }
 
 
@@ -555,131 +555,131 @@ static int matchlongopt (char *str, char **optname, int *optlen, char **arg, int
  * Short options must be exact.
  * Return boolean true if found and no error.
  * Error stored in err_code or zero if no error. */
-static int find_opt (struct _scanopt_t *s, int lookup_long, char *optstart, int
-	len, int *err_code, int *opt_offset)
+स्थिर पूर्णाङ्क find_opt (संरचना _scanopt_t *s, पूर्णाङ्क lookup_long, वर्ण *optstart, पूर्णाङ्क
+	len, पूर्णाङ्क *err_code, पूर्णाङ्क *opt_offset)
 {
-	int     nmatch = 0, lastr_val = 0, i;
+	पूर्णाङ्क     nmatch = 0, lastr_val = 0, i;
 
 	*err_code = 0;
 	*opt_offset = -1;
 
-	if (!optstart)
-		return 0;
+	जइ (!optstart)
+		प्रत्यागम 0;
 
-	for (i = 0; i < s->optc; i++) {
-		const char   *optname;
+	प्रति (i = 0; i < s->optc; i++) {
+		ध्रुव वर्ण   *optname;
 
 		optname = s->options[i].opt_fmt + (lookup_long ? 2 : 1);
 
-		if (lookup_long && (s->aux[i].flags & IS_LONG)) {
-			if (len > s->aux[i].namelen)
-				continue;
+		जइ (lookup_long && (s->aux[i].flags & IS_LONG)) {
+			जइ (len > s->aux[i].namelen)
+				अनुवर्त;
 
-			if (strncmp (optname, optstart, (size_t) len) == 0) {
+			जइ (strncmp (optname, optstart, (size_t) len) == 0) {
 				nmatch++;
 				*opt_offset = i;
 
 				/* exact match overrides all. */
-				if (len == s->aux[i].namelen) {
+				जइ (len == s->aux[i].namelen) {
 					nmatch = 1;
-					break;
+					भङ्ग;
 				}
 
 				/* ambiguity is ok between aliases. */
-				if (lastr_val
+				जइ (lastr_val
 				    && lastr_val ==
 				    s->options[i].r_val) nmatch--;
 				lastr_val = s->options[i].r_val;
 			}
 		}
-		else if (!lookup_long && !(s->aux[i].flags & IS_LONG)) {
-			if (optname[0] == optstart[0]) {
+		अण्णहा जइ (!lookup_long && !(s->aux[i].flags & IS_LONG)) {
+			जइ (optname[0] == optstart[0]) {
 				nmatch++;
 				*opt_offset = i;
 			}
 		}
 	}
 
-	if (nmatch == 0) {
+	जइ (nmatch == 0) {
 		*err_code = SCANOPT_ERR_OPT_UNRECOGNIZED;
 		*opt_offset = -1;
 	}
-	else if (nmatch > 1) {
+	अण्णहा जइ (nmatch > 1) {
 		*err_code = SCANOPT_ERR_OPT_AMBIGUOUS;
 		*opt_offset = -1;
 	}
 
-	return *err_code ? 0 : 1;
+	प्रत्यागम *err_code ? 0 : 1;
 }
 
 
-int     scanopt (scanopt_t *svoid, char **arg, int *optindex)
+पूर्णाङ्क     scanopt (scanopt_t *svoid, वर्ण **arg, पूर्णाङ्क *optindex)
 {
-	char   *optname = NULL, *optarg = NULL, *pstart;
-	int     namelen = 0, arglen = 0;
-	int     errcode = 0, has_next;
-	const optspec_t *optp;
-	struct _scanopt_t *s;
-	struct _aux *auxp;
-	int     is_short;
-	int     opt_offset = -1;
+	वर्ण   *optname = रिक्त, *optarg = रिक्त, *pstart;
+	पूर्णाङ्क     namelen = 0, arglen = 0;
+	पूर्णाङ्क     errcode = 0, has_next;
+	ध्रुव optspec_t *optp;
+	संरचना _scanopt_t *s;
+	संरचना _aux *auxp;
+	पूर्णाङ्क     is_short;
+	पूर्णाङ्क     opt_offset = -1;
 
-	s = (struct _scanopt_t *) svoid;
+	s = (संरचना _scanopt_t *) svoid;
 
 	/* Normalize return-parameters. */
-	SAFE_ASSIGN (arg, NULL);
+	SAFE_ASSIGN (arg, रिक्त);
 	SAFE_ASSIGN (optindex, s->index);
 
-	if (s->index >= s->argc)
-		return 0;
+	जइ (s->index >= s->argc)
+		प्रत्यागम 0;
 
 	/* pstart always points to the start of our current scan. */
 	pstart = s->argv[s->index] + s->subscript;
-	if (!pstart)
-		return 0;
+	जइ (!pstart)
+		प्रत्यागम 0;
 
-	if (s->subscript == 0) {
+	जइ (s->subscript == 0) {
 
 		/* test for exact match of "--" */
-		if (pstart[0] == '-' && pstart[1] == '-' && !pstart[2]) {
+		जइ (pstart[0] == '-' && pstart[1] == '-' && !pstart[2]) {
 			SAFE_ASSIGN (optindex, s->index + 1);
 			INC_INDEX (s, 1);
-			return 0;
+			प्रत्यागम 0;
 		}
 
 		/* Match an opt. */
-		if (matchlongopt
+		जइ (matchlongopt
 		    (pstart, &optname, &namelen, &optarg, &arglen)) {
 
 			/* it LOOKS like an opt, but is it one?! */
-			if (!find_opt
+			जइ (!find_opt
 			    (s, 1, optname, namelen, &errcode,
 			     &opt_offset)) {
 				scanopt_err (s, 0, errcode);
-				return errcode;
+				प्रत्यागम errcode;
 			}
 			/* We handle this below. */
 			is_short = 0;
 
 			/* Check for short opt.  */
 		}
-		else if (pstart[0] == '-' && pstart[1]) {
+		अण्णहा जइ (pstart[0] == '-' && pstart[1]) {
 			/* Pass through to below. */
 			is_short = 1;
 			s->subscript++;
 			pstart++;
 		}
 
-		else {
+		अण्णहा {
 			/* It's not an option. We're done. */
-			return 0;
+			प्रत्यागम 0;
 		}
 	}
 
 	/* We have to re-check the subscript status because it
 	 * may have changed above. */
 
-	if (s->subscript != 0) {
+	जइ (s->subscript != 0) {
 
 		/* we are somewhere in a run of short opts,
 		 * e.g., at the 'z' in `tar -xzf` */
@@ -688,19 +688,19 @@ int     scanopt (scanopt_t *svoid, char **arg, int *optindex)
 		namelen = 1;
 		is_short = 1;
 
-		if (!find_opt
+		जइ (!find_opt
 		    (s, 0, pstart, namelen, &errcode, &opt_offset)) {
 			scanopt_err(s, 1, errcode);
-			return errcode;
+			प्रत्यागम errcode;
 		}
 
 		optarg = pstart + 1;
-		if (!*optarg) {
-			optarg = NULL;
+		जइ (!*optarg) {
+			optarg = रिक्त;
 			arglen = 0;
 		}
-		else
-			arglen = (int) strlen (optarg);
+		अण्णहा
+			arglen = (पूर्णाङ्क) strlen (optarg);
 	}
 
 	/* At this point, we have a long or short option matched at opt_offset into
@@ -716,61 +716,61 @@ int     scanopt (scanopt_t *svoid, char **arg, int *optindex)
 	auxp = s->aux + opt_offset;
 
 	/* case: no args allowed */
-	if (auxp->flags & ARG_NONE) {
-		if (optarg && !is_short) {
+	जइ (auxp->flags & ARG_NONE) {
+		जइ (optarg && !is_short) {
 			scanopt_err(s, is_short, SCANOPT_ERR_ARG_NOT_ALLOWED);
 			INC_INDEX (s, 1);
-			return SCANOPT_ERR_ARG_NOT_ALLOWED;
+			प्रत्यागम SCANOPT_ERR_ARG_NOT_ALLOWED;
 		}
-		else if (!optarg)
+		अण्णहा जइ (!optarg)
 			INC_INDEX (s, 1);
-		else
+		अण्णहा
 			s->subscript++;
-		return optp->r_val;
+		प्रत्यागम optp->r_val;
 	}
 
 	/* case: required */
-	if (auxp->flags & ARG_REQ) {
-		if (!optarg && !has_next) {
+	जइ (auxp->flags & ARG_REQ) {
+		जइ (!optarg && !has_next) {
 			scanopt_err(s, is_short, SCANOPT_ERR_ARG_NOT_FOUND);
-			return SCANOPT_ERR_ARG_NOT_FOUND;
+			प्रत्यागम SCANOPT_ERR_ARG_NOT_FOUND;
 		}
 
-		if (!optarg) {
+		जइ (!optarg) {
 			/* Let the next argv element become the argument. */
 			SAFE_ASSIGN (arg, s->argv[s->index + 1]);
 			INC_INDEX (s, 2);
 		}
-		else {
-			SAFE_ASSIGN (arg, (char *) optarg);
+		अण्णहा {
+			SAFE_ASSIGN (arg, (वर्ण *) optarg);
 			INC_INDEX (s, 1);
 		}
-		return optp->r_val;
+		प्रत्यागम optp->r_val;
 	}
 
 	/* case: optional */
-	if (auxp->flags & ARG_OPT) {
+	जइ (auxp->flags & ARG_OPT) {
 		SAFE_ASSIGN (arg, optarg);
 		INC_INDEX (s, 1);
-		return optp->r_val;
+		प्रत्यागम optp->r_val;
 	}
 
 
 	/* Should not reach here. */
-	return 0;
+	प्रत्यागम 0;
 }
 
 
-int     scanopt_destroy (scanopt_t *svoid)
+पूर्णाङ्क     scanopt_destroy (scanopt_t *svoid)
 {
-	struct _scanopt_t *s;
+	संरचना _scanopt_t *s;
 
-	s = (struct _scanopt_t *) svoid;
-	if (s != NULL) {
-		free(s->aux);
-		free(s);
+	s = (संरचना _scanopt_t *) svoid;
+	जइ (s != रिक्त) {
+		मुक्त(s->aux);
+		मुक्त(s);
 	}
-	return 0;
+	प्रत्यागम 0;
 }
 
 

@@ -33,11 +33,11 @@
 
 #ifndef OPTIONS_H
 #define OPTIONS_H
-#include "scanopt.h"
+#अन्तर्भाव "scanopt.h"
 
-extern optspec_t flexopts[];
+बाह्य optspec_t flexopts[];
 
-enum flexopt_flag_t {
+गणना flexopt_flag_t {
 	/* Use positive integers only, since they are return codes for scanopt.
 	 * Order is not important. */
 	OPT_7BIT = 1,
@@ -73,7 +73,7 @@ enum flexopt_flag_t {
 	OPT_NO_DEBUG,
 	OPT_NO_DEFAULT,
 	OPT_NO_ECS,
-	OPT_NO_LINE,
+	OPT_NO_पङ्क्तिः,
 	OPT_NO_MAIN,
 	OPT_NO_META_ECS,
 	OPT_NO_REENTRANT,
@@ -103,12 +103,12 @@ enum flexopt_flag_t {
 	OPT_NO_YYSET_OUT,
 	OPT_NO_YYSET_DEBUG,
 	OPT_NO_YYWRAP,
-	OPT_NO_YY_POP_STATE,
-	OPT_NO_YY_PUSH_STATE,
+	OPT_NO_YY_निष्कासय_STATE,
+	OPT_NO_YY_प्रक्षिप_STATE,
 	OPT_NO_YY_SCAN_BUFFER,
 	OPT_NO_YY_SCAN_BYTES,
 	OPT_NO_YY_SCAN_STRING,
-	OPT_NO_YY_TOP_STATE,
+	OPT_NO_YY_शिखरम्_STATE,
 	OPT_OUTFILE,
 	OPT_PERF_REPORT,
 	OPT_POINTER,
@@ -119,7 +119,7 @@ enum flexopt_flag_t {
 	OPT_REENTRANT,
 	OPT_REJECT,
 	OPT_SKEL,
-	OPT_STACK,
+	OPT_राशिः,
 	OPT_STDINIT,
 	OPT_STDOUT,
 	OPT_TABLES_FILE,
