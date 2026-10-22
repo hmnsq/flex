@@ -23,9 +23,9 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-int     yywrap (void);
+цео     yywrap (void);
 
-int     yywrap (void)
+цео     yywrap (void)
 {
-	return 1;
+	врати 1;
 }
