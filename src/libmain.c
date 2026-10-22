@@ -23,16 +23,16 @@
 /*  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR */
 /*  PURPOSE. */
 
-#include <stdlib.h>
+#அந்தர்பாவ <stdlib.h>
 
-extern int yylex (void);
+வெளி முழு yylex (வெறுமை);
 
-int     main (int argc, char *argv[])
+முழு     முதன்மை (முழு argc, எழுத்து *argv[])
 {
-	(void)argc;
-	(void)argv;
+	(வெறுமை)argc;
+	(வெறுமை)argv;
 
-	while (yylex () != 0) ;
+	போது (yylex () != 0) ;
 
 	exit(0);
 }

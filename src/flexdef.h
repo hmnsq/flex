@@ -37,68 +37,68 @@
 
 #ifndef USE_CONFIG_FOR_BUILD
 # ifdef HAVE_CONFIG_H
-#include <config.h>
+#அந்தர்பாவ <config.h>
 # endif
-#else
-#include <config_for_build.h>
+#இல்லையெனில்
+#அந்தர்பாவ <config_for_build.h>
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <setjmp.h>
-#include <ctype.h>
-#include <string.h>
-#include <math.h>
+#அந்தர்பாவ <stdio.h>
+#அந்தர்பாவ <stdlib.h>
+#அந்தர்பாவ <stdarg.h>
+#அந்தர்பாவ <setjmp.h>
+#அந்தர்பாவ <ctype.h>
+#அந்தர்பாவ <string.h>
+#அந்தர்பாவ <math.h>
 
 #ifdef HAVE_ASSERT_H
-#include <assert.h>
-#else
-#define assert(Pred)
+#அந்தர்பாவ <assert.h>
+#இல்லையெனில்
+#define ப்ரதிஜ்ஞா(Pred)
 #endif
 
 #ifdef HAVE_LIMITS_H
-#include <limits.h>
+#அந்தர்பாவ <limits.h>
 #endif
 /* Required: dup() and dup2() in <unistd.h> */
-#include <unistd.h>
+#அந்தர்பாவ <unistd.h>
 #ifdef HAVE_NETINET_IN_H
-#include <netinet/in.h>
+#அந்தர்பாவ <netinet/in.h>
 #endif
 #ifdef HAVE_SYS_PARAMS_H
-#include <sys/params.h>
+#அந்தர்பாவ <sys/params.h>
 #endif
 /* Required: wait() in <sys/wait.h> */
-#include <sys/wait.h>
+#அந்தர்பாவ <sys/wait.h>
 #ifdef HAVE_STDBOOL_H
-#include <stdbool.h>
-#elif !defined(__cplusplus) && (!defined(__STDC_VERSION__) || \
+#அந்தர்பாவ <stdbool.h>
+#அல்லதெனில் !defined(__cplusplus) && (!defined(__STDC_VERSION__) || \
       __STDC_VERSION__ < 202311L)
 # ifdef HAVE__BOOL
 #  define bool _Bool
-# else
-#  define bool int
+# இல்லையெனில்
+#  define bool முழு
 # endif
 # define false 0
 # define true 1
 #endif
-#include <stdarg.h>
+#அந்தர்பாவ <stdarg.h>
 /* Required: regcomp(), regexec() and regerror() in <regex.h> */
-#include <regex.h>
+#அந்தர்பாவ <regex.h>
 /* Required: strcasecmp() in <strings.h> */
-#include <strings.h>
-#include "flexint.h"
+#அந்தர்பாவ <strings.h>
+#அந்தர்பாவ "flexint.h"
 
 /* We use gettext. So, when we write strings which should be translated, we
  * mark them with _()
  */
-#if defined(ENABLE_NLS) && ENABLE_NLS
+#எனில் defined(ENABLE_NLS) && ENABLE_NLS
 #ifdef HAVE_LOCALE_H
-#include <locale.h>
+#அந்தர்பாவ <locale.h>
 #endif /* HAVE_LOCALE_H */
-#include "gettext.h"
+#அந்தர்பாவ "gettext.h"
 #define _(String) gettext (String)
-#else
+#இல்லையெனில்
 #define _(STRING) STRING
 #endif /* ENABLE_NLS */
 
@@ -236,7 +236,7 @@
 #define INITIAL_MAX_SCS 40	/* maximum number of start conditions */
 #define MAX_SCS_INCREMENT 40	/* amount to bump by if it's not enough */
 
-#define ONE_STACK_SIZE 500	/* stack of states with only one out-transition */
+#define ONE_அடுக்கு_SIZE 500	/* stack of states with only one out-transition */
 #define SAME_TRANS -1		/* transition is the same as "default" entry for state */
 
 /* The following percentages are used to tune table compression:
@@ -309,7 +309,7 @@
  */
 #define BAD_SUBSCRIPT -32767
 
-typedef enum trit_t {
+வகைவரை எண்ணிக்கை trit_t {
 	trit_unspecified = -1,
 	trit_false = 0,
 	trit_true = 1,
@@ -319,14 +319,14 @@ typedef enum trit_t {
  * twice for each option, instead a single struct can be declared and externed.
  * If it's in this structure, it has a corresponding m4 symbol.
  */
-struct ctrl_bundle_t {
+கட்டமைப்பு ctrl_bundle_t {
 	bool always_interactive;// always use character-by-character input
 	FILE *backing_up_file;	// file to summarize backing-up states to 
 	bool bison_bridge_lval;	// (--bison-bridge), bison pure calling convention. 
 	bool bison_bridge_lloc;	// (--bison-locations), bison yylloc.
 	size_t bufsize;		// input buffer size
 	bool C_plus_plus;	// (-+ flag) generate a C++ scanner class 
-	int csize;		// size of character set for the scanner 
+	முழு csize;		// size of character set for the scanner 
 				// 128 for 7-bit chars and 256 for 8-bit 
 	bool ddebug;		// (-d) make a "debug" scanner 
 	trit do_main;		// generate main part to make lexer standalone.
@@ -336,7 +336,7 @@ struct ctrl_bundle_t {
 				// If false, EOF treated as "no more files" 
 	bool fullspd;		// (-F flag) use Jacobson method of table representation 
 	bool fulltbl;		// (-Cf flag) don't compress the DFA state table 
- 	bool gen_line_dirs;	// (no -L flag) generate #line directives 
+ 	bool gen_வரி_dirs;	// (no -L flag) generate #line directives 
 	trit interactive;	// (-I) generate an interactive scanner
 	bool never_interactive;	// always use buffered input, don't check for tty.
 	bool lex_compat;	// (-l), maximize compatibility with AT&T lex 
@@ -344,35 +344,35 @@ struct ctrl_bundle_t {
 	bool no_yyinput;	// suppress use of yyinput()
 	bool no_unistd;		// suppress inclusion of unistd.h
 	bool posix_compat;	// (-X) maximize compatibility with POSIX lex 
-	char *prefix;		// prefix for externally visible names, default "yy" 
+	எழுத்து *prefix;		// prefix for externally visible names, default "yy" 
 	trit reject_really_used;// Force generation of support code for reject operation
 	bool reentrant;		// if true (-R), generate a reentrant C scanner
 	bool rewrite;		// Appl;y magic rewre rles to special fumctions 
-	bool stack_used;	// Enable use of start-condition stacks
+	bool அடுக்கு_used;	// Enable use of start-condition stacks
 	bool no_section3_escape;// True if the undocumented option --unsafe-no-m4-sect3-escape was passed
 	bool spprdflt;		// (-s) suppress the default rule
 	bool useecs;		// (-Ce flag) use equivalence classes 
 	bool usemecs;		// (-Cm flag), use meta-equivalence classes 
 	bool use_read;		// (-f, -F, or -Cr) use read() for scanner input 
        				// otherwise, use fread(). 
-	char *yyclass;		// yyFlexLexer subclass to use for YY_DECL
-	char *yydecl;		// user-specified prototype for yylex.
-	int yylmax;		// Maximum buffer length if %array
+	எழுத்து *yyclass;		// yyFlexLexer subclass to use for YY_DECL
+	எழுத்து *yydecl;		// user-specified prototype for yylex.
+	முழு yylmax;		// Maximum buffer length if %array
 	trit yymore_really_used;// Force geberation of support code for yymore
 	bool yytext_is_array;	// if true (i.e., %array directive), then declare
 				// yytext as array instead of a character pointer.
 				// Nice and inefficient.
 	bool noyyread;		// User supplied a yyread function, don't generate default
-	char *userinit;		// Code fragment to be inserted before scanning
-	char *preaction;	// Code fragment to be inserted before each action
-	char *postaction;	// Code fragment to be inserted after each action
-	char *emit;		// Specify target language to emit.
-	char *yyterminate;	// Set a non-default termination hook.
+	எழுத்து *userinit;		// Code fragment to be inserted before scanning
+	எழுத்து *preaction;	// Code fragment to be inserted before each action
+	எழுத்து *postaction;	// Code fragment to be inserted after each action
+	எழுத்து *emit;		// Specify target language to emit.
+	எழுத்து *yyterminate;	// Set a non-default termination hook.
 	bool no_yypanic;	// if true, no not generate default yypanic function
  	// flags corresponding to the huge mass of --no-yy options
-	bool no_yy_push_state;
-	bool no_yy_pop_state;
-	bool no_yy_top_state;
+	bool no_yy_தள்ளு_state;
+	bool no_yy_எடு_state;
+	bool no_yy_உச்சி_state;
 	bool no_yyunput;
 	bool no_yy_scan_buffer;
 	bool no_yy_scan_bytes;
@@ -399,9 +399,9 @@ struct ctrl_bundle_t {
 	bool no_get_debug;
 	bool no_set_debug;
 	// Properties read from the skeleton
-	const char *backend_name;	// What the back end tells you its name is
-	const char *traceline_re;	// Regular expression for recognizing tracelines */
-	const char *traceline_template;	// templare for emitting trace lines */
+	மாறிலி எழுத்து *backend_name;	// What the back end tells you its name is
+	மாறிலி எழுத்து *traceline_re;	// Regular expression for recognizing tracelines */
+	மாறிலி எழுத்து *traceline_template;	// templare for emitting trace lines */
 	bool have_state_entry_format;	// Do we know how to make a state entry address?
 };
 
@@ -409,19 +409,19 @@ struct ctrl_bundle_t {
  * not have corresponding m4 symbols and do not affect the behavior of
  * the generated parser.
  */
-struct env_bundle_t {
+கட்டமைப்பு env_bundle_t {
 	bool backing_up_report;	// (-b flag), generate "lex.backup" file 
 				// listing backing-up states
 	bool did_outfilename;	// whether outfilename was explicitly set
-	char *headerfilename;	// name of the .h file to generate
+	எழுத்து *headerfilename;	// name of the .h file to generate
 	bool nowarn;		// (-w) do not generate warnings 
-	int performance_hint;	// if > 0 (i.e., -p flag), generate a report 
+	முழு performance_hint;	// if > 0 (i.e., -p flag), generate a report 
 				// relating to scanner performance; 
 				// if > 1 (-p -p), report 
  				// on minor performance problems, too.
-	char *outfilename;	// output file name
+	எழுத்து *outfilename;	// output file name
 	bool printstats;	// (-v) dump statistics
-	char *skelname;		// name of skeleton for code generation
+	எழுத்து *skelname;		// name of skeleton for code generation
 	FILE *skelfile;		// the skeleton file'd descriptor
 	bool trace;		// (-T) env.trace processing 
 	bool trace_hex; 	// use hex in trace/debug outputs not octal
@@ -429,13 +429,13 @@ struct env_bundle_t {
 };
 
 /* Name and byte-width information on a type for code-generation purposes. */
-struct packtype_t {
-	char *name;
+கட்டமைப்பு packtype_t {
+	எழுத்து *name;
 	size_t width;
 };
 
-extern struct ctrl_bundle_t ctrl;
-extern struct env_bundle_t env;
+வெளி கட்டமைப்பு ctrl_bundle_t ctrl;
+வெளி கட்டமைப்பு env_bundle_t env;
 
 /* Declarations for global variables. */
 
@@ -455,8 +455,8 @@ extern struct env_bundle_t env;
  * reject_really_used - same for REJECT
   */
 
-extern bool syntaxerror, eofseen;
-extern int yymore_used, reject, real_reject, continued_action, in_rule;
+வெளி bool syntaxerror, eofseen;
+வெளி முழு yymore_used, reject, real_reject, continued_action, in_rule;
 
 /* Variables used in the flex input routines:
  * datapos - characters on current output line
@@ -482,17 +482,17 @@ extern int yymore_used, reject, real_reject, continued_action, in_rule;
  * always_interactive - if true, generate an interactive scanner
  */
 
-extern int datapos, dataline, linenum;
-extern int skel_ind;
-extern char *infilename;
-extern char *extra_type;
-extern char **input_files;
-extern int num_input_files;
-extern char *program_name;
+வெளி முழு datapos, dataline, linenum;
+வெளி முழு skel_ind;
+வெளி எழுத்து *infilename;
+வெளி எழுத்து *extra_type;
+வெளி எழுத்து **உள்ளீடு_files;
+வெளி முழு இலக்கம்_உள்ளீடு_files;
+வெளி எழுத்து *program_name;
 
-extern char *action_array;
-extern int action_size;
-extern int defs1_offset, prolog_offset, action_offset, action_index;
+வெளி எழுத்து *action_array;
+வெளி முழு action_size;
+வெளி முழு defs1_offset, prolog_offset, action_offset, action_index;
 
 
 /* Variables for stack of states having only one out-transition:
@@ -503,8 +503,8 @@ extern int defs1_offset, prolog_offset, action_offset, action_index;
  * onesp - stack pointer
  */
 
-extern int onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
-extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
+வெளி முழு onestate[ONE_அடுக்கு_SIZE], onesym[ONE_அடுக்கு_SIZE];
+வெளி முழு onenext[ONE_அடுக்கு_SIZE], onedef[ONE_அடுக்கு_SIZE], onesp;
 
 
 /* Variables for nfa machine data:
@@ -541,16 +541,16 @@ extern int onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
  * footprint - total size of tables, in bytes.
  */
 
-extern int maximum_mns, current_mns, current_max_rules;
-extern int num_rules, num_eof_rules, default_rule, lastnfa;
-extern int *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
-extern int *accptnum, *assoc_rule, *state_type;
-extern int *rule_type, *rule_linenum;
+வெளி முழு maximum_mns, current_mns, current_max_rules;
+வெளி முழு இலக்கம்_rules, இலக்கம்_eof_rules, default_rule, lastnfa;
+வெளி முழு *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
+வெளி முழு *accptnum, *assoc_rule, *state_type;
+வெளி முழு *rule_type, *rule_linenum;
 /* rule_useful[], rule_has_nl[] and ccl_has_nl[] are boolean arrays,
  * but allocated as char arrays for size. */
-extern char *rule_useful, *rule_has_nl, *ccl_has_nl;
-extern int nlch;
-extern size_t footprint;
+வெளி எழுத்து *rule_useful, *rule_has_nl, *ccl_has_nl;
+வெளி முழு nlch;
+வெளி size_t footprint;
 
 
 /* Different types of states; values are useful as masks, as well, for
@@ -561,7 +561,7 @@ extern size_t footprint;
 
 /* Global holding current type of state we're making. */
 
-extern int current_state_type;
+வெளி முழு current_state_type;
 
 /* Different types of rules. */
 #define RULE_NORMAL 0
@@ -570,7 +570,7 @@ extern int current_state_type;
 /* True if the input rules include a rule with both variable-length head
  * and trailing context, false otherwise.
  */
-extern bool variable_trailing_context_rules;
+வெளி bool variable_trailing_context_rules;
 
 
 /* Variables for protos:
@@ -585,8 +585,8 @@ extern bool variable_trailing_context_rules;
  * protsave contains the entire state array for protos
  */
 
-extern int numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
-extern int protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
+வெளி முழு numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
+வெளி முழு protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
 
 
 /* Variables for managing equivalence classes:
@@ -604,14 +604,14 @@ extern int protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
  * for the NUL character.  Later we'll move this information into
  * the 0th element.
  */
-extern int numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs;
+வெளி முழு numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs;
 
 /* Meta-equivalence classes are indexed starting at 1, so it's possible
  * that they will require positions from 1 .. CSIZE, i.e., CSIZE + 1
  * slots total (since the arrays are 0-based).  nextecm[] and ecgroup[]
  * don't require the extra position since they're indexed from 1 .. CSIZE - 1.
  */
-extern int tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
+வெளி முழு tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
 
 
 /* Variables for start conditions:
@@ -624,12 +624,12 @@ extern int tecfwd[CSIZE + 1], tecbck[CSIZE + 1];
  * scname - start condition name
  */
 
-extern int lastsc, *scset, *scbol;
+வெளி முழு lastsc, *scset, *scbol;
 /* scxclu[] and sceof[] are boolean arrays, but allocated as char
  * arrays for size. */
-extern char *scxclu, *sceof;
-extern int current_max_scs;
-extern const char **scname;
+வெளி எழுத்து *scxclu, *sceof;
+வெளி முழு current_max_scs;
+வெளி மாறிலி எழுத்து **scname;
 
 
 /* Variables for dfa machine data:
@@ -662,18 +662,18 @@ extern const char **scname;
  * end_of_buffer_state - end-of-buffer dfa state number
  */
 
-extern int current_max_dfa_size, current_max_xpairs;
-extern int current_max_template_xpairs, current_max_dfas;
-extern int lastdfa, *nxt, *chk, *tnxt;
-extern int *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss,
+வெளி முழு current_max_dfa_size, current_max_xpairs;
+வெளி முழு current_max_template_xpairs, current_max_dfas;
+வெளி முழு lastdfa, *nxt, *chk, *tnxt;
+வெளி முழு *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss,
 	*dfasiz;
-extern union dfaacc_union {
-	int    *dfaacc_set;
-	int     dfaacc_state;
+வெளி ஒன்றிப்பு dfaacc_union {
+	முழு    *dfaacc_set;
+	முழு     dfaacc_state;
 }      *dfaacc;
-extern int *accsiz, *dhash, numas;
-extern int numsnpairs, jambase, jamstate;
-extern int end_of_buffer_state;
+வெளி முழு *accsiz, *dhash, numas;
+வெளி முழு numsnpairs, jambase, jamstate;
+வெளி முழு end_of_buffer_state;
 
 /* Variables for ccl information:
  * lastccl - ccl index of the last created ccl
@@ -687,9 +687,9 @@ extern int end_of_buffer_state;
  * ccltbl - holds the characters in each ccl - indexed by cclmap
  */
 
-extern int lastccl, *cclmap, *ccllen, *cclng, cclreuse;
-extern int current_maxccls, current_max_ccl_tbl_size;
-extern unsigned char *ccltbl;
+வெளி முழு lastccl, *cclmap, *ccllen, *cclng, cclreuse;
+வெளி முழு current_maxccls, current_max_ccl_tbl_size;
+வெளி unsigned எழுத்து *ccltbl;
 
 
 /* Variables for miscellaneous information:
@@ -713,43 +713,43 @@ extern unsigned char *ccltbl;
  * bol_needed - whether scanner needs beginning-of-line recognition
  */
 
-extern char nmstr[MAXLINE];
-extern int sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
-extern int tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
-extern int num_backing_up, bol_needed;
+வெளி எழுத்து nmstr[MAXLINE];
+வெளி முழு sectnum, nummt, hshcol, dfaeql, numeps, eps2, இலக்கம்_reallocs, nmval;
+வெளி முழு tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
+வெளி முழு இலக்கம்_backing_up, bol_needed;
 
-void   *allocate_array(int, size_t);
-void   *reallocate_array(void *, int, size_t);
+வெறுமை   *allocate_array(முழு, size_t);
+வெறுமை   *reallocate_array(வெறுமை *, முழு, size_t);
 
 #define allocate_integer_array(size) \
-	allocate_array(size, sizeof(int))
+	allocate_array(size, அளவு(முழு))
 
 #define reallocate_integer_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(int))
+	reallocate_array((வெறுமை *) array, size, அளவு(முழு))
 
 #define allocate_int_ptr_array(size) \
-	allocate_array(size, sizeof(int *))
+	allocate_array(size, அளவு(முழு *))
 
 #define allocate_char_ptr_array(size) \
-	allocate_array(size, sizeof(char *))
+	allocate_array(size, அளவு(எழுத்து *))
 
 #define reallocate_int_ptr_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(int *))
+	reallocate_array((வெறுமை *) array, size, அளவு(முழு *))
 
 #define reallocate_char_ptr_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(char *))
+	reallocate_array((வெறுமை *) array, size, அளவு(எழுத்து *))
 
 #define allocate_character_array(size) \
-	allocate_array( size, sizeof(char))
+	allocate_array( size, அளவு(எழுத்து))
 
 #define reallocate_character_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(char))
+	reallocate_array((வெறுமை *) array, size, அளவு(எழுத்து))
 
 #define allocate_Character_array(size) \
-	allocate_array(size, sizeof(unsigned char))
+	allocate_array(size, அளவு(unsigned எழுத்து))
 
 #define reallocate_Character_array(array,size) \
-	reallocate_array((void *) array, size, sizeof(unsigned char))
+	reallocate_array((வெறுமை *) array, size, அளவு(unsigned எழுத்து))
 
 
 /* External functions that are cross-referenced among the flex source files. */
@@ -757,357 +757,357 @@ void   *reallocate_array(void *, int, size_t);
 
 /* from file ccl.c */
 
-extern void ccladd(int, int);	/* add a single character to a ccl */
-extern int cclinit(void);	/* make an empty ccl */
-extern void cclnegate(int);	/* negate a ccl */
-extern int ccl_set_diff (int a, int b); /* set difference of two ccls. */
-extern int ccl_set_union (int a, int b); /* set union of two ccls. */
+வெளி வெறுமை ccladd(முழு, முழு);	/* add a single character to a ccl */
+வெளி முழு cclinit(வெறுமை);	/* make an empty ccl */
+வெளி வெறுமை cclnegate(முழு);	/* negate a ccl */
+வெளி முழு ccl_set_diff (முழு a, முழு b); /* set difference of two ccls. */
+வெளி முழு ccl_set_union (முழு a, முழு b); /* set union of two ccls. */
 
 /* List the members of a set of characters in CCL form. */
-extern void list_character_set(FILE *, int[]);
+வெளி வெறுமை list_character_set(FILE *, முழு[]);
 
 
 /* from file dfa.c */
 
 /* Increase the maximum number of dfas. */
-extern void increase_max_dfas(void);
+வெளி வெறுமை increase_max_dfas(வெறுமை);
 
-extern size_t ntod(void);	/* convert a ndfa to a dfa */
+வெளி size_t ntod(வெறுமை);	/* convert a ndfa to a dfa */
 
 
 /* from file ecs.c */
 
 /* Convert character classes to set of equivalence classes. */
-extern void ccl2ecl(void);
+வெளி வெறுமை ccl2ecl(வெறுமை);
 
 /* Associate equivalence class numbers with class members. */
-extern int cre8ecs(int[], int[], int);
+வெளி முழு cre8ecs(முழு[], முழு[], முழு);
 
 /* Update equivalence classes based on character class transitions. */
-extern void mkeccl(unsigned char[], int, int[], int[], int, int);
+வெளி வெறுமை mkeccl(unsigned எழுத்து[], முழு, முழு[], முழு[], முழு, முழு);
 
 /* Create equivalence class for single character. */
-extern void mkechar(int, int[], int[]);
+வெளி வெறுமை mkechar(முழு, முழு[], முழு[]);
 
 
 /* from file gen.c */
 
 /* Set a conditional amd make it visible in generated code */
-extern void visible_define (const char *);
+வெளி வெறுமை visible_define (மாறிலி எழுத்து *);
 
 /* And again, with an explicit value part. */
-extern void visible_define_str (const char *, const char *);
+வெளி வெறுமை visible_define_str (மாறிலி எழுத்து *, மாறிலி எழுத்து *);
 
 /* This time the value part is an int */
-extern void visible_define_int (const char *, const int);
+வெளி வெறுமை visible_define_int (மாறிலி எழுத்து *, மாறிலி முழு);
 
 /* generate transition tables */
-extern void make_tables(void);
+வெளி வெறுமை make_tables(வெறுமை);
 
 /* Select a type for optimal packing */
-struct packtype_t *optimize_pack(size_t);
+கட்டமைப்பு packtype_t *optimize_pack(size_t);
 
 /* from file main.c */
 
-extern void check_options(void);
-extern void flexend(int);
-extern void usage(void);
+வெளி வெறுமை check_options(வெறுமை);
+வெளி வெறுமை flexend(முழு);
+வெளி வெறுமை usage(வெறுமை);
 
 
 /* from file misc.c */
 
 /* Add the given text to the stored actions. */
-extern void add_action(const char *new_text);
+வெளி வெறுமை add_action(மாறிலி எழுத்து *new_text);
 
 /* True if a string is all lower case. */
-extern int all_lower(char *);
+வெளி முழு all_lower(எழுத்து *);
 
 /* True if a string is all upper case. */
-extern int all_upper(char *);
+வெளி முழு all_upper(எழுத்து *);
 
 /* Compare two integers for use by qsort. */
-extern int intcmp(const void *, const void *);
+வெளி முழு intcmp(மாறிலி வெறுமை *, மாறிலி வெறுமை *);
 
 /* Check a character to make sure it's in the expected range. */
-extern void check_char(int c);
+வெளி வெறுமை check_char(முழு c);
 
 /* Replace upper-case letter to lower-case. */
-extern unsigned char clower(int);
+வெளி unsigned எழுத்து clower(முழு);
 
 /* strdup() that fails fatally on allocation failures. */
-extern char *xstrdup(const char *);
+வெளி எழுத்து *xstrdup(மாறிலி எழுத்து *);
 
 /* Compare two characters for use by qsort with '\0' sorting last. */
-extern int cclcmp(const void *, const void *);
+வெளி முழு cclcmp(மாறிலி வெறுமை *, மாறிலி வெறுமை *);
 
 /* Finish up a block of data declarations. */
-extern void dataend(const char *);
+வெளி வெறுமை dataend(மாறிலி எழுத்து *);
 
 /* Flush generated data statements. */
-extern void dataflush(void);
+வெளி வெறுமை dataflush(வெறுமை);
 
 /* Report an error message and terminate. */
-extern void flexerror(const char *);
+வெளி வெறுமை flexerror(மாறிலி எழுத்து *);
 
 /* Report a fatal error message and terminate. */
-extern void flexfatal(const char *);
+வெளி வெறுமை flexfatal(மாறிலி எழுத்து *);
 
 /* Report a fatal error with a pinpoint, and terminate */
 #ifdef HAVE_DECL___FUNC__
-#define flex_die(msg) \
-    do{ \
+#define flex_die(செய்தி) \
+    செய்{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d (%s): %s\n"),\
-                program_name, __FILE__, (int)__LINE__,\
-                __func__,msg);\
+                program_name, __FILE__, (முழு)__LINE__,\
+                __func__,செய்தி);\
         FLEX_EXIT(1);\
-    }while(0)
-#else /* ! HAVE_DECL___FUNC__ */
-#define flex_die(msg) \
-    do{ \
+    }போது(0)
+#இல்லையெனில் /* ! HAVE_DECL___FUNC__ */
+#define flex_die(செய்தி) \
+    செய்{ \
         fprintf (stderr,\
                 _("%s: fatal internal error at %s:%d %s\n"),\
-                program_name, __FILE__, (int)__LINE__,\
-                msg);\
+                program_name, __FILE__, (முழு)__LINE__,\
+                செய்தி);\
         FLEX_EXIT(1);\
-    }while(0)
+    }போது(0)
 #endif /* ! HAVE_DECL___func__ */
 
 /* Report an error message formatted  */
-extern void lerr(const char *, ...)
-#if defined(__GNUC__) && __GNUC__ >= 3
+வெளி வெறுமை lerr(மாறிலி எழுத்து *, ...)
+#எனில் defined(__GNUC__) && __GNUC__ >= 3
     __attribute__((__format__(__printf__, 1, 2)))
 #endif
 ;
 
 /* Like lerr, but also exit after displaying message. */
-extern void lerr_fatal(const char *, ...)
-#if defined(__GNUC__) && __GNUC__ >= 3
+வெளி வெறுமை lerr_fatal(மாறிலி எழுத்து *, ...)
+#எனில் defined(__GNUC__) && __GNUC__ >= 3
     __attribute__((__format__(__printf__, 1, 2)))
 #endif
 ;
 
 /* Spit out a "#line" statement. */
-extern void line_directive_out(FILE *, char *, int);
+வெளி வெறுமை வரி_directive_out(FILE *, எழுத்து *, முழு);
 
 /* Mark the current position in the action array as the end of the section 1
  * user defs.
  */
-extern void mark_defs1(void);
+வெளி வெறுமை mark_defs1(வெறுமை);
 
 /* Mark the current position in the action array as the end of the prolog. */
-extern void mark_prolog(void);
+வெளி வெறுமை mark_prolog(வெறுமை);
 
 /* Generate a data statement for a two-dimensional array. */
-extern void mk2data(int);
+வெளி வெறுமை mk2data(முழு);
 
-extern void mkdata(int);	/* generate a data statement */
+வெளி வெறுமை mkdata(முழு);	/* generate a data statement */
 
 /* Return the integer represented by a string of digits. */
-extern int myctoi(const char *);
+வெளி முழு myctoi(மாறிலி எழுத்து *);
 
 /* Return character corresponding to escape sequence. */
-extern unsigned char myesc(unsigned char[]);
+வெளி unsigned எழுத்து myesc(unsigned எழுத்து[]);
 
 /* Output a (possibly-formatted) string to the generated scanner. */
-extern void out(const char *);
-extern void out_dec(const char *, int);
-extern void out_dec2(const char *, int, int);
-extern void out_hex(const char *, unsigned int);
-extern void out_str(const char *, const char *);
-extern void out_str_dec(const char *, const char *, int);
-extern void outc(int);
-extern void outn(const char *);
-extern void out_m4_define(const char* def, const char* val);
+வெளி வெறுமை out(மாறிலி எழுத்து *);
+வெளி வெறுமை out_dec(மாறிலி எழுத்து *, முழு);
+வெளி வெறுமை out_dec2(மாறிலி எழுத்து *, முழு, முழு);
+வெளி வெறுமை out_hex(மாறிலி எழுத்து *, unsigned முழு);
+வெளி வெறுமை out_str(மாறிலி எழுத்து *, மாறிலி எழுத்து *);
+வெளி வெறுமை out_str_dec(மாறிலி எழுத்து *, மாறிலி எழுத்து *, முழு);
+வெளி வெறுமை outc(முழு);
+வெளி வெறுமை outn(மாறிலி எழுத்து *);
+வெளி வெறுமை out_m4_define(மாறிலி எழுத்து* def, மாறிலி எழுத்து* val);
 
 /* Return a printable version of the given character, which might be
  * 8-bit.
  */
-extern char *readable_form(int);
+வெளி எழுத்து *readable_form(முழு);
 
 /* Output a yy_trans_info structure. */
-extern void transition_struct_out(int, int);
+வெளி வெறுமை transition_struct_out(முழு, முழு);
 
 /* Only needed when using certain broken versions of bison to build parse.c. */
-extern void *yy_flex_xmalloc(int);
+வெளி வெறுமை *yy_flex_xmalloc(முழு);
 
 
 /* from file nfa.c */
 
 /* Add an accepting state to a machine. */
-extern void add_accept(int, int);
+வெளி வெறுமை add_accept(முழு, முழு);
 
 /* Make a given number of copies of a singleton machine. */
-extern int copysingl(int, int);
+வெளி முழு copysingl(முழு, முழு);
 
 /* Debugging routine to write out an nfa. */
-extern void dumpnfa(int);
+வெளி வெறுமை dumpnfa(முழு);
 
 /* Finish up the processing for a rule. */
-extern void finish_rule(int, bool, int, int, int);
+வெளி வெறுமை finish_rule(முழு, bool, முழு, முழு, முழு);
 
 /* Connect two machines together. */
-extern int link_machines(int, int);
+வெளி முழு link_machines(முழு, முழு);
 
 /* Mark each "beginning" state in a machine as being a "normal" (i.e.,
  * not trailing context associated) state.
  */
-extern void mark_beginning_as_normal(int);
+வெளி வெறுமை mark_beginning_as_normal(முழு);
 
 /* Make a machine that branches to two machines. */
-extern int mkbranch(int, int);
+வெளி முழு mkbranch(முழு, முழு);
 
-extern int mkclos(int);	/* convert a machine into a closure */
-extern int mkopt(int);	/* make a machine optional */
+வெளி முழு mkclos(முழு);	/* convert a machine into a closure */
+வெளி முழு mkopt(முழு);	/* make a machine optional */
 
 /* Make a machine that matches either one of two machines. */
-extern int mkor(int, int);
+வெளி முழு mkor(முழு, முழு);
 
 /* Convert a machine into a positive closure. */
-extern int mkposcl(int);
+வெளி முழு mkposcl(முழு);
 
-extern int mkrep(int, int, int);	/* make a replicated machine */
+வெளி முழு mkrep(முழு, முழு, முழு);	/* make a replicated machine */
 
 /* Create a state with a transition on a given symbol. */
-extern int mkstate(int);
+வெளி முழு mkstate(முழு);
 
-extern void new_rule(void);	/* initialize for a new rule */
+வெளி வெறுமை new_rule(வெறுமை);	/* initialize for a new rule */
 
 
 /* from file parse.y */
 
 /* Build the "<<EOF>>" action for the active start conditions. */
-extern void build_eof_action(void);
+வெளி வெறுமை build_eof_action(வெறுமை);
 
 /* Write out a message formatted with one string, pinpointing its location. */
-extern void format_pinpoint_message(const char *, const char *);
+வெளி வெறுமை format_pinpoint_message(மாறிலி எழுத்து *, மாறிலி எழுத்து *);
 
 /* Write out a message, pinpointing its location. */
-extern void pinpoint_message(const char *);
+வெளி வெறுமை pinpoint_message(மாறிலி எழுத்து *);
 
 /* Write out a warning, pinpointing it at the given line. */
-extern void line_warning(const char *, int);
+வெளி வெறுமை வரி_warning(மாறிலி எழுத்து *, முழு);
 
 /* Write out a message, pinpointing it at the given line. */
-extern void line_pinpoint(const char *, int);
+வெளி வெறுமை வரி_pinpoint(மாறிலி எழுத்து *, முழு);
 
 /* Report a formatted syntax error. */
-extern void format_synerr(const char *, const char *);
-extern void synerr(const char *);	/* report a syntax error */
-extern void format_warn(const char *, const char *);
-extern void lwarn(const char *);	/* report a warning */
-extern void yyerror(const char *);	/* report a parse error */
-extern int yyparse(void);		/* the YACC parser */
+வெளி வெறுமை format_synerr(மாறிலி எழுத்து *, மாறிலி எழுத்து *);
+வெளி வெறுமை synerr(மாறிலி எழுத்து *);	/* report a syntax error */
+வெளி வெறுமை format_warn(மாறிலி எழுத்து *, மாறிலி எழுத்து *);
+வெளி வெறுமை lwarn(மாறிலி எழுத்து *);	/* report a warning */
+வெளி வெறுமை yyerror(மாறிலி எழுத்து *);	/* report a parse error */
+வெளி முழு yyparse(வெறுமை);		/* the YACC parser */
 
 /* Ship a comment to the generated output */
-extern void comment(const char *);
+வெளி வெறுமை comment(மாறிலி எழுத்து *);
 
 /* from file scan.l */
 
 /* The Flex-generated scanner for flex. */
-extern int flexscan(void);
+வெளி முழு flexscan(வெறுமை);
 
 /* Open the given file (if NULL, stdin) for scanning. */
-extern void set_input_file(char *);
+வெளி வெறுமை set_உள்ளீடு_file(எழுத்து *);
 
 /* from file skeletons.c */
 
 /* return the correct file suffix for the selected back end */
-const char *suffix (void);
+மாறிலி எழுத்து *suffix (வெறுமை);
 
 /* Mine a text-valued property out of the skeleton file */
-extern const char *skel_property(const char *);
+வெளி மாறிலி எழுத்து *skel_property(மாறிலி எழுத்து *);
 
 /* Is the default back end selected?*/
-extern bool is_default_backend(void);
+வெளி bool is_default_backend(வெறுமை);
 
 /* Select a backend by name */
-extern void backend_by_name(const char *);
+வெளி வெறுமை backend_by_name(மாறிலி எழுத்து *);
 
 /* Write out one section of the skeleton file. */
-extern void skelout(bool);
+வெளி வெறுமை skelout(bool);
 
 /* from file sym.c */
 
 /* Save the text of a character class. */
-extern void cclinstal(char[], int);
+வெளி வெறுமை cclinstal(எழுத்து[], முழு);
 
 /* Lookup the number associated with character class. */
-extern int ccllookup(char[]);
+வெளி முழு ccllookup(எழுத்து[]);
 
-extern void ndinstal(const char *, char[]);	/* install a name definition */
-extern char *ndlookup(const char *);	/* lookup a name definition */
+வெளி வெறுமை ndinstal(மாறிலி எழுத்து *, எழுத்து[]);	/* install a name definition */
+வெளி எழுத்து *ndlookup(மாறிலி எழுத்து *);	/* lookup a name definition */
 
 /* Increase maximum number of SC's. */
-extern void scextend(void);
-extern void scinstal(const char *, bool);	/* make a start condition */
+வெளி வெறுமை scextend(வெறுமை);
+வெளி வெறுமை scinstal(மாறிலி எழுத்து *, bool);	/* make a start condition */
 
 /* Lookup the number associated with a start condition. */
-extern int sclookup(const char *);
+வெளி முழு sclookup(மாறிலி எழுத்து *);
 
 /* Supply context argument for a function if required */
-extern void context_call(char *);
+வெளி வெறுமை context_call(எழுத்து *);
 
 /* from file tblcmp.c */
 
 /* Build table entries for dfa state. */
-extern void bldtbl(int[], int, int, int, int);
+வெளி வெறுமை bldtbl(முழு[], முழு, முழு, முழு, முழு);
 
-extern void cmptmps(void);	/* compress template table entries */
-extern void expand_nxt_chk(void);	/* increase nxt/chk arrays */
+வெளி வெறுமை cmptmps(வெறுமை);	/* compress template table entries */
+வெளி வெறுமை expand_nxt_chk(வெறுமை);	/* increase nxt/chk arrays */
 
 /* Finds a space in the table for a state to be placed. */
-extern int find_table_space(int *, int);
-extern void inittbl(void);	/* initialize transition tables */
+வெளி முழு find_table_space(முழு *, முழு);
+வெளி வெறுமை inittbl(வெறுமை);	/* initialize transition tables */
 
 /* Make the default, "jam" table entries. */
-extern void mkdeftbl(void);
+வெளி வெறுமை mkdeftbl(வெறுமை);
 
 /* Create table entries for a state (or state fragment) which has
  * only one out-transition.
  */
-extern void mk1tbl(int, int, int, int);
+வெளி வெறுமை mk1tbl(முழு, முழு, முழு, முழு);
 
 /* Place a state into full speed transition table. */
-extern void place_state(int *, int, int);
+வெளி வெறுமை place_state(முழு *, முழு, முழு);
 
 /* Save states with only one out-transition to be processed later. */
-extern void stack1(int, int, int, int);
+வெளி வெறுமை stack1(முழு, முழு, முழு, முழு);
 
 
 /* from file yylex.c */
 
-extern int yylex(void);
+வெளி முழு yylex(வெறுமை);
 
 /* A growable array. See buf.c. */
-struct Buf {
-	void   *elts;		/* elements. */
-	int     nelts;		/* number of elements. */
+கட்டமைப்பு Buf {
+	வெறுமை   *elts;		/* elements. */
+	முழு     nelts;		/* number of elements. */
 	size_t  elt_size;	/* in bytes. */
-	int     nmax;		/* max capacity of elements. */
+	முழு     nmax;		/* max capacity of elements. */
 };
 
-extern void buf_init(struct Buf * buf, size_t elem_size);
-extern void buf_destroy(struct Buf * buf);
-extern struct Buf *buf_append(struct Buf * buf, const void *ptr, int n_elem);
-extern struct Buf *buf_strappend(struct Buf *, const char *str);
-extern struct Buf *buf_strnappend(struct Buf *, const char *str, int nchars);
-extern struct Buf *buf_prints(struct Buf *buf, const char *fmt, const char* s);
+வெளி வெறுமை buf_init(கட்டமைப்பு Buf * buf, size_t elem_size);
+வெளி வெறுமை buf_destroy(கட்டமைப்பு Buf * buf);
+வெளி கட்டமைப்பு Buf *buf_append(கட்டமைப்பு Buf * buf, மாறிலி வெறுமை *ptr, முழு n_elem);
+வெளி கட்டமைப்பு Buf *buf_strappend(கட்டமைப்பு Buf *, மாறிலி எழுத்து *str);
+வெளி கட்டமைப்பு Buf *buf_strnappend(கட்டமைப்பு Buf *, மாறிலி எழுத்து *str, முழு nchars);
+வெளி கட்டமைப்பு Buf *buf_prints(கட்டமைப்பு Buf *buf, மாறிலி எழுத்து *fmt, மாறிலி எழுத்து* s);
 
-extern struct Buf userdef_buf; /* a string buffer for #define's generated by user-options on cmd line. */
-extern struct Buf top_buf;     /* contains %top code. String buffer. */
+வெளி கட்டமைப்பு Buf userdef_buf; /* a string buffer for #define's generated by user-options on cmd line. */
+வெளி கட்டமைப்பு Buf உச்சி_buf;     /* contains %top code. String buffer. */
 
 /* For blocking out code from the header file. */
 #define OUT_BEGIN_CODE() outn("m4_ifdef( [[M4_YY_IN_HEADER]],,[[m4_dnl")
 #define OUT_END_CODE()   outn("]])")
 
 /* For setjmp/longjmp (instead of calling exit(2)). Linkage in main.c */
-extern jmp_buf flex_main_jmp_buf;
+வெளி jmp_buf flex_main_jmp_buf;
 
 #define FLEX_EXIT(status) longjmp(flex_main_jmp_buf,(status)+1)
 
 /* Removes all \n and \r chars from tail of str. returns str. */
-extern char *chomp (char *str);
+வெளி எழுத்து *chomp (எழுத்து *str);
 
 /* ctype functions forced to return boolean */
 #define b_isalnum(c) (isalnum(c)?true:false)
@@ -1125,13 +1125,13 @@ extern char *chomp (char *str);
 #define b_isxdigit(c) (isxdigit(c)?true:false)
 
 /* return true if char is uppercase or lowercase. */
-bool has_case(int c);
+bool has_case(முழு c);
 
 /* Change case of character if possible. */
-int reverse_case(int c);
+முழு reverse_case(முழு c);
 
 /* return false if [c1-c2] is ambiguous for a caseless scanner. */
-bool range_covers_case (int c1, int c2);
+bool range_covers_case (முழு c1, முழு c2);
 
 /*
  *  From "filter.c"
@@ -1141,56 +1141,56 @@ bool range_covers_case (int c1, int c2);
  *  The filter may be external, such as "sed", or it
  *  may be internal, as a function call.
  */
-struct filter {
-    int    (*filter_func)(struct filter*); /**< internal filter function */
-    void * extra;         /**< extra data passed to filter_func */
-	int     argc;         /**< arg count */
-	const char ** argv;   /**< arg vector, \0-terminated */
-    struct filter * next; /**< next filter or NULL */
+கட்டமைப்பு filter {
+    முழு    (*filter_func)(கட்டமைப்பு filter*); /**< internal filter function */
+    வெறுமை * extra;         /**< extra data passed to filter_func */
+	முழு     argc;         /**< arg count */
+	மாறிலி எழுத்து ** argv;   /**< arg vector, \0-terminated */
+    கட்டமைப்பு filter * next; /**< next filter or NULL */
 };
 
 /* output filter chain */
-extern struct filter * output_chain;
-extern struct filter *filter_create_ext (struct filter * chain, const char *cmd, ...);
-struct filter *filter_create_int(struct filter *chain,
-				  int (*filter_func) (struct filter *),
-                  void *extra);
-extern bool filter_apply_chain(struct filter * chain);
-extern int filter_truncate(struct filter * chain, int max_len);
-extern int filter_tee_header(struct filter *chain);
-extern int filter_fix_linedirs(struct filter *chain);
+வெளி கட்டமைப்பு filter * output_chain;
+வெளி கட்டமைப்பு filter *filter_create_ext (கட்டமைப்பு filter * chain, மாறிலி எழுத்து *cmd, ...);
+கட்டமைப்பு filter *filter_create_int(கட்டமைப்பு filter *chain,
+				  முழு (*filter_func) (கட்டமைப்பு filter *),
+                  வெறுமை *extra);
+வெளி bool filter_apply_chain(கட்டமைப்பு filter * chain);
+வெளி முழு filter_truncate(கட்டமைப்பு filter * chain, முழு max_len);
+வெளி முழு filter_tee_header(கட்டமைப்பு filter *chain);
+வெளி முழு filter_fix_linedirs(கட்டமைப்பு filter *chain);
 
 
 /*
  * From "regex.c"
  */
 
-extern regex_t regex_linedir;
-bool flex_init_regex(const char *);
-void flex_regcomp(regex_t *preg, const char *regex, int cflags);
-char   *regmatch_dup (regmatch_t * m, const char *src);
-char   *regmatch_cpy (regmatch_t * m, char *dest, const char *src);
-int regmatch_len (regmatch_t * m);
-int regmatch_strtol (regmatch_t * m, const char *src, char **endptr, int base);
+வெளி regex_t regex_linedir;
+bool flex_init_regex(மாறிலி எழுத்து *);
+வெறுமை flex_regcomp(regex_t *preg, மாறிலி எழுத்து *regex, முழு cflags);
+எழுத்து   *regmatch_dup (regmatch_t * m, மாறிலி எழுத்து *src);
+எழுத்து   *regmatch_cpy (regmatch_t * m, எழுத்து *dest, மாறிலி எழுத்து *src);
+முழு regmatch_len (regmatch_t * m);
+முழு regmatch_strtol (regmatch_t * m, மாறிலி எழுத்து *src, எழுத்து **endptr, முழு base);
 bool regmatch_empty (regmatch_t * m);
 
 /* From "scanflags.h" */
-typedef unsigned int scanflags_t;
-extern scanflags_t* _sf_stk;
-extern size_t _sf_top_ix, _sf_max; /**< stack of scanner flags. */
+வகைவரை unsigned முழு scanflags_t;
+வெளி scanflags_t* _sf_stk;
+வெளி size_t sf_உச்சி_ix, _sf_max; /**< stack of scanner flags. */
 #define _SF_CASE_INS   ((scanflags_t) 0x0001)
 #define _SF_DOT_ALL    ((scanflags_t) 0x0002)
 #define _SF_SKIP_WS    ((scanflags_t) 0x0004)
-#define sf_top()           (_sf_stk[_sf_top_ix])
-#define sf_case_ins()      (sf_top() & _SF_CASE_INS)
-#define sf_dot_all()       (sf_top() & _SF_DOT_ALL)
-#define sf_skip_ws()       (sf_top() & _SF_SKIP_WS)
-#define sf_set_case_ins(X)      ((X) ? (sf_top() |= _SF_CASE_INS) : (sf_top() &= ~_SF_CASE_INS))
-#define sf_set_dot_all(X)       ((X) ? (sf_top() |= _SF_DOT_ALL)  : (sf_top() &= ~_SF_DOT_ALL))
-#define sf_set_skip_ws(X)       ((X) ? (sf_top() |= _SF_SKIP_WS)  : (sf_top() &= ~_SF_SKIP_WS))
-extern void sf_init(void);
-extern void sf_push(void);
-extern void sf_pop(void);
+#define sf_உச்சி()           (_sf_stk[sf_உச்சி_ix])
+#define sf_case_ins()      (sf_உச்சி() & _SF_CASE_INS)
+#define sf_dot_all()       (sf_உச்சி() & _SF_DOT_ALL)
+#define sf_skip_ws()       (sf_உச்சி() & _SF_SKIP_WS)
+#define sf_set_case_ins(X)      ((X) ? (sf_உச்சி() |= _SF_CASE_INS) : (sf_உச்சி() &= ~_SF_CASE_INS))
+#define sf_set_dot_all(X)       ((X) ? (sf_உச்சி() |= _SF_DOT_ALL)  : (sf_உச்சி() &= ~_SF_DOT_ALL))
+#define sf_set_skip_ws(X)       ((X) ? (sf_உச்சி() |= _SF_SKIP_WS)  : (sf_உச்சி() &= ~_SF_SKIP_WS))
+வெளி வெறுமை sf_init(வெறுமை);
+வெளி வெறுமை sf_தள்ளு(வெறுமை);
+வெளி வெறுமை sf_எடு(வெறுமை);
 
 
 #endif /* not defined FLEXDEF_H */

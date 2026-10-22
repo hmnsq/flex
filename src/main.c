@@ -34,109 +34,109 @@
 /*  PURPOSE. */
 
 
-#include "flexdef.h"
-#include "version.h"
-#include "options.h"
-#include "tables.h"
-#include "parse.h"
+#அந்தர்பாவ "flexdef.h"
+#அந்தர்பாவ "version.h"
+#அந்தர்பாவ "options.h"
+#அந்தர்பாவ "tables.h"
+#அந்தர்பாவ "parse.h"
 
-static char flex_version[] = FLEX_VERSION;
+நிலையான எழுத்து flex_version[] = FLEX_VERSION;
 
 /* declare functions that have forward references */
 
-void flexinit(int, char **);
-void readin(void);
-void set_up_initial_allocations(void);
+வெறுமை flexinit(முழு, எழுத்து **);
+வெறுமை readin(வெறுமை);
+வெறுமை set_up_initial_allocations(வெறுமை);
 
 /* these globals are all defined and commented in flexdef.h */
 bool    syntaxerror, eofseen;
-int     yymore_used, reject, real_reject, continued_action, in_rule;
-int     datapos, dataline, linenum;
-FILE   *skelfile = NULL;
-int     skel_ind = 0;
-char   *action_array;
-int     action_size, defs1_offset, prolog_offset, action_offset,
+முழு     yymore_used, reject, real_reject, continued_action, in_rule;
+முழு     datapos, dataline, linenum;
+FILE   *skelfile = வெற்று;
+முழு     skel_ind = 0;
+எழுத்து   *action_array;
+முழு     action_size, defs1_offset, prolog_offset, action_offset,
 	action_index;
-char   *infilename = NULL;
-char   *extra_type = NULL;
-int     onestate[ONE_STACK_SIZE], onesym[ONE_STACK_SIZE];
-int     onenext[ONE_STACK_SIZE], onedef[ONE_STACK_SIZE], onesp;
-int     maximum_mns, current_mns, current_max_rules;
-int     num_rules, num_eof_rules, default_rule, lastnfa;
-int    *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
-int    *accptnum, *assoc_rule, *state_type;
-int    *rule_type, *rule_linenum;
-int     current_state_type;
+எழுத்து   *infilename = வெற்று;
+எழுத்து   *extra_type = வெற்று;
+முழு     onestate[ONE_அடுக்கு_SIZE], onesym[ONE_அடுக்கு_SIZE];
+முழு     onenext[ONE_அடுக்கு_SIZE], onedef[ONE_அடுக்கு_SIZE], onesp;
+முழு     maximum_mns, current_mns, current_max_rules;
+முழு     இலக்கம்_rules, இலக்கம்_eof_rules, default_rule, lastnfa;
+முழு    *firstst, *lastst, *finalst, *transchar, *trans1, *trans2;
+முழு    *accptnum, *assoc_rule, *state_type;
+முழு    *rule_type, *rule_linenum;
+முழு     current_state_type;
 bool    variable_trailing_context_rules;
-int     numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
-int     protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
-int     numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs,
+முழு     numtemps, numprots, protprev[MSP], protnext[MSP], prottbl[MSP];
+முழு     protcomst[MSP], firstprot, lastprot, protsave[PROT_SAVE_SIZE];
+முழு     numecs, nextecm[CSIZE + 1], ecgroup[CSIZE + 1], nummecs,
 	tecfwd[CSIZE + 1];
-int     tecbck[CSIZE + 1];
-int     lastsc, *scset, *scbol;
+முழு     tecbck[CSIZE + 1];
+முழு     lastsc, *scset, *scbol;
 /* scxclu[] and sceof[] are boolean arrays, but allocated as char
  * arrays for size. */
-char   *scxclu, *sceof;
-int     current_max_scs;
-const char **scname;
-int     current_max_dfa_size, current_max_xpairs;
-int     current_max_template_xpairs, current_max_dfas;
-int     lastdfa, *nxt, *chk, *tnxt;
-int    *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss, *dfasiz;
-union dfaacc_union *dfaacc;
-int    *accsiz, *dhash, numas;
-int     numsnpairs, jambase, jamstate;
-int     lastccl, *cclmap, *ccllen, *cclng, cclreuse;
-int     current_maxccls, current_max_ccl_tbl_size;
-unsigned char   *ccltbl;
-char    nmstr[MAXLINE];
-int     sectnum, nummt, hshcol, dfaeql, numeps, eps2, num_reallocs, nmval;
-int     tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
-int     num_backing_up, bol_needed;
-int     end_of_buffer_state;
-char  **input_files;
-int     num_input_files;
+எழுத்து   *scxclu, *sceof;
+முழு     current_max_scs;
+மாறிலி எழுத்து **scname;
+முழு     current_max_dfa_size, current_max_xpairs;
+முழு     current_max_template_xpairs, current_max_dfas;
+முழு     lastdfa, *nxt, *chk, *tnxt;
+முழு    *base, *def, *nultrans, NUL_ec, tblend, firstfree, **dss, *dfasiz;
+ஒன்றிப்பு dfaacc_union *dfaacc;
+முழு    *accsiz, *dhash, numas;
+முழு     numsnpairs, jambase, jamstate;
+முழு     lastccl, *cclmap, *ccllen, *cclng, cclreuse;
+முழு     current_maxccls, current_max_ccl_tbl_size;
+unsigned எழுத்து   *ccltbl;
+எழுத்து    nmstr[MAXLINE];
+முழு     sectnum, nummt, hshcol, dfaeql, numeps, eps2, இலக்கம்_reallocs, nmval;
+முழு     tmpuses, totnst, peakpairs, numuniq, numdup, hshsave;
+முழு     இலக்கம்_backing_up, bol_needed;
+முழு     end_of_buffer_state;
+எழுத்து  **உள்ளீடு_files;
+முழு     இலக்கம்_உள்ளீடு_files;
 jmp_buf flex_main_jmp_buf;
 /* rule_useful[], rule_has_nl[] and ccl_has_nl[] are boolean arrays,
  * but allocated as char arrays for size. */
-char   *rule_useful, *rule_has_nl, *ccl_has_nl;
-int     nlch = '\n';
+எழுத்து   *rule_useful, *rule_has_nl, *ccl_has_nl;
+முழு     nlch = '\n';
 
 bool    tablesext, tablesverify, gentables;
-char   *tablesfilename=0,*tablesname=0;
-struct yytbl_writer tableswr;
+எழுத்து   *tablesfilename=0,*tablesname=0;
+கட்டமைப்பு yytbl_writer tableswr;
 size_t footprint;
 
-struct ctrl_bundle_t ctrl;
-struct env_bundle_t env;
+கட்டமைப்பு ctrl_bundle_t ctrl;
+கட்டமைப்பு env_bundle_t env;
 
 /* Make sure program_name is initialized so we don't crash if writing
  * out an error message before getting the program name from argv[0].
  */
-char   *program_name = "flex";
+எழுத்து   *program_name = "flex";
 
-static const char outfile_template[] = "lex.%s.%s";
-static const char *backing_name = "lex.backup";
-static const char tablesfile_template[] = "lex.%s.tables";
+நிலையான மாறிலி எழுத்து outfile_template[] = "lex.%s.%s";
+நிலையான மாறிலி எழுத்து *backing_name = "lex.backup";
+நிலையான மாறிலி எழுத்து tablesfile_template[] = "lex.%s.tables";
 
 /* From scan.l */
-extern FILE* yyout;
+வெளி FILE* yyout;
 
-static char outfile_path[MAXLINE];
-static int outfile_created = 0;
-static int _stdout_closed = 0; /* flag to prevent double-fclose() on stdout. */
-const char *escaped_qstart = "]]M4_YY_NOOP[M4_YY_NOOP[M4_YY_NOOP[[";
-const char *escaped_qend   = "]]M4_YY_NOOP]M4_YY_NOOP]M4_YY_NOOP[[";
+நிலையான எழுத்து outfile_path[MAXLINE];
+நிலையான முழு outfile_created = 0;
+நிலையான முழு _stdout_closed = 0; /* flag to prevent double-fclose() on stdout. */
+மாறிலி எழுத்து *escaped_qstart = "]]M4_YY_NOOP[M4_YY_NOOP[M4_YY_NOOP[[";
+மாறிலி எழுத்து *escaped_qend   = "]]M4_YY_NOOP]M4_YY_NOOP]M4_YY_NOOP[[";
 
 /* For debugging. The max number of filters to apply to skeleton. */
-static int preproc_level = 1000;
+நிலையான முழு preproc_level = 1000;
 
-int flex_main (int argc, char *argv[]);
+முழு flex_main (முழு argc, எழுத்து *argv[]);
 
-int flex_main (int argc, char *argv[])
+முழு flex_main (முழு argc, எழுத்து *argv[])
 {
-	int     i, exit_status, child_status;
-	int	did_eof_rule = false;
+	முழு     i, exit_status, child_status;
+	முழு	did_eof_rule = false;
 
 	/* Set a longjmp target. Yes, I know it's a hack, but it gets worse: The
 	 * return value of setjmp, if non-zero, is the desired exit code PLUS ONE.
@@ -146,22 +146,22 @@ int flex_main (int argc, char *argv[])
 	 * exit(n);
 	 */
 	exit_status = setjmp (flex_main_jmp_buf);
-	if (exit_status){
-		if (stdout && !_stdout_closed && !ferror(stdout)){
+	எனில் (exit_status){
+		எனில் (stdout && !_stdout_closed && !ferror(stdout)){
 			fflush(stdout);
 			fclose(stdout);
 		}
-		while (wait(&child_status) > 0){
-			if (!WIFEXITED (child_status)
+		போது (wait(&child_status) > 0){
+			எனில் (!WIFEXITED (child_status)
 			    || WEXITSTATUS (child_status) != 0){
 				/* report an error of a child
 				 */
-				if( exit_status <= 1 )
+				எனில்( exit_status <= 1 )
 					exit_status = 2;
 
 			}
 		}
-		return exit_status - 1;
+		திரும்பு exit_status - 1;
 	}
 
 	flexinit (argc, argv);
@@ -170,13 +170,13 @@ int flex_main (int argc, char *argv[])
 	skelout (true);		/* %% [1.0] DFA */
 	footprint += ntod ();
 
-	for (i = 1; i <= num_rules; ++i)
-		if (!rule_useful[i] && i != default_rule)
-			line_warning (_("rule cannot be matched"),
+	க்கு (i = 1; i <= இலக்கம்_rules; ++i)
+		எனில் (!rule_useful[i] && i != default_rule)
+			வரி_warning (_("rule cannot be matched"),
 				      rule_linenum[i]);
 
-	if (ctrl.spprdflt && !reject && rule_useful[default_rule])
-		line_warning (_
+	எனில் (ctrl.spprdflt && !reject && rule_useful[default_rule])
+		வரி_warning (_
 			      ("-s option given but default rule can be matched"),
 			      rule_linenum[default_rule]);
 
@@ -184,17 +184,17 @@ int flex_main (int argc, char *argv[])
 
 	// mode switches for yy_trans_info specification
 	// nultrans
-	if (nultrans)
+	எனில் (nultrans)
 		visible_define ( "M4_MODE_NULTRANS");
-	else {
+	இல்லையெனில் {
 		visible_define ( "M4_MODE_NO_NULTRANS");
-		if (ctrl.fulltbl)
+		எனில் (ctrl.fulltbl)
 		    visible_define ( "M4_MODE_NULTRANS_FULLTBL");
-		else
+		இல்லையெனில்
 		    visible_define ( "M4_MODE_NO_NULTRANS_FULLTBL");
-		if (ctrl.fullspd)
+		எனில் (ctrl.fullspd)
 		    visible_define ( "M4_MODE_NULTRANS_FULLSPD");
-		else
+		இல்லையெனில்
 		    visible_define ( "M4_MODE_NO_NULTRANS_FULLSPD");
 	}
 	
@@ -202,8 +202,8 @@ int flex_main (int argc, char *argv[])
 	out ("\n");
 
 	comment("START of Flex-generated definitions\n");
-	out_str_dec ("M4_HOOK_CONST_DEFINE_UINT(%s, %d)", "YY_NUM_RULES", num_rules);
-	out_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_END_OF_BUFFER", num_rules + 1);
+	out_str_dec ("M4_HOOK_CONST_DEFINE_UINT(%s, %d)", "YY_NUM_RULES", இலக்கம்_rules);
+	out_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_END_OF_BUFFER", இலக்கம்_rules + 1);
 	out_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_JAMBASE", jambase);
 	out_str_dec ("M4_HOOK_CONST_DEFINE_STATE(%s, %d)", "YY_JAMSTATE", jamstate);
 	out_str_dec ("M4_HOOK_CONST_DEFINE_BYTE(%s, %d)", "YY_NUL_EC", NUL_ec);
@@ -222,25 +222,25 @@ int flex_main (int argc, char *argv[])
 
 	out (&action_array[defs1_offset]);
 
-	line_directive_out (stdout, NULL, linenum);
+	வரி_directive_out (stdout, வெற்று, linenum);
 
 	skelout (true);		/* %% [4.0] - various random yylex internals get dumped here */
 
 	/* Copy prolog to output file. */
 	out (&action_array[prolog_offset]);
 
-	line_directive_out (stdout, NULL, linenum);
+	வரி_directive_out (stdout, வெற்று, linenum);
 
 	skelout (true);		/* %% [5.0] - main loop of matching-engine code gets dumped here */
 
 	/* Copy actions to output file. */
 	out (&action_array[action_offset]);
 
-	line_directive_out (stdout, NULL, linenum);
+	வரி_directive_out (stdout, வெற்று, linenum);
 
 	/* generate cases for any missing EOF rules */
-	for (i = 1; i <= lastsc; ++i)
-		if (!sceof[i]) {
+	க்கு (i = 1; i <= lastsc; ++i)
+		எனில் (!sceof[i]) {
 			out_str ("M4_HOOK_EOF_STATE_CASE_ARM(%s)", scname[i]);
 			outc('\n');
 			out ("M4_HOOK_EOF_STATE_CASE_FALLTHROUGH");
@@ -248,7 +248,7 @@ int flex_main (int argc, char *argv[])
 			did_eof_rule = true;
 		}
 
-	if (did_eof_rule) {
+	எனில் (did_eof_rule) {
 		out ("M4_HOOK_EOF_STATE_CASE_TERMINATE");
 	}
 
@@ -256,14 +256,14 @@ int flex_main (int argc, char *argv[])
 
 	/* Copy remainder of input to output. */
 
-	line_directive_out (stdout, infilename, linenum);
+	வரி_directive_out (stdout, infilename, linenum);
 
-	if (sectnum == 3) {
+	எனில் (sectnum == 3) {
 		OUT_BEGIN_CODE ();
-                if (!ctrl.no_section3_escape)
+                எனில் (!ctrl.no_section3_escape)
                    fputs("[[", stdout);
-		(void) flexscan ();	/* copy remainder of input to output */
-                if (!ctrl.no_section3_escape)
+		(வெறுமை) flexscan ();	/* copy remainder of input to output */
+                எனில் (!ctrl.no_section3_escape)
                    fputs("]]", stdout);
 		OUT_END_CODE ();
 	}
@@ -273,14 +273,14 @@ int flex_main (int argc, char *argv[])
 	 */
 	flexend (0);
 
-	return 0;		/* keep compilers/lint happy */
+	திரும்பு 0;		/* keep compilers/lint happy */
 }
 
 /* Wrapper around flex_main, so flex_main can be built as a library. */
-int main (int argc, char *argv[])
+முழு முதன்மை (முழு argc, எழுத்து *argv[])
 {
-#if defined(ENABLE_NLS) && ENABLE_NLS
-#if HAVE_LOCALE_H
+#எனில் defined(ENABLE_NLS) && ENABLE_NLS
+#எனில் HAVE_LOCALE_H
 	setlocale (LC_MESSAGES, "");
         setlocale (LC_CTYPE, "");
 	textdomain (PACKAGE);
@@ -288,24 +288,24 @@ int main (int argc, char *argv[])
 #endif
 #endif
 
-	return flex_main (argc, argv);
+	திரும்பு flex_main (argc, argv);
 }
 
 /* Set up the output filter chain. */
 
-void initialize_output_filters(void)
+வெறுமை initialize_output_filters(வெறுமை)
 {
-	const char * m4 = NULL;
+	மாறிலி எழுத்து * m4 = வெற்று;
 
-	output_chain = filter_create_int(NULL, filter_tee_header, env.headerfilename);
-	if ( !(m4 = getenv("M4"))) {
+	output_chain = filter_create_int(வெற்று, filter_tee_header, env.headerfilename);
+	எனில் ( !(m4 = getenv("M4"))) {
 		m4 = M4;
 	}
-	filter_create_ext(output_chain, m4, "-P", (char *) 0);
-	filter_create_int(output_chain, filter_fix_linedirs, NULL);
+	filter_create_ext(output_chain, m4, "-P", (எழுத்து *) 0);
+	filter_create_int(output_chain, filter_fix_linedirs, வெற்று);
 
 	/* For debugging, only run the requested number of filters. */
-	if (preproc_level > 0) {
+	எனில் (preproc_level > 0) {
 		filter_truncate(output_chain, preproc_level);
 		filter_apply_chain(output_chain);
 	}
@@ -314,18 +314,18 @@ void initialize_output_filters(void)
 
 /* check_options - check user-specified options */
 
-void check_options (void)
+வெறுமை check_options (வெறுமை)
 {
-	int     i;
+	முழு     i;
 
-	if (ctrl.lex_compat) {
-		if (ctrl.C_plus_plus)
+	எனில் (ctrl.lex_compat) {
+		எனில் (ctrl.C_plus_plus)
 			flexerror (_("Can't use -+ with -l option"));
 
-		if (ctrl.fulltbl || ctrl.fullspd)
+		எனில் (ctrl.fulltbl || ctrl.fullspd)
 			flexerror (_("Can't use -f or -F with -l option"));
 
-		if (ctrl.reentrant || ctrl.bison_bridge_lval)
+		எனில் (ctrl.reentrant || ctrl.bison_bridge_lval)
 			flexerror (_
 				   ("Can't use --ctrl.reentrant or --bison-bridge with -l option"));
 
@@ -335,68 +335,68 @@ void check_options (void)
 	}
 
 
-#if 0
+#எனில் 0
 	/* This makes no sense whatsoever. I'm removing it. */
-	if (ctrl.do_yylineno)
+	எனில் (ctrl.do_yylineno)
 		/* This should really be "maintain_backup_tables = true" */
 		ctrl.reject_really_used = true;
 #endif
 
-	if (ctrl.csize == trit_unspecified) {
-		if ((ctrl.fulltbl || ctrl.fullspd) && !ctrl.useecs)
+	எனில் (ctrl.csize == trit_unspecified) {
+		எனில் ((ctrl.fulltbl || ctrl.fullspd) && !ctrl.useecs)
 			ctrl.csize = DEFAULT_CSIZE;
-		else
+		இல்லையெனில்
 			ctrl.csize = CSIZE;
 	}
 
-	if (ctrl.interactive == trit_unspecified) {
-		if (ctrl.fulltbl || ctrl.fullspd)
+	எனில் (ctrl.interactive == trit_unspecified) {
+		எனில் (ctrl.fulltbl || ctrl.fullspd)
 			ctrl.interactive = trit_false;
-		else
+		இல்லையெனில்
 			ctrl.interactive = trit_true;
 	}
 
-	if (ctrl.fulltbl || ctrl.fullspd) {
-		if (ctrl.usemecs)
+	எனில் (ctrl.fulltbl || ctrl.fullspd) {
+		எனில் (ctrl.usemecs)
 			flexerror (_
 				   ("-Cf/-CF and -Cm don't make sense together"));
 
-		if (ctrl.interactive != trit_false)
+		எனில் (ctrl.interactive != trit_false)
 			flexerror (_("-Cf/-CF and -I are incompatible"));
 
-		if (ctrl.lex_compat)
+		எனில் (ctrl.lex_compat)
 			flexerror (_
 				   ("-Cf/-CF are incompatible with lex-compatibility mode"));
 
 
-		if (ctrl.fulltbl && ctrl.fullspd)
+		எனில் (ctrl.fulltbl && ctrl.fullspd)
 			flexerror (_
 				   ("-Cf and -CF are mutually exclusive"));
 	}
 
-	if (ctrl.C_plus_plus && ctrl.fullspd)
+	எனில் (ctrl.C_plus_plus && ctrl.fullspd)
 		flexerror (_("Can't use -+ with -CF option"));
 
-	if (ctrl.C_plus_plus && ctrl.yytext_is_array) {
+	எனில் (ctrl.C_plus_plus && ctrl.yytext_is_array) {
 		lwarn (_("%array incompatible with -+ option"));
 		ctrl.yytext_is_array = false;
 	}
 
-	if (ctrl.C_plus_plus && (ctrl.reentrant))
+	எனில் (ctrl.C_plus_plus && (ctrl.reentrant))
 		flexerror (_("Options -+ and --reentrant are mutually exclusive."));
 
-	if (ctrl.C_plus_plus && ctrl.bison_bridge_lval)
+	எனில் (ctrl.C_plus_plus && ctrl.bison_bridge_lval)
 		flexerror (_("bison bridge not supported for the C++ scanner."));
 
 
-	if (ctrl.useecs) {		/* Set up doubly-linked equivalence classes. */
+	எனில் (ctrl.useecs) {		/* Set up doubly-linked equivalence classes. */
 
 		/* We loop all the way up to ctrl.csize, since ecgroup[ctrl.csize] is
 		 * the position used for NUL characters.
 		 */
 		ecgroup[1] = NIL;
 
-		for (i = 2; i <= ctrl.csize; ++i) {
+		க்கு (i = 2; i <= ctrl.csize; ++i) {
 			ecgroup[i] = i - 1;
 			nextecm[i - 1] = i;
 		}
@@ -404,19 +404,19 @@ void check_options (void)
 		nextecm[ctrl.csize] = NIL;
 	}
 
-	else {
+	இல்லையெனில் {
 		/* Put everything in its own equivalence class. */
-		for (i = 1; i <= ctrl.csize; ++i) {
+		க்கு (i = 1; i <= ctrl.csize; ++i) {
 			ecgroup[i] = i;
 			nextecm[i] = BAD_SUBSCRIPT;	/* to catch errors */
 		}
 	}
 
-	if (!env.use_stdout) {
+	எனில் (!env.use_stdout) {
 		FILE   *prev_stdout;
 
-		if (!env.did_outfilename) {
-			snprintf (outfile_path, sizeof(outfile_path), outfile_template,
+		எனில் (!env.did_outfilename) {
+			snprintf (outfile_path, அளவு(outfile_path), outfile_template,
 				  ctrl.prefix, suffix());
 
 			env.outfilename = outfile_path;
@@ -424,7 +424,7 @@ void check_options (void)
 
 		prev_stdout = freopen (env.outfilename, "w+", stdout);
 
-		if (prev_stdout == NULL)
+		எனில் (prev_stdout == வெற்று)
 			lerr (_("could not create %s"), env.outfilename);
 
 		outfile_created = 1;
@@ -437,142 +437,142 @@ void check_options (void)
  *    This routine does not return.
  */
 
-void flexend (int exit_status)
+வெறுமை flexend (முழு exit_status)
 {
-	static int called_before = -1;	/* prevent infinite recursion. */
-	int     tblsiz;
+	நிலையான முழு called_before = -1;	/* prevent infinite recursion. */
+	முழு     tblsiz;
 
-	if (++called_before)
+	எனில் (++called_before)
 		FLEX_EXIT (exit_status);
 
-	if (ctrl.yyclass != NULL && !ctrl.C_plus_plus)
+	எனில் (ctrl.yyclass != வெற்று && !ctrl.C_plus_plus)
 		flexerror (_("%option yyclass only meaningful for C++ scanners"));
 
-	if (skelfile != NULL) {
-		if (ferror (skelfile))
+	எனில் (skelfile != வெற்று) {
+		எனில் (ferror (skelfile))
 			lerr (_("input error reading skeleton file %s"),
 				env.skelname);
 
-		else if (fclose (skelfile))
+		இல்லையெனில் எனில் (fclose (skelfile))
 			lerr (_("error closing skeleton file %s"),
 				env.skelname);
 	}
 
-	if (exit_status != 0 && outfile_created) {
-		if (ferror (stdout))
+	எனில் (exit_status != 0 && outfile_created) {
+		எனில் (ferror (stdout))
 			lerr (_("error writing output file %s"),
 				env.outfilename);
 
-		else if ((_stdout_closed = 1) && fclose (stdout))
+		இல்லையெனில் எனில் ((_stdout_closed = 1) && fclose (stdout))
 			lerr (_("error closing output file %s"),
 				env.outfilename);
 
-		else if (unlink (env.outfilename))
+		இல்லையெனில் எனில் (unlink (env.outfilename))
 			lerr (_("error deleting output file %s"),
 				env.outfilename);
 	}
 
 
-	if (env.backing_up_report && ctrl.backing_up_file) {
-		if (num_backing_up == 0)
+	எனில் (env.backing_up_report && ctrl.backing_up_file) {
+		எனில் (இலக்கம்_backing_up == 0)
 			fprintf (ctrl.backing_up_file, _("No backing up.\n"));
-		else if (ctrl.fullspd || ctrl.fulltbl)
+		இல்லையெனில் எனில் (ctrl.fullspd || ctrl.fulltbl)
 			fprintf (ctrl.backing_up_file,
 				 _
 				 ("%d backing up (non-accepting) states.\n"),
-				 num_backing_up);
-		else
+				 இலக்கம்_backing_up);
+		இல்லையெனில்
 			fprintf (ctrl.backing_up_file,
 				 _("Compressed tables always back up.\n"));
 
-		if (ferror (ctrl.backing_up_file))
+		எனில் (ferror (ctrl.backing_up_file))
 			lerr (_("error writing backup file %s"),
 				backing_name);
 
-		else if (fclose (ctrl.backing_up_file))
+		இல்லையெனில் எனில் (fclose (ctrl.backing_up_file))
 			lerr (_("error closing backup file %s"),
 				backing_name);
 	}
 
-	if (env.printstats) {
+	எனில் (env.printstats) {
 		fprintf (stderr, _("%s version %s usage statistics:\n"),
 			 program_name, flex_version);
 
 		fprintf (stderr, _("  scanner options: -"));
 
-		if (ctrl.C_plus_plus)
+		எனில் (ctrl.C_plus_plus)
 			putc ('+', stderr);
-		if (env.backing_up_report)
+		எனில் (env.backing_up_report)
 			putc ('b', stderr);
-		if (ctrl.ddebug)
+		எனில் (ctrl.ddebug)
 			putc ('d', stderr);
-		if (sf_case_ins())
+		எனில் (sf_case_ins())
 			putc ('i', stderr);
-		if (ctrl.lex_compat)
+		எனில் (ctrl.lex_compat)
 			putc ('l', stderr);
-		if (ctrl.posix_compat)
+		எனில் (ctrl.posix_compat)
 			putc ('X', stderr);
-		if (env.performance_hint > 0)
+		எனில் (env.performance_hint > 0)
 			putc ('p', stderr);
-		if (env.performance_hint > 1)
+		எனில் (env.performance_hint > 1)
 			putc ('p', stderr);
-		if (ctrl.spprdflt)
+		எனில் (ctrl.spprdflt)
 			putc ('s', stderr);
-		if (ctrl.reentrant)
+		எனில் (ctrl.reentrant)
 			fputs ("--reentrant", stderr);
-        if (ctrl.bison_bridge_lval)
+        எனில் (ctrl.bison_bridge_lval)
             fputs ("--bison-bridge", stderr);
-        if (ctrl.bison_bridge_lloc)
+        எனில் (ctrl.bison_bridge_lloc)
             fputs ("--bison-locations", stderr);
-		if (env.use_stdout)
+		எனில் (env.use_stdout)
 			putc ('t', stderr);
-		if (env.printstats)
+		எனில் (env.printstats)
 			putc ('v', stderr);	/* always true! */
-		if (env.nowarn)
+		எனில் (env.nowarn)
 			putc ('w', stderr);
-		if (ctrl.interactive == trit_false)
+		எனில் (ctrl.interactive == trit_false)
 			putc ('B', stderr);
-		if (ctrl.interactive == trit_true)
+		எனில் (ctrl.interactive == trit_true)
 			putc ('I', stderr);
-		if (!ctrl.gen_line_dirs)
+		எனில் (!ctrl.gen_வரி_dirs)
 			putc ('L', stderr);
-		if (env.trace)
+		எனில் (env.trace)
 			putc ('T', stderr);
 
-		if (ctrl.csize == trit_unspecified)
+		எனில் (ctrl.csize == trit_unspecified)
 			/* We encountered an error fairly early on, so ctrl.csize
 			 * never got specified.  Define it now, to prevent
 			 * bogus table sizes being written out below.
 			 */
 			ctrl.csize = 256;
 
-		if (ctrl.csize == 128)
+		எனில் (ctrl.csize == 128)
 			putc ('7', stderr);
-		else
+		இல்லையெனில்
 			putc ('8', stderr);
 
 		fprintf (stderr, " -C");
 
-		if (ctrl.long_align)
+		எனில் (ctrl.long_align)
 			putc ('a', stderr);
-		if (ctrl.fulltbl)
+		எனில் (ctrl.fulltbl)
 			putc ('f', stderr);
-		if (ctrl.fullspd)
+		எனில் (ctrl.fullspd)
 			putc ('F', stderr);
-		if (ctrl.useecs)
+		எனில் (ctrl.useecs)
 			putc ('e', stderr);
-		if (ctrl.usemecs)
+		எனில் (ctrl.usemecs)
 			putc ('m', stderr);
-		if (ctrl.use_read)
+		எனில் (ctrl.use_read)
 			putc ('r', stderr);
 
-		if (env.did_outfilename)
+		எனில் (env.did_outfilename)
 			fprintf (stderr, " -o%s", env.outfilename);
 
-		if (env.skelname != NULL)
+		எனில் (env.skelname != வெற்று)
 			fprintf (stderr, " -S%s", env.skelname);
 
-		if (strcmp (ctrl.prefix, "yy"))
+		எனில் (strcmp (ctrl.prefix, "yy"))
 			fprintf (stderr, " -P%s", ctrl.prefix);
 
 		putc ('\n', stderr);
@@ -582,22 +582,22 @@ void flexend (int exit_status)
 		fprintf (stderr, _("  %d/%d DFA states (%d words)\n"),
 			 lastdfa, current_max_dfas, totnst);
 		fprintf (stderr, _("  %d rules\n"),
-			 num_rules + num_eof_rules -
+			 இலக்கம்_rules + இலக்கம்_eof_rules -
 			 1 /* - 1 for def. rule */ );
 
-		if (num_backing_up == 0)
+		எனில் (இலக்கம்_backing_up == 0)
 			fprintf (stderr, _("  No backing up\n"));
-		else if (ctrl.fullspd || ctrl.fulltbl)
+		இல்லையெனில் எனில் (ctrl.fullspd || ctrl.fulltbl)
 			fprintf (stderr,
 				 _
 				 ("  %d backing-up (non-accepting) states\n"),
-				 num_backing_up);
-		else
+				 இலக்கம்_backing_up);
+		இல்லையெனில்
 			fprintf (stderr,
 				 _
 				 ("  Compressed tables always back-up\n"));
 
-		if (bol_needed)
+		எனில் (bol_needed)
 			fprintf (stderr,
 				 _("  Beginning-of-line patterns used\n"));
 
@@ -608,9 +608,9 @@ void flexend (int exit_status)
 			 ("  %d epsilon states, %d double epsilon states\n"),
 			 numeps, eps2);
 
-		if (lastccl == 0)
+		எனில் (lastccl == 0)
 			fprintf (stderr, _("  no character classes\n"));
-		else
+		இல்லையெனில்
 			fprintf (stderr,
 				 _
 				 ("  %d/%d character classes needed %d/%d words of storage, %d reused\n"),
@@ -624,13 +624,13 @@ void flexend (int exit_status)
 			 _("  %d/%d unique/duplicate transitions\n"),
 			 numuniq, numdup);
 
-		if (ctrl.fulltbl) {
+		எனில் (ctrl.fulltbl) {
 			tblsiz = lastdfa * numecs;
 			fprintf (stderr, _("  %d table entries\n"),
 				 tblsiz);
 		}
 
-		else {
+		இல்லையெனில் {
 			tblsiz = 2 * (lastdfa + numtemps) + 2 * tblend;
 
 			fprintf (stderr,
@@ -655,7 +655,7 @@ void flexend (int exit_status)
 				 numtemps, tmpuses);
 		}
 
-		if (ctrl.useecs) {
+		எனில் (ctrl.useecs) {
 			tblsiz = tblsiz + ctrl.csize;
 			fprintf (stderr,
 				 _
@@ -663,7 +663,7 @@ void flexend (int exit_status)
 				 numecs, ctrl.csize);
 		}
 
-		if (ctrl.usemecs) {
+		எனில் (ctrl.usemecs) {
 			tblsiz = tblsiz + numecs;
 			fprintf (stderr,
 				 _
@@ -676,7 +676,7 @@ void flexend (int exit_status)
 			 ("  %d (%d saved) hash collisions, %d DFAs equal\n"),
 			 hshcol, hshsave, dfaeql);
 		fprintf (stderr, _("  %d sets of reallocations needed\n"),
-			 num_reallocs);
+			 இலக்கம்_reallocs);
 		fprintf (stderr, _("  %d total table entries needed\n"),
 			 tblsiz);
 	}
@@ -687,13 +687,13 @@ void flexend (int exit_status)
 
 /* flexinit - initialize flex */
 
-void flexinit (int argc, char **argv)
+வெறுமை flexinit (முழு argc, எழுத்து **argv)
 {
-	int     i, sawcmpflag, rv, optind;
-	char   *arg;
+	முழு     i, sawcmpflag, rv, optind;
+	எழுத்து   *arg;
 	scanopt_t sopt;
 
-	memset(&ctrl, '\0', sizeof(ctrl));
+	memset(&ctrl, '\0', அளவு(ctrl));
 	syntaxerror = false;
 	yymore_used = continued_action = false;
 	in_rule = reject = false;
@@ -701,7 +701,7 @@ void flexinit (int argc, char **argv)
 
 	ctrl.do_main = trit_unspecified;
 	ctrl.interactive = ctrl.csize = trit_unspecified;
-	ctrl.do_yywrap = ctrl.gen_line_dirs = ctrl.usemecs = ctrl.useecs = true;
+	ctrl.do_yywrap = ctrl.gen_வரி_dirs = ctrl.usemecs = ctrl.useecs = true;
 	ctrl.reentrant = ctrl.bison_bridge_lval = ctrl.bison_bridge_lloc = false;
 	env.performance_hint = 0;
 	ctrl.prefix = "yy";
@@ -710,7 +710,7 @@ void flexinit (int argc, char **argv)
 
 	tablesext = tablesverify = false;
 	gentables = true;
-	tablesfilename = tablesname = NULL;
+	tablesfilename = tablesname = வெற்று;
 
 	sawcmpflag = false;
 	
@@ -721,30 +721,30 @@ void flexinit (int argc, char **argv)
 	action_array[0] = '\0';
 
 	/* Initialize any buffers. */
-	buf_init (&userdef_buf, sizeof (char));	/* one long string */
-	buf_init (&top_buf, sizeof (char));	    /* one long string */
+	buf_init (&userdef_buf, அளவு (எழுத்து));	/* one long string */
+	buf_init (&உச்சி_buf, அளவு (எழுத்து));	    /* one long string */
 
 	sf_init ();
 
 	/* Enable C++ if program name ends with '+'. */
 	program_name = argv[0];
 
-	if (program_name != NULL &&
+	எனில் (program_name != வெற்று &&
 	    program_name[strlen (program_name) - 1] == '+')
 		ctrl.C_plus_plus = true;
 
 	/* read flags */
 	sopt = scanopt_init (flexopts, argc, argv, 0);
-	if (!sopt) {
+	எனில் (!sopt) {
 		/* This will only happen when flexopts array is altered. */
 		fprintf (stderr,
 			 _("Internal error. flexopts are malformed.\n"));
 		FLEX_EXIT (1);
 	}
 
-	while ((rv = scanopt (sopt, &arg, &optind)) != 0) {
+	போது ((rv = scanopt (sopt, &arg, &optind)) != 0) {
 
-		if (rv < 0) {
+		எனில் (rv < 0) {
 			/* Scanopt has already printed an option-specific error message. */
 			fprintf (stderr,
 				 _
@@ -753,429 +753,429 @@ void flexinit (int argc, char **argv)
 			FLEX_EXIT (1);
 		}
 
-		switch ((enum flexopt_flag_t) rv) {
-		    case OPT_CPLUSPLUS:
+		தேர்வு ((எண்ணிக்கை flexopt_flag_t) rv) {
+		    நிலை OPT_CPLUSPLUS:
 			ctrl.C_plus_plus = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_BATCH:
+		    நிலை OPT_BATCH:
 			ctrl.interactive = trit_false;
-			break;
+			நிறுத்து;
 
-		    case OPT_BACKUP:
+		    நிலை OPT_BACKUP:
 			env.backing_up_report = trit_true;
-			break;
+			நிறுத்து;
 
-		    case OPT_BACKUP_FILE:
+		    நிலை OPT_BACKUP_FILE:
 			env.backing_up_report = true;
                         backing_name = arg;
-			break;
+			நிறுத்து;
 
-		    case OPT_DONOTHING:
-			break;
+		    நிலை OPT_DONOTHING:
+			நிறுத்து;
 
-		    case OPT_COMPRESSION:
-			if (!sawcmpflag) {
+		    நிலை OPT_COMPRESSION:
+			எனில் (!sawcmpflag) {
 				ctrl.useecs = false;
 				ctrl.usemecs = false;
 				ctrl.fulltbl = false;
 				sawcmpflag = true;
 			}
 
-			for (i = 0; arg && arg[i] != '\0'; i++)
-				switch (arg[i]) {
-				    case 'a':
+			க்கு (i = 0; arg && arg[i] != '\0'; i++)
+				தேர்வு (arg[i]) {
+				    நிலை 'a':
 					ctrl.long_align = true;
-					break;
+					நிறுத்து;
 
-				    case 'e':
+				    நிலை 'e':
 					ctrl.useecs = true;
-					break;
+					நிறுத்து;
 
-				    case 'F':
+				    நிலை 'F':
 					ctrl.fullspd = true;
-					break;
+					நிறுத்து;
 
-				    case 'f':
+				    நிலை 'f':
 					ctrl.fulltbl = true;
-					break;
+					நிறுத்து;
 
-				    case 'm':
+				    நிலை 'm':
 					ctrl.usemecs = true;
-					break;
+					நிறுத்து;
 
-				    case 'r':
+				    நிலை 'r':
 					ctrl.use_read = true;
-					break;
+					நிறுத்து;
 
-				    default:
+				    இயல்பு:
 					lerr (_
 					      ("unknown -C option '%c'"),
 					      arg[i]);
-					break;
+					நிறுத்து;
 				}
-			break;
+			நிறுத்து;
 
-		    case OPT_DEBUG:
+		    நிலை OPT_DEBUG:
 			ctrl.ddebug = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_DEBUG:
+		    நிலை OPT_NO_DEBUG:
 			ctrl.ddebug = false;
-			break;
+			நிறுத்து;
 
-		    case OPT_FULL:
+		    நிலை OPT_FULL:
 			ctrl.useecs = ctrl.usemecs = false;
 			ctrl.use_read = ctrl.fulltbl = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_FAST:
+		    நிலை OPT_FAST:
 			ctrl.useecs = ctrl.usemecs = false;
 			ctrl.use_read = ctrl.fullspd = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_HELP:
+		    நிலை OPT_HELP:
 			usage ();
 			FLEX_EXIT (0);
 
-		    case OPT_INTERACTIVE:
+		    நிலை OPT_INTERACTIVE:
 			ctrl.interactive = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_CASE_INSENSITIVE:
+		    நிலை OPT_CASE_INSENSITIVE:
 			sf_set_case_ins(true);
-			break;
+			நிறுத்து;
 
-		    case OPT_LEX_COMPAT:
+		    நிலை OPT_LEX_COMPAT:
 			ctrl.lex_compat = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_POSIX_COMPAT:
+		    நிலை OPT_POSIX_COMPAT:
 			ctrl.posix_compat = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_PREPROC_LEVEL:
-			preproc_level = (int) strtol(arg,NULL,0);
-			break;
+		    நிலை OPT_PREPROC_LEVEL:
+			preproc_level = (முழு) strtol(arg,வெற்று,0);
+			நிறுத்து;
 
-		    case OPT_MAIN:
+		    நிலை OPT_MAIN:
 			ctrl.do_yywrap = false;
 			ctrl.do_main = trit_true;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_MAIN:
+		    நிலை OPT_NO_MAIN:
 			ctrl.do_main = trit_false;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_LINE:
-			ctrl.gen_line_dirs = false;
-			break;
+		    நிலை OPT_NO_வரி:
+			ctrl.gen_வரி_dirs = false;
+			நிறுத்து;
 
-		    case OPT_OUTFILE:
+		    நிலை OPT_OUTFILE:
 			env.outfilename = arg;
 			env.did_outfilename = 1;
-			break;
+			நிறுத்து;
 
-		    case OPT_PREFIX:
+		    நிலை OPT_PREFIX:
 			ctrl.prefix = arg;
-			break;
+			நிறுத்து;
 
-		    case OPT_PERF_REPORT:
+		    நிலை OPT_PERF_REPORT:
 			++env.performance_hint;
-			break;
+			நிறுத்து;
 
-		    case OPT_BISON_BRIDGE:
+		    நிலை OPT_BISON_BRIDGE:
 			ctrl.bison_bridge_lval = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_BISON_BRIDGE_LOCATIONS:
+		    நிலை OPT_BISON_BRIDGE_LOCATIONS:
 			ctrl.bison_bridge_lval = ctrl.bison_bridge_lloc = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_REENTRANT:
+		    நிலை OPT_REENTRANT:
 			ctrl.reentrant = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_REENTRANT:
+		    நிலை OPT_NO_REENTRANT:
 			ctrl.reentrant = false;
-			break;
+			நிறுத்து;
 
-		    case OPT_SKEL:
+		    நிலை OPT_SKEL:
 			env.skelname = arg;
-			break;
+			நிறுத்து;
 
-		    case OPT_DEFAULT:
+		    நிலை OPT_DEFAULT:
 			ctrl.spprdflt = false;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_DEFAULT:
+		    நிலை OPT_NO_DEFAULT:
 			ctrl.spprdflt = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_STDOUT:
+		    நிலை OPT_STDOUT:
 			env.use_stdout = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_UNISTD_H:
+		    நிலை OPT_NO_UNISTD_H:
 			ctrl.no_unistd = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_TABLES_FILE:
+		    நிலை OPT_TABLES_FILE:
 			tablesext = true;
 			tablesfilename = arg;
-			break;
+			நிறுத்து;
 
-		    case OPT_TABLES_VERIFY:
+		    நிலை OPT_TABLES_VERIFY:
 			tablesverify = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_TRACE:
+		    நிலை OPT_TRACE:
 			env.trace = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_VERBOSE:
+		    நிலை OPT_VERBOSE:
 			env.printstats = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_VERSION:
+		    நிலை OPT_VERSION:
 			printf ("%s %s\n", (ctrl.C_plus_plus ? "flex++" : "flex"), flex_version);
 			FLEX_EXIT (0);
 
-		    case OPT_WARN:
+		    நிலை OPT_WARN:
 			env.nowarn = false;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_WARN:
+		    நிலை OPT_NO_WARN:
 			env.nowarn = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_7BIT:
+		    நிலை OPT_7BIT:
 			ctrl.csize = 128;
-			break;
+			நிறுத்து;
 
-		    case OPT_8BIT:
+		    நிலை OPT_8BIT:
 			ctrl.csize = CSIZE;
-			break;
+			நிறுத்து;
 
-		    case OPT_ALIGN:
+		    நிலை OPT_ALIGN:
 			ctrl.long_align = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_ALIGN:
+		    நிலை OPT_NO_ALIGN:
 			ctrl.long_align = false;
-			break;
+			நிறுத்து;
 
-		    case OPT_ALWAYS_INTERACTIVE:
+		    நிலை OPT_ALWAYS_INTERACTIVE:
 			ctrl.always_interactive = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_NEVER_INTERACTIVE:
+		    நிலை OPT_NEVER_INTERACTIVE:
 			ctrl.never_interactive = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_ARRAY:
+		    நிலை OPT_ARRAY:
 			ctrl.yytext_is_array = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_POINTER:
+		    நிலை OPT_POINTER:
 			ctrl.yytext_is_array = false;
-			break;
+			நிறுத்து;
 
-		    case OPT_ECS:
+		    நிலை OPT_ECS:
 			ctrl.useecs = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_ECS:
+		    நிலை OPT_NO_ECS:
 			ctrl.useecs = false;
-			break;
+			நிறுத்து;
 
-		    case OPT_EMIT:
+		    நிலை OPT_EMIT:
 			ctrl.emit = arg;
-			break;
+			நிறுத்து;
 
-		    case OPT_HEADER_FILE:
+		    நிலை OPT_HEADER_FILE:
 			env.headerfilename = arg;
-			break;
+			நிறுத்து;
 
-		    case OPT_META_ECS:
+		    நிலை OPT_META_ECS:
 			ctrl.usemecs = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_META_ECS:
+		    நிலை OPT_NO_META_ECS:
 			ctrl.usemecs = false;
-			break;
+			நிறுத்து;
 
-		    case OPT_PREPROCDEFINE:
+		    நிலை OPT_PREPROCDEFINE:
 		    {
 			    /* arg is "symbol" or "symbol=definition". */
-			    char   *def;
-			    char buf2[4096];
+			    எழுத்து   *def;
+			    எழுத்து buf2[4096];
 
-			    for (def = arg;
+			    க்கு (def = arg;
 				 *def != '\0' && *def != '='; ++def)
-				    continue;
-			    if (*def == '\0')
+				    தொடர்;
+			    எனில் (*def == '\0')
 				    def = "1";
 
-			    snprintf(buf2, sizeof(buf2), "M4_HOOK_CONST_DEFINE_UNKNOWN(%s, %s)", arg, def);
+			    snprintf(buf2, அளவு(buf2), "M4_HOOK_CONST_DEFINE_UNKNOWN(%s, %s)", arg, def);
 			    buf_strappend (&userdef_buf, buf2);
 		    }
-		    break;
+		    நிறுத்து;
 
-		    case OPT_READ:
+		    நிலை OPT_READ:
 			ctrl.use_read = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_STACK:
-			ctrl.stack_used = true;
-			break;
+		    நிலை OPT_அடுக்கு:
+			ctrl.அடுக்கு_used = true;
+			நிறுத்து;
 
-		    case OPT_STDINIT:
+		    நிலை OPT_STDINIT:
 			ctrl.do_stdinit = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_STDINIT:
+		    நிலை OPT_NO_STDINIT:
 			ctrl.do_stdinit = false;
-			break;
+			நிறுத்து;
 
-		    case OPT_YYCLASS:
+		    நிலை OPT_YYCLASS:
 			ctrl.yyclass = arg;
-			break;
+			நிறுத்து;
 
-		    case OPT_YYLINENO:
+		    நிலை OPT_YYLINENO:
 			ctrl.do_yylineno = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_YYLINENO:
+		    நிலை OPT_NO_YYLINENO:
 			ctrl.do_yylineno = false;
-			break;
+			நிறுத்து;
 
-		    case OPT_YYWRAP:
+		    நிலை OPT_YYWRAP:
 			ctrl.do_yywrap = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_YYWRAP:
+		    நிலை OPT_NO_YYWRAP:
 			ctrl.do_yywrap = false;
-			break;
+			நிறுத்து;
 
-		    case OPT_YYMORE:
+		    நிலை OPT_YYMORE:
 			ctrl.yymore_really_used = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_YYMORE:
+		    நிலை OPT_NO_YYMORE:
 			ctrl.yymore_really_used = false;
-			break;
+			நிறுத்து;
 
-		    case OPT_REJECT:
+		    நிலை OPT_REJECT:
 			ctrl.reject_really_used = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_REJECT:
+		    நிலை OPT_NO_REJECT:
 			ctrl.reject_really_used = false;
-			break;
+			நிறுத்து;
 
-		    case OPT_NO_YY_PUSH_STATE:
-			ctrl.no_yy_push_state = true;
-			break;
-		    case OPT_NO_YY_POP_STATE:
-			ctrl.no_yy_pop_state = true;
-			break;
-		    case OPT_NO_YY_TOP_STATE:
-			ctrl.no_yy_top_state = true;
-			break;
-		    case OPT_NO_YYINPUT:
+		    நிலை OPT_NO_YY_தள்ளு_STATE:
+			ctrl.no_yy_தள்ளு_state = true;
+			நிறுத்து;
+		    நிலை OPT_NO_YY_எடு_STATE:
+			ctrl.no_yy_எடு_state = true;
+			நிறுத்து;
+		    நிலை OPT_NO_YY_உச்சி_STATE:
+			ctrl.no_yy_உச்சி_state = true;
+			நிறுத்து;
+		    நிலை OPT_NO_YYINPUT:
 			ctrl.no_yyinput = true;
-			break;
-		    case OPT_NO_YYUNPUT:
+			நிறுத்து;
+		    நிலை OPT_NO_YYUNPUT:
 			ctrl.no_yyunput = true;
-			break;
-		    case OPT_NO_YY_SCAN_BUFFER:
+			நிறுத்து;
+		    நிலை OPT_NO_YY_SCAN_BUFFER:
 			ctrl.no_yy_scan_buffer = true;
-			break;
-		    case OPT_NO_YY_SCAN_BYTES:
+			நிறுத்து;
+		    நிலை OPT_NO_YY_SCAN_BYTES:
 			ctrl.no_yy_scan_bytes = true;
-			break;
-		    case OPT_NO_YY_SCAN_STRING:
+			நிறுத்து;
+		    நிலை OPT_NO_YY_SCAN_STRING:
 			ctrl.no_yy_scan_string = true;
-			break;
-		    case OPT_NO_YYGET_EXTRA:
+			நிறுத்து;
+		    நிலை OPT_NO_YYGET_EXTRA:
 			ctrl.no_yyget_extra = true;
-			break;
-		    case OPT_NO_YYSET_EXTRA:
+			நிறுத்து;
+		    நிலை OPT_NO_YYSET_EXTRA:
 			ctrl.no_yyset_extra = true;
-			break;
-		    case OPT_NO_YYGET_LENG:
+			நிறுத்து;
+		    நிலை OPT_NO_YYGET_LENG:
 			ctrl.no_yyget_leng = true;
-			break;
-		    case OPT_NO_YYGET_TEXT:
+			நிறுத்து;
+		    நிலை OPT_NO_YYGET_TEXT:
 			ctrl.no_yyget_text = true;
-			break;
-		    case OPT_NO_YYGET_LINENO:
+			நிறுத்து;
+		    நிலை OPT_NO_YYGET_LINENO:
 			ctrl.no_yyget_lineno = true;
-			break;
-		    case OPT_NO_YYSET_LINENO:
+			நிறுத்து;
+		    நிலை OPT_NO_YYSET_LINENO:
 			ctrl.no_yyset_lineno = true;
-			break;
-		    case OPT_NO_YYGET_COLUMN:
+			நிறுத்து;
+		    நிலை OPT_NO_YYGET_COLUMN:
 			ctrl.no_yyget_column = true;
-			break;
-		    case OPT_NO_YYSET_COLUMN:
+			நிறுத்து;
+		    நிலை OPT_NO_YYSET_COLUMN:
 			ctrl.no_yyset_column = true;
-			break;
-		    case OPT_NO_YYGET_IN:
+			நிறுத்து;
+		    நிலை OPT_NO_YYGET_IN:
 			ctrl.no_yyget_in = true;
-			break;
-		    case OPT_NO_YYSET_IN:
+			நிறுத்து;
+		    நிலை OPT_NO_YYSET_IN:
 			ctrl.no_yyset_in = true;
-			break;
-		    case OPT_NO_YYGET_OUT:
+			நிறுத்து;
+		    நிலை OPT_NO_YYGET_OUT:
 			ctrl.no_yyget_out = true;
-			break;
-		    case OPT_NO_YYSET_OUT:
+			நிறுத்து;
+		    நிலை OPT_NO_YYSET_OUT:
 			ctrl.no_yyset_out = true;
-			break;
-		    case OPT_NO_YYGET_LVAL:
+			நிறுத்து;
+		    நிலை OPT_NO_YYGET_LVAL:
 			ctrl.no_yyget_lval = true;
-			break;
-		    case OPT_NO_YYSET_LVAL:
+			நிறுத்து;
+		    நிலை OPT_NO_YYSET_LVAL:
 			ctrl.no_yyset_lval = true;
-			break;
-		    case OPT_NO_YYGET_LLOC:
+			நிறுத்து;
+		    நிலை OPT_NO_YYGET_LLOC:
 			ctrl.no_yyget_lloc = true;
-			break;
-		    case OPT_NO_YYSET_LLOC:
+			நிறுத்து;
+		    நிலை OPT_NO_YYSET_LLOC:
 			ctrl.no_yyset_lloc = true;
-			break;
-		    case OPT_NO_YYGET_DEBUG:
+			நிறுத்து;
+		    நிலை OPT_NO_YYGET_DEBUG:
 			ctrl.no_get_debug = true;
-			break;
-		    case OPT_NO_YYSET_DEBUG:
+			நிறுத்து;
+		    நிலை OPT_NO_YYSET_DEBUG:
 			ctrl.no_set_debug = true;
-			break;
+			நிறுத்து;
 
-		    case OPT_HEX:
+		    நிலை OPT_HEX:
 			env.trace_hex = true;
-                        break;
-		    case OPT_NO_SECT3_ESCAPE:
+                        நிறுத்து;
+		    நிலை OPT_NO_SECT3_ESCAPE:
                         ctrl.no_section3_escape = true;
-                        break;
+                        நிறுத்து;
 		}		/* switch */
 	}			/* while scanopt() */
 
 	scanopt_destroy (sopt);
 
-	num_input_files = argc - optind;
-	input_files = argv + optind;
-	set_input_file (num_input_files > 0 ? input_files[0] : NULL);
+	இலக்கம்_உள்ளீடு_files = argc - optind;
+	உள்ளீடு_files = argv + optind;
+	set_உள்ளீடு_file (இலக்கம்_உள்ளீடு_files > 0 ? உள்ளீடு_files[0] : வெற்று);
 
 	lastccl = lastsc = lastdfa = lastnfa = 0;
-	num_rules = num_eof_rules = default_rule = 0;
+	இலக்கம்_rules = இலக்கம்_eof_rules = default_rule = 0;
 	numas = numsnpairs = tmpuses = 0;
-	numecs = numeps = eps2 = num_reallocs = hshcol = dfaeql = totnst =
+	numecs = numeps = eps2 = இலக்கம்_reallocs = hshcol = dfaeql = totnst =
 	    0;
 	numuniq = numdup = hshsave = datapos = dataline = 0;
 	eofseen = false;
-	num_backing_up = onesp = numprots = 0;
+	இலக்கம்_backing_up = onesp = numprots = 0;
 	variable_trailing_context_rules = bol_needed = false;
 
 	linenum = sectnum = 1;
@@ -1192,18 +1192,18 @@ void flexinit (int argc, char **argv)
 
 /* readin - read in the rules section of the input file(s) */
 
-void readin (void)
+வெறுமை readin (வெறுமை)
 {
-	char buf[256];
+	எழுத்து buf[256];
 
-	line_directive_out(NULL, infilename, linenum);
+	வரி_directive_out(வெற்று, infilename, linenum);
 
-	if (yyparse ()) {
+	எனில் (yyparse ()) {
 		pinpoint_message (_("fatal parse error"));
 		flexend (1);
 	}
 
-	if (syntaxerror)
+	எனில் (syntaxerror)
 		flexend (1);
 
 	/* On --emit, -e, or change backends This is where backend
@@ -1218,29 +1218,29 @@ void readin (void)
 
 	yyout = stdout;
 
-	if (tablesext)
+	எனில் (tablesext)
 		gentables = false;
 
-	if (tablesverify)
+	எனில் (tablesverify)
 		/* force generation of C tables. */
 		gentables = true;
 
 
-	if (tablesext) {
+	எனில் (tablesext) {
 		FILE   *tablesout;
-		struct yytbl_hdr hdr;
-		char   *pname = 0;
+		கட்டமைப்பு yytbl_hdr hdr;
+		எழுத்து   *pname = 0;
 		size_t  nbytes = 0;
 
-		if (!tablesfilename) {
+		எனில் (!tablesfilename) {
 			nbytes = strlen (ctrl.prefix) + strlen (tablesfile_template) + 2;
 			tablesfilename = pname = calloc(nbytes, 1);
 			snprintf (pname, nbytes, tablesfile_template, ctrl.prefix);
 		}
 
-		if ((tablesout = fopen (tablesfilename, "w")) == NULL)
+		எனில் ((tablesout = fopen (tablesfilename, "w")) == வெற்று)
 			lerr (_("could not create %s"), tablesfilename);
-		free(pname);
+		விடுவி(pname);
 		tablesfilename = 0;
 
 		yytbl_writer_init (&tableswr, tablesout);
@@ -1250,18 +1250,18 @@ void readin (void)
 		snprintf (tablesname, nbytes, "%stables", ctrl.prefix);
 		yytbl_hdr_init (&hdr, flex_version, tablesname);
 
-		if (yytbl_hdr_fwrite (&tableswr, &hdr) <= 0)
+		எனில் (yytbl_hdr_fwrite (&tableswr, &hdr) <= 0)
 			flexerror (_("could not write tables header"));
 	}
 
-	if (env.skelname && (skelfile = fopen (env.skelname, "r")) == NULL)
+	எனில் (env.skelname && (skelfile = fopen (env.skelname, "r")) == வெற்று)
 		lerr (_("can't open skeleton file %s"), env.skelname);
 
-	if (strchr(ctrl.prefix, '[') || strchr(ctrl.prefix, ']'))
+	எனில் (strchr(ctrl.prefix, '[') || strchr(ctrl.prefix, ']'))
 		flexerror(_("Prefix cannot include '[' or ']'"));
 
-	if (env.did_outfilename)
-		line_directive_out (stdout, NULL, linenum);
+	எனில் (env.did_outfilename)
+		வரி_directive_out (stdout, வெற்று, linenum);
 
 	/* This is where we begin writing to the file. */
 
@@ -1270,24 +1270,24 @@ void readin (void)
 	comment("A lexical scanner generated by flex\n");
 
 	/* Dump the %top code. */
-	if( top_buf.elts)
-		outn((char*) top_buf.elts);
+	எனில்( உச்சி_buf.elts)
+		outn((எழுத்து*) உச்சி_buf.elts);
 
 	/* Place a bogus line directive, it will be fixed in the filter. */
-	line_directive_out(NULL, NULL, 0);
+	வரி_directive_out(வெற்று, வெற்று, 0);
 
 	/* User may want to set the scanner prototype */
-	if (ctrl.yydecl != NULL) {
+	எனில் (ctrl.yydecl != வெற்று) {
 		out_str ("M4_HOOK_SET_YY_DECL(%s)\n", ctrl.yydecl);
 	}
 
-	if (ctrl.userinit != NULL) {
+	எனில் (ctrl.userinit != வெற்று) {
 		out_str ("M4_HOOK_SET_USERINIT(%s)\n", ctrl.userinit);
 	}
-	if (ctrl.preaction != NULL) {
+	எனில் (ctrl.preaction != வெற்று) {
 		out_str ("M4_HOOK_SET_PREACTION(%s)\n", ctrl.preaction);
 	}
-	if (ctrl.postaction != NULL) {
+	எனில் (ctrl.postaction != வெற்று) {
 		out_str ("M4_HOOK_SET_POSTACTION(%s)\n", ctrl.postaction);
 	}
 
@@ -1298,8 +1298,8 @@ void readin (void)
 	out_dec ("m4_define([[YYLMAX]], [[%d]])\n", ctrl.yylmax);
 
 	/* Dump the user defined preproc directives. */
-	if (userdef_buf.elts)
-		outn ((char *) (userdef_buf.elts));
+	எனில் (userdef_buf.elts)
+		outn ((எழுத்து *) (userdef_buf.elts));
 
 	/* If the user explicitly requested posix compatibility by specifying the
 	 * posix-compat option, then we check for conflicting options. However, if
@@ -1310,7 +1310,7 @@ void readin (void)
 	 * Note: The posix option was added to flex to provide the posix behavior
 	 * of the repeat operator in regular expressions, e.g., `ab{3}'
 	 */
-	if (ctrl.posix_compat) {
+	எனில் (ctrl.posix_compat) {
 		/* TODO: This is where we try to make flex behave according to
 		 * POSIX, *and* check for conflicting ctrl. How far should we go
 		 * with this? Should we disable all the neat-o flex features?
@@ -1318,33 +1318,33 @@ void readin (void)
 		/* Update: Estes says no, since other flex features don't violate posix. */
 	}
 
-	if (getenv ("POSIXLY_CORRECT")) {
+	எனில் (getenv ("POSIXLY_CORRECT")) {
 		ctrl.posix_compat = true;
 	}
 
-	if (env.backing_up_report) {
+	எனில் (env.backing_up_report) {
 		ctrl.backing_up_file = fopen (backing_name, "w");
-		if (ctrl.backing_up_file == NULL)
+		எனில் (ctrl.backing_up_file == வெற்று)
 			lerr (_
 				("could not create backing-up info file %s"),
 				backing_name);
 	}
 
-	else
-		ctrl.backing_up_file = NULL;
+	இல்லையெனில்
+		ctrl.backing_up_file = வெற்று;
 
-	if (ctrl.yymore_really_used == true)
+	எனில் (ctrl.yymore_really_used == true)
 		yymore_used = true;
-	else if (ctrl.yymore_really_used == false)
+	இல்லையெனில் எனில் (ctrl.yymore_really_used == false)
 		yymore_used = false;
 
-	if (ctrl.reject_really_used == true)
+	எனில் (ctrl.reject_really_used == true)
 		reject = true;
-	else if (ctrl.reject_really_used == false)
+	இல்லையெனில் எனில் (ctrl.reject_really_used == false)
 		reject = false;
 
-	if (env.performance_hint > 0) {
-		if (ctrl.lex_compat) {
+	எனில் (env.performance_hint > 0) {
+		எனில் (ctrl.lex_compat) {
 			fprintf (stderr,
 				 _
 				 ("-l AT&T lex compatibility option entails a large performance penalty\n"));
@@ -1353,326 +1353,326 @@ void readin (void)
 				 (" and may be the actual source of other reported performance penalties\n"));
 		}
 
-		else if (ctrl.do_yylineno) {
+		இல்லையெனில் எனில் (ctrl.do_yylineno) {
 			fprintf (stderr,
 				 _
 				 ("%%option yylineno entails a performance penalty ONLY on rules that can match newline characters\n"));
 		}
 
-		if (env.performance_hint > 1) {
-			if (ctrl.interactive == trit_true)
+		எனில் (env.performance_hint > 1) {
+			எனில் (ctrl.interactive == trit_true)
 				fprintf (stderr,
 					 _
 					 ("-I (interactive) entails a minor performance penalty\n"));
 
-			if (yymore_used)
+			எனில் (yymore_used)
 				fprintf (stderr,
 					 _
 					 ("yymore() entails a minor performance penalty\n"));
 		}
 
-		if (reject)
+		எனில் (reject)
 			fprintf (stderr,
 				 _
 				 ("REJECT entails a large performance penalty\n"));
 
-		if (variable_trailing_context_rules)
+		எனில் (variable_trailing_context_rules)
 			fprintf (stderr,
 				 _
 				 ("Variable trailing context rules entail a large performance penalty\n"));
 	}
 
-	if (reject)
+	எனில் (reject)
 		real_reject = true;
 
-	if (variable_trailing_context_rules)
+	எனில் (variable_trailing_context_rules)
 		reject = true;
 
-	if ((ctrl.fulltbl || ctrl.fullspd) && reject) {
-		if (real_reject)
+	எனில் ((ctrl.fulltbl || ctrl.fullspd) && reject) {
+		எனில் (real_reject)
 			flexerror (_
 				   ("REJECT cannot be used with -f or -F"));
-		else if (ctrl.do_yylineno)
+		இல்லையெனில் எனில் (ctrl.do_yylineno)
 			flexerror (_
 				   ("%option yylineno cannot be used with REJECT"));
-		else
+		இல்லையெனில்
 			flexerror (_
 				   ("variable trailing context rules cannot be used with -f or -F"));
 	}
 
-	if (ctrl.useecs)
+	எனில் (ctrl.useecs)
 		numecs = cre8ecs (nextecm, ecgroup, ctrl.csize);
-	else
+	இல்லையெனில்
 		numecs = ctrl.csize;
 
 	/* Now map the equivalence class for NUL to its expected place. */
 	ecgroup[0] = ecgroup[ctrl.csize];
 	NUL_ec = ABS (ecgroup[0]);
 
-	if (ctrl.useecs)
+	எனில் (ctrl.useecs)
 		ccl2ecl ();
 
 	// These are used to conditionalize code in the lex skeleton
 	// that historically used to be generated by C code in flex
 	// itself; by shoving all this stuff out to the skeleton file
 	// we make it easier to retarget the code generation.
-	snprintf(buf, sizeof(buf), "Target: %s\n", ctrl.backend_name);
+	snprintf(buf, அளவு(buf), "Target: %s\n", ctrl.backend_name);
 	comment(buf);
 	comment("START of m4 controls\n");
 
 	/* Define the start condition macros. */
 	{
-		struct Buf tmpbuf;
-		int i;
-		buf_init(&tmpbuf, sizeof(char));
-		for (i = 1; i <= lastsc; i++) {
-			char *str, *fmt = "M4_HOOK_CONST_DEFINE_STATE(%s, %d)";
+		கட்டமைப்பு Buf tmpbuf;
+		முழு i;
+		buf_init(&tmpbuf, அளவு(எழுத்து));
+		க்கு (i = 1; i <= lastsc; i++) {
+			எழுத்து *str, *fmt = "M4_HOOK_CONST_DEFINE_STATE(%s, %d)";
 			size_t strsz;
 
 			strsz = strlen(fmt) + strlen(scname[i]) + (size_t)(1 + ceil (log10(i))) + 2;
 			str = malloc(strsz);
-			if (!str)
+			எனில் (!str)
 				flexfatal(_("allocation of macro definition failed"));
 			snprintf(str, strsz, fmt, scname[i], i - 1);
 			buf_strappend(&tmpbuf, str);
-			free(str);
+			விடுவி(str);
 		}
 		// FIXME: Not dumped visibly because we plan to do away with the indirection
 		out_m4_define("M4_YY_SC_DEFS", tmpbuf.elts);
 		buf_destroy(&tmpbuf);
 	}
 
-	if (ctrl.bison_bridge_lval)
+	எனில் (ctrl.bison_bridge_lval)
 		visible_define("M4_YY_BISON_LVAL");
 
-	if (ctrl.bison_bridge_lloc)
+	எனில் (ctrl.bison_bridge_lloc)
 		visible_define("<M4_YY_BISON_LLOC>");
 
-	if (extra_type != NULL)
+	எனில் (extra_type != வெற்று)
 		visible_define_str ("M4_MODE_EXTRA_TYPE", extra_type);
 
 	/* always generate the tablesverify flag. */
 	visible_define_str ("M4_YY_TABLES_VERIFY", tablesverify ? "1" : "0");
 
-	if (ctrl.reentrant) {
+	எனில் (ctrl.reentrant) {
 		visible_define ("M4_YY_REENTRANT");
-		if (ctrl.yytext_is_array)
+		எனில் (ctrl.yytext_is_array)
 			visible_define ("M4_MODE_REENTRANT_TEXT_IS_ARRAY");
 	}
 
-	if (ctrl.do_main == trit_true)
+	எனில் (ctrl.do_main == trit_true)
 		visible_define_str ( "YY_MAIN", "1");
-	else if (ctrl.do_main == trit_false)
+	இல்லையெனில் எனில் (ctrl.do_main == trit_false)
 		visible_define_str ( "YY_MAIN", "0");
 
-	if (ctrl.do_stdinit)
+	எனில் (ctrl.do_stdinit)
 		visible_define ( "M4_MODE_DO_STDINIT");
-	else
+	இல்லையெனில்
 		visible_define ( "M4_MODE_NO_DO_STDINIT");
 
 	// mode switches for YY_DO_BEFORE_ACTION code generation
-	if (ctrl.yytext_is_array)
+	எனில் (ctrl.yytext_is_array)
 		visible_define ( "M4_MODE_YYTEXT_IS_ARRAY");
-	else
+	இல்லையெனில்
 		visible_define ( "M4_MODE_NO_YYTEXT_IS_ARRAY");
-	if (yymore_used)
+	எனில் (yymore_used)
 		visible_define ( "M4_MODE_YYMORE_USED");
-	else
+	இல்லையெனில்
 		visible_define ( "M4_MODE_NO_YYMORE_USED");
 
-	if (ctrl.fullspd)
+	எனில் (ctrl.fullspd)
 		visible_define ( "M4_MODE_REAL_FULLSPD");
-	else
+	இல்லையெனில்
 		visible_define ( "M4_MODE_NO_REAL_FULLSPD");
 
-	if (ctrl.fulltbl)
+	எனில் (ctrl.fulltbl)
 		visible_define ( "M4_MODE_REAL_FULLTBL");
-	else
+	இல்லையெனில்
 		visible_define ( "M4_MODE_NO_REAL_FULLTBL");
 
 	// niode switches for YYINPUT code generation
-	if (ctrl.use_read)
+	எனில் (ctrl.use_read)
 		visible_define ( "M4_MODE_CPP_USE_READ");
-	else
+	இல்லையெனில்
 		visible_define ( "M4_MODE_NO_CPP_USE_READ");
 
 	// mode switches for next-action code
-	if (variable_trailing_context_rules) {
+	எனில் (variable_trailing_context_rules) {
 		visible_define ( "M4_MODE_VARIABLE_TRAILING_CONTEXT_RULES");
-	} else {
+	} இல்லையெனில் {
 		visible_define ( "M4_MODE_NO_VARIABLE_TRAILING_CONTEXT_RULES");
 	}
-	if (real_reject)
+	எனில் (real_reject)
 		visible_define ( "M4_MODE_REAL_REJECT");
-	if (ctrl.reject_really_used)
+	எனில் (ctrl.reject_really_used)
 		visible_define ( "M4_MODE_FIND_ACTION_REJECT_REALLY_USED");
-	if (reject)
+	எனில் (reject)
 		visible_define ( "M4_MODE_USES_REJECT");
-	else
+	இல்லையெனில்
 		visible_define ( "M4_MODE_NO_USES_REJECT");
 
 	// mode switches for computing next compressed state
-	if (ctrl.usemecs)
+	எனில் (ctrl.usemecs)
 		visible_define ( "M4_MODE_USEMECS");
 
 	// mode switches for find-action code
-	if (ctrl.fullspd)
+	எனில் (ctrl.fullspd)
 		visible_define ( "M4_MODE_FULLSPD");
-	else if (ctrl.fulltbl)
+	இல்லையெனில் எனில் (ctrl.fulltbl)
 	    visible_define ( "M4_MODE_FIND_ACTION_FULLTBL");
-	else if (reject)
+	இல்லையெனில் எனில் (reject)
 	    visible_define ( "M4_MODE_FIND_ACTION_REJECT");
-	else
+	இல்லையெனில்
 	    visible_define ( "M4_MODE_FIND_ACTION_COMPRESSED");
 
 	// mode switches for backup generation and gen_start_state
-	if (!ctrl.fullspd)
+	எனில் (!ctrl.fullspd)
 		visible_define ( "M4_MODE_NO_FULLSPD");
-	if (bol_needed)
+	எனில் (bol_needed)
 		visible_define ( "M4_MODE_BOL_NEEDED");
-	else
+	இல்லையெனில்
 		visible_define ( "M4_MODE_NO_BOL_NEEDED");
 
 	// yylineno
-	if (ctrl.do_yylineno)
+	எனில் (ctrl.do_yylineno)
 		visible_define ( "M4_MODE_YYLINENO");
 
 	// Equivalence classes
-	if (ctrl.useecs)
+	எனில் (ctrl.useecs)
 		visible_define ( "M4_MODE_USEECS");
-	else
+	இல்லையெனில்
 		visible_define ( "M4_MODE_NO_USEECS");
 
 	// mode switches for getting next action
-	if (gentables)
+	எனில் (gentables)
 		visible_define ( "M4_MODE_GENTABLES");
-	else
+	இல்லையெனில்
 		visible_define ( "M4_MODE_NO_GENTABLES");
-	if (ctrl.interactive == trit_true)
+	எனில் (ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_INTERACTIVE");
-	else
+	இல்லையெனில்
 		visible_define ( "M4_MODE_NO_INTERACTIVE");
-	if (!(ctrl.fullspd || ctrl.fulltbl))
+	எனில் (!(ctrl.fullspd || ctrl.fulltbl))
 		visible_define ( "M4_MODE_NO_FULLSPD_OR_FULLTBL");
-	if (reject || ctrl.interactive == trit_true)
+	எனில் (reject || ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_FIND_ACTION_REJECT_OR_INTERACTIVE");
 
-	if (ctrl.yyclass != NULL) {
+	எனில் (ctrl.yyclass != வெற்று) {
 		visible_define ( "M4_MODE_YYCLASS");
 		out_m4_define("M4_YY_CLASS_NAME", ctrl.yyclass);
 	}
 
-	if (ctrl.ddebug)
+	எனில் (ctrl.ddebug)
 		visible_define ( "M4_MODE_DEBUG");
 
-	if (ctrl.lex_compat)
+	எனில் (ctrl.lex_compat)
 		visible_define ( "M4_MODE_OPTIONS.LEX_COMPAT");
 
-	if (ctrl.do_yywrap)
+	எனில் (ctrl.do_yywrap)
 		visible_define ( "M4_MODE_YYWRAP");
-	else
+	இல்லையெனில்
 		visible_define ( "M4_MODE_NO_YYWRAP");
 
-	if (ctrl.interactive == trit_true)
+	எனில் (ctrl.interactive == trit_true)
 		visible_define ( "M4_MODE_INTERACTIVE");
 
-	if (ctrl.noyyread)
+	எனில் (ctrl.noyyread)
 		visible_define("M4_MODE_USER_YYREAD");
 
-	if (is_default_backend()) {
-		if (ctrl.C_plus_plus) {
+	எனில் (is_default_backend()) {
+		எனில் (ctrl.C_plus_plus) {
 			visible_define ( "M4_MODE_CXX_ONLY");
-		} else {
+		} இல்லையெனில் {
 			visible_define ( "M4_MODE_C_ONLY");
 		}
 	}
 
-	if (tablesext)
+	எனில் (tablesext)
 		visible_define ( "M4_MODE_TABLESEXT");
-	if (ctrl.prefix != NULL)
+	எனில் (ctrl.prefix != வெற்று)
 	    visible_define_str ( "M4_MODE_PREFIX", ctrl.prefix);
 
-	if (ctrl.no_yyinput)
+	எனில் (ctrl.no_yyinput)
 		visible_define("M4_MODE_NO_YYINPUT");
 
-	if (ctrl.bufsize != 0)
+	எனில் (ctrl.bufsize != 0)
 	    visible_define_int("M4_MODE_YY_BUFSIZE", ctrl.bufsize);
 
-	if (ctrl.yyterminate != NULL)
+	எனில் (ctrl.yyterminate != வெற்று)
 	    visible_define_str("M4_MODE_YYTERMINATE", ctrl.yyterminate);
 	
-	if (ctrl.no_yypanic)
+	எனில் (ctrl.no_yypanic)
 		visible_define("M4_YY_NO_YYPANIC");
-	if (ctrl.no_yy_push_state)
+	எனில் (ctrl.no_yy_தள்ளு_state)
 		visible_define("M4_YY_NO_PUSH_STATE");
-	if (ctrl.no_yy_pop_state)
+	எனில் (ctrl.no_yy_எடு_state)
 		visible_define("M4_YY_NO_POP_STATE");
-	if (ctrl.no_yy_top_state)
+	எனில் (ctrl.no_yy_உச்சி_state)
 		visible_define("M4_YY_NO_TOP_STATE");
-	if (ctrl.no_yyunput)
+	எனில் (ctrl.no_yyunput)
 		visible_define("M4_YY_NO_YYUNPUT");
-	if (ctrl.no_yy_scan_buffer)
+	எனில் (ctrl.no_yy_scan_buffer)
 		visible_define("M4_YY_NO_SCAN_BUFFER");
-	if (ctrl.no_yy_scan_bytes)
+	எனில் (ctrl.no_yy_scan_bytes)
 		visible_define("M4_YY_NO_SCAN_BYTES");
-	if (ctrl.no_yy_scan_string)
+	எனில் (ctrl.no_yy_scan_string)
 		visible_define("M4_YY_NO_SCAN_STRING");
-	if (ctrl.no_yyget_extra)
+	எனில் (ctrl.no_yyget_extra)
 		visible_define("M4_YY_NO_GET_EXTRA");
-	if (ctrl.no_yyset_extra)
+	எனில் (ctrl.no_yyset_extra)
 		visible_define("M4_YY_NO_SET_EXTRA");
-	if (ctrl.no_yyget_leng)
+	எனில் (ctrl.no_yyget_leng)
 		visible_define("M4_YY_NO_GET_LENG");
-	if (ctrl.no_yyget_text)
+	எனில் (ctrl.no_yyget_text)
 		visible_define("M4_YY_NO_GET_TEXT");
-	if (ctrl.no_yyget_lineno)
+	எனில் (ctrl.no_yyget_lineno)
 		visible_define("M4_YY_NO_GET_LINENO");
-	if (ctrl.no_yyset_lineno)
+	எனில் (ctrl.no_yyset_lineno)
 		visible_define("M4_YY_NO_SET_LINENO");
-	if (ctrl.no_yyget_column)
+	எனில் (ctrl.no_yyget_column)
 		visible_define("M4_YY_NO_GET_COLUMN");
-	if (ctrl.no_yyset_column)
+	எனில் (ctrl.no_yyset_column)
 		visible_define("M4_YY_NO_SET_COLUMN");
-	if (ctrl.no_yyget_in)
+	எனில் (ctrl.no_yyget_in)
 		visible_define("M4_YY_NO_GET_IN");
-	if (ctrl.no_yyset_in)
+	எனில் (ctrl.no_yyset_in)
 		visible_define("M4_YY_NO_SET_IN");
-	if (ctrl.no_yyget_out)
+	எனில் (ctrl.no_yyget_out)
 		visible_define("M4_YY_NO_GET_OUT");
-	if (ctrl.no_yyset_out)
+	எனில் (ctrl.no_yyset_out)
 		visible_define("M4_YY_NO_SET_OUT");
-	if (ctrl.no_yyget_lval)
+	எனில் (ctrl.no_yyget_lval)
 		visible_define("M4_YY_NO_GET_LVAL");
-	if (ctrl.no_yyset_lval)
+	எனில் (ctrl.no_yyset_lval)
 		visible_define("M4_YY_NO_SET_LVAL");
-	if (ctrl.no_yyget_lloc)
+	எனில் (ctrl.no_yyget_lloc)
 		visible_define("M4_YY_NO_GET_LLOC");
-	if (ctrl.no_yyset_lloc)
+	எனில் (ctrl.no_yyset_lloc)
 		visible_define("M4_YY_NO_SET_LLOC");
-	if (ctrl.no_flex_alloc)
+	எனில் (ctrl.no_flex_alloc)
 		visible_define("M4_YY_NO_FLEX_ALLOC");
-	if (ctrl.no_flex_realloc)
+	எனில் (ctrl.no_flex_realloc)
 		visible_define("M4_YY_NO_FLEX_REALLOC");
-	if (ctrl.no_flex_free)
+	எனில் (ctrl.no_flex_free)
 		visible_define("M4_YY_NO_FLEX_FREE");
-	if (ctrl.no_get_debug)
+	எனில் (ctrl.no_get_debug)
 		visible_define("M4_YY_NO_GET_DEBUG");
-	if (ctrl.no_set_debug)
+	எனில் (ctrl.no_set_debug)
 		visible_define("M4_YY_NO_SET_DEBUG");
 
-	if (ctrl.no_unistd)
+	எனில் (ctrl.no_unistd)
 		visible_define("M4_YY_NO_UNISTD_H");
 
-	if (ctrl.always_interactive)
+	எனில் (ctrl.always_interactive)
 		visible_define("M4_YY_ALWAYS_INTERACTIVE");
-	if (ctrl.never_interactive)
+	எனில் (ctrl.never_interactive)
 		visible_define("M4_YY_NEVER_INTERACTIVE");
-	if (ctrl.stack_used)
+	எனில் (ctrl.அடுக்கு_used)
 		visible_define("M4_YY_STACK_USED");
 
-	if (ctrl.rewrite)
+	எனில் (ctrl.rewrite)
 		visible_define ( "M4_MODE_REWRITE");
-	else
+	இல்லையெனில்
 		visible_define ( "M4_MODE_NO_REWRITE");
 
 	comment("END of m4 controls\n");
@@ -1681,7 +1681,7 @@ void readin (void)
 
 /* set_up_initial_allocations - allocate memory for internal tables */
 
-void set_up_initial_allocations (void)
+வெறுமை set_up_initial_allocations (வெறுமை)
 {
 	maximum_mns = (ctrl.long_align ? MAXIMUM_MNS_LONG : MAXIMUM_MNS);
 	current_mns = INITIAL_MNS;
@@ -1698,21 +1698,21 @@ void set_up_initial_allocations (void)
 	current_max_rules = INITIAL_MAX_RULES;
 	rule_type = allocate_integer_array (current_max_rules);
 	rule_linenum = allocate_integer_array (current_max_rules);
-	rule_useful = allocate_array(current_max_rules, sizeof(char));
-	rule_has_nl = allocate_array(current_max_rules, sizeof(char));
+	rule_useful = allocate_array(current_max_rules, அளவு(எழுத்து));
+	rule_has_nl = allocate_array(current_max_rules, அளவு(எழுத்து));
 
 	current_max_scs = INITIAL_MAX_SCS;
 	scset = allocate_integer_array (current_max_scs);
 	scbol = allocate_integer_array (current_max_scs);
-	scxclu = allocate_array(current_max_scs, sizeof(char));
-	sceof = allocate_array(current_max_scs, sizeof(char));
+	scxclu = allocate_array(current_max_scs, அளவு(எழுத்து));
+	sceof = allocate_array(current_max_scs, அளவு(எழுத்து));
 	scname = allocate_char_ptr_array (current_max_scs);
 
 	current_maxccls = INITIAL_MAX_CCLS;
 	cclmap = allocate_integer_array (current_maxccls);
 	ccllen = allocate_integer_array (current_maxccls);
 	cclng = allocate_integer_array (current_maxccls);
-	ccl_has_nl = allocate_array(current_maxccls, sizeof(char));
+	ccl_has_nl = allocate_array(current_maxccls, அளவு(எழுத்து));
 
 	current_max_ccl_tbl_size = INITIAL_MAX_CCL_TBL_SIZE;
 	ccltbl = allocate_Character_array (current_max_ccl_tbl_size);
@@ -1734,18 +1734,18 @@ void set_up_initial_allocations (void)
 	dhash = allocate_integer_array (current_max_dfas);
 	dss = allocate_int_ptr_array (current_max_dfas);
 	dfaacc = allocate_array(current_max_dfas,
-		sizeof(union dfaacc_union));
+		அளவு(ஒன்றிப்பு dfaacc_union));
 
-	nultrans = NULL;
+	nultrans = வெற்று;
 }
 
 
-void usage (void)
+வெறுமை usage (வெறுமை)
 {
 	FILE   *f = stdout;
 
-	if (!env.did_outfilename) {
-		snprintf (outfile_path, sizeof(outfile_path), outfile_template,
+	எனில் (!env.did_outfilename) {
+		snprintf (outfile_path, அளவு(outfile_path), outfile_template,
 			  ctrl.prefix, suffix());
 		env.outfilename = outfile_path;
 	}
